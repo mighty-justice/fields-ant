@@ -1,0 +1,4 @@
+{
+  "extends": ["@mighty-justice/tslint-config"],
+  "rules": {}
+}

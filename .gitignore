@@ -1,0 +1,18 @@
+# IDEs & Editors
+*.idea
+*.vscode
+
+# Environment Settings
+.env*
+
+# User Interface distribution / packaging
+**/node_modules/
+
+# Other
+_book
+.cache
+source.html
+*.log
+
+# OS X
+.DS_Store
