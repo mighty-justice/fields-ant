@@ -1,5 +1,5 @@
 {
-  "title": "SmartBool documentation",
+  "title": "Fields Ant documentation",
   "author": "fields-ant",
   "gitbook": "3.2.3",
   "plugins": ["-lunr", "-search", "search-plus", "anchorjs"],

@@ -2,9 +2,9 @@
   "name": "@mighty-justice/fields-ant",
   "version": "0.3.2",
   "description": "Eliminate your single-line boolean setting methods",
-  "main": "dist/SmartBool.cjs.js",
-  "module": "dist/SmartBool.esm.js",
-  "browser": "dist/SmartBool.umd.js",
+  "main": "dist/fieldsAnt.cjs.js",
+  "module": "dist/fieldsAnt.esm.js",
+  "browser": "dist/fieldsAnt.umd.js",
   "types": "dist/index.d.ts",
   "publishConfig": {
     "access": "public"
