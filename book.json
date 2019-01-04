@@ -1,0 +1,19 @@
+{
+  "title": "Fields Ant documentation",
+  "author": "fields-ant",
+  "gitbook": "3.2.3",
+  "plugins": ["-lunr", "-search", "search-plus", "anchorjs"],
+  "pluginsConfig": {
+    "anchorjs": {
+      "icon": "#",
+      "placement": "left",
+      "visible": "always"
+    },
+    "theme-default": {
+      "showLevel": false,
+      "styles": {
+        "website": "style.css"
+      }
+    }
+  }
+}

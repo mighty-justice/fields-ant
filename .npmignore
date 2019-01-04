@@ -1,0 +1,9 @@
+/.git
+/.github
+/docs/index.md
+/node_modules
+
+.DS_Store
+.gitignore
+.idea
+.vscode

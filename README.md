@@ -1,4 +1,4 @@
-# SmartBool
+# Fields Ant
 
 [![npm Version](https://img.shields.io/npm/v/@mighty-justice/fields-ant.svg)](https://www.npmjs.com/package/@mighty-justice/fields-ant) [![Build Status](https://travis-ci.org/mighty-justice/fields-ant.svg?branch=master)](https://travis-ci.org/mighty-justice/fields-ant) [![Coverage Status](https://coveralls.io/repos/github/mighty-justice/fields-ant/badge.svg?branch=master)](https://coveralls.io/github/mighty-justice/fields-ant?branch=master)
 
