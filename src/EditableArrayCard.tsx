@@ -22,7 +22,6 @@ interface IProps {
   model: any[];
   onCreate: (model: any) => Promise<any>;
   onDelete: (model: any) => Promise<any>;
-  onEdit: (model: any) => Promise<any>;
   onSave: (model: any) => Promise<any>;
   onSuccess: () => Promise<any>;
 }
@@ -65,7 +64,6 @@ class EditableArrayCard extends Component<IProps> {
       isLoading,
       model,
       onDelete,
-      onEdit,
       onSave,
       onSuccess,
     } = this.props;
@@ -89,7 +87,6 @@ class EditableArrayCard extends Component<IProps> {
           <EditableCard
             onDelete={onDelete}
             onSave={onSave}
-            onEdit={onEdit}
             cardConfig={{
               ...cardConfig,
               classNameSuffix: kebabCase(cardConfig.title),

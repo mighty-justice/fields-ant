@@ -1342,7 +1342,6 @@
             isLoading = _this$props3.isLoading,
             model = _this$props3.model,
             onDelete = _this$props3.onDelete,
-            onEdit = _this$props3.onEdit,
             onSave = _this$props3.onSave,
             onSuccess = _this$props3.onSuccess;
         return React__default.createElement(Antd.Card, {
@@ -1362,7 +1361,6 @@
           return React__default.createElement(EditableCard, {
             onDelete: onDelete,
             onSave: onSave,
-            onEdit: onEdit,
             cardConfig: _objectSpread({}, cardConfig, {
               classNameSuffix: lodash.kebabCase(cardConfig.title),
               isDeletable: true,

@@ -125,6 +125,7 @@
     "classnames": "^2.2.6",
     "date-fns": "^1.30.1",
     "flat": "^4.1.0",
+    "gitbook-plugin-search-plus": "^1.0.3",
     "iso8601-duration": "^1.1.6",
     "lodash": "4.17.11",
     "mobx": "5.8.0",

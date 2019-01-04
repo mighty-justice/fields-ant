@@ -18,7 +18,6 @@ interface IProps {
   isLoading?: boolean;
   model: any;
   onDelete: (model: any) => Promise<any>;
-  onEdit: (model: any) => Promise<any>;
   onSave: (model: any) => Promise<any>;
   onSuccess: () => Promise<any>;
 }

@@ -9,7 +9,6 @@ interface IProps {
     model: any[];
     onCreate: (model: any) => Promise<any>;
     onDelete: (model: any) => Promise<any>;
-    onEdit: (model: any) => Promise<any>;
     onSave: (model: any) => Promise<any>;
     onSuccess: () => Promise<any>;
 }
