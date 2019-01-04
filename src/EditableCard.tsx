@@ -17,7 +17,7 @@ interface IProps {
   isGuarded?: boolean;
   isLoading?: boolean;
   model: any;
-  onDelete: (model: any) => Promise<any>;
+  onDelete?: (model: any) => Promise<any>;
   onSave: (model: any) => Promise<any>;
   onSuccess: () => Promise<any>;
 }
@@ -30,6 +30,7 @@ class EditableCard extends Component<IProps> {
 
   private async handleDelete () {
     const { model, onDelete, onSuccess } = this.props;
+    if (!onDelete) { return; }
 
     this.isDeleting.set(true);
     await onDelete(model);
@@ -45,10 +46,10 @@ class EditableCard extends Component<IProps> {
   }
 
   private get deleteButton () {
-    const { isGuarded, cardConfig, isLoading } = this.props
+    const { isGuarded, cardConfig, onDelete, isLoading } = this.props
       , classNameSuffix = cardConfig.classNameSuffix || kebabCase(cardConfig.title);
 
-    if (!cardConfig.isDeletable) { return; }
+    if (!onDelete) { return; }
 
     return (
       <GuardedButton

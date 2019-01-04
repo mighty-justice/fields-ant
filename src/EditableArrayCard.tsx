@@ -90,7 +90,6 @@ class EditableArrayCard extends Component<IProps> {
             cardConfig={{
               ...cardConfig,
               classNameSuffix: kebabCase(cardConfig.title),
-              isDeletable: true,
               title: '',
             }}
             key={modelItem.id}

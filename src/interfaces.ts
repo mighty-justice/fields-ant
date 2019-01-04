@@ -81,6 +81,5 @@ export interface ICardConfig {
   classNameSuffix?: string;
   fieldSets: IFieldSet[] | IFieldSetPartial[];
   isArray?: boolean;
-  isDeletable?: boolean;
   title?: string;
 }
