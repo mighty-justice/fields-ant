@@ -1,10 +1,9 @@
 import { Component } from 'react';
 import { ICardConfig } from './interfaces';
-export declare type ISummaryCardColumns = 3 | 4 | 6;
 interface IProps {
     cardConfig: ICardConfig;
     className: any;
-    column: ISummaryCardColumns;
+    column: 3 | 4 | 6;
     isLoading?: boolean;
     model: any;
     renderTopRight?: () => any;

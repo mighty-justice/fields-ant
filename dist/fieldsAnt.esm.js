@@ -1118,18 +1118,27 @@ function (_Component) {
             switch (_context.prev = _context.next) {
               case 0:
                 _this$props = this.props, model = _this$props.model, onDelete = _this$props.onDelete, onSuccess = _this$props.onSuccess;
+
+                if (onDelete) {
+                  _context.next = 3;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 3:
                 this.isDeleting.set(true);
-                _context.next = 4;
+                _context.next = 6;
                 return onDelete(model);
 
-              case 4:
-                _context.next = 6;
+              case 6:
+                _context.next = 8;
                 return onSuccess();
 
-              case 6:
+              case 8:
                 this.isDeleting.set(false);
 
-              case 7:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -1203,10 +1212,11 @@ function (_Component) {
       var _this$props3 = this.props,
           isGuarded = _this$props3.isGuarded,
           cardConfig = _this$props3.cardConfig,
+          onDelete = _this$props3.onDelete,
           isLoading = _this$props3.isLoading,
           classNameSuffix = cardConfig.classNameSuffix || kebabCase(cardConfig.title);
 
-      if (!cardConfig.isDeletable) {
+      if (!onDelete) {
         return;
       }
 
@@ -1343,7 +1353,6 @@ function (_Component) {
           isLoading = _this$props3.isLoading,
           model = _this$props3.model,
           onDelete = _this$props3.onDelete,
-          onEdit = _this$props3.onEdit,
           onSave = _this$props3.onSave,
           onSuccess = _this$props3.onSuccess;
       return React.createElement(Card, {
@@ -1363,10 +1372,8 @@ function (_Component) {
         return React.createElement(EditableCard, {
           onDelete: onDelete,
           onSave: onSave,
-          onEdit: onEdit,
           cardConfig: _objectSpread({}, cardConfig, {
             classNameSuffix: kebabCase(cardConfig.title),
-            isDeletable: true,
             title: ''
           }),
           key: modelItem.id,
@@ -1576,4 +1583,4 @@ function (_Component) {
 
 // Components
 
-export { ArrayCard, EditableArrayCard, Card$1 as Card, Cards, EditableCard, WrappedFormModal as FormModal, SummaryCard, FormManager, fillInFieldConfig, fillInFieldSets, getFieldSetFields, isFieldSetSimple, FormFields, OptionSelectDisplay, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE };
+export { ArrayCard, EditableArrayCard, Card$1 as Card, Cards, EditableCard, WrappedFormModal as FormModal, SummaryCard, FormManager, fillInFieldConfig, fillInFieldSets, getFieldSetFields, isFieldSetSimple, FormFields, OptionSelectDisplay, formatOptionSelect, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE };
