@@ -1596,6 +1596,7 @@
   exports.isFieldSetSimple = isFieldSetSimple;
   exports.FormFields = FormFields;
   exports.OptionSelectDisplay = OptionSelectDisplay;
+  exports.formatOptionSelect = formatOptionSelect;
   exports.Info = Info;
   exports.Label = Label;
   exports.Value = Value;

@@ -1583,4 +1583,4 @@ function (_Component) {
 
 // Components
 
-export { ArrayCard, EditableArrayCard, Card$1 as Card, Cards, EditableCard, WrappedFormModal as FormModal, SummaryCard, FormManager, fillInFieldConfig, fillInFieldSets, getFieldSetFields, isFieldSetSimple, FormFields, OptionSelectDisplay, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE };
+export { ArrayCard, EditableArrayCard, Card$1 as Card, Cards, EditableCard, WrappedFormModal as FormModal, SummaryCard, FormManager, fillInFieldConfig, fillInFieldSets, getFieldSetFields, isFieldSetSimple, FormFields, OptionSelectDisplay, formatOptionSelect, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE };

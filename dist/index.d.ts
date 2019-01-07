@@ -9,5 +9,5 @@ export { default as FormManager } from './FormManager';
 export { fillInFieldConfig, fillInFieldSets, getFieldSetFields, isFieldSetSimple, } from './common';
 export * from './interfaces';
 export { default as FormFields } from './FormFields';
-export { default as OptionSelectDisplay } from './OptionSelectDisplay';
+export { default as OptionSelectDisplay, formatOptionSelect } from './OptionSelectDisplay';
 export { default as Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE } from './Info';

@@ -10,12 +10,10 @@ import { ICardConfig, IFieldConfig } from './interfaces';
 import { fillInFieldSets, getFieldSetFields } from './common';
 import { computed } from 'mobx';
 
-export type ISummaryCardColumns = 3 | 4 | 6;
-
 interface IProps {
   cardConfig: ICardConfig;
   className: any;
-  column: ISummaryCardColumns;
+  column: 3 | 4 | 6;
   isLoading?: boolean;
   model: any;
   renderTopRight?: () => any;
