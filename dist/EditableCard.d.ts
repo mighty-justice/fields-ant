@@ -6,7 +6,7 @@ interface IProps {
     isGuarded?: boolean;
     isLoading?: boolean;
     model: any;
-    onDelete: (model: any) => Promise<any>;
+    onDelete?: (model: any) => Promise<any>;
     onSave: (model: any) => Promise<any>;
     onSuccess: () => Promise<any>;
 }
