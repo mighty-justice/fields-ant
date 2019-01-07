@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { observer, inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { isArray, get, isEmpty, omit, set, noop, kebabCase, result } from 'lodash';
 import { Select, Rate, DatePicker, Input, Row, Col, Card, Divider, Button, Popconfirm, Form, notification, Modal, List } from 'antd';
 import { computed, observable } from 'mobx';
@@ -7,8 +7,8 @@ import moment from 'moment';
 import { format } from 'date-fns';
 import { pattern } from 'iso8601-duration';
 import { EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getPercentValue, formatPercentage, getPercentDisplay, parseAndPreserveNewlines, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer } from '@mighty-justice/utils';
-import cx from 'classnames';
 import autoBindMethods from 'class-autobind-decorator';
+import cx from 'classnames';
 import SmartBool from '@mighty-justice/smart-bool';
 import flatten from 'flat';
 
@@ -228,7 +228,8 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
-var OptionSelect =
+var _dec, _class;
+var OptionSelect = (_dec = inject('getOptions'), _dec(_class =
 /*#__PURE__*/
 function (_Component) {
   _inherits(OptionSelect, _Component);
@@ -242,10 +243,9 @@ function (_Component) {
   _createClass(OptionSelect, [{
     key: "render",
     value: function render() {
-      var options = this.fieldConfig.options || this.fieldConfig.getOptions(this.fieldConfig.optionType || '');
       return React.createElement(Select, _extends({}, this.props, {
         allowClear: true
-      }), options.map(function (option) {
+      }), this.options.map(function (option) {
         return React.createElement(Select.Option, {
           value: option.value,
           key: option.value
@@ -253,14 +253,40 @@ function (_Component) {
       }));
     }
   }, {
+    key: "injected",
+    get: function get$$1() {
+      return this.props;
+    }
+  }, {
     key: "fieldConfig",
     get: function get$$1() {
       return this.props.fieldConfig;
     }
+  }, {
+    key: "options",
+    get: function get$$1() {
+      var _this$fieldConfig = this.fieldConfig,
+          options = _this$fieldConfig.options,
+          optionType = _this$fieldConfig.optionType;
+
+      if (options) {
+        return options;
+      }
+
+      if (this.fieldConfig.getOptions) {
+        return this.fieldConfig.getOptions(optionType);
+      }
+
+      if (this.injected.getOptions) {
+        return this.injected.getOptions(optionType);
+      }
+
+      return [];
+    }
   }]);
 
   return OptionSelect;
-}(Component);
+}(Component)) || _class);
 
 function formatRating(value) {
   return value ? React.createElement(Rate, {
@@ -292,9 +318,8 @@ function (_Component) {
   return Rate$$1;
 }(Component);
 
-var _class;
-
-var OptionSelectDisplay = observer(_class =
+var _dec$1, _class$1;
+var OptionSelectDisplay = (_dec$1 = inject('getOptions'), _dec$1(_class$1 = autoBindMethods(_class$1 = observer(_class$1 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(OptionSelectDisplay, _Component);
@@ -309,8 +334,7 @@ function (_Component) {
     key: "render",
     value: function render() {
       var value = this.props.value,
-          options = this.fieldConfig.options || this.fieldConfig.getOptions(this.fieldConfig.optionType || ''),
-          option = options.find(function (o) {
+          option = this.options.find(function (o) {
         return o.value === value;
       });
 
@@ -321,15 +345,40 @@ function (_Component) {
       return option.name;
     }
   }, {
+    key: "injected",
+    get: function get$$1() {
+      return this.props;
+    }
+  }, {
     key: "fieldConfig",
     get: function get$$1() {
       return this.props.fieldConfig;
     }
+  }, {
+    key: "options",
+    get: function get$$1() {
+      var _this$fieldConfig = this.fieldConfig,
+          options = _this$fieldConfig.options,
+          optionType = _this$fieldConfig.optionType;
+
+      if (options) {
+        return options;
+      }
+
+      if (this.fieldConfig.getOptions) {
+        return this.fieldConfig.getOptions(optionType);
+      }
+
+      if (this.injected.getOptions) {
+        return this.injected.getOptions(optionType);
+      }
+
+      return [];
+    }
   }]);
 
   return OptionSelectDisplay;
-}(Component)) || _class;
-
+}(Component)) || _class$1) || _class$1) || _class$1);
 function formatOptionSelect(value, fieldConfig) {
   if (isArray(value)) {
     if (value.length > 1) {
@@ -655,9 +704,9 @@ function (_Component) {
   return CardRow;
 }(Component);
 
-var _class$1, _class2;
+var _class$2, _class2;
 
-var Card$1 = observer(_class$1 = (_class2 =
+var Card$1 = observer(_class$2 = (_class2 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Card$$1, _Component);
@@ -702,11 +751,11 @@ function (_Component) {
   }]);
 
   return Card$$1;
-}(Component), (_applyDecoratedDescriptor(_class2.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2.prototype, "fieldSets"), _class2.prototype)), _class2)) || _class$1;
+}(Component), (_applyDecoratedDescriptor(_class2.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2.prototype, "fieldSets"), _class2.prototype)), _class2)) || _class$2;
 
-var _class$2;
+var _class$3;
 
-var ArrayCard = observer(_class$2 =
+var ArrayCard = observer(_class$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(ArrayCard, _Component);
@@ -747,7 +796,7 @@ function (_Component) {
   }]);
 
   return ArrayCard;
-}(Component)) || _class$2;
+}(Component)) || _class$3;
 
 var GuardedButton =
 /*#__PURE__*/
@@ -793,9 +842,9 @@ function (_Component) {
   return GuardedButton;
 }(Component);
 
-var _class$3;
+var _class$4;
 
-var ButtonToolbar = autoBindMethods(_class$3 =
+var ButtonToolbar = autoBindMethods(_class$4 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(ButtonToolbar, _Component);
@@ -816,11 +865,11 @@ function (_Component) {
   }]);
 
   return ButtonToolbar;
-}(Component)) || _class$3;
+}(Component)) || _class$4;
 
-var _class$4;
+var _class$5;
 
-var FormFields = autoBindMethods(_class$4 = observer(_class$4 =
+var FormFields = autoBindMethods(_class$5 = observer(_class$5 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormFields, _Component);
@@ -868,11 +917,11 @@ function (_Component) {
   }]);
 
   return FormFields;
-}(Component)) || _class$4) || _class$4;
+}(Component)) || _class$5) || _class$5;
 
-var _class$5, _class2$1, _descriptor, _temp;
+var _class$6, _class2$1, _descriptor, _temp;
 
-var FormManager = autoBindMethods(_class$5 = (_class2$1 = (_temp =
+var FormManager = autoBindMethods(_class$6 = (_class2$1 = (_temp =
 /*#__PURE__*/
 function () {
   function FormManager(form, fieldSets, args) {
@@ -999,11 +1048,11 @@ function () {
   initializer: function initializer() {
     return false;
   }
-})), _class2$1)) || _class$5;
+})), _class2$1)) || _class$6;
 
-var _class$6, _class2$2, _temp$1;
+var _class$7, _class2$2, _temp$1;
 
-var FormCard = autoBindMethods(_class$6 = observer(_class$6 = (_class2$2 = (_temp$1 =
+var FormCard = autoBindMethods(_class$7 = observer(_class$7 = (_class2$2 = (_temp$1 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormCard, _Component);
@@ -1074,13 +1123,13 @@ function (_Component) {
   }]);
 
   return FormCard;
-}(Component), _temp$1), (_applyDecoratedDescriptor(_class2$2.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$2.prototype, "fieldSets"), _class2$2.prototype)), _class2$2)) || _class$6) || _class$6;
+}(Component), _temp$1), (_applyDecoratedDescriptor(_class2$2.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$2.prototype, "fieldSets"), _class2$2.prototype)), _class2$2)) || _class$7) || _class$7;
 
 var WrappedFormCard = Form.create()(FormCard);
 
-var _class$7, _class2$3, _descriptor$1, _descriptor2, _temp$2;
+var _class$8, _class2$3, _descriptor$1, _descriptor2, _temp$2;
 
-var EditableCard = autoBindMethods(_class$7 = observer(_class$7 = (_class2$3 = (_temp$2 =
+var EditableCard = autoBindMethods(_class$8 = observer(_class$8 = (_class2$3 = (_temp$2 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableCard, _Component);
@@ -1266,10 +1315,11 @@ function (_Component) {
   initializer: function initializer() {
     return new SmartBool();
   }
-})), _class2$3)) || _class$7) || _class$7;
+})), _class2$3)) || _class$8) || _class$8;
 
-var _dec, _class$8, _class2$4, _descriptor$2, _temp$3;
-var EditableArrayCard = (_dec = inject('client'), _dec(_class$8 = autoBindMethods(_class$8 = observer(_class$8 = (_class2$4 = (_temp$3 =
+var _class$9, _class2$4, _descriptor$2, _temp$3;
+
+var EditableArrayCard = autoBindMethods(_class$9 = observer(_class$9 = (_class2$4 = (_temp$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableArrayCard, _Component);
@@ -1392,11 +1442,11 @@ function (_Component) {
   initializer: function initializer() {
     return new SmartBool();
   }
-})), _class2$4)) || _class$8) || _class$8) || _class$8);
+})), _class2$4)) || _class$9) || _class$9;
 
-var _class$9;
+var _class$a;
 
-var Cards = observer(_class$9 =
+var Cards = observer(_class$a =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Cards, _Component);
@@ -1437,11 +1487,11 @@ function (_Component) {
   }]);
 
   return Cards;
-}(Component)) || _class$9;
+}(Component)) || _class$a;
 
-var _class$a, _class2$5, _class3, _temp$4;
+var _class$b, _class2$5, _class3, _temp$4;
 
-var FormModal = autoBindMethods(_class$a = observer(_class$a = (_class2$5 = (_temp$4 = _class3 =
+var FormModal = autoBindMethods(_class$b = observer(_class$b = (_class2$5 = (_temp$4 = _class3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormModal, _Component);
@@ -1511,13 +1561,13 @@ function (_Component) {
   return FormModal;
 }(Component), _class3.defaultProps = {
   saveText: 'Save'
-}, _temp$4), (_applyDecoratedDescriptor(_class2$5.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "fieldSets"), _class2$5.prototype)), _class2$5)) || _class$a) || _class$a;
+}, _temp$4), (_applyDecoratedDescriptor(_class2$5.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "fieldSets"), _class2$5.prototype)), _class2$5)) || _class$b) || _class$b;
 
 var WrappedFormModal = Form.create()(FormModal);
 
-var _class$b, _class2$6, _class3$1, _temp$5;
+var _class$c, _class2$6, _class3$1, _temp$5;
 
-var SummaryCard = autoBindMethods(_class$b = observer(_class$b = (_class2$6 = (_temp$5 = _class3$1 =
+var SummaryCard = autoBindMethods(_class$c = observer(_class$c = (_class2$6 = (_temp$5 = _class3$1 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(SummaryCard, _Component);
@@ -1579,7 +1629,7 @@ function (_Component) {
   return SummaryCard;
 }(Component), _class3$1.defaultProps = {
   column: 4
-}, _temp$5), (_applyDecoratedDescriptor(_class2$6.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$6.prototype, "fieldSets"), _class2$6.prototype)), _class2$6)) || _class$b) || _class$b;
+}, _temp$5), (_applyDecoratedDescriptor(_class2$6.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$6.prototype, "fieldSets"), _class2$6.prototype)), _class2$6)) || _class$c) || _class$c;
 
 // Components
 
