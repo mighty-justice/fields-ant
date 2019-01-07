@@ -178,7 +178,6 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
   }
 
   return {
-    filterIf: {},
     key: fieldConfig.field,
     label,
     readOnly: false,
