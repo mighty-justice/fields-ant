@@ -8,6 +8,6 @@ interface IProps {
 }
 declare class FormFields extends Component<IProps> {
     private renderField;
-    render(): (JSX.Element | null)[];
+    render(): JSX.Element[];
 }
 export default FormFields;

@@ -592,6 +592,7 @@
     }
 
     return _objectSpread({
+      filterIf: {},
       key: fieldConfig.field,
       label: label,
       readOnly: false,
@@ -897,10 +898,6 @@
           fieldConfig: fieldConfig
         } : {},
             editProps = _objectSpread({}, fieldConfig.editProps, fieldConfigProp);
-
-        if (fieldConfig.insertIf && !fieldConfig.insertIf(form.getFieldsValue())) {
-          return null;
-        }
 
         return React__default.createElement(Info, {
           key: fieldConfig.field
