@@ -8,10 +8,8 @@ interface IFieldConfigUniversal {
     };
     field: string;
     fieldConfigProp: boolean;
-    filterIf: {
-        [key: string]: boolean;
-    };
     icon?: string;
+    insertIf?: (model: any) => boolean;
     key: string;
     label: string | null;
     nullify: boolean;
