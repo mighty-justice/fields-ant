@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observable } from 'mobx';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import { isEmpty, kebabCase } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
@@ -26,7 +26,6 @@ interface IProps {
   onSuccess: () => Promise<any>;
 }
 
-@inject('client')
 @autoBindMethods
 @observer
 class EditableArrayCard extends Component<IProps> {

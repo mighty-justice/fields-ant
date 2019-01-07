@@ -1,24 +1,43 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import autoBindMethods from 'class-autobind-decorator';
+import { inject, observer } from 'mobx-react';
 import { isArray } from 'lodash';
 
-import { IFieldConfigOptionSelect } from './interfaces';
+import { IFieldConfigOptionSelect, IOption } from './interfaces';
 
 interface IProps {
   fieldConfig: { options?: any[], optionType?: string };
   value: any;
 }
 
+interface IInjected extends IProps {
+  getOptions: (optionType: string) => IOption[];
+}
+
+@inject('getOptions')
+@autoBindMethods
 @observer
 class OptionSelectDisplay extends Component<IProps> {
+  private get injected () {
+    return this.props as IInjected;
+  }
+
   private get fieldConfig () {
     return this.props.fieldConfig as IFieldConfigOptionSelect;
   }
 
+  private get options (): IOption[] {
+    const { options, optionType } = this.fieldConfig;
+
+    if (options) { return options; }
+    if (this.fieldConfig.getOptions) { return this.fieldConfig.getOptions(optionType); }
+    if (this.injected.getOptions) { return this.injected.getOptions(optionType); }
+    return [];
+  }
+
   public render () {
     const { value } = this.props
-      , options = this.fieldConfig.options || this.fieldConfig.getOptions(this.fieldConfig.optionType || '')
-      , option = options.find(o => o.value === value);
+      , option = this.options.find(o => o.value === value);
 
     if (!option) { return '--'; }
     return option.name;

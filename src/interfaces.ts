@@ -36,9 +36,14 @@ interface IFieldConfigBase extends IFieldConfigUniversal {
 /*
   FIELD CONFIG: SINGLE-TYPE DEFINITIONS
 */
+export interface IOption {
+  name: string;
+  value: string;
+}
+
 export interface IFieldConfigOptionSelect extends IFieldConfigBase {
-  getOptions: (optionType: string) => Array<{ value: string, name: string }>;
-  options: Array<{ value: string, name: string }>;
+  getOptions?: (optionType: string) => IOption[];
+  options?: IOption[];
   optionType: string;
 }
 
