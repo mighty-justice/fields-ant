@@ -35,6 +35,10 @@ class FormFields extends Component<IProps> {
         ...fieldConfigProp,
       };
 
+    if (fieldConfig.insertIf && !fieldConfig.insertIf(form.getFieldsValue())) {
+      return null;
+    }
+
     return (
       <Info key={fieldConfig.field}>
         <Label className={cx({ 'form-item-required': fieldConfig.required })}>
