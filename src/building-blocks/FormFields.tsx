@@ -7,6 +7,7 @@ import * as Antd from 'antd';
 
 import Info, { Label, Value } from './Info';
 import { IFieldConfig } from '../interfaces';
+import { filterInsertIf } from '../utilities/common';
 
 interface IProps {
   defaults?: object;
@@ -35,7 +36,7 @@ class FormFields extends Component<IProps> {
         ...fieldConfigProp,
       };
 
-    if (fieldConfig.insertIf && !fieldConfig.insertIf(form.getFieldsValue())) {
+    if (filterInsertIf(fieldConfig, form.getFieldsValue())) {
       return null;
     }
 

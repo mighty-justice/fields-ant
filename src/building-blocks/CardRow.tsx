@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import Info, { Label, Value } from './Info';
 import { IFieldConfig } from '../interfaces';
 
-import { fillInFieldConfig } from '../utilities/common';
+import { fillInFieldConfig, filterInsertIf } from '../utilities/common';
 
 interface IProps {
   fieldConfig: IFieldConfig;
@@ -24,7 +24,7 @@ class CardRow extends Component<IProps> {
 
     const value = render(fieldConfig.value || get(model, field), fieldConfig);
 
-    if (writeOnly) {
+    if (writeOnly || filterInsertIf(fieldConfig, model)) {
       return null;
     }
 

@@ -71,6 +71,10 @@ export function isFieldSetSimple (fieldSet: IFieldSet): fieldSet is IFieldSetSim
   return isArray(fieldSet);
 }
 
+export function filterInsertIf (fieldConfig: IFieldConfig, model: any) {
+  return fieldConfig.insertIf && !fieldConfig.insertIf(model);
+}
+
 export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConfig {
   const type = inferType(fieldConfig)
     , label = varToLabel(getFieldSuffix(fieldConfig.field));
