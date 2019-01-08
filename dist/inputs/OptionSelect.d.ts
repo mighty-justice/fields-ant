@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { IFieldConfig } from './interfaces';
+import { IFieldConfig } from '../interfaces';
 interface IProps {
     fieldConfig: IFieldConfig;
 }

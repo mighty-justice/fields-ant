@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { IFieldConfigOptionSelect } from './interfaces';
+import { IFieldConfigOptionSelect } from '../interfaces';
 interface IProps {
     fieldConfig: {
         options?: any[];

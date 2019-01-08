@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { ICardConfig } from './interfaces';
+import { ICardConfig } from '../interfaces';
 interface IProps {
     cardConfig: ICardConfig;
     children?: any;
@@ -8,7 +8,7 @@ interface IProps {
     renderTopRight?: () => any;
 }
 declare class Card extends Component<IProps> {
-    readonly fieldSets: import("./interfaces").IFieldSet[];
+    readonly fieldSets: import("../interfaces").IFieldSet[];
     render(): JSX.Element;
 }
 export default Card;

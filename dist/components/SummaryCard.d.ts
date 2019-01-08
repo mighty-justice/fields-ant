@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { ICardConfig } from './interfaces';
+import { ICardConfig } from '../interfaces';
 interface IProps {
     cardConfig: ICardConfig;
     className: any;
@@ -10,7 +10,7 @@ interface IProps {
 }
 declare class SummaryCard extends Component<IProps> {
     static defaultProps: Partial<IProps>;
-    readonly fieldSets: import("./interfaces").IFieldSet[];
+    readonly fieldSets: import("../interfaces").IFieldSet[];
     private renderItem;
     render(): JSX.Element;
 }

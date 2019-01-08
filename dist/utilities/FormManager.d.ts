@@ -1,4 +1,4 @@
-import { IFieldSet } from './interfaces';
+import { IFieldSet } from '../interfaces';
 interface IArgs {
     fieldSets: IFieldSet[];
     form: any;
