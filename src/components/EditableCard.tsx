@@ -5,11 +5,11 @@ import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
 import { kebabCase } from 'lodash';
 
-import ButtonToolbar from './ButtonToolbar';
+import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import Card from './Card';
 import FormCard from './FormCard';
-import GuardedButton from './GuardedButton';
-import { ICardConfig } from './interfaces';
+import GuardedButton from '../building-blocks/GuardedButton';
+import { ICardConfig } from '../interfaces';
 
 interface IProps {
   cardConfig: ICardConfig;

@@ -5,7 +5,7 @@ import * as Antd from 'antd';
 
 import ArrayCard from './ArrayCard';
 import Card from './Card';
-import { ICardConfig } from './interfaces';
+import { ICardConfig } from '../interfaces';
 
 interface IProps {
   cardConfigs: ICardConfig[];

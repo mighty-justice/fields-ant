@@ -4,9 +4,9 @@ import { observer } from 'mobx-react';
 
 import * as Antd from 'antd';
 
-import { ICardConfig } from './interfaces';
-import { fillInFieldSets, getCardModel, getFieldSetFields } from './common';
-import CardRow from './CardRow';
+import { ICardConfig } from '../interfaces';
+import { fillInFieldSets, getCardModel, getFieldSetFields } from '../utilities/common';
+import CardRow from '../building-blocks/CardRow';
 
 interface IProps {
   cardConfig: ICardConfig;

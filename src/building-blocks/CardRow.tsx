@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { get } from 'lodash';
 
 import Info, { Label, Value } from './Info';
-import { IFieldConfig } from './interfaces';
+import { IFieldConfig } from '../interfaces';
 
-import { fillInFieldConfig } from './common';
+import { fillInFieldConfig } from '../utilities/common';
 
 interface IProps {
   fieldConfig: IFieldConfig;

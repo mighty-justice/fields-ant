@@ -4,11 +4,11 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
-import { ICardConfig, IFieldSet } from './interfaces';
+import { ICardConfig, IFieldSet } from '../interfaces';
 
-import FormFields from './FormFields';
-import FormManager from './FormManager';
-import { fillInFieldSets, getFieldSetFields } from './common';
+import FormFields from '../building-blocks/FormFields';
+import FormManager from '../utilities/FormManager';
+import { fillInFieldSets, getFieldSetFields } from '../utilities/common';
 import { computed } from 'mobx';
 
 interface IProps {

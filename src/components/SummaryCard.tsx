@@ -6,8 +6,8 @@ import cx from 'classnames';
 
 import * as Antd from 'antd';
 
-import { ICardConfig, IFieldConfig } from './interfaces';
-import { fillInFieldSets, getFieldSetFields } from './common';
+import { ICardConfig, IFieldConfig } from '../interfaces';
+import { fillInFieldSets, getFieldSetFields } from '../utilities/common';
 import { computed } from 'mobx';
 
 interface IProps {

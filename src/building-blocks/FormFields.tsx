@@ -6,7 +6,7 @@ import cx from 'classnames';
 import * as Antd from 'antd';
 
 import Info, { Label, Value } from './Info';
-import { IFieldConfig } from './interfaces';
+import { IFieldConfig } from '../interfaces';
 
 interface IProps {
   defaults?: object;

@@ -5,8 +5,8 @@ import { isEmpty } from 'lodash';
 import * as Antd from 'antd';
 
 import Card from './Card';
-import { getCardModel } from './common';
-import { ICardConfig } from './interfaces';
+import { getCardModel } from '../utilities/common';
+import { ICardConfig } from '../interfaces';
 
 interface IProps {
   cardConfig: ICardConfig;

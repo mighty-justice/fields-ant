@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as Antd from 'antd';
 import { inject } from 'mobx-react';
 
-import { IFieldConfig, IFieldConfigOptionSelect, IOption } from './interfaces';
+import { IFieldConfig, IFieldConfigOptionSelect, IOption } from '../interfaces';
 
 interface IProps {
   fieldConfig: IFieldConfig;
