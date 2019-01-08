@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
-import '../../assets/styles/components/common/button-toolbar.less';
 import { Form } from 'antd';
 
 interface IProps {

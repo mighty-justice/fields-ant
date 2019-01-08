@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
+import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
+import SmartBool from '@mighty-justice/smart-bool';
+
+import { Button, Divider, Input, Select } from 'antd';
 
 import { IFieldConfig, IFieldConfigObjectSearchCreate } from '../';
-import { observable } from 'mobx';
-import autoBindMethods from 'class-autobind-decorator';
-import { Button, Divider, Input, Select } from 'antd';
-import SmartBool from '@mighty-justice/smart-bool';
 
 interface IProps {
   fieldConfig: IFieldConfig;
@@ -61,7 +62,7 @@ class ObjectSearchCreate extends Component<IProps> {
           filterOption={false}
           labelInValue
           onSearch={this.handleSearch}
-          placeholder='Select existing Law Firm'
+          placeholder={`Select existing ${this.props.label}`}
           showSearch
           {...omit(this.props, 'value')}
         >

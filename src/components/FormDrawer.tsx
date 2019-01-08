@@ -34,8 +34,8 @@ class BaseFormDrawer extends Component<IProps> {
     super(props);
 
     const {
-      form,
       fieldSets,
+      form,
       isVisible,
       model,
       onSave,
