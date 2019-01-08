@@ -4,7 +4,7 @@ import flatten from 'flat';
 import * as Antd from 'antd';
 import { observable } from 'mobx';
 
-import { IFieldSet } from './interfaces';
+import { IFieldSet } from '../interfaces';
 import { getFieldSetFields } from './common';
 
 interface IArgs {

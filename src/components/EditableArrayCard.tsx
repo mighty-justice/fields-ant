@@ -7,8 +7,8 @@ import SmartBool from '@mighty-justice/smart-bool';
 
 import * as Antd from 'antd';
 
-import GuardedButton from './GuardedButton';
-import { ICardConfig } from './interfaces';
+import GuardedButton from '../building-blocks/GuardedButton';
+import { ICardConfig } from '../interfaces';
 
 import EditableCard from './EditableCard';
 import FormCard from './FormCard';

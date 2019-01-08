@@ -3,7 +3,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import { inject, observer } from 'mobx-react';
 import { isArray } from 'lodash';
 
-import { IFieldConfigOptionSelect, IOption } from './interfaces';
+import { IFieldConfigOptionSelect, IOption } from '../interfaces';
 
 interface IProps {
   fieldConfig: { options?: any[], optionType?: string };
