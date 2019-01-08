@@ -89,6 +89,7 @@ class FormManager {
       });
     }
     finally {
+      this.args.form.resetFields();
       this.saving = false;
     }
   }
