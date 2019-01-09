@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
@@ -7,13 +8,14 @@ import { Button, Divider, Drawer, Form } from 'antd';
 
 import {
   ButtonToolbar,
+  fillInFieldSets,
   FormFields,
   FormManager,
-  IFieldSet,
+  IFieldSetPartial,
 } from '../';
 
 interface IProps {
-  fieldSets: IFieldSet[];
+  fieldSets: IFieldSetPartial[];
   form: any;
   isVisible: SmartBool;
   model?: any;
@@ -29,11 +31,15 @@ const DRAWER_WIDTH = 420;
 class BaseFormDrawer extends Component<IProps> {
   private formManager: FormManager;
 
+  @computed
+  private get fieldSets () {
+    return fillInFieldSets(this.props.fieldSets);
+  }
+
   public constructor (props: IProps) {
     super(props);
 
     const {
-      fieldSets,
       form,
       isVisible,
       model,
@@ -43,7 +49,7 @@ class BaseFormDrawer extends Component<IProps> {
 
     this.formManager = new FormManager(
       form,
-      fieldSets,
+      this.fieldSets,
       {
         model,
         onSave,
@@ -53,7 +59,7 @@ class BaseFormDrawer extends Component<IProps> {
   }
 
   public render () {
-    const { fieldSets, form, isVisible, model, title } = this.props;
+    const { form, isVisible, model, title } = this.props;
 
     return (
       <Drawer
@@ -67,7 +73,7 @@ class BaseFormDrawer extends Component<IProps> {
         width={DRAWER_WIDTH}
       >
         <Form layout='vertical' hideRequiredMark onSubmit={this.formManager.onSave}>
-          {fieldSets.map((fieldSet, idx) => (
+          {this.fieldSets.map((fieldSet, idx) => (
             <FormFields
               fieldSet={fieldSet}
               form={form}
