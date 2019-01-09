@@ -37,10 +37,11 @@ class FormFields extends Component<IProps> {
       <div>
         {legend && <h3>{legend}</h3>}
 
-        {fieldConfigs.map(fieldConfig => (
+        {fieldConfigs.map((fieldConfig, index) => (
           <FormField
             {...this.props}
             fieldConfig={fieldConfig}
+            key={`field-config-${fieldConfig.field}-${index}`}
           />
          ))}
       </div>
