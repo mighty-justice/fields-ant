@@ -8,7 +8,7 @@ import { ICardConfig, IFieldSet } from '../interfaces';
 
 import FormFields from '../building-blocks/FormFields';
 import FormManager from '../utilities/FormManager';
-import { fillInFieldSets, getFieldSetFields } from '../utilities/common';
+import { fillInFieldSets } from '../utilities/common';
 import { computed } from 'mobx';
 
 interface IProps {
@@ -58,7 +58,7 @@ class FormCard extends Component<IProps> {
               {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
               <FormFields
                 defaults={defaults}
-                fields={getFieldSetFields(fieldSet)}
+                fieldSet={fieldSet}
                 form={form}
                 model={model}
               />
