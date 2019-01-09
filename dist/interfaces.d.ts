@@ -41,7 +41,7 @@ export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
     createFields: IFieldConfigBase[];
     endpoint: string;
 }
-export declare type IFieldConfig = IFieldConfigBase | IFieldConfigOptionSelect;
+export declare type IFieldConfig = IFieldConfigBase | IFieldConfigObjectSearchCreate | IFieldConfigOptionSelect;
 export declare type IFieldConfigPartial = Partial<IFieldConfig> & {
     field: string;
 };
