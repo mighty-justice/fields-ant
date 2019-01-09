@@ -6,11 +6,11 @@ import SmartBool from '@mighty-justice/smart-bool';
 import { Button, Divider, Drawer, Form } from 'antd';
 
 import {
+  ButtonToolbar,
   FormFields,
   FormManager,
   getFieldSetFields,
   IFieldSet,
-  ButtonToolbar,
 } from '../';
 
 interface IProps {
@@ -68,8 +68,16 @@ class BaseFormDrawer extends Component<IProps> {
         width={DRAWER_WIDTH}
       >
         <Form layout='vertical' hideRequiredMark onSubmit={this.formManager.onSave}>
-          <FormFields fields={getFieldSetFields(fieldSets[0])} form={form} model={model} />
+          {fieldSets.map((fieldSet, idx) => (
+            <FormFields
+              fields={getFieldSetFields(fieldSet)}
+              form={form}
+              key={idx}
+              model={model}
+            />
+          ))}
           <Divider />
+
           <ButtonToolbar align='right'>
             <Button disabled={this.formManager.saving} onClick={isVisible.setFalse} size='large'>Cancel</Button>
             <Button loading={this.formManager.saving} type='primary' htmlType='submit' size='large'>Submit</Button>

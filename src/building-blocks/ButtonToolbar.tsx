@@ -6,8 +6,8 @@ import { Form } from 'antd';
 
 interface IProps {
   align?: 'between' | 'right';
-  className?: any;
   children?: any;
+  className?: any;
   fixed?: boolean;
   noSpacing?: boolean;
 }
