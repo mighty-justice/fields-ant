@@ -111,18 +111,20 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
   };
 }
 
-export function fillInFieldSets (fieldSets: IFieldSetPartial[]): IFieldSet[] {
+export function fillInFieldSet (fieldSet: IFieldSetPartial): IFieldSet {
   // Fills in the defaults from common so we can keep configurations light
-  return fieldSets.map(fieldSet => {
-    if (isPartialFieldSetSimple(fieldSet)) {
-      return fieldSet.map(fillInFieldConfig);
-    }
+  if (isPartialFieldSetSimple(fieldSet)) {
+    return fieldSet.map(fillInFieldConfig);
+  }
 
-    return {
-      ...fieldSet,
-      fields: fieldSet.fields.map(fillInFieldConfig),
-    };
-  });
+  return {
+    ...fieldSet,
+    fields: fieldSet.fields.map(fillInFieldConfig),
+  };
+}
+
+export function fillInFieldSets (fieldSets: IFieldSetPartial[]): IFieldSet[] {
+  return fieldSets.map(fillInFieldSet);
 }
 
 export function getCardModel (model: any, cardConfig: ICardConfig) {
