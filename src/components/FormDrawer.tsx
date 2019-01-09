@@ -9,7 +9,6 @@ import {
   ButtonToolbar,
   FormFields,
   FormManager,
-  getFieldSetFields,
   IFieldSet,
 } from '../';
 
@@ -70,7 +69,7 @@ class BaseFormDrawer extends Component<IProps> {
         <Form layout='vertical' hideRequiredMark onSubmit={this.formManager.onSave}>
           {fieldSets.map((fieldSet, idx) => (
             <FormFields
-              fields={getFieldSetFields(fieldSet)}
+              fieldSet={fieldSet}
               form={form}
               key={idx}
               model={model}

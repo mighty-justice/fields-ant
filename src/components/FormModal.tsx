@@ -8,7 +8,7 @@ import FormManager from '../utilities/FormManager';
 import { ICardConfig } from '../interfaces';
 
 import FormFields from '../building-blocks/FormFields';
-import { fillInFieldSets, getFieldSetFields } from '../utilities/common';
+import { fillInFieldSets } from '../utilities/common';
 import { computed } from 'mobx';
 
 interface IProps {
@@ -76,7 +76,7 @@ class FormModal extends Component<IProps> {
           {this.fieldSets.map((fieldSet, idx) => (
             <FormFields
               defaults={defaults}
-              fields={getFieldSetFields(fieldSet)}
+              fieldSet={fieldSet}
               form={form}
               key={idx}
               model={model}
