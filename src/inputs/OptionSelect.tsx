@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as Antd from 'antd';
 import { inject } from 'mobx-react';
+import { sortBy } from 'lodash';
 
 import { IFieldConfig, IFieldConfigOptionSelect, IOption } from '../interfaces';
 
@@ -22,7 +23,7 @@ class OptionSelect extends Component<IProps> {
     return this.props.fieldConfig as IFieldConfigOptionSelect;
   }
 
-  private get options (): IOption[] {
+  private get unsortedOptions (): IOption[] {
     const { options, optionType } = this.fieldConfig;
 
     if (options) { return options; }
@@ -31,9 +32,13 @@ class OptionSelect extends Component<IProps> {
     return [];
   }
 
+  private get options (): IOption[] {
+    return this.fieldConfig.sorted ? sortBy(this.unsortedOptions, 'name') : this.unsortedOptions;
+  }
+
   public render () {
     return (
-      <Antd.Select {...this.props} allowClear>
+      <Antd.Select {...this.props} allowClear showSearch={!!this.fieldConfig.showSearch}>
         {this.options.map(option => (
           <Antd.Select.Option value={option.value} key={option.value}>{option.name}</Antd.Select.Option>
         ))}
