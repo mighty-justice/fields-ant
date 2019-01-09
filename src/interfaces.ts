@@ -60,6 +60,7 @@ export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
 
 // These combine to form the core building block, the fieldConfig:
 export type IFieldConfig = IFieldConfigBase
+  | IFieldConfigObjectSearchCreate
   | IFieldConfigOptionSelect
   ;
 
