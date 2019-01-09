@@ -308,7 +308,7 @@ function (_Component) {
     key: "render",
     value: function render() {
       if (this.isAddingNew.isTrue) {
-        var inputProps = lodash.omit(this.props, ['isVisible', 'fieldConfig', 'value']);
+        var inputProps = lodash.omit(this.props, ['fieldConfig', 'value', 'getEndpoint']);
         return React__default.createElement(Antd.Input, inputProps);
       }
 
@@ -318,9 +318,9 @@ function (_Component) {
         filterOption: false,
         labelInValue: true,
         onSearch: this.handleSearch,
-        placeholder: "Select existing ".concat(this.props.label),
+        placeholder: "Select existing ".concat(this.fieldConfig.label),
         showSearch: true
-      }, lodash.omit(this.props, 'value')), this.options.map(function (option) {
+      }, lodash.omit(this.props, ['value', 'getEndpoint'])), this.options.map(function (option) {
         return React__default.createElement(Antd.Select.Option, {
           value: option.value,
           key: option.value
@@ -341,7 +341,7 @@ function (_Component) {
         },
         icon: "plus",
         onClick: this.addNew
-      }, "Add New ", this.props.label)));
+      }, "Add New ", this.fieldConfig.label)));
     }
   }, {
     key: "injected",

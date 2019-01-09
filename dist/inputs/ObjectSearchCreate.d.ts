@@ -3,8 +3,6 @@ import { IFieldConfig } from '../';
 interface IProps {
     fieldConfig: IFieldConfig;
     form: any;
-    isVisible?: any;
-    label: string;
 }
 declare class ObjectSearchCreate extends Component<IProps> {
     private options;
