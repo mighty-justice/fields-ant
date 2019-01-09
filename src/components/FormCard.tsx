@@ -43,7 +43,7 @@ class FormCard extends Component<IProps> {
   }
 
   @computed
-  public get fieldSets () {
+  private get fieldSets () {
     return fillInFieldSets(this.props.cardConfig.fieldSets);
   }
 
