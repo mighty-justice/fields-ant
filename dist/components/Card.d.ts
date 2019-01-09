@@ -8,7 +8,7 @@ interface IProps {
     renderTopRight?: () => any;
 }
 declare class Card extends Component<IProps> {
-    readonly fieldSets: import("../interfaces").IFieldSet[];
+    private readonly fieldSets;
     render(): JSX.Element;
 }
 export default Card;

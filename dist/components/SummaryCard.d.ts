@@ -10,7 +10,7 @@ interface IProps {
 }
 declare class SummaryCard extends Component<IProps> {
     static defaultProps: Partial<IProps>;
-    readonly fieldSets: import("../interfaces").IFieldSet[];
+    private readonly fieldSets;
     private renderItem;
     render(): JSX.Element;
 }

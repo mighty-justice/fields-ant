@@ -1,6 +1,6 @@
 {
   "name": "@mighty-justice/fields-ant",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Eliminate your single-line boolean setting methods",
   "main": "dist/fieldsAnt.cjs.js",
   "module": "dist/fieldsAnt.esm.js",

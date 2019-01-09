@@ -1,8 +1,8 @@
 import React from 'react';
 import SmartBool from '@mighty-justice/smart-bool';
-import { IFieldSet } from '../';
+import { IFieldSetPartial } from '../';
 interface IProps {
-    fieldSets: IFieldSet[];
+    fieldSets: IFieldSetPartial[];
     form: any;
     isVisible: SmartBool;
     model?: any;

@@ -1756,13 +1756,20 @@ function (_Component) {
   column: 4
 }, _temp$5), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldSets"), _class2$7.prototype)), _class2$7)) || _class$d) || _class$d;
 
-var _class$e, _temp$6;
+var _class$e, _class2$8, _temp$6;
 var DRAWER_WIDTH = 420;
 
-var BaseFormDrawer = autoBindMethods(_class$e = mobxReact.observer(_class$e = (_temp$6 =
+var BaseFormDrawer = autoBindMethods(_class$e = mobxReact.observer(_class$e = (_class2$8 = (_temp$6 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(BaseFormDrawer, _Component);
+
+  _createClass(BaseFormDrawer, [{
+    key: "fieldSets",
+    get: function get() {
+      return fillInFieldSets(this.props.fieldSets);
+    }
+  }]);
 
   function BaseFormDrawer(props) {
     var _this;
@@ -1771,13 +1778,12 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(BaseFormDrawer).call(this, props));
     _this.formManager = void 0;
-    var fieldSets = props.fieldSets,
-        form = props.form,
+    var form = props.form,
         isVisible = props.isVisible,
         model = props.model,
         onSave = props.onSave,
         onSuccess = props.onSuccess;
-    _this.formManager = new FormManager(form, fieldSets, {
+    _this.formManager = new FormManager(form, _this.fieldSets, {
       model: model,
       onSave: onSave,
       onSuccess: onSuccess || isVisible.setFalse
@@ -1789,7 +1795,6 @@ function (_Component) {
     key: "render",
     value: function render() {
       var _this$props = this.props,
-          fieldSets = _this$props.fieldSets,
           form = _this$props.form,
           isVisible = _this$props.isVisible,
           model = _this$props.model,
@@ -1807,7 +1812,7 @@ function (_Component) {
         layout: "vertical",
         hideRequiredMark: true,
         onSubmit: this.formManager.onSave
-      }, fieldSets.map(function (fieldSet, idx) {
+      }, this.fieldSets.map(function (fieldSet, idx) {
         return React__default.createElement(FormFields, {
           fieldSet: fieldSet,
           form: form,
@@ -1830,13 +1835,13 @@ function (_Component) {
   }]);
 
   return BaseFormDrawer;
-}(React.Component), _temp$6)) || _class$e) || _class$e;
+}(React.Component), _temp$6), (_applyDecoratedDescriptor(_class2$8.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$8.prototype, "fieldSets"), _class2$8.prototype)), _class2$8)) || _class$e) || _class$e;
 
 var FormDrawer$$1 = Antd.Form.create()(BaseFormDrawer);
 
-var _class$f, _class2$8, _class3$1, _temp$7;
+var _class$f, _class2$9, _class3$1, _temp$7;
 
-var FormModal = autoBindMethods(_class$f = mobxReact.observer(_class$f = (_class2$8 = (_temp$7 = _class3$1 =
+var FormModal = autoBindMethods(_class$f = mobxReact.observer(_class$f = (_class2$9 = (_temp$7 = _class3$1 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormModal, _Component);
@@ -1906,7 +1911,7 @@ function (_Component) {
   return FormModal;
 }(React.Component), _class3$1.defaultProps = {
   saveText: 'Save'
-}, _temp$7), (_applyDecoratedDescriptor(_class2$8.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$8.prototype, "fieldSets"), _class2$8.prototype)), _class2$8)) || _class$f) || _class$f;
+}, _temp$7), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldSets"), _class2$9.prototype)), _class2$9)) || _class$f) || _class$f;
 
 var WrappedFormModal = Antd.Form.create()(FormModal);
 
