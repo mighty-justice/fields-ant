@@ -20,6 +20,7 @@ import {
   parseAndPreserveNewlines,
 } from '@mighty-justice/utils';
 
+import ObjectSearchCreate from '../inputs/ObjectSearchCreate';
 import OptionSelect from '../inputs/OptionSelect';
 import Rate, { formatRating } from '../inputs/Rate';
 import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
@@ -48,6 +49,14 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     ],
     nullify: true,
   },
+  email: {
+    formValidationRules: [
+      {
+        message: 'Must be a valid email address',
+        type: 'email',
+      },
+    ],
+  },
   money: {
     editProps: {
       addonBefore: '$',
@@ -70,6 +79,10 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     editProps: { type: 'number' },
     nullify: true,
     render: formatCommaSeparatedNumber,
+  },
+  objectSearchCreate: {
+    editComponent: ObjectSearchCreate,
+    fieldConfigProp: true,
   },
   optionSelect: {
     editComponent: OptionSelect,

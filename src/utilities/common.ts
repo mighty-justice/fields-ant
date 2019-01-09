@@ -33,8 +33,6 @@ function stripFieldConfig (func: (...args: any[]) => any) {
   return (value: any) => func(value);
 }
 
-const FORM_INPUT_WIDTH = 220;
-
 function getFieldSuffix (field?: string) {
   return (field || '').split('.').pop() || '';
 }
@@ -101,7 +99,6 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
     ...fieldConfig,
 
     editProps: {
-      style: { width: FORM_INPUT_WIDTH },
       ...fieldConfig.editProps,
       ...TYPES[type].editProps,
     },
