@@ -12,7 +12,6 @@ import { IFieldConfig, IFieldConfigObjectSearchCreate } from '../';
 interface IProps {
   fieldConfig: IFieldConfig;
   form: any;
-  label: string;
 }
 
 interface IInjected extends IProps {
