@@ -12,7 +12,6 @@ import { IFieldConfig, IFieldConfigObjectSearchCreate } from '../';
 interface IProps {
   fieldConfig: IFieldConfig;
   form: any;
-  isVisible?: any;
   label: string;
 }
 
@@ -50,7 +49,7 @@ class ObjectSearchCreate extends Component<IProps> {
 
   public render () {
     if (this.isAddingNew.isTrue) {
-      const inputProps = omit(this.props, ['isVisible', 'fieldConfig', 'value']);
+      const inputProps = omit(this.props, ['fieldConfig', 'value', 'getEndpoint']);
       return <Input {...inputProps} />;
     }
 
@@ -62,9 +61,9 @@ class ObjectSearchCreate extends Component<IProps> {
           filterOption={false}
           labelInValue
           onSearch={this.handleSearch}
-          placeholder={`Select existing ${this.props.label}`}
+          placeholder={`Select existing ${this.fieldConfig.label}`}
           showSearch
-          {...omit(this.props, 'value')}
+          {...omit(this.props, ['value', 'getEndpoint'])}
         >
           {this.options.map(option => (
             <Select.Option value={option.value} key={option.value}>{option.name}</Select.Option>
@@ -73,7 +72,7 @@ class ObjectSearchCreate extends Component<IProps> {
         <Divider style={{ margin: '4px 0' }}>OR</Divider>
         <div style={{ padding: '8px', cursor: 'pointer'}}>
           <Button style={{ margin: '4px 0', width: '100%' }} icon='plus' onClick={this.addNew}>
-            Add New {this.props.label}
+            Add New {this.fieldConfig.label}
           </Button>
         </div>
       </>
