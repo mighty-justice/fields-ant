@@ -1,13 +1,13 @@
 import { Component } from 'react';
-import { IFieldConfig } from '../interfaces';
+import { IFieldSetPartial } from '../interfaces';
 interface IProps {
     defaults?: object;
-    fields: IFieldConfig[];
+    fieldSet: IFieldSetPartial;
     form: any;
     model?: any;
 }
 declare class FormFields extends Component<IProps> {
-    private renderField;
-    render(): (JSX.Element | null)[];
+    readonly fieldSet: import("../interfaces").IFieldSet;
+    render(): JSX.Element;
 }
 export default FormFields;

@@ -1,7 +1,10 @@
 import { Component } from 'react';
 interface IProps {
-    className?: any;
+    align?: 'between' | 'right';
     children?: any;
+    className?: any;
+    fixed?: boolean;
+    noSpacing?: boolean;
 }
 declare class ButtonToolbar extends Component<IProps> {
     render(): JSX.Element;
