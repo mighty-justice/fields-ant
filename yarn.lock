@@ -3247,10 +3247,10 @@ gitbook-plugin-anchorjs@^2.1.0:
   resolved "https://registry.yarnpkg.com/gitbook-plugin-anchorjs/-/gitbook-plugin-anchorjs-2.1.0.tgz#c2b95a931121649011da834f7b153e78c19e110b"
   integrity sha512-K4XzUxV6BwBANFDzl2w6/suKKcU0LuyR1nLTL5iB1dDpbsiI63c+HTiWoyJN3l6Wwp4waofDXvGVEyvh8uAGdQ==
 
-gitbook-plugin-search-plus@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/gitbook-plugin-search-plus/-/gitbook-plugin-search-plus-1.0.3.tgz#a32ec6099e5641390224cbf75c8c77e0f8ae315c"
-  integrity sha1-oy7GCZ5WQTkCJMv3XIx34PiuMVw=
+gitbook-plugin-search-plus@^1.0.4-alpha-3:
+  version "1.0.4-alpha-3"
+  resolved "https://registry.yarnpkg.com/gitbook-plugin-search-plus/-/gitbook-plugin-search-plus-1.0.4-alpha-3.tgz#cc01d04f11673255a96a981c76ed7414f9d30763"
+  integrity sha1-zAHQTxFnMlWpapgcdu10FPnTB2M=
   dependencies:
     html-entities "1.2.0"
 

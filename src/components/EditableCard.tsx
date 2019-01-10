@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
-import { kebabCase, noop } from 'lodash';
+import { kebabCase } from 'lodash';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import Card from './Card';
