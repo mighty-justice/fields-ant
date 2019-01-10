@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
-import { kebabCase } from 'lodash';
+import { kebabCase, noop } from 'lodash';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import Card from './Card';
@@ -19,6 +19,10 @@ interface IProps {
   model: any;
   onDelete?: (model: any) => Promise<any>;
   onSave: (model: any) => Promise<any>;
+  onSuccess?: () => Promise<any>;
+}
+
+interface IPropDefaults extends IProps {
   onSuccess: () => Promise<any>;
 }
 
@@ -28,8 +32,16 @@ class EditableCard extends Component<IProps> {
   @observable private isDeleting = new SmartBool();
   @observable private isEditing = new SmartBool();
 
+  public static defaultProps: Partial<IProps> = {
+    onSuccess: async () => { return; },
+  };
+
+  public get propsWithDefaults () {
+    return this.props as IPropDefaults;
+  }
+
   private async handleDelete () {
-    const { model, onDelete, onSuccess } = this.props;
+    const { model, onDelete, onSuccess } = this.propsWithDefaults;
     if (!onDelete) { return; }
 
     this.isDeleting.set(true);
@@ -39,14 +51,14 @@ class EditableCard extends Component<IProps> {
   }
 
   private async handleSave (model: any) {
-    const { onSuccess, onSave } = this.props;
+    const { onSuccess, onSave } = this.propsWithDefaults;
 
     await onSave(model);
     await onSuccess();
   }
 
   private get deleteButton () {
-    const { isGuarded, cardConfig, onDelete, isLoading } = this.props
+    const { isGuarded, cardConfig, onDelete, isLoading } = this.propsWithDefaults
       , classNameSuffix = cardConfig.classNameSuffix || kebabCase(cardConfig.title);
 
     if (!onDelete) { return; }
@@ -68,7 +80,7 @@ class EditableCard extends Component<IProps> {
   }
 
   private get editButton () {
-    const { cardConfig, isLoading, isGuarded } = this.props
+    const { cardConfig, isLoading, isGuarded } = this.propsWithDefaults
       , classNameSuffix = cardConfig.classNameSuffix || kebabCase(cardConfig.title);
 
     return (
