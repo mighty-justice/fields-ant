@@ -979,7 +979,7 @@
 
         var fieldConfigs = getFieldSetFields(this.fieldSet),
             legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend;
-        return React__default.createElement("div", null, legend && React__default.createElement("h3", null, legend), fieldConfigs.map(function (fieldConfig, index) {
+        return React__default.createElement(React__default.Fragment, null, legend && React__default.createElement("h3", null, legend), fieldConfigs.map(function (fieldConfig, index) {
           return React__default.createElement(FormField, _extends({}, _this.props, {
             fieldConfig: fieldConfig,
             key: "field-config-".concat(fieldConfig.field, "-").concat(index)
@@ -1357,12 +1357,12 @@
             key: idx
           }, idx > 0 && React__default.createElement(Antd.Divider, {
             key: "divider-".concat(idx)
-          }), React__default.createElement(FormFields, {
+          }), React__default.createElement("div", null, React__default.createElement(FormFields, {
             defaults: defaults,
             fieldSet: fieldSet,
             form: form,
             model: model
-          }));
+          })));
         }), this.props.children, React__default.createElement("div", {
           className: "button-toolbar"
         }, React__default.createElement(Antd.Button, {
@@ -1858,12 +1858,12 @@
           hideRequiredMark: true,
           onSubmit: this.formManager.onSave
         }, this.fieldSets.map(function (fieldSet, idx) {
-          return React__default.createElement(FormFields, {
+          return React__default.createElement("div", null, React__default.createElement(FormFields, {
             fieldSet: fieldSet,
             form: form,
             key: idx,
             model: model
-          });
+          }));
         }), React__default.createElement(Antd.Divider, null), React__default.createElement(ButtonToolbar, {
           align: "right"
         }, React__default.createElement(Antd.Button, {
@@ -1937,13 +1937,13 @@
           onSubmit: this.formManager.onSave,
           className: "notes-form"
         }, this.fieldSets.map(function (fieldSet, idx) {
-          return React__default.createElement(FormFields, {
+          return React__default.createElement("div", null, React__default.createElement(FormFields, {
             defaults: defaults,
             fieldSet: fieldSet,
             form: form,
             key: idx,
             model: model
-          });
+          }));
         }), this.props.children));
       }
     }, {

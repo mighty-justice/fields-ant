@@ -980,7 +980,7 @@ function (_Component) {
 
       var fieldConfigs = getFieldSetFields(this.fieldSet),
           legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend;
-      return React.createElement("div", null, legend && React.createElement("h3", null, legend), fieldConfigs.map(function (fieldConfig, index) {
+      return React.createElement(React.Fragment, null, legend && React.createElement("h3", null, legend), fieldConfigs.map(function (fieldConfig, index) {
         return React.createElement(FormField, _extends({}, _this.props, {
           fieldConfig: fieldConfig,
           key: "field-config-".concat(fieldConfig.field, "-").concat(index)
@@ -1358,12 +1358,12 @@ function (_Component) {
           key: idx
         }, idx > 0 && React.createElement(Divider, {
           key: "divider-".concat(idx)
-        }), React.createElement(FormFields, {
+        }), React.createElement("div", null, React.createElement(FormFields, {
           defaults: defaults,
           fieldSet: fieldSet,
           form: form,
           model: model
-        }));
+        })));
       }), this.props.children, React.createElement("div", {
         className: "button-toolbar"
       }, React.createElement(Button, {
@@ -1859,12 +1859,12 @@ function (_Component) {
         hideRequiredMark: true,
         onSubmit: this.formManager.onSave
       }, this.fieldSets.map(function (fieldSet, idx) {
-        return React.createElement(FormFields, {
+        return React.createElement("div", null, React.createElement(FormFields, {
           fieldSet: fieldSet,
           form: form,
           key: idx,
           model: model
-        });
+        }));
       }), React.createElement(Divider, null), React.createElement(ButtonToolbar, {
         align: "right"
       }, React.createElement(Button, {
@@ -1938,13 +1938,13 @@ function (_Component) {
         onSubmit: this.formManager.onSave,
         className: "notes-form"
       }, this.fieldSets.map(function (fieldSet, idx) {
-        return React.createElement(FormFields, {
+        return React.createElement("div", null, React.createElement(FormFields, {
           defaults: defaults,
           fieldSet: fieldSet,
           form: form,
           key: idx,
           model: model
-        });
+        }));
       }), this.props.children));
     }
   }, {
