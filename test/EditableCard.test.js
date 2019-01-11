@@ -2,8 +2,8 @@
 /* eslint-disable sort-keys */
 
 import React from 'react';
-import { mount } from 'enzyme';
 import faker from 'faker';
+import { Tester } from '@mighty-justice/tester';
 
 import { EditableCard } from '../src';
 
@@ -32,15 +32,35 @@ describe('EditableCard', () => {
         onSave,
       };
 
-    const wrapper = mount(<EditableCard {...props} />);
+    const tester = await new Tester(EditableCard, { props }).mount();
 
-    wrapper.find(`button.btn-edit-${title}`).simulate('click');
-    changeInput(wrapper.find('input'), newText);
+    tester.find(`button.btn-edit`).simulate('click');
+    changeInput(tester.find('input'), newText);
 
     expect(onSave).not.toHaveBeenCalled();
-    wrapper.find('form').simulate('submit');
+    tester.find('form').simulate('submit');
     await sleep();
     expect(onSave).toHaveBeenCalledWith({ text: newText });
+  });
 
+  it('Can be deleted', async () => {
+    const onSave = jest.fn().mockResolvedValue({})
+      , onDelete = jest.fn().mockResolvedValue({})
+      , props = {
+        cardConfig: {
+          fieldSets: [[{ field: 'text' }]],
+          title: faker.lorem.sentence(),
+        },
+        model: { text: faker.lorem.sentence() },
+        onSave,
+        onDelete,
+      };
+
+    const tester = await new Tester(EditableCard, { props }).mount();
+
+    expect(onDelete).not.toHaveBeenCalled();
+    tester.find(`button.btn-delete`).simulate('click');
+    tester.find('.btn-delete .ant-popover-inner .ant-btn-primary').first().simulate('click');
+    expect(onDelete).toHaveBeenCalled();
   });
 });

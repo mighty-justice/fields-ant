@@ -65,7 +65,7 @@ class EditableCard extends Component<IProps> {
 
     return (
       <GuardedButton
-        className={`btn-delete-${classNameSuffix}`}
+        className={`btn-delete btn-delete-${classNameSuffix}`}
         confirm={true}
         disabled={isLoading || this.isDeleting.isTrue}
         icon='delete'
@@ -85,7 +85,7 @@ class EditableCard extends Component<IProps> {
 
     return (
       <GuardedButton
-        className={`btn-edit-${classNameSuffix}`}
+        className={`btn-edit btn-edit-${classNameSuffix}`}
         disabled={isLoading || this.isEditing.isTrue || this.isDeleting.isTrue}
         icon='edit'
         isGuarded={isGuarded}
