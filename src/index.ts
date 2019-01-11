@@ -1,5 +1,5 @@
 // Lower-level building blocks and helper components
-export { default as ButtonToolbar } from './building-blocks/FormFields';
+export { default as ButtonToolbar } from './building-blocks/ButtonToolbar';
 export { default as CardRow } from './building-blocks/CardRow';
 export { default as FormField } from './building-blocks/FormField';
 export { default as FormFields } from './building-blocks/FormFields';
