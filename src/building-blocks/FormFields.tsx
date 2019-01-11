@@ -34,7 +34,7 @@ class FormFields extends Component<IProps> {
       ;
 
     return (
-      <div>
+      <>
         {legend && <h3>{legend}</h3>}
 
         {fieldConfigs.map((fieldConfig, index) => (
@@ -44,7 +44,7 @@ class FormFields extends Component<IProps> {
             key={`field-config-${fieldConfig.field}-${index}`}
           />
          ))}
-      </div>
+      </>
     );
 
   }

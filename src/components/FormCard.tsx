@@ -56,12 +56,14 @@ class FormCard extends Component<IProps> {
           {this.fieldSets.map((fieldSet: IFieldSet, idx: number) => (
             <Fragment key={idx}>
               {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
-              <FormFields
-                defaults={defaults}
-                fieldSet={fieldSet}
-                form={form}
-                model={model}
-              />
+              <div>
+                <FormFields
+                  defaults={defaults}
+                  fieldSet={fieldSet}
+                  form={form}
+                  model={model}
+                />
+              </div>
             </Fragment>
           ))}
 
