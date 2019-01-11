@@ -73,10 +73,10 @@ class ObjectSearchCreate extends Component<IProps> {
     if (this.isAddingNew.isTrue) {
       return (
         <>
+          <this.AddNewForm fieldSet={this.fieldConfig.createFields} />
           <Antd.Button size='small' onClick={this.isAddingNew.setFalse}>
             <Antd.Icon type='left' /> Back to search
           </Antd.Button>
-          <this.AddNewForm fieldSet={this.fieldConfig.createFields} />
         </>
       );
     }
