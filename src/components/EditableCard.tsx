@@ -42,6 +42,7 @@ class EditableCard extends Component<IProps> {
 
   private async handleDelete () {
     const { model, onDelete, onSuccess } = this.propsWithDefaults;
+    // istanbul ignore next
     if (!onDelete) { return; }
 
     this.isDeleting.set(true);

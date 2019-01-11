@@ -2,11 +2,10 @@
 /* eslint-disable sort-keys */
 
 import React from 'react';
-import { mount } from 'enzyme';
 import faker from 'faker';
 
-import {Card, EditableCard} from '../src';
-import {Tester} from '@mighty-justice/tester';
+import { Card } from '../src';
+import { Tester } from '@mighty-justice/tester';
 
 describe('Card', () => {
   it('Renders loader', async () => {
