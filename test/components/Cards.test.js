@@ -5,7 +5,7 @@
 import React from 'react';
 import faker from 'faker';
 
-import { Cards } from '../../src ';
+import { Cards } from '../../src';
 import { Tester } from '@mighty-justice/tester';
 
 describe('Cards', () => {

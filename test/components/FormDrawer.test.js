@@ -5,7 +5,7 @@
 import React from 'react';
 import faker from 'faker';
 
-import { FormDrawer } from '../../src ';
+import { FormDrawer } from '../../src';
 import { Tester } from '@mighty-justice/tester';
 import SmartBool from '@mighty-justice/smart-bool';
 

@@ -5,7 +5,7 @@
 import React from 'react';
 import faker from 'faker';
 
-import { ArrayCard } from '../../src ';
+import { ArrayCard } from '../../src';
 import { Tester } from '@mighty-justice/tester';
 
 describe('ArrayCard', () => {

@@ -5,7 +5,7 @@ import React from 'react';
 import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
-import { EditableCard } from '../../src ';
+import { EditableCard } from '../../src';
 
 function changeInput (component, value) {
   component.simulate('focus');

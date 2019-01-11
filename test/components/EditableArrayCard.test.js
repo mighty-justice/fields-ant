@@ -5,7 +5,7 @@
 import React from 'react';
 import faker from 'faker';
 
-import { EditableArrayCard } from '../../src ';
+import { EditableArrayCard } from '../../src';
 import { Tester } from '@mighty-justice/tester';
 
 describe('EditableArrayCard', () => {

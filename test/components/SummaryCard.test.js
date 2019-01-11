@@ -5,7 +5,7 @@
 import React from 'react';
 import faker from 'faker';
 
-import { SummaryCard } from '../../src ';
+import { SummaryCard } from '../../src';
 import { Tester } from '@mighty-justice/tester';
 
 describe('SummaryCard', () => {

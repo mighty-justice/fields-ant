@@ -5,7 +5,7 @@
 import React from 'react';
 import faker from 'faker';
 
-import { FormModal } from '../../src ';
+import { FormModal } from '../../src';
 import { Tester } from '@mighty-justice/tester';
 
 describe('FormModal', () => {
