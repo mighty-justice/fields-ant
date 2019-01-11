@@ -26,6 +26,11 @@ interface IFieldConfigBase extends IFieldConfigUniversal {
     toForm: (data: any, field: string) => any;
     value?: string | number;
 }
+export interface IAntFormField {
+    id: string;
+    onChange: (value: any) => void;
+    value: any;
+}
 export interface IOption {
     name: string;
     value: string;
@@ -40,6 +45,9 @@ export interface IFieldConfigOptionSelect extends IFieldConfigBase {
 export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
     createFields: IFieldConfigBase[];
     endpoint: string;
+    searchFilters?: {
+        [key: string]: any;
+    };
 }
 export declare type IFieldConfig = IFieldConfigBase | IFieldConfigObjectSearchCreate | IFieldConfigOptionSelect;
 export declare type IFieldConfigPartial = Partial<IFieldConfig> & {

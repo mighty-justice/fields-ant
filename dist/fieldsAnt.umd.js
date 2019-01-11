@@ -1,14 +1,14 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('mobx-react'), require('lodash'), require('antd'), require('mobx'), require('@mighty-justice/utils'), require('moment'), require('date-fns'), require('iso8601-duration'), require('class-autobind-decorator'), require('@mighty-justice/smart-bool'), require('classnames'), require('flat')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'react', 'mobx-react', 'lodash', 'antd', 'mobx', '@mighty-justice/utils', 'moment', 'date-fns', 'iso8601-duration', 'class-autobind-decorator', '@mighty-justice/smart-bool', 'classnames', 'flat'], factory) :
-  (global = global || self, factory(global['fields-ant'] = {}, global.React, global.mobxReact, global.lodash, global.Antd, global.mobx, global.utils, global.moment, global.dateFns, global.iso8601Duration, global.autoBindMethods, global.SmartBool, global.cx, global.flatten));
-}(this, function (exports, React, mobxReact, lodash, Antd, mobx, utils, moment, dateFns, iso8601Duration, autoBindMethods, SmartBool, cx, flatten) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('class-autobind-decorator'), require('classnames'), require('antd'), require('lodash'), require('@mighty-justice/utils'), require('moment'), require('date-fns'), require('iso8601-duration'), require('mobx'), require('mobx-react'), require('@mighty-justice/smart-bool'), require('flat')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'react', 'class-autobind-decorator', 'classnames', 'antd', 'lodash', '@mighty-justice/utils', 'moment', 'date-fns', 'iso8601-duration', 'mobx', 'mobx-react', '@mighty-justice/smart-bool', 'flat'], factory) :
+  (global = global || self, factory(global['fields-ant'] = {}, global.React, global.autoBindMethods, global.cx, global.Antd, global.lodash, global.utils, global.moment, global.dateFns, global.iso8601Duration, global.mobx, global.mobxReact, global.SmartBool, global.flatten));
+}(this, function (exports, React, autoBindMethods, cx, Antd, lodash, utils, moment, dateFns, iso8601Duration, mobx, mobxReact, SmartBool, flatten) { 'use strict';
 
   var React__default = 'default' in React ? React['default'] : React;
-  moment = moment && moment.hasOwnProperty('default') ? moment['default'] : moment;
   autoBindMethods = autoBindMethods && autoBindMethods.hasOwnProperty('default') ? autoBindMethods['default'] : autoBindMethods;
-  SmartBool = SmartBool && SmartBool.hasOwnProperty('default') ? SmartBool['default'] : SmartBool;
   cx = cx && cx.hasOwnProperty('default') ? cx['default'] : cx;
+  moment = moment && moment.hasOwnProperty('default') ? moment['default'] : moment;
+  SmartBool = SmartBool && SmartBool.hasOwnProperty('default') ? SmartBool['default'] : SmartBool;
   flatten = flatten && flatten.hasOwnProperty('default') ? flatten['default'] : flatten;
 
   function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
@@ -227,48 +227,104 @@
     return desc;
   }
 
-  var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
-  var ObjectSearchCreate = (_dec = mobxReact.inject('getEndpoint'), _dec(_class = autoBindMethods(_class = mobxReact.observer(_class = (_class2 = (_temp =
+  var _class;
+
+  var ButtonToolbar = autoBindMethods(_class =
   /*#__PURE__*/
   function (_Component) {
-    _inherits(ObjectSearchCreate, _Component);
+    _inherits(ButtonToolbar, _Component);
 
-    function ObjectSearchCreate() {
-      var _getPrototypeOf2;
+    function ButtonToolbar() {
+      _classCallCheck(this, ButtonToolbar);
 
+      return _possibleConstructorReturn(this, _getPrototypeOf(ButtonToolbar).apply(this, arguments));
+    }
+
+    _createClass(ButtonToolbar, [{
+      key: "render",
+      value: function render() {
+        var className = cx('button-toolbar', this.props.align ? "align-".concat(this.props.align) : null, {
+          'no-spacing': this.props.noSpacing
+        }, _defineProperty({}, "position-fixed", this.props.fixed), this.props.className);
+        return React__default.createElement(Antd.Form.Item, _extends({}, this.props, {
+          className: className
+        }), this.props.children);
+      }
+    }]);
+
+    return ButtonToolbar;
+  }(React.Component)) || _class;
+
+  var CARD_COL_LABEL = 8;
+  var CARD_COL_VALUE = 16;
+
+  var Info = function Info(props) {
+    return React__default.createElement(Antd.Row, _extends({}, props, {
+      className: cx(props.className, 'info')
+    }), props.children);
+  };
+
+  var Label = function Label(props) {
+    return React__default.createElement(Antd.Col, {
+      span: CARD_COL_LABEL,
+      className: cx(props.className, 'col-label')
+    }, props.children);
+  };
+
+  var Value = function Value(props) {
+    return React__default.createElement(Antd.Col, {
+      span: CARD_COL_VALUE,
+      className: cx(props.className, 'col-value')
+    }, props.children);
+  };
+
+  var _dec, _class$1, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
+  var ObjectSearchCreate$$1 = (_dec = mobxReact.inject('getEndpoint'), _dec(_class$1 = autoBindMethods(_class$1 = mobxReact.observer(_class$1 = (_class2 = (_temp =
+  /*#__PURE__*/
+  function (_Component) {
+    _inherits(ObjectSearchCreate$$1, _Component);
+
+    function ObjectSearchCreate$$1(props) {
       var _this;
 
-      _classCallCheck(this, ObjectSearchCreate);
+      _classCallCheck(this, ObjectSearchCreate$$1);
 
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(ObjectSearchCreate$$1).call(this, props));
 
-      _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ObjectSearchCreate)).call.apply(_getPrototypeOf2, [this].concat(args)));
+      _initializerDefineProperty(_this, "search", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
 
-      _initializerDefineProperty(_this, "options", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+      _initializerDefineProperty(_this, "options", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
 
-      _initializerDefineProperty(_this, "isAddingNew", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+      _initializerDefineProperty(_this, "isAddingNew", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
 
+      _initializerDefineProperty(_this, "AddNewForm", _descriptor4, _assertThisInitialized(_assertThisInitialized(_this)));
+
+      _this.AddNewForm = Antd.Form.create({
+        onValuesChange: _this.onCreateValuesChange
+      })(FormFields);
       return _this;
     }
 
-    _createClass(ObjectSearchCreate, [{
+    _createClass(ObjectSearchCreate$$1, [{
       key: "handleSearch",
       value: function () {
         var _handleSearch = _asyncToGenerator(
         /*#__PURE__*/
         regeneratorRuntime.mark(function _callee(value) {
-          var getEndpoint, endpoint, response;
+          var getEndpoint, _this$fieldConfig, endpoint, searchFilters, params, response;
+
           return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  getEndpoint = this.injected.getEndpoint, endpoint = this.fieldConfig.endpoint;
-                  _context.next = 3;
-                  return getEndpoint("/".concat(endpoint, "/?search=").concat(value));
+                  getEndpoint = this.injected.getEndpoint, _this$fieldConfig = this.fieldConfig, endpoint = _this$fieldConfig.endpoint, searchFilters = _this$fieldConfig.searchFilters, params = _objectSpread({
+                    search: value
+                  }, searchFilters);
+                  this.search = value;
+                  _context.next = 4;
+                  return getEndpoint("/".concat(endpoint, "/").concat(utils.toKey(params)));
 
-                case 3:
+                case 4:
                   response = _context.sent;
                   this.options = response.results.map(function (option) {
                     return {
@@ -277,7 +333,7 @@
                     };
                   });
 
-                case 5:
+                case 6:
                 case "end":
                   return _context.stop();
               }
@@ -297,43 +353,48 @@
         this.isAddingNew.setTrue();
       }
     }, {
+      key: "onCreateValuesChange",
+      value: function onCreateValuesChange(_props, _changedValues, allValues) {
+        var onChange = this.injected.onChange;
+
+        if (onChange) {
+          onChange(allValues);
+        }
+      }
+    }, {
       key: "render",
       value: function render() {
         if (this.isAddingNew.isTrue) {
-          var inputProps = lodash.omit(this.props, ['fieldConfig', 'value', 'getEndpoint']);
-          return React__default.createElement(Antd.Input, inputProps);
+          return React__default.createElement(React__default.Fragment, null, React__default.createElement(Antd.Button, {
+            size: "small",
+            onClick: this.isAddingNew.setFalse
+          }, React__default.createElement(Antd.Icon, {
+            type: "left"
+          }), " Back to search"), React__default.createElement(this.AddNewForm, {
+            fieldSet: this.fieldConfig.createFields
+          }));
         }
 
-        return React__default.createElement(React__default.Fragment, null, React__default.createElement(Antd.Select, _extends({
+        return React__default.createElement(React__default.Fragment, null, React__default.createElement(Antd.Input.Group, {
+          compact: true
+        }, React__default.createElement(Antd.Select, _extends({
           allowClear: true,
           defaultActiveFirstOption: false,
           filterOption: false,
           labelInValue: true,
           onSearch: this.handleSearch,
-          placeholder: "Select existing ".concat(this.fieldConfig.label),
+          placeholder: "Select existing",
           showSearch: true
         }, lodash.omit(this.props, ['value', 'getEndpoint'])), this.options.map(function (option) {
           return React__default.createElement(Antd.Select.Option, {
             value: option.value,
             key: option.value
           }, option.name);
-        })), React__default.createElement(Antd.Divider, {
-          style: {
-            margin: '4px 0'
-          }
-        }, "OR"), React__default.createElement("div", {
-          style: {
-            padding: '8px',
-            cursor: 'pointer'
-          }
-        }, React__default.createElement(Antd.Button, {
-          style: {
-            margin: '4px 0',
-            width: '100%'
-          },
+        })), React__default.createElement(Antd.Button, {
+          disabled: this.search.length < 3,
           icon: "plus",
           onClick: this.addNew
-        }, "Add New ", this.fieldConfig.label)));
+        }, "Add New")));
       }
     }, {
       key: "injected",
@@ -347,25 +408,37 @@
       }
     }]);
 
-    return ObjectSearchCreate;
-  }(React.Component), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "options", [mobx.observable], {
+    return ObjectSearchCreate$$1;
+  }(React.Component), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "search", [mobx.observable], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function initializer() {
+      return '';
+    }
+  }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "options", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return [];
     }
-  }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "isAddingNew", [mobx.observable], {
+  }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "isAddingNew", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return new SmartBool();
     }
-  })), _class2)) || _class) || _class) || _class);
+  }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "AddNewForm", [mobx.observable], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  })), _class2)) || _class$1) || _class$1) || _class$1);
 
-  var _dec$1, _class$1;
-  var OptionSelect = (_dec$1 = mobxReact.inject('getOptions'), _dec$1(_class$1 =
+  var _dec$1, _class$2;
+  var OptionSelect = (_dec$1 = mobxReact.inject('getOptions'), _dec$1(_class$2 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(OptionSelect, _Component);
@@ -379,10 +452,11 @@
     _createClass(OptionSelect, [{
       key: "render",
       value: function render() {
-        return React__default.createElement(Antd.Select, _extends({}, this.props, {
+        return React__default.createElement(Antd.Select, _extends({
           allowClear: true,
+          optionFilterProp: "children",
           showSearch: !!this.fieldConfig.showSearch
-        }), this.options.map(function (option) {
+        }, this.props), this.options.map(function (option) {
           return React__default.createElement(Antd.Select.Option, {
             value: option.value,
             key: option.value
@@ -428,7 +502,7 @@
     }]);
 
     return OptionSelect;
-  }(React.Component)) || _class$1);
+  }(React.Component)) || _class$2);
 
   function formatRating(value) {
     return value ? React__default.createElement(Antd.Rate, {
@@ -460,8 +534,8 @@
     return Rate;
   }(React.Component);
 
-  var _dec$2, _class$2;
-  var OptionSelectDisplay = (_dec$2 = mobxReact.inject('getOptions'), _dec$2(_class$2 = autoBindMethods(_class$2 = mobxReact.observer(_class$2 =
+  var _dec$2, _class$3;
+  var OptionSelectDisplay = (_dec$2 = mobxReact.inject('getOptions'), _dec$2(_class$3 = autoBindMethods(_class$3 = mobxReact.observer(_class$3 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(OptionSelectDisplay, _Component);
@@ -520,7 +594,7 @@
     }]);
 
     return OptionSelectDisplay;
-  }(React.Component)) || _class$2) || _class$2) || _class$2);
+  }(React.Component)) || _class$3) || _class$3) || _class$3);
   function formatOptionSelect(value, fieldConfig) {
     if (lodash.isArray(value)) {
       if (value.length > 1) {
@@ -601,7 +675,7 @@
       render: utils.formatCommaSeparatedNumber
     },
     objectSearchCreate: {
-      editComponent: ObjectSearchCreate,
+      editComponent: ObjectSearchCreate$$1,
       fieldConfigProp: true
     },
     optionSelect: {
@@ -796,29 +870,6 @@
     return fieldSet.fields;
   }
 
-  var CARD_COL_LABEL = 8;
-  var CARD_COL_VALUE = 16;
-
-  var Info = function Info(props) {
-    return React__default.createElement(Antd.Row, _extends({}, props, {
-      className: cx(props.className, 'info')
-    }), props.children);
-  };
-
-  var Label = function Label(props) {
-    return React__default.createElement(Antd.Col, {
-      span: CARD_COL_LABEL,
-      className: cx(props.className, 'col-label')
-    }, props.children);
-  };
-
-  var Value = function Value(props) {
-    return React__default.createElement(Antd.Col, {
-      span: CARD_COL_VALUE,
-      className: cx(props.className, 'col-value')
-    }, props.children);
-  };
-
   var CardRow =
   /*#__PURE__*/
   function (_Component) {
@@ -861,144 +912,89 @@
     return CardRow;
   }(React.Component);
 
-  var _class$3, _class2$1;
-
-  var Card = mobxReact.observer(_class$3 = (_class2$1 =
-  /*#__PURE__*/
-  function (_Component) {
-    _inherits(Card, _Component);
-
-    function Card() {
-      _classCallCheck(this, Card);
-
-      return _possibleConstructorReturn(this, _getPrototypeOf(Card).apply(this, arguments));
-    }
-
-    _createClass(Card, [{
-      key: "render",
-      value: function render() {
-        var _this$props = this.props,
-            cardConfig = _this$props.cardConfig,
-            renderTopRight = _this$props.renderTopRight,
-            isLoading = _this$props.isLoading,
-            model = getCardModel(this.props.model, cardConfig);
-        return React__default.createElement(Antd.Card, {
-          title: cardConfig.title,
-          extra: renderTopRight && renderTopRight(),
-          loading: isLoading
-        }, this.fieldSets.map(function (fieldSet, idx) {
-          return React__default.createElement(React.Fragment, {
-            key: idx
-          }, idx > 0 && React__default.createElement(Antd.Divider, {
-            key: "divider-".concat(idx)
-          }), getFieldSetFields(fieldSet).map(function (fieldConfig) {
-            return React__default.createElement(CardRow, {
-              fieldConfig: fieldConfig,
-              key: fieldConfig.field,
-              model: model
-            });
-          }));
-        }), this.props.children);
-      }
-    }, {
-      key: "fieldSets",
-      get: function get() {
-        return fillInFieldSets(this.props.cardConfig.fieldSets);
-      }
-    }]);
-
-    return Card;
-  }(React.Component), (_applyDecoratedDescriptor(_class2$1.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$1.prototype, "fieldSets"), _class2$1.prototype)), _class2$1)) || _class$3;
-
   var _class$4;
 
-  var ArrayCard = mobxReact.observer(_class$4 =
+  var FormField = autoBindMethods(_class$4 = mobxReact.observer(_class$4 =
   /*#__PURE__*/
   function (_Component) {
-    _inherits(ArrayCard, _Component);
+    _inherits(FormField, _Component);
 
-    function ArrayCard() {
-      _classCallCheck(this, ArrayCard);
+    function FormField() {
+      _classCallCheck(this, FormField);
 
-      return _possibleConstructorReturn(this, _getPrototypeOf(ArrayCard).apply(this, arguments));
+      return _possibleConstructorReturn(this, _getPrototypeOf(FormField).apply(this, arguments));
     }
 
-    _createClass(ArrayCard, [{
-      key: "render",
-      value: function render() {
-        var _this$props = this.props,
-            cardConfig = _this$props.cardConfig,
-            extra = _this$props.extra,
-            isLoading = _this$props.isLoading,
-            model = getCardModel(this.props.model, cardConfig);
-
-        if (lodash.isEmpty(model)) {
-          return null;
-        }
-
-        return React__default.createElement(Antd.Card, {
-          title: cardConfig.title,
-          extra: extra,
-          loading: isLoading
-        }, model.map(function (modelItem) {
-          return React__default.createElement(Card, {
-            key: modelItem.id,
-            cardConfig: _objectSpread({}, cardConfig, {
-              title: ''
-            }),
-            model: modelItem
-          });
-        }));
-      }
-    }]);
-
-    return ArrayCard;
-  }(React.Component)) || _class$4;
-
-  var _class$5;
-
-  var Cards = mobxReact.observer(_class$5 =
-  /*#__PURE__*/
-  function (_Component) {
-    _inherits(Cards, _Component);
-
-    function Cards() {
-      _classCallCheck(this, Cards);
-
-      return _possibleConstructorReturn(this, _getPrototypeOf(Cards).apply(this, arguments));
-    }
-
-    _createClass(Cards, [{
+    _createClass(FormField, [{
       key: "render",
       value: function render() {
         var _this$props = this.props,
             model = _this$props.model,
-            isLoading = _this$props.isLoading,
-            cardConfigs = _this$props.cardConfigs;
-        return cardConfigs.map(function (cardConfig, idx) {
-          if (cardConfig.isArray) {
-            return React__default.createElement(Antd.Row, {
-              key: "detail-cards-".concat(idx)
-            }, React__default.createElement(ArrayCard, {
-              cardConfig: cardConfig,
-              model: model,
-              isLoading: isLoading
-            }));
-          }
+            form = _this$props.form,
+            defaults = _this$props.defaults,
+            fieldConfig = _this$props.fieldConfig,
+            getFieldDecorator = form.getFieldDecorator;
 
-          return React__default.createElement(Antd.Row, {
-            key: "detail-cards-".concat(idx)
-          }, React__default.createElement(Card, {
-            cardConfig: cardConfig,
-            model: model,
-            isLoading: isLoading
-          }));
-        });
+        var initialValue = fieldConfig.value || fieldConfig.toForm(model, fieldConfig.field) || fieldConfig.toForm(defaults, fieldConfig.field),
+            EditComponent = fieldConfig.editComponent,
+            decoratorOptions = {
+          initialValue: initialValue,
+          rules: fieldConfig.formValidationRules
+        },
+            fieldConfigProp = fieldConfig.fieldConfigProp ? {
+          fieldConfig: fieldConfig
+        } : {},
+            editProps = _objectSpread({}, fieldConfig.editProps, fieldConfigProp);
+
+        if (filterInsertIf(fieldConfig, form.getFieldsValue())) {
+          return null;
+        }
+
+        return React__default.createElement(Antd.Form.Item, {
+          label: fieldConfig.label
+        }, getFieldDecorator(fieldConfig.field, decoratorOptions)(React__default.createElement(EditComponent, editProps)));
       }
     }]);
 
-    return Cards;
-  }(React.Component)) || _class$5;
+    return FormField;
+  }(React.Component)) || _class$4) || _class$4;
+
+  var _class$5, _class2$1;
+
+  var FormFields = autoBindMethods(_class$5 = mobxReact.observer(_class$5 = (_class2$1 =
+  /*#__PURE__*/
+  function (_Component) {
+    _inherits(FormFields, _Component);
+
+    function FormFields() {
+      _classCallCheck(this, FormFields);
+
+      return _possibleConstructorReturn(this, _getPrototypeOf(FormFields).apply(this, arguments));
+    }
+
+    _createClass(FormFields, [{
+      key: "render",
+      value: function render() {
+        var _this = this;
+
+        var fieldConfigs = getFieldSetFields(this.fieldSet),
+            legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend;
+        return React__default.createElement("div", null, legend && React__default.createElement("h3", null, legend), fieldConfigs.map(function (fieldConfig, index) {
+          return React__default.createElement(FormField, _extends({}, _this.props, {
+            fieldConfig: fieldConfig,
+            key: "field-config-".concat(fieldConfig.field, "-").concat(index)
+          }));
+        }));
+      }
+    }, {
+      key: "fieldSet",
+      get: function get() {
+        return fillInFieldSet(this.props.fieldSet);
+      }
+    }]);
+
+    return FormFields;
+  }(React.Component), (_applyDecoratedDescriptor(_class2$1.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$1.prototype, "fieldSet"), _class2$1.prototype)), _class2$1)) || _class$5) || _class$5;
 
   var GuardedButton =
   /*#__PURE__*/
@@ -1044,117 +1040,144 @@
     return GuardedButton;
   }(React.Component);
 
-  var _class$6;
+  var _class$6, _class2$2;
 
-  var ButtonToolbar = autoBindMethods(_class$6 =
+  var Card = mobxReact.observer(_class$6 = (_class2$2 =
   /*#__PURE__*/
   function (_Component) {
-    _inherits(ButtonToolbar, _Component);
+    _inherits(Card, _Component);
 
-    function ButtonToolbar() {
-      _classCallCheck(this, ButtonToolbar);
+    function Card() {
+      _classCallCheck(this, Card);
 
-      return _possibleConstructorReturn(this, _getPrototypeOf(ButtonToolbar).apply(this, arguments));
+      return _possibleConstructorReturn(this, _getPrototypeOf(Card).apply(this, arguments));
     }
 
-    _createClass(ButtonToolbar, [{
+    _createClass(Card, [{
       key: "render",
       value: function render() {
-        var className = cx('button-toolbar', this.props.align ? "align-".concat(this.props.align) : null, {
-          'no-spacing': this.props.noSpacing
-        }, _defineProperty({}, "position-fixed", this.props.fixed), this.props.className);
-        return React__default.createElement(Antd.Form.Item, _extends({}, this.props, {
-          className: className
+        var _this$props = this.props,
+            cardConfig = _this$props.cardConfig,
+            renderTopRight = _this$props.renderTopRight,
+            isLoading = _this$props.isLoading,
+            model = getCardModel(this.props.model, cardConfig);
+        return React__default.createElement(Antd.Card, {
+          title: cardConfig.title,
+          extra: renderTopRight && renderTopRight(),
+          loading: isLoading
+        }, this.fieldSets.map(function (fieldSet, idx) {
+          return React__default.createElement(React.Fragment, {
+            key: idx
+          }, idx > 0 && React__default.createElement(Antd.Divider, {
+            key: "divider-".concat(idx)
+          }), getFieldSetFields(fieldSet).map(function (fieldConfig) {
+            return React__default.createElement(CardRow, {
+              fieldConfig: fieldConfig,
+              key: fieldConfig.field,
+              model: model
+            });
+          }));
         }), this.props.children);
+      }
+    }, {
+      key: "fieldSets",
+      get: function get() {
+        return fillInFieldSets(this.props.cardConfig.fieldSets);
       }
     }]);
 
-    return ButtonToolbar;
-  }(React.Component)) || _class$6;
+    return Card;
+  }(React.Component), (_applyDecoratedDescriptor(_class2$2.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$2.prototype, "fieldSets"), _class2$2.prototype)), _class2$2)) || _class$6;
 
   var _class$7;
 
-  var FormField = autoBindMethods(_class$7 = mobxReact.observer(_class$7 =
+  var ArrayCard = mobxReact.observer(_class$7 =
   /*#__PURE__*/
   function (_Component) {
-    _inherits(FormField, _Component);
+    _inherits(ArrayCard, _Component);
 
-    function FormField() {
-      _classCallCheck(this, FormField);
+    function ArrayCard() {
+      _classCallCheck(this, ArrayCard);
 
-      return _possibleConstructorReturn(this, _getPrototypeOf(FormField).apply(this, arguments));
+      return _possibleConstructorReturn(this, _getPrototypeOf(ArrayCard).apply(this, arguments));
     }
 
-    _createClass(FormField, [{
+    _createClass(ArrayCard, [{
+      key: "render",
+      value: function render() {
+        var _this$props = this.props,
+            cardConfig = _this$props.cardConfig,
+            extra = _this$props.extra,
+            isLoading = _this$props.isLoading,
+            model = getCardModel(this.props.model, cardConfig);
+
+        if (lodash.isEmpty(model)) {
+          return null;
+        }
+
+        return React__default.createElement(Antd.Card, {
+          title: cardConfig.title,
+          extra: extra,
+          loading: isLoading
+        }, model.map(function (modelItem) {
+          return React__default.createElement(Card, {
+            key: modelItem.id,
+            cardConfig: _objectSpread({}, cardConfig, {
+              title: ''
+            }),
+            model: modelItem
+          });
+        }));
+      }
+    }]);
+
+    return ArrayCard;
+  }(React.Component)) || _class$7;
+
+  var _class$8;
+
+  var Cards = mobxReact.observer(_class$8 =
+  /*#__PURE__*/
+  function (_Component) {
+    _inherits(Cards, _Component);
+
+    function Cards() {
+      _classCallCheck(this, Cards);
+
+      return _possibleConstructorReturn(this, _getPrototypeOf(Cards).apply(this, arguments));
+    }
+
+    _createClass(Cards, [{
       key: "render",
       value: function render() {
         var _this$props = this.props,
             model = _this$props.model,
-            form = _this$props.form,
-            defaults = _this$props.defaults,
-            fieldConfig = _this$props.fieldConfig,
-            getFieldDecorator = form.getFieldDecorator;
+            isLoading = _this$props.isLoading,
+            cardConfigs = _this$props.cardConfigs;
+        return cardConfigs.map(function (cardConfig, idx) {
+          if (cardConfig.isArray) {
+            return React__default.createElement(Antd.Row, {
+              key: "detail-cards-".concat(idx)
+            }, React__default.createElement(ArrayCard, {
+              cardConfig: cardConfig,
+              model: model,
+              isLoading: isLoading
+            }));
+          }
 
-        var initialValue = fieldConfig.value || fieldConfig.toForm(model, fieldConfig.field) || fieldConfig.toForm(defaults, fieldConfig.field),
-            EditComponent = fieldConfig.editComponent,
-            decoratorOptions = {
-          initialValue: initialValue,
-          rules: fieldConfig.formValidationRules
-        },
-            fieldConfigProp = fieldConfig.fieldConfigProp ? {
-          fieldConfig: fieldConfig
-        } : {},
-            editProps = _objectSpread({}, fieldConfig.editProps, fieldConfigProp);
-
-        if (filterInsertIf(fieldConfig, form.getFieldsValue())) {
-          return null;
-        }
-
-        return React__default.createElement(Antd.Form.Item, {
-          label: fieldConfig.label
-        }, getFieldDecorator(fieldConfig.field, decoratorOptions)(React__default.createElement(EditComponent, editProps)));
-      }
-    }]);
-
-    return FormField;
-  }(React.Component)) || _class$7) || _class$7;
-
-  var _class$8, _class2$2;
-
-  var FormFields = autoBindMethods(_class$8 = mobxReact.observer(_class$8 = (_class2$2 =
-  /*#__PURE__*/
-  function (_Component) {
-    _inherits(FormFields, _Component);
-
-    function FormFields() {
-      _classCallCheck(this, FormFields);
-
-      return _possibleConstructorReturn(this, _getPrototypeOf(FormFields).apply(this, arguments));
-    }
-
-    _createClass(FormFields, [{
-      key: "render",
-      value: function render() {
-        var _this = this;
-
-        var fieldConfigs = getFieldSetFields(this.fieldSet),
-            legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend;
-        return React__default.createElement("div", null, legend && React__default.createElement("h3", null, legend), fieldConfigs.map(function (fieldConfig, index) {
-          return React__default.createElement(FormField, _extends({}, _this.props, {
-            fieldConfig: fieldConfig,
-            key: "field-config-".concat(fieldConfig.field, "-").concat(index)
+          return React__default.createElement(Antd.Row, {
+            key: "detail-cards-".concat(idx)
+          }, React__default.createElement(Card, {
+            cardConfig: cardConfig,
+            model: model,
+            isLoading: isLoading
           }));
-        }));
-      }
-    }, {
-      key: "fieldSet",
-      get: function get() {
-        return fillInFieldSet(this.props.fieldSet);
+        });
       }
     }]);
 
-    return FormFields;
-  }(React.Component), (_applyDecoratedDescriptor(_class2$2.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$2.prototype, "fieldSet"), _class2$2.prototype)), _class2$2)) || _class$8) || _class$8;
+    return Cards;
+  }(React.Component)) || _class$8;
 
   var _class$9, _class2$3, _descriptor$1, _temp$1;
 
@@ -1365,9 +1388,9 @@
 
   var WrappedFormCard = Antd.Form.create()(FormCard);
 
-  var _class$b, _class2$5, _descriptor$2, _descriptor2$1, _temp$3;
+  var _class$b, _class2$5, _descriptor$2, _descriptor2$1, _class3, _temp$3;
 
-  var EditableCard = autoBindMethods(_class$b = mobxReact.observer(_class$b = (_class2$5 = (_temp$3 =
+  var EditableCard = autoBindMethods(_class$b = mobxReact.observer(_class$b = (_class2$5 = (_temp$3 = _class3 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(EditableCard, _Component);
@@ -1398,13 +1421,13 @@
         var _handleDelete = _asyncToGenerator(
         /*#__PURE__*/
         regeneratorRuntime.mark(function _callee() {
-          var _this$props, model, onDelete, onSuccess;
+          var _this$propsWithDefaul, model, onDelete, onSuccess;
 
           return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  _this$props = this.props, model = _this$props.model, onDelete = _this$props.onDelete, onSuccess = _this$props.onSuccess;
+                  _this$propsWithDefaul = this.propsWithDefaults, model = _this$propsWithDefaul.model, onDelete = _this$propsWithDefaul.onDelete, onSuccess = _this$propsWithDefaul.onSuccess;
 
                   if (onDelete) {
                     _context.next = 3;
@@ -1445,13 +1468,13 @@
         var _handleSave = _asyncToGenerator(
         /*#__PURE__*/
         regeneratorRuntime.mark(function _callee2(model) {
-          var _this$props2, onSuccess, onSave;
+          var _this$propsWithDefaul2, onSuccess, onSave;
 
           return regeneratorRuntime.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
-                  _this$props2 = this.props, onSuccess = _this$props2.onSuccess, onSave = _this$props2.onSave;
+                  _this$propsWithDefaul2 = this.propsWithDefaults, onSuccess = _this$propsWithDefaul2.onSuccess, onSave = _this$propsWithDefaul2.onSave;
                   _context2.next = 3;
                   return onSave(model);
 
@@ -1494,13 +1517,18 @@
         }));
       }
     }, {
+      key: "propsWithDefaults",
+      get: function get() {
+        return this.props;
+      }
+    }, {
       key: "deleteButton",
       get: function get() {
-        var _this$props3 = this.props,
-            isGuarded = _this$props3.isGuarded,
-            cardConfig = _this$props3.cardConfig,
-            onDelete = _this$props3.onDelete,
-            isLoading = _this$props3.isLoading,
+        var _this$propsWithDefaul3 = this.propsWithDefaults,
+            isGuarded = _this$propsWithDefaul3.isGuarded,
+            cardConfig = _this$propsWithDefaul3.cardConfig,
+            onDelete = _this$propsWithDefaul3.onDelete,
+            isLoading = _this$propsWithDefaul3.isLoading,
             classNameSuffix = cardConfig.classNameSuffix || lodash.kebabCase(cardConfig.title);
 
         if (!onDelete) {
@@ -1521,10 +1549,10 @@
     }, {
       key: "editButton",
       get: function get() {
-        var _this$props4 = this.props,
-            cardConfig = _this$props4.cardConfig,
-            isLoading = _this$props4.isLoading,
-            isGuarded = _this$props4.isGuarded,
+        var _this$propsWithDefaul4 = this.propsWithDefaults,
+            cardConfig = _this$propsWithDefaul4.cardConfig,
+            isLoading = _this$propsWithDefaul4.isLoading,
+            isGuarded = _this$propsWithDefaul4.isGuarded,
             classNameSuffix = cardConfig.classNameSuffix || lodash.kebabCase(cardConfig.title);
         return React__default.createElement(GuardedButton, {
           className: "btn-edit-".concat(classNameSuffix),
@@ -1539,7 +1567,32 @@
     }]);
 
     return EditableCard;
-  }(React.Component), _temp$3), (_descriptor$2 = _applyDecoratedDescriptor(_class2$5.prototype, "isDeleting", [mobx.observable], {
+  }(React.Component), _class3.defaultProps = {
+    onSuccess: function () {
+      var _onSuccess = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                return _context3.abrupt("return");
+
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function onSuccess() {
+        return _onSuccess.apply(this, arguments);
+      }
+
+      return onSuccess;
+    }()
+  }, _temp$3), (_descriptor$2 = _applyDecoratedDescriptor(_class2$5.prototype, "isDeleting", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -1682,9 +1735,9 @@
     }
   })), _class2$6)) || _class$c) || _class$c;
 
-  var _class$d, _class2$7, _class3, _temp$5;
+  var _class$d, _class2$7, _class3$1, _temp$5;
 
-  var SummaryCard = autoBindMethods(_class$d = mobxReact.observer(_class$d = (_class2$7 = (_temp$5 = _class3 =
+  var SummaryCard = autoBindMethods(_class$d = mobxReact.observer(_class$d = (_class2$7 = (_temp$5 = _class3$1 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(SummaryCard, _Component);
@@ -1744,7 +1797,7 @@
     }]);
 
     return SummaryCard;
-  }(React.Component), _class3.defaultProps = {
+  }(React.Component), _class3$1.defaultProps = {
     column: 4
   }, _temp$5), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldSets"), _class2$7.prototype)), _class2$7)) || _class$d) || _class$d;
 
@@ -1831,9 +1884,9 @@
 
   var FormDrawer$$1 = Antd.Form.create()(BaseFormDrawer);
 
-  var _class$f, _class2$9, _class3$1, _temp$7;
+  var _class$f, _class2$9, _class3$2, _temp$7;
 
-  var FormModal = autoBindMethods(_class$f = mobxReact.observer(_class$f = (_class2$9 = (_temp$7 = _class3$1 =
+  var FormModal = autoBindMethods(_class$f = mobxReact.observer(_class$f = (_class2$9 = (_temp$7 = _class3$2 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(FormModal, _Component);
@@ -1901,14 +1954,24 @@
     }]);
 
     return FormModal;
-  }(React.Component), _class3$1.defaultProps = {
+  }(React.Component), _class3$2.defaultProps = {
     saveText: 'Save'
   }, _temp$7), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldSets"), _class2$9.prototype)), _class2$9)) || _class$f) || _class$f;
 
   var WrappedFormModal = Antd.Form.create()(FormModal);
 
-  // Components
+  // Lower-level building blocks and helper components
 
+  exports.ButtonToolbar = ButtonToolbar;
+  exports.CardRow = CardRow;
+  exports.FormField = FormField;
+  exports.FormFields = FormFields;
+  exports.GuardedButton = GuardedButton;
+  exports.Info = Info;
+  exports.Label = Label;
+  exports.Value = Value;
+  exports.CARD_COL_LABEL = CARD_COL_LABEL;
+  exports.CARD_COL_VALUE = CARD_COL_VALUE;
   exports.ArrayCard = ArrayCard;
   exports.Card = Card;
   exports.Cards = Cards;
@@ -1918,20 +1981,20 @@
   exports.SummaryCard = SummaryCard;
   exports.FormDrawer = FormDrawer$$1;
   exports.FormModal = WrappedFormModal;
-  exports.FormManager = FormManager;
-  exports.fillInFieldConfig = fillInFieldConfig;
-  exports.fillInFieldSets = fillInFieldSets;
-  exports.getFieldSetFields = getFieldSetFields;
-  exports.isFieldSetSimple = isFieldSetSimple;
-  exports.FormFields = FormFields;
+  exports.ObjectSearchCreate = ObjectSearchCreate$$1;
+  exports.OptionSelect = OptionSelect;
   exports.OptionSelectDisplay = OptionSelectDisplay;
   exports.formatOptionSelect = formatOptionSelect;
-  exports.Info = Info;
-  exports.Label = Label;
-  exports.Value = Value;
-  exports.CARD_COL_LABEL = CARD_COL_LABEL;
-  exports.CARD_COL_VALUE = CARD_COL_VALUE;
-  exports.ButtonToolbar = ButtonToolbar;
+  exports.Rate = Rate;
+  exports.FormManager = FormManager;
+  exports.isPartialFieldSetSimple = isPartialFieldSetSimple;
+  exports.isFieldSetSimple = isFieldSetSimple;
+  exports.filterInsertIf = filterInsertIf;
+  exports.fillInFieldConfig = fillInFieldConfig;
+  exports.fillInFieldSet = fillInFieldSet;
+  exports.fillInFieldSets = fillInFieldSets;
+  exports.getCardModel = getCardModel;
+  exports.getFieldSetFields = getFieldSetFields;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
