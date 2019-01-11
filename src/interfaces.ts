@@ -33,6 +33,12 @@ interface IFieldConfigBase extends IFieldConfigUniversal {
   value?: string | number;
 }
 
+export interface IAntFormField {
+  id: string;
+  onChange: (value: any) => void;
+  value: any;
+}
+
 /*
   FIELD CONFIG: SINGLE-TYPE DEFINITIONS
 */
@@ -52,6 +58,7 @@ export interface IFieldConfigOptionSelect extends IFieldConfigBase {
 export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
   createFields: IFieldConfigBase[];
   endpoint: string;
+  searchFilters?: { [key: string]: any };
 }
 
 /*
