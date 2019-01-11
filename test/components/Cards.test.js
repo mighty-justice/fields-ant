@@ -5,26 +5,24 @@
 import React from 'react';
 import faker from 'faker';
 
-import { ArrayCard } from '../src';
+import { Cards } from '../../src ';
 import { Tester } from '@mighty-justice/tester';
 
-describe('ArrayCard', () => {
+describe('Cards', () => {
   it('Renders', async () => {
-    const text1 = faker.lorem.sentence()
-      , text2 = faker.lorem.sentence()
+    const text = faker.lorem.sentence()
       , title = faker.lorem.sentence()
       , props = {
-        cardConfig: {
+        cardConfigs: [{
           fieldSets: [[{ field: 'text' }]],
           title,
-        },
-        model: [{ id: 1, text: text1 }, { id: 2,  text: text2 }],
+        }],
+        model: { text },
       };
 
-    const noLoading = await new Tester(ArrayCard, { props }).mount();
+    const noLoading = await new Tester(Cards, { props }).mount();
     expect(noLoading.text()).toContain(title);
     expect(noLoading.text()).toContain('Text');
-    expect(noLoading.html()).toContain(text1);
-    expect(noLoading.html()).toContain(text2);
+    expect(noLoading.html()).toContain(text);
   });
 });

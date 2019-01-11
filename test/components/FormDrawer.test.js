@@ -5,22 +5,22 @@
 import React from 'react';
 import faker from 'faker';
 
-import { Cards } from '../src';
+import { FormDrawer } from '../../src ';
 import { Tester } from '@mighty-justice/tester';
+import SmartBool from '@mighty-justice/smart-bool';
 
-describe('Cards', () => {
+describe('FormDrawer', () => {
   it('Renders', async () => {
     const text = faker.lorem.sentence()
       , title = faker.lorem.sentence()
       , props = {
-        cardConfigs: [{
-          fieldSets: [[{ field: 'text' }]],
-          title,
-        }],
+        fieldSets: [[{ field: 'text' }]],
+        isVisible: new SmartBool(true),
         model: { text },
+        title,
       };
 
-    const noLoading = await new Tester(Cards, { props }).mount();
+    const noLoading = await new Tester(FormDrawer, { props }).mount();
     expect(noLoading.text()).toContain(title);
     expect(noLoading.text()).toContain('Text');
     expect(noLoading.html()).toContain(text);
