@@ -373,14 +373,14 @@ function (_Component) {
     key: "render",
     value: function render() {
       if (this.isAddingNew.isTrue) {
-        return React__default.createElement(React__default.Fragment, null, React__default.createElement(Antd.Button, {
+        return React__default.createElement(React__default.Fragment, null, React__default.createElement(this.AddNewForm, {
+          fieldSet: this.fieldConfig.createFields
+        }), React__default.createElement(Antd.Button, {
           size: "small",
           onClick: this.isAddingNew.setFalse
         }, React__default.createElement(Antd.Icon, {
           type: "left"
-        }), " Back to search"), React__default.createElement(this.AddNewForm, {
-          fieldSet: this.fieldConfig.createFields
-        }));
+        }), " Back to search"));
       }
 
       return React__default.createElement(React__default.Fragment, null, React__default.createElement(Antd.Input.Group, {

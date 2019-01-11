@@ -366,14 +366,14 @@ function (_Component) {
     key: "render",
     value: function render() {
       if (this.isAddingNew.isTrue) {
-        return React.createElement(React.Fragment, null, React.createElement(Button, {
+        return React.createElement(React.Fragment, null, React.createElement(this.AddNewForm, {
+          fieldSet: this.fieldConfig.createFields
+        }), React.createElement(Button, {
           size: "small",
           onClick: this.isAddingNew.setFalse
         }, React.createElement(Icon, {
           type: "left"
-        }), " Back to search"), React.createElement(this.AddNewForm, {
-          fieldSet: this.fieldConfig.createFields
-        }));
+        }), " Back to search"));
       }
 
       return React.createElement(React.Fragment, null, React.createElement(Input.Group, {
