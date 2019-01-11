@@ -38,7 +38,12 @@ class OptionSelect extends Component<IProps> {
 
   public render () {
     return (
-      <Antd.Select {...this.props} allowClear showSearch={!!this.fieldConfig.showSearch}>
+      <Antd.Select
+        allowClear
+        optionFilterProp='children'
+        showSearch={!!this.fieldConfig.showSearch}
+        {...this.props}
+      >
         {this.options.map(option => (
           <Antd.Select.Option value={option.value} key={option.value}>{option.name}</Antd.Select.Option>
         ))}
