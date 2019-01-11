@@ -4,17 +4,23 @@ import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 import SmartBool from '@mighty-justice/smart-bool';
+import { toKey } from '@mighty-justice/utils';
 
-import { Button, Divider, Input, Select } from 'antd';
+import * as Antd from 'antd';
 
-import { IFieldConfig, IFieldConfigObjectSearchCreate } from '../';
+import {
+  FormFields,
+  IAntFormField,
+  IFieldConfig,
+  IFieldConfigObjectSearchCreate,
+} from '../';
 
 interface IProps {
   fieldConfig: IFieldConfig;
   form: any;
 }
 
-interface IInjected extends IProps {
+interface IInjected extends IProps, IAntFormField {
   getEndpoint: (endpoint: string) => Promise<any>;
 }
 
@@ -22,8 +28,15 @@ interface IInjected extends IProps {
 @autoBindMethods
 @observer
 class ObjectSearchCreate extends Component<IProps> {
+  @observable private search = '';
   @observable private options: any[] = [];
   @observable private isAddingNew = new SmartBool();
+  @observable private AddNewForm: any;
+
+  public constructor (props: IProps) {
+    super(props);
+    this.AddNewForm = Antd.Form.create({ onValuesChange: this.onCreateValuesChange })(FormFields);
+  }
 
   private get injected () {
     return this.props as IInjected;
@@ -35,10 +48,15 @@ class ObjectSearchCreate extends Component<IProps> {
 
   private async handleSearch (value: string) {
     const { getEndpoint } = this.injected
-      , { endpoint } = this.fieldConfig
+      , { endpoint, searchFilters } = this.fieldConfig
+      , params = {
+        search: value,
+        ...searchFilters,
+      }
       ;
 
-    const response = await getEndpoint(`/${endpoint}/?search=${value}`);
+    this.search = value;
+    const response = await getEndpoint(`/${endpoint}/${toKey(params)}`);
     this.options = response.results.map((option: any) => ({name: option.name, value: option.id}));
   }
 
@@ -46,34 +64,48 @@ class ObjectSearchCreate extends Component<IProps> {
     this.isAddingNew.setTrue();
   }
 
+  private onCreateValuesChange (_props: any, _changedValues: any, allValues: any) {
+    const onChange = this.injected.onChange;
+    if (onChange) { onChange(allValues); }
+  }
+
   public render () {
     if (this.isAddingNew.isTrue) {
-      const inputProps = omit(this.props, ['fieldConfig', 'value', 'getEndpoint']);
-      return <Input {...inputProps} />;
+      return (
+        <>
+          <Antd.Button size='small' onClick={this.isAddingNew.setFalse}>
+            <Antd.Icon type='left' /> Back to search
+          </Antd.Button>
+          <this.AddNewForm fieldSet={this.fieldConfig.createFields} />
+        </>
+      );
     }
 
     return (
       <>
-        <Select
-          allowClear
-          defaultActiveFirstOption={false}
-          filterOption={false}
-          labelInValue
-          onSearch={this.handleSearch}
-          placeholder={`Select existing ${this.fieldConfig.label}`}
-          showSearch
-          {...omit(this.props, ['value', 'getEndpoint'])}
-        >
-          {this.options.map(option => (
-            <Select.Option value={option.value} key={option.value}>{option.name}</Select.Option>
-          ))}
-        </Select>
-        <Divider style={{ margin: '4px 0' }}>OR</Divider>
-        <div style={{ padding: '8px', cursor: 'pointer'}}>
-          <Button style={{ margin: '4px 0', width: '100%' }} icon='plus' onClick={this.addNew}>
-            Add New {this.fieldConfig.label}
-          </Button>
-        </div>
+        <Antd.Input.Group compact>
+          <Antd.Select
+            allowClear
+            defaultActiveFirstOption={false}
+            filterOption={false}
+            labelInValue
+            onSearch={this.handleSearch}
+            placeholder='Select existing'
+            showSearch
+            {...omit(this.props, ['value', 'getEndpoint'])}
+          >
+            {this.options.map(option => (
+              <Antd.Select.Option value={option.value} key={option.value}>{option.name}</Antd.Select.Option>
+            ))}
+          </Antd.Select>
+          <Antd.Button
+            disabled={this.search.length < 3}
+            icon='plus'
+            onClick={this.addNew}
+          >
+            Add New
+          </Antd.Button>
+        </Antd.Input.Group>
       </>
     );
   }
