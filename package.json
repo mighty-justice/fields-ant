@@ -25,7 +25,7 @@
     "preversion": "npm run lint",
     "test": "jest",
     "test:watch": "npm run test/*.js -- -w",
-    "version": "npm run build && git add dist",
+    "version": "npm run build && git add dist && auto-changelog -p && git add CHANGELOG.md",
     "view-source-map": "source-map-explorer --html dist/index.js dist/index.map > source.html && open source.html"
   },
   "repository": {
