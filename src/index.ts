@@ -21,7 +21,7 @@ export { default as SummaryCard } from './components/SummaryCard';
 export { default as ObjectSearchCreate } from './inputs/ObjectSearchCreate';
 export { default as OptionSelect } from './inputs/OptionSelect';
 export { default as OptionSelectDisplay, formatOptionSelect } from './inputs/OptionSelectDisplay';
-export { default as Rate } from './inputs/Rate';
+export { default as Rate, formatRating } from './inputs/Rate';
 
 // Utility classes and functions
 export { default as FormManager } from './utilities/FormManager';
