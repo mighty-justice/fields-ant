@@ -82,31 +82,29 @@ class ObjectSearchCreate extends Component<IProps> {
     }
 
     return (
-      <>
-        <Antd.Input.Group compact>
-          <Antd.Select
-            allowClear
-            defaultActiveFirstOption={false}
-            filterOption={false}
-            labelInValue
-            onSearch={this.handleSearch}
-            placeholder='Select existing'
-            showSearch
-            {...omit(this.props, ['value', 'getEndpoint'])}
-          >
-            {this.options.map(option => (
-              <Antd.Select.Option value={option.value} key={option.value}>{option.name}</Antd.Select.Option>
-            ))}
-          </Antd.Select>
-          <Antd.Button
-            disabled={this.search.length < 3}
-            icon='plus'
-            onClick={this.addNew}
-          >
-            Add New
-          </Antd.Button>
-        </Antd.Input.Group>
-      </>
+      <Antd.Input.Group className='ant-input-group-search-create' compact>
+        <Antd.Select
+          allowClear
+          defaultActiveFirstOption={false}
+          filterOption={false}
+          labelInValue
+          onSearch={this.handleSearch}
+          placeholder='Select existing'
+          showSearch
+          {...omit(this.props, ['value', 'getEndpoint'])}
+        >
+          {this.options.map(option => (
+            <Antd.Select.Option value={option.value} key={option.value}>{option.name}</Antd.Select.Option>
+          ))}
+        </Antd.Select>
+        <Antd.Button
+          disabled={this.search.length < 3}
+          icon='plus'
+          onClick={this.addNew}
+        >
+          Add New
+        </Antd.Button>
+      </Antd.Input.Group>
     );
   }
 }
