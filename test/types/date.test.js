@@ -5,22 +5,24 @@ import { Tester } from '@mighty-justice/tester';
 
 import { Card, FormCard } from '../../src';
 
-const field = 'is_open'
-  , optionType = 'yesNo'
-  , expectedLabel = 'Is Open'
-  , type = 'optionSelect'
-  , fieldSets = [[{ field, type, optionType }]]
+const field = 'offered_on'
+  , offered_on = '2017-11-22'
+  , expectedDisplay = '11/22/17'
+  , expectedLabel = 'Offered On'
+  , type = 'date'
+  , fieldSets = [[{ field, type }]]
   ;
 
-describe('optionSelect', () => {
+describe('date', () => {
   it('Renders', async () => {
     const props = {
         cardConfig: { fieldSets },
-        model: { is_open: 'true' },
+        model: { offered_on },
       };
 
     const tester = await new Tester(Card, { props }).mount();
     expect(tester.text()).toContain(expectedLabel);
+    expect(tester.text()).toContain(expectedDisplay);
   });
 
   it('Edits', async () => {

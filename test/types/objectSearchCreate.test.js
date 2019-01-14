@@ -6,7 +6,7 @@ import { Tester } from '@mighty-justice/tester';
 
 import { Card, FormCard } from '../../src';
 
-const field  = 'law_firm'
+const field = 'law_firm'
   , endpoint = 'legal-organizations'
   , expectedLabel = 'Law Firm'
   , type = 'objectSearchCreate'
