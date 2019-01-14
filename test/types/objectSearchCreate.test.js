@@ -2,9 +2,8 @@
 /* eslint-disable sort-keys */
 
 import React from 'react';
-import faker from 'faker';
 
-import { fillInFieldConfig, ObjectSearchCreate, FormCard } from '../../src';
+import { ObjectSearchCreate, FormCard } from '../../src';
 import { Tester } from '@mighty-justice/tester';
 
 describe('ObjectSearchCreate', () => {
