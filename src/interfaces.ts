@@ -1,7 +1,7 @@
-// This defines the core common interface for mighty fields
+// This defines the core common interface for Mighty fields
 //
 // This excludes all fields used only by a single type ( see below )
-// It also will almost never be written-out by a user, since it's
+// It also will almost never be written out by a user, since it's
 // much easier to call a function to fill in a partial definition
 // than to fill all this in (see further below for partials).
 interface IFieldConfigUniversal {

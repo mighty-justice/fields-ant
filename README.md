@@ -33,12 +33,12 @@ and a collection of utilities and components like forms and cards for
 #### yarn
 `yarn add --dev @mighty-justice/fields-ant`
 
-### Releasing new version
+### Releasing a new version
 
 - Release: `npm run deploy`
 
 This will run checks for `test`, `lint`, `build`, bump the version number,
-publish to npm and publish the docs to Github Pages.
+publish to npm, and publish the docs to Github Pages.
 
 ### Contributing
 
