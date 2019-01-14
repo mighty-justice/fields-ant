@@ -1,11 +1,10 @@
 /* global it, describe, expect */
-
 import React from 'react';
 import { Tester } from '@mighty-justice/tester';
 
-import { ObjectSearchCreate, FormCard } from '../../src';
+import { FormCard } from '../../src';
 
-describe('ObjectSearchCreate', () => {
+describe('objectSearchCreate', () => {
   it('Renders', async () => {
     const onSave = jest.fn()
       , props = {
