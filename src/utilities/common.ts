@@ -22,7 +22,7 @@ import { TYPES } from './types';
 const typeDefaults = {
   editComponent: Antd.Input,
   fieldConfigProp: false,
-  formValidationRules: [],
+  formValidationRules: {},
   fromForm: (value: any) => value,
   nullify: false,
   toForm: (data: any, field: string) => get(data, field, ''),
@@ -77,13 +77,13 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
   const type = inferType(fieldConfig)
     , label = varToLabel(getFieldSuffix(fieldConfig.field));
 
-  const requiredValidationRule = [];
-  if (fieldConfig.required) {
-    requiredValidationRule.push({
-      message: 'Field required',
-      required: true,
-    });
-  }
+  const requiredValidationRule = fieldConfig.required
+    ? {
+      required: {
+        message: 'Field required',
+        required: true,
+      },
+    } : undefined;
 
   return {
     key: fieldConfig.field,
@@ -103,11 +103,11 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
       ...TYPES[type].editProps,
     },
 
-    formValidationRules: [
-      ...(fieldConfig.formValidationRules || []),
-      ...(TYPES[type].formValidationRules || []),
+    formValidationRules: {
+      ...fieldConfig.formValidationRules,
+      ...TYPES[type].formValidationRules,
       ...requiredValidationRule,
-    ],
+    },
   };
 }
 

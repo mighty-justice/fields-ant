@@ -18,7 +18,7 @@ interface IFieldConfig {
   field: string;
   fieldConfigProp: boolean;
   formItemProps?: { [key: string]: any };
-  formValidationRules: any[];
+  formValidationRules: { [ruleName: string]: { [attribute: string]: any } };
   fromForm: (value: any) => any;
   icon?: string;
   insertIf?: (model: any) => boolean;

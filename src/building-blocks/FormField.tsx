@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import { values } from 'lodash';
 
 import * as Antd from 'antd';
 
@@ -30,7 +31,7 @@ class FormField extends Component<IProps> {
         || fieldConfig.toForm(defaults, fieldConfig.field)
       )
       , EditComponent = fieldConfig.editComponent
-      , decoratorOptions = { initialValue, rules: fieldConfig.formValidationRules }
+      , decoratorOptions = { initialValue, rules: values(fieldConfig.formValidationRules) }
       , fieldConfigProp = fieldConfig.fieldConfigProp ? { fieldConfig } : {}
       , editProps = {
         ...fieldConfig.editProps,
