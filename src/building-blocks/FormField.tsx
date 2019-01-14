@@ -42,7 +42,7 @@ class FormField extends Component<IProps> {
     }
 
     return (
-      <Antd.Form.Item label={fieldConfig.label}>
+      <Antd.Form.Item {...fieldConfig.formItemProps} label={fieldConfig.label}>
         {getFieldDecorator(fieldConfig.field, decoratorOptions)(
           <EditComponent {...editProps} />,
         )}
