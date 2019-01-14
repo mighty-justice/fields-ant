@@ -6,7 +6,7 @@ A standard interface for Field Sets at [Mighty](https://www.mighty.com/)
 and a collection of utilities and components like forms and cards for 
 [Ant Design](https://ant.design/) which use that interface.
 
-| [Documentation](#https://mighty-justice.github.io/fields-ant/) |
+| [Documentation](https://mighty-justice.github.io/fields-ant/) |
 | -------------------------------------------------------------- |
 
 ## Installation
