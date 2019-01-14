@@ -9,4 +9,3 @@ TesterConfig.configure(enzyme, {
   hooks: [],
   profiles: [],
 });
-

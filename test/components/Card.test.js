@@ -2,10 +2,10 @@
 /* eslint-disable sort-keys */
 
 import React from 'react';
-import { mount } from 'enzyme';
 import faker from 'faker';
 
-import { Card } from '../src';
+import { Card } from '../../src';
+import { Tester } from '@mighty-justice/tester';
 
 describe('Card', () => {
   it('Renders loader', async () => {
@@ -19,12 +19,12 @@ describe('Card', () => {
         model: { text },
       };
 
-    const noLoading = mount(<Card {...props} />);
+    const noLoading = await new Tester(Card, { props }).mount();
     expect(noLoading.text()).toContain(title);
     expect(noLoading.text()).toContain(text);
     expect(noLoading.find('.ant-card').hasClass('ant-card-loading')).toBe(false);
 
-    const yesLoading = mount(<Card isLoading={true} {...props} />);
+    const yesLoading = await new Tester(Card, { props: { ...props, isLoading: true } }).mount();
     expect(yesLoading.text()).toContain(title);
     expect(yesLoading.text()).not.toContain(text);
     expect(yesLoading.find('.ant-card').hasClass('ant-card-loading')).toBe(true);
