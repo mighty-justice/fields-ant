@@ -13,10 +13,6 @@ function changeInput (component, value) {
   component.simulate('blur');
 }
 
-function sleep (ms = 0) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 describe('EditableCard', () => {
   it('Edits text', async () => {
     const text = faker.lorem.sentence()
@@ -39,7 +35,7 @@ describe('EditableCard', () => {
 
     expect(onSave).not.toHaveBeenCalled();
     tester.find('form').simulate('submit');
-    await sleep();
+    await tester.sleep();
     expect(onSave).toHaveBeenCalledWith({ text: newText });
   });
 
