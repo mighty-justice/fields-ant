@@ -12,13 +12,13 @@ TesterConfig.configure(enzyme, {
     {
       name: 'getOptions',
       onBeforeMount: (tester) => {
-        tester.getOptions = jest.fn();
+        tester.getOptions = jest.fn(optionName => [{ name: 'Yes', value: 'true' }, { name: 'No', value: 'false' }]);
       },
     },
     {
       name: 'getEndpoint',
       onBeforeMount: (tester) => {
-        tester.getEndpoint = jest.fn();
+        tester.getEndpoint = jest.fn(endpoint => [{ id: faker.random.uuid(), name: faker.company.companyName() }]);
       },
     },
     {
