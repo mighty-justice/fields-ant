@@ -74,12 +74,11 @@ class FormModal extends Component<IProps> {
       >
         <Antd.Form onSubmit={this.formManager.onSave} className='notes-form'>
           {this.fieldSets.map((fieldSet, idx) => (
-            <div>
+            <div key={idx}>
               <FormFields
                 defaults={defaults}
                 fieldSet={fieldSet}
                 form={form}
-                key={idx}
                 model={model}
               />
             </div>
