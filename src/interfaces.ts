@@ -11,6 +11,7 @@ interface IFieldConfigUniversal {
   editProps: { [key: string]: any };
   field: string;
   fieldConfigProp: boolean;
+  formItemProps?: { [key: string]: any };
   icon?: string;
   insertIf?: (model: any) => boolean;
   key: string;
