@@ -8,6 +8,9 @@ interface IFieldConfigUniversal {
     };
     field: string;
     fieldConfigProp: boolean;
+    formItemProps?: {
+        [key: string]: any;
+    };
     icon?: string;
     insertIf?: (model: any) => boolean;
     key: string;

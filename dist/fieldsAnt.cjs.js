@@ -383,7 +383,8 @@ function (_Component) {
         }), " Back to search"));
       }
 
-      return React__default.createElement(React__default.Fragment, null, React__default.createElement(Antd.Input.Group, {
+      return React__default.createElement(Antd.Input.Group, {
+        className: "ant-input-group-search-create",
         compact: true
       }, React__default.createElement(Antd.Select, _extends({
         allowClear: true,
@@ -402,7 +403,7 @@ function (_Component) {
         disabled: this.search.length < 3,
         icon: "plus",
         onClick: this.addNew
-      }, "Add New")));
+      }, "Add New"));
     }
   }, {
     key: "injected",
@@ -958,9 +959,9 @@ function (_Component) {
         return null;
       }
 
-      return React__default.createElement(Antd.Form.Item, {
+      return React__default.createElement(Antd.Form.Item, _extends({}, fieldConfig.formItemProps, {
         label: fieldConfig.label
-      }, getFieldDecorator(fieldConfig.field, decoratorOptions)(React__default.createElement(EditComponent, editProps)));
+      }), getFieldDecorator(fieldConfig.field, decoratorOptions)(React__default.createElement(EditComponent, editProps)));
     }
   }]);
 
@@ -1435,7 +1436,7 @@ function (_Component) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this$propsWithDefaul = this.propsWithDefaults, model = _this$propsWithDefaul.model, onDelete = _this$propsWithDefaul.onDelete, onSuccess = _this$propsWithDefaul.onSuccess;
+                _this$propsWithDefaul = this.propsWithDefaults, model = _this$propsWithDefaul.model, onDelete = _this$propsWithDefaul.onDelete, onSuccess = _this$propsWithDefaul.onSuccess; // istanbul ignore next
 
                 if (onDelete) {
                   _context.next = 3;
@@ -1544,7 +1545,7 @@ function (_Component) {
       }
 
       return React__default.createElement(GuardedButton, {
-        className: "btn-delete-".concat(classNameSuffix),
+        className: "btn-delete btn-delete-".concat(classNameSuffix),
         confirm: true,
         disabled: isLoading || this.isDeleting.isTrue,
         icon: "delete",
@@ -1563,7 +1564,7 @@ function (_Component) {
           isGuarded = _this$propsWithDefaul4.isGuarded,
           classNameSuffix = cardConfig.classNameSuffix || lodash.kebabCase(cardConfig.title);
       return React__default.createElement(GuardedButton, {
-        className: "btn-edit-".concat(classNameSuffix),
+        className: "btn-edit btn-edit-".concat(classNameSuffix),
         disabled: isLoading || this.isEditing.isTrue || this.isDeleting.isTrue,
         icon: "edit",
         isGuarded: isGuarded,
