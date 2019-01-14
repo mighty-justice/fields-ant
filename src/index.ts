@@ -12,7 +12,7 @@ export { default as Card } from './components/Card';
 export { default as Cards } from './components/Cards';
 export { default as EditableArrayCard } from './components/EditableArrayCard';
 export { default as EditableCard } from './components/EditableCard';
-export { default as FormCard } from './components/SummaryCard';
+export { default as FormCard } from './components/FormCard';
 export { default as FormDrawer } from './components/FormDrawer';
 export { default as FormModal } from './components/FormModal';
 export { default as SummaryCard } from './components/SummaryCard';

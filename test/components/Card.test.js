@@ -1,5 +1,4 @@
 /* global it, describe, expect */
-/* eslint-disable sort-keys */
 
 import React from 'react';
 import faker from 'faker';

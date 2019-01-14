@@ -1,10 +1,9 @@
 /* global it, describe, expect */
-/* eslint-disable sort-keys */
 
 import React from 'react';
+import { Tester } from '@mighty-justice/tester';
 
 import { ObjectSearchCreate, FormCard } from '../../src';
-import { Tester } from '@mighty-justice/tester';
 
 describe('ObjectSearchCreate', () => {
   it('Renders', async () => {
@@ -14,7 +13,7 @@ describe('ObjectSearchCreate', () => {
         onSave,
       };
 
-    const noLoading = await new Tester(FormCard, { props }).mount();
-    expect(noLoading.text()).toContain('Text');
+    const tester = await new Tester(FormCard, { props }).mount();
+    expect(tester.text()).toContain('Text');
   });
 });
