@@ -1,5 +1,5 @@
 /// <reference types="react" />
-interface IFieldConfigUniversal {
+interface IFieldConfigBase {
     className?: any;
     disabled?: boolean;
     editComponent: any;
@@ -11,6 +11,12 @@ interface IFieldConfigUniversal {
     formItemProps?: {
         [key: string]: any;
     };
+    formValidationRules: {
+        [ruleName: string]: {
+            [attribute: string]: any;
+        };
+    };
+    fromForm: (value: any) => any;
     icon?: string;
     insertIf?: (model: any) => boolean;
     key: string;
@@ -20,14 +26,10 @@ interface IFieldConfigUniversal {
     render: (...args: any[]) => string | JSX.Element | JSX.Element[];
     required: boolean;
     showLabel: boolean;
-    type: string;
-    writeOnly?: boolean;
-}
-interface IFieldConfigBase extends IFieldConfigUniversal {
-    formValidationRules: any[];
-    fromForm: (value: any) => any;
     toForm: (data: any, field: string) => any;
+    type: string;
     value?: string | number;
+    writeOnly?: boolean;
 }
 export interface IAntFormField {
     id: string;

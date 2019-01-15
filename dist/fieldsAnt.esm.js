@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
-import { Form, Row, Col, Button, Icon, Input, Select, Rate, DatePicker, Popconfirm, Card, Divider, notification, List, Drawer, Modal } from 'antd';
-import { omit, sortBy, isArray, get, isEmpty, set, noop, kebabCase, result } from 'lodash';
-import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getPercentValue, formatPercentage, getPercentDisplay, parseAndPreserveNewlines, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer } from '@mighty-justice/utils';
+import { Form, Row, Col, Button, Icon, Input, Select, Rate, DatePicker, Popconfirm, Card, Divider, notification, Drawer, Modal, List } from 'antd';
+import { omit, sortBy, isArray, get, values, isEmpty, set, noop, kebabCase, result } from 'lodash';
+import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, parseAndPreserveNewlines, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer } from '@mighty-justice/utils';
 import moment from 'moment';
 import { format } from 'date-fns';
 import { pattern } from 'iso8601-duration';
@@ -167,26 +167,6 @@ function _possibleConstructorReturn(self, call) {
   }
 
   return _assertThisInitialized(self);
-}
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  }
-}
-
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 
 function _initializerDefineProperty(target, property, descriptor, context) {
@@ -637,31 +617,37 @@ var TYPES = {
     }
   },
   duration: {
-    formValidationRules: [{
-      message: 'Must be a valid iso8601 duration',
-      pattern: pattern
-    }],
+    formValidationRules: {
+      iso8601: {
+        message: 'Must be a valid iso8601 duration',
+        pattern: pattern
+      }
+    },
     nullify: true
   },
   email: {
-    formValidationRules: [{
-      message: 'Must be a valid email address',
-      type: 'email'
-    }]
+    formValidationRules: {
+      email: {
+        message: 'Must be a valid email address',
+        type: 'email'
+      }
+    }
   },
   money: {
     editProps: {
       addonBefore: '$',
       type: 'number'
     },
-    formValidationRules: [{
-      message: 'Amount must be greater than or equal to 0',
-      min: 0,
-      transform: function transform(value) {
-        return value ? Number(value) : undefined;
-      },
-      type: 'number'
-    }],
+    formValidationRules: {
+      gteZero: {
+        message: 'Amount must be greater than or equal to 0',
+        min: 0,
+        transform: function transform(value) {
+          return value ? Number(value) : undefined;
+        },
+        type: 'number'
+      }
+    },
     nullify: true,
     render: stripFieldConfig(formatMoney),
     toForm: function toForm(data, field) {
@@ -678,7 +664,8 @@ var TYPES = {
   },
   objectSearchCreate: {
     editComponent: ObjectSearchCreate$$1,
-    fieldConfigProp: true
+    fieldConfigProp: true,
+    render: stripFieldConfig(getNameOrDefault)
   },
   optionSelect: {
     editComponent: OptionSelect,
@@ -691,15 +678,17 @@ var TYPES = {
       addonAfter: '%',
       type: 'number'
     },
-    formValidationRules: [{
-      max: 100,
-      message: 'Percentage must be an integer between 0 and 100',
-      min: 0,
-      transform: function transform(value) {
-        return value ? Number(value) : undefined;
-      },
-      type: 'integer'
-    }],
+    formValidationRules: {
+      percentage: {
+        max: 100,
+        message: 'Percentage must be an integer between 0 and 100',
+        min: 0,
+        transform: function transform(value) {
+          return value ? Number(value) : undefined;
+        },
+        type: 'integer'
+      }
+    },
     fromForm: function fromForm(value) {
       return value && getPercentValue(value);
     },
@@ -728,7 +717,7 @@ var TYPES = {
 var typeDefaults = {
   editComponent: Input,
   fieldConfigProp: false,
-  formValidationRules: [],
+  formValidationRules: {},
   fromForm: function fromForm(value) {
     return value;
   },
@@ -820,15 +809,12 @@ function filterInsertIf(fieldConfig, model) {
 function fillInFieldConfig(fieldConfig) {
   var type = inferType(fieldConfig),
       label = varToLabel(getFieldSuffix(fieldConfig.field));
-  var requiredValidationRule = [];
-
-  if (fieldConfig.required) {
-    requiredValidationRule.push({
+  var requiredValidationRule = fieldConfig.required ? {
+    required: {
       message: 'Field required',
       required: true
-    });
-  }
-
+    }
+  } : undefined;
   return _objectSpread({
     key: fieldConfig.field,
     label: label,
@@ -839,7 +825,7 @@ function fillInFieldConfig(fieldConfig) {
     type: type
   }, typeDefaults, TYPES[type], fieldConfig, {
     editProps: _objectSpread({}, fieldConfig.editProps, TYPES[type].editProps),
-    formValidationRules: [].concat(_toConsumableArray(fieldConfig.formValidationRules || []), _toConsumableArray(TYPES[type].formValidationRules || []), requiredValidationRule)
+    formValidationRules: _objectSpread({}, fieldConfig.formValidationRules, TYPES[type].formValidationRules, requiredValidationRule)
   });
 }
 function fillInFieldSet(fieldSet) {
@@ -941,7 +927,7 @@ function (_Component) {
           EditComponent = fieldConfig.editComponent,
           decoratorOptions = {
         initialValue: initialValue,
-        rules: fieldConfig.formValidationRules
+        rules: values(fieldConfig.formValidationRules)
       },
           fieldConfigProp = fieldConfig.fieldConfigProp ? {
         fieldConfig: fieldConfig
@@ -981,10 +967,10 @@ function (_Component) {
 
       var fieldConfigs = getFieldSetFields(this.fieldSet),
           legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend;
-      return React.createElement(React.Fragment, null, legend && React.createElement("h3", null, legend), fieldConfigs.map(function (fieldConfig, index) {
+      return React.createElement(React.Fragment, null, legend && React.createElement("h3", null, legend), fieldConfigs.map(function (fieldConfig, idx) {
         return React.createElement(FormField, _extends({}, _this.props, {
           fieldConfig: fieldConfig,
-          key: "field-config-".concat(fieldConfig.field, "-").concat(index)
+          key: "field-config-".concat(fieldConfig.field, "-").concat(idx)
         }));
       }));
     }
@@ -1737,9 +1723,170 @@ function (_Component) {
   }
 })), _class2$6)) || _class$c) || _class$c;
 
-var _class$d, _class2$7, _class3$1, _temp$5;
+var _class$d, _class2$7, _temp$5;
+var DRAWER_WIDTH = 420;
 
-var SummaryCard = autoBindMethods(_class$d = observer(_class$d = (_class2$7 = (_temp$5 = _class3$1 =
+var BaseFormDrawer = autoBindMethods(_class$d = observer(_class$d = (_class2$7 = (_temp$5 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(BaseFormDrawer, _Component);
+
+  _createClass(BaseFormDrawer, [{
+    key: "fieldSets",
+    get: function get$$1() {
+      return fillInFieldSets(this.props.fieldSets);
+    }
+  }]);
+
+  function BaseFormDrawer(props) {
+    var _this;
+
+    _classCallCheck(this, BaseFormDrawer);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(BaseFormDrawer).call(this, props));
+    _this.formManager = void 0;
+    var form = props.form,
+        isVisible = props.isVisible,
+        model = props.model,
+        onSave = props.onSave,
+        onSuccess = props.onSuccess;
+    _this.formManager = new FormManager(form, _this.fieldSets, {
+      model: model,
+      onSave: onSave,
+      onSuccess: onSuccess || isVisible.setFalse
+    });
+    return _this;
+  }
+
+  _createClass(BaseFormDrawer, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          form = _this$props.form,
+          isVisible = _this$props.isVisible,
+          model = _this$props.model,
+          title = _this$props.title;
+      return React.createElement(Drawer, {
+        closable: true,
+        destroyOnClose: true,
+        maskClosable: false,
+        onClose: isVisible.setFalse,
+        placement: "right",
+        title: title,
+        visible: isVisible.isTrue,
+        width: DRAWER_WIDTH
+      }, React.createElement(Form, {
+        layout: "vertical",
+        hideRequiredMark: true,
+        onSubmit: this.formManager.onSave
+      }, this.fieldSets.map(function (fieldSet, idx) {
+        return React.createElement("div", {
+          key: idx
+        }, React.createElement(FormFields, {
+          fieldSet: fieldSet,
+          form: form,
+          model: model
+        }));
+      }), React.createElement(Divider, null), React.createElement(ButtonToolbar, {
+        align: "right"
+      }, React.createElement(Button, {
+        disabled: this.formManager.saving,
+        onClick: isVisible.setFalse,
+        size: "large"
+      }, "Cancel"), React.createElement(Button, {
+        loading: this.formManager.saving,
+        type: "primary",
+        htmlType: "submit",
+        size: "large"
+      }, "Submit"))));
+    }
+  }]);
+
+  return BaseFormDrawer;
+}(Component), _temp$5), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldSets"), _class2$7.prototype)), _class2$7)) || _class$d) || _class$d;
+
+var FormDrawer$$1 = Form.create()(BaseFormDrawer);
+
+var _class$e, _class2$8, _class3$1, _temp$6;
+
+var FormModal = autoBindMethods(_class$e = observer(_class$e = (_class2$8 = (_temp$6 = _class3$1 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(FormModal, _Component);
+
+  _createClass(FormModal, [{
+    key: "propsWithDefaults",
+    get: function get$$1() {
+      return this.props;
+    }
+  }]);
+
+  function FormModal(props) {
+    var _this;
+
+    _classCallCheck(this, FormModal);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(FormModal).call(this, props));
+    _this.formManager = void 0;
+    var model = props.model,
+        onSave = props.onSave,
+        close = props.close;
+    _this.formManager = new FormManager(props.form, _this.fieldSets, {
+      model: model,
+      onSave: onSave,
+      onSuccess: close
+    });
+    return _this;
+  }
+
+  _createClass(FormModal, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          cardConfig = _this$props.cardConfig,
+          close = _this$props.close,
+          defaults = _this$props.defaults,
+          model = _this$props.model,
+          form = _this$props.form,
+          saveText = this.propsWithDefaults.saveText;
+      return React.createElement(Modal, {
+        confirmLoading: this.formManager.saving,
+        okText: this.formManager.saving ? 'Saving...' : saveText,
+        onCancel: close,
+        onOk: this.formManager.onSave,
+        title: cardConfig.title,
+        visible: true
+      }, React.createElement(Form, {
+        onSubmit: this.formManager.onSave,
+        className: "notes-form"
+      }, this.fieldSets.map(function (fieldSet, idx) {
+        return React.createElement("div", {
+          key: idx
+        }, React.createElement(FormFields, {
+          defaults: defaults,
+          fieldSet: fieldSet,
+          form: form,
+          model: model
+        }));
+      }), this.props.children));
+    }
+  }, {
+    key: "fieldSets",
+    get: function get$$1() {
+      return fillInFieldSets(this.props.cardConfig.fieldSets);
+    }
+  }]);
+
+  return FormModal;
+}(Component), _class3$1.defaultProps = {
+  saveText: 'Save'
+}, _temp$6), (_applyDecoratedDescriptor(_class2$8.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$8.prototype, "fieldSets"), _class2$8.prototype)), _class2$8)) || _class$e) || _class$e;
+
+var WrappedFormModal = Form.create()(FormModal);
+
+var _class$f, _class2$9, _class3$2, _temp$7;
+
+var SummaryCard = autoBindMethods(_class$f = observer(_class$f = (_class2$9 = (_temp$7 = _class3$2 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(SummaryCard, _Component);
@@ -1799,169 +1946,10 @@ function (_Component) {
   }]);
 
   return SummaryCard;
-}(Component), _class3$1.defaultProps = {
-  column: 4
-}, _temp$5), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldSets"), _class2$7.prototype)), _class2$7)) || _class$d) || _class$d;
-
-var _class$e, _class2$8, _temp$6;
-var DRAWER_WIDTH = 420;
-
-var BaseFormDrawer = autoBindMethods(_class$e = observer(_class$e = (_class2$8 = (_temp$6 =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(BaseFormDrawer, _Component);
-
-  _createClass(BaseFormDrawer, [{
-    key: "fieldSets",
-    get: function get$$1() {
-      return fillInFieldSets(this.props.fieldSets);
-    }
-  }]);
-
-  function BaseFormDrawer(props) {
-    var _this;
-
-    _classCallCheck(this, BaseFormDrawer);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(BaseFormDrawer).call(this, props));
-    _this.formManager = void 0;
-    var form = props.form,
-        isVisible = props.isVisible,
-        model = props.model,
-        onSave = props.onSave,
-        onSuccess = props.onSuccess;
-    _this.formManager = new FormManager(form, _this.fieldSets, {
-      model: model,
-      onSave: onSave,
-      onSuccess: onSuccess || isVisible.setFalse
-    });
-    return _this;
-  }
-
-  _createClass(BaseFormDrawer, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          form = _this$props.form,
-          isVisible = _this$props.isVisible,
-          model = _this$props.model,
-          title = _this$props.title;
-      return React.createElement(Drawer, {
-        closable: true,
-        destroyOnClose: true,
-        maskClosable: false,
-        onClose: isVisible.setFalse,
-        placement: "right",
-        title: title,
-        visible: isVisible.isTrue,
-        width: DRAWER_WIDTH
-      }, React.createElement(Form, {
-        layout: "vertical",
-        hideRequiredMark: true,
-        onSubmit: this.formManager.onSave
-      }, this.fieldSets.map(function (fieldSet, idx) {
-        return React.createElement("div", null, React.createElement(FormFields, {
-          fieldSet: fieldSet,
-          form: form,
-          key: idx,
-          model: model
-        }));
-      }), React.createElement(Divider, null), React.createElement(ButtonToolbar, {
-        align: "right"
-      }, React.createElement(Button, {
-        disabled: this.formManager.saving,
-        onClick: isVisible.setFalse,
-        size: "large"
-      }, "Cancel"), React.createElement(Button, {
-        loading: this.formManager.saving,
-        type: "primary",
-        htmlType: "submit",
-        size: "large"
-      }, "Submit"))));
-    }
-  }]);
-
-  return BaseFormDrawer;
-}(Component), _temp$6), (_applyDecoratedDescriptor(_class2$8.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$8.prototype, "fieldSets"), _class2$8.prototype)), _class2$8)) || _class$e) || _class$e;
-
-var FormDrawer$$1 = Form.create()(BaseFormDrawer);
-
-var _class$f, _class2$9, _class3$2, _temp$7;
-
-var FormModal = autoBindMethods(_class$f = observer(_class$f = (_class2$9 = (_temp$7 = _class3$2 =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(FormModal, _Component);
-
-  _createClass(FormModal, [{
-    key: "propsWithDefaults",
-    get: function get$$1() {
-      return this.props;
-    }
-  }]);
-
-  function FormModal(props) {
-    var _this;
-
-    _classCallCheck(this, FormModal);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(FormModal).call(this, props));
-    _this.formManager = void 0;
-    var model = props.model,
-        onSave = props.onSave,
-        close = props.close;
-    _this.formManager = new FormManager(props.form, _this.fieldSets, {
-      model: model,
-      onSave: onSave,
-      onSuccess: close
-    });
-    return _this;
-  }
-
-  _createClass(FormModal, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          cardConfig = _this$props.cardConfig,
-          close = _this$props.close,
-          defaults = _this$props.defaults,
-          model = _this$props.model,
-          form = _this$props.form,
-          saveText = this.propsWithDefaults.saveText;
-      return React.createElement(Modal, {
-        confirmLoading: this.formManager.saving,
-        okText: this.formManager.saving ? 'Saving...' : saveText,
-        onCancel: close,
-        onOk: this.formManager.onSave,
-        title: cardConfig.title,
-        visible: true
-      }, React.createElement(Form, {
-        onSubmit: this.formManager.onSave,
-        className: "notes-form"
-      }, this.fieldSets.map(function (fieldSet, idx) {
-        return React.createElement("div", null, React.createElement(FormFields, {
-          defaults: defaults,
-          fieldSet: fieldSet,
-          form: form,
-          key: idx,
-          model: model
-        }));
-      }), this.props.children));
-    }
-  }, {
-    key: "fieldSets",
-    get: function get$$1() {
-      return fillInFieldSets(this.props.cardConfig.fieldSets);
-    }
-  }]);
-
-  return FormModal;
 }(Component), _class3$2.defaultProps = {
-  saveText: 'Save'
+  column: 4
 }, _temp$7), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldSets"), _class2$9.prototype)), _class2$9)) || _class$f) || _class$f;
-
-var WrappedFormModal = Form.create()(FormModal);
 
 // Lower-level building blocks and helper components
 
-export { ButtonToolbar, CardRow, FormField, FormFields, GuardedButton, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE, ArrayCard, Card$1 as Card, Cards, EditableArrayCard, EditableCard, SummaryCard as FormCard, SummaryCard, FormDrawer$$1 as FormDrawer, WrappedFormModal as FormModal, ObjectSearchCreate$$1 as ObjectSearchCreate, OptionSelect, OptionSelectDisplay, formatOptionSelect, Rate$1 as Rate, FormManager, isPartialFieldSetSimple, isFieldSetSimple, filterInsertIf, fillInFieldConfig, fillInFieldSet, fillInFieldSets, getCardModel, getFieldSetFields };
+export { ButtonToolbar, CardRow, FormField, FormFields, GuardedButton, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE, ArrayCard, Card$1 as Card, Cards, EditableArrayCard, EditableCard, WrappedFormCard as FormCard, FormDrawer$$1 as FormDrawer, WrappedFormModal as FormModal, SummaryCard, ObjectSearchCreate$$1 as ObjectSearchCreate, OptionSelect, OptionSelectDisplay, formatOptionSelect, Rate$1 as Rate, formatRating, FormManager, isPartialFieldSetSimple, isFieldSetSimple, filterInsertIf, fillInFieldConfig, fillInFieldSet, fillInFieldSets, getCardModel, getFieldSetFields };
