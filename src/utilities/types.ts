@@ -14,6 +14,7 @@ import {
   formatDate,
   formatMoney,
   formatPercentage,
+  getNameOrDefault,
   getPercentDisplay,
   getPercentValue,
   mapBooleanToText,
@@ -83,6 +84,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   objectSearchCreate: {
     editComponent: ObjectSearchCreate,
     fieldConfigProp: true,
+    render: stripFieldConfig(getNameOrDefault),
   },
   optionSelect: {
     editComponent: OptionSelect,
