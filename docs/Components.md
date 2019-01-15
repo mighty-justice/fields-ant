@@ -58,7 +58,7 @@ title: string;
 ```ts
 cardConfig: ICardConfig;
 children?: any;
-close: () => void;
+close?: () => void;
 defaults?: object;
 form: any;
 model?: any;
