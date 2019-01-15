@@ -19,15 +19,15 @@ TesterConfig.configure(enzyme, {
     {
       name: 'getEndpoint',
       onBeforeMount: (tester) => {
-        tester.endpoints = {
-          '/legal-organizations/': [{ id: faker.random.uuid(), name: faker.company.companyName() }],
-        };
+        tester.endpoints = {};
         tester.getEndpoint = jest.fn(endpoint => {
-          if (tester.endpoints[endpoint]) {
-            return tester.endpoints[endpoint];
+          const endpointNoParams = endpoint.split('?').shift();
+
+          if (tester.endpoints[endpointNoParams]) {
+            return tester.endpoints[endpointNoParams];
           }
 
-          throw new Error(`Uncovered endpoint: ${endpoint}`);
+          throw new Error(`Uncovered endpoint: ${endpointNoParams}`);
         });
       },
     },

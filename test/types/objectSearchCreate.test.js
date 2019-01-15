@@ -34,16 +34,19 @@ describe('objectSearchCreate', () => {
   it('Edits', async () => {
     const onSave = jest.fn()
       , searchTerm = faker.lorem.sentence()
+      , result = { id: faker.random.uuid(), name: faker.company.companyName() }
       , props = {
         cardConfig: { fieldSets },
         onSave,
       };
 
     const tester = await new Tester(FormCard, { props }).mount();
+    tester.endpoints['/legal-organizations/'] = { results: [result] };
+
     expect(tester.text()).toContain(expectedLabel);
     tester.find('#law_firm').first().simulate('click');
     changeInput(tester.find('input#law_firm'), searchTerm);
-    await tester.sleep();
-    console.log(tester.find('#law_firm').first().debug());
+    await tester.refresh();
+    expect(tester.find('li').text()).toContain(result.name);
   });
 });
