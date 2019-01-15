@@ -83,26 +83,29 @@ class FormManager {
     onSuccess();
   }
 
+  private setErrorsOnFormFields (errors: { [key: string]: string }) {
+    const { form } = this.args;
+    form.setFields(mapValues(errors, (error, field) => ({
+      errors: [new Error(error)],
+      value: this.formValues[field],
+    })));
+  }
+
+  private notifyUserAboutErrors (errors: Array<{ field: string, message: string }>) {
+    errors.forEach(description => {
+      Antd.notification.error({ ...toastError, description });
+    });
+  }
+
   private handleBackendResponse (response?: any) {
     if (!response || !response.data) {
-      // If there's no response data, just show generic error
       Antd.notification.error(toastError);
       return;
     }
 
-    const { form } = this.args
-      , { foundOnForm, errorMessages } = backendValidation(this.formFieldNames, response.data);
-
-    // For all errors which can be shown on a field
-    form.setFields(mapValues(foundOnForm, (error, field) => ({
-      errors: [new Error(error)],
-      value: this.formValues[field],
-    })));
-
-    // For all errors which can not be shown on a field
-    errorMessages.forEach(description => {
-      Antd.notification.error({ ...toastError, description });
-    });
+    const { foundOnForm, errorMessages } = backendValidation(this.formFieldNames, response.data);
+    this.setErrorsOnFormFields(foundOnForm);
+    this.notifyUserAboutErrors(errorMessages);
   }
 
   public async onSave (event: any) {
