@@ -59,7 +59,12 @@
       "tsx"
     ],
     "setupTestFrameworkScriptFile": "./test/setup.js",
-    "testURL": "http://localhost/"
+    "testURL": "http://localhost/",
+    "collectCoverageFrom": [
+      "!src/index.ts",
+      "src/**/*.jsx",
+      "src/**/*.ts"
+    ]
   },
   "files": [
     "dist",

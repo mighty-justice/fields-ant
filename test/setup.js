@@ -2,7 +2,6 @@ import "@babel/polyfill";
 import enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { Provider } from 'mobx-react';
-import faker from 'faker';
 
 import { TesterConfig } from '@mighty-justice/tester';
 
