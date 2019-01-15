@@ -2,6 +2,7 @@ import "@babel/polyfill";
 import enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { Provider } from 'mobx-react';
+import faker from 'faker';
 
 import { TesterConfig } from '@mighty-justice/tester';
 
@@ -18,7 +19,16 @@ TesterConfig.configure(enzyme, {
     {
       name: 'getEndpoint',
       onBeforeMount: (tester) => {
-        tester.getEndpoint = jest.fn(endpoint => [{ id: faker.random.uuid(), name: faker.company.companyName() }]);
+        tester.endpoints = {
+          '/legal-organizations/': [{ id: faker.random.uuid(), name: faker.company.companyName() }],
+        };
+        tester.getEndpoint = jest.fn(endpoint => {
+          if (tester.endpoints[endpoint]) {
+            return tester.endpoints[endpoint];
+          }
+
+          throw new Error(`Uncovered endpoint: ${endpoint}`);
+        });
       },
     },
     {
