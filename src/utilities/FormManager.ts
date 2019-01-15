@@ -17,6 +17,12 @@ interface IArgs {
   onSuccess: () => void;
 }
 
+const toastError = {
+  description: '',
+  duration: null,
+  message: 'Error submitting form',
+};
+
 @autoBindMethods
 class FormManager {
   @observable public saving = false;
@@ -58,43 +64,62 @@ class FormManager {
     return model;
   }
 
-  public async onSave (event: any) {
-    const { form, onSave, onSuccess } = this.args;
-    event.preventDefault();
+  private get hasValidationErrors () {
+    const { form } = this.args;
+    return Object.values(flatten(form.getFieldsError())).some(field => !!field);
+  }
 
+  private get formValues () {
+    return this.args.form.getFieldsValue();
+  }
+
+  private get formFieldNames () {
+    return Object.keys(this.formValues);
+  }
+
+  private onSuccess () {
+    const { onSuccess } = this.args;
+    Antd.notification.success({ description: '', duration: 3, message: 'Success' });
+    onSuccess();
+  }
+
+  private handleBackendResponse (response?: any) {
+    if (!response || !response.data) {
+      // If there's no response data, just show generic error
+      Antd.notification.error(toastError);
+      return;
+    }
+
+    const { form } = this.args
+      , { foundOnForm, errorMessages } = backendValidation(this.formFieldNames, response.data);
+
+    // For all errors which can be shown on a field
+    form.setFields(mapValues(foundOnForm, (error, field) => ({
+      errors: [new Error(error)],
+      value: this.formValues[field],
+    })));
+
+    // For all errors which can not be shown on a field
+    errorMessages.forEach(description => {
+      Antd.notification.error({ ...toastError, description });
+    });
+  }
+
+  public async onSave (event: any) {
+    const { form, onSave } = this.args;
+
+    event.preventDefault();
     form.validateFields();
 
-    const hasValidationErrors = Object.values(flatten(form.getFieldsError())).some(field => !!field);
-    if (hasValidationErrors) { return; }
+    if (this.hasValidationErrors) { return; }
 
     this.saving = true;
     try {
       await onSave(this.formModel);
-
-      Antd.notification.success({
-        description: '',
-        duration: 3,
-        message: 'Success',
-      });
-      onSuccess();
+      this.onSuccess();
     }
     catch (err) {
-      const fieldValues = form.getFieldsValue()
-        , fieldNames = Object.keys(fieldValues)
-        , { foundOnForm, errorMessages } = backendValidation(fieldNames, err.response.data);
-
-      form.setFields(mapValues(foundOnForm, (error, field) => ({
-        errors: [new Error(error)],
-        value: fieldValues[field],
-      })));
-
-      errorMessages.forEach(description => {
-        Antd.notification.error({
-          description,
-          duration: null,
-          message: 'Error submitting form',
-        });
-      });
+      this.handleBackendResponse(err.response);
     }
     finally {
       this.args.form.resetFields();
