@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
+import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import { noop } from 'lodash';
 
 import * as Antd from 'antd';
 
@@ -9,12 +11,11 @@ import { ICardConfig, IFieldSet } from '../interfaces';
 import FormFields from '../building-blocks/FormFields';
 import FormManager from '../utilities/FormManager';
 import { fillInFieldSets } from '../utilities/common';
-import { computed } from 'mobx';
 
 interface IProps {
   cardConfig: ICardConfig;
   children?: any;
-  close: () => void;
+  close?: () => void;
   defaults?: object;
   form: any;
   model?: any;
@@ -26,6 +27,10 @@ interface IProps {
 @observer
 class FormCard extends Component<IProps> {
   private formManager: FormManager;
+
+  public static defaultProps: Partial<IProps> = {
+    close: noop,
+  };
 
   public constructor (props: IProps) {
     super(props);

@@ -1,11 +1,13 @@
-import { get, set, noop } from 'lodash';
+import { get, set, noop, mapValues } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
 import flatten from 'flat';
 import * as Antd from 'antd';
 import { observable } from 'mobx';
 
 import { IFieldSet } from '../interfaces';
+
 import { getFieldSetFields } from './common';
+import backendValidation from './backendValidation';
 
 interface IArgs {
   fieldSets: IFieldSet[];
@@ -77,15 +79,21 @@ class FormManager {
       onSuccess();
     }
     catch (err) {
-      const description = get(err, 'request.responseText', 'No Response from server');
+      const fieldValues = form.getFieldsValue()
+        , fieldNames = Object.keys(fieldValues)
+        , { foundOnForm, errorMessages } = backendValidation(fieldNames, err.response.data);
 
-      // tslint:disable-next-line no-console
-      console.warn(`FormManager.onSave error: ${description}`);
+      form.setFields(mapValues(foundOnForm, (error, field) => ({
+        errors: [new Error(error)],
+        value: fieldValues[field],
+      })));
 
-      Antd.notification.error({
-        description,
-        duration: null,
-        message: 'Error submitting form',
+      errorMessages.forEach(description => {
+        Antd.notification.error({
+          description,
+          duration: null,
+          message: 'Error submitting form',
+        });
       });
     }
     finally {
