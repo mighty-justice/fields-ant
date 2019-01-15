@@ -42,35 +42,35 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     toForm: (data: any, field: string) => get(data, field, null) && moment(data[field]),
   },
   duration: {
-    formValidationRules: [
-      {
+    formValidationRules: {
+      iso8601: {
         message: 'Must be a valid iso8601 duration',
         pattern: iso8601pattern,
       },
-    ],
+    },
     nullify: true,
   },
   email: {
-    formValidationRules: [
-      {
+    formValidationRules: {
+      email: {
         message: 'Must be a valid email address',
         type: 'email',
       },
-    ],
+    },
   },
   money: {
     editProps: {
       addonBefore: '$',
       type: 'number',
     },
-    formValidationRules: [
-      {
+    formValidationRules: {
+      gteZero: {
         message: 'Amount must be greater than or equal to 0',
         min: 0,
         transform: (value?: string) => value ? Number(value) : undefined,
         type: 'number',
       },
-    ],
+    },
     nullify: true,
     render: stripFieldConfig(formatMoney),
     toForm: (data: any, field: string) => get(data, field, ''),
@@ -97,15 +97,15 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
       addonAfter: '%',
       type: 'number',
     },
-    formValidationRules: [
-      {
+    formValidationRules: {
+      percentage: {
         max: 100,
         message: 'Percentage must be an integer between 0 and 100',
         min: 0,
         transform: (value?: string) => value ? Number(value) : undefined,
         type: 'integer',
       },
-    ],
+    },
     fromForm: (value: any) => value && getPercentValue(value),
     render: stripFieldConfig(formatPercentage),
     toForm: (data: any, field: string) => getPercentDisplay(get(data, field)),

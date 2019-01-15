@@ -4,7 +4,7 @@
 // It also will almost never be written out by a user, since it's
 // much easier to call a function to fill in a partial definition
 // than to fill all this in (see further below for partials).
-interface IFieldConfigUniversal {
+interface IFieldConfigBase {
   className?: any;
   disabled?: boolean;
   editComponent: any;
@@ -12,6 +12,8 @@ interface IFieldConfigUniversal {
   field: string;
   fieldConfigProp: boolean;
   formItemProps?: { [key: string]: any };
+  formValidationRules: { [ruleName: string]: { [attribute: string]: any } };
+  fromForm: (value: any) => any;
   icon?: string;
   insertIf?: (model: any) => boolean;
   key: string;
@@ -21,17 +23,10 @@ interface IFieldConfigUniversal {
   render: (...args: any[]) => string | JSX.Element | JSX.Element[];
   required: boolean;
   showLabel: boolean;
-  type: string;
-  writeOnly?: boolean;
-}
-
-// These only work on V2 or CoOp but not both
-// Some should be made universal. Some should be removed.
-interface IFieldConfigBase extends IFieldConfigUniversal {
-  formValidationRules: any[];
-  fromForm: (value: any) => any;
   toForm: (data: any, field: string) => any;
+  type: string;
   value?: string | number;
+  writeOnly?: boolean;
 }
 
 export interface IAntFormField {
