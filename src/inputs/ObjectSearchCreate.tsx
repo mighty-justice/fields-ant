@@ -57,7 +57,7 @@ class ObjectSearchCreate extends Component<IProps> {
 
     this.search = value;
     const response = await getEndpoint(`/${endpoint}/${toKey(params)}`);
-    this.options = response.results.map((option: any) => ({name: option.name, value: option.id}));
+    this.options = response.results.map((option: any) => ({ name: option.name, value: option.id }));
   }
 
   private addNew () {
