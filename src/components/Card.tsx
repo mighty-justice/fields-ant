@@ -17,7 +17,7 @@ interface IProps {
 }
 
 @observer
-class Card extends Component<IProps> {
+export class Card extends Component<IProps> {
   @computed
   private get fieldSets () {
     return fillInFieldSets(this.props.cardConfig.fieldSets);
