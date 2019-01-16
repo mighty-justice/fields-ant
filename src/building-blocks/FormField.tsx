@@ -21,31 +21,50 @@ interface IProps {
 @autoBindMethods
 @observer
 class FormField extends Component<IProps> {
-  public render () {
-    const { model, form, defaults, fieldConfig } = this.props
-      , { getFieldDecorator } = form;
+  private get label () {
+    const { fieldConfig } = this.props;
+    return fieldConfig.showLabel ? fieldConfig.label : '';
+  }
 
-    const initialValue = (
-        fieldConfig.value
-        || fieldConfig.toForm(model, fieldConfig.field)
-        || fieldConfig.toForm(defaults, fieldConfig.field)
-      )
-      , EditComponent = fieldConfig.editComponent
-      , decoratorOptions = { initialValue, rules: values(fieldConfig.formValidationRules) }
+  private get initialValue () {
+    const { model, defaults, fieldConfig } = this.props;
+    return (
+      fieldConfig.value
+      || fieldConfig.toForm(model, fieldConfig.field)
+      || fieldConfig.toForm(defaults, fieldConfig.field)
+    );
+  }
+
+  private get editProps () {
+    const { fieldConfig } = this.props
       , fieldConfigProp = fieldConfig.fieldConfigProp ? { fieldConfig } : {}
-      , editProps = {
-        ...fieldConfig.editProps,
-        ...fieldConfigProp,
-      };
+
+    return {
+      ...fieldConfig.editProps,
+      ...fieldConfigProp,
+    };
+  }
+
+  private get decoratorOptions () {
+    const { fieldConfig } = this.props;
+    return {
+      initialValue: this.initialValue,
+      rules: values(fieldConfig.formValidationRules),
+    };
+  }
+
+  public render () {
+    const { form, fieldConfig } = this.props
+      , { getFieldDecorator } = form;
 
     if (filterInsertIf(fieldConfig, form.getFieldsValue())) {
       return null;
     }
 
     return (
-      <Antd.Form.Item {...fieldConfig.formItemProps} label={fieldConfig.label}>
-        {getFieldDecorator(fieldConfig.field, decoratorOptions)(
-          <EditComponent {...editProps} />,
+      <Antd.Form.Item {...fieldConfig.formItemProps} label={this.label}>
+        {getFieldDecorator(fieldConfig.field, this.decoratorOptions)(
+          <fieldConfig.editComponent {...this.editProps} />,
         )}
       </Antd.Form.Item>
     );
