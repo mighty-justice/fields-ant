@@ -37,7 +37,7 @@ class FormField extends Component<IProps> {
 
   private get editProps () {
     const { fieldConfig } = this.props
-      , fieldConfigProp = fieldConfig.fieldConfigProp ? { fieldConfig } : {}
+      , fieldConfigProp = fieldConfig.fieldConfigProp ? { fieldConfig } : {};
 
     return {
       ...fieldConfig.editProps,
