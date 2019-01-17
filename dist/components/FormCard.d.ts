@@ -3,7 +3,7 @@ import { ICardConfig } from '../interfaces';
 interface IProps {
     cardConfig: ICardConfig;
     children?: any;
-    close: () => void;
+    close?: () => void;
     defaults?: object;
     form: any;
     model?: any;

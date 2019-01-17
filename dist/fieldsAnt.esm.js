@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form, Row, Col, Button, Icon, Input, Select, Rate, DatePicker, Popconfirm, Card, Divider, notification, Drawer, Modal, List } from 'antd';
-import { omit, sortBy, isArray, get, values, isEmpty, set, noop, kebabCase, result } from 'lodash';
+import { omit, sortBy, isArray, get, values, isEmpty, isPlainObject, extend, mapValues, set, noop, kebabCase, result } from 'lodash';
 import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, parseAndPreserveNewlines, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer } from '@mighty-justice/utils';
 import moment from 'moment';
 import { format } from 'date-fns';
@@ -917,30 +917,50 @@ function (_Component) {
     key: "render",
     value: function render() {
       var _this$props = this.props,
-          model = _this$props.model,
           form = _this$props.form,
-          defaults = _this$props.defaults,
           fieldConfig = _this$props.fieldConfig,
           getFieldDecorator = form.getFieldDecorator;
-
-      var initialValue = fieldConfig.value || fieldConfig.toForm(model, fieldConfig.field) || fieldConfig.toForm(defaults, fieldConfig.field),
-          EditComponent = fieldConfig.editComponent,
-          decoratorOptions = {
-        initialValue: initialValue,
-        rules: values(fieldConfig.formValidationRules)
-      },
-          fieldConfigProp = fieldConfig.fieldConfigProp ? {
-        fieldConfig: fieldConfig
-      } : {},
-          editProps = _objectSpread({}, fieldConfig.editProps, fieldConfigProp);
 
       if (filterInsertIf(fieldConfig, form.getFieldsValue())) {
         return null;
       }
 
       return React.createElement(Form.Item, _extends({}, fieldConfig.formItemProps, {
-        label: fieldConfig.label
-      }), getFieldDecorator(fieldConfig.field, decoratorOptions)(React.createElement(EditComponent, editProps)));
+        label: this.label
+      }), getFieldDecorator(fieldConfig.field, this.decoratorOptions)(React.createElement(fieldConfig.editComponent, this.editProps)));
+    }
+  }, {
+    key: "label",
+    get: function get$$1() {
+      var fieldConfig = this.props.fieldConfig;
+      return fieldConfig.showLabel ? fieldConfig.label : '';
+    }
+  }, {
+    key: "initialValue",
+    get: function get$$1() {
+      var _this$props2 = this.props,
+          model = _this$props2.model,
+          defaults = _this$props2.defaults,
+          fieldConfig = _this$props2.fieldConfig;
+      return fieldConfig.value || fieldConfig.toForm(model, fieldConfig.field) || fieldConfig.toForm(defaults, fieldConfig.field);
+    }
+  }, {
+    key: "editProps",
+    get: function get$$1() {
+      var fieldConfig = this.props.fieldConfig,
+          fieldConfigProp = fieldConfig.fieldConfigProp ? {
+        fieldConfig: fieldConfig
+      } : {};
+      return _objectSpread({}, fieldConfig.editProps, fieldConfigProp);
+    }
+  }, {
+    key: "decoratorOptions",
+    get: function get$$1() {
+      var fieldConfig = this.props.fieldConfig;
+      return {
+        initialValue: this.initialValue,
+        rules: values(fieldConfig.formValidationRules)
+      };
     }
   }]);
 
@@ -1167,7 +1187,102 @@ function (_Component) {
   return Cards;
 }(Component)) || _class$8;
 
+function getFieldErrors(errors) {
+  var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+  var messages = {};
+  Object.keys(errors).forEach(function (fieldName) {
+    var fieldKey = [prefix, fieldName].filter(function (s) {
+      return !!s;
+    }).join('-');
+    var fieldErrors = errors[fieldName]; // If an array, use only the first element
+
+    if (isArray(fieldErrors)) {
+      fieldErrors = fieldErrors[0];
+    } // If an object, recurse
+
+
+    if (isPlainObject(fieldErrors)) {
+      extend(messages, getFieldErrors(fieldErrors, fieldKey));
+    } // If a simple string, you have your error
+    else {
+        messages[fieldKey] = fieldErrors;
+      }
+  });
+  return messages;
+}
+
+function backendValidation(fieldNames, response) {
+  var fieldErrors = getFieldErrors(response),
+      foundOnForm = {},
+      errorMessages = []; // Try to assign error fields to form fields, falling back on generic array
+
+  Object.keys(fieldErrors).forEach(function (errorField) {
+    var message = fieldErrors[errorField]; // Check for an exact match
+
+    if (fieldNames.includes(errorField)) {
+      foundOnForm[errorField] = message;
+      return;
+    } // Check just the last attribute of the error
+
+
+    if (errorField.includes('-')) {
+      var errorFieldSuffix = errorField.split('-').pop();
+
+      if (errorFieldSuffix && fieldNames.includes(errorFieldSuffix)) {
+        foundOnForm[errorFieldSuffix] = message;
+        return;
+      }
+    } // Check for a more fuzzy match of the entire string
+
+
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = fieldNames[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var fieldName = _step.value;
+        var fieldNameFlat = fieldName.toLowerCase().replace(/[^a-z]/gi, ''),
+            errorFieldFlat = errorField.toLowerCase().replace(/[^a-z]/gi, '');
+
+        if (errorFieldFlat === fieldNameFlat) {
+          foundOnForm[fieldName] = message;
+          return;
+        }
+      } // With no form field found, add to generic array
+
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return != null) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    errorMessages.push({
+      field: varToLabel(errorField),
+      message: message
+    });
+  });
+  return {
+    errorMessages: errorMessages,
+    foundOnForm: foundOnForm
+  };
+}
+
 var _class$9, _class2$3, _descriptor$1, _temp$1;
+var toastError = {
+  description: '',
+  duration: null,
+  message: 'Error submitting form'
+};
 
 var FormManager = autoBindMethods(_class$9 = (_class2$3 = (_temp$1 =
 /*#__PURE__*/
@@ -1188,71 +1303,104 @@ function () {
   }
 
   _createClass(FormManager, [{
+    key: "onSuccess",
+    value: function onSuccess() {
+      var onSuccess = this.args.onSuccess;
+      notification.success({
+        description: '',
+        duration: 3,
+        message: 'Success'
+      });
+      onSuccess();
+    }
+  }, {
+    key: "setErrorsOnFormFields",
+    value: function setErrorsOnFormFields(errors) {
+      var _this = this;
+
+      var form = this.args.form;
+      form.setFields(mapValues(errors, function (error, field) {
+        return {
+          errors: [new Error(error)],
+          value: _this.formValues[field]
+        };
+      }));
+    }
+  }, {
+    key: "notifyUserAboutErrors",
+    value: function notifyUserAboutErrors(errors) {
+      errors.forEach(function (description) {
+        notification.error(_objectSpread({}, toastError, {
+          description: description
+        }));
+      });
+    }
+  }, {
+    key: "handleBackendResponse",
+    value: function handleBackendResponse(response) {
+      if (!response || !response.data) {
+        notification.error(toastError);
+        return;
+      }
+
+      var _backendValidation = backendValidation(this.formFieldNames, response.data),
+          foundOnForm = _backendValidation.foundOnForm,
+          errorMessages = _backendValidation.errorMessages;
+
+      this.setErrorsOnFormFields(foundOnForm);
+      this.notifyUserAboutErrors(errorMessages);
+    }
+  }, {
     key: "onSave",
     value: function () {
       var _onSave = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(event) {
-        var _this$args, form, onSave, onSuccess, hasValidationErrors, description;
+        var _this$args, form, onSave;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this$args = this.args, form = _this$args.form, onSave = _this$args.onSave, onSuccess = _this$args.onSuccess;
+                _this$args = this.args, form = _this$args.form, onSave = _this$args.onSave;
                 event.preventDefault();
                 form.validateFields();
-                hasValidationErrors = Object.values(flatten(form.getFieldsError())).some(function (field) {
-                  return !!field;
-                });
 
-                if (!hasValidationErrors) {
-                  _context.next = 6;
+                if (!this.hasValidationErrors) {
+                  _context.next = 5;
                   break;
                 }
 
                 return _context.abrupt("return");
 
-              case 6:
+              case 5:
                 this.saving = true;
-                _context.prev = 7;
-                _context.next = 10;
+                _context.prev = 6;
+                _context.next = 9;
                 return onSave(this.formModel);
 
-              case 10:
-                notification.success({
-                  description: '',
-                  duration: 3,
-                  message: 'Success'
-                });
-                onSuccess();
-                _context.next = 19;
+              case 9:
+                this.onSuccess();
+                _context.next = 15;
                 break;
 
-              case 14:
-                _context.prev = 14;
-                _context.t0 = _context["catch"](7);
-                description = get(_context.t0, 'request.responseText', 'No Response from server'); // tslint:disable-next-line no-console
+              case 12:
+                _context.prev = 12;
+                _context.t0 = _context["catch"](6);
+                this.handleBackendResponse(_context.t0.response);
 
-                console.warn("FormManager.onSave error: ".concat(description));
-                notification.error({
-                  description: description,
-                  duration: null,
-                  message: 'Error submitting form'
-                });
-
-              case 19:
-                _context.prev = 19;
+              case 15:
+                _context.prev = 15;
                 this.args.form.resetFields();
                 this.saving = false;
-                return _context.finish(19);
+                return _context.finish(15);
 
-              case 23:
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[7, 14, 19, 23]]);
+        }, _callee, this, [[6, 12, 15, 19]]);
       }));
 
       function onSave(_x) {
@@ -1287,6 +1435,24 @@ function () {
 
       return model;
     }
+  }, {
+    key: "hasValidationErrors",
+    get: function get$$1() {
+      var form = this.args.form;
+      return Object.values(flatten(form.getFieldsError())).some(function (field) {
+        return !!field;
+      });
+    }
+  }, {
+    key: "formValues",
+    get: function get$$1() {
+      return this.args.form.getFieldsValue();
+    }
+  }, {
+    key: "formFieldNames",
+    get: function get$$1() {
+      return Object.keys(this.formValues);
+    }
   }]);
 
   return FormManager;
@@ -1299,9 +1465,9 @@ function () {
   }
 })), _class2$3)) || _class$9;
 
-var _class$a, _class2$4, _temp$2;
+var _class$a, _class2$4, _class3, _temp$2;
 
-var FormCard = autoBindMethods(_class$a = observer(_class$a = (_class2$4 = (_temp$2 =
+var FormCard = autoBindMethods(_class$a = observer(_class$a = (_class2$4 = (_temp$2 = _class3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormCard, _Component);
@@ -1372,13 +1538,15 @@ function (_Component) {
   }]);
 
   return FormCard;
-}(Component), _temp$2), (_applyDecoratedDescriptor(_class2$4.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$4.prototype, "fieldSets"), _class2$4.prototype)), _class2$4)) || _class$a) || _class$a;
+}(Component), _class3.defaultProps = {
+  close: noop
+}, _temp$2), (_applyDecoratedDescriptor(_class2$4.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$4.prototype, "fieldSets"), _class2$4.prototype)), _class2$4)) || _class$a) || _class$a;
 
 var WrappedFormCard = Form.create()(FormCard);
 
-var _class$b, _class2$5, _descriptor$2, _descriptor2$1, _class3, _temp$3;
+var _class$b, _class2$5, _descriptor$2, _descriptor2$1, _class3$1, _temp$3;
 
-var EditableCard = autoBindMethods(_class$b = observer(_class$b = (_class2$5 = (_temp$3 = _class3 =
+var EditableCard = autoBindMethods(_class$b = observer(_class$b = (_class2$5 = (_temp$3 = _class3$1 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableCard, _Component);
@@ -1555,7 +1723,7 @@ function (_Component) {
   }]);
 
   return EditableCard;
-}(Component), _class3.defaultProps = {
+}(Component), _class3$1.defaultProps = {
   onSuccess: function () {
     var _onSuccess = _asyncToGenerator(
     /*#__PURE__*/
@@ -1807,9 +1975,9 @@ function (_Component) {
 
 var FormDrawer$$1 = Form.create()(BaseFormDrawer);
 
-var _class$e, _class2$8, _class3$1, _temp$6;
+var _class$e, _class2$8, _class3$2, _temp$6;
 
-var FormModal = autoBindMethods(_class$e = observer(_class$e = (_class2$8 = (_temp$6 = _class3$1 =
+var FormModal = autoBindMethods(_class$e = observer(_class$e = (_class2$8 = (_temp$6 = _class3$2 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormModal, _Component);
@@ -1859,7 +2027,7 @@ function (_Component) {
       }, React.createElement(Form, {
         onSubmit: this.formManager.onSave,
         className: "notes-form"
-      }, this.fieldSets.map(function (fieldSet, idx) {
+      }, this.props.childrenBefore, this.fieldSets.map(function (fieldSet, idx) {
         return React.createElement("div", {
           key: idx
         }, React.createElement(FormFields, {
@@ -1878,15 +2046,15 @@ function (_Component) {
   }]);
 
   return FormModal;
-}(Component), _class3$1.defaultProps = {
+}(Component), _class3$2.defaultProps = {
   saveText: 'Save'
 }, _temp$6), (_applyDecoratedDescriptor(_class2$8.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$8.prototype, "fieldSets"), _class2$8.prototype)), _class2$8)) || _class$e) || _class$e;
 
 var WrappedFormModal = Form.create()(FormModal);
 
-var _class$f, _class2$9, _class3$2, _temp$7;
+var _class$f, _class2$9, _class3$3, _temp$7;
 
-var SummaryCard = autoBindMethods(_class$f = observer(_class$f = (_class2$9 = (_temp$7 = _class3$2 =
+var SummaryCard = autoBindMethods(_class$f = observer(_class$f = (_class2$9 = (_temp$7 = _class3$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(SummaryCard, _Component);
@@ -1946,7 +2114,7 @@ function (_Component) {
   }]);
 
   return SummaryCard;
-}(Component), _class3$2.defaultProps = {
+}(Component), _class3$3.defaultProps = {
   column: 4
 }, _temp$7), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldSets"), _class2$9.prototype)), _class2$9)) || _class$f) || _class$f;
 
