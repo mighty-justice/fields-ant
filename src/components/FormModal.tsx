@@ -14,6 +14,7 @@ import { computed } from 'mobx';
 interface IProps {
   cardConfig: ICardConfig;
   children?: any;
+  childrenBefore?: any;
   close: () => void;
   defaults?: object;
   form: any;
@@ -73,6 +74,8 @@ class FormModal extends Component<IProps> {
         visible
       >
         <Antd.Form onSubmit={this.formManager.onSave} className='notes-form'>
+          {this.props.childrenBefore}
+
           {this.fieldSets.map((fieldSet, idx) => (
             <div key={idx}>
               <FormFields
