@@ -6,8 +6,8 @@ interface IProps {
     form: any;
     model?: any;
 }
-declare class FormFields extends Component<IProps> {
+declare class FormFieldSet extends Component<IProps> {
     readonly fieldSet: import("../interfaces").IFieldSet;
-    render(): JSX.Element;
+    render(): JSX.Element | null;
 }
-export default FormFields;
+export default FormFieldSet;

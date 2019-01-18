@@ -6,7 +6,7 @@ interface IProps {
         [key: string]: any;
     };
 }
-declare class CardRow extends Component<IProps> {
+declare class CardField extends Component<IProps> {
     render(): JSX.Element | null | undefined;
 }
-export default CardRow;
+export default CardField;

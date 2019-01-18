@@ -1,14 +1,25 @@
-import React from 'react';
+import { Component } from 'react';
 import { ICardConfig } from '../interfaces';
-interface IProps {
+interface IExportProps {
     cardConfig: ICardConfig;
     children?: any;
     close?: () => void;
     defaults?: object;
-    form: any;
     model?: any;
     onSave: (data: object) => Promise<void>;
     renderTopRight?: () => any;
 }
-declare const WrappedFormCard: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<IProps, "close" | "children" | "defaults" | "model" | "cardConfig" | "renderTopRight" | "onSave">, any>;
-export default WrappedFormCard;
+interface IProps extends IExportProps {
+    form: any;
+}
+export declare class UnwrappedFormCard extends Component<IProps> {
+    private formManager;
+    static defaultProps: Partial<IProps>;
+    constructor(props: IProps);
+    private readonly fieldSets;
+    render(): JSX.Element;
+}
+export declare class FormCard extends Component<IExportProps> {
+    render(): JSX.Element;
+}
+export default FormCard;
