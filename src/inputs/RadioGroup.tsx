@@ -39,18 +39,11 @@ class RadioGroup extends Component<IProps> {
   }
 
   public render () {
-    const radioStyle = {
-      display: 'block',
-      height: '30px',
-      lineHeight: '30px',
-    };
-
     return (
       <Antd.Radio.Group {...this.props}>
         {this.options.map(option => (
           <Antd.Radio
             key={option.value}
-            style={radioStyle}
             value={option.value}
           >
             {option.name}

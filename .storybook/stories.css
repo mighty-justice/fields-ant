@@ -3,6 +3,7 @@
   border: 1px solid black;
   border-radius: 2px;
 
+  /* https://codetea.com/pure-css-blueprint-pattern-using-css3-linear-gradients/ */
   background-color: #269;
   background-image:
     linear-gradient(rgba(255,255,255,.5) 2px, transparent 2px),

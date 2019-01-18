@@ -1,3 +1,4 @@
+// tslint:disable max-classes-per-file
 import React, { Component, Fragment } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
@@ -107,7 +108,7 @@ const WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
 @observer
 export class FormCard extends Component<IExportProps> {
   public render () {
-    return <WrappedFormCard {...this.props} />
+    return <WrappedFormCard {...this.props} />;
   }
 }
 
