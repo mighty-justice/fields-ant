@@ -6,6 +6,7 @@ import { IFieldSetPartial } from '../interfaces';
 
 import {
   fillInFieldSet,
+  filterInsertIf,
   getFieldSetFields,
   isFieldSetSimple,
 } from '../utilities/common';
@@ -30,14 +31,20 @@ class FormFieldSet extends Component<IProps> {
 
   public render () {
     const fieldConfigs = getFieldSetFields(this.fieldSet)
+      , formValues = this.props.form.getFieldsValue()
+      , filteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, formValues))
       , legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend
       ;
+
+    if (!filteredFieldConfigs.length) {
+      return null;
+    }
 
     return (
       <>
         {legend && <h3>{legend}</h3>}
 
-        {fieldConfigs.map((fieldConfig, idx) => (
+        {filteredFieldConfigs.map((fieldConfig, idx) => (
           <FormField
             {...this.props}
             fieldConfig={fieldConfig}
