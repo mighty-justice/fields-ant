@@ -9,7 +9,7 @@ import { toKey } from '@mighty-justice/utils';
 import * as Antd from 'antd';
 
 import {
-  FormFields,
+  FormFieldSet,
   IAntFormField,
   IFieldConfig,
   IFieldConfigObjectSearchCreate,
@@ -35,7 +35,7 @@ class ObjectSearchCreate extends Component<IProps> {
 
   public constructor (props: IProps) {
     super(props);
-    this.AddNewForm = Antd.Form.create({ onValuesChange: this.onCreateValuesChange })(FormFields);
+    this.AddNewForm = Antd.Form.create({ onValuesChange: this.onCreateValuesChange })(FormFieldSet);
   }
 
   private get injected () {

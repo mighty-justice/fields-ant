@@ -7,7 +7,7 @@ import * as Antd from 'antd';
 import FormManager from '../utilities/FormManager';
 import { ICardConfig } from '../interfaces';
 
-import FormFields from '../building-blocks/FormFields';
+import FormFieldSet from '../building-blocks/FormFieldSet';
 import { fillInFieldSets } from '../utilities/common';
 import { computed } from 'mobx';
 
@@ -78,7 +78,7 @@ class FormModal extends Component<IProps> {
 
           {this.fieldSets.map((fieldSet, idx) => (
             <div key={idx}>
-              <FormFields
+              <FormFieldSet
                 defaults={defaults}
                 fieldSet={fieldSet}
                 form={form}
