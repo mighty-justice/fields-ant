@@ -1,3 +1,4 @@
+// tslint:disable max-classes-per-file
 import React, { Component, Fragment } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
@@ -12,20 +13,23 @@ import FormFields from '../building-blocks/FormFields';
 import FormManager from '../utilities/FormManager';
 import { fillInFieldSets } from '../utilities/common';
 
-interface IProps {
+interface IExportProps {
   cardConfig: ICardConfig;
   children?: any;
   close?: () => void;
   defaults?: object;
-  form: any;
   model?: any;
   onSave: (data: object) => Promise<void>;
   renderTopRight?: () => any;
 }
 
+interface IProps extends IExportProps {
+  form: any;
+}
+
 @autoBindMethods
 @observer
-class FormCard extends Component<IProps> {
+export class UnwrappedFormCard extends Component<IProps> {
   private formManager: FormManager;
 
   public static defaultProps: Partial<IProps> = {
@@ -34,10 +38,10 @@ class FormCard extends Component<IProps> {
 
   public constructor (props: IProps) {
     super(props);
-    const { model, onSave, close } = props;
+    const { model, onSave, close, form } = props as IProps;
 
     this.formManager = new FormManager(
-      props.form,
+      form,
       this.fieldSets,
       {
         model,
@@ -98,6 +102,14 @@ class FormCard extends Component<IProps> {
   }
 }
 
-const WrappedFormCard = Antd.Form.create()(FormCard);
+const WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
 
-export default WrappedFormCard;
+@autoBindMethods
+@observer
+export class FormCard extends Component<IExportProps> {
+  public render () {
+    return <WrappedFormCard {...this.props} />;
+  }
+}
+
+export default FormCard;
