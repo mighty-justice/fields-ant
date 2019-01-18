@@ -14,6 +14,7 @@ const PropsTable = (props) => (
     dataSource={props.propDefinitions}
     pagination={false}
     bordered
+    rowKey='property'
     columns={[
       {
         dataIndex: 'property',
