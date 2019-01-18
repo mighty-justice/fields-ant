@@ -6,7 +6,7 @@ import * as Antd from 'antd';
 
 import { ICardConfig, IFieldSetPartial } from '../interfaces';
 import { fillInFieldSet, filterInsertIf, getCardModel, getFieldSetFields, isFieldSetSimple } from '../utilities/common';
-import CardRow from '../building-blocks/CardRow';
+import CardField from '../building-blocks/CardField';
 
 interface IProps {
   cardConfig: ICardConfig;
@@ -41,7 +41,7 @@ class CardFieldSet extends Component<IProps> {
           {legend && <h3>{legend}</h3>}
 
           {getFieldSetFields(this.fieldSet).map(fieldConfig => (
-            <CardRow
+            <CardField
               fieldConfig={fieldConfig}
               key={fieldConfig.field}
               model={model}

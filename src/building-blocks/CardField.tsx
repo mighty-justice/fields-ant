@@ -11,7 +11,7 @@ interface IProps {
   model: { [key: string]: any };
 }
 
-class CardRow extends Component<IProps> {
+class CardField extends Component<IProps> {
   public render () {
     const { model } = this.props
       , fieldConfig = fillInFieldConfig(this.props.fieldConfig)
@@ -42,4 +42,4 @@ class CardRow extends Component<IProps> {
   }
 }
 
-export default CardRow;
+export default CardField;
