@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 
 import * as Antd from 'antd';
 
 import { ICardConfig } from '../interfaces';
-import { fillInFieldSets, getCardModel, getFieldSetFields } from '../utilities/common';
-import CardRow from '../building-blocks/CardRow';
+import { fillInFieldSets } from '../utilities/common';
+import CardFieldSet from '../building-blocks/CardFieldSet';
 
 interface IProps {
   cardConfig: ICardConfig;
@@ -24,23 +24,18 @@ class Card extends Component<IProps> {
   }
 
   public render () {
-    const { cardConfig, renderTopRight, isLoading } = this.props
-      , model = getCardModel(this.props.model, cardConfig);
+    const { cardConfig, renderTopRight, isLoading, model } = this.props;
 
     return (
       <Antd.Card title={cardConfig.title} extra={renderTopRight && renderTopRight()} loading={isLoading}>
         {this.fieldSets.map((fieldSet, idx) => (
-          <Fragment key={idx}>
-            {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
-
-            {getFieldSetFields(fieldSet).map(fieldConfig => (
-              <CardRow
-                fieldConfig={fieldConfig}
-                key={fieldConfig.field}
-                model={model}
-              />
-            ))}
-          </Fragment>
+          <CardFieldSet
+            cardConfig={cardConfig}
+            fieldSet={fieldSet}
+            idx={idx}
+            key={idx}
+            model={model}
+          />
         ))}
 
         {this.props.children}
