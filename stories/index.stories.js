@@ -1,28 +1,38 @@
 import React from 'react';
 import faker from 'faker';
+import { mapValues } from 'lodash';
 
+import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
-import { withInfo } from "@storybook/addon-info";
 
-import Card from '../src/components/Card';
+import { Card, FormCard } from '../src';
+
+const demoTypes = {
+    string: faker.lorem.sentence,
+    money: faker.finance.amount,
+    radio: () => 'first',
+  }
+  , fieldConfigs = {
+    radio: {
+      options: [
+        { value: 'first', name: 'first' },
+        { value: 'second', name: 'second' },
+        { value: 'third', name: 'third' },
+      ]
+    }
+  }
+  ;
 
 const props = {
     cardConfig: {
-      fieldSets: [
-        ['string', 'money'].map(s => ({ field: s, type: s })),
-      ],
+      fieldSets: [Object.keys(demoTypes).map(s => ({ field: s, type: s }))],
       title: 'Working Title',
     },
-    model: {
-      string: faker.lorem.sentence(),
-      money: faker.finance.amount(),
-    },
+    model: mapValues(demoTypes, value => value()),
   };
 
 
-storiesOf('Components', module)
-  .add('Card', withInfo({ inline: true })(() => (
-    <Card {...props} />
-  )))
+storiesOf('Types', module)
+  .add('Displaying', () => <Card {...props} />)
+  .add('Editing', () => <FormCard {...props} onSave={(data) => action('Form Save')(data)} />)
   ;
-

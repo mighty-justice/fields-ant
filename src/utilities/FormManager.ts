@@ -1,4 +1,4 @@
-import { get, set, noop, mapValues } from 'lodash';
+import { get, set, noop, mapValues, pickBy } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
 import flatten from 'flat';
 import * as Antd from 'antd';
@@ -35,7 +35,7 @@ class FormManager {
       model: {},
       onSave: noop,
       onSuccess: noop,
-      ...args,
+      ...pickBy(args, value => value !== undefined),
     };
   }
 

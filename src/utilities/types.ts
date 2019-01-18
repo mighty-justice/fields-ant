@@ -25,6 +25,7 @@ import ObjectSearchCreate from '../inputs/ObjectSearchCreate';
 import OptionSelect from '../inputs/OptionSelect';
 import Rate, { formatRating } from '../inputs/Rate';
 import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
+import RadioGroup from '../inputs/RadioGroup';
 
 function stripFieldConfig (func: (...args: any[]) => any) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -109,6 +110,12 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     fromForm: (value: any) => value && getPercentValue(value),
     render: stripFieldConfig(formatPercentage),
     toForm: (data: any, field: string) => getPercentDisplay(get(data, field)),
+  },
+  radio: {
+    editComponent: RadioGroup,
+    fieldConfigProp: true,
+    nullify: true,
+    render: formatOptionSelect,
   },
   rating: {
     editComponent: Rate,
