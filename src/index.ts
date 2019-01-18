@@ -2,7 +2,7 @@
 export { default as ButtonToolbar } from './building-blocks/ButtonToolbar';
 export { default as CardRow } from './building-blocks/CardRow';
 export { default as FormField } from './building-blocks/FormField';
-export { default as FormFields } from './building-blocks/FormFields';
+export { default as FormFieldSet } from './building-blocks/FormFieldSet';
 export { default as GuardedButton } from './building-blocks/GuardedButton';
 export { default as Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE } from './building-blocks/Info';
 

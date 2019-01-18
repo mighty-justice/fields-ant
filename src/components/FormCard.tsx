@@ -9,7 +9,7 @@ import * as Antd from 'antd';
 
 import { ICardConfig, IFieldSet } from '../interfaces';
 
-import FormFields from '../building-blocks/FormFields';
+import FormFieldSet from '../building-blocks/FormFieldSet';
 import FormManager from '../utilities/FormManager';
 import { fillInFieldSets } from '../utilities/common';
 
@@ -66,7 +66,7 @@ export class UnwrappedFormCard extends Component<IProps> {
             <Fragment key={idx}>
               {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
               <div>
-                <FormFields
+                <FormFieldSet
                   defaults={defaults}
                   fieldSet={fieldSet}
                   form={form}

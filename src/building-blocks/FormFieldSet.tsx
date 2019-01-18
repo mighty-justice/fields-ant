@@ -22,7 +22,7 @@ interface IProps {
 
 @autoBindMethods
 @observer
-class FormFields extends Component<IProps> {
+class FormFieldSet extends Component<IProps> {
   @computed
   public get fieldSet () {
     return fillInFieldSet(this.props.fieldSet);
@@ -50,4 +50,4 @@ class FormFields extends Component<IProps> {
   }
 }
 
-export default FormFields;
+export default FormFieldSet;

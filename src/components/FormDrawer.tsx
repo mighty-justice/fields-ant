@@ -9,7 +9,7 @@ import { Button, Divider, Drawer, Form } from 'antd';
 import {
   ButtonToolbar,
   fillInFieldSets,
-  FormFields,
+  FormFieldSet,
   FormManager,
   IFieldSetPartial,
 } from '../';
@@ -75,7 +75,7 @@ class BaseFormDrawer extends Component<IProps> {
         <Form layout='vertical' hideRequiredMark onSubmit={this.formManager.onSave}>
           {this.fieldSets.map((fieldSet, idx) => (
             <div key={idx}>
-              <FormFields
+              <FormFieldSet
                 fieldSet={fieldSet}
                 form={form}
                 model={model}
