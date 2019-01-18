@@ -13,6 +13,7 @@ import {
   IAntFormField,
   IFieldConfig,
   IFieldConfigObjectSearchCreate,
+  IOption,
 } from '../';
 
 interface IProps {
@@ -28,14 +29,17 @@ interface IInjected extends IProps, IAntFormField {
 @autoBindMethods
 @observer
 class ObjectSearchCreate extends Component<IProps> {
-  @observable private search = '';
-  @observable private options: any[] = [];
-  @observable private isAddingNew = new SmartBool();
   @observable private AddNewForm: any;
+  @observable private isAddingNew = new SmartBool();
+  @observable private options: IOption[] = [];
+  @observable private search = '';
+  @observable private subForm: any;
 
   public constructor (props: IProps) {
     super(props);
-    this.AddNewForm = Antd.Form.create({ onValuesChange: this.onCreateValuesChange })(FormFieldSet);
+    this.AddNewForm = Antd.Form.create({
+      onValuesChange: this.onCreateValuesChange,
+    })(FormFieldSet);
   }
 
   private get injected () {
@@ -64,16 +68,37 @@ class ObjectSearchCreate extends Component<IProps> {
     this.isAddingNew.setTrue();
   }
 
+  private updateSubForm () {
+    const { id, value, form } = this.injected;
+    if (!this.subForm || !form) { return; }
+
+    this.subForm.validateFields();
+    form.setFields({
+      [id]: {
+        errors: [this.subForm.getFieldsError()],
+        value,
+      },
+    });
+  }
+
   private onCreateValuesChange (_props: any, _changedValues: any, allValues: any) {
-    const onChange = this.injected.onChange;
+    const { onChange } = this.injected;
     if (onChange) { onChange(allValues); }
+    this.updateSubForm();
+  }
+
+  private setSubForm (wrappedComponent: any) {
+    if (wrappedComponent) {
+      this.subForm = wrappedComponent.props.form;
+      this.updateSubForm();
+    }
   }
 
   public render () {
     if (this.isAddingNew.isTrue) {
       return (
         <>
-          <this.AddNewForm fieldSet={this.fieldConfig.createFields} />
+          <this.AddNewForm fieldSet={this.fieldConfig.createFields} wrappedComponentRef={this.setSubForm} />
           <Antd.Button size='small' onClick={this.isAddingNew.setFalse}>
             <Antd.Icon type='left' /> Back to search
           </Antd.Button>
@@ -94,7 +119,12 @@ class ObjectSearchCreate extends Component<IProps> {
           {...omit(this.props, ['value', 'getEndpoint'])}
         >
           {this.options.map(option => (
-            <Antd.Select.Option value={option.value} key={option.value}>{option.name}</Antd.Select.Option>
+            <Antd.Select.Option
+              key={option.value}
+              value={option.value}
+            >
+              {option.name}
+            </Antd.Select.Option>
           ))}
         </Antd.Select>
         <Antd.Button

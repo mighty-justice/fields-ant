@@ -36,12 +36,13 @@ class FormField extends Component<IProps> {
   }
 
   private get editProps () {
-    const { fieldConfig } = this.props
+    const { fieldConfig, form } = this.props
       , fieldConfigProp = fieldConfig.fieldConfigProp ? { fieldConfig } : {};
 
     return {
       ...fieldConfig.editProps,
       ...fieldConfigProp,
+      form,
     };
   }
 
