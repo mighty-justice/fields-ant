@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import * as Antd from 'antd';
+import { computed } from 'mobx';
 import { inject } from 'mobx-react';
+import * as Antd from 'antd';
 import { sortBy } from 'lodash';
 
 import { IFieldConfig, IFieldConfigOptionSelect, IOption } from '../interfaces';
@@ -23,6 +24,7 @@ class OptionSelect extends Component<IProps> {
     return this.props.fieldConfig as IFieldConfigOptionSelect;
   }
 
+  @computed
   private get unsortedOptions (): IOption[] {
     const { options, optionType } = this.fieldConfig;
 
@@ -32,6 +34,7 @@ class OptionSelect extends Component<IProps> {
     return [];
   }
 
+  @computed
   private get options (): IOption[] {
     return this.fieldConfig.sorted ? sortBy(this.unsortedOptions, 'name') : this.unsortedOptions;
   }
