@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import { mapValues, isEmpty, values } from 'lodash';
+
 import SmartBool from '@mighty-justice/smart-bool';
 import { toKey } from '@mighty-justice/utils';
 
@@ -38,7 +40,7 @@ class ObjectSearchCreate extends Component<IProps> {
   public constructor (props: IProps) {
     super(props);
     this.AddNewForm = Antd.Form.create({
-      onValuesChange: this.onCreateValuesChange,
+      onFieldsChange: this.subFormOnFieldsChange,
     })(FormFieldSet);
   }
 
@@ -68,29 +70,27 @@ class ObjectSearchCreate extends Component<IProps> {
     this.isAddingNew.setTrue();
   }
 
-  private updateSubForm () {
-    const { id, value, form } = this.injected;
-    if (!this.subForm || !form) { return; }
+  private async subFormOnFieldsChange (_props: any, fields: any) {
+    const { id, form } = this.injected
+      , value = mapValues(fields, v => v.value)
+      , errors = values(mapValues(fields, v => v.errors))
+        .filter(v => !!v)
+        .map(v => v.message)
+        .map(v => new Error(v))
+        ;
 
-    this.subForm.validateFields();
     form.setFields({
       [id]: {
-        errors: [this.subForm.getFieldsError()],
-        value,
+        errors: isEmpty(errors) ? undefined : errors,
+        value: isEmpty(value) ? '' : value,
       },
     });
-  }
-
-  private onCreateValuesChange (_props: any, _changedValues: any, allValues: any) {
-    const { onChange } = this.injected;
-    if (onChange) { onChange(allValues); }
-    this.updateSubForm();
   }
 
   private setSubForm (wrappedComponent: any) {
     if (wrappedComponent) {
       this.subForm = wrappedComponent.props.form;
-      this.updateSubForm();
+      this.subForm.validateFields();
     }
   }
 
@@ -105,7 +105,10 @@ class ObjectSearchCreate extends Component<IProps> {
     if (this.isAddingNew.isTrue) {
       return (
         <>
-          <this.AddNewForm fieldSet={this.fieldConfig.createFields} wrappedComponentRef={this.setSubForm} />
+          <this.AddNewForm
+            fieldSet={this.fieldConfig.createFields}
+            wrappedComponentRef={this.setSubForm}
+          />
           <Antd.Button size='small' onClick={this.isAddingNew.setFalse}>
             <Antd.Icon type='left' /> Back to search
           </Antd.Button>
@@ -136,6 +139,7 @@ class ObjectSearchCreate extends Component<IProps> {
           ))}
         </Antd.Select>
         <Antd.Button
+          className='osc-add-new'
           disabled={this.search.length < MIN_SEARCH_LENGTH}
           icon='plus'
           onClick={this.addNew}

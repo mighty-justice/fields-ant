@@ -85,6 +85,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   objectSearchCreate: {
     editComponent: ObjectSearchCreate,
     fieldConfigProp: true,
+    nullify: true,
     render: stripFieldConfig(getNameOrDefault),
   },
   optionSelect: {

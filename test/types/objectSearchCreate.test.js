@@ -16,7 +16,8 @@ const field = 'law_firm'
   , endpoint = 'legal-organizations'
   , expectedLabel = 'Law Firm'
   , type = 'objectSearchCreate'
-  , createFields = [{ field: 'name' }, { field: 'amount_owed' }]
+  , required = true
+  , createFields = [{ field: 'name', required }, { field: 'amount_owed' }]
   , fieldSets = [[{ field, type, endpoint, createFields }]]
   ;
 
@@ -31,7 +32,7 @@ describe('objectSearchCreate', () => {
     expect(tester.text()).toContain(expectedLabel);
   });
 
-  it('Edits', async () => {
+  it('Selects existing', async () => {
     const onSave = jest.fn()
       , searchTerm = faker.lorem.sentence()
       , result = { id: faker.random.uuid(), name: faker.company.companyName() }
@@ -53,5 +54,41 @@ describe('objectSearchCreate', () => {
     tester.find('li').simulate('click');
     tester.find('form').simulate('submit');
     expect(onSave).toHaveBeenCalledWith({ law_firm: result });
+  });
+
+  it('Adds new', async () => {
+    const onSave = jest.fn()
+      , searchTerm = faker.lorem.sentence()
+      , result = { id: faker.random.uuid(), name: faker.company.companyName() }
+      , props = {
+        cardConfig: { fieldSets },
+        onSave,
+      };
+
+    const tester = await new Tester(FormCard, { props }).mount();
+    tester.endpoints['/legal-organizations/'] = { results: [result] };
+
+    // Search for a lawfirm
+    expect(tester.text()).toContain(expectedLabel);
+    tester.find('#law_firm').first().simulate('click');
+    changeInput(tester.find('input#law_firm'), searchTerm);
+    await tester.refresh();
+    expect(tester.find('li').text()).toContain(result.name);
+
+    // Select add new and expect name and amount owed
+    tester.find('button.osc-add-new').simulate('click');
+    expect(tester.text()).toContain('Name');
+    expect(tester.text()).toContain('Amount Owed');
+    expect(tester.text()).toContain('Back');
+
+    // Will not submit until required sub-form filled out
+    tester.find('form').simulate('submit');
+    expect(tester.text()).toContain('required');
+    expect(onSave).not.toHaveBeenCalled();
+
+    // Will submit after required sub-form filled out
+    changeInput(tester.find('input#name'), searchTerm);
+    tester.find('form').simulate('submit');
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm }});
   });
 });
