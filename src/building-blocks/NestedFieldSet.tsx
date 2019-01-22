@@ -37,10 +37,11 @@ class NestedFieldSet extends Component<IProps> {
     */
     const { id } = this.props
       , value = mapValues(fields, v => v.value)
-      , errors = values(mapValues(fields, v => v.errors))
-        .filter(v => !!v)
-        .map(v => v.message)
-        .map(v => new Error(v))
+      , errors = values(fields) // Array<value, errors> => Error[]
+        .map(v => v.errors) // Get errors for each field
+        .filter(v => !!v) // Filter out those with no errors
+        .map(v => v.message) // Strip to just error message
+        .map(v => new Error(v)) // Wrap in error object
         ;
 
     /*
@@ -53,7 +54,7 @@ class NestedFieldSet extends Component<IProps> {
     this.props.setFields({
       [id]: {
         errors: isEmpty(errors) ? undefined : errors,
-        value: isEmpty(value) ? '' : value,
+        value,
       },
     });
   }
