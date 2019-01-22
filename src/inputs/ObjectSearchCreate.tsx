@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { mapValues, isEmpty, values } from 'lodash';
 
 import SmartBool from '@mighty-justice/smart-bool';
 import { toKey } from '@mighty-justice/utils';
@@ -10,10 +9,10 @@ import { toKey } from '@mighty-justice/utils';
 import * as Antd from 'antd';
 
 import {
-  FormFieldSet,
   IAntFormField,
   IFieldConfig,
   IFieldConfigObjectSearchCreate,
+  NestedFieldSet,
 } from '../';
 
 interface IProps {
@@ -31,18 +30,9 @@ const MIN_SEARCH_LENGTH = 3;
 @autoBindMethods
 @observer
 class ObjectSearchCreate extends Component<IProps> {
-  @observable private AddNewForm: any;
   @observable private isAddingNew = new SmartBool();
   @observable private options: Array<{ id: string, name: string }> = [];
   @observable private search = '';
-  @observable private subForm: any;
-
-  public constructor (props: IProps) {
-    super(props);
-    this.AddNewForm = Antd.Form.create({
-      onFieldsChange: this.subFormOnFieldsChange,
-    })(FormFieldSet);
-  }
 
   private get injected () {
     return this.props as IInjected;
@@ -70,44 +60,21 @@ class ObjectSearchCreate extends Component<IProps> {
     this.isAddingNew.setTrue();
   }
 
-  private async subFormOnFieldsChange (_props: any, fields: any) {
-    const { id, form } = this.injected
-      , value = mapValues(fields, v => v.value)
-      , errors = values(mapValues(fields, v => v.errors))
-        .filter(v => !!v)
-        .map(v => v.message)
-        .map(v => new Error(v))
-        ;
-
-    form.setFields({
-      [id]: {
-        errors: isEmpty(errors) ? undefined : errors,
-        value: isEmpty(value) ? '' : value,
-      },
-    });
-  }
-
-  private setSubForm (wrappedComponent: any) {
-    if (wrappedComponent) {
-      this.subForm = wrappedComponent.props.form;
-      this.subForm.validateFields();
-    }
-  }
-
   private onChange (value: any) {
     const foundOption = this.options.find(option => option.id === value.key);
     this.injected.onChange(toJS(foundOption));
   }
 
   public render () {
-    const { id } = this.injected;
+    const { id, form } = this.injected;
 
     if (this.isAddingNew.isTrue) {
       return (
         <>
-          <this.AddNewForm
+          <NestedFieldSet
             fieldSet={this.fieldConfig.createFields}
-            wrappedComponentRef={this.setSubForm}
+            id={id}
+            setFields={form.setFields}
           />
           <Antd.Button size='small' onClick={this.isAddingNew.setFalse}>
             <Antd.Icon type='left' /> Back to search
