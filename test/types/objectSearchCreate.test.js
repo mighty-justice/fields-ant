@@ -48,5 +48,10 @@ describe('objectSearchCreate', () => {
     changeInput(tester.find('input#law_firm'), searchTerm);
     await tester.refresh();
     expect(tester.find('li').text()).toContain(result.name);
+
+    // Select first result and test response
+    tester.find('li').simulate('click');
+    tester.find('form').simulate('submit');
+    expect(onSave).toHaveBeenCalledWith({ law_firm: result });
   });
 });

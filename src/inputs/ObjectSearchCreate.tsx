@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { observable } from 'mobx';
+import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { omit } from 'lodash';
 import SmartBool from '@mighty-justice/smart-bool';
 import { toKey } from '@mighty-justice/utils';
 
@@ -13,7 +12,6 @@ import {
   IAntFormField,
   IFieldConfig,
   IFieldConfigObjectSearchCreate,
-  IOption,
 } from '../';
 
 interface IProps {
@@ -25,13 +23,15 @@ interface IInjected extends IProps, IAntFormField {
   getEndpoint: (endpoint: string) => Promise<any>;
 }
 
+const MIN_SEARCH_LENGTH = 3;
+
 @inject('getEndpoint')
 @autoBindMethods
 @observer
 class ObjectSearchCreate extends Component<IProps> {
   @observable private AddNewForm: any;
   @observable private isAddingNew = new SmartBool();
-  @observable private options: IOption[] = [];
+  @observable private options: Array<{ id: string, name: string }> = [];
   @observable private search = '';
   @observable private subForm: any;
 
@@ -61,7 +61,7 @@ class ObjectSearchCreate extends Component<IProps> {
 
     this.search = value;
     const response = await getEndpoint(`/${endpoint}/${toKey(params)}`);
-    this.options = response.results.map((option: any) => ({ name: option.name, value: option.id }));
+    this.options = response.results;
   }
 
   private addNew () {
@@ -94,7 +94,14 @@ class ObjectSearchCreate extends Component<IProps> {
     }
   }
 
+  private onChange (value: any) {
+    const foundOption = this.options.find(option => option.id === value.key);
+    this.injected.onChange(toJS(foundOption));
+  }
+
   public render () {
+    const { id } = this.injected;
+
     if (this.isAddingNew.isTrue) {
       return (
         <>
@@ -112,23 +119,24 @@ class ObjectSearchCreate extends Component<IProps> {
           allowClear
           defaultActiveFirstOption={false}
           filterOption={false}
+          id={id}
           labelInValue
+          onChange={this.onChange}
           onSearch={this.handleSearch}
           placeholder='Select existing'
           showSearch
-          {...omit(this.props, ['value', 'getEndpoint'])}
         >
           {this.options.map(option => (
             <Antd.Select.Option
-              key={option.value}
-              value={option.value}
+              key={option.id}
+              value={option.id}
             >
               {option.name}
             </Antd.Select.Option>
           ))}
         </Antd.Select>
         <Antd.Button
-          disabled={this.search.length < 3}
+          disabled={this.search.length < MIN_SEARCH_LENGTH}
           icon='plus'
           onClick={this.addNew}
         >
