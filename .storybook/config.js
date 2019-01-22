@@ -37,6 +37,19 @@ const PropsTable = (props) => (
   />
 );
 
+const providers = {
+  getOptions: async (optionType) => ([
+    { value: 'first', name: 'first' },
+    { value: 'second', name: 'second' },
+    { value: 'third', name: 'third' },
+  ]),
+  getEndpoint: async (endpoint) => ({ results: [
+    { id: 'first', name: 'first' },
+    { id: 'second', name: 'second' },
+    { id: 'third', name: 'third' },
+  ]}),
+};
+
 const PageDecorator = (storyFn) => (
   <div style={{ margin: '15px' }}>
     <Provider {...providers}>
@@ -44,14 +57,6 @@ const PageDecorator = (storyFn) => (
     </Provider>
   </div>
 );
-
-const providers = {
-  getOptions: (optionType) => [
-    { value: 'first', name: 'first' },
-    { value: 'second', name: 'second' },
-    { value: 'third', name: 'third' },
-  ],
-};
 
 const ComponentDecorator = (storyFn) => (
     <div className='story-component'>

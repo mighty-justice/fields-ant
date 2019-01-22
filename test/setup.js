@@ -12,7 +12,10 @@ TesterConfig.configure(enzyme, {
     {
       name: 'getOptions',
       onBeforeMount: (tester) => {
-        tester.getOptions = jest.fn(optionName => [{ name: 'Yes', value: 'true' }, { name: 'No', value: 'false' }]);
+        tester.getOptions = jest.fn(optionName => [
+          { name: 'Yes', value: 'true' },
+          { name: 'No', value: 'false' },
+        ]);
       },
     },
     {

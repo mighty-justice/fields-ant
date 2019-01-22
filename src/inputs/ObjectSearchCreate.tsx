@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { observable } from 'mobx';
+import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { omit } from 'lodash';
+
 import SmartBool from '@mighty-justice/smart-bool';
 import { toKey } from '@mighty-justice/utils';
 
 import * as Antd from 'antd';
 
 import {
-  FormFieldSet,
   IAntFormField,
   IFieldConfig,
   IFieldConfigObjectSearchCreate,
+  NestedFieldSet,
 } from '../';
 
 interface IProps {
@@ -24,19 +24,15 @@ interface IInjected extends IProps, IAntFormField {
   getEndpoint: (endpoint: string) => Promise<any>;
 }
 
+const MIN_SEARCH_LENGTH = 3;
+
 @inject('getEndpoint')
 @autoBindMethods
 @observer
 class ObjectSearchCreate extends Component<IProps> {
-  @observable private search = '';
-  @observable private options: any[] = [];
   @observable private isAddingNew = new SmartBool();
-  @observable private AddNewForm: any;
-
-  public constructor (props: IProps) {
-    super(props);
-    this.AddNewForm = Antd.Form.create({ onValuesChange: this.onCreateValuesChange })(FormFieldSet);
-  }
+  @observable private options: Array<{ id: string, name: string }> = [];
+  @observable private search = '';
 
   private get injected () {
     return this.props as IInjected;
@@ -57,23 +53,29 @@ class ObjectSearchCreate extends Component<IProps> {
 
     this.search = value;
     const response = await getEndpoint(`/${endpoint}/${toKey(params)}`);
-    this.options = response.results.map((option: any) => ({ name: option.name, value: option.id }));
+    this.options = response.results;
   }
 
   private addNew () {
     this.isAddingNew.setTrue();
   }
 
-  private onCreateValuesChange (_props: any, _changedValues: any, allValues: any) {
-    const onChange = this.injected.onChange;
-    if (onChange) { onChange(allValues); }
+  private onChange (value: any) {
+    const foundOption = this.options.find(option => option.id === value.key);
+    this.injected.onChange(toJS(foundOption));
   }
 
   public render () {
+    const { id, form } = this.injected;
+
     if (this.isAddingNew.isTrue) {
       return (
         <>
-          <this.AddNewForm fieldSet={this.fieldConfig.createFields} />
+          <NestedFieldSet
+            fieldSet={this.fieldConfig.createFields}
+            id={id}
+            setFields={form.setFields}
+          />
           <Antd.Button size='small' onClick={this.isAddingNew.setFalse}>
             <Antd.Icon type='left' /> Back to search
           </Antd.Button>
@@ -87,18 +89,25 @@ class ObjectSearchCreate extends Component<IProps> {
           allowClear
           defaultActiveFirstOption={false}
           filterOption={false}
+          id={id}
           labelInValue
+          onChange={this.onChange}
           onSearch={this.handleSearch}
           placeholder='Select existing'
           showSearch
-          {...omit(this.props, ['value', 'getEndpoint'])}
         >
           {this.options.map(option => (
-            <Antd.Select.Option value={option.value} key={option.value}>{option.name}</Antd.Select.Option>
+            <Antd.Select.Option
+              key={option.id}
+              value={option.id}
+            >
+              {option.name}
+            </Antd.Select.Option>
           ))}
         </Antd.Select>
         <Antd.Button
-          disabled={this.search.length < 3}
+          className='osc-add-new'
+          disabled={this.search.length < MIN_SEARCH_LENGTH}
           icon='plus'
           onClick={this.addNew}
         >

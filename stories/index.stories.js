@@ -11,6 +11,7 @@ const demoTypes = {
     string: faker.lorem.sentence,
     money: faker.finance.amount,
     radio: () => 'first',
+    objectSearchCreate: () => null,
   }
   , fieldConfigs = {
     radio: {
@@ -19,13 +20,17 @@ const demoTypes = {
         { value: 'second', name: 'second' },
         { value: 'third', name: 'third' },
       ]
+    },
+    objectSearchCreate: {
+      createFields: [{ field: 'name', required: true }],
+      endpoint: '/endpoint/',
     }
   }
   ;
 
 const props = {
     cardConfig: {
-      fieldSets: [Object.keys(demoTypes).map(s => ({ field: s, type: s }))],
+      fieldSets: [Object.keys(demoTypes).map(s => ({ field: s, type: s, ...fieldConfigs[s] }))],
       title: 'Working Title',
     },
     model: mapValues(demoTypes, value => value()),
