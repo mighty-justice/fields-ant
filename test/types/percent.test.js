@@ -5,19 +5,19 @@ import { Tester } from '@mighty-justice/tester';
 
 import { Card, FormCard } from '../../src';
 
-const field = 'offered_on'
-  , offered_on = '2017-11-22'
-  , expectedDisplay = '11/22/17'
-  , expectedLabel = 'Offered On'
-  , type = 'date'
+const field = 'projected_probability_of_success'
+  , projected_probability_of_success = '0.278'
+  , expectedDisplay = '27.80%'
+  , expectedLabel = 'Projected Probability of Success'
+  , type = 'percent'
   , fieldSets = [[{ field, type }]]
   ;
 
-describe('date', () => {
+describe('percent', () => {
   it('Renders', async () => {
     const props = {
         cardConfig: { fieldSets },
-        model: { offered_on },
+        model: { projected_probability_of_success },
       };
 
     const tester = await new Tester(Card, { props }).mount();
