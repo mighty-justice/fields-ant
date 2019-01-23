@@ -94,7 +94,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     nullify: true,
     render: formatOptionSelect,
   },
-  percent: {
+  percentage: {
     editProps: {
       addonAfter: '%',
       type: 'number',
