@@ -4,10 +4,12 @@ import { mapValues } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
-import { withNotes } from '@storybook/addon-notes';
+import Marked from 'storybook-readme/components/Marked';
+
 
 import { Card, FormCard } from '../src';
 import readMe from '../README.md';
+import { withInfoConfigured } from '../.storybook/config';
 
 
 const demoTypes = {
@@ -48,8 +50,12 @@ const welcomeProps = {
   };
 
 storiesOf('Mighty Fields Ant', module)
-  .addDecorator(withNotes)
   .add('Documentation', () => <Card {...welcomeProps} />, { notes: { markdown: readMe }})
+  .add('Documentation2', () => (
+    <>
+      <Marked md={readMe} />
+    </>
+  ), { notes: { markdown: readMe }})
   ;
 
 const props = {
@@ -61,6 +67,7 @@ const props = {
   };
 
 storiesOf('Types', module)
+  .addDecorator(withInfoConfigured)
   .add('Displaying', () => <Card {...props} />)
   .add('Editing', () => <FormCard {...props} onSave={(data) => action('Form Save')(data)} />)
   ;

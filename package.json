@@ -102,7 +102,6 @@
     "@storybook/addon-actions": "^4.1.6",
     "@storybook/addon-info": "^4.1.6",
     "@storybook/addon-links": "^4.1.6",
-    "@storybook/addon-notes": "^4.1.9",
     "@storybook/addons": "^4.1.6",
     "@storybook/react": "^4.1.6",
     "@storybook/storybook-deployer": "^2.8.1",
@@ -132,6 +131,7 @@
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "source-map-explorer": "^1.6.0",
+    "storybook-readme": "^4.0.5",
     "style-loader": "^0.23.1",
     "tslint": "^5.11.0",
     "typescript": "^3.2.2"
