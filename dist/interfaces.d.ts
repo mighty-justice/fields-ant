@@ -77,4 +77,13 @@ export interface ICardConfig {
     isArray?: boolean;
     title?: string;
 }
+export declare type IGetOptions = (optionType: string) => IOption[];
+export interface IInjected {
+    getEndpoint: (endpoint: string) => Promise<any>;
+    getOptions: IGetOptions;
+}
+export interface IInputProps {
+    fieldConfig: IFieldConfig;
+    form: any;
+}
 export {};

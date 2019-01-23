@@ -6,7 +6,6 @@ interface IProps {
 declare class OptionSelect extends Component<IProps> {
     private readonly injected;
     private readonly fieldConfig;
-    private readonly unsortedOptions;
     private readonly options;
     render(): JSX.Element;
 }

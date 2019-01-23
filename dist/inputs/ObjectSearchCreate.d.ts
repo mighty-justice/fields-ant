@@ -1,20 +1,14 @@
 import { Component } from 'react';
-import { IFieldConfig } from '../';
-interface IProps {
-    fieldConfig: IFieldConfig;
-    form: any;
-}
-declare class ObjectSearchCreate extends Component<IProps> {
-    private search;
-    private options;
+import { IInputProps } from '../';
+declare class ObjectSearchCreate extends Component<IInputProps> {
     private isAddingNew;
-    private AddNewForm;
-    constructor(props: IProps);
+    private options;
+    private search;
     private readonly injected;
     private readonly fieldConfig;
     private handleSearch;
     private addNew;
-    private onCreateValuesChange;
+    private onChange;
     render(): JSX.Element;
 }
 export default ObjectSearchCreate;

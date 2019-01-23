@@ -1,10 +1,7 @@
 import { Component } from 'react';
-import { IFieldConfigOptionSelect } from '../interfaces';
+import { IFieldConfig, IFieldConfigOptionSelect } from '../interfaces';
 interface IProps {
-    fieldConfig: {
-        options?: any[];
-        optionType?: string;
-    };
+    fieldConfig: IFieldConfig;
     value: any;
 }
 declare class OptionSelectDisplay extends Component<IProps> {

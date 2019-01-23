@@ -4,6 +4,7 @@ export { default as FormField } from './building-blocks/FormField';
 export { default as FormFieldSet } from './building-blocks/FormFieldSet';
 export { default as GuardedButton } from './building-blocks/GuardedButton';
 export { default as Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE } from './building-blocks/Info';
+export { default as NestedFieldSet } from './building-blocks/NestedFieldSet';
 export { default as ArrayCard } from './components/ArrayCard';
 export { default as Card } from './components/Card';
 export { default as Cards } from './components/Cards';
