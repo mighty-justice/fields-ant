@@ -2,40 +2,33 @@ import React, { Component } from 'react';
 import * as Antd from 'antd';
 import autoBindMethods from 'class-autobind-decorator';
 import { inject, observer } from 'mobx-react';
-import { IFieldConfig, IFieldConfigOptionSelect, IOption } from '../interfaces';
-import { sortBy } from 'lodash';
 
-interface IProps {
-  fieldConfig: IFieldConfig;
-}
+import {
+  IAntFormField,
+  IFieldConfigOptionSelect,
+  IInjected,
+  IInputProps,
+  IOption,
+} from '../interfaces';
 
-interface IInjected extends IProps {
-  getOptions: (optionType: string) => IOption[];
-}
+import { getOptions } from '..';
+import { computed } from 'mobx';
 
 @inject('getOptions')
 @autoBindMethods
 @observer
-class RadioGroup extends Component<IProps> {
+class RadioGroup extends Component<IInputProps> {
   private get injected () {
-    return this.props as IInjected;
+    return this.props as IInjected & IInputProps & IAntFormField;
   }
 
   private get fieldConfig () {
     return this.props.fieldConfig as IFieldConfigOptionSelect;
   }
 
-  private get unsortedOptions (): IOption[] {
-    const { options, optionType } = this.fieldConfig;
-
-    if (options) { return options; }
-    if (this.fieldConfig.getOptions) { return this.fieldConfig.getOptions(optionType); }
-    if (this.injected.getOptions) { return this.injected.getOptions(optionType); }
-    return [];
-  }
-
+  @computed
   private get options (): IOption[] {
-    return this.fieldConfig.sorted ? sortBy(this.unsortedOptions, 'name') : this.unsortedOptions;
+    return getOptions(this.fieldConfig, this.injected);
   }
 
   public render () {

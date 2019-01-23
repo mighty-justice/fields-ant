@@ -99,3 +99,15 @@ export interface ICardConfig {
   isArray?: boolean;
   title?: string;
 }
+
+export type IGetOptions = (optionType: string) => IOption[];
+
+export interface IInjected {
+  getEndpoint: (endpoint: string) => Promise<any>;
+  getOptions: IGetOptions;
+}
+
+export interface IInputProps {
+  fieldConfig: IFieldConfig;
+  form: any;
+}

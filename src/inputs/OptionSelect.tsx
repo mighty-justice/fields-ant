@@ -2,22 +2,26 @@ import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { inject } from 'mobx-react';
 import * as Antd from 'antd';
-import { sortBy } from 'lodash';
 
-import { IFieldConfig, IFieldConfigOptionSelect, IOption } from '../interfaces';
+import {
+  IAntFormField,
+  IFieldConfig,
+  IFieldConfigOptionSelect,
+  IInjected,
+  IInputProps,
+  IOption,
+} from '../interfaces';
+
+import { getOptions } from '..';
 
 interface IProps {
   fieldConfig: IFieldConfig;
 }
 
-interface IInjected extends IProps {
-  getOptions: (optionType: string) => IOption[];
-}
-
 @inject('getOptions')
 class OptionSelect extends Component<IProps> {
   private get injected () {
-    return this.props as IInjected;
+    return this.props as IInjected & IInputProps & IAntFormField;
   }
 
   private get fieldConfig () {
@@ -25,18 +29,8 @@ class OptionSelect extends Component<IProps> {
   }
 
   @computed
-  private get unsortedOptions (): IOption[] {
-    const { options, optionType } = this.fieldConfig;
-
-    if (options) { return options; }
-    if (this.fieldConfig.getOptions) { return this.fieldConfig.getOptions(optionType); }
-    if (this.injected.getOptions) { return this.injected.getOptions(optionType); }
-    return [];
-  }
-
-  @computed
   private get options (): IOption[] {
-    return this.fieldConfig.sorted ? sortBy(this.unsortedOptions, 'name') : this.unsortedOptions;
+    return getOptions(this.fieldConfig, this.injected);
   }
 
   public render () {

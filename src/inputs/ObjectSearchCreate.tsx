@@ -10,32 +10,24 @@ import * as Antd from 'antd';
 
 import {
   IAntFormField,
-  IFieldConfig,
   IFieldConfigObjectSearchCreate,
+  IInjected,
+  IInputProps,
   NestedFieldSet,
 } from '../';
-
-interface IProps {
-  fieldConfig: IFieldConfig;
-  form: any;
-}
-
-interface IInjected extends IProps, IAntFormField {
-  getEndpoint: (endpoint: string) => Promise<any>;
-}
 
 const MIN_SEARCH_LENGTH = 3;
 
 @inject('getEndpoint')
 @autoBindMethods
 @observer
-class ObjectSearchCreate extends Component<IProps> {
+class ObjectSearchCreate extends Component<IInputProps> {
   @observable private isAddingNew = new SmartBool();
   @observable private options: Array<{ id: string, name: string }> = [];
   @observable private search = '';
 
   private get injected () {
-    return this.props as IInjected;
+    return this.props as IInjected & IInputProps & IAntFormField;
   }
 
   private get fieldConfig () {
