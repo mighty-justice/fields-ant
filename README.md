@@ -40,6 +40,12 @@ and a collection of utilities and components like forms and cards for
 This will run checks for `test`, `lint`, `build`, bump the version number,
 publish to npm, and publish the docs to Github Pages.
 
+Gotchas:
+
+- Make sure to `npm install` or `yarn install` first
+- The deploy command must currently be run with npm not yarn due to login bug
+- On release, your package.json will have a library added that shouldn't be there, please remove :(
+
 ### Contributing
 
 We accept new issues and pull requests from anyone!
