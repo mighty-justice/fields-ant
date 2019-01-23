@@ -59,7 +59,7 @@ function inferType (fieldConfig: Partial<IFieldConfig>) {
   if (field.includes('note')) { return 'text'; }
   if (field.includes('body')) { return 'text'; }
   if (field.includes('summary')) { return 'text'; }
-  if (field.includes('percent')) { return 'percent'; }
+  if (field.includes('percent')) { return 'percentage'; }
 
   return 'string';
 }

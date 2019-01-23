@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import autoBindMethods from 'class-autobind-decorator';
+import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
+import autoBindMethods from 'class-autobind-decorator';
 import { isArray } from 'lodash';
 
 import {
@@ -9,8 +10,8 @@ import {
   IInjected,
   IOption,
 } from '../interfaces';
-import { computed } from 'mobx';
-import { getOptions } from '../index';
+
+import { getOptions } from '..';
 
 interface IProps {
   fieldConfig: IFieldConfig;
