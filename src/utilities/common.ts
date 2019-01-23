@@ -1,4 +1,4 @@
-import { get, isArray } from 'lodash';
+import { get, isArray, sortBy } from 'lodash';
 
 import * as Antd from 'antd';
 
@@ -10,11 +10,14 @@ import {
 import {
   ICardConfig,
   IFieldConfig,
+  IFieldConfigOptionSelect,
   IFieldConfigPartial,
   IFieldSet,
   IFieldSetPartial,
   IFieldSetSimple,
   IFieldSetSimplePartial,
+  IInjected,
+  IOption,
 } from '../interfaces';
 
 import { TYPES } from './types';
@@ -143,4 +146,20 @@ export function getFieldSetFields (fieldSet: IFieldSet): IFieldConfig[] {
   }
 
   return fieldSet.fields;
+}
+
+export function getUnsortedOptions (fieldConfig: IFieldConfigOptionSelect, injected: IInjected): IOption[] {
+  const { options, optionType } = fieldConfig;
+
+  if (options) { return options; }
+  if (fieldConfig.getOptions) { return fieldConfig.getOptions(optionType); }
+  if (injected.getOptions) { return injected.getOptions(optionType); }
+
+  // istanbul ignore next
+  throw new Error ('FieldConfig missing options, getOptions; getOptions not injected');
+}
+
+export function getOptions (fieldConfig: IFieldConfigOptionSelect, injected: IInjected): IOption[] {
+  const unsortedOptions = getUnsortedOptions(fieldConfig, injected);
+  return fieldConfig.sorted ? sortBy(unsortedOptions, 'name') : unsortedOptions;
 }

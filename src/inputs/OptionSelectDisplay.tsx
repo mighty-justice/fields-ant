@@ -3,15 +3,18 @@ import autoBindMethods from 'class-autobind-decorator';
 import { inject, observer } from 'mobx-react';
 import { isArray } from 'lodash';
 
-import { IFieldConfigOptionSelect, IOption } from '../interfaces';
+import {
+  IFieldConfig,
+  IFieldConfigOptionSelect,
+  IInjected,
+  IOption,
+} from '../interfaces';
+import { computed } from 'mobx';
+import { getOptions } from '../index';
 
 interface IProps {
-  fieldConfig: { options?: any[], optionType?: string };
+  fieldConfig: IFieldConfig;
   value: any;
-}
-
-interface IInjected extends IProps {
-  getOptions: (optionType: string) => IOption[];
 }
 
 @inject('getOptions')
@@ -19,20 +22,16 @@ interface IInjected extends IProps {
 @observer
 class OptionSelectDisplay extends Component<IProps> {
   private get injected () {
-    return this.props as IInjected;
+    return this.props as IInjected & IProps;
   }
 
   private get fieldConfig () {
     return this.props.fieldConfig as IFieldConfigOptionSelect;
   }
 
+  @computed
   private get options (): IOption[] {
-    const { options, optionType } = this.fieldConfig;
-
-    if (options) { return options; }
-    if (this.fieldConfig.getOptions) { return this.fieldConfig.getOptions(optionType); }
-    if (this.injected.getOptions) { return this.injected.getOptions(optionType); }
-    return [];
+    return getOptions(this.fieldConfig, this.injected);
   }
 
   public render () {
