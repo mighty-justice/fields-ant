@@ -9,11 +9,11 @@ const field = 'projected_probability_of_success'
   , projected_probability_of_success = '0.278'
   , expectedDisplay = '27.80%'
   , expectedLabel = 'Projected Probability of Success'
-  , type = 'percent'
+  , type = 'percentage'
   , fieldSets = [[{ field, type }]]
   ;
 
-describe('percent', () => {
+describe('percentage', () => {
   it('Renders', async () => {
     const props = {
         cardConfig: { fieldSets },
