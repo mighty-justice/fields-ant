@@ -43,7 +43,7 @@ class EditableArrayCard extends Component<IProps> {
 
     return (
       <GuardedButton
-        className={`btn-new-${classNameSuffix}`}
+        className={`btn-new btn-new-${classNameSuffix}`}
         disabled={isLoading || this.isAddingNew.isTrue}
         icon='plus'
         isGuarded={isGuarded}

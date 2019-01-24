@@ -11,13 +11,14 @@ const field = 'offered_on'
   , expectedLabel = 'Offered On'
   , type = 'date'
   , fieldSets = [[{ field, type }]]
+  , model = { offered_on }
   ;
 
 describe('date', () => {
   it('Renders', async () => {
     const props = {
         cardConfig: { fieldSets },
-        model: { offered_on },
+        model,
       };
 
     const tester = await new Tester(Card, { props }).mount();
@@ -29,6 +30,7 @@ describe('date', () => {
     const onSave = jest.fn()
       , props = {
         cardConfig: { fieldSets },
+        model,
         onSave,
       };
 

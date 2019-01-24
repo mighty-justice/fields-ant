@@ -18,9 +18,9 @@ describe('FormDrawer', () => {
         title,
       };
 
-    const noLoading = await new Tester(FormDrawer, { props }).mount();
-    expect(noLoading.text()).toContain(title);
-    expect(noLoading.text()).toContain('Text');
-    expect(noLoading.html()).toContain(text);
+    const tester = await new Tester(FormDrawer, { props }).mount();
+    expect(tester.text()).toContain(title);
+    expect(tester.text()).toContain('Text');
+    expect(tester.html()).toContain(text);
   });
 });

@@ -19,10 +19,10 @@ describe('ArrayCard', () => {
         model: [{ id: 1, text: text1 }, { id: 2,  text: text2 }],
       };
 
-    const noLoading = await new Tester(ArrayCard, { props }).mount();
-    expect(noLoading.text()).toContain(title);
-    expect(noLoading.text()).toContain('Text');
-    expect(noLoading.html()).toContain(text1);
-    expect(noLoading.html()).toContain(text2);
+    const tester = await new Tester(ArrayCard, { props }).mount();
+    expect(tester.text()).toContain(title);
+    expect(tester.text()).toContain('Text');
+    expect(tester.html()).toContain(text1);
+    expect(tester.html()).toContain(text2);
   });
 });
