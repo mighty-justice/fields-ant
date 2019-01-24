@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
-import { observable } from 'mobx';
+import { computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { mapValues, isEmpty, values } from 'lodash';
 
+import { splitName } from '@mighty-justice/utils';
+
 import * as Antd from 'antd';
 
 import {
+  fillInFieldSet,
   FormFieldSet,
+  getFieldSetFields,
   IFieldSetPartial,
 } from '../';
 
 interface IProps {
   fieldSet: IFieldSetPartial;
   id: string;
+  search?: string;
   setFields: (data: { [id: string]: { errors: any, value: any } }) => void;
 }
 
@@ -28,6 +33,47 @@ class NestedFieldSet extends Component<IProps> {
     this.NestedForm = Antd.Form.create({
       onFieldsChange: this.onFieldsChange,
     })(FormFieldSet);
+  }
+
+  @computed
+  private get fieldSet () {
+    return getFieldSetFields(fillInFieldSet(this.props.fieldSet));
+  }
+
+  @computed
+  private get model () {
+    /*
+    This function implements the fieldConfig features
+    populateFromSearch and populateNameFromSearch
+    */
+    const { search } = this.props
+      , [firstName, lastName] = splitName(search)
+      , defaults: { [key: string]: string } = {}
+      ;
+
+    if (!search) { return defaults; }
+
+    this.fieldSet.map(fieldConfig => {
+      const {
+        field,
+        populateFromSearch,
+        populateNameFromSearch,
+      } = fieldConfig;
+
+      if (populateFromSearch) {
+        defaults[field] = search;
+      }
+
+      if (populateNameFromSearch && field === 'first_name') {
+        defaults.first_name = firstName;
+      }
+
+      if (populateNameFromSearch && field === 'last_name') {
+        defaults.last_name = lastName;
+      }
+    });
+
+    return defaults;
   }
 
   private async onFieldsChange (_props: any, fields: any) {
@@ -79,6 +125,7 @@ class NestedFieldSet extends Component<IProps> {
     return (
       <this.NestedForm
         fieldSet={this.props.fieldSet}
+        model={this.model}
         wrappedComponentRef={this.setSubForm}
       />
     );

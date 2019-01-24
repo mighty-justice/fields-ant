@@ -98,4 +98,47 @@ describe('objectSearchCreate', () => {
     tester.find('form').simulate('submit');
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm }});
   });
+
+  it('Populates from search', async () => {
+    const { field, onSave, searchTerm, result, props } = getDefaults({
+        createFields: [
+          { field: 'name', required: true, populateFromSearch: true },
+          { field: 'amount_owed' },
+        ],
+      })
+      , tester = await getTester(props);
+
+    await searchFor(tester, field, result, searchTerm);
+    await selectAddNew(tester);
+
+    expect(tester.find('input#name').html()).toContain(searchTerm);
+    tester.find('form').simulate('submit');
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: '' }});
+  });
+
+  it('Populates name from search', async () => {
+    const firstName = faker.name.firstName()
+      , lastName = faker.name.lastName()
+      , searchTerm = `${firstName} ${lastName}`
+      , createFields = [
+        { field: 'first_name', required: true, populateNameFromSearch: true },
+        { field: 'last_name', required: true, populateNameFromSearch: true },
+        { field: 'amount_owed' },
+      ]
+      , { field, onSave, result, props } = getDefaults({ createFields })
+      , tester = await getTester(props);
+
+    await searchFor(tester, field, result, searchTerm);
+    await selectAddNew(tester);
+
+    expect(tester.find('input#first_name').html()).toContain(firstName);
+    expect(tester.find('input#last_name').html()).toContain(lastName);
+
+    tester.find('form').simulate('submit');
+    expect(onSave).toHaveBeenCalledWith({ law_firm: {
+      amount_owed: '',
+      first_name: firstName,
+      last_name: lastName,
+    }});
+  });
 });
