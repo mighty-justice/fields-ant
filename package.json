@@ -139,7 +139,7 @@
   "dependencies": {
     "@mighty-justice/smart-bool": "^0.3.2",
     "@mighty-justice/utils": "^0.0.4",
-    "antd": "3.12.1",
+    "antd": "3.12.3",
     "class-autobind-decorator": "^3.0.1",
     "classnames": "^2.2.6",
     "date-fns": "^1.30.1",
