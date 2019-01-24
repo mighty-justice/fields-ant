@@ -44,7 +44,6 @@ Gotchas:
 
 - Make sure to `npm install` or `yarn install` first
 - The deploy command must currently be run with npm not yarn due to login bug
-- On release, your package.json will have a library added that shouldn't be there, please remove :(
 
 ### Contributing
 

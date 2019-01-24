@@ -58,17 +58,7 @@ const PageDecorator = (storyFn) => (
   </div>
 );
 
-const ComponentDecorator = (storyFn) => (
-    <div className='story-component'>
-      { storyFn() }
-    </div>
-);
-
-addDecorator(ComponentDecorator);
-addDecorator(withInfo({
-  inline: true,
-  TableComponent: PropsTable,
-}));
+export const withInfoConfigured = withInfo({ inline: true, TableComponent: PropsTable });
 addDecorator(PageDecorator);
 
 // automatically import all files ending in *.stories.js
