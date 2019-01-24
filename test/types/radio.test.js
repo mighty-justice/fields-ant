@@ -10,13 +10,14 @@ const field = 'is_open'
   , expectedLabel = 'Is Open'
   , type = 'radio'
   , fieldSets = [[{ field, type, optionType }]]
+  , model = { is_open: 'true' }
   ;
 
 describe('radio', () => {
   it('Renders', async () => {
     const props = {
         cardConfig: { fieldSets },
-        model: { is_open: 'true' },
+        model,
       };
 
     const tester = await new Tester(Card, { props }).mount();
@@ -27,6 +28,7 @@ describe('radio', () => {
     const onSave = jest.fn()
       , props = {
         cardConfig: { fieldSets },
+        model,
         onSave,
       };
 

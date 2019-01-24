@@ -11,13 +11,14 @@ const field = 'projected_probability_of_success'
   , expectedLabel = 'Projected Probability of Success'
   , type = 'percentage'
   , fieldSets = [[{ field, type }]]
+  , model = { projected_probability_of_success }
   ;
 
 describe('percentage', () => {
   it('Renders', async () => {
     const props = {
         cardConfig: { fieldSets },
-        model: { projected_probability_of_success },
+        model,
       };
 
     const tester = await new Tester(Card, { props }).mount();
@@ -29,6 +30,7 @@ describe('percentage', () => {
     const onSave = jest.fn()
       , props = {
         cardConfig: { fieldSets },
+        model,
         onSave,
       };
 
