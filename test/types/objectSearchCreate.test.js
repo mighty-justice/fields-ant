@@ -83,7 +83,7 @@ describe('objectSearchCreate', () => {
       , tester = await getTester(props) ;
 
     await searchFor(tester, field, result, searchTerm);
-    selectAddNew(tester);
+    await selectAddNew(tester);
 
     expect(tester.text()).toContain('Name');
     expect(tester.text()).toContain('Amount Owed');
@@ -93,7 +93,6 @@ describe('objectSearchCreate', () => {
     tester.find('form').simulate('submit');
     expect(tester.text()).toContain('required');
     expect(onSave).not.toHaveBeenCalled();
-    selectAddNew(tester);
 
     changeInput(tester.find('input#name'), searchTerm);
     tester.find('form').simulate('submit');

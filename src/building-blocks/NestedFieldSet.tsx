@@ -8,11 +8,11 @@ import * as Antd from 'antd';
 
 import {
   FormFieldSet,
-  IFieldSetSimplePartial,
+  IFieldSetPartial,
 } from '../';
 
 interface IProps {
-  fieldSet: IFieldSetSimplePartial;
+  fieldSet: IFieldSetPartial;
   id: string;
   setFields: (data: { [id: string]: { errors: any, value: any } }) => void;
 }
