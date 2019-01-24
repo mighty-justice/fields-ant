@@ -46,7 +46,7 @@ export interface IOption {
 export interface IFieldConfigOptionSelect extends IFieldConfigBase {
   getOptions?: (optionType: string) => IOption[];
   options?: IOption[];
-  optionType: string;
+  optionType?: string;
   showSearch?: boolean;
   sorted?: boolean;
 }
