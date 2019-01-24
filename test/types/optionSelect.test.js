@@ -10,7 +10,7 @@ const field = 'is_open'
   , expectedLabel = 'Is Open'
   , type = 'optionSelect'
   , fieldSets = [[{ field, type, optionType }]]
-  , model = { is_open: ['true'] }
+  , model = { is_open: 'true' }
   ;
 
 describe('optionSelect', () => {
@@ -35,6 +35,7 @@ describe('optionSelect', () => {
 
     const tester = await new Tester(FormCard, { props }).mount();
     expect(tester.text()).toContain(expectedLabel);
+    expect(tester.text()).toContain('Yes');
   });
 
   it('Handles array with single value (useful for summary tables)', async () => {
