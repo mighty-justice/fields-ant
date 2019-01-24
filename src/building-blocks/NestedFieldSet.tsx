@@ -64,12 +64,12 @@ class NestedFieldSet extends Component<IProps> {
         defaults[field] = search;
       }
 
-      if (populateNameFromSearch && field === 'first_name') {
-        defaults.first_name = firstName;
+      if (populateNameFromSearch && field.endsWith('first_name')) {
+        defaults[field] = firstName;
       }
 
-      if (populateNameFromSearch && field === 'last_name') {
-        defaults.last_name = lastName;
+      if (populateNameFromSearch && field.endsWith('last_name')) {
+        defaults[field] = lastName;
       }
     });
 
