@@ -12,43 +12,65 @@ function changeInput (component, value) {
   component.simulate('blur');
 }
 
-const field = 'law_firm'
-  , endpoint = 'legal-organizations'
-  , expectedLabel = 'Law Firm'
-  , type = 'objectSearchCreate'
-  , required = true
-  , createFields = [{ field: 'name', required }, { field: 'amount_owed' }]
-  , fieldSets = [[{ field, type, endpoint, createFields }]]
-  ;
+function getDefaults (overrides) {
+  const field = overrides.field || 'law_firm'
+    , endpoint = overrides.endpoint || 'legal-organizations'
+    , type = overrides.type || 'objectSearchCreate'
+    , createFields = overrides.createFields || [{ field: 'name', required: true }, { field: 'amount_owed' }]
+    , fieldConfig = overrides.fieldConfig || { field, type, endpoint, createFields }
+    , fieldSets = overrides.fieldSets || [[fieldConfig]]
+    , onSave = jest.fn()
+    , cardConfig = overrides.cardConfig || { fieldSets }
+    , model = overrides.model || { law_firm: faker.random.uuid() }
+    , props = { cardConfig, model, onSave }
+    ;
+
+  return {
+    expectedLabel: 'Law Firm',
+    result: { id: faker.random.uuid(), name: faker.company.companyName() },
+    searchTerm: faker.lorem.sentence(),
+
+    cardConfig,
+    createFields,
+    endpoint,
+    field,
+    fieldConfig,
+    fieldSets,
+    onSave,
+    props,
+    type,
+
+    ...overrides,
+  }
+}
+
+async function getTester (props) {
+  return (await new Tester(FormCard, { props }).mount());
+}
+
+async function searchFor (tester, field, result, searchTerm) {
+  tester.endpoints['/legal-organizations/'] = { results: [result] };
+  changeInput(tester.find(`input#${field}`), searchTerm);
+  await tester.refresh();
+  expect(tester.find('li').text()).toContain(result.name);
+}
+
+async function selectAddNew (tester) {
+  tester.find('button.osc-add-new').simulate('click');
+}
 
 describe('objectSearchCreate', () => {
   it('Renders', async () => {
-    const props = {
-        cardConfig: { fieldSets },
-        model: { law_firm: faker.random.uuid() },
-      };
-
+    const { props, expectedLabel } = getDefaults({});
     const tester = await new Tester(Card, { props }).mount();
     expect(tester.text()).toContain(expectedLabel);
   });
 
   it('Selects existing', async () => {
-    const onSave = jest.fn()
-      , searchTerm = faker.lorem.sentence()
-      , result = { id: faker.random.uuid(), name: faker.company.companyName() }
-      , props = {
-        cardConfig: { fieldSets },
-        onSave,
-      };
+    const { field, props, onSave, searchTerm, result } = getDefaults({})
+      , tester = await getTester(props);
 
-    const tester = await new Tester(FormCard, { props }).mount();
-    tester.endpoints['/legal-organizations/'] = { results: [result] };
-
-    expect(tester.text()).toContain(expectedLabel);
-    tester.find('#law_firm').first().simulate('click');
-    changeInput(tester.find('input#law_firm'), searchTerm);
-    await tester.refresh();
-    expect(tester.find('li').text()).toContain(result.name);
+    await searchFor(tester, field, result, searchTerm);
 
     // Select first result and test response
     tester.find('li').simulate('click');
@@ -57,26 +79,12 @@ describe('objectSearchCreate', () => {
   });
 
   it('Adds new', async () => {
-    const onSave = jest.fn()
-      , searchTerm = faker.lorem.sentence()
-      , result = { id: faker.random.uuid(), name: faker.company.companyName() }
-      , props = {
-        cardConfig: { fieldSets },
-        onSave,
-      };
+    const { field, onSave, searchTerm, result, props } = getDefaults({})
+      , tester = await getTester(props) ;
 
-    const tester = await new Tester(FormCard, { props }).mount();
-    tester.endpoints['/legal-organizations/'] = { results: [result] };
+    await searchFor(tester, field, result, searchTerm);
+    selectAddNew(tester);
 
-    // Search for a lawfirm
-    expect(tester.text()).toContain(expectedLabel);
-    tester.find('#law_firm').first().simulate('click');
-    changeInput(tester.find('input#law_firm'), searchTerm);
-    await tester.refresh();
-    expect(tester.find('li').text()).toContain(result.name);
-
-    // Select add new and expect name and amount owed
-    tester.find('button.osc-add-new').simulate('click');
     expect(tester.text()).toContain('Name');
     expect(tester.text()).toContain('Amount Owed');
     expect(tester.text()).toContain('Back');
@@ -85,8 +93,8 @@ describe('objectSearchCreate', () => {
     tester.find('form').simulate('submit');
     expect(tester.text()).toContain('required');
     expect(onSave).not.toHaveBeenCalled();
+    selectAddNew(tester);
 
-    // Will submit after required sub-form filled out
     changeInput(tester.find('input#name'), searchTerm);
     tester.find('form').simulate('submit');
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm }});

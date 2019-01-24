@@ -89,6 +89,8 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
     } : undefined;
 
   return {
+    // Universal defaults
+    disabled: false,
     key: fieldConfig.field,
     label,
     readOnly: false,
@@ -96,16 +98,20 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
     required: false,
     showLabel: true,
     type,
+    writeOnly: false,
 
+    // Overrides prioritized
     ...typeDefaults,
     ...TYPES[type],
     ...fieldConfig,
 
+    // Merge nested object
     editProps: {
       ...fieldConfig.editProps,
       ...TYPES[type].editProps,
     },
 
+    // Merge nested object
     formValidationRules: {
       ...fieldConfig.formValidationRules,
       ...TYPES[type].formValidationRules,
