@@ -12,7 +12,7 @@ than to fill all this in (see further below for partials).
 ```ts
 interface IFieldConfig {
   className?: any;
-  disabled?: boolean;
+  disabled: boolean;
   editComponent: any;
   editProps: { [key: string]: any };
   field: string;
@@ -32,7 +32,7 @@ interface IFieldConfig {
   toForm: (data: any, field: string) => any;
   type: string;
   value?: string | number;
-  writeOnly?: boolean;
+  writeOnly: boolean;
 }
 ```
 
