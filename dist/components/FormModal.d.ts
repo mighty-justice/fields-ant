@@ -11,5 +11,5 @@ interface IProps {
     onSave: (data: object) => Promise<void>;
     saveText?: string;
 }
-declare const WrappedFormModal: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<IProps, "close" | "children" | "model" | "defaults" | "cardConfig" | "onSave" | "childrenBefore" | "saveText">, any>;
+declare const WrappedFormModal: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<IProps, "model" | "onSave" | "children" | "cardConfig" | "childrenBefore" | "close" | "defaults" | "saveText">, any>;
 export default WrappedFormModal;

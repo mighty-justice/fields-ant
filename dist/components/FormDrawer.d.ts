@@ -10,5 +10,5 @@ interface IProps {
     onSuccess?: (args?: any) => void;
     title: string;
 }
-declare const FormDrawer: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<IProps, "title" | "model" | "fieldSets" | "onSave" | "onSuccess" | "isVisible">, any>;
+declare const FormDrawer: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<IProps, "fieldSets" | "model" | "onSave" | "onSuccess" | "title" | "isVisible">, any>;
 export default FormDrawer;

@@ -9,7 +9,7 @@
 **/node_modules/
 
 # Other
-_book
+storybook-static
 .cache
 source.html
 *.log
