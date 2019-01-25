@@ -66,6 +66,7 @@ class ObjectSearchCreate extends Component<IInputProps> {
           <NestedFieldSet
             fieldSet={this.fieldConfig.createFields}
             id={id}
+            search={this.search}
             setFields={form.setFields}
           />
           <Antd.Button size='small' onClick={this.isAddingNew.setFalse}>

@@ -25,6 +25,8 @@ interface IFieldConfig {
   key: string;
   label: string | null;
   nullify: boolean;
+  populateFromSearch: boolean;
+  populateNameFromSearch: boolean;
   readOnly: boolean;
   render: (...args: any[]) => string | JSX.Element | JSX.Element[];
   required: boolean;

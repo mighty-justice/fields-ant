@@ -4,9 +4,11 @@ import { mapValues } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
+import Marked from 'storybook-readme/components/Marked';
 
 import { Card, FormCard } from '../src';
 import { withInfoConfigured } from '../.storybook/config';
+import docObjectSearchCreate from '../docs/ObjectSearchCreate.md';
 
 const demoTypes = {
     money: faker.finance.amount,
@@ -38,7 +40,33 @@ const props = {
   };
 
 storiesOf('Types', module)
-  .addDecorator(withInfoConfigured)
   .add('Displaying', () => <Card {...props} />)
   .add('Editing', () => <FormCard {...props} onSave={(data) => action('Form Save')(data)} />)
+  .add('objectSearchCreate', () => (
+    <>
+      <Marked md={`# { type: 'objectSearchCreate' }`} />
+      <FormCard
+        cardConfig={{
+          ...props.cardConfig,
+          fieldSets: [[{
+            field: 'example',
+            type: 'objectSearchCreate',
+            endpoint: '/endpoint/',
+            createFields: [
+              { field: 'first_name', populateFromSearch: true },
+              { field: 'last_name', populateNameFromSearch: true },
+              { field: 'lawfirm', populateNameFromSearch: true },
+              {
+                field: 'organization',
+                type: 'objectSearchCreate',
+                createFields: [{ field: 'name' }],
+              },
+            ],
+          }]]
+        }}
+        onSave={(data) => action('Form Save')(data)}
+      />
+      <Marked md={docObjectSearchCreate} />
+    </>
+  ))
   ;

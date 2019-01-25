@@ -93,6 +93,8 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
     disabled: false,
     key: fieldConfig.field,
     label,
+    populateFromSearch: false,
+    populateNameFromSearch: false,
     readOnly: false,
     render: stripFieldConfig(getOrDefault),
     required: false,

@@ -1,7 +1,7 @@
 {
   "name": "@mighty-justice/fields-ant",
   "version": "0.0.26",
-  "description": "Eliminate your single-line boolean setting methods",
+  "description": "Standard Ant design component interface for Field Sets",
   "main": "dist/fieldsAnt.cjs.js",
   "module": "dist/fieldsAnt.esm.js",
   "browser": "dist/fieldsAnt.umd.js",
