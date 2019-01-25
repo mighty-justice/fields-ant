@@ -44,7 +44,7 @@ storiesOf('Types', module)
   .add('Editing', () => <FormCard {...props} onSave={(data) => action('Form Save')(data)} />)
   .add('objectSearchCreate', () => (
     <>
-      <Marked md={'# { type: \'objectSearchCreate\' }'} />
+      <Marked md={`# { type: 'objectSearchCreate' }`} />
       <FormCard
         cardConfig={{
           ...props.cardConfig,
