@@ -3,7 +3,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form, Row, Col, Button, Icon, Input, Select, Rate, Radio, DatePicker, Popconfirm, Divider, Card, notification, Drawer, Modal, List } from 'antd';
 import { isArray, get, sortBy, values, omit, mapValues, isEmpty, isPlainObject, extend, set, noop, pickBy, kebabCase, result } from 'lodash';
-import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, parseAndPreserveNewlines, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer } from '@mighty-justice/utils';
+import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, parseAndPreserveNewlines, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
 import moment from 'moment';
 import { format } from 'date-fns';
 import { pattern } from 'iso8601-duration';
@@ -167,6 +167,44 @@ function _possibleConstructorReturn(self, call) {
   }
 
   return _assertThisInitialized(self);
+}
+
+function _slicedToArray(arr, i) {
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+}
+
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+function _iterableToArrayLimit(arr, i) {
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance");
 }
 
 function _initializerDefineProperty(target, property, descriptor, context) {
@@ -349,6 +387,7 @@ function (_Component) {
         return React.createElement(React.Fragment, null, React.createElement(NestedFieldSet$$1, {
           fieldSet: this.fieldConfig.createFields,
           id: id,
+          search: this.search,
           setFields: form.setFields
         }), React.createElement(Button, {
           size: "small",
@@ -828,15 +867,22 @@ function fillInFieldConfig(fieldConfig) {
     }
   } : undefined;
   return _objectSpread({
+    // Universal defaults
+    disabled: false,
     key: fieldConfig.field,
     label: label,
+    populateFromSearch: false,
+    populateNameFromSearch: false,
     readOnly: false,
     render: stripFieldConfig$1(getOrDefault),
     required: false,
     showLabel: true,
-    type: type
+    type: type,
+    writeOnly: false
   }, typeDefaults, TYPES[type], fieldConfig, {
+    // Merge nested object
     editProps: _objectSpread({}, fieldConfig.editProps, TYPES[type].editProps),
+    // Merge nested object
     formValidationRules: _objectSpread({}, fieldConfig.formValidationRules, TYPES[type].formValidationRules, requiredValidationRule)
   });
 }
@@ -877,11 +923,11 @@ function getUnsortedOptions(fieldConfig, injected) {
     return options;
   }
 
-  if (fieldConfig.getOptions) {
+  if (fieldConfig.getOptions && optionType) {
     return fieldConfig.getOptions(optionType);
   }
 
-  if (injected.getOptions) {
+  if (injected.getOptions && optionType) {
     return injected.getOptions(optionType);
   } // istanbul ignore next
 
@@ -1199,8 +1245,51 @@ function (_Component) {
     value: function render() {
       return React.createElement(this.NestedForm, {
         fieldSet: this.props.fieldSet,
+        model: this.model,
         wrappedComponentRef: this.setSubForm
       });
+    }
+  }, {
+    key: "fieldSet",
+    get: function get$$1() {
+      return getFieldSetFields(fillInFieldSet(this.props.fieldSet));
+    }
+  }, {
+    key: "model",
+    get: function get$$1() {
+      /*
+      This function implements the fieldConfig features
+      populateFromSearch and populateNameFromSearch
+      */
+      var search = this.props.search,
+          _splitName = splitName(search),
+          _splitName2 = _slicedToArray(_splitName, 2),
+          firstName = _splitName2[0],
+          lastName = _splitName2[1],
+          defaults = {};
+
+      if (!search) {
+        return defaults;
+      }
+
+      this.fieldSet.map(function (fieldConfig) {
+        var field = fieldConfig.field,
+            populateFromSearch = fieldConfig.populateFromSearch,
+            populateNameFromSearch = fieldConfig.populateNameFromSearch;
+
+        if (populateFromSearch) {
+          defaults[field] = search;
+        }
+
+        if (populateNameFromSearch && field.endsWith('first_name')) {
+          defaults[field] = firstName;
+        }
+
+        if (populateNameFromSearch && field.endsWith('last_name')) {
+          defaults[field] = lastName;
+        }
+      });
+      return defaults;
     }
   }]);
 
@@ -1215,7 +1304,7 @@ function (_Component) {
   enumerable: true,
   writable: true,
   initializer: null
-})), _class2$5)) || _class$7) || _class$7;
+}), _applyDecoratedDescriptor(_class2$5.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "fieldSet"), _class2$5.prototype), _applyDecoratedDescriptor(_class2$5.prototype, "model", [computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "model"), _class2$5.prototype)), _class2$5)) || _class$7) || _class$7;
 
 var _class$8, _class2$6;
 
@@ -2070,7 +2159,7 @@ function (_Component) {
           isGuarded = _this$props2.isGuarded,
           classNameSuffix = cardConfig.classNameSuffix || kebabCase(cardConfig.title);
       return React.createElement(GuardedButton, {
-        className: "btn-new-".concat(classNameSuffix),
+        className: "btn-new btn-new-".concat(classNameSuffix),
         disabled: isLoading || this.isAddingNew.isTrue,
         icon: "plus",
         isGuarded: isGuarded,

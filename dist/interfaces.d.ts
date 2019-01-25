@@ -1,7 +1,7 @@
 /// <reference types="react" />
 interface IFieldConfigBase {
     className?: any;
-    disabled?: boolean;
+    disabled: boolean;
     editComponent: any;
     editProps: {
         [key: string]: any;
@@ -22,6 +22,8 @@ interface IFieldConfigBase {
     key: string;
     label: string | null;
     nullify: boolean;
+    populateFromSearch: boolean;
+    populateNameFromSearch: boolean;
     readOnly: boolean;
     render: (...args: any[]) => string | JSX.Element | JSX.Element[];
     required: boolean;
@@ -29,7 +31,7 @@ interface IFieldConfigBase {
     toForm: (data: any, field: string) => any;
     type: string;
     value?: string | number;
-    writeOnly?: boolean;
+    writeOnly: boolean;
 }
 export interface IAntFormField {
     id: string;
@@ -43,7 +45,7 @@ export interface IOption {
 export interface IFieldConfigOptionSelect extends IFieldConfigBase {
     getOptions?: (optionType: string) => IOption[];
     options?: IOption[];
-    optionType: string;
+    optionType?: string;
     showSearch?: boolean;
     sorted?: boolean;
 }

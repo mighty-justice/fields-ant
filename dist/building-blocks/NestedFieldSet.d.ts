@@ -1,8 +1,9 @@
 import { Component } from 'react';
-import { IFieldSetSimplePartial } from '../';
+import { IFieldSetPartial } from '../';
 interface IProps {
-    fieldSet: IFieldSetSimplePartial;
+    fieldSet: IFieldSetPartial;
     id: string;
+    search?: string;
     setFields: (data: {
         [id: string]: {
             errors: any;
@@ -14,6 +15,8 @@ declare class NestedFieldSet extends Component<IProps> {
     private NestedForm;
     private subForm;
     constructor(props: IProps);
+    private readonly fieldSet;
+    private readonly model;
     private onFieldsChange;
     private initializeForm;
     private setSubForm;
