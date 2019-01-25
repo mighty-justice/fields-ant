@@ -10,6 +10,9 @@ script: echo "Running tests against $(node -v)..." && yarn test
 
 jobs:
   include:
+    - stage: Build
+      node_js: node
+      script: yarn build
     - stage: Lint
       node_js: node
       script: yarn lint
