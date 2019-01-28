@@ -22,9 +22,9 @@ import {
 const MIN_SEARCH_LENGTH = 3;
 
 interface IProps {
+  buttonProps: ButtonProps;
   fieldConfig: IFieldConfigObjectSearchCreate;
   selectProps: SelectProps;
-  buttonProps: ButtonProps;
 }
 
 @inject('getEndpoint')
@@ -121,10 +121,10 @@ class ObjectSearchCreate extends Component<IProps> {
         <Antd.Button
           icon='plus'
           children='Add New'
-          {...this.buttonProps}
           className='osc-add-new'
           disabled={this.search.length < MIN_SEARCH_LENGTH}
           onClick={this.addNew}
+          {...this.buttonProps}
         />
       </Antd.Input.Group>
     );
