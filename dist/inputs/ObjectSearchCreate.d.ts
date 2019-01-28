@@ -6,6 +6,7 @@ declare class ObjectSearchCreate extends Component<IInputProps> {
     private search;
     private readonly injected;
     private readonly fieldConfig;
+    private readonly selectProps;
     private handleSearch;
     private addNew;
     private onChange;

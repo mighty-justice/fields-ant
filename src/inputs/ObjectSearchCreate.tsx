@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import { pick } from 'lodash';
 
 import SmartBool from '@mighty-justice/smart-bool';
 import { toKey } from '@mighty-justice/utils';
 
 import * as Antd from 'antd';
+import { ButtonProps } from 'antd/lib/button';
+import { SelectProps } from 'antd/lib/select';
 
 import {
   IAntFormField,
@@ -18,20 +21,36 @@ import {
 
 const MIN_SEARCH_LENGTH = 3;
 
+interface IProps {
+  buttonProps: ButtonProps;
+  fieldConfig: IFieldConfigObjectSearchCreate;
+  selectProps: SelectProps;
+}
+
 @inject('getEndpoint')
 @autoBindMethods
 @observer
-class ObjectSearchCreate extends Component<IInputProps> {
+class ObjectSearchCreate extends Component<IProps> {
   @observable private isAddingNew = new SmartBool();
   @observable private options: Array<{ id: string, name: string }> = [];
   @observable private search = '';
 
   private get injected () {
-    return this.props as IInjected & IInputProps & IAntFormField;
+    return this.props as IProps & IInjected & IInputProps & IAntFormField;
   }
 
   private get fieldConfig () {
     return this.props.fieldConfig as IFieldConfigObjectSearchCreate;
+  }
+
+  private get selectProps () {
+    // Handpicking specific props to avoid unintentional behaviors
+    return pick(this.props.selectProps as SelectProps, ['suffixIcon', 'clearIcon', 'removeIcon']);
+  }
+
+  private get buttonProps () {
+    // Handpicking specific props to avoid unintentional behaviors
+    return pick(this.props.buttonProps as ButtonProps, ['children', 'icon']);
   }
 
   private async handleSearch (value: string) {
@@ -88,6 +107,7 @@ class ObjectSearchCreate extends Component<IInputProps> {
           onSearch={this.handleSearch}
           placeholder='Select existing'
           showSearch
+          {...this.selectProps}
         >
           {this.options.map(option => (
             <Antd.Select.Option
@@ -99,13 +119,13 @@ class ObjectSearchCreate extends Component<IInputProps> {
           ))}
         </Antd.Select>
         <Antd.Button
+          icon='plus'
+          children='Add New'
           className='osc-add-new'
           disabled={this.search.length < MIN_SEARCH_LENGTH}
-          icon='plus'
           onClick={this.addNew}
-        >
-          Add New
-        </Antd.Button>
+          {...this.buttonProps}
+        />
       </Antd.Input.Group>
     );
   }
