@@ -407,7 +407,7 @@ function (_Component) {
       return React__default.createElement(Antd.Input.Group, {
         className: "ant-input-group-search-create",
         compact: true
-      }, React__default.createElement(Antd.Select, {
+      }, React__default.createElement(Antd.Select, _extends({
         allowClear: true,
         defaultActiveFirstOption: false,
         filterOption: false,
@@ -417,17 +417,18 @@ function (_Component) {
         onSearch: this.handleSearch,
         placeholder: "Select existing",
         showSearch: true
-      }, this.options.map(function (option) {
+      }, this.selectProps), this.options.map(function (option) {
         return React__default.createElement(Antd.Select.Option, {
           key: option.id,
           value: option.id
         }, option.name);
-      })), React__default.createElement(Antd.Button, {
+      })), React__default.createElement(Antd.Button, _extends({
+        icon: "plus",
+        children: "Add New",
         className: "osc-add-new",
         disabled: this.search.length < MIN_SEARCH_LENGTH,
-        icon: "plus",
         onClick: this.addNew
-      }, "Add New"));
+      }, this.buttonProps)));
     }
   }, {
     key: "injected",
@@ -438,6 +439,18 @@ function (_Component) {
     key: "fieldConfig",
     get: function get() {
       return this.props.fieldConfig;
+    }
+  }, {
+    key: "selectProps",
+    get: function get() {
+      // Handpicking specific props to avoid unintentional behaviors
+      return lodash.pick(this.props.selectProps, ['suffixIcon', 'clearIcon', 'removeIcon']);
+    }
+  }, {
+    key: "buttonProps",
+    get: function get() {
+      // Handpicking specific props to avoid unintentional behaviors
+      return lodash.pick(this.props.buttonProps, ['children', 'icon']);
     }
   }]);
 

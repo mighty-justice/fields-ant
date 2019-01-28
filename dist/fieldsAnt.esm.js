@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form, Row, Col, Button, Icon, Input, Select, Rate, Radio, DatePicker, Popconfirm, Divider, Card, notification, Drawer, Modal, List } from 'antd';
-import { isArray, get, sortBy, values, omit, mapValues, isEmpty, isPlainObject, extend, set, noop, pickBy, kebabCase, result } from 'lodash';
+import { pick, isArray, get, sortBy, values, omit, mapValues, isEmpty, isPlainObject, extend, set, noop, pickBy, kebabCase, result } from 'lodash';
 import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, parseAndPreserveNewlines, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
 import moment from 'moment';
 import { format } from 'date-fns';
@@ -400,7 +400,7 @@ function (_Component) {
       return React.createElement(Input.Group, {
         className: "ant-input-group-search-create",
         compact: true
-      }, React.createElement(Select, {
+      }, React.createElement(Select, _extends({
         allowClear: true,
         defaultActiveFirstOption: false,
         filterOption: false,
@@ -410,17 +410,18 @@ function (_Component) {
         onSearch: this.handleSearch,
         placeholder: "Select existing",
         showSearch: true
-      }, this.options.map(function (option) {
+      }, this.selectProps), this.options.map(function (option) {
         return React.createElement(Select.Option, {
           key: option.id,
           value: option.id
         }, option.name);
-      })), React.createElement(Button, {
+      })), React.createElement(Button, _extends({
+        icon: "plus",
+        children: "Add New",
         className: "osc-add-new",
         disabled: this.search.length < MIN_SEARCH_LENGTH,
-        icon: "plus",
         onClick: this.addNew
-      }, "Add New"));
+      }, this.buttonProps)));
     }
   }, {
     key: "injected",
@@ -431,6 +432,18 @@ function (_Component) {
     key: "fieldConfig",
     get: function get$$1() {
       return this.props.fieldConfig;
+    }
+  }, {
+    key: "selectProps",
+    get: function get$$1() {
+      // Handpicking specific props to avoid unintentional behaviors
+      return pick(this.props.selectProps, ['suffixIcon', 'clearIcon', 'removeIcon']);
+    }
+  }, {
+    key: "buttonProps",
+    get: function get$$1() {
+      // Handpicking specific props to avoid unintentional behaviors
+      return pick(this.props.buttonProps, ['children', 'icon']);
     }
   }]);
 
