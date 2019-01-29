@@ -1019,9 +1019,17 @@ function (_Component) {
         return null;
       }
 
-      return React.createElement(Form.Item, _extends({}, fieldConfig.formItemProps, {
+      var FormItemComponent = React.createElement(Form.Item, _extends({}, fieldConfig.formItemProps, {
         label: this.label
       }), getFieldDecorator(fieldConfig.field, this.decoratorOptions)(React.createElement(fieldConfig.editComponent, this.editProps)));
+
+      if (fieldConfig.colProps) {
+        return React.createElement(Col, _extends({}, fieldConfig.colProps, {
+          children: FormItemComponent
+        }));
+      }
+
+      return FormItemComponent;
     }
   }, {
     key: "label",
@@ -1088,18 +1096,19 @@ function (_Component) {
           filteredFieldConfigs = fieldConfigs.filter(function (fieldConfig) {
         return !filterInsertIf(fieldConfig, formValues);
       }),
-          legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend;
+          legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend,
+          rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps;
 
       if (!filteredFieldConfigs.length) {
         return null;
       }
 
-      return React.createElement(React.Fragment, null, legend && React.createElement("h3", null, legend), filteredFieldConfigs.map(function (fieldConfig, idx) {
+      return React.createElement(React.Fragment, null, legend && React.createElement("h3", null, legend), React.createElement(Row, rowProps, filteredFieldConfigs.map(function (fieldConfig, idx) {
         return React.createElement(FormField, _extends({}, _this.props, {
           fieldConfig: fieldConfig,
           key: "field-config-".concat(fieldConfig.field, "-").concat(idx)
         }));
-      }));
+      })));
     }
   }, {
     key: "fieldSet",

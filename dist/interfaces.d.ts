@@ -1,6 +1,9 @@
 /// <reference types="react" />
+import { ColProps } from 'antd/lib/col';
+import { RowProps } from 'antd/lib/row';
 interface IFieldConfigBase {
     className?: any;
+    colProps?: ColProps;
     disabled: boolean;
     editComponent: any;
     editProps: {
@@ -65,10 +68,12 @@ export declare type IFieldSetSimple = IFieldConfig[];
 export interface IFieldSetComplex {
     fields: IFieldSetSimple;
     legend: string;
+    rowProps?: RowProps;
 }
 export interface IFieldSetComplexPartial {
     fields: IFieldSetSimplePartial;
     legend: string;
+    rowProps?: RowProps;
 }
 export declare type IFieldSet = IFieldSetSimple | IFieldSetComplex;
 export declare type IFieldSetPartial = IFieldSetSimplePartial | IFieldSetComplexPartial;
