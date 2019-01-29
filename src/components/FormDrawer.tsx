@@ -22,9 +22,8 @@ interface IProps {
   onSave: (args: any) => Promise<void>;
   onSuccess?: (args?: any) => void;
   title: string;
+  width?: number;
 }
-
-const DRAWER_WIDTH = 420;
 
 @autoBindMethods
 @observer
@@ -59,10 +58,11 @@ class BaseFormDrawer extends Component<IProps> {
   }
 
   public render () {
-    const { form, isVisible, model, title } = this.props;
+    const { form, isVisible, model, title, width } = this.props;
 
     return (
       <Drawer
+        className='mfa-form-drawer'
         closable
         destroyOnClose
         maskClosable={false}
@@ -70,7 +70,7 @@ class BaseFormDrawer extends Component<IProps> {
         placement='right'
         title={title}
         visible={isVisible.isTrue}
-        width={DRAWER_WIDTH}
+        width={width}
       >
         <Form layout='vertical' hideRequiredMark onSubmit={this.formManager.onSave}>
           {this.fieldSets.map((fieldSet, idx) => (
