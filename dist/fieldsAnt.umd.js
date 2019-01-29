@@ -2240,7 +2240,6 @@
   })), _class2$b)) || _class$f) || _class$f;
 
   var _class$g, _class2$c, _temp$6;
-  var DRAWER_WIDTH = 420;
 
   var BaseFormDrawer = autoBindMethods(_class$g = mobxReact.observer(_class$g = (_class2$c = (_temp$6 =
   /*#__PURE__*/
@@ -2281,8 +2280,10 @@
             form = _this$props.form,
             isVisible = _this$props.isVisible,
             model = _this$props.model,
-            title = _this$props.title;
+            title = _this$props.title,
+            width = _this$props.width;
         return React__default.createElement(Antd.Drawer, {
+          className: "mfa-form-drawer",
           closable: true,
           destroyOnClose: true,
           maskClosable: false,
@@ -2290,7 +2291,7 @@
           placement: "right",
           title: title,
           visible: isVisible.isTrue,
-          width: DRAWER_WIDTH
+          width: width
         }, React__default.createElement(Antd.Form, {
           layout: "vertical",
           hideRequiredMark: true,

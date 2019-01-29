@@ -9,6 +9,7 @@ interface IProps {
     onSave: (args: any) => Promise<void>;
     onSuccess?: (args?: any) => void;
     title: string;
+    width?: number;
 }
-declare const FormDrawer: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<IProps, "title" | "model" | "fieldSets" | "onSave" | "onSuccess" | "isVisible">, any>;
+declare const FormDrawer: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<IProps, "title" | "width" | "model" | "fieldSets" | "onSave" | "onSuccess" | "isVisible">, any>;
 export default FormDrawer;
