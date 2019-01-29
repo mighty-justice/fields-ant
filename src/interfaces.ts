@@ -1,3 +1,6 @@
+import { ColProps } from 'antd/lib/col';
+import { RowProps } from 'antd/lib/row';
+
 // This defines the core common interface for Mighty fields
 //
 // This excludes all fields used only by a single type ( see below )
@@ -6,6 +9,7 @@
 // than to fill all this in (see further below for partials).
 interface IFieldConfigBase {
   className?: any;
+  colProps?: ColProps;
   disabled: boolean;
   editComponent: any;
   editProps: { [key: string]: any };
@@ -80,11 +84,13 @@ export type IFieldSetSimple = IFieldConfig[];
 export interface IFieldSetComplex {
   fields: IFieldSetSimple;
   legend: string;
+  rowProps?: RowProps;
 }
 
 export interface IFieldSetComplexPartial {
   fields: IFieldSetSimplePartial;
   legend: string;
+  rowProps?: RowProps;
 }
 
 // fieldSets: IFieldSet[]

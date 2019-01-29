@@ -62,13 +62,19 @@ class FormField extends Component<IProps> {
       return null;
     }
 
-    return (
+    const FormItemComponent = (
       <Antd.Form.Item {...fieldConfig.formItemProps} label={this.label}>
         {getFieldDecorator(fieldConfig.field, this.decoratorOptions)(
           <fieldConfig.editComponent {...this.editProps} />,
         )}
       </Antd.Form.Item>
     );
+
+    if (fieldConfig.colProps) {
+      return <Antd.Col {...fieldConfig.colProps} children={FormItemComponent} />;
+    }
+
+    return FormItemComponent;
   }
 }
 

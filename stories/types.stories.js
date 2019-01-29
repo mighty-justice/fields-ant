@@ -48,21 +48,44 @@ storiesOf('Types', module)
       <FormCard
         cardConfig={{
           ...props.cardConfig,
-          fieldSets: [[{
-            field: 'example',
-            type: 'objectSearchCreate',
-            endpoint: '/endpoint/',
-            createFields: [
-              { field: 'first_name', populateFromSearch: true },
-              { field: 'last_name', populateNameFromSearch: true },
-              { field: 'lawfirm', populateNameFromSearch: true },
+          fieldSets: [{
+            legend: 'Legend Text',
+            rowProps: { gutter: 16 },
+            fields: [
               {
-                field: 'organization',
+                colProps: { sm: 24, lg: 12 },
+                field: 'example',
                 type: 'objectSearchCreate',
-                createFields: [{ field: 'name' }],
+                endpoint: '/endpoint/',
+                createFields: [
+                  { field: 'first_name', populateFromSearch: true },
+                  { field: 'last_name', populateNameFromSearch: true },
+                  { field: 'lawfirm', populateNameFromSearch: true },
+                  {
+                    field: 'organization',
+                    type: 'objectSearchCreate',
+                    createFields: [{ field: 'name' }],
+                  },
+                ],
               },
-            ],
-          }]]
+              {
+                colProps: { sm: 24, lg: 12 },
+                field: 'second_example',
+                type: 'objectSearchCreate',
+                endpoint: '/endpoint/',
+                createFields: [
+                  { field: 'first_name', populateFromSearch: true },
+                  { field: 'last_name', populateNameFromSearch: true },
+                  { field: 'lawfirm', populateNameFromSearch: true },
+                  {
+                    field: 'organization',
+                    type: 'objectSearchCreate',
+                    createFields: [{ field: 'name' }],
+                  },
+                ],
+              }
+            ]
+          }]
         }}
         onSave={(data) => action('Form Save')(data)}
       />
