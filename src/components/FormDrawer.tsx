@@ -22,7 +22,7 @@ interface IProps {
   onSave: (args: any) => Promise<void>;
   onSuccess?: (args?: any) => void;
   title: string;
-  width?: number;
+  width?: number | string;
 }
 
 @autoBindMethods
