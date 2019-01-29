@@ -70,7 +70,7 @@ storiesOf('Types', module)
               },
               {
                 colProps: { sm: 24, lg: 12 },
-                field: 'example',
+                field: 'second_example',
                 type: 'objectSearchCreate',
                 endpoint: '/endpoint/',
                 createFields: [

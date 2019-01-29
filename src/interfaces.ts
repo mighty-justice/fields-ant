@@ -90,6 +90,7 @@ export interface IFieldSetComplex {
 export interface IFieldSetComplexPartial {
   fields: IFieldSetSimplePartial;
   legend: string;
+  rowProps?: RowProps;
 }
 
 // fieldSets: IFieldSet[]
