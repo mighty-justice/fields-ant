@@ -1193,7 +1193,7 @@
         var _onFieldsChange = _asyncToGenerator(
         /*#__PURE__*/
         regeneratorRuntime.mark(function _callee(_props, fields) {
-          var id, value, errors;
+          var id, errors;
           return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
@@ -1202,9 +1202,7 @@
                   This function is triggered on all fields changes
                   and includes values and errors of all sub-fields
                   */
-                  id = this.props.id, value = lodash.mapValues(fields, function (v) {
-                    return v.value;
-                  }), errors = lodash.values(fields) // Array<value, errors> => Error[]
+                  id = this.props.id, errors = lodash.values(fields) // Array<value, errors> => Error[]
                   .map(function (v) {
                     return v.errors;
                   }) // Get errors for each field
@@ -1226,7 +1224,7 @@
 
                   this.props.setFields(_defineProperty({}, id, {
                     errors: lodash.isEmpty(errors) ? undefined : errors,
-                    value: value
+                    value: this.subForm.getFieldsValue()
                   }));
 
                 case 2:
