@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form, Row, Col, Button, Icon, Input, Select, Rate, Radio, DatePicker, Popconfirm, Divider, Card, notification, Drawer, Modal, List } from 'antd';
-import { pick, isArray, get, sortBy, values, omit, isEmpty, isPlainObject, extend, mapValues, set, noop, pickBy, kebabCase, result } from 'lodash';
+import { pick, isArray, get, sortBy, values, omit, mapValues, isEmpty, isPlainObject, extend, set, noop, pickBy, kebabCase, result } from 'lodash';
 import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, parseAndPreserveNewlines, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
 import moment from 'moment';
 import { format } from 'date-fns';
@@ -1194,7 +1194,7 @@ function (_Component) {
       var _onFieldsChange = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(_props, fields) {
-        var id, errors;
+        var id, value, errors;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1203,7 +1203,9 @@ function (_Component) {
                 This function is triggered on all fields changes
                 and includes values and errors of all sub-fields
                 */
-                id = this.props.id, errors = values(fields) // Array<value, errors> => Error[]
+                id = this.props.id, value = mapValues(fields, function (v) {
+                  return v.value;
+                }), errors = values(fields) // Array<value, errors> => Error[]
                 .map(function (v) {
                   return v.errors;
                 }) // Get errors for each field
@@ -1225,7 +1227,7 @@ function (_Component) {
 
                 this.props.setFields(_defineProperty({}, id, {
                   errors: isEmpty(errors) ? undefined : errors,
-                  value: this.subForm.getFieldsValue()
+                  value: value
                 }));
 
               case 2:
