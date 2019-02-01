@@ -96,7 +96,7 @@ describe('objectSearchCreate', () => {
 
     changeInput(tester.find('input#name'), searchTerm);
     tester.find('form').simulate('submit');
-    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm }});
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: '' }});
   });
 
   it('Populates from search', async () => {
