@@ -27,6 +27,7 @@ function getDefaults (overrides) {
 
   return {
     expectedLabel: 'Law Firm',
+    fakeOwed: faker.finance.amount(),
     result: { id: faker.random.uuid(), name: faker.company.companyName() },
     searchTerm: faker.lorem.sentence(),
 
@@ -79,7 +80,7 @@ describe('objectSearchCreate', () => {
   });
 
   it('Adds new', async () => {
-    const { field, onSave, searchTerm, result, props } = getDefaults({})
+    const { field, onSave, searchTerm, result, props, fakeOwed } = getDefaults({})
       , tester = await getTester(props) ;
 
     await searchFor(tester, field, result, searchTerm);
@@ -94,9 +95,14 @@ describe('objectSearchCreate', () => {
     expect(tester.text()).toContain('required');
     expect(onSave).not.toHaveBeenCalled();
 
+    changeInput(tester.find('input#amount_owed'), fakeOwed);
+    tester.find('form').simulate('submit');
+    expect(tester.text()).toContain('required');
+    expect(onSave).not.toHaveBeenCalled();
+
     changeInput(tester.find('input#name'), searchTerm);
     tester.find('form').simulate('submit');
-    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: '' }});
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed }});
   });
 
   it('Populates from search', async () => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { isEmpty, values } from 'lodash';
+import { isEmpty, values, flatten, isArray } from 'lodash';
 
 import { splitName } from '@mighty-justice/utils';
 
@@ -76,18 +76,15 @@ class NestedFieldSet extends Component<IProps> {
     return defaults;
   }
 
-  private async onFieldsChange (_props: any, fields: any) {
-    /*
-    This function is triggered on all fields changes
-    and includes values and errors of all sub-fields
-    */
+  private async onFieldsChange (_props: any, _fields: any) {
     const { id } = this.props
-      , errors = values(fields) // Array<value, errors> => Error[]
-        .map(v => v.errors) // Get errors for each field
-        .filter(v => !!v) // Filter out those with no errors
-        .map(v => v.message) // Strip to just error message
-        .map(v => new Error(v)) // Wrap in error object
-        ;
+      , errorsMap: { [key: string]: undefined | string[] } = this.subForm.getFieldsError()
+      , errorsArray: Array<undefined | string[]> = values(errorsMap)
+      , onlyInvalid: string[][] = errorsArray.filter(isArray)
+      , allErrors: string[] = flatten(onlyInvalid)
+      , errors: undefined | string[] = isEmpty(allErrors) ? undefined : allErrors
+      , value: { [key: string]: any } = this.subForm.getFieldsValue()
+      ;
 
     /*
     Here were are taking the packaged errors and field value and passing
@@ -96,12 +93,7 @@ class NestedFieldSet extends Component<IProps> {
     The sub-form will see name, phone, etc. while the parent will receive
     { law_firm: { name, phone } } as a single changing value
     */
-    this.props.setFields({
-      [id]: {
-        errors: isEmpty(errors) ? undefined : errors,
-        value: this.subForm.getFieldsValue(),
-      },
-    });
+    this.props.setFields({ [id]: { errors, value } });
   }
 
   private initializeForm () {
