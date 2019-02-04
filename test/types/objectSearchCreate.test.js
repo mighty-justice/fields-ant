@@ -95,11 +95,13 @@ describe('objectSearchCreate', () => {
     expect(tester.text()).toContain('required');
     expect(onSave).not.toHaveBeenCalled();
 
+    // Will not clear errors when changing valid field
     changeInput(tester.find('input#amount_owed'), fakeOwed);
     tester.find('form').simulate('submit');
     expect(tester.text()).toContain('required');
     expect(onSave).not.toHaveBeenCalled();
 
+    // Will clear errors when fixing invalid field
     changeInput(tester.find('input#name'), searchTerm);
     tester.find('form').simulate('submit');
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed }});

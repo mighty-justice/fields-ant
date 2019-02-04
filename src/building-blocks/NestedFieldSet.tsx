@@ -78,10 +78,14 @@ class NestedFieldSet extends Component<IProps> {
 
   private async onFieldsChange (_props: any, _fields: any) {
     const { id } = this.props
+      // The types below are not required by Typescript
+      // They are there to explicitly state expectations and catch mistakes
       , errorsMap: { [key: string]: undefined | string[] } = this.subForm.getFieldsError()
       , errorsArray: Array<undefined | string[]> = values(errorsMap)
       , onlyInvalid: string[][] = errorsArray.filter(isArray)
       , allErrors: string[] = flatten(onlyInvalid)
+
+      // Prepare final values for parent form
       , errors: undefined | string[] = isEmpty(allErrors) ? undefined : allErrors
       , value: { [key: string]: any } = this.subForm.getFieldsValue()
       ;
