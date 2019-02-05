@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { action, observable, toJS } from 'mobx';
+import { observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { pick } from 'lodash';
 
 import SmartBool from '@mighty-justice/smart-bool';
-import { toKey } from '@mighty-justice/utils';
 
 import * as Antd from 'antd';
 import { ButtonProps } from 'antd/lib/button';
@@ -38,7 +37,6 @@ interface IProps {
 @observer
 class ObjectSearchCreate extends Component<IProps> {
   @observable private isAddingNew = new SmartBool();
-  @observable private options: Array<{ id: string, name: string }> = [];
   @observable private search = '';
 
   private get injected () {
@@ -47,11 +45,6 @@ class ObjectSearchCreate extends Component<IProps> {
 
   private get fieldConfig () {
     return this.props.fieldConfig as IFieldConfigObjectSearchCreate;
-  }
-
-  private get selectProps () {
-    // Handpicking specific props to avoid unintentional behaviors
-    return pick(this.props.selectProps as SelectProps, ['suffixIcon', 'clearIcon', 'removeIcon']);
   }
 
   private get buttonProps () {
@@ -64,37 +57,17 @@ class ObjectSearchCreate extends Component<IProps> {
   }
 
   private addNew () {
-    console.log('addNew');
-    console.log('addNew');
-    console.log('addNew');
-    console.log('addNew');
-    console.log('addNew');
-    console.log('addNew');
-    console.log('addNew');
-    // const { formManager, id } = this.injected;
     this.isAddingNew.setTrue();
-    // formManager.skipFieldDecorator.set(id, true);
   }
 
   private undoAddNew () {
-    // const { formManager, id } = this.injected;
-    // formManager.skipFieldDecorsator.set(id, false);
     this.isAddingNew.setFalse();
   }
 
-  private onChange (value: any) {
-    const foundOption = this.options.find(option => option.id === value.key);
-    console.log('osc.onChange', foundOption);
-    this.injected.onChange(toJS(foundOption));
-  }
-
   public render () {
-    const { id, form, fieldConfig, fieldDecorator, decoratorOptions } = this.injected;
-    console.log('render', this.isAddingNew.isTrue);
+    const { form, fieldConfig, decoratorOptions } = this.injected;
 
     if (this.isAddingNew.isTrue) {
-      console.log('Rendering without:');
-      console.log(fieldConfig.field);
       return (
         <>
           <NestedFieldSet
@@ -112,7 +85,6 @@ class ObjectSearchCreate extends Component<IProps> {
       );
     }
 
-    console.log('Rendering with button:');
     return (
       <Antd.Input.Group className='ant-input-group-search-create' compact>
         {form.getFieldDecorator(this.props.fieldConfig.field, decoratorOptions)(<ObjectSearch
@@ -127,7 +99,7 @@ class ObjectSearchCreate extends Component<IProps> {
           disabled={this.search.length < MIN_SEARCH_LENGTH}
           icon='plus'
           {...this.buttonProps}
-          onClick={() => { console.log('CLIIIIIIIIIIIIIIIICK'); this.addNew(); }}
+          onClick={this.addNew}
         />
       </Antd.Input.Group>
     );

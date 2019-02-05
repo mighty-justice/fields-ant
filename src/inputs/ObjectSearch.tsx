@@ -8,7 +8,6 @@ import SmartBool from '@mighty-justice/smart-bool';
 import { toKey } from '@mighty-justice/utils';
 
 import * as Antd from 'antd';
-import { ButtonProps } from 'antd/lib/button';
 import { SelectProps } from 'antd/lib/select';
 
 import {
@@ -19,8 +18,6 @@ import {
   IInputProps,
   NestedFieldSet,
 } from '../';
-
-const MIN_SEARCH_LENGTH = 3;
 
 interface IProps {
   fieldConfig: IFieldConfigObjectSearchCreate;
@@ -66,22 +63,12 @@ class ObjectSearch extends Component<IProps> {
   }
 
   @action
-  private addNew () {
-    // const { formManager, id } = this.injected;
-    this.isAddingNew.setTrue();
-    // formManager.skipFieldDecorator.set(id, true);
-  }
-
-  @action
   private undoAddNew () {
-    // const { formManager, id } = this.injected;
-    // formManager.skipFieldDecorsator.set(id, false);
     this.isAddingNew.setFalse();
   }
 
   private onChange (value: any) {
     const foundOption = this.options.find(option => option.id === value.key);
-    console.log('os.onChange', foundOption);
     this.injected.onChange(toJS(foundOption));
   }
 

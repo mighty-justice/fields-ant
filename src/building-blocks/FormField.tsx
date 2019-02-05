@@ -79,8 +79,6 @@ class FormField extends Component<IProps> {
       </Antd.Form.Item>
     );
 
-    console.log('skipFieldDecorator?', field, skipFieldDecorator);
-
     if (colProps) {
       return <Antd.Col {...colProps} children={FormItemComponent} />;
     }

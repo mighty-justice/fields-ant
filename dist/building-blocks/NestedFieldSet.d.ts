@@ -10,6 +10,7 @@ interface IProps {
     search?: string;
 }
 declare class NestedFieldSet extends Component<IProps> {
+    constructor(props: IProps);
     private readonly fieldSet;
     private readonly model;
     render(): JSX.Element;
