@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { action, observable, toJS } from 'mobx';
+import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { pick } from 'lodash';
 
-import SmartBool from '@mighty-justice/smart-bool';
 import { toKey } from '@mighty-justice/utils';
 
 import * as Antd from 'antd';
@@ -16,7 +15,6 @@ import {
   IFieldConfigObjectSearchCreate,
   IInjected,
   IInputProps,
-  NestedFieldSet,
 } from '../';
 
 interface IProps {
@@ -30,7 +28,6 @@ interface IProps {
 @autoBindMethods
 @observer
 class ObjectSearch extends Component<IProps> {
-  @observable private isAddingNew = new SmartBool();
   @observable private options: Array<{ id: string, name: string }> = [];
   @observable private search = '';
 
@@ -62,36 +59,13 @@ class ObjectSearch extends Component<IProps> {
     this.options = response.results;
   }
 
-  @action
-  private undoAddNew () {
-    this.isAddingNew.setFalse();
-  }
-
   private onChange (value: any) {
     const foundOption = this.options.find(option => option.id === value.key);
     this.injected.onChange(toJS(foundOption));
   }
 
   public render () {
-    const { id, form, fieldConfig } = this.injected;
-
-    if (this.isAddingNew.isTrue) {
-      return (
-        <>
-          <NestedFieldSet
-            fieldSet={this.fieldConfig.createFields}
-            form={form}
-            formManager={this.props.formManager}
-            id={fieldConfig.field}
-            label={this.fieldConfig.label}
-            search={this.search}
-          />
-          <Antd.Button size='small' onClick={this.undoAddNew}>
-            <Antd.Icon type='left' /> Back to search
-          </Antd.Button>
-        </>
-      );
-    }
+    const { id } = this.injected;
 
     return (
       <Antd.Select

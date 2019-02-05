@@ -58,7 +58,6 @@ async function searchFor (tester, field, result, searchTerm) {
 
 async function selectAddNew (tester) {
   tester.find('button.osc-add-new').simulate('click');
-  await tester.refresh();
 }
 
 describe('objectSearchCreate', () => {

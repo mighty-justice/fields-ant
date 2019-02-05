@@ -68,8 +68,8 @@ class FormField extends Component<IProps> {
       return null;
     }
 
-    const fieldDecProps = skipFieldDecorator ? { decoratorOptions: this.decoratorOptions } : {}
-      , editComponent = <fieldConfig.editComponent {...this.editProps} {...fieldDecProps} />
+    const decoratorOptionsProp = skipFieldDecorator ? { decoratorOptions: this.decoratorOptions } : {}
+      , editComponent = <fieldConfig.editComponent {...this.editProps} {...decoratorOptionsProp} />
       , wrappedComponent = skipFieldDecorator
         ? editComponent
         : getFieldDecorator(field, this.decoratorOptions)(editComponent)

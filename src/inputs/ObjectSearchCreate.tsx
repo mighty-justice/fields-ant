@@ -56,14 +56,6 @@ class ObjectSearchCreate extends Component<IProps> {
     this.search = value;
   }
 
-  private addNew () {
-    this.isAddingNew.setTrue();
-  }
-
-  private undoAddNew () {
-    this.isAddingNew.setFalse();
-  }
-
   public render () {
     const { form, fieldConfig, decoratorOptions } = this.injected;
 
@@ -78,7 +70,7 @@ class ObjectSearchCreate extends Component<IProps> {
             label={this.fieldConfig.label}
             search={this.search}
           />
-          <Antd.Button size='small' onClick={this.undoAddNew}>
+          <Antd.Button size='small' onClick={this.isAddingNew.setFalse}>
             <Antd.Icon type='left' /> Back to search
           </Antd.Button>
         </>
@@ -98,8 +90,8 @@ class ObjectSearchCreate extends Component<IProps> {
           className='osc-add-new'
           disabled={this.search.length < MIN_SEARCH_LENGTH}
           icon='plus'
+          onClick={this.isAddingNew.setTrue}
           {...this.buttonProps}
-          onClick={this.addNew}
         />
       </Antd.Input.Group>
     );
