@@ -89,7 +89,7 @@ describe('objectSearchCreate', () => {
     expect(onSave).toHaveBeenCalledWith({ law_firm: result });
   });
 
-  it.only('Adds new', async () => {
+  it('Adds new', async () => {
     const { field, onSave, searchTerm, result, props, fakeOwed } = getDefaults({})
       , tester = await getTester(props) ;
 

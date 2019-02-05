@@ -26,6 +26,7 @@ const MIN_SEARCH_LENGTH = 3;
 
 interface IProps {
   buttonProps: ButtonProps;
+  decoratorOptions: any;
   fieldConfig: IFieldConfigObjectSearchCreate;
   fieldDecorator: any;
   formManager: FormManager;
@@ -88,7 +89,7 @@ class ObjectSearchCreate extends Component<IProps> {
   }
 
   public render () {
-    const { id, form, fieldConfig, fieldDecorator } = this.injected;
+    const { id, form, fieldConfig, fieldDecorator, decoratorOptions } = this.injected;
     console.log('render', this.isAddingNew.isTrue);
 
     if (this.isAddingNew.isTrue) {
@@ -114,7 +115,7 @@ class ObjectSearchCreate extends Component<IProps> {
     console.log('Rendering with button:');
     return (
       <Antd.Input.Group className='ant-input-group-search-create' compact>
-        {fieldDecorator(<ObjectSearch
+        {form.getFieldDecorator(this.props.fieldConfig.field, decoratorOptions)(<ObjectSearch
           fieldConfig={this.props.fieldConfig}
           formManager={this.props.formManager}
           onSearchChange={this.handleSearch}

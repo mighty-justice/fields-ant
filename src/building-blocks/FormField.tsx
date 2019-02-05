@@ -68,10 +68,11 @@ class FormField extends Component<IProps> {
       return null;
     }
 
-    const fieldDecorator = getFieldDecorator(field, this.decoratorOptions)
-      , fieldDecProps = skipFieldDecorator ? { fieldDecorator } : {}
+    const fieldDecProps = skipFieldDecorator ? { decoratorOptions: this.decoratorOptions } : {}
       , editComponent = <fieldConfig.editComponent {...this.editProps} {...fieldDecProps} />
-      , wrappedComponent = skipFieldDecorator ? editComponent : fieldDecorator(editComponent)
+      , wrappedComponent = skipFieldDecorator
+        ? editComponent
+        : getFieldDecorator(field, this.decoratorOptions)(editComponent)
       , FormItemComponent = (
       <Antd.Form.Item {...formItemProps} label={this.label}>
         {wrappedComponent}
