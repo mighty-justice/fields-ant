@@ -12,6 +12,7 @@ import { ButtonProps } from 'antd/lib/button';
 import { SelectProps } from 'antd/lib/select';
 
 import {
+  FormManager,
   IAntFormField,
   IFieldConfigObjectSearchCreate,
   IInjected,
@@ -25,6 +26,7 @@ interface IProps {
   buttonProps: ButtonProps;
   fieldConfig: IFieldConfigObjectSearchCreate;
   selectProps: SelectProps;
+  formManager: FormManager;
 }
 
 @inject('getEndpoint')
@@ -68,7 +70,15 @@ class ObjectSearchCreate extends Component<IProps> {
   }
 
   private addNew () {
+    const { formManager, id } = this.injected;
     this.isAddingNew.setTrue();
+    formManager.skipFieldDecorator.set(id, true);
+  }
+
+  private undoAddNew () {
+    const { formManager, id } = this.injected;
+    formManager.skipFieldDecorator.set(id, false);
+    this.isAddingNew.setFalse();
   }
 
   private onChange (value: any) {
@@ -77,18 +87,20 @@ class ObjectSearchCreate extends Component<IProps> {
   }
 
   public render () {
-    const { id, form } = this.injected;
+    const { id, form, fieldConfig } = this.injected;
 
     if (this.isAddingNew.isTrue) {
       return (
         <>
           <NestedFieldSet
             fieldSet={this.fieldConfig.createFields}
-            id={id}
+            form={form}
+            formManager={this.props.formManager}
+            id={fieldConfig.field}
+            label={this.fieldConfig.label}
             search={this.search}
-            setFields={form.setFields}
           />
-          <Antd.Button size='small' onClick={this.isAddingNew.setFalse}>
+          <Antd.Button size='small' onClick={this.undoAddNew}>
             <Antd.Icon type='left' /> Back to search
           </Antd.Button>
         </>

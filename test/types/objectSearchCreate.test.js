@@ -96,13 +96,13 @@ describe('objectSearchCreate', () => {
     expect(onSave).not.toHaveBeenCalled();
 
     // Will not clear errors when changing valid field
-    changeInput(tester.find('input#amount_owed'), fakeOwed);
+    changeInput(tester.find('input[id="law_firm.amount_owed"]'), fakeOwed);
     tester.find('form').simulate('submit');
     expect(tester.text()).toContain('required');
     expect(onSave).not.toHaveBeenCalled();
 
     // Will clear errors when fixing invalid field
-    changeInput(tester.find('input#name'), searchTerm);
+    changeInput(tester.find('input[id="law_firm.name"]'), searchTerm);
     tester.find('form').simulate('submit');
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed }});
   });
@@ -119,7 +119,7 @@ describe('objectSearchCreate', () => {
     await searchFor(tester, field, result, searchTerm);
     await selectAddNew(tester);
 
-    expect(tester.find('input#name').html()).toContain(searchTerm);
+    expect(tester.find('input[id="law_firm.name"]').html()).toContain(searchTerm);
     tester.find('form').simulate('submit');
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: '' }});
   });
@@ -139,8 +139,8 @@ describe('objectSearchCreate', () => {
     await searchFor(tester, field, result, searchTerm);
     await selectAddNew(tester);
 
-    expect(tester.find('input#first_name').html()).toContain(firstName);
-    expect(tester.find('input#last_name').html()).toContain(lastName);
+    expect(tester.find('input[id="law_firm.first_name"]').html()).toContain(firstName);
+    expect(tester.find('input[id="law_firm.last_name"]').html()).toContain(lastName);
 
     tester.find('form').simulate('submit');
     expect(onSave).toHaveBeenCalledWith({ law_firm: {

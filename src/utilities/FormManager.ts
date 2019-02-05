@@ -26,6 +26,7 @@ const toastError = {
 @autoBindMethods
 class FormManager {
   @observable public saving = false;
+  @observable public skipFieldDecorator = new Map();
   private args: IArgs;
 
   public constructor (form: any, fieldSets: IFieldSet[], args: Partial<IArgs>) {

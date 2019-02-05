@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
@@ -13,13 +14,15 @@ import {
   isFieldSetSimple,
 } from '../utilities/common';
 
-import { computed } from 'mobx';
+import FormManager from '../utilities/FormManager';
+
 import FormField from './FormField';
 
 interface IProps {
   defaults?: object;
   fieldSet: IFieldSetPartial;
   form: any;
+  formManager: FormManager;
   model?: any;
 }
 

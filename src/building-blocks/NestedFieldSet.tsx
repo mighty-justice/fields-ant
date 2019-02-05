@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { computed, observable } from 'mobx';
+import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { isEmpty, values, flatten, isArray } from 'lodash';
 
 import { splitName } from '@mighty-justice/utils';
-
-import * as Antd from 'antd';
 
 import {
   fillInFieldSet,
@@ -15,29 +12,28 @@ import {
   IFieldSetPartial,
 } from '../';
 
+import FormManager from '../utilities/FormManager';
+
 interface IProps {
   fieldSet: IFieldSetPartial;
+  form: any;
+  formManager: FormManager;
   id: string;
+  label: string | null;
   search?: string;
-  setFields: (data: { [id: string]: { errors: any, value: any } }) => void;
 }
 
 @autoBindMethods
 @observer
 class NestedFieldSet extends Component<IProps> {
-  @observable private NestedForm: any;
-  @observable private subForm: any;
-
-  public constructor (props: IProps) {
-    super(props);
-    this.NestedForm = Antd.Form.create({
-      onFieldsChange: this.onFieldsChange,
-    })(FormFieldSet);
-  }
-
   @computed
   private get fieldSet () {
-    return getFieldSetFields(fillInFieldSet(this.props.fieldSet));
+    const { id } = this.props;
+    return getFieldSetFields(fillInFieldSet(this.props.fieldSet))
+      .map(fieldConfig => ({
+        ...fieldConfig,
+        field: `${id}.${fieldConfig.field}`,
+      }));
   }
 
   @computed
@@ -76,52 +72,13 @@ class NestedFieldSet extends Component<IProps> {
     return defaults;
   }
 
-  private async onFieldsChange (_props: any, _fields: any) {
-    const { id } = this.props
-      // The types below are not required by Typescript
-      // They are there to explicitly state expectations and catch mistakes
-      , errorsMap: { [key: string]: undefined | string[] } = this.subForm.getFieldsError()
-      , errorsArray: Array<undefined | string[]> = values(errorsMap)
-      , onlyInvalid: string[][] = errorsArray.filter(isArray)
-      , allErrors: string[] = flatten(onlyInvalid)
-
-      // Prepare final values for parent form
-      , errors: undefined | string[] = isEmpty(allErrors) ? undefined : allErrors
-      , value: { [key: string]: any } = this.subForm.getFieldsValue()
-      ;
-
-    /*
-    Here were are taking the packaged errors and field value and passing
-    them up to the parent form.
-
-    The sub-form will see name, phone, etc. while the parent will receive
-    { law_firm: { name, phone } } as a single changing value
-    */
-    this.props.setFields({ [id]: { errors, value } });
-  }
-
-  private initializeForm () {
-    /*
-    Ideally we would not validate until submit, but for now we're just going
-    to validate on form mount so the form isn't submitted with an invalid
-    nested fieldSet
-    */
-    this.subForm.validateFields();
-  }
-
-  private setSubForm (wrappedComponent: any) {
-    if (wrappedComponent) {
-      this.subForm = wrappedComponent.props.form;
-      this.initializeForm();
-    }
-  }
-
   public render () {
     return (
-      <this.NestedForm
-        fieldSet={this.props.fieldSet}
+      <FormFieldSet
+        fieldSet={this.fieldSet}
+        form={this.props.form}
+        formManager={this.props.formManager}
         model={this.model}
-        wrappedComponentRef={this.setSubForm}
       />
     );
   }

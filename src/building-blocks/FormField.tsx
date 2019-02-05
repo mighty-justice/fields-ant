@@ -11,10 +11,13 @@ import {
   filterInsertIf,
 } from '../utilities/common';
 
+import FormManager from '../utilities/FormManager';
+
 interface IProps {
   defaults?: object;
   fieldConfig: IFieldConfig;
   form: any;
+  formManager: FormManager;
   model?: any;
 }
 
@@ -36,8 +39,9 @@ class FormField extends Component<IProps> {
   }
 
   private get editProps () {
-    const { fieldConfig, form } = this.props
-      , fieldConfigProp = fieldConfig.fieldConfigProp ? { fieldConfig } : {};
+    const { fieldConfig, form, formManager } = this.props
+      , fieldConfigProp = fieldConfig.fieldConfigProp ? { fieldConfig, formManager } : {}
+      ;
 
     return {
       ...fieldConfig.editProps,
@@ -55,23 +59,29 @@ class FormField extends Component<IProps> {
   }
 
   public render () {
-    const { form, fieldConfig } = this.props
+    const { form, fieldConfig, formManager } = this.props
+      , { colProps, formItemProps, field } = fieldConfig
       , { getFieldDecorator } = form;
 
     if (filterInsertIf(fieldConfig, form.getFieldsValue())) {
       return null;
     }
 
-    const FormItemComponent = (
-      <Antd.Form.Item {...fieldConfig.formItemProps} label={this.label}>
-        {getFieldDecorator(fieldConfig.field, this.decoratorOptions)(
-          <fieldConfig.editComponent {...this.editProps} />,
-        )}
+    const skipFieldDecorator = formManager.skipFieldDecorator.get(field) || false
+      , editComponent = <fieldConfig.editComponent {...this.editProps} />
+      , wrappedComponent = skipFieldDecorator
+        ? editComponent
+        : getFieldDecorator(field, this.decoratorOptions)(editComponent)
+      , FormItemComponent = (
+      <Antd.Form.Item {...formItemProps} label={this.label}>
+        {wrappedComponent}
       </Antd.Form.Item>
     );
 
-    if (fieldConfig.colProps) {
-      return <Antd.Col {...fieldConfig.colProps} children={FormItemComponent} />;
+    console.log('skipFieldDecorator?', field, skipFieldDecorator);
+
+    if (colProps) {
+      return <Antd.Col {...colProps} children={FormItemComponent} />;
     }
 
     return FormItemComponent;

@@ -78,6 +78,7 @@ class BaseFormDrawer extends Component<IProps> {
               <FormFieldSet
                 fieldSet={fieldSet}
                 form={form}
+                formManager={this.formManager}
                 model={model}
               />
             </div>
