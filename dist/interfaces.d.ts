@@ -31,7 +31,6 @@ interface IFieldConfigBase {
     render: (...args: any[]) => string | JSX.Element | JSX.Element[];
     required: boolean;
     showLabel: boolean;
-    skipFieldDecorator: boolean;
     toForm: (data: any, field: string) => any;
     type: string;
     value?: string | number;

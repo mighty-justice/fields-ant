@@ -1,11 +1,9 @@
 import { Component } from 'react';
 import { IFieldConfig } from '../interfaces';
-import FormManager from '../utilities/FormManager';
 interface IProps {
     defaults?: object;
     fieldConfig: IFieldConfig;
     form: any;
-    formManager: FormManager;
     model?: any;
 }
 declare class FormField extends Component<IProps> {
