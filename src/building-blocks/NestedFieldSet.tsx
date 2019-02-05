@@ -26,6 +26,11 @@ interface IProps {
 @autoBindMethods
 @observer
 class NestedFieldSet extends Component<IProps> {
+  public constructor (props: IProps) {
+    super(props);
+    props.form.setFieldsValue({ [props.id]: {} });
+  }
+
   @computed
   private get fieldSet () {
     const { id } = this.props;

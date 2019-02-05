@@ -9,7 +9,7 @@ interface IProps {
     formManager: FormManager;
     selectProps: SelectProps;
 }
-declare class ObjectSearchCreate extends Component<IProps> {
+declare class ObjectSearch extends Component<IProps> {
     private isAddingNew;
     private options;
     private search;
@@ -23,4 +23,4 @@ declare class ObjectSearchCreate extends Component<IProps> {
     private onChange;
     render(): JSX.Element;
 }
-export default ObjectSearchCreate;
+export default ObjectSearch;

@@ -20,22 +20,19 @@ import {
   NestedFieldSet,
 } from '../';
 
-import ObjectSearch from './ObjectSearch';
-
 const MIN_SEARCH_LENGTH = 3;
 
 interface IProps {
-  buttonProps: ButtonProps;
   fieldConfig: IFieldConfigObjectSearchCreate;
-  fieldDecorator: any;
   formManager: FormManager;
+  onSearchChange: any;
   selectProps: SelectProps;
 }
 
 @inject('getEndpoint')
 @autoBindMethods
 @observer
-class ObjectSearchCreate extends Component<IProps> {
+class ObjectSearch extends Component<IProps> {
   @observable private isAddingNew = new SmartBool();
   @observable private options: Array<{ id: string, name: string }> = [];
   @observable private search = '';
@@ -53,28 +50,29 @@ class ObjectSearchCreate extends Component<IProps> {
     return pick(this.props.selectProps as SelectProps, ['suffixIcon', 'clearIcon', 'removeIcon']);
   }
 
-  private get buttonProps () {
-    // Handpicking specific props to avoid unintentional behaviors
-    return pick(this.props.buttonProps as ButtonProps, ['children', 'icon']);
-  }
-
   private async handleSearch (value: string) {
+    const { getEndpoint } = this.injected
+      , { endpoint, searchFilters } = this.fieldConfig
+      , params = {
+        search: value,
+        ...searchFilters,
+      }
+      ;
+
     this.search = value;
+    this.props.onSearchChange(this.search);
+    const response = await getEndpoint(`/${endpoint}/${toKey(params)}`);
+    this.options = response.results;
   }
 
+  @action
   private addNew () {
-    console.log('addNew');
-    console.log('addNew');
-    console.log('addNew');
-    console.log('addNew');
-    console.log('addNew');
-    console.log('addNew');
-    console.log('addNew');
     // const { formManager, id } = this.injected;
     this.isAddingNew.setTrue();
     // formManager.skipFieldDecorator.set(id, true);
   }
 
+  @action
   private undoAddNew () {
     // const { formManager, id } = this.injected;
     // formManager.skipFieldDecorsator.set(id, false);
@@ -83,17 +81,14 @@ class ObjectSearchCreate extends Component<IProps> {
 
   private onChange (value: any) {
     const foundOption = this.options.find(option => option.id === value.key);
-    console.log('osc.onChange', foundOption);
+    console.log('os.onChange', foundOption);
     this.injected.onChange(toJS(foundOption));
   }
 
   public render () {
-    const { id, form, fieldConfig, fieldDecorator } = this.injected;
-    console.log('render', this.isAddingNew.isTrue);
+    const { id, form, fieldConfig } = this.injected;
 
     if (this.isAddingNew.isTrue) {
-      console.log('Rendering without:');
-      console.log(fieldConfig.field);
       return (
         <>
           <NestedFieldSet
@@ -111,26 +106,30 @@ class ObjectSearchCreate extends Component<IProps> {
       );
     }
 
-    console.log('Rendering with button:');
     return (
-      <Antd.Input.Group className='ant-input-group-search-create' compact>
-        {fieldDecorator(<ObjectSearch
-          fieldConfig={this.props.fieldConfig}
-          formManager={this.props.formManager}
-          onSearchChange={this.handleSearch}
-          selectProps={this.props.selectProps}
-        />)}
-        <Antd.Button
-          children='Add New'
-          className='osc-add-new'
-          disabled={this.search.length < MIN_SEARCH_LENGTH}
-          icon='plus'
-          {...this.buttonProps}
-          onClick={() => { console.log('CLIIIIIIIIIIIIIIIICK'); this.addNew(); }}
-        />
-      </Antd.Input.Group>
+      <Antd.Select
+        allowClear
+        defaultActiveFirstOption={false}
+        filterOption={false}
+        id={id}
+        labelInValue
+        onChange={this.onChange}
+        onSearch={this.handleSearch}
+        placeholder='Select existing'
+        showSearch
+        {...this.selectProps}
+      >
+        {this.options.map(option => (
+          <Antd.Select.Option
+            key={option.id}
+            value={option.id}
+          >
+            {option.name}
+          </Antd.Select.Option>
+        ))}
+      </Antd.Select>
     );
   }
 }
 
-export default ObjectSearchCreate;
+export default ObjectSearch;

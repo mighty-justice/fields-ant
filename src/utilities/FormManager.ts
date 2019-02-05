@@ -26,7 +26,6 @@ const toastError = {
 @autoBindMethods
 class FormManager {
   @observable public saving = false;
-  @observable public skipFieldDecorator = new Map();
   private args: IArgs;
 
   public constructor (form: any, fieldSets: IFieldSet[], args: Partial<IArgs>) {
@@ -41,8 +40,11 @@ class FormManager {
   }
 
   public get formModel () {
+    console.log('formModel');
     const { form, fieldSets } = this.args
       , model = form.getFieldsValue();
+
+    console.log({ model });
 
     fieldSets.forEach(fieldSet => {
       getFieldSetFields(fieldSet).forEach(fieldConfig => {
@@ -62,11 +64,14 @@ class FormManager {
       model.id = this.args.model.id;
     }
 
+    console.log({ model });
+
     return model;
   }
 
   private get hasValidationErrors () {
     const { form } = this.args;
+    console.log('hasValidationErrors', { model: this.formValues });
     return Object.values(flatten(form.getFieldsError())).some(field => !!field);
   }
 

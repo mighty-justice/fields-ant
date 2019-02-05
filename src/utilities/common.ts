@@ -99,6 +99,7 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
     render: stripFieldConfig(getOrDefault),
     required: false,
     showLabel: true,
+    skipFieldDecorator: false,
     type,
     writeOnly: false,
 
