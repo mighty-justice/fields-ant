@@ -386,7 +386,6 @@
           return React__default.createElement(React__default.Fragment, null, React__default.createElement(NestedFieldSet$$1, {
             fieldSet: this.fieldConfig.createFields,
             id: id,
-            label: this.fieldConfig.label,
             search: this.search,
             setFields: form.setFields
           }), React__default.createElement(Antd.Button, {
@@ -1166,26 +1165,6 @@
 
   var _class$7, _class2$5, _descriptor$1, _descriptor2$1, _temp$1;
 
-  function hasErrors(unknown) {
-    if (unknown === undefined) {
-      return false;
-    }
-
-    if (lodash.isString(unknown)) {
-      return true;
-    }
-
-    if (lodash.isArray(unknown)) {
-      return unknown.some(hasErrors);
-    }
-
-    if (lodash.isObject(unknown)) {
-      return lodash.values(unknown).some(hasErrors);
-    }
-
-    return false;
-  }
-
   var NestedFieldSet$$1 = autoBindMethods(_class$7 = mobxReact.observer(_class$7 = (_class2$5 = (_temp$1 =
   /*#__PURE__*/
   function (_Component) {
@@ -1213,18 +1192,29 @@
       value: function () {
         var _onFieldsChange = _asyncToGenerator(
         /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee(_props, _fields) {
-          var id, errorsMap, errors, value;
+        regeneratorRuntime.mark(function _callee(_props, fields) {
+          var id, errors;
           return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  id = this.props.id, errorsMap = this.subForm.getFieldsError(), errors = hasErrors(errorsMap) ? this.parentFormError : undefined, value = this.subForm.getFieldsValue(); // The types below are not required by Typescript
-                  // They are there to explicitly state expectations and catch mistakes
-
-                  console.log('onFieldsChange');
-                  console.log('errorsMap', errorsMap);
-                  console.log('errors', errors);
+                  /*
+                  This function is triggered on all fields changes
+                  and includes values and errors of all sub-fields
+                  */
+                  id = this.props.id, errors = lodash.values(fields) // Array<value, errors> => Error[]
+                  .map(function (v) {
+                    return v.errors;
+                  }) // Get errors for each field
+                  .filter(function (v) {
+                    return !!v;
+                  }) // Filter out those with no errors
+                  .map(function (v) {
+                    return v.message;
+                  }) // Strip to just error message
+                  .map(function (v) {
+                    return new Error(v);
+                  });
                   /*
                   Here were are taking the packaged errors and field value and passing
                   them up to the parent form.
@@ -1233,11 +1223,11 @@
                   */
 
                   this.props.setFields(_defineProperty({}, id, {
-                    errors: errors,
-                    value: value
+                    errors: lodash.isEmpty(errors) ? undefined : errors,
+                    value: this.subForm.getFieldsValue()
                   }));
 
-                case 5:
+                case 2:
                 case "end":
                   return _context.stop();
               }
@@ -1282,13 +1272,6 @@
       key: "fieldSet",
       get: function get() {
         return getFieldSetFields(fillInFieldSet(this.props.fieldSet));
-      }
-    }, {
-      key: "parentFormError",
-      get: function get() {
-        var label = this.props.label,
-            errorMessage = "New ".concat(label || 'record', " has validation errors");
-        return [new Error(errorMessage)];
       }
     }, {
       key: "model",
@@ -1340,7 +1323,7 @@
     enumerable: true,
     writable: true,
     initializer: null
-  }), _applyDecoratedDescriptor(_class2$5.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "fieldSet"), _class2$5.prototype), _applyDecoratedDescriptor(_class2$5.prototype, "parentFormError", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "parentFormError"), _class2$5.prototype), _applyDecoratedDescriptor(_class2$5.prototype, "model", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "model"), _class2$5.prototype)), _class2$5)) || _class$7) || _class$7;
+  }), _applyDecoratedDescriptor(_class2$5.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "fieldSet"), _class2$5.prototype), _applyDecoratedDescriptor(_class2$5.prototype, "model", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "model"), _class2$5.prototype)), _class2$5)) || _class$7) || _class$7;
 
   var _class$8, _class2$6;
 
@@ -1706,58 +1689,44 @@
               switch (_context.prev = _context.next) {
                 case 0:
                   _this$args = this.args, form = _this$args.form, onSave = _this$args.onSave;
-                  console.log('onSave');
                   event.preventDefault();
-                  _context.next = 5;
-                  return form.validateFields(function (err, values) {
-                    console.log('err: ', err);
-
-                    if (!err) {
-                      console.log('Received values of form: ', values);
-                    }
-                  });
-
-                case 5:
-                  console.log('this.hasValidationErrors', this.hasValidationErrors);
+                  form.validateFields();
 
                   if (!this.hasValidationErrors) {
-                    _context.next = 8;
+                    _context.next = 5;
                     break;
                   }
 
                   return _context.abrupt("return");
 
-                case 8:
+                case 5:
                   this.saving = true;
-                  _context.prev = 9;
-                  console.log('try');
-                  _context.next = 13;
+                  _context.prev = 6;
+                  _context.next = 9;
                   return onSave(this.formModel);
 
-                case 13:
-                  this.args.form.resetFields();
+                case 9:
                   this.onSuccess();
-                  _context.next = 21;
+                  _context.next = 15;
                   break;
 
-                case 17:
-                  _context.prev = 17;
-                  _context.t0 = _context["catch"](9);
-                  console.log('catch');
+                case 12:
+                  _context.prev = 12;
+                  _context.t0 = _context["catch"](6);
                   this.handleBackendResponse(_context.t0.response);
 
-                case 21:
-                  _context.prev = 21;
-                  console.log('finally');
+                case 15:
+                  _context.prev = 15;
+                  this.args.form.resetFields();
                   this.saving = false;
-                  return _context.finish(21);
+                  return _context.finish(15);
 
-                case 25:
+                case 19:
                 case "end":
                   return _context.stop();
               }
             }
-          }, _callee, this, [[9, 17, 21, 25]]);
+          }, _callee, this, [[6, 12, 15, 19]]);
         }));
 
         function onSave(_x) {
@@ -1796,7 +1765,6 @@
       key: "hasValidationErrors",
       get: function get() {
         var form = this.args.form;
-        console.log('hasValidationErrors-form.getFieldsError()', form.getFieldsError());
         return Object.values(flatten(form.getFieldsError())).some(function (field) {
           return !!field;
         });
