@@ -50,7 +50,6 @@ async function getTester (props) {
 }
 
 async function searchFor (tester, field, result, searchTerm) {
-  console.log('searchFor', { result });
   tester.endpoints['/legal-organizations/'] = { results: [result] };
   changeInput(tester.find(`input#${field}`), searchTerm);
   await tester.refresh();
@@ -58,16 +57,8 @@ async function searchFor (tester, field, result, searchTerm) {
 }
 
 async function selectAddNew (tester) {
-  console.log('selectAddNew');
-  console.log(tester.find('button.osc-add-new'));
-  console.log(tester.find('button.osc-add-new').html());
   tester.find('button.osc-add-new').simulate('click');
-  console.log('^ The click');
   await tester.refresh();
-  console.log('selectAddBlue');
-  // tester.find('button.osc-add-blue').simulate('click');
-  console.log('^ blue');
-  // tester.debug();
 }
 
 describe('objectSearchCreate', () => {
@@ -93,11 +84,8 @@ describe('objectSearchCreate', () => {
     const { field, onSave, searchTerm, result, props, fakeOwed } = getDefaults({})
       , tester = await getTester(props) ;
 
-    await tester.refresh();
     await searchFor(tester, field, result, searchTerm);
-    await tester.refresh();
     await selectAddNew(tester);
-    await tester.refresh();
 
     expect(tester.text()).toContain('Name');
     expect(tester.text()).toContain('Amount Owed');
