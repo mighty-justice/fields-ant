@@ -112,9 +112,3 @@ export interface IInputProps {
   fieldConfig: IFieldConfig;
   form: IForm;
 }
-
-export interface ICommonCardProps {
-  classNameSuffix?: string;
-  fieldSets: IFieldSet[] | IFieldSetPartial[];
-  title?: string;
-}

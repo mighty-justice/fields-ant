@@ -8,15 +8,14 @@ import cx from 'classnames';
 import * as Antd from 'antd';
 
 import { fillInFieldSets, getFieldSetFields } from '../utilities/common';
-import { IClassName, IModel } from '../props';
-import { ICommonCardProps, IFieldConfig } from '../interfaces';
+import { IClassName } from '../props';
+import { IFieldConfig } from '../interfaces';
 
-export interface ISummaryCardProps extends ICommonCardProps {
+import { ICardProps } from './Card';
+
+export interface ISummaryCardProps extends ICardProps {
   className: IClassName;
   column: 3 | 4 | 6;
-  isLoading?: boolean;
-  model: IModel;
-  renderTopRight?: () => any;
 }
 
 @autoBindMethods

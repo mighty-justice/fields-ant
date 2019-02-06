@@ -18,7 +18,7 @@ import { IModel } from '../props';
 export interface ICardFieldSetProps {
   fieldSet: IFieldSetPartial;
   idx?: number;
-  model: IModel;
+  model?: IModel;
 }
 
 @observer

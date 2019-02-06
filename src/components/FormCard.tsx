@@ -10,22 +10,14 @@ import * as Antd from 'antd';
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import FormManager from '../utilities/FormManager';
 import { fillInFieldSets } from '../utilities/common';
-import { ICommonCardProps, IFieldSet } from '../interfaces';
-import { IForm } from '../props';
+import { IFieldSet } from '../interfaces';
+import { IFormProps, IWrappedFormProps } from '../props';
 
-export interface IFormCardProps extends ICommonCardProps {
-  children?: any;
-  defaults?: object;
-  isLoading?: boolean;
-  model?: any;
-  onCancel?: () => void;
-  onSave: (data: object) => Promise<void>;
-  renderTopRight?: () => any;
-}
+import { ICardProps } from './Card';
 
-interface IFormCardWrappedProps extends IFormCardProps {
-  form: IForm;
-}
+export interface IFormCardProps extends ICardProps, IFormProps {}
+
+export interface IFormCardWrappedProps extends IFormCardProps, IWrappedFormProps {}
 
 @autoBindMethods
 @observer
@@ -34,6 +26,7 @@ export class UnwrappedFormCard extends Component<IFormCardWrappedProps> {
 
   public static defaultProps: Partial<IFormCardWrappedProps> = {
     onCancel: noop,
+    onSuccess: async () => { return; },
   };
 
   public constructor (props: IFormCardWrappedProps) {
@@ -108,6 +101,11 @@ const WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
 @autoBindMethods
 @observer
 export class FormCard extends Component<IFormCardProps> {
+  public static defaultProps: Partial<IFormCardWrappedProps> = {
+    onCancel: noop,
+    onSuccess: async () => { return; },
+  };
+
   public render () {
     return <WrappedFormCard {...this.props} />;
   }

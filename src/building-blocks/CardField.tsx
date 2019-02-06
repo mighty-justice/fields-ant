@@ -9,7 +9,7 @@ import Info, { Label, Value } from './Info';
 
 export interface ICardFieldProps {
   fieldConfig: IFieldConfig;
-  model: IModel;
+  model?: IModel;
 }
 
 class CardField extends Component<ICardFieldProps> {

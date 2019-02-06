@@ -4,16 +4,12 @@ import { isEmpty } from 'lodash';
 
 import * as Antd from 'antd';
 
-import { ICommonCardProps } from '../interfaces';
 import { IModel } from '../props';
 
-import Card from './Card';
+import Card, { ICardProps } from './Card';
 
-export interface IArrayCardProps extends ICommonCardProps {
-  children?: any;
-  isLoading?: boolean;
-  model: IModel;
-  renderTopRight?: () => any;
+export interface IArrayCardProps extends ICardProps {
+    model: IModel[];
 }
 
 @observer
