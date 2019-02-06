@@ -1,5 +1,4 @@
 /* global describe, it, expect */
-/* eslint-disable no-magic-numbers, sort-keys */
 import FormManager from '../../src/utilities/FormManager';
 import {Tester} from '@mighty-justice/tester';
 import {FormCard} from '../../src';
