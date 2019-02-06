@@ -64,11 +64,6 @@ class FormManager {
     return model;
   }
 
-  private get hasValidationErrors () {
-    const { form } = this.args;
-    return Object.values(flatten(form.getFieldsError())).some(field => !!field);
-  }
-
   private get formValues () {
     return this.args.form.getFieldsValue();
   }
@@ -109,26 +104,30 @@ class FormManager {
     this.notifyUserAboutErrors(errorMessages);
   }
 
+  private async validateThenSaveCallback (errors: any, _values: any) {
+      const { onSave } = this.args;
+      this.saving = true;
+      if (errors) { this.saving = false; return; }
+
+      try {
+        await onSave(this.formModel);
+        this.onSuccess();
+        this.args.form.resetFields();
+      }
+      catch (err) {
+        this.handleBackendResponse(err.response);
+      }
+      finally {
+        this.saving = false;
+      }
+  }
+
   public async onSave (event: any) {
-    const { form, onSave } = this.args;
-
+    const { form } = this.args;
     event.preventDefault();
-    form.validateFields();
-
-    if (this.hasValidationErrors) { return; }
 
     this.saving = true;
-    try {
-      await onSave(this.formModel);
-      this.onSuccess();
-      this.args.form.resetFields();
-    }
-    catch (err) {
-      this.handleBackendResponse(err.response);
-    }
-    finally {
-      this.saving = false;
-    }
+    form.validateFields(this.validateThenSaveCallback);
   }
 }
 
