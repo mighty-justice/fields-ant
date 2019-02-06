@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import * as Antd from 'antd';
 
 import { ICardConfig, IFieldSetPartial } from '../interfaces';
-import { fillInFieldSet, filterInsertIf, getCardModel, getFieldSetFields, isFieldSetSimple } from '../utilities/common';
+import { fillInFieldSet, filterInsertIf, getFieldSetFields, isFieldSetSimple } from '../utilities/common';
 import CardField from '../building-blocks/CardField';
 
 interface IProps {
@@ -23,9 +23,8 @@ class CardFieldSet extends Component<IProps> {
   }
 
   public render () {
-    const { cardConfig } = this.props
+    const { model } = this.props
       , idx = this.props.idx || 0
-      , model = getCardModel(this.props.model, cardConfig)
       , legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend
       , fieldConfigs = getFieldSetFields(this.fieldSet)
       , filteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, model))
