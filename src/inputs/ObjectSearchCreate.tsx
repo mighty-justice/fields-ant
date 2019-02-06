@@ -78,22 +78,26 @@ class ObjectSearchCreate extends Component<IProps> {
     }
 
     return (
-      <Antd.Input.Group className='ant-input-group-search-create' compact>
-        {form.getFieldDecorator(this.props.fieldConfig.field, decoratorOptions)(<ObjectSearch
-          fieldConfig={this.props.fieldConfig}
-          formManager={this.props.formManager}
-          onSearchChange={this.handleSearch}
-          selectProps={this.props.selectProps}
-        />)}
-        <Antd.Button
-          children='Add New'
-          className='osc-add-new'
-          disabled={this.search.length < MIN_SEARCH_LENGTH}
-          icon='plus'
-          onClick={this.isAddingNew.setTrue}
-          {...this.buttonProps}
-        />
-      </Antd.Input.Group>
+      <Antd.Form.Item>
+        <Antd.Input.Group className='ant-input-group-search-create' compact>
+          {form.getFieldDecorator(this.props.fieldConfig.field, decoratorOptions)(
+            <ObjectSearch
+              fieldConfig={this.props.fieldConfig}
+              formManager={this.props.formManager}
+              onSearchChange={this.handleSearch}
+              selectProps={this.props.selectProps}
+            />,
+          )}
+          <Antd.Button
+            children='Add New'
+            className='osc-add-new'
+            disabled={this.search.length < MIN_SEARCH_LENGTH}
+            icon='plus'
+            onClick={this.isAddingNew.setTrue}
+            {...this.buttonProps}
+          />
+        </Antd.Input.Group>
+      </Antd.Form.Item>
     );
   }
 }
