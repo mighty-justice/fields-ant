@@ -82,6 +82,7 @@ class FormModal extends Component<IProps> {
                 defaults={defaults}
                 fieldSet={fieldSet}
                 form={form}
+                formManager={this.formManager}
                 model={model}
               />
             </div>

@@ -60,7 +60,7 @@ storiesOf('Types', module)
                 createFields: [
                   { field: 'first_name', populateFromSearch: true },
                   { field: 'last_name', populateNameFromSearch: true },
-                  { field: 'lawfirm', populateNameFromSearch: true },
+                  { field: 'lawfirm', populateFromSearch: true },
                   {
                     field: 'organization',
                     type: 'objectSearchCreate',
@@ -74,9 +74,9 @@ storiesOf('Types', module)
                 type: 'objectSearchCreate',
                 endpoint: '/endpoint/',
                 createFields: [
-                  { field: 'first_name', populateFromSearch: true },
-                  { field: 'last_name', populateNameFromSearch: true },
-                  { field: 'lawfirm', populateNameFromSearch: true },
+                  { field: 'first_name', required: true },
+                  { field: 'last_name', required: true },
+                  { field: 'lawfirm', populateFromSearch: true },
                   {
                     field: 'organization',
                     type: 'objectSearchCreate',

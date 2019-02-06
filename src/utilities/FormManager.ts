@@ -64,17 +64,12 @@ class FormManager {
     return model;
   }
 
-  private get hasValidationErrors () {
-    const { form } = this.args;
-    return Object.values(flatten(form.getFieldsError())).some(field => !!field);
-  }
-
   private get formValues () {
     return this.args.form.getFieldsValue();
   }
 
-  private get formFieldNames () {
-    return Object.keys(this.formValues);
+  public get formFieldNames () {
+    return Object.keys(flatten<{ [key: string]: any }, { [key: string]: any }>(this.formValues));
   }
 
   private onSuccess () {
@@ -92,7 +87,8 @@ class FormManager {
   }
 
   private notifyUserAboutErrors (errors: Array<{ field: string, message: string }>) {
-    errors.forEach(description => {
+    errors.forEach(({ field, message }) => {
+      const description = `${field} - ${message}`;
       Antd.notification.error({ ...toastError, description });
     });
   }
@@ -108,26 +104,30 @@ class FormManager {
     this.notifyUserAboutErrors(errorMessages);
   }
 
+  private async validateThenSaveCallback (errors: any, _values: any) {
+      const { onSave } = this.args;
+      this.saving = true;
+      if (errors) { this.saving = false; return; }
+
+      try {
+        await onSave(this.formModel);
+        this.onSuccess();
+        this.args.form.resetFields();
+      }
+      catch (err) {
+        this.handleBackendResponse(err.response);
+      }
+      finally {
+        this.saving = false;
+      }
+  }
+
   public async onSave (event: any) {
-    const { form, onSave } = this.args;
-
+    const { form } = this.args;
     event.preventDefault();
-    form.validateFields();
-
-    if (this.hasValidationErrors) { return; }
 
     this.saving = true;
-    try {
-      await onSave(this.formModel);
-      this.onSuccess();
-    }
-    catch (err) {
-      this.handleBackendResponse(err.response);
-    }
-    finally {
-      this.args.form.resetFields();
-      this.saving = false;
-    }
+    form.validateFields(this.validateThenSaveCallback);
   }
 }
 

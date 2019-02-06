@@ -87,6 +87,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     fieldConfigProp: true,
     nullify: true,
     render: stripFieldConfig(getNameOrDefault),
+    skipFieldDecorator: true,
   },
   optionSelect: {
     editComponent: OptionSelect,
