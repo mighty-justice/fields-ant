@@ -4,15 +4,9 @@ import { isEmpty } from 'lodash';
 
 import * as Antd from 'antd';
 
-import Card from './Card';
-import { ICommonCardProps } from '../interfaces';
+import { IArrayCardProps } from '../props';
 
-export interface IArrayCardProps extends ICommonCardProps {
-  children?: any;
-  isLoading?: boolean;
-  model: any;
-  renderTopRight?: () => any;
-}
+import Card from './Card';
 
 @observer
 class ArrayCard extends Component<IArrayCardProps> {

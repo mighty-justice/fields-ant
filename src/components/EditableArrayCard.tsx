@@ -8,27 +8,19 @@ import SmartBool from '@mighty-justice/smart-bool';
 import * as Antd from 'antd';
 
 import GuardedButton from '../building-blocks/GuardedButton';
-import { ICommonCardProps } from '../interfaces';
+import { IEditableArrayCardProps, IEditableCardProps } from '../props';
 
 import EditableCard from './EditableCard';
 import FormCard from './FormCard';
-
-export interface IEditableArrayCardProps extends ICommonCardProps {
-  children?: any;
-  defaults?: object;
-  isGuarded?: boolean;
-  isLoading?: boolean;
-  model: any[];
-  onCreate: (model: any) => Promise<any>;
-  onDelete?: (model: any) => Promise<any>;
-  onSave: (model: any) => Promise<any>;
-  onSuccess: () => Promise<any>;
-}
 
 @autoBindMethods
 @observer
 class EditableArrayCard extends Component<IEditableArrayCardProps> {
   @observable private isAddingNew = new SmartBool();
+
+  public static defaultProps: Partial<IEditableCardProps> = {
+    onSuccess: async () => { return; },
+  };
 
   private async handleSaveNew (model: any) {
     const { onCreate, onSuccess } = this.props;

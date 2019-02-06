@@ -5,18 +5,13 @@ import autoBindMethods from 'class-autobind-decorator';
 import { isArray } from 'lodash';
 
 import {
-  IFieldConfig,
   IFieldConfigOptionSelect,
   IInjected,
   IOption,
 } from '../interfaces';
 
 import { getOptions } from '..';
-
-export interface IOptionSelectDisplayProps {
-  fieldConfig: IFieldConfig;
-  value: any;
-}
+import { IOptionSelectDisplayProps } from '../props';
 
 @inject('getOptions')
 @autoBindMethods

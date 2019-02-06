@@ -5,18 +5,14 @@ import * as Antd from 'antd';
 
 import {
   IAntFormField,
-  IFieldConfig,
   IFieldConfigOptionSelect,
   IInjected,
   IInputProps,
   IOption,
 } from '../interfaces';
 
-import { getOptions } from '..';
-
-export interface IOptionSelectProps {
-  fieldConfig: IFieldConfig;
-}
+import { getOptions } from '../';
+import { IOptionSelectProps } from '../props';
 
 @inject('getOptions')
 class OptionSelect extends Component<IOptionSelectProps> {

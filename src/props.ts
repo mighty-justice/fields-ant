@@ -1,27 +1,156 @@
-// Import and re-export component prop interfaces
-// This cannot be re-exported from index.ts or rollup will fail
-// These interfaces can be imported like so:
-//
-// import { IButtonToolbarProps } from '@mighty-justice/fields-ant/props';
+import { IFieldConfig, IFieldSet, IFieldSetPartial } from './interfaces';
+import SmartBool from '@mighty-justice/smart-bool';
+import FormManager from './utilities/FormManager';
+import { ButtonProps } from '../node_modules/antd/lib/button';
+import { IFieldConfigObjectSearchCreate } from './index';
+import { SelectProps } from '../node_modules/antd/lib/select';
 
-// Lower-level building blocks and helper components
-export { IButtonToolbarProps } from './building-blocks/ButtonToolbar';
-export { ICardFieldProps } from './building-blocks/CardField';
-export { IFormFieldProps } from './building-blocks/FormField';
-export { IFormFieldSetProps } from './building-blocks/FormFieldSet';
-export { INestedFieldSetProps } from './building-blocks/NestedFieldSet';
+/*
+ * Shared / Inherited
+ * = = = = = = = = = =
+ */
 
-// Components
-export { IArrayCardProps } from './components/ArrayCard';
-export { ICardProps } from './components/Card';
-export { IEditableArrayCardProps } from './components/EditableArrayCard';
-export { IEditableCardProps } from './components/EditableCard';
-export { IFormCardProps } from './components/FormCard';
-export { IFormDrawerProps } from './components/FormDrawer';
-export { IFormModalProps } from './components/FormModal';
-export { ISummaryCardProps } from './components/SummaryCard';
+export interface ISharedComponentProps {
+  fieldSets: IFieldSet[] | IFieldSetPartial[];
 
-// Form inputs
-export { IObjectSearchCreateProps } from './inputs/ObjectSearchCreate';
-export { IOptionSelectDisplayProps } from './inputs/OptionSelectDisplay';
-export { IOptionSelectProps } from './inputs/OptionSelect';
+  children?: any;
+  classNameSuffix?: string;
+  model?: any;
+  title?: string;
+  isLoading?: boolean;
+}
+
+interface IWrappedFormProps {
+  form: any;
+}
+
+interface IFormProps {
+  defaults?: object;
+  isGuarded?: boolean;
+  saveText?: string;
+  onCancel?: () => void;
+
+  // defaultProps
+  onSave: (data: object) => Promise<void>;
+  onSuccess: () => Promise<any>;
+}
+
+/*
+ * Components
+ * = = = = = = = = =
+ */
+
+export interface ICardProps extends ISharedComponentProps {
+  renderTopRight?: () => any;
+}
+
+export interface IArrayCardProps extends ICardProps {
+    model: any[];
+}
+
+export interface IEditableArrayCardProps extends IArrayCardProps, IFormProps {
+  defaults?: object;
+  onCreate: (model: unknown) => Promise<any>;
+  onDelete?: (model: unknown) => Promise<any>;
+}
+
+export interface ISummaryCardProps extends ICardProps {
+  className: any;
+  column: 3 | 4 | 6;
+}
+
+export interface IEditableCardProps extends ICardProps, IFormProps {
+  onDelete?: (model: unknown) => Promise<any>;
+}
+
+export interface IFormCardProps extends ICardProps, IFormProps {}
+
+export interface IFormCardWrappedProps extends IFormCardProps, IWrappedFormProps {}
+
+export interface IFormModalProps extends ISharedComponentProps, IWrappedFormProps, IFormProps {
+  childrenBefore?: any;
+}
+
+export interface IFormDrawerProps extends ISharedComponentProps, IWrappedFormProps, IFormProps {
+  isVisible: SmartBool;
+  width?: number | string;
+}
+
+/*
+ * Building Blocks
+ * = = = = = = = = =
+ */
+
+export interface INestedFieldSetProps {
+  fieldSet: IFieldSetPartial;
+  form: any;
+  formManager: FormManager;
+  id: string;
+  label: string | null;
+  search?: string;
+}
+
+export interface ICardFieldProps {
+  fieldConfig: IFieldConfig;
+  model?: any;
+}
+
+export interface IButtonToolbarProps {
+  align?: 'between' | 'right';
+  children?: any;
+  className?: any;
+  fixed?: boolean;
+  noSpacing?: boolean;
+}
+
+export interface ICardFieldSetProps {
+  fieldSet: IFieldSetPartial;
+  idx?: number;
+  model?: any;
+}
+
+export interface IFormFieldSetProps {
+  defaults?: object;
+  fieldSet: IFieldSetPartial;
+  form: any;
+  formManager: FormManager;
+  model?: any;
+}
+
+export interface IFormFieldProps {
+  defaults?: object;
+  fieldConfig: IFieldConfig;
+  form: any;
+  formManager: FormManager;
+  model?: any;
+}
+
+/*
+ * Inputs
+ * = = = = = = = = =
+ */
+
+export interface IOptionSelectProps {
+  fieldConfig: IFieldConfig;
+}
+
+export interface IOptionSelectDisplayProps {
+  fieldConfig: IFieldConfig;
+  value: any;
+}
+
+export interface IObjectSearchCreateProps {
+  buttonProps: ButtonProps;
+  decoratorOptions: any;
+  fieldConfig: IFieldConfigObjectSearchCreate;
+  fieldDecorator: any;
+  formManager: FormManager;
+  selectProps: SelectProps;
+}
+
+export interface IObjectSearchProps {
+  fieldConfig: IFieldConfigObjectSearchCreate;
+  formManager: FormManager;
+  onSearchChange: any;
+  selectProps: SelectProps;
+}

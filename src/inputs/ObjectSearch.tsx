@@ -10,29 +10,23 @@ import * as Antd from 'antd';
 import { SelectProps } from 'antd/lib/select';
 
 import {
-  FormManager,
   IAntFormField,
   IFieldConfigObjectSearchCreate,
   IInjected,
   IInputProps,
 } from '../';
 
-interface IProps {
-  fieldConfig: IFieldConfigObjectSearchCreate;
-  formManager: FormManager;
-  onSearchChange: any;
-  selectProps: SelectProps;
-}
+import { IObjectSearchProps } from '../props';
 
 @inject('getEndpoint')
 @autoBindMethods
 @observer
-class ObjectSearch extends Component<IProps> {
+class ObjectSearch extends Component<IObjectSearchProps> {
   @observable private options: Array<{ id: string, name: string }> = [];
   @observable private search = '';
 
   private get injected () {
-    return this.props as IProps & IInjected & IInputProps & IAntFormField;
+    return this.props as IObjectSearchProps & IInjected & IInputProps & IAntFormField;
   }
 
   private get fieldConfig () {

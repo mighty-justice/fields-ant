@@ -8,10 +8,8 @@ import SmartBool from '@mighty-justice/smart-bool';
 
 import * as Antd from 'antd';
 import { ButtonProps } from 'antd/lib/button';
-import { SelectProps } from 'antd/lib/select';
 
 import {
-  FormManager,
   IAntFormField,
   IFieldConfigObjectSearchCreate,
   IInjected,
@@ -19,18 +17,11 @@ import {
   NestedFieldSet,
 } from '../';
 
+import { IObjectSearchCreateProps } from '../props';
+
 import ObjectSearch from './ObjectSearch';
 
 const MIN_SEARCH_LENGTH = 3;
-
-export interface IObjectSearchCreateProps {
-  buttonProps: ButtonProps;
-  decoratorOptions: any;
-  fieldConfig: IFieldConfigObjectSearchCreate;
-  fieldDecorator: any;
-  formManager: FormManager;
-  selectProps: SelectProps;
-}
 
 @inject('getEndpoint')
 @autoBindMethods

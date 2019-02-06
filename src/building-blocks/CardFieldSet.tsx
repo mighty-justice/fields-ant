@@ -12,16 +12,10 @@ import {
 } from '../utilities/common';
 
 import CardField from '../building-blocks/CardField';
-import { IFieldSetPartial } from '../interfaces';
-
-interface IProps {
-  fieldSet: IFieldSetPartial;
-  idx?: number;
-  model: any;
-}
+import { ICardFieldSetProps } from '../props';
 
 @observer
-class CardFieldSet extends Component<IProps> {
+class CardFieldSet extends Component<ICardFieldSetProps> {
   @computed
   private get fieldSet () {
     return fillInFieldSet(this.props.fieldSet);

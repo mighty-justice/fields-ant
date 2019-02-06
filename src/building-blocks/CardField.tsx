@@ -2,14 +2,9 @@ import React, { Component } from 'react';
 import { get } from 'lodash';
 
 import { fillInFieldConfig, filterInsertIf } from '../utilities/common';
-import { IFieldConfig } from '../interfaces';
+import { ICardFieldProps } from '../props';
 
 import Info, { Label, Value } from './Info';
-
-export interface ICardFieldProps {
-  fieldConfig: IFieldConfig;
-  model: { [key: string]: any };
-}
 
 class CardField extends Component<ICardFieldProps> {
   public render () {

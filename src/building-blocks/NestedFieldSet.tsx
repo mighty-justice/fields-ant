@@ -9,19 +9,9 @@ import {
   fillInFieldSet,
   FormFieldSet,
   getFieldSetFields,
-  IFieldSetPartial,
 } from '../';
 
-import FormManager from '../utilities/FormManager';
-
-export interface INestedFieldSetProps {
-  fieldSet: IFieldSetPartial;
-  form: any;
-  formManager: FormManager;
-  id: string;
-  label: string | null;
-  search?: string;
-}
+import { INestedFieldSetProps } from '../props';
 
 @autoBindMethods
 @observer

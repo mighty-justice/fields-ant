@@ -7,38 +7,25 @@ import { noop } from 'lodash';
 
 import * as Antd from 'antd';
 
-import { ICommonCardProps, IFieldSet } from '../interfaces';
-
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import FormManager from '../utilities/FormManager';
 import { fillInFieldSets } from '../utilities/common';
-
-export interface IFormCardProps extends ICommonCardProps {
-  children?: any;
-  defaults?: object;
-  isLoading?: boolean;
-  model?: any;
-  onCancel?: () => void;
-  onSave: (data: object) => Promise<void>;
-  renderTopRight?: () => any;
-}
-
-interface IProps extends IFormCardProps {
-  form: any;
-}
+import { IFieldSet } from '../interfaces';
+import { IFormCardProps, IFormCardWrappedProps } from '../props';
 
 @autoBindMethods
 @observer
-export class UnwrappedFormCard extends Component<IProps> {
+export class UnwrappedFormCard extends Component<IFormCardWrappedProps> {
   private formManager: FormManager;
 
-  public static defaultProps: Partial<IProps> = {
+  public static defaultProps: Partial<IFormCardWrappedProps> = {
     onCancel: noop,
+    onSuccess: async () => { return; },
   };
 
-  public constructor (props: IProps) {
+  public constructor (props: IFormCardWrappedProps) {
     super(props);
-    const { model, onSave, onCancel, form } = props as IProps;
+    const { model, onSave, onCancel, form } = props as IFormCardWrappedProps;
 
     this.formManager = new FormManager(
       form,
@@ -108,6 +95,11 @@ const WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
 @autoBindMethods
 @observer
 export class FormCard extends Component<IFormCardProps> {
+  public static defaultProps: Partial<IFormCardWrappedProps> = {
+    onCancel: noop,
+    onSuccess: async () => { return; },
+  };
+
   public render () {
     return <WrappedFormCard {...this.props} />;
   }

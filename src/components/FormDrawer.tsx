@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import SmartBool from '@mighty-justice/smart-bool';
 
 import { Button, Divider, Drawer, Form } from 'antd';
 
@@ -11,20 +10,9 @@ import {
   fillInFieldSets,
   FormFieldSet,
   FormManager,
-  IFieldSetPartial,
 } from '../';
 
-export interface IFormDrawerProps {
-  defaults?: object;
-  fieldSets: IFieldSetPartial[];
-  form: any;
-  isVisible: SmartBool;
-  model?: any;
-  onSave: (args: any) => Promise<void>;
-  onSuccess?: (args?: any) => void;
-  title: string;
-  width?: number | string;
-}
+import { IFormDrawerProps } from '../props';
 
 @autoBindMethods
 @observer

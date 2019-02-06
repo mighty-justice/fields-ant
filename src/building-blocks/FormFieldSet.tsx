@@ -5,8 +5,6 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
-import { IFieldSetPartial } from '../interfaces';
-
 import {
   fillInFieldSet,
   filterInsertIf,
@@ -14,17 +12,9 @@ import {
   isFieldSetSimple,
 } from '../utilities/common';
 
-import FormManager from '../utilities/FormManager';
+import { IFormFieldSetProps } from '../props';
 
 import FormField from './FormField';
-
-export interface IFormFieldSetProps {
-  defaults?: object;
-  fieldSet: IFieldSetPartial;
-  form: any;
-  formManager: FormManager;
-  model?: any;
-}
 
 @autoBindMethods
 @observer

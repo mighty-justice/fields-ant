@@ -7,20 +7,10 @@ import { kebabCase } from 'lodash';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import GuardedButton from '../building-blocks/GuardedButton';
-import { ICommonCardProps } from '../interfaces';
+import { IEditableCardProps } from '../props';
 
 import Card from './Card';
 import FormCard from './FormCard';
-
-export interface IEditableCardProps extends ICommonCardProps {
-  children?: any;
-  isGuarded?: boolean;
-  isLoading?: boolean;
-  model: any;
-  onDelete?: (model: any) => Promise<any>;
-  onSave: (model: any) => Promise<any>;
-  onSuccess?: () => Promise<any>;
-}
 
 interface IPropDefaults extends IEditableCardProps {
   onSuccess: () => Promise<any>;
@@ -33,6 +23,7 @@ class EditableCard extends Component<IEditableCardProps> {
   @observable private isEditing = new SmartBool();
 
   public static defaultProps: Partial<IEditableCardProps> = {
+    onSave: async () => { return; },
     onSuccess: async () => { return; },
   };
 
