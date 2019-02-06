@@ -57,7 +57,13 @@ class ObjectSearchCreate extends Component<IProps> {
   }
 
   public render () {
-    const { form, fieldConfig, decoratorOptions } = this.injected;
+    const {
+      decoratorOptions,
+      fieldConfig,
+      form,
+      formManager,
+      selectProps,
+    } = this.injected;
 
     if (this.isAddingNew.isTrue) {
       return (
@@ -65,7 +71,7 @@ class ObjectSearchCreate extends Component<IProps> {
           <NestedFieldSet
             fieldSet={this.fieldConfig.createFields}
             form={form}
-            formManager={this.props.formManager}
+            formManager={formManager}
             id={fieldConfig.field}
             label={this.fieldConfig.label}
             search={this.search}
@@ -80,12 +86,12 @@ class ObjectSearchCreate extends Component<IProps> {
     return (
       <Antd.Form.Item>
         <Antd.Input.Group className='ant-input-group-search-create' compact>
-          {form.getFieldDecorator(this.props.fieldConfig.field, decoratorOptions)(
+          {form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
             <ObjectSearch
-              fieldConfig={this.props.fieldConfig}
-              formManager={this.props.formManager}
+              fieldConfig={fieldConfig}
+              formManager={formManager}
               onSearchChange={this.handleSearch}
-              selectProps={this.props.selectProps}
+              selectProps={selectProps}
             />,
           )}
           <Antd.Button

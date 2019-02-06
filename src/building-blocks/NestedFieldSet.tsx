@@ -33,8 +33,8 @@ class NestedFieldSet extends Component<IProps> {
 
   @computed
   private get fieldSet () {
-    const { id } = this.props;
-    return getFieldSetFields(fillInFieldSet(this.props.fieldSet))
+    const { id, fieldSet } = this.props;
+    return getFieldSetFields(fillInFieldSet(fieldSet))
       .map(fieldConfig => ({
         ...fieldConfig,
         field: `${id}.${fieldConfig.field}`,
