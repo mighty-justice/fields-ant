@@ -1,22 +1,20 @@
 import { Component } from 'react';
-import { ButtonProps } from 'antd/lib/button';
 import { SelectProps } from 'antd/lib/select';
 import { FormManager, IFieldConfigObjectSearchCreate } from '../';
 interface IProps {
-    buttonProps: ButtonProps;
-    decoratorOptions: any;
     fieldConfig: IFieldConfigObjectSearchCreate;
-    fieldDecorator: any;
     formManager: FormManager;
+    onSearchChange: any;
     selectProps: SelectProps;
 }
-declare class ObjectSearchCreate extends Component<IProps> {
-    private isAddingNew;
+declare class ObjectSearch extends Component<IProps> {
+    private options;
     private search;
     private readonly injected;
     private readonly fieldConfig;
-    private readonly buttonProps;
+    private readonly selectProps;
     private handleSearch;
+    private onChange;
     render(): JSX.Element;
 }
-export default ObjectSearchCreate;
+export default ObjectSearch;

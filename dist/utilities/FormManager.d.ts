@@ -16,13 +16,13 @@ declare class FormManager {
     private args;
     constructor(form: any, fieldSets: IFieldSet[], args: Partial<IArgs>);
     readonly formModel: any;
-    private readonly hasValidationErrors;
     private readonly formValues;
-    private readonly formFieldNames;
+    readonly formFieldNames: string[];
     private onSuccess;
     private setErrorsOnFormFields;
     private notifyUserAboutErrors;
     private handleBackendResponse;
+    private validateThenSaveCallback;
     onSave(event: any): Promise<void>;
 }
 export default FormManager;

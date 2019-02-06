@@ -304,36 +304,33 @@ var Value = function Value(props) {
   }, props.children);
 };
 
-var _dec, _class$1, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
-var MIN_SEARCH_LENGTH = 3;
-var ObjectSearchCreate$$1 = (_dec = mobxReact.inject('getEndpoint'), _dec(_class$1 = autoBindMethods(_class$1 = mobxReact.observer(_class$1 = (_class2 = (_temp =
+var _dec, _class$1, _class2, _descriptor, _descriptor2, _temp;
+var ObjectSearch = (_dec = mobxReact.inject('getEndpoint'), _dec(_class$1 = autoBindMethods(_class$1 = mobxReact.observer(_class$1 = (_class2 = (_temp =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(ObjectSearchCreate$$1, _Component);
+  _inherits(ObjectSearch, _Component);
 
-  function ObjectSearchCreate$$1() {
+  function ObjectSearch() {
     var _getPrototypeOf2;
 
     var _this;
 
-    _classCallCheck(this, ObjectSearchCreate$$1);
+    _classCallCheck(this, ObjectSearch);
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ObjectSearchCreate$$1)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ObjectSearch)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _initializerDefineProperty(_this, "isAddingNew", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "options", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
 
-    _initializerDefineProperty(_this, "options", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
-
-    _initializerDefineProperty(_this, "search", _descriptor3, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "search", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
 
     return _this;
   }
 
-  _createClass(ObjectSearchCreate$$1, [{
+  _createClass(ObjectSearch, [{
     key: "handleSearch",
     value: function () {
       var _handleSearch = _asyncToGenerator(
@@ -349,14 +346,15 @@ function (_Component) {
                   search: value
                 }, searchFilters);
                 this.search = value;
-                _context.next = 4;
+                this.props.onSearchChange(this.search);
+                _context.next = 5;
                 return getEndpoint("/".concat(endpoint, "/").concat(utils.toKey(params)));
 
-              case 4:
+              case 5:
                 response = _context.sent;
                 this.options = response.results;
 
-              case 6:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -371,11 +369,6 @@ function (_Component) {
       return handleSearch;
     }()
   }, {
-    key: "addNew",
-    value: function addNew() {
-      this.isAddingNew.setTrue();
-    }
-  }, {
     key: "onChange",
     value: function onChange(value) {
       var foundOption = this.options.find(function (option) {
@@ -386,28 +379,8 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this$injected = this.injected,
-          id = _this$injected.id,
-          form = _this$injected.form;
-
-      if (this.isAddingNew.isTrue) {
-        return React__default.createElement(React__default.Fragment, null, React__default.createElement(NestedFieldSet$$1, {
-          fieldSet: this.fieldConfig.createFields,
-          id: id,
-          search: this.search,
-          setFields: form.setFields
-        }), React__default.createElement(Antd.Button, {
-          size: "small",
-          onClick: this.isAddingNew.setFalse
-        }, React__default.createElement(Antd.Icon, {
-          type: "left"
-        }), " Back to search"));
-      }
-
-      return React__default.createElement(Antd.Input.Group, {
-        className: "ant-input-group-search-create",
-        compact: true
-      }, React__default.createElement(Antd.Select, _extends({
+      var id = this.injected.id;
+      return React__default.createElement(Antd.Select, _extends({
         allowClear: true,
         defaultActiveFirstOption: false,
         filterOption: false,
@@ -422,13 +395,7 @@ function (_Component) {
           key: option.id,
           value: option.id
         }, option.name);
-      })), React__default.createElement(Antd.Button, _extends({
-        icon: "plus",
-        children: "Add New",
-        className: "osc-add-new",
-        disabled: this.search.length < MIN_SEARCH_LENGTH,
-        onClick: this.addNew
-      }, this.buttonProps)));
+      }));
     }
   }, {
     key: "injected",
@@ -446,6 +413,130 @@ function (_Component) {
       // Handpicking specific props to avoid unintentional behaviors
       return lodash.pick(this.props.selectProps, ['suffixIcon', 'clearIcon', 'removeIcon']);
     }
+  }]);
+
+  return ObjectSearch;
+}(React.Component), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "options", [mobx.observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return [];
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "search", [mobx.observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return '';
+  }
+})), _class2)) || _class$1) || _class$1) || _class$1);
+
+var _dec$1, _class$2, _class2$1, _descriptor$1, _descriptor2$1, _temp$1;
+var MIN_SEARCH_LENGTH = 3;
+var ObjectSearchCreate$$1 = (_dec$1 = mobxReact.inject('getEndpoint'), _dec$1(_class$2 = autoBindMethods(_class$2 = mobxReact.observer(_class$2 = (_class2$1 = (_temp$1 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ObjectSearchCreate$$1, _Component);
+
+  function ObjectSearchCreate$$1() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    _classCallCheck(this, ObjectSearchCreate$$1);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ObjectSearchCreate$$1)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _initializerDefineProperty(_this, "isAddingNew", _descriptor$1, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    _initializerDefineProperty(_this, "search", _descriptor2$1, _assertThisInitialized(_assertThisInitialized(_this)));
+
+    return _this;
+  }
+
+  _createClass(ObjectSearchCreate$$1, [{
+    key: "handleSearch",
+    value: function () {
+      var _handleSearch = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(value) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.search = value;
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function handleSearch(_x) {
+        return _handleSearch.apply(this, arguments);
+      }
+
+      return handleSearch;
+    }()
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$injected = this.injected,
+          decoratorOptions = _this$injected.decoratorOptions,
+          fieldConfig = _this$injected.fieldConfig,
+          form = _this$injected.form,
+          formManager = _this$injected.formManager,
+          selectProps = _this$injected.selectProps;
+
+      if (this.isAddingNew.isTrue) {
+        return React__default.createElement(React__default.Fragment, null, React__default.createElement(NestedFieldSet$$1, {
+          fieldSet: this.fieldConfig.createFields,
+          form: form,
+          formManager: formManager,
+          id: fieldConfig.field,
+          label: this.fieldConfig.label,
+          search: this.search
+        }), React__default.createElement(Antd.Button, {
+          size: "small",
+          onClick: this.isAddingNew.setFalse
+        }, React__default.createElement(Antd.Icon, {
+          type: "left"
+        }), " Back to search"));
+      }
+
+      return React__default.createElement(Antd.Form.Item, null, React__default.createElement(Antd.Input.Group, {
+        className: "ant-input-group-search-create",
+        compact: true
+      }, form.getFieldDecorator(fieldConfig.field, decoratorOptions)(React__default.createElement(ObjectSearch, {
+        fieldConfig: fieldConfig,
+        formManager: formManager,
+        onSearchChange: this.handleSearch,
+        selectProps: selectProps
+      })), React__default.createElement(Antd.Button, _extends({
+        children: "Add New",
+        className: "osc-add-new",
+        disabled: this.search.length < MIN_SEARCH_LENGTH,
+        icon: "plus",
+        onClick: this.isAddingNew.setTrue
+      }, this.buttonProps))));
+    }
+  }, {
+    key: "injected",
+    get: function get() {
+      return this.props;
+    }
+  }, {
+    key: "fieldConfig",
+    get: function get() {
+      return this.props.fieldConfig;
+    }
   }, {
     key: "buttonProps",
     get: function get() {
@@ -455,31 +546,24 @@ function (_Component) {
   }]);
 
   return ObjectSearchCreate$$1;
-}(React.Component), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "isAddingNew", [mobx.observable], {
+}(React.Component), _temp$1), (_descriptor$1 = _applyDecoratedDescriptor(_class2$1.prototype, "isAddingNew", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return new SmartBool();
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "options", [mobx.observable], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return [];
-  }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "search", [mobx.observable], {
+}), _descriptor2$1 = _applyDecoratedDescriptor(_class2$1.prototype, "search", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return '';
   }
-})), _class2)) || _class$1) || _class$1) || _class$1);
+})), _class2$1)) || _class$2) || _class$2) || _class$2);
 
-var _dec$1, _class$2, _class2$1;
-var OptionSelect$$1 = (_dec$1 = mobxReact.inject('getOptions'), _dec$1(_class$2 = (_class2$1 =
+var _dec$2, _class$3, _class2$2;
+var OptionSelect$$1 = (_dec$2 = mobxReact.inject('getOptions'), _dec$2(_class$3 = (_class2$2 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(OptionSelect$$1, _Component);
@@ -522,7 +606,7 @@ function (_Component) {
   }]);
 
   return OptionSelect$$1;
-}(React.Component), (_applyDecoratedDescriptor(_class2$1.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$1.prototype, "options"), _class2$1.prototype)), _class2$1)) || _class$2);
+}(React.Component), (_applyDecoratedDescriptor(_class2$2.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$2.prototype, "options"), _class2$2.prototype)), _class2$2)) || _class$3);
 
 function formatRating(value) {
   return value ? React__default.createElement(Antd.Rate, {
@@ -554,8 +638,8 @@ function (_Component) {
   return Rate;
 }(React.Component);
 
-var _dec$2, _class$3, _class2$2;
-var OptionSelectDisplay$$1 = (_dec$2 = mobxReact.inject('getOptions'), _dec$2(_class$3 = autoBindMethods(_class$3 = mobxReact.observer(_class$3 = (_class2$2 =
+var _dec$3, _class$4, _class2$3;
+var OptionSelectDisplay$$1 = (_dec$3 = mobxReact.inject('getOptions'), _dec$3(_class$4 = autoBindMethods(_class$4 = mobxReact.observer(_class$4 = (_class2$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(OptionSelectDisplay$$1, _Component);
@@ -598,7 +682,7 @@ function (_Component) {
   }]);
 
   return OptionSelectDisplay$$1;
-}(React.Component), (_applyDecoratedDescriptor(_class2$2.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$2.prototype, "options"), _class2$2.prototype)), _class2$2)) || _class$3) || _class$3) || _class$3);
+}(React.Component), (_applyDecoratedDescriptor(_class2$3.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$3.prototype, "options"), _class2$3.prototype)), _class2$3)) || _class$4) || _class$4) || _class$4);
 function formatOptionSelect$$1(value, fieldConfig) {
   if (lodash.isArray(value)) {
     if (value.length > 1) {
@@ -617,8 +701,8 @@ function formatOptionSelect$$1(value, fieldConfig) {
   });
 }
 
-var _dec$3, _class$4, _class2$3;
-var RadioGroup$$1 = (_dec$3 = mobxReact.inject('getOptions'), _dec$3(_class$4 = autoBindMethods(_class$4 = mobxReact.observer(_class$4 = (_class2$3 =
+var _dec$4, _class$5, _class2$4;
+var RadioGroup$$1 = (_dec$4 = mobxReact.inject('getOptions'), _dec$4(_class$5 = autoBindMethods(_class$5 = mobxReact.observer(_class$5 = (_class2$4 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(RadioGroup$$1, _Component);
@@ -657,7 +741,7 @@ function (_Component) {
   }]);
 
   return RadioGroup$$1;
-}(React.Component), (_applyDecoratedDescriptor(_class2$3.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$3.prototype, "options"), _class2$3.prototype)), _class2$3)) || _class$4) || _class$4) || _class$4);
+}(React.Component), (_applyDecoratedDescriptor(_class2$4.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$4.prototype, "options"), _class2$4.prototype)), _class2$4)) || _class$5) || _class$5) || _class$5);
 
 function stripFieldConfig(func) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -730,7 +814,8 @@ var TYPES = {
     editComponent: ObjectSearchCreate$$1,
     fieldConfigProp: true,
     nullify: true,
-    render: stripFieldConfig(utils.getNameOrDefault)
+    render: stripFieldConfig(utils.getNameOrDefault),
+    skipFieldDecorator: true
   },
   optionSelect: {
     editComponent: OptionSelect$$1,
@@ -897,6 +982,7 @@ function fillInFieldConfig(fieldConfig) {
     render: stripFieldConfig$1(utils.getOrDefault),
     required: false,
     showLabel: true,
+    skipFieldDecorator: false,
     type: type,
     writeOnly: false
   }, typeDefaults, TYPES[type], fieldConfig, {
@@ -1001,9 +1087,9 @@ function (_Component) {
   return CardField;
 }(React.Component);
 
-var _class$5;
+var _class$6;
 
-var FormField = autoBindMethods(_class$5 = mobxReact.observer(_class$5 =
+var FormField = autoBindMethods(_class$6 = mobxReact.observer(_class$6 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormField, _Component);
@@ -1020,18 +1106,27 @@ function (_Component) {
       var _this$props = this.props,
           form = _this$props.form,
           fieldConfig = _this$props.fieldConfig,
+          colProps = fieldConfig.colProps,
+          formItemProps = fieldConfig.formItemProps,
+          field = fieldConfig.field,
+          skipFieldDecorator = fieldConfig.skipFieldDecorator,
           getFieldDecorator = form.getFieldDecorator;
 
       if (filterInsertIf(fieldConfig, form.getFieldsValue())) {
         return null;
       }
 
-      var FormItemComponent = React__default.createElement(Antd.Form.Item, _extends({}, fieldConfig.formItemProps, {
+      var decoratorOptionsProp = skipFieldDecorator ? {
+        decoratorOptions: this.decoratorOptions
+      } : {},
+          editComponent = React__default.createElement(fieldConfig.editComponent, _extends({}, this.editProps, decoratorOptionsProp)),
+          wrappedComponent = skipFieldDecorator ? editComponent : getFieldDecorator(field, this.decoratorOptions)(editComponent),
+          FormItemComponent = React__default.createElement(Antd.Form.Item, _extends({}, formItemProps, {
         label: this.label
-      }), getFieldDecorator(fieldConfig.field, this.decoratorOptions)(React__default.createElement(fieldConfig.editComponent, this.editProps)));
+      }), wrappedComponent);
 
-      if (fieldConfig.colProps) {
-        return React__default.createElement(Antd.Col, _extends({}, fieldConfig.colProps, {
+      if (colProps) {
+        return React__default.createElement(Antd.Col, _extends({}, colProps, {
           children: FormItemComponent
         }));
       }
@@ -1059,8 +1154,10 @@ function (_Component) {
       var _this$props3 = this.props,
           fieldConfig = _this$props3.fieldConfig,
           form = _this$props3.form,
+          formManager = _this$props3.formManager,
           fieldConfigProp = fieldConfig.fieldConfigProp ? {
-        fieldConfig: fieldConfig
+        fieldConfig: fieldConfig,
+        formManager: formManager
       } : {};
       return _objectSpread({}, fieldConfig.editProps, fieldConfigProp, {
         form: form
@@ -1078,11 +1175,11 @@ function (_Component) {
   }]);
 
   return FormField;
-}(React.Component)) || _class$5) || _class$5;
+}(React.Component)) || _class$6) || _class$6;
 
-var _class$6, _class2$4;
+var _class$7, _class2$5;
 
-var FormFieldSet = autoBindMethods(_class$6 = mobxReact.observer(_class$6 = (_class2$4 =
+var FormFieldSet = autoBindMethods(_class$7 = mobxReact.observer(_class$7 = (_class2$5 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormFieldSet, _Component);
@@ -1125,7 +1222,7 @@ function (_Component) {
   }]);
 
   return FormFieldSet;
-}(React.Component), (_applyDecoratedDescriptor(_class2$4.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$4.prototype, "fieldSet"), _class2$4.prototype)), _class2$4)) || _class$6) || _class$6;
+}(React.Component), (_applyDecoratedDescriptor(_class2$5.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "fieldSet"), _class2$5.prototype)), _class2$5)) || _class$7) || _class$7;
 
 var GuardedButton =
 /*#__PURE__*/
@@ -1171,9 +1268,9 @@ function (_Component) {
   return GuardedButton;
 }(React.Component);
 
-var _class$7, _class2$5, _descriptor$1, _descriptor2$1, _temp$1;
+var _class$8, _class2$6;
 
-var NestedFieldSet$$1 = autoBindMethods(_class$7 = mobxReact.observer(_class$7 = (_class2$5 = (_temp$1 =
+var NestedFieldSet$$1 = autoBindMethods(_class$8 = mobxReact.observer(_class$8 = (_class2$6 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(NestedFieldSet$$1, _Component);
@@ -1184,102 +1281,31 @@ function (_Component) {
     _classCallCheck(this, NestedFieldSet$$1);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(NestedFieldSet$$1).call(this, props));
-
-    _initializerDefineProperty(_this, "NestedForm", _descriptor$1, _assertThisInitialized(_assertThisInitialized(_this)));
-
-    _initializerDefineProperty(_this, "subForm", _descriptor2$1, _assertThisInitialized(_assertThisInitialized(_this)));
-
-    _this.NestedForm = Antd.Form.create({
-      onFieldsChange: _this.onFieldsChange
-    })(FormFieldSet);
+    props.form.setFieldsValue(_defineProperty({}, props.id, {}));
     return _this;
   }
 
   _createClass(NestedFieldSet$$1, [{
-    key: "onFieldsChange",
-    value: function () {
-      var _onFieldsChange = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(_props, fields) {
-        var id, errors;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                /*
-                This function is triggered on all fields changes
-                and includes values and errors of all sub-fields
-                */
-                id = this.props.id, errors = lodash.values(fields) // Array<value, errors> => Error[]
-                .map(function (v) {
-                  return v.errors;
-                }) // Get errors for each field
-                .filter(function (v) {
-                  return !!v;
-                }) // Filter out those with no errors
-                .map(function (v) {
-                  return v.message;
-                }) // Strip to just error message
-                .map(function (v) {
-                  return new Error(v);
-                });
-                /*
-                Here were are taking the packaged errors and field value and passing
-                them up to the parent form.
-                 The sub-form will see name, phone, etc. while the parent will receive
-                { law_firm: { name, phone } } as a single changing value
-                */
-
-                this.props.setFields(_defineProperty({}, id, {
-                  errors: lodash.isEmpty(errors) ? undefined : errors,
-                  value: this.subForm.getFieldsValue()
-                }));
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function onFieldsChange(_x, _x2) {
-        return _onFieldsChange.apply(this, arguments);
-      }
-
-      return onFieldsChange;
-    }()
-  }, {
-    key: "initializeForm",
-    value: function initializeForm() {
-      /*
-      Ideally we would not validate until submit, but for now we're just going
-      to validate on form mount so the form isn't submitted with an invalid
-      nested fieldSet
-      */
-      this.subForm.validateFields();
-    }
-  }, {
-    key: "setSubForm",
-    value: function setSubForm(wrappedComponent) {
-      if (wrappedComponent) {
-        this.subForm = wrappedComponent.props.form;
-        this.initializeForm();
-      }
-    }
-  }, {
     key: "render",
     value: function render() {
-      return React__default.createElement(this.NestedForm, {
-        fieldSet: this.props.fieldSet,
-        model: this.model,
-        wrappedComponentRef: this.setSubForm
+      return React__default.createElement(FormFieldSet, {
+        fieldSet: this.fieldSet,
+        form: this.props.form,
+        formManager: this.props.formManager,
+        model: this.model
       });
     }
   }, {
     key: "fieldSet",
     get: function get() {
-      return getFieldSetFields(fillInFieldSet(this.props.fieldSet));
+      var _this$props = this.props,
+          id = _this$props.id,
+          fieldSet = _this$props.fieldSet;
+      return getFieldSetFields(fillInFieldSet(fieldSet)).map(function (fieldConfig) {
+        return _objectSpread({}, fieldConfig, {
+          field: "".concat(id, ".").concat(fieldConfig.field)
+        });
+      });
     }
   }, {
     key: "model",
@@ -1321,21 +1347,11 @@ function (_Component) {
   }]);
 
   return NestedFieldSet$$1;
-}(React.Component), _temp$1), (_descriptor$1 = _applyDecoratedDescriptor(_class2$5.prototype, "NestedForm", [mobx.observable], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: null
-}), _descriptor2$1 = _applyDecoratedDescriptor(_class2$5.prototype, "subForm", [mobx.observable], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: null
-}), _applyDecoratedDescriptor(_class2$5.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "fieldSet"), _class2$5.prototype), _applyDecoratedDescriptor(_class2$5.prototype, "model", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "model"), _class2$5.prototype)), _class2$5)) || _class$7) || _class$7;
+}(React.Component), (_applyDecoratedDescriptor(_class2$6.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$6.prototype, "fieldSet"), _class2$6.prototype), _applyDecoratedDescriptor(_class2$6.prototype, "model", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$6.prototype, "model"), _class2$6.prototype)), _class2$6)) || _class$8) || _class$8;
 
-var _class$8, _class2$6;
+var _class$9, _class2$7;
 
-var CardFieldSet = mobxReact.observer(_class$8 = (_class2$6 =
+var CardFieldSet = mobxReact.observer(_class$9 = (_class2$7 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(CardFieldSet, _Component);
@@ -1382,11 +1398,11 @@ function (_Component) {
   }]);
 
   return CardFieldSet;
-}(React.Component), (_applyDecoratedDescriptor(_class2$6.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$6.prototype, "fieldSet"), _class2$6.prototype)), _class2$6)) || _class$8;
+}(React.Component), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldSet"), _class2$7.prototype)), _class2$7)) || _class$9;
 
-var _class$9, _class2$7;
+var _class$a, _class2$8;
 
-var Card = mobxReact.observer(_class$9 = (_class2$7 =
+var Card = mobxReact.observer(_class$a = (_class2$8 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Card, _Component);
@@ -1427,11 +1443,11 @@ function (_Component) {
   }]);
 
   return Card;
-}(React.Component), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldSets"), _class2$7.prototype)), _class2$7)) || _class$9;
+}(React.Component), (_applyDecoratedDescriptor(_class2$8.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$8.prototype, "fieldSets"), _class2$8.prototype)), _class2$8)) || _class$a;
 
-var _class$a;
+var _class$b;
 
-var ArrayCard = mobxReact.observer(_class$a =
+var ArrayCard = mobxReact.observer(_class$b =
 /*#__PURE__*/
 function (_Component) {
   _inherits(ArrayCard, _Component);
@@ -1472,11 +1488,11 @@ function (_Component) {
   }]);
 
   return ArrayCard;
-}(React.Component)) || _class$a;
+}(React.Component)) || _class$b;
 
-var _class$b;
+var _class$c;
 
-var Cards = mobxReact.observer(_class$b =
+var Cards = mobxReact.observer(_class$c =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Cards, _Component);
@@ -1517,7 +1533,7 @@ function (_Component) {
   }]);
 
   return Cards;
-}(React.Component)) || _class$b;
+}(React.Component)) || _class$c;
 
 function getFieldErrors(errors) {
   var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
@@ -1609,14 +1625,14 @@ function backendValidation(fieldNames, response) {
   };
 }
 
-var _class$c, _class2$8, _descriptor$2, _temp$2;
+var _class$d, _class2$9, _descriptor$2, _temp$2;
 var toastError = {
   description: '',
   duration: null,
   message: 'Error submitting form'
 };
 
-var FormManager = autoBindMethods(_class$c = (_class2$8 = (_temp$2 =
+var FormManager = autoBindMethods(_class$d = (_class2$9 = (_temp$2 =
 /*#__PURE__*/
 function () {
   function FormManager(form, fieldSets, args) {
@@ -1663,7 +1679,10 @@ function () {
   }, {
     key: "notifyUserAboutErrors",
     value: function notifyUserAboutErrors(errors) {
-      errors.forEach(function (description) {
+      errors.forEach(function (_ref) {
+        var field = _ref.field,
+            message = _ref.message;
+        var description = "".concat(field, " - ").concat(message);
         Antd.notification.error(_objectSpread({}, toastError, {
           description: description
         }));
@@ -1685,59 +1704,87 @@ function () {
       this.notifyUserAboutErrors(errorMessages);
     }
   }, {
-    key: "onSave",
+    key: "validateThenSaveCallback",
     value: function () {
-      var _onSave = _asyncToGenerator(
+      var _validateThenSaveCallback = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(event) {
-        var _this$args, form, onSave;
-
+      regeneratorRuntime.mark(function _callee(errors, _values) {
+        var onSave;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this$args = this.args, form = _this$args.form, onSave = _this$args.onSave;
-                event.preventDefault();
-                form.validateFields();
+                onSave = this.args.onSave;
+                this.saving = true;
 
-                if (!this.hasValidationErrors) {
+                if (!errors) {
                   _context.next = 5;
                   break;
                 }
 
+                this.saving = false;
                 return _context.abrupt("return");
 
               case 5:
-                this.saving = true;
-                _context.prev = 6;
-                _context.next = 9;
+                _context.prev = 5;
+                _context.next = 8;
                 return onSave(this.formModel);
 
-              case 9:
+              case 8:
                 this.onSuccess();
+                this.args.form.resetFields();
                 _context.next = 15;
                 break;
 
               case 12:
                 _context.prev = 12;
-                _context.t0 = _context["catch"](6);
+                _context.t0 = _context["catch"](5);
                 this.handleBackendResponse(_context.t0.response);
 
               case 15:
                 _context.prev = 15;
-                this.args.form.resetFields();
                 this.saving = false;
                 return _context.finish(15);
 
-              case 19:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[6, 12, 15, 19]]);
+        }, _callee, this, [[5, 12, 15, 18]]);
       }));
 
-      function onSave(_x) {
+      function validateThenSaveCallback(_x, _x2) {
+        return _validateThenSaveCallback.apply(this, arguments);
+      }
+
+      return validateThenSaveCallback;
+    }()
+  }, {
+    key: "onSave",
+    value: function () {
+      var _onSave = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(event) {
+        var form;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                form = this.args.form;
+                event.preventDefault();
+                this.saving = true;
+                form.validateFields(this.validateThenSaveCallback);
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function onSave(_x3) {
         return _onSave.apply(this, arguments);
       }
 
@@ -1746,9 +1793,9 @@ function () {
   }, {
     key: "formModel",
     get: function get() {
-      var _this$args2 = this.args,
-          form = _this$args2.form,
-          fieldSets = _this$args2.fieldSets,
+      var _this$args = this.args,
+          form = _this$args.form,
+          fieldSets = _this$args.fieldSets,
           model = form.getFieldsValue();
       fieldSets.forEach(function (fieldSet) {
         getFieldSetFields(fieldSet).forEach(function (fieldConfig) {
@@ -1770,14 +1817,6 @@ function () {
       return model;
     }
   }, {
-    key: "hasValidationErrors",
-    get: function get() {
-      var form = this.args.form;
-      return Object.values(flatten(form.getFieldsError())).some(function (field) {
-        return !!field;
-      });
-    }
-  }, {
     key: "formValues",
     get: function get() {
       return this.args.form.getFieldsValue();
@@ -1785,22 +1824,22 @@ function () {
   }, {
     key: "formFieldNames",
     get: function get() {
-      return Object.keys(this.formValues);
+      return Object.keys(flatten(this.formValues));
     }
   }]);
 
   return FormManager;
-}(), _temp$2), (_descriptor$2 = _applyDecoratedDescriptor(_class2$8.prototype, "saving", [mobx.observable], {
+}(), _temp$2), (_descriptor$2 = _applyDecoratedDescriptor(_class2$9.prototype, "saving", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return false;
   }
-})), _class2$8)) || _class$c;
+})), _class2$9)) || _class$d;
 
-var _class$d, _class2$9, _class3, _temp$3, _class4;
-var UnwrappedFormCard = autoBindMethods(_class$d = mobxReact.observer(_class$d = (_class2$9 = (_temp$3 = _class3 =
+var _class$e, _class2$a, _class3, _temp$3, _class4;
+var UnwrappedFormCard = autoBindMethods(_class$e = mobxReact.observer(_class$e = (_class2$a = (_temp$3 = _class3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(UnwrappedFormCard, _Component);
@@ -1828,6 +1867,8 @@ function (_Component) {
   _createClass(UnwrappedFormCard, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var _this$props = this.props,
           cardConfig = _this$props.cardConfig,
           close = _this$props.close,
@@ -1850,6 +1891,7 @@ function (_Component) {
           defaults: defaults,
           fieldSet: fieldSet,
           form: form,
+          formManager: _this2.formManager,
           model: model
         })));
       }), this.props.children, React__default.createElement("div", {
@@ -1875,7 +1917,7 @@ function (_Component) {
   return UnwrappedFormCard;
 }(React.Component), _class3.defaultProps = {
   close: lodash.noop
-}, _temp$3), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldSets"), _class2$9.prototype)), _class2$9)) || _class$d) || _class$d;
+}, _temp$3), (_applyDecoratedDescriptor(_class2$a.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$a.prototype, "fieldSets"), _class2$a.prototype)), _class2$a)) || _class$e) || _class$e;
 var WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
 var FormCard = autoBindMethods(_class4 = mobxReact.observer(_class4 =
 /*#__PURE__*/
@@ -1898,9 +1940,9 @@ function (_Component2) {
   return FormCard;
 }(React.Component)) || _class4) || _class4;
 
-var _class$e, _class2$a, _descriptor$3, _descriptor2$2, _class3$1, _temp$4;
+var _class$f, _class2$b, _descriptor$3, _descriptor2$2, _class3$1, _temp$4;
 
-var EditableCard = autoBindMethods(_class$e = mobxReact.observer(_class$e = (_class2$a = (_temp$4 = _class3$1 =
+var EditableCard = autoBindMethods(_class$f = mobxReact.observer(_class$f = (_class2$b = (_temp$4 = _class3$1 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableCard, _Component);
@@ -2102,25 +2144,25 @@ function (_Component) {
 
     return onSuccess;
   }()
-}, _temp$4), (_descriptor$3 = _applyDecoratedDescriptor(_class2$a.prototype, "isDeleting", [mobx.observable], {
+}, _temp$4), (_descriptor$3 = _applyDecoratedDescriptor(_class2$b.prototype, "isDeleting", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return new SmartBool();
   }
-}), _descriptor2$2 = _applyDecoratedDescriptor(_class2$a.prototype, "isEditing", [mobx.observable], {
+}), _descriptor2$2 = _applyDecoratedDescriptor(_class2$b.prototype, "isEditing", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return new SmartBool();
   }
-})), _class2$a)) || _class$e) || _class$e;
+})), _class2$b)) || _class$f) || _class$f;
 
-var _class$f, _class2$b, _descriptor$4, _temp$5;
+var _class$g, _class2$c, _descriptor$4, _temp$5;
 
-var EditableArrayCard = autoBindMethods(_class$f = mobxReact.observer(_class$f = (_class2$b = (_temp$5 =
+var EditableArrayCard = autoBindMethods(_class$g = mobxReact.observer(_class$g = (_class2$c = (_temp$5 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableArrayCard, _Component);
@@ -2236,18 +2278,18 @@ function (_Component) {
   }]);
 
   return EditableArrayCard;
-}(React.Component), _temp$5), (_descriptor$4 = _applyDecoratedDescriptor(_class2$b.prototype, "isAddingNew", [mobx.observable], {
+}(React.Component), _temp$5), (_descriptor$4 = _applyDecoratedDescriptor(_class2$c.prototype, "isAddingNew", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return new SmartBool();
   }
-})), _class2$b)) || _class$f) || _class$f;
+})), _class2$c)) || _class$g) || _class$g;
 
-var _class$g, _class2$c, _temp$6;
+var _class$h, _class2$d, _temp$6;
 
-var BaseFormDrawer = autoBindMethods(_class$g = mobxReact.observer(_class$g = (_class2$c = (_temp$6 =
+var BaseFormDrawer = autoBindMethods(_class$h = mobxReact.observer(_class$h = (_class2$d = (_temp$6 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(BaseFormDrawer, _Component);
@@ -2282,6 +2324,8 @@ function (_Component) {
   _createClass(BaseFormDrawer, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var _this$props = this.props,
           form = _this$props.form,
           isVisible = _this$props.isVisible,
@@ -2300,7 +2344,6 @@ function (_Component) {
         width: width
       }, React__default.createElement(Antd.Form, {
         layout: "vertical",
-        hideRequiredMark: true,
         onSubmit: this.formManager.onSave
       }, this.fieldSets.map(function (fieldSet, idx) {
         return React__default.createElement("div", {
@@ -2308,6 +2351,7 @@ function (_Component) {
         }, React__default.createElement(FormFieldSet, {
           fieldSet: fieldSet,
           form: form,
+          formManager: _this2.formManager,
           model: model
         }));
       }), React__default.createElement(Antd.Divider, null), React__default.createElement(ButtonToolbar, {
@@ -2326,13 +2370,13 @@ function (_Component) {
   }]);
 
   return BaseFormDrawer;
-}(React.Component), _temp$6), (_applyDecoratedDescriptor(_class2$c.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$c.prototype, "fieldSets"), _class2$c.prototype)), _class2$c)) || _class$g) || _class$g;
+}(React.Component), _temp$6), (_applyDecoratedDescriptor(_class2$d.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$d.prototype, "fieldSets"), _class2$d.prototype)), _class2$d)) || _class$h) || _class$h;
 
 var FormDrawer$$1 = Antd.Form.create()(BaseFormDrawer);
 
-var _class$h, _class2$d, _class3$2, _temp$7;
+var _class$i, _class2$e, _class3$2, _temp$7;
 
-var FormModal = autoBindMethods(_class$h = mobxReact.observer(_class$h = (_class2$d = (_temp$7 = _class3$2 =
+var FormModal = autoBindMethods(_class$i = mobxReact.observer(_class$i = (_class2$e = (_temp$7 = _class3$2 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormModal, _Component);
@@ -2365,6 +2409,8 @@ function (_Component) {
   _createClass(FormModal, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var _this$props = this.props,
           cardConfig = _this$props.cardConfig,
           close = _this$props.close,
@@ -2389,6 +2435,7 @@ function (_Component) {
           defaults: defaults,
           fieldSet: fieldSet,
           form: form,
+          formManager: _this2.formManager,
           model: model
         }));
       }), this.props.children));
@@ -2403,13 +2450,13 @@ function (_Component) {
   return FormModal;
 }(React.Component), _class3$2.defaultProps = {
   saveText: 'Save'
-}, _temp$7), (_applyDecoratedDescriptor(_class2$d.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$d.prototype, "fieldSets"), _class2$d.prototype)), _class2$d)) || _class$h) || _class$h;
+}, _temp$7), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$i) || _class$i;
 
 var WrappedFormModal = Antd.Form.create()(FormModal);
 
-var _class$i, _class2$e, _class3$3, _temp$8;
+var _class$j, _class2$f, _class3$3, _temp$8;
 
-var SummaryCard = autoBindMethods(_class$i = mobxReact.observer(_class$i = (_class2$e = (_temp$8 = _class3$3 =
+var SummaryCard = autoBindMethods(_class$j = mobxReact.observer(_class$j = (_class2$f = (_temp$8 = _class3$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(SummaryCard, _Component);
@@ -2471,7 +2518,7 @@ function (_Component) {
   return SummaryCard;
 }(React.Component), _class3$3.defaultProps = {
   column: 4
-}, _temp$8), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$i) || _class$i;
+}, _temp$8), (_applyDecoratedDescriptor(_class2$f.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$f.prototype, "fieldSets"), _class2$f.prototype)), _class2$f)) || _class$j) || _class$j;
 
 // Lower-level building blocks and helper components
 
