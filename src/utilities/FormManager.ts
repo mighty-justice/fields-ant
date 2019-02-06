@@ -74,7 +74,7 @@ class FormManager {
   }
 
   public get formFieldNames () {
-    return Object.keys(flatten(this.formValues));
+    return Object.keys(flatten<{ [key: string]: any }, { [key: string]: any }>(this.formValues));
   }
 
   private onSuccess () {
