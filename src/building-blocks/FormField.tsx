@@ -74,9 +74,9 @@ class FormField extends Component<IProps> {
         ? editComponent
         : getFieldDecorator(field, this.decoratorOptions)(editComponent)
       , FormItemComponent = (
-      <Antd.Form.Item {...formItemProps} label={this.label}>
-        {wrappedComponent}
-      </Antd.Form.Item>
+        <Antd.Form.Item {...formItemProps} label={this.label}>
+          {wrappedComponent}
+        </Antd.Form.Item>
     );
 
     if (colProps) {

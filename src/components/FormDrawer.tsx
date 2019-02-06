@@ -72,7 +72,7 @@ class BaseFormDrawer extends Component<IProps> {
         visible={isVisible.isTrue}
         width={width}
       >
-        <Form layout='vertical' hideRequiredMark onSubmit={this.formManager.onSave}>
+        <Form layout='vertical' onSubmit={this.formManager.onSave}>
           {this.fieldSets.map((fieldSet, idx) => (
             <div key={idx}>
               <FormFieldSet

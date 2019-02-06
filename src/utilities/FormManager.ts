@@ -73,8 +73,8 @@ class FormManager {
     return this.args.form.getFieldsValue();
   }
 
-  private get formFieldNames () {
-    return Object.keys(this.formValues);
+  public get formFieldNames () {
+    return Object.keys(flatten(this.formValues));
   }
 
   private onSuccess () {
@@ -92,7 +92,8 @@ class FormManager {
   }
 
   private notifyUserAboutErrors (errors: Array<{ field: string, message: string }>) {
-    errors.forEach(description => {
+    errors.forEach(({ field, message }) => {
+      const description = `${field} - ${message}`;
       Antd.notification.error({ ...toastError, description });
     });
   }
@@ -120,12 +121,12 @@ class FormManager {
     try {
       await onSave(this.formModel);
       this.onSuccess();
+      this.args.form.resetFields();
     }
     catch (err) {
       this.handleBackendResponse(err.response);
     }
     finally {
-      this.args.form.resetFields();
       this.saving = false;
     }
   }
