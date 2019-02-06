@@ -5,10 +5,9 @@ import { isEmpty } from 'lodash';
 import * as Antd from 'antd';
 
 import Card from './Card';
-import { ICardConfig } from '../interfaces';
+import { ICommonCardProps } from '../interfaces';
 
-interface IProps {
-  cardConfig: ICardConfig;
+interface IProps extends ICommonCardProps {
   children?: any;
   extra?: any;
   isLoading?: boolean;
@@ -18,14 +17,19 @@ interface IProps {
 @observer
 class ArrayCard extends Component<IProps> {
   public render () {
-    const { cardConfig, extra, isLoading, model } = this.props;
-
+    const { title, extra, isLoading, model, fieldSets, classNameSuffix } = this.props;
     if (isEmpty(model)) { return null; }
 
     return (
-      <Antd.Card title={cardConfig.title} extra={extra} loading={isLoading}>
+      <Antd.Card title={title} extra={extra} loading={isLoading}>
         {model.map((modelItem: any) => (
-          <Card key={modelItem.id} cardConfig={{ ...cardConfig, title: '' }} model={modelItem} />
+          <Card
+            classNameSuffix={classNameSuffix}
+            fieldSets={fieldSets}
+            key={modelItem.id}
+            model={modelItem}
+            title=''
+          />
         ))}
       </Antd.Card>
     );

@@ -20,12 +20,10 @@ describe('FormCard', () => {
       , title = 'testing'
       , onSave = jest.fn().mockResolvedValue({})
       , props = {
-        cardConfig: {
-          fieldSets: [[{ field: 'text' }]],
-          title,
-        },
+        fieldSets: [[{ field: 'text' }]],
         model: { text },
         onSave,
+        title,
       };
 
     const tester = await new Tester(FormCard, { props }).mount();
@@ -48,12 +46,10 @@ describe('FormCard', () => {
       , name = faker.lorem.sentence()
       , onSave = jest.fn().mockRejectedValue(response)
       , props = {
-        cardConfig: {
-          fieldSets: [[{ field: 'name' }]],
-          title: 'Information',
-        },
+        fieldSets: [[{ field: 'name' }]],
         model: { name },
         onSave,
+        title: 'Information',
       };
 
     spyOn(Antd.notification, 'error');

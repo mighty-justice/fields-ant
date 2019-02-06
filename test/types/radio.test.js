@@ -16,7 +16,7 @@ const field = 'is_open'
 describe('radio', () => {
   it('Renders', async () => {
     const props = {
-        cardConfig: { fieldSets },
+        fieldSets,
         model,
       };
 
@@ -27,7 +27,7 @@ describe('radio', () => {
   it('Edits', async () => {
     const onSave = jest.fn()
       , props = {
-        cardConfig: { fieldSets },
+        fieldSets,
         model,
         onSave,
       };

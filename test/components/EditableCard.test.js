@@ -19,12 +19,10 @@ describe('EditableCard', () => {
       , title = 'testing'
       , onSave = jest.fn().mockResolvedValue({})
       , props = {
-        cardConfig: {
-          fieldSets: [[{ field: 'text' }]],
-          title,
-        },
+        fieldSets: [[{ field: 'text' }]],
         model: { text },
         onSave,
+        title,
       };
 
     const tester = await new Tester(EditableCard, { props }).mount();
@@ -42,13 +40,11 @@ describe('EditableCard', () => {
     const onSave = jest.fn().mockResolvedValue({})
       , onDelete = jest.fn().mockResolvedValue({})
       , props = {
-        cardConfig: {
-          fieldSets: [[{ field: 'text' }]],
-          title: faker.lorem.sentence(),
-        },
+        fieldSets: [[{ field: 'text' }]],
         model: { text: faker.lorem.sentence() },
-        onSave,
         onDelete,
+        onSave,
+        title: faker.lorem.sentence(),
       };
 
     const tester = await new Tester(EditableCard, { props }).mount();

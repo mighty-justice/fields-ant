@@ -100,13 +100,6 @@ export type IFieldSet = IFieldSetSimple | IFieldSetComplex;
 // fillInFieldSets(fieldSets: IFieldSetPartial[]): IFieldSet[] {
 export type IFieldSetPartial = IFieldSetSimplePartial | IFieldSetComplexPartial;
 
-// <Card cardConfig={{ fieldSets, title }} />
-export interface ICardConfig {
-  classNameSuffix?: string;
-  fieldSets: IFieldSet[] | IFieldSetPartial[];
-  title?: string;
-}
-
 export type IGetOptions = (optionType: string) => IOption[];
 
 export interface IInjected {
@@ -117,4 +110,10 @@ export interface IInjected {
 export interface IInputProps {
   fieldConfig: IFieldConfig;
   form: any;
+}
+
+export interface ICommonCardProps {
+  classNameSuffix?: string;
+  fieldSets: IFieldSet[] | IFieldSetPartial[];
+  title?: string;
 }

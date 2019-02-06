@@ -11,11 +11,9 @@ describe('SummaryCard', () => {
     const text = faker.lorem.sentence()
       , title = faker.lorem.sentence()
       , props = {
-        cardConfig: {
-          fieldSets: [[{ field: 'text' }]],
-          title,
-        },
+        fieldSets: [[{ field: 'text' }]],
         model: { text },
+        title,
       };
 
     const tester = await new Tester(SummaryCard, { props }).mount();

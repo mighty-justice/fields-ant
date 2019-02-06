@@ -20,12 +20,10 @@ describe('insertIf', () => {
   it('Shows if no insertIf attribute', async () => {
     const onSave = jest.fn().mockResolvedValue({})
      , tester = await new Tester(EditableCard, { props: {
-      cardConfig: {
-        fieldSets: [{ fields: [{ field, label }], legend }, secondFieldSet],
-        title,
-      },
+      fieldSets: [{ fields: [{ field, label }], legend }, secondFieldSet],
       model: { example_field },
       onSave,
+      title,
     }}).mount();
 
     expect(tester.text()).toContain(legend);
@@ -41,12 +39,10 @@ describe('insertIf', () => {
     const onSave = jest.fn().mockResolvedValue({})
       , insertIf = jest.fn(values => false)
       , tester = await new Tester(EditableCard, { props: {
-      cardConfig: {
-        fieldSets: [{ fields: [{ field, label, insertIf }], legend }, secondFieldSet],
-        title,
-      },
+      fieldSets: [{ fields: [{ field, label, insertIf }], legend }, secondFieldSet],
       model: { example_field },
       onSave,
+      title,
     }}).mount();
 
     expect(tester.text()).not.toContain(legend);
@@ -62,12 +58,10 @@ describe('insertIf', () => {
     const onSave = jest.fn().mockResolvedValue({})
       , insertIf = jest.fn(values => true)
       , tester = await new Tester(EditableCard, { props: {
-      cardConfig: {
-        fieldSets: [{ fields: [{ field, label, insertIf }], legend }, secondFieldSet],
-        title,
-      },
+      fieldSets: [{ fields: [{ field, label, insertIf }], legend }, secondFieldSet],
       model: { example_field },
       onSave,
+      title,
     }}).mount();
 
     expect(tester.text()).toContain(legend);

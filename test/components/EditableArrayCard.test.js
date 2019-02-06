@@ -17,11 +17,9 @@ const name1 = faker.lorem.sentence()
   , name3 = faker.lorem.sentence()
   , title = faker.lorem.sentence()
   , props = {
-    cardConfig: {
-      fieldSets: [[{ field: 'name' }]],
-      title,
-    },
+    fieldSets: [[{ field: 'name' }]],
     model: [{ id: 1, name: name1 }, { id: 2,  name: name2 }],
+    title,
   };
 
 describe('EditableArrayCard', () => {

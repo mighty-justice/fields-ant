@@ -8,13 +8,12 @@ import SmartBool from '@mighty-justice/smart-bool';
 import * as Antd from 'antd';
 
 import GuardedButton from '../building-blocks/GuardedButton';
-import { ICardConfig } from '../interfaces';
+import { ICommonCardProps } from '../interfaces';
 
 import EditableCard from './EditableCard';
 import FormCard from './FormCard';
 
-interface IProps {
-  cardConfig: ICardConfig;
+interface IProps extends ICommonCardProps {
   children?: any;
   defaults?: object;
   isGuarded?: boolean;
@@ -38,8 +37,8 @@ class EditableArrayCard extends Component<IProps> {
   }
 
   private renderAddNew () {
-    const { cardConfig, isLoading, isGuarded } = this.props
-      , classNameSuffix = cardConfig.classNameSuffix || kebabCase(cardConfig.title);
+    const { title, isLoading, isGuarded } = this.props
+      , classNameSuffix = this.props.classNameSuffix || kebabCase(title);
 
     return (
       <GuardedButton
@@ -58,23 +57,25 @@ class EditableArrayCard extends Component<IProps> {
 
   public render () {
     const {
-      cardConfig,
       defaults,
+      fieldSets,
       isLoading,
       model,
       onDelete,
       onSave,
       onSuccess,
+      title,
     } = this.props;
 
     return (
-      <Antd.Card title={cardConfig.title} extra={this.renderAddNew()} loading={isLoading}>
+      <Antd.Card title={title} extra={this.renderAddNew()} loading={isLoading}>
         {this.isAddingNew.isTrue && (
           <FormCard
-            cardConfig={{ ...cardConfig, title: `New ${cardConfig.title}` }}
             close={this.isAddingNew.setFalse}
             defaults={defaults}
+            fieldSets={fieldSets}
             onSave={this.handleSaveNew}
+            title={`New ${title}`}
           />
         )}
 
@@ -84,16 +85,14 @@ class EditableArrayCard extends Component<IProps> {
 
         {model.map(modelItem => (
           <EditableCard
-            onDelete={onDelete}
-            onSave={onSave}
-            cardConfig={{
-              ...cardConfig,
-              classNameSuffix: kebabCase(cardConfig.title),
-              title: '',
-            }}
+            classNameSuffix={kebabCase(title)}
+            fieldSets={fieldSets}
             key={modelItem.id}
             model={modelItem}
+            onDelete={onDelete}
+            onSave={onSave}
             onSuccess={onSuccess}
+            title=''
           />
         ))}
       </Antd.Card>

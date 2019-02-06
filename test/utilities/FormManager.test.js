@@ -5,12 +5,10 @@ import {FormCard} from '../../src';
 
 async function getFormManager (fieldSets) {
   const props = {
-    cardConfig: {
-      fieldSets,
-      title: 'Title',
-    },
+    fieldSets,
     model: {},
     onSave: jest.fn(),
+    title: 'Title',
   };
 
   const tester = await new Tester(FormCard, { props }).mount();
