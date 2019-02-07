@@ -71,9 +71,9 @@ class EditableArrayCard extends Component<IProps> {
       <Antd.Card title={title} extra={this.renderAddNew()} loading={isLoading}>
         {this.isAddingNew.isTrue && (
           <FormCard
-            close={this.isAddingNew.setFalse}
             defaults={defaults}
             fieldSets={fieldSets}
+            onCancel={this.isAddingNew.setFalse}
             onSave={this.handleSaveNew}
             title={`New ${title}`}
           />

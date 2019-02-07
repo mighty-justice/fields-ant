@@ -15,9 +15,9 @@ import { fillInFieldSets } from '../utilities/common';
 
 interface IExportProps extends ICommonCardProps {
   children?: any;
-  close?: () => void;
   defaults?: object;
   model?: any;
+  onCancel?: () => void;
   onSave: (data: object) => Promise<void>;
   renderTopRight?: () => any;
 }
@@ -32,12 +32,12 @@ export class UnwrappedFormCard extends Component<IProps> {
   private formManager: FormManager;
 
   public static defaultProps: Partial<IProps> = {
-    close: noop,
+    onCancel: noop,
   };
 
   public constructor (props: IProps) {
     super(props);
-    const { model, onSave, close, form } = props as IProps;
+    const { model, onSave, onCancel, form } = props as IProps;
 
     this.formManager = new FormManager(
       form,
@@ -45,7 +45,7 @@ export class UnwrappedFormCard extends Component<IProps> {
       {
         model,
         onSave,
-        onSuccess: close,
+        onSuccess: onCancel,
       },
     );
   }
@@ -56,7 +56,7 @@ export class UnwrappedFormCard extends Component<IProps> {
   }
 
   public render () {
-    const { title, close, defaults, model, form, renderTopRight } = this.props;
+    const { title, onCancel, defaults, model, form, renderTopRight } = this.props;
 
     return (
       <Antd.Card title={title} extra={renderTopRight && renderTopRight()}>
@@ -90,7 +90,7 @@ export class UnwrappedFormCard extends Component<IProps> {
 
             <Antd.Button
               disabled={this.formManager.saving}
-              onClick={close}
+              onClick={onCancel}
               size='large'
             >
               Cancel

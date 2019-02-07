@@ -14,10 +14,10 @@ import { computed } from 'mobx';
 interface IProps extends ICommonCardProps {
   children?: any;
   childrenBefore?: any;
-  close: () => void;
   defaults?: object;
   form: any;
   model?: any;
+  onCancel: () => void;
   onSave: (data: object) => Promise<void>;
   saveText?: string;
 }
@@ -41,7 +41,7 @@ class FormModal extends Component<IProps> {
 
   public constructor (props: IProps) {
     super(props);
-    const { model, onSave, close } = props;
+    const { model, onSave, onCancel } = props;
 
     this.formManager = new FormManager(
       props.form,
@@ -49,7 +49,7 @@ class FormModal extends Component<IProps> {
       {
         model,
         onSave,
-        onSuccess: close,
+        onSuccess: onCancel,
       },
     );
   }
@@ -60,14 +60,14 @@ class FormModal extends Component<IProps> {
   }
 
   public render () {
-    const { title, close, defaults, model, form } = this.props
+    const { title, onCancel, defaults, model, form } = this.props
       , { saveText } = this.propsWithDefaults;
 
     return (
       <Antd.Modal
         confirmLoading={this.formManager.saving}
         okText={this.formManager.saving ? 'Saving...' : saveText}
-        onCancel={close}
+        onCancel={onCancel}
         onOk={this.formManager.onSave}
         title={title}
         visible
