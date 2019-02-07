@@ -25,3 +25,8 @@
 .ant-select-selection {
   min-width: 230px;
 }
+
+.markdown-body {
+  background-color: white;
+  margin: 30px 0;
+}
