@@ -112,7 +112,7 @@ class EditableCard extends Component<IProps> {
       return (
         <FormCard
           {...this.props}
-          close={this.isEditing.setFalse}
+          onCancel={this.isEditing.setFalse}
           onSave={this.handleSave}
           renderTopRight={this.buttons}
         />
