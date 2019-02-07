@@ -3,6 +3,12 @@ import { Factory } from 'rosie';
 import faker from 'faker';
 import { format } from 'date-fns';
 import { action } from '@storybook/addon-actions';
+import { noop } from 'lodash';
+
+import {
+  Card,
+  EditableCard,
+} from '../src'
 
 const dateRecent = () => format(faker.date.recent(), 'YY-MM-YY')
   , datetimeRecent = () => faker.date.recent().toISOString()
@@ -13,7 +19,8 @@ const dateRecent = () => format(faker.date.recent(), 'YY-MM-YY')
   , attrSubFactoryList = (factory, num) => { return () => factory.buildList(num || 3); }
   , attrRandom = (list) => { return () => sample(list); }
   , attrRandomGet = (list, getter) => { return () => get(sample(list), getter); }
-  , field = () => faker.random.words(3).replace(' ', '_')
+  , field = () => faker.random.words(3).replace(/ /g, '_').toLowerCase()
+  , attrNoop = () => noop
   ;
 
 export const FIELD_CONFIGS = {
@@ -64,7 +71,7 @@ export const objectSearchCreateFactory = new Factory()
 export const fieldSetFactory = new Factory()
   .attrs({
     fields: attrSubFactoryList(fieldFactory),
-    endpoint: '/endpoint/',
+    legend: 'Legend',
   });
 
 export const formCardPropsFactory = new Factory()
@@ -72,3 +79,22 @@ export const formCardPropsFactory = new Factory()
     fieldSets: attrSubFactoryList(fieldSetFactory),
     onSave: () => (data) => action('Form Save')(data),
   });
+
+export const cardPropsFactory = new Factory()
+  .attrs({
+    fieldSets: attrSubFactoryList(fieldSetFactory),
+    model: {},
+    title: textShort,
+  });
+
+export const editableCardPropsFactory = new Factory()
+  .extend(cardPropsFactory)
+  .attrs({
+    onDelete: attrNoop,
+    onSave: attrNoop,
+  });
+
+export const COMPONENT_GENERATORS = {
+  Card: { Component: Card, propsFactory: cardPropsFactory },
+  EditableCard: { Component: EditableCard, propsFactory: editableCardPropsFactory },
+};
