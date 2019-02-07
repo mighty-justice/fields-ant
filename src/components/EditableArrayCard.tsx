@@ -13,7 +13,7 @@ import { ICommonCardProps } from '../interfaces';
 import EditableCard from './EditableCard';
 import FormCard from './FormCard';
 
-interface IProps extends ICommonCardProps {
+export interface IEditableArrayCardProps extends ICommonCardProps {
   children?: any;
   defaults?: object;
   isGuarded?: boolean;
@@ -27,7 +27,7 @@ interface IProps extends ICommonCardProps {
 
 @autoBindMethods
 @observer
-class EditableArrayCard extends Component<IProps> {
+class EditableArrayCard extends Component<IEditableArrayCardProps> {
   @observable private isAddingNew = new SmartBool();
 
   private async handleSaveNew (model: any) {

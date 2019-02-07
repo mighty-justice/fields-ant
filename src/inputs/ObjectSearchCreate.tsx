@@ -23,7 +23,7 @@ import ObjectSearch from './ObjectSearch';
 
 const MIN_SEARCH_LENGTH = 3;
 
-interface IProps {
+export interface IObjectSearchCreateProps {
   buttonProps: ButtonProps;
   decoratorOptions: any;
   fieldConfig: IFieldConfigObjectSearchCreate;
@@ -35,12 +35,12 @@ interface IProps {
 @inject('getEndpoint')
 @autoBindMethods
 @observer
-class ObjectSearchCreate extends Component<IProps> {
+class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
   @observable private isAddingNew = new SmartBool();
   @observable private search = '';
 
   private get injected () {
-    return this.props as IProps & IInjected & IInputProps & IAntFormField;
+    return this.props as IObjectSearchCreateProps & IInjected & IInputProps & IAntFormField;
   }
 
   private get fieldConfig () {

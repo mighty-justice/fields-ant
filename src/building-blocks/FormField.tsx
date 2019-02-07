@@ -13,7 +13,7 @@ import {
 
 import FormManager from '../utilities/FormManager';
 
-interface IProps {
+export interface IFormFieldProps {
   defaults?: object;
   fieldConfig: IFieldConfig;
   form: any;
@@ -23,7 +23,7 @@ interface IProps {
 
 @autoBindMethods
 @observer
-class FormField extends Component<IProps> {
+class FormField extends Component<IFormFieldProps> {
   private get label () {
     const { fieldConfig } = this.props;
     return fieldConfig.showLabel ? fieldConfig.label : '';

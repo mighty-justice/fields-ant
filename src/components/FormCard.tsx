@@ -13,7 +13,7 @@ import FormFieldSet from '../building-blocks/FormFieldSet';
 import FormManager from '../utilities/FormManager';
 import { fillInFieldSets } from '../utilities/common';
 
-interface IExportProps extends ICommonCardProps {
+export interface IFormCardProps extends ICommonCardProps {
   children?: any;
   defaults?: object;
   model?: any;
@@ -22,7 +22,7 @@ interface IExportProps extends ICommonCardProps {
   renderTopRight?: () => any;
 }
 
-interface IProps extends IExportProps {
+interface IProps extends IFormCardProps {
   form: any;
 }
 
@@ -106,7 +106,7 @@ const WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
 
 @autoBindMethods
 @observer
-export class FormCard extends Component<IExportProps> {
+export class FormCard extends Component<IFormCardProps> {
   public render () {
     return <WrappedFormCard {...this.props} />;
   }

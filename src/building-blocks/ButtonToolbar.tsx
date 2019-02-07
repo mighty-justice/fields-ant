@@ -4,7 +4,7 @@ import cx from 'classnames';
 
 import { Form } from 'antd';
 
-interface IProps {
+export interface IButtonToolbarProps {
   align?: 'between' | 'right';
   children?: any;
   className?: any;
@@ -13,7 +13,7 @@ interface IProps {
 }
 
 @autoBindMethods
-class ButtonToolbar extends Component<IProps> {
+class ButtonToolbar extends Component<IButtonToolbarProps> {
   public render () {
     const className = cx(
       'button-toolbar',

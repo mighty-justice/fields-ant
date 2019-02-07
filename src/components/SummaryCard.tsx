@@ -10,7 +10,7 @@ import { ICommonCardProps, IFieldConfig } from '../interfaces';
 import { fillInFieldSets, getFieldSetFields } from '../utilities/common';
 import { computed } from 'mobx';
 
-interface IProps extends ICommonCardProps {
+export interface ISummaryCardProps extends ICommonCardProps {
   className: any;
   column: 3 | 4 | 6;
   isLoading?: boolean;
@@ -20,8 +20,8 @@ interface IProps extends ICommonCardProps {
 
 @autoBindMethods
 @observer
-class SummaryCard extends Component<IProps> {
-  public static defaultProps: Partial<IProps> = {
+class SummaryCard extends Component<ISummaryCardProps> {
+  public static defaultProps: Partial<ISummaryCardProps> = {
     column: 4,
   };
 

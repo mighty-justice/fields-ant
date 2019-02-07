@@ -14,12 +14,12 @@ import {
 
 import { getOptions } from '..';
 
-interface IProps {
+export interface IOptionSelectProps {
   fieldConfig: IFieldConfig;
 }
 
 @inject('getOptions')
-class OptionSelect extends Component<IProps> {
+class OptionSelect extends Component<IOptionSelectProps> {
   private get injected () {
     return this.props as IInjected & IInputProps & IAntFormField;
   }

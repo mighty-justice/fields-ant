@@ -11,7 +11,7 @@ import FormFieldSet from '../building-blocks/FormFieldSet';
 import { fillInFieldSets } from '../utilities/common';
 import { computed } from 'mobx';
 
-interface IProps extends ICommonCardProps {
+export interface IFormModalProps extends ICommonCardProps {
   children?: any;
   childrenBefore?: any;
   defaults?: object;
@@ -22,16 +22,16 @@ interface IProps extends ICommonCardProps {
   saveText?: string;
 }
 
-interface IPropDefaults extends IProps {
+interface IPropDefaults extends IFormModalProps {
   saveText: string;
 }
 
 @autoBindMethods
 @observer
-class FormModal extends Component<IProps> {
+class FormModal extends Component<IFormModalProps> {
   private formManager: FormManager;
 
-  public static defaultProps: Partial<IProps> = {
+  public static defaultProps: Partial<IFormModalProps> = {
     saveText: 'Save',
   };
 
@@ -39,7 +39,7 @@ class FormModal extends Component<IProps> {
     return this.props as IPropDefaults;
   }
 
-  public constructor (props: IProps) {
+  public constructor (props: IFormModalProps) {
     super(props);
     const { model, onSave, onCancel } = props;
 
