@@ -8,7 +8,6 @@ import {
 } from '@mighty-justice/utils';
 
 import {
-  ICardConfig,
   IFieldConfig,
   IFieldConfigOptionSelect,
   IFieldConfigPartial,
@@ -137,16 +136,6 @@ export function fillInFieldSet (fieldSet: IFieldSetPartial): IFieldSet {
 
 export function fillInFieldSets (fieldSets: IFieldSetPartial[]): IFieldSet[] {
   return fieldSets.map(fillInFieldSet);
-}
-
-export function getCardModel (model: any, cardConfig: ICardConfig) {
-  const { accessor } = cardConfig;
-
-  if (accessor) {
-    return get(model, accessor);
-  }
-
-  return model;
 }
 
 export function getFieldSetFields (fieldSet: IFieldSet): IFieldConfig[] {

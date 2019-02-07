@@ -102,10 +102,8 @@ export type IFieldSetPartial = IFieldSetSimplePartial | IFieldSetComplexPartial;
 
 // <Card cardConfig={{ fieldSets, title }} />
 export interface ICardConfig {
-  accessor?: string;
   classNameSuffix?: string;
   fieldSets: IFieldSet[] | IFieldSetPartial[];
-  isArray?: boolean;
   title?: string;
 }
 

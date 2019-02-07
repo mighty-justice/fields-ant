@@ -10,7 +10,6 @@ export { default as NestedFieldSet } from './building-blocks/NestedFieldSet';
 // Components
 export { default as ArrayCard } from './components/ArrayCard';
 export { default as Card } from './components/Card';
-export { default as Cards } from './components/Cards';
 export { default as EditableArrayCard } from './components/EditableArrayCard';
 export { default as EditableCard } from './components/EditableCard';
 export { default as FormCard } from './components/FormCard';

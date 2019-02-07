@@ -5,7 +5,6 @@ import { isEmpty } from 'lodash';
 import * as Antd from 'antd';
 
 import Card from './Card';
-import { getCardModel } from '../utilities/common';
 import { ICardConfig } from '../interfaces';
 
 interface IProps {
@@ -19,8 +18,7 @@ interface IProps {
 @observer
 class ArrayCard extends Component<IProps> {
   public render () {
-    const { cardConfig, extra, isLoading } = this.props
-      , model = getCardModel(this.props.model, cardConfig);
+    const { cardConfig, extra, isLoading, model } = this.props;
 
     if (isEmpty(model)) { return null; }
 
