@@ -1,7 +1,6 @@
 import { Component } from 'react';
-import { ICardConfig } from '../interfaces';
-interface IProps {
-    cardConfig: ICardConfig;
+import { ICommonCardProps } from '../interfaces';
+interface IProps extends ICommonCardProps {
     className: any;
     column: 3 | 4 | 6;
     isLoading?: boolean;

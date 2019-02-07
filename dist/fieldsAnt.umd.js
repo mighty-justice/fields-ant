@@ -273,29 +273,6 @@
     return ButtonToolbar;
   }(React.Component)) || _class;
 
-  var CARD_COL_LABEL = 8;
-  var CARD_COL_VALUE = 16;
-
-  var Info = function Info(props) {
-    return React__default.createElement(Antd.Row, _extends({}, props, {
-      className: cx(props.className, 'info')
-    }), props.children);
-  };
-
-  var Label = function Label(props) {
-    return React__default.createElement(Antd.Col, {
-      span: CARD_COL_LABEL,
-      className: cx(props.className, 'col-label')
-    }, props.children);
-  };
-
-  var Value = function Value(props) {
-    return React__default.createElement(Antd.Col, {
-      span: CARD_COL_VALUE,
-      className: cx(props.className, 'col-value')
-    }, props.children);
-  };
-
   var _dec, _class$1, _class2, _descriptor, _descriptor2, _temp;
   var ObjectSearch = (_dec = mobxReact.inject('getEndpoint'), _dec(_class$1 = autoBindMethods(_class$1 = mobxReact.observer(_class$1 = (_class2 = (_temp =
   /*#__PURE__*/
@@ -997,15 +974,6 @@
   function fillInFieldSets(fieldSets) {
     return fieldSets.map(fillInFieldSet);
   }
-  function getCardModel(model, cardConfig) {
-    var accessor = cardConfig.accessor;
-
-    if (accessor) {
-      return lodash.get(model, accessor);
-    }
-
-    return model;
-  }
   function getFieldSetFields(fieldSet) {
     if (isFieldSetSimple(fieldSet)) {
       return fieldSet;
@@ -1036,6 +1004,29 @@
     var unsortedOptions = getUnsortedOptions(fieldConfig, injected);
     return fieldConfig.sorted ? lodash.sortBy(unsortedOptions, 'name') : unsortedOptions;
   }
+
+  var CARD_COL_LABEL = 8;
+  var CARD_COL_VALUE = 16;
+
+  var Info = function Info(props) {
+    return React__default.createElement(Antd.Row, _extends({}, props, {
+      className: cx(props.className, 'info')
+    }), props.children);
+  };
+
+  var Label = function Label(props) {
+    return React__default.createElement(Antd.Col, {
+      span: CARD_COL_LABEL,
+      className: cx(props.className, 'col-label')
+    }, props.children);
+  };
+
+  var Value = function Value(props) {
+    return React__default.createElement(Antd.Col, {
+      span: CARD_COL_VALUE,
+      className: cx(props.className, 'col-value')
+    }, props.children);
+  };
 
   var CardField =
   /*#__PURE__*/
@@ -1357,9 +1348,8 @@
     _createClass(CardFieldSet, [{
       key: "render",
       value: function render() {
-        var cardConfig = this.props.cardConfig,
+        var model = this.props.model,
             idx = this.props.idx || 0,
-            model = getCardModel(this.props.model, cardConfig),
             legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend,
             fieldConfigs = getFieldSetFields(this.fieldSet),
             filteredFieldConfigs = fieldConfigs.filter(function (fieldConfig) {
@@ -1409,17 +1399,16 @@
       key: "render",
       value: function render() {
         var _this$props = this.props,
-            cardConfig = _this$props.cardConfig,
+            title = _this$props.title,
             renderTopRight = _this$props.renderTopRight,
             isLoading = _this$props.isLoading,
             model = _this$props.model;
         return React__default.createElement(Antd.Card, {
-          title: cardConfig.title,
+          title: title,
           extra: renderTopRight && renderTopRight(),
           loading: isLoading
         }, this.fieldSets.map(function (fieldSet, idx) {
           return React__default.createElement(CardFieldSet, {
-            cardConfig: cardConfig,
             fieldSet: fieldSet,
             idx: idx,
             key: idx,
@@ -1430,7 +1419,7 @@
     }, {
       key: "fieldSets",
       get: function get() {
-        return fillInFieldSets(this.props.cardConfig.fieldSets);
+        return fillInFieldSets(this.props.fieldSets);
       }
     }]);
 
@@ -1454,26 +1443,28 @@
       key: "render",
       value: function render() {
         var _this$props = this.props,
-            cardConfig = _this$props.cardConfig,
-            extra = _this$props.extra,
+            title = _this$props.title,
+            renderTopRight = _this$props.renderTopRight,
             isLoading = _this$props.isLoading,
-            model = getCardModel(this.props.model, cardConfig);
+            model = _this$props.model,
+            fieldSets = _this$props.fieldSets,
+            classNameSuffix = _this$props.classNameSuffix;
 
         if (lodash.isEmpty(model)) {
           return null;
         }
 
         return React__default.createElement(Antd.Card, {
-          title: cardConfig.title,
-          extra: extra,
+          title: title,
+          extra: renderTopRight && renderTopRight(),
           loading: isLoading
         }, model.map(function (modelItem) {
           return React__default.createElement(Card, {
+            classNameSuffix: classNameSuffix,
+            fieldSets: fieldSets,
             key: modelItem.id,
-            cardConfig: _objectSpread({}, cardConfig, {
-              title: ''
-            }),
-            model: modelItem
+            model: modelItem,
+            title: ""
           });
         }));
       }
@@ -1481,51 +1472,6 @@
 
     return ArrayCard;
   }(React.Component)) || _class$b;
-
-  var _class$c;
-
-  var Cards = mobxReact.observer(_class$c =
-  /*#__PURE__*/
-  function (_Component) {
-    _inherits(Cards, _Component);
-
-    function Cards() {
-      _classCallCheck(this, Cards);
-
-      return _possibleConstructorReturn(this, _getPrototypeOf(Cards).apply(this, arguments));
-    }
-
-    _createClass(Cards, [{
-      key: "render",
-      value: function render() {
-        var _this$props = this.props,
-            model = _this$props.model,
-            isLoading = _this$props.isLoading,
-            cardConfigs = _this$props.cardConfigs;
-        return cardConfigs.map(function (cardConfig, idx) {
-          if (cardConfig.isArray) {
-            return React__default.createElement(Antd.Row, {
-              key: "detail-cards-".concat(idx)
-            }, React__default.createElement(ArrayCard, {
-              cardConfig: cardConfig,
-              model: model,
-              isLoading: isLoading
-            }));
-          }
-
-          return React__default.createElement(Antd.Row, {
-            key: "detail-cards-".concat(idx)
-          }, React__default.createElement(Card, {
-            cardConfig: cardConfig,
-            model: model,
-            isLoading: isLoading
-          }));
-        });
-      }
-    }]);
-
-    return Cards;
-  }(React.Component)) || _class$c;
 
   function getFieldErrors(errors) {
     var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
@@ -1617,14 +1563,14 @@
     };
   }
 
-  var _class$d, _class2$9, _descriptor$2, _temp$2;
+  var _class$c, _class2$9, _descriptor$2, _temp$2;
   var toastError = {
     description: '',
     duration: null,
     message: 'Error submitting form'
   };
 
-  var FormManager = autoBindMethods(_class$d = (_class2$9 = (_temp$2 =
+  var FormManager = autoBindMethods(_class$c = (_class2$9 = (_temp$2 =
   /*#__PURE__*/
   function () {
     function FormManager(form, fieldSets, args) {
@@ -1828,10 +1774,10 @@
     initializer: function initializer() {
       return false;
     }
-  })), _class2$9)) || _class$d;
+  })), _class2$9)) || _class$c;
 
-  var _class$e, _class2$a, _class3, _temp$3, _class4;
-  var UnwrappedFormCard = autoBindMethods(_class$e = mobxReact.observer(_class$e = (_class2$a = (_temp$3 = _class3 =
+  var _class$d, _class2$a, _class3, _temp$3, _class4;
+  var UnwrappedFormCard = autoBindMethods(_class$d = mobxReact.observer(_class$d = (_class2$a = (_temp$3 = _class3 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(UnwrappedFormCard, _Component);
@@ -1846,12 +1792,12 @@
       var _ref = props,
           model = _ref.model,
           onSave = _ref.onSave,
-          close = _ref.close,
+          onCancel = _ref.onCancel,
           form = _ref.form;
       _this.formManager = new FormManager(form, _this.fieldSets, {
         model: model,
         onSave: onSave,
-        onSuccess: close
+        onSuccess: onCancel
       });
       return _this;
     }
@@ -1862,14 +1808,14 @@
         var _this2 = this;
 
         var _this$props = this.props,
-            cardConfig = _this$props.cardConfig,
-            close = _this$props.close,
+            title = _this$props.title,
+            onCancel = _this$props.onCancel,
             defaults = _this$props.defaults,
             model = _this$props.model,
             form = _this$props.form,
             renderTopRight = _this$props.renderTopRight;
         return React__default.createElement(Antd.Card, {
-          title: cardConfig.title,
+          title: title,
           extra: renderTopRight && renderTopRight()
         }, React__default.createElement(Antd.Form, {
           onSubmit: this.formManager.onSave,
@@ -1895,21 +1841,21 @@
           type: "primary"
         }, "Save"), React__default.createElement(Antd.Button, {
           disabled: this.formManager.saving,
-          onClick: close,
+          onClick: onCancel,
           size: "large"
         }, "Cancel"))));
       }
     }, {
       key: "fieldSets",
       get: function get() {
-        return fillInFieldSets(this.props.cardConfig.fieldSets);
+        return fillInFieldSets(this.props.fieldSets);
       }
     }]);
 
     return UnwrappedFormCard;
   }(React.Component), _class3.defaultProps = {
-    close: lodash.noop
-  }, _temp$3), (_applyDecoratedDescriptor(_class2$a.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$a.prototype, "fieldSets"), _class2$a.prototype)), _class2$a)) || _class$e) || _class$e;
+    onCancel: lodash.noop
+  }, _temp$3), (_applyDecoratedDescriptor(_class2$a.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$a.prototype, "fieldSets"), _class2$a.prototype)), _class2$a)) || _class$d) || _class$d;
   var WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
   var FormCard = autoBindMethods(_class4 = mobxReact.observer(_class4 =
   /*#__PURE__*/
@@ -1932,9 +1878,9 @@
     return FormCard;
   }(React.Component)) || _class4) || _class4;
 
-  var _class$f, _class2$b, _descriptor$3, _descriptor2$2, _class3$1, _temp$4;
+  var _class$e, _class2$b, _descriptor$3, _descriptor2$2, _class3$1, _temp$4;
 
-  var EditableCard = autoBindMethods(_class$f = mobxReact.observer(_class$f = (_class2$b = (_temp$4 = _class3$1 =
+  var EditableCard = autoBindMethods(_class$e = mobxReact.observer(_class$e = (_class2$b = (_temp$4 = _class3$1 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(EditableCard, _Component);
@@ -2050,7 +1996,7 @@
       value: function render() {
         if (this.isEditing.isTrue) {
           return React__default.createElement(FormCard, _extends({}, this.props, {
-            close: this.isEditing.setFalse,
+            onCancel: this.isEditing.setFalse,
             onSave: this.handleSave,
             renderTopRight: this.buttons
           }));
@@ -2070,10 +2016,10 @@
       get: function get() {
         var _this$propsWithDefaul3 = this.propsWithDefaults,
             isGuarded = _this$propsWithDefaul3.isGuarded,
-            cardConfig = _this$propsWithDefaul3.cardConfig,
+            title = _this$propsWithDefaul3.title,
             onDelete = _this$propsWithDefaul3.onDelete,
             isLoading = _this$propsWithDefaul3.isLoading,
-            classNameSuffix = cardConfig.classNameSuffix || lodash.kebabCase(cardConfig.title);
+            classNameSuffix = this.propsWithDefaults.classNameSuffix || lodash.kebabCase(title);
 
         if (!onDelete) {
           return;
@@ -2094,10 +2040,10 @@
       key: "editButton",
       get: function get() {
         var _this$propsWithDefaul4 = this.propsWithDefaults,
-            cardConfig = _this$propsWithDefaul4.cardConfig,
             isLoading = _this$propsWithDefaul4.isLoading,
+            title = _this$propsWithDefaul4.title,
             isGuarded = _this$propsWithDefaul4.isGuarded,
-            classNameSuffix = cardConfig.classNameSuffix || lodash.kebabCase(cardConfig.title);
+            classNameSuffix = this.propsWithDefaults.classNameSuffix || lodash.kebabCase(title);
         return React__default.createElement(GuardedButton, {
           className: "btn-edit btn-edit-".concat(classNameSuffix),
           disabled: isLoading || this.isEditing.isTrue || this.isDeleting.isTrue,
@@ -2150,11 +2096,11 @@
     initializer: function initializer() {
       return new SmartBool();
     }
-  })), _class2$b)) || _class$f) || _class$f;
+  })), _class2$b)) || _class$e) || _class$e;
 
-  var _class$g, _class2$c, _descriptor$4, _temp$5;
+  var _class$f, _class2$c, _descriptor$4, _temp$5;
 
-  var EditableArrayCard = autoBindMethods(_class$g = mobxReact.observer(_class$g = (_class2$c = (_temp$5 =
+  var EditableArrayCard = autoBindMethods(_class$f = mobxReact.observer(_class$f = (_class2$c = (_temp$5 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(EditableArrayCard, _Component);
@@ -2215,10 +2161,10 @@
       key: "renderAddNew",
       value: function renderAddNew() {
         var _this$props2 = this.props,
-            cardConfig = _this$props2.cardConfig,
+            title = _this$props2.title,
             isLoading = _this$props2.isLoading,
             isGuarded = _this$props2.isGuarded,
-            classNameSuffix = cardConfig.classNameSuffix || lodash.kebabCase(cardConfig.title);
+            classNameSuffix = this.props.classNameSuffix || lodash.kebabCase(title);
         return React__default.createElement(GuardedButton, {
           className: "btn-new btn-new-".concat(classNameSuffix),
           disabled: isLoading || this.isAddingNew.isTrue,
@@ -2233,37 +2179,36 @@
       key: "render",
       value: function render() {
         var _this$props3 = this.props,
-            cardConfig = _this$props3.cardConfig,
             defaults = _this$props3.defaults,
+            fieldSets = _this$props3.fieldSets,
             isLoading = _this$props3.isLoading,
             model = _this$props3.model,
             onDelete = _this$props3.onDelete,
             onSave = _this$props3.onSave,
-            onSuccess = _this$props3.onSuccess;
+            onSuccess = _this$props3.onSuccess,
+            title = _this$props3.title;
         return React__default.createElement(Antd.Card, {
-          title: cardConfig.title,
+          title: title,
           extra: this.renderAddNew(),
           loading: isLoading
         }, this.isAddingNew.isTrue && React__default.createElement(FormCard, {
-          cardConfig: _objectSpread({}, cardConfig, {
-            title: "New ".concat(cardConfig.title)
-          }),
-          close: this.isAddingNew.setFalse,
           defaults: defaults,
-          onSave: this.handleSaveNew
+          fieldSets: fieldSets,
+          onCancel: this.isAddingNew.setFalse,
+          onSave: this.handleSaveNew,
+          title: "New ".concat(title)
         }), lodash.isEmpty(model) && !this.isAddingNew.isTrue && React__default.createElement("p", {
           className: "empty-message"
         }, "No records"), model.map(function (modelItem) {
           return React__default.createElement(EditableCard, {
-            onDelete: onDelete,
-            onSave: onSave,
-            cardConfig: _objectSpread({}, cardConfig, {
-              classNameSuffix: lodash.kebabCase(cardConfig.title),
-              title: ''
-            }),
+            classNameSuffix: lodash.kebabCase(title),
+            fieldSets: fieldSets,
             key: modelItem.id,
             model: modelItem,
-            onSuccess: onSuccess
+            onDelete: onDelete,
+            onSave: onSave,
+            onSuccess: onSuccess,
+            title: ""
           });
         }));
       }
@@ -2277,11 +2222,11 @@
     initializer: function initializer() {
       return new SmartBool();
     }
-  })), _class2$c)) || _class$g) || _class$g;
+  })), _class2$c)) || _class$f) || _class$f;
 
-  var _class$h, _class2$d, _temp$6;
+  var _class$g, _class2$d, _temp$6;
 
-  var BaseFormDrawer = autoBindMethods(_class$h = mobxReact.observer(_class$h = (_class2$d = (_temp$6 =
+  var BaseFormDrawer = autoBindMethods(_class$g = mobxReact.observer(_class$g = (_class2$d = (_temp$6 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(BaseFormDrawer, _Component);
@@ -2323,7 +2268,8 @@
             isVisible = _this$props.isVisible,
             model = _this$props.model,
             title = _this$props.title,
-            width = _this$props.width;
+            width = _this$props.width,
+            defaults = _this$props.defaults;
         return React__default.createElement(Antd.Drawer, {
           className: "mfa-form-drawer",
           closable: true,
@@ -2341,6 +2287,7 @@
           return React__default.createElement("div", {
             key: idx
           }, React__default.createElement(FormFieldSet, {
+            defaults: defaults,
             fieldSet: fieldSet,
             form: form,
             formManager: _this2.formManager,
@@ -2362,13 +2309,13 @@
     }]);
 
     return BaseFormDrawer;
-  }(React.Component), _temp$6), (_applyDecoratedDescriptor(_class2$d.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$d.prototype, "fieldSets"), _class2$d.prototype)), _class2$d)) || _class$h) || _class$h;
+  }(React.Component), _temp$6), (_applyDecoratedDescriptor(_class2$d.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$d.prototype, "fieldSets"), _class2$d.prototype)), _class2$d)) || _class$g) || _class$g;
 
   var FormDrawer$$1 = Antd.Form.create()(BaseFormDrawer);
 
-  var _class$i, _class2$e, _class3$2, _temp$7;
+  var _class$h, _class2$e, _class3$2, _temp$7;
 
-  var FormModal = autoBindMethods(_class$i = mobxReact.observer(_class$i = (_class2$e = (_temp$7 = _class3$2 =
+  var FormModal = autoBindMethods(_class$h = mobxReact.observer(_class$h = (_class2$e = (_temp$7 = _class3$2 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(FormModal, _Component);
@@ -2389,11 +2336,11 @@
       _this.formManager = void 0;
       var model = props.model,
           onSave = props.onSave,
-          close = props.close;
+          onCancel = props.onCancel;
       _this.formManager = new FormManager(props.form, _this.fieldSets, {
         model: model,
         onSave: onSave,
-        onSuccess: close
+        onSuccess: onCancel
       });
       return _this;
     }
@@ -2404,8 +2351,8 @@
         var _this2 = this;
 
         var _this$props = this.props,
-            cardConfig = _this$props.cardConfig,
-            close = _this$props.close,
+            title = _this$props.title,
+            onCancel = _this$props.onCancel,
             defaults = _this$props.defaults,
             model = _this$props.model,
             form = _this$props.form,
@@ -2413,9 +2360,9 @@
         return React__default.createElement(Antd.Modal, {
           confirmLoading: this.formManager.saving,
           okText: this.formManager.saving ? 'Saving...' : saveText,
-          onCancel: close,
+          onCancel: onCancel,
           onOk: this.formManager.onSave,
-          title: cardConfig.title,
+          title: title,
           visible: true
         }, React__default.createElement(Antd.Form, {
           onSubmit: this.formManager.onSave,
@@ -2435,20 +2382,20 @@
     }, {
       key: "fieldSets",
       get: function get() {
-        return fillInFieldSets(this.props.cardConfig.fieldSets);
+        return fillInFieldSets(this.props.fieldSets);
       }
     }]);
 
     return FormModal;
   }(React.Component), _class3$2.defaultProps = {
     saveText: 'Save'
-  }, _temp$7), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$i) || _class$i;
+  }, _temp$7), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$h) || _class$h;
 
   var WrappedFormModal = Antd.Form.create()(FormModal);
 
-  var _class$j, _class2$f, _class3$3, _temp$8;
+  var _class$i, _class2$f, _class3$3, _temp$8;
 
-  var SummaryCard = autoBindMethods(_class$j = mobxReact.observer(_class$j = (_class2$f = (_temp$8 = _class3$3 =
+  var SummaryCard = autoBindMethods(_class$i = mobxReact.observer(_class$i = (_class2$f = (_temp$8 = _class3$3 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(SummaryCard, _Component);
@@ -2477,7 +2424,7 @@
         var _this = this;
 
         var _this$props = this.props,
-            cardConfig = _this$props.cardConfig,
+            title = _this$props.title,
             column = _this$props.column,
             isLoading = _this$props.isLoading,
             renderTopRight = _this$props.renderTopRight,
@@ -2486,7 +2433,7 @@
           className: cx('summary-card', className),
           extra: renderTopRight && renderTopRight(),
           loading: isLoading,
-          title: cardConfig.title
+          title: title
         }, this.fieldSets.map(function (fieldSet, idx) {
           return React__default.createElement(Antd.List, {
             className: "list-summary",
@@ -2503,14 +2450,14 @@
     }, {
       key: "fieldSets",
       get: function get() {
-        return fillInFieldSets(this.props.cardConfig.fieldSets);
+        return fillInFieldSets(this.props.fieldSets);
       }
     }]);
 
     return SummaryCard;
   }(React.Component), _class3$3.defaultProps = {
     column: 4
-  }, _temp$8), (_applyDecoratedDescriptor(_class2$f.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$f.prototype, "fieldSets"), _class2$f.prototype)), _class2$f)) || _class$j) || _class$j;
+  }, _temp$8), (_applyDecoratedDescriptor(_class2$f.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$f.prototype, "fieldSets"), _class2$f.prototype)), _class2$f)) || _class$i) || _class$i;
 
   // Lower-level building blocks and helper components
 
@@ -2527,7 +2474,6 @@
   exports.NestedFieldSet = NestedFieldSet$$1;
   exports.ArrayCard = ArrayCard;
   exports.Card = Card;
-  exports.Cards = Cards;
   exports.EditableArrayCard = EditableArrayCard;
   exports.EditableCard = EditableCard;
   exports.FormCard = FormCard;
@@ -2548,7 +2494,6 @@
   exports.fillInFieldConfig = fillInFieldConfig;
   exports.fillInFieldSet = fillInFieldSet;
   exports.fillInFieldSets = fillInFieldSets;
-  exports.getCardModel = getCardModel;
   exports.getFieldSetFields = getFieldSetFields;
   exports.getUnsortedOptions = getUnsortedOptions;
   exports.getOptions = getOptions;

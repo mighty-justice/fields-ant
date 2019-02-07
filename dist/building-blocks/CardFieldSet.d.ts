@@ -1,7 +1,6 @@
 import { Component } from 'react';
-import { ICardConfig, IFieldSetPartial } from '../interfaces';
+import { IFieldSetPartial } from '../interfaces';
 interface IProps {
-    cardConfig: ICardConfig;
     fieldSet: IFieldSetPartial;
     idx?: number;
     model: any;

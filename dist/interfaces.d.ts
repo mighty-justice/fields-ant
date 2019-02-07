@@ -78,13 +78,6 @@ export interface IFieldSetComplexPartial {
 }
 export declare type IFieldSet = IFieldSetSimple | IFieldSetComplex;
 export declare type IFieldSetPartial = IFieldSetSimplePartial | IFieldSetComplexPartial;
-export interface ICardConfig {
-    accessor?: string;
-    classNameSuffix?: string;
-    fieldSets: IFieldSet[] | IFieldSetPartial[];
-    isArray?: boolean;
-    title?: string;
-}
 export declare type IGetOptions = (optionType: string) => IOption[];
 export interface IInjected {
     getEndpoint: (endpoint: string) => Promise<any>;
@@ -93,5 +86,10 @@ export interface IInjected {
 export interface IInputProps {
     fieldConfig: IFieldConfig;
     form: any;
+}
+export interface ICommonCardProps {
+    classNameSuffix?: string;
+    fieldSets: IFieldSet[] | IFieldSetPartial[];
+    title?: string;
 }
 export {};

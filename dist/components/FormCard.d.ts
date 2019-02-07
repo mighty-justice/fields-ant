@@ -1,11 +1,10 @@
 import { Component } from 'react';
-import { ICardConfig } from '../interfaces';
-interface IExportProps {
-    cardConfig: ICardConfig;
+import { ICommonCardProps } from '../interfaces';
+interface IExportProps extends ICommonCardProps {
     children?: any;
-    close?: () => void;
     defaults?: object;
     model?: any;
+    onCancel?: () => void;
     onSave: (data: object) => Promise<void>;
     renderTopRight?: () => any;
 }

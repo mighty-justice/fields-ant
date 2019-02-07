@@ -1,11 +1,10 @@
 import { Component } from 'react';
-import { ICardConfig } from '../interfaces';
-interface IProps {
-    cardConfig: ICardConfig;
+import { ICommonCardProps } from '../interfaces';
+interface IProps extends ICommonCardProps {
     children?: any;
-    extra?: any;
     isLoading?: boolean;
     model: any;
+    renderTopRight?: () => any;
 }
 declare class ArrayCard extends Component<IProps> {
     render(): JSX.Element | null;
