@@ -15,6 +15,7 @@ import {
 } from '../';
 
 interface IProps {
+  defaults?: object;
   fieldSets: IFieldSetPartial[];
   form: any;
   isVisible: SmartBool;
@@ -58,7 +59,7 @@ class BaseFormDrawer extends Component<IProps> {
   }
 
   public render () {
-    const { form, isVisible, model, title, width } = this.props;
+    const { form, isVisible, model, title, width, defaults } = this.props;
 
     return (
       <Drawer
@@ -76,6 +77,7 @@ class BaseFormDrawer extends Component<IProps> {
           {this.fieldSets.map((fieldSet, idx) => (
             <div key={idx}>
               <FormFieldSet
+                defaults={defaults}
                 fieldSet={fieldSet}
                 form={form}
                 formManager={this.formManager}
