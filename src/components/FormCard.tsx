@@ -15,6 +15,7 @@ import { fillInFieldSets } from '../utilities/common';
 
 export interface IFormCardProps extends ICommonCardProps {
   children?: any;
+  isLoading?: boolean;
   defaults?: object;
   model?: any;
   onCancel?: () => void;
@@ -56,10 +57,10 @@ export class UnwrappedFormCard extends Component<IProps> {
   }
 
   public render () {
-    const { title, onCancel, defaults, model, form, renderTopRight } = this.props;
+    const { isLoading, title, onCancel, defaults, model, form, renderTopRight } = this.props;
 
     return (
-      <Antd.Card title={title} extra={renderTopRight && renderTopRight()}>
+      <Antd.Card loading={isLoading} title={title} extra={renderTopRight && renderTopRight()}>
         <Antd.Form onSubmit={this.formManager.onSave} className='notes-form'>
           {this.fieldSets.map((fieldSet: IFieldSet, idx: number) => (
             <Fragment key={idx}>

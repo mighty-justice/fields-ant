@@ -7,6 +7,8 @@ import { COMPONENT_GENERATORS } from '../factories';
 const SUPPORTING_COMPONENTS = [
   'Card',
   'EditableCard',
+  'FormCard',
+  'SummaryCard',
 ];
 
 describe('Renders', () => {

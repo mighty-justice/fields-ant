@@ -8,6 +8,8 @@ import { noop } from 'lodash';
 import {
   Card,
   EditableCard,
+  FormCard,
+  SummaryCard,
 } from '../src'
 
 const dateRecent = () => format(faker.date.recent(), 'YY-MM-YY')
@@ -74,17 +76,22 @@ export const fieldSetFactory = new Factory()
     legend: 'Legend',
   });
 
-export const formCardPropsFactory = new Factory()
-  .attrs({
-    fieldSets: attrSubFactoryList(fieldSetFactory),
-    onSave: () => (data) => action('Form Save')(data),
-  });
-
 export const cardPropsFactory = new Factory()
   .attrs({
     fieldSets: attrSubFactoryList(fieldSetFactory),
     model: {},
     title: textShort,
+  });
+
+export const summaryCardPropsFactory = new Factory()
+  .extend(cardPropsFactory)
+  .attrs({
+  });
+
+export const formCardPropsFactory = new Factory()
+  .extend(cardPropsFactory)
+  .attrs({
+    onSave: () => (data) => action('Form Save')(data),
   });
 
 export const editableCardPropsFactory = new Factory()
@@ -97,4 +104,6 @@ export const editableCardPropsFactory = new Factory()
 export const COMPONENT_GENERATORS = {
   Card: { Component: Card, propsFactory: cardPropsFactory },
   EditableCard: { Component: EditableCard, propsFactory: editableCardPropsFactory },
+  FormCard: { Component: FormCard, propsFactory: formCardPropsFactory },
+  SummaryCard: { Component: SummaryCard, propsFactory: summaryCardPropsFactory },
 };
