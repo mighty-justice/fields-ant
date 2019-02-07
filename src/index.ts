@@ -26,5 +26,5 @@ export { default as Rate, formatRating } from './inputs/Rate';
 
 // Utility classes and functions
 export { default as FormManager } from './utilities/FormManager';
-export * from './utilities/common';
 export * from './interfaces';
+export * from './utilities/common';

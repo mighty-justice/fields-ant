@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { get } from 'lodash';
 
-import Info, { Label, Value } from './Info';
+import { fillInFieldConfig, filterInsertIf } from '../utilities/common';
 import { IFieldConfig } from '../interfaces';
 
-import { fillInFieldConfig, filterInsertIf } from '../utilities/common';
+import Info, { Label, Value } from './Info';
 
 interface IProps {
   fieldConfig: IFieldConfig;
