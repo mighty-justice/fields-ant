@@ -5,6 +5,7 @@ import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
 import { EditableCard } from '../../src';
+import { editableCardPropsFactory } from '../factories';
 
 function changeInput (component, value) {
   component.simulate('focus');
@@ -16,13 +17,12 @@ describe('EditableCard', () => {
   it('Edits text', async () => {
     const text = faker.lorem.sentence()
       , newText = faker.lorem.sentence()
-      , title = 'testing'
       , onSave = jest.fn().mockResolvedValue({})
       , props = {
+        ...editableCardPropsFactory.build(),
         fieldSets: [[{ field: 'text' }]],
         model: { text },
         onSave,
-        title,
       };
 
     const tester = await new Tester(EditableCard, { props }).mount();
@@ -37,15 +37,8 @@ describe('EditableCard', () => {
   });
 
   it('Can be deleted', async () => {
-    const onSave = jest.fn().mockResolvedValue({})
-      , onDelete = jest.fn().mockResolvedValue({})
-      , props = {
-        fieldSets: [[{ field: 'text' }]],
-        model: { text: faker.lorem.sentence() },
-        onDelete,
-        onSave,
-        title: faker.lorem.sentence(),
-      };
+    const onDelete = jest.fn().mockResolvedValue({})
+      , props = { ...editableCardPropsFactory.build(), onDelete };
 
     const tester = await new Tester(EditableCard, { props }).mount();
 
