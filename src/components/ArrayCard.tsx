@@ -11,7 +11,7 @@ interface IProps extends ICommonCardProps {
   children?: any;
   isLoading?: boolean;
   model: any;
-  renderTopRight?: any;
+  renderTopRight?: () => any;
 }
 
 @observer
