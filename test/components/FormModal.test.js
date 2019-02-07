@@ -10,11 +10,9 @@ describe('FormModal', () => {
     const text = faker.lorem.sentence()
       , title = faker.lorem.sentence()
       , props = {
-        cardConfig: {
-          fieldSets: [[{ field: 'text' }]],
-          title,
-        },
+        fieldSets: [[{ field: 'text' }]],
         model: { text },
+        title,
       };
 
     const tester = await new Tester(FormModal, { props }).mount();
@@ -27,12 +25,10 @@ describe('FormModal', () => {
     const textChildren = faker.lorem.sentence()
       , textChildrenBefore = faker.lorem.sentence()
       , props = {
-        cardConfig: {
-          fieldSets: [],
-          title: 'Children Modal',
-        },
         children: textChildren,
         childrenBefore: textChildrenBefore,
+        fieldSets: [],
+        title: 'Children Modal',
       };
 
     const tester = await new Tester(FormModal, { props }).mount();

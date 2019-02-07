@@ -14,7 +14,6 @@ filterInsertIf (fieldConfig: IFieldConfig, model: any)
 
 ## Simple getters
 ```
-getCardModel (model: any, cardConfig: ICardConfig)
 getFieldSetFields (fieldSet: IFieldSet): IFieldConfig[]
 ```
 

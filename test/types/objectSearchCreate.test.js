@@ -20,9 +20,8 @@ function getDefaults (overrides) {
     , fieldConfig = overrides.fieldConfig || { field, type, endpoint, createFields }
     , fieldSets = overrides.fieldSets || [[fieldConfig]]
     , onSave = jest.fn()
-    , cardConfig = overrides.cardConfig || { fieldSets }
     , model = overrides.model || { law_firm: faker.random.uuid() }
-    , props = { cardConfig, model, onSave }
+    , props = { fieldSets, model, onSave }
     ;
 
   return {
@@ -31,7 +30,6 @@ function getDefaults (overrides) {
     result: { id: faker.random.uuid(), name: faker.company.companyName() },
     searchTerm: faker.lorem.sentence(),
 
-    cardConfig,
     createFields,
     endpoint,
     field,

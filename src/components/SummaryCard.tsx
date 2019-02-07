@@ -6,12 +6,11 @@ import cx from 'classnames';
 
 import * as Antd from 'antd';
 
-import { ICardConfig, IFieldConfig } from '../interfaces';
+import { ICommonCardProps, IFieldConfig } from '../interfaces';
 import { fillInFieldSets, getFieldSetFields } from '../utilities/common';
 import { computed } from 'mobx';
 
-interface IProps {
-  cardConfig: ICardConfig;
+interface IProps extends ICommonCardProps {
   className: any;
   column: 3 | 4 | 6;
   isLoading?: boolean;
@@ -28,7 +27,7 @@ class SummaryCard extends Component<IProps> {
 
   @computed
   private get fieldSets () {
-    return fillInFieldSets(this.props.cardConfig.fieldSets);
+    return fillInFieldSets(this.props.fieldSets);
   }
 
   private renderItem (fieldConfig: IFieldConfig) {
@@ -46,14 +45,14 @@ class SummaryCard extends Component<IProps> {
   }
 
   public render () {
-    const { cardConfig, column, isLoading, renderTopRight, className } = this.props;
+    const { title, column, isLoading, renderTopRight, className } = this.props;
 
     return (
       <Antd.Card
         className={cx('summary-card', className)}
         extra={renderTopRight && renderTopRight()}
         loading={isLoading}
-        title={cardConfig.title}
+        title={title}
       >
         {this.fieldSets.map((fieldSet, idx) => (
           <Antd.List

@@ -12,11 +12,9 @@ describe('ArrayCard', () => {
       , text2 = faker.lorem.sentence()
       , title = faker.lorem.sentence()
       , props = {
-        cardConfig: {
-          fieldSets: [[{ field: 'text' }]],
-          title,
-        },
+        fieldSets: [[{ field: 'text' }]],
         model: [{ id: 1, text: text1 }, { id: 2,  text: text2 }],
+        title,
       };
 
     const tester = await new Tester(ArrayCard, { props }).mount();

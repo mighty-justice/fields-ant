@@ -4,12 +4,11 @@ import { observer } from 'mobx-react';
 
 import * as Antd from 'antd';
 
-import { ICardConfig, IFieldSetPartial } from '../interfaces';
+import { IFieldSetPartial } from '../interfaces';
 import { fillInFieldSet, filterInsertIf, getFieldSetFields, isFieldSetSimple } from '../utilities/common';
 import CardField from '../building-blocks/CardField';
 
 interface IProps {
-  cardConfig: ICardConfig;
   fieldSet: IFieldSetPartial;
   idx?: number;
   model: any;

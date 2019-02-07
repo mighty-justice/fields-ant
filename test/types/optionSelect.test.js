@@ -16,7 +16,7 @@ const field = 'is_open'
 describe('optionSelect', () => {
   it('Renders', async () => {
     const props = {
-        cardConfig: { fieldSets },
+        fieldSets,
         model,
       };
 
@@ -28,7 +28,7 @@ describe('optionSelect', () => {
   it('Edits', async () => {
     const onSave = jest.fn()
       , props = {
-        cardConfig: { fieldSets },
+        fieldSets,
         model,
         onSave,
       };
@@ -40,7 +40,7 @@ describe('optionSelect', () => {
 
   it('Handles array with single value (useful for summary tables)', async () => {
     const props = {
-        cardConfig: { fieldSets },
+        fieldSets,
         model: { is_open: ['true'] },
       };
 
@@ -51,7 +51,7 @@ describe('optionSelect', () => {
 
   it('Handles array with multiple values (useful for summary tables)', async () => {
     const props = {
-        cardConfig: { fieldSets },
+        fieldSets,
         model: { is_open: ['true', 'false'] },
       };
 

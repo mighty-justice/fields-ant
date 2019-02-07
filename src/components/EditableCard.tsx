@@ -9,10 +9,9 @@ import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import Card from './Card';
 import FormCard from './FormCard';
 import GuardedButton from '../building-blocks/GuardedButton';
-import { ICardConfig } from '../interfaces';
+import { ICommonCardProps } from '../interfaces';
 
-interface IProps {
-  cardConfig: ICardConfig;
+interface IProps extends ICommonCardProps {
   children?: any;
   isGuarded?: boolean;
   isLoading?: boolean;
@@ -59,8 +58,8 @@ class EditableCard extends Component<IProps> {
   }
 
   private get deleteButton () {
-    const { isGuarded, cardConfig, onDelete, isLoading } = this.propsWithDefaults
-      , classNameSuffix = cardConfig.classNameSuffix || kebabCase(cardConfig.title);
+    const { isGuarded, title, onDelete, isLoading } = this.propsWithDefaults
+      , classNameSuffix = this.propsWithDefaults.classNameSuffix || kebabCase(title);
 
     if (!onDelete) { return; }
 
@@ -81,8 +80,8 @@ class EditableCard extends Component<IProps> {
   }
 
   private get editButton () {
-    const { cardConfig, isLoading, isGuarded } = this.propsWithDefaults
-      , classNameSuffix = cardConfig.classNameSuffix || kebabCase(cardConfig.title);
+    const { isLoading, title, isGuarded } = this.propsWithDefaults
+      , classNameSuffix = this.propsWithDefaults.classNameSuffix || kebabCase(title);
 
     return (
       <GuardedButton

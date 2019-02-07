@@ -17,7 +17,7 @@ const field = 'offered_on'
 describe('date', () => {
   it('Renders', async () => {
     const props = {
-        cardConfig: { fieldSets },
+        fieldSets,
         model,
       };
 
@@ -29,7 +29,7 @@ describe('date', () => {
   it('Edits', async () => {
     const onSave = jest.fn()
       , props = {
-        cardConfig: { fieldSets },
+        fieldSets,
         model,
         onSave,
       };

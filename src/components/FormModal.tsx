@@ -5,14 +5,13 @@ import autoBindMethods from 'class-autobind-decorator';
 import * as Antd from 'antd';
 
 import FormManager from '../utilities/FormManager';
-import { ICardConfig } from '../interfaces';
+import { ICommonCardProps } from '../interfaces';
 
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import { fillInFieldSets } from '../utilities/common';
 import { computed } from 'mobx';
 
-interface IProps {
-  cardConfig: ICardConfig;
+interface IProps extends ICommonCardProps {
   children?: any;
   childrenBefore?: any;
   close: () => void;
@@ -57,11 +56,11 @@ class FormModal extends Component<IProps> {
 
   @computed
   private get fieldSets () {
-    return fillInFieldSets(this.props.cardConfig.fieldSets);
+    return fillInFieldSets(this.props.fieldSets);
   }
 
   public render () {
-    const { cardConfig, close, defaults, model, form } = this.props
+    const { title, close, defaults, model, form } = this.props
       , { saveText } = this.propsWithDefaults;
 
     return (
@@ -70,7 +69,7 @@ class FormModal extends Component<IProps> {
         okText={this.formManager.saving ? 'Saving...' : saveText}
         onCancel={close}
         onOk={this.formManager.onSave}
-        title={cardConfig.title}
+        title={title}
         visible
       >
         <Antd.Form onSubmit={this.formManager.onSave} className='notes-form'>

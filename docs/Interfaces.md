@@ -12,6 +12,7 @@ than to fill all this in (see further below for partials).
 ```ts
 interface IFieldConfig {
   className?: any;
+  colProps?: ColProps;
   disabled: boolean;
   editComponent: any;
   editProps: { [key: string]: any };
@@ -31,6 +32,7 @@ interface IFieldConfig {
   render: (...args: any[]) => string | JSX.Element | JSX.Element[];
   required: boolean;
   showLabel: boolean;
+  skipFieldDecorator: boolean;
   toForm: (data: any, field: string) => any;
   type: string;
   value?: string | number;
@@ -72,16 +74,4 @@ export interface IFieldSetComplexPartial {
 }
 
 export type IFieldSetPartial = IFieldSetSimplePartial | IFieldSetComplexPartial;
-```
-
-## Card Config
-
-```ts
-export interface ICardConfig {
-  accessor?: string;
-  classNameSuffix?: string;
-  fieldSets: IFieldSet[] | IFieldSetPartial[];
-  isArray?: boolean;
-  title?: string;
-}
 ```

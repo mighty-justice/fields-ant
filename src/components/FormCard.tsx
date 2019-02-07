@@ -7,14 +7,13 @@ import { noop } from 'lodash';
 
 import * as Antd from 'antd';
 
-import { ICardConfig, IFieldSet } from '../interfaces';
+import { ICommonCardProps, IFieldSet } from '../interfaces';
 
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import FormManager from '../utilities/FormManager';
 import { fillInFieldSets } from '../utilities/common';
 
-interface IExportProps {
-  cardConfig: ICardConfig;
+interface IExportProps extends ICommonCardProps {
   children?: any;
   close?: () => void;
   defaults?: object;
@@ -53,14 +52,14 @@ export class UnwrappedFormCard extends Component<IProps> {
 
   @computed
   private get fieldSets () {
-    return fillInFieldSets(this.props.cardConfig.fieldSets);
+    return fillInFieldSets(this.props.fieldSets);
   }
 
   public render () {
-    const { cardConfig, close, defaults, model, form, renderTopRight } = this.props;
+    const { title, close, defaults, model, form, renderTopRight } = this.props;
 
     return (
-      <Antd.Card title={cardConfig.title} extra={renderTopRight && renderTopRight()}>
+      <Antd.Card title={title} extra={renderTopRight && renderTopRight()}>
         <Antd.Form onSubmit={this.formManager.onSave} className='notes-form'>
           {this.fieldSets.map((fieldSet: IFieldSet, idx: number) => (
             <Fragment key={idx}>

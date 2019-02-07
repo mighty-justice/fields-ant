@@ -17,7 +17,7 @@ const field = 'projected_probability_of_success'
 describe('percentage', () => {
   it('Renders', async () => {
     const props = {
-        cardConfig: { fieldSets },
+        fieldSets,
         model,
       };
 
@@ -29,7 +29,7 @@ describe('percentage', () => {
   it('Edits', async () => {
     const onSave = jest.fn()
       , props = {
-        cardConfig: { fieldSets },
+        fieldSets,
         model,
         onSave,
       };
