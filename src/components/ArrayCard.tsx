@@ -9,19 +9,19 @@ import { ICommonCardProps } from '../interfaces';
 
 interface IProps extends ICommonCardProps {
   children?: any;
-  extra?: any;
   isLoading?: boolean;
   model: any;
+  renderTopRight?: any;
 }
 
 @observer
 class ArrayCard extends Component<IProps> {
   public render () {
-    const { title, extra, isLoading, model, fieldSets, classNameSuffix } = this.props;
+    const { title, renderTopRight, isLoading, model, fieldSets, classNameSuffix } = this.props;
     if (isEmpty(model)) { return null; }
 
     return (
-      <Antd.Card title={title} extra={extra} loading={isLoading}>
+      <Antd.Card title={title} extra={renderTopRight && renderTopRight()} loading={isLoading}>
         {model.map((modelItem: any) => (
           <Card
             classNameSuffix={classNameSuffix}

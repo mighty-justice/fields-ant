@@ -4,9 +4,15 @@ import { observer } from 'mobx-react';
 
 import * as Antd from 'antd';
 
-import { IFieldSetPartial } from '../interfaces';
-import { fillInFieldSet, filterInsertIf, getFieldSetFields, isFieldSetSimple } from '../utilities/common';
+import {
+  fillInFieldSet,
+  filterInsertIf,
+  getFieldSetFields,
+  isFieldSetSimple,
+} from '../utilities/common';
+
 import CardField from '../building-blocks/CardField';
+import { IFieldSetPartial } from '../interfaces';
 
 interface IProps {
   fieldSet: IFieldSetPartial;

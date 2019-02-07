@@ -6,10 +6,11 @@ import SmartBool from '@mighty-justice/smart-bool';
 import { kebabCase } from 'lodash';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
-import Card from './Card';
-import FormCard from './FormCard';
 import GuardedButton from '../building-blocks/GuardedButton';
 import { ICommonCardProps } from '../interfaces';
+
+import Card from './Card';
+import FormCard from './FormCard';
 
 interface IProps extends ICommonCardProps {
   children?: any;
