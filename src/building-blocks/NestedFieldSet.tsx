@@ -13,10 +13,11 @@ import {
 } from '../';
 
 import FormManager from '../utilities/FormManager';
+import { IForm } from '../props';
 
 export interface INestedFieldSetProps {
   fieldSet: IFieldSetPartial;
-  form: any;
+  form: IForm;
   formManager: FormManager;
   id: string;
   label: string | null;

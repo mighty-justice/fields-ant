@@ -5,17 +5,17 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
-import FormManager from '../utilities/FormManager';
-import { ICommonCardProps } from '../interfaces';
-
 import FormFieldSet from '../building-blocks/FormFieldSet';
+import FormManager from '../utilities/FormManager';
 import { fillInFieldSets } from '../utilities/common';
+import { ICommonCardProps } from '../interfaces';
+import { IForm } from '../props';
 
 export interface IFormModalProps extends ICommonCardProps {
   children?: any;
   childrenBefore?: any;
   defaults?: object;
-  form: any;
+  form: IForm;
   model?: any;
   onCancel: () => void;
   onSave: (data: object) => Promise<void>;

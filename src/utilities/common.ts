@@ -19,13 +19,15 @@ import {
   IOption,
 } from '../interfaces';
 
+import { IValue } from '../props';
+
 import { TYPES } from './types';
 
 const typeDefaults = {
   editComponent: Antd.Input,
   fieldConfigProp: false,
   formValidationRules: {},
-  fromForm: (value: any) => value,
+  fromForm: (value: IValue) => value,
   nullify: false,
   toForm: (data: any, field: string) => get(data, field, ''),
 };

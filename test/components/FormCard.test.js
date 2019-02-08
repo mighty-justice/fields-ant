@@ -1,9 +1,10 @@
 /* global it, describe, expect */
-
 import React from 'react';
 import faker from 'faker';
-import { Tester } from '@mighty-justice/tester';
+
 import * as Antd from 'antd';
+
+import { Tester } from '@mighty-justice/tester';
 
 import { FormCard } from '../../src';
 

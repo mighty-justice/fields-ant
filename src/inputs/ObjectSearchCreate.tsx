@@ -25,9 +25,9 @@ const MIN_SEARCH_LENGTH = 3;
 
 export interface IObjectSearchCreateProps {
   buttonProps: ButtonProps;
-  decoratorOptions: any;
+  decoratorOptions: { [key: string]: any };
   fieldConfig: IFieldConfigObjectSearchCreate;
-  fieldDecorator: any;
+  fieldDecorator: <T>(component: T) => T;
   formManager: FormManager;
   selectProps: SelectProps;
 }
@@ -89,7 +89,6 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
           {form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
             <ObjectSearch
               fieldConfig={fieldConfig}
-              formManager={formManager}
               onSearchChange={this.handleSearch}
               selectProps={selectProps}
             />,

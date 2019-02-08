@@ -5,20 +5,17 @@ import { values } from 'lodash';
 
 import * as Antd from 'antd';
 
-import { IFieldConfig } from '../interfaces';
-
-import {
-  filterInsertIf,
-} from '../utilities/common';
-
 import FormManager from '../utilities/FormManager';
+import { filterInsertIf } from '../utilities/common';
+import { IFieldConfig } from '../interfaces';
+import { IForm, IModel } from '../props';
 
 export interface IFormFieldProps {
   defaults?: object;
   fieldConfig: IFieldConfig;
-  form: any;
+  form: IForm;
   formManager: FormManager;
-  model?: any;
+  model?: IModel;
 }
 
 @autoBindMethods

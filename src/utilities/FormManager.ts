@@ -1,17 +1,19 @@
-import { get, set, noop, mapValues, pickBy } from 'lodash';
-import autoBindMethods from 'class-autobind-decorator';
-import flatten from 'flat';
-import * as Antd from 'antd';
 import { observable } from 'mobx';
+import autoBindMethods from 'class-autobind-decorator';
+import { get, set, noop, mapValues, pickBy } from 'lodash';
+import flatten from 'flat';
+
+import * as Antd from 'antd';
 
 import { IFieldSet } from '../interfaces';
+import { IForm } from '../props';
 
-import { getFieldSetFields } from './common';
 import backendValidation from './backendValidation';
+import { getFieldSetFields } from './common';
 
 interface IArgs {
   fieldSets: IFieldSet[];
-  form: any;
+  form: IForm;
   model: { [key: string]: any, id?: string };
   onSave: (data: { [key: string]: any }) => void | Promise<void>;
   onSuccess: () => void;

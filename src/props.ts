@@ -7,6 +7,7 @@
 // Lower-level building blocks and helper components
 export { IButtonToolbarProps } from './building-blocks/ButtonToolbar';
 export { ICardFieldProps } from './building-blocks/CardField';
+export { ICardFieldSetProps } from './building-blocks/CardFieldSet';
 export { IFormFieldProps } from './building-blocks/FormField';
 export { IFormFieldSetProps } from './building-blocks/FormFieldSet';
 export { INestedFieldSetProps } from './building-blocks/NestedFieldSet';
@@ -23,5 +24,14 @@ export { ISummaryCardProps } from './components/SummaryCard';
 
 // Form inputs
 export { IObjectSearchCreateProps } from './inputs/ObjectSearchCreate';
+export { IObjectSearchProps } from './inputs/ObjectSearch';
 export { IOptionSelectDisplayProps } from './inputs/OptionSelectDisplay';
 export { IOptionSelectProps } from './inputs/OptionSelect';
+
+// All below props are shared / inherited by components
+// This allows us to keep the library consistent and uniform
+
+export type IForm = any;
+export type IModel = any;
+export type IValue = any;
+export type IClassName = any;

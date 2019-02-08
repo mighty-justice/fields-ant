@@ -4,35 +4,33 @@ import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { pick } from 'lodash';
 
-import { toKey } from '@mighty-justice/utils';
-
 import * as Antd from 'antd';
 import { SelectProps } from 'antd/lib/select';
 
+import { toKey } from '@mighty-justice/utils';
+
 import {
-  FormManager,
   IAntFormField,
   IFieldConfigObjectSearchCreate,
   IInjected,
   IInputProps,
 } from '../';
 
-interface IProps {
+export interface IObjectSearchProps {
   fieldConfig: IFieldConfigObjectSearchCreate;
-  formManager: FormManager;
-  onSearchChange: any;
+  onSearchChange: (search: string) => void;
   selectProps: SelectProps;
 }
 
 @inject('getEndpoint')
 @autoBindMethods
 @observer
-class ObjectSearch extends Component<IProps> {
+class ObjectSearch extends Component<IObjectSearchProps> {
   @observable private options: Array<{ id: string, name: string }> = [];
   @observable private search = '';
 
   private get injected () {
-    return this.props as IProps & IInjected & IInputProps & IAntFormField;
+    return this.props as IObjectSearchProps & IInjected & IInputProps & IAntFormField;
   }
 
   private get fieldConfig () {

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
 
-import { Button, Divider, Drawer, Form } from 'antd';
+import * as Antd from 'antd';
 
 import {
   ButtonToolbar,
@@ -14,10 +14,12 @@ import {
   IFieldSetPartial,
 } from '../';
 
+import { IForm } from '../props';
+
 export interface IFormDrawerProps {
   defaults?: object;
   fieldSets: IFieldSetPartial[];
-  form: any;
+  form: IForm;
   isVisible: SmartBool;
   model?: any;
   onSave: (args: any) => Promise<void>;
@@ -62,7 +64,7 @@ class BaseFormDrawer extends Component<IFormDrawerProps> {
     const { form, isVisible, model, title, width, defaults } = this.props;
 
     return (
-      <Drawer
+      <Antd.Drawer
         className='mfa-form-drawer'
         closable
         destroyOnClose
@@ -73,7 +75,7 @@ class BaseFormDrawer extends Component<IFormDrawerProps> {
         visible={isVisible.isTrue}
         width={width}
       >
-        <Form layout='vertical' onSubmit={this.formManager.onSave}>
+        <Antd.Form layout='vertical' onSubmit={this.formManager.onSave}>
           {this.fieldSets.map((fieldSet, idx) => (
             <div key={idx}>
               <FormFieldSet
@@ -85,18 +87,31 @@ class BaseFormDrawer extends Component<IFormDrawerProps> {
               />
             </div>
           ))}
-          <Divider />
+          <Antd.Divider />
 
           <ButtonToolbar align='right'>
-            <Button disabled={this.formManager.saving} onClick={isVisible.setFalse} size='large'>Cancel</Button>
-            <Button loading={this.formManager.saving} type='primary' htmlType='submit' size='large'>Submit</Button>
+            <Antd.Button
+              disabled={this.formManager.saving}
+              onClick={isVisible.setFalse}
+              size='large'
+            >
+              Cancel
+            </Antd.Button>
+            <Antd.Button
+              htmlType='submit'
+              loading={this.formManager.saving}
+              size='large'
+              type='primary'
+            >
+              Submit
+            </Antd.Button>
           </ButtonToolbar>
-        </Form>
-      </Drawer>
+        </Antd.Form>
+      </Antd.Drawer>
     );
   }
 }
 
-const FormDrawer = Form.create()(BaseFormDrawer);
+const FormDrawer = Antd.Form.create()(BaseFormDrawer);
 
 export default FormDrawer;

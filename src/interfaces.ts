@@ -1,5 +1,6 @@
 import { ColProps } from 'antd/lib/col';
 import { RowProps } from 'antd/lib/row';
+import { IForm, IValue } from './props';
 
 // This defines the core common interface for Mighty fields
 //
@@ -17,7 +18,7 @@ interface IFieldConfigBase {
   fieldConfigProp: boolean;
   formItemProps?: { [key: string]: any };
   formValidationRules: { [ruleName: string]: { [attribute: string]: any } };
-  fromForm: (value: any) => any;
+  fromForm: (value: IValue) => any;
   icon?: string;
   insertIf?: (model: any) => boolean;
   key: string;
@@ -38,8 +39,8 @@ interface IFieldConfigBase {
 
 export interface IAntFormField {
   id: string;
-  onChange: (value: any) => void;
-  value: any;
+  onChange: (value: IValue) => void;
+  value: IValue;
 }
 
 /*
@@ -109,7 +110,7 @@ export interface IInjected {
 
 export interface IInputProps {
   fieldConfig: IFieldConfig;
-  form: any;
+  form: IForm;
 }
 
 export interface ICommonCardProps {
