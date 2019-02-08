@@ -7,7 +7,7 @@ import * as Antd from 'antd';
 import Card from './Card';
 import { ICommonCardProps } from '../interfaces';
 
-interface IProps extends ICommonCardProps {
+export interface IArrayCardProps extends ICommonCardProps {
   children?: any;
   isLoading?: boolean;
   model: any;
@@ -15,7 +15,7 @@ interface IProps extends ICommonCardProps {
 }
 
 @observer
-class ArrayCard extends Component<IProps> {
+class ArrayCard extends Component<IArrayCardProps> {
   public render () {
     const { title, renderTopRight, isLoading, model, fieldSets, classNameSuffix } = this.props;
     if (isEmpty(model)) { return null; }

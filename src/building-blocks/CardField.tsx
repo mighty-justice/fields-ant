@@ -6,12 +6,12 @@ import { IFieldConfig } from '../interfaces';
 
 import Info, { Label, Value } from './Info';
 
-interface IProps {
+export interface ICardFieldProps {
   fieldConfig: IFieldConfig;
   model: { [key: string]: any };
 }
 
-class CardField extends Component<IProps> {
+class CardField extends Component<ICardFieldProps> {
   public render () {
     const { model } = this.props
       , fieldConfig = fillInFieldConfig(this.props.fieldConfig)

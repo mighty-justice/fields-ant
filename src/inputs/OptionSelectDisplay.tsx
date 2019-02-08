@@ -13,7 +13,7 @@ import {
 
 import { getOptions } from '..';
 
-interface IProps {
+export interface IOptionSelectDisplayProps {
   fieldConfig: IFieldConfig;
   value: any;
 }
@@ -21,9 +21,9 @@ interface IProps {
 @inject('getOptions')
 @autoBindMethods
 @observer
-class OptionSelectDisplay extends Component<IProps> {
+class OptionSelectDisplay extends Component<IOptionSelectDisplayProps> {
   private get injected () {
-    return this.props as IInjected & IProps;
+    return this.props as IInjected & IOptionSelectDisplayProps;
   }
 
   private get fieldConfig () {

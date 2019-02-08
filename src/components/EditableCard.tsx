@@ -12,7 +12,7 @@ import { ICommonCardProps } from '../interfaces';
 import Card from './Card';
 import FormCard from './FormCard';
 
-interface IProps extends ICommonCardProps {
+export interface IEditableCardProps extends ICommonCardProps {
   children?: any;
   isGuarded?: boolean;
   isLoading?: boolean;
@@ -22,17 +22,17 @@ interface IProps extends ICommonCardProps {
   onSuccess?: () => Promise<any>;
 }
 
-interface IPropDefaults extends IProps {
+interface IPropDefaults extends IEditableCardProps {
   onSuccess: () => Promise<any>;
 }
 
 @autoBindMethods
 @observer
-class EditableCard extends Component<IProps> {
+class EditableCard extends Component<IEditableCardProps> {
   @observable private isDeleting = new SmartBool();
   @observable private isEditing = new SmartBool();
 
-  public static defaultProps: Partial<IProps> = {
+  public static defaultProps: Partial<IEditableCardProps> = {
     onSuccess: async () => { return; },
   };
 

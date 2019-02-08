@@ -14,7 +14,7 @@ import {
   IFieldSetPartial,
 } from '../';
 
-interface IProps {
+export interface IFormDrawerProps {
   defaults?: object;
   fieldSets: IFieldSetPartial[];
   form: any;
@@ -28,7 +28,7 @@ interface IProps {
 
 @autoBindMethods
 @observer
-class BaseFormDrawer extends Component<IProps> {
+class BaseFormDrawer extends Component<IFormDrawerProps> {
   private formManager: FormManager;
 
   @computed
@@ -36,7 +36,7 @@ class BaseFormDrawer extends Component<IProps> {
     return fillInFieldSets(this.props.fieldSets);
   }
 
-  public constructor (props: IProps) {
+  public constructor (props: IFormDrawerProps) {
     super(props);
 
     const {

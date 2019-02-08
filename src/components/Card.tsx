@@ -8,7 +8,7 @@ import { ICommonCardProps } from '../interfaces';
 import { fillInFieldSets } from '../utilities/common';
 import CardFieldSet from '../building-blocks/CardFieldSet';
 
-interface IProps extends ICommonCardProps {
+export interface ICardProps extends ICommonCardProps {
   children?: any;
   isLoading?: boolean;
   model: any;
@@ -16,7 +16,7 @@ interface IProps extends ICommonCardProps {
 }
 
 @observer
-class Card extends Component<IProps> {
+class Card extends Component<ICardProps> {
   @computed
   private get fieldSets () {
     return fillInFieldSets(this.props.fieldSets);

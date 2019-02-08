@@ -14,7 +14,7 @@ import {
 
 import FormManager from '../utilities/FormManager';
 
-interface IProps {
+export interface INestedFieldSetProps {
   fieldSet: IFieldSetPartial;
   form: any;
   formManager: FormManager;
@@ -25,8 +25,8 @@ interface IProps {
 
 @autoBindMethods
 @observer
-class NestedFieldSet extends Component<IProps> {
-  public constructor (props: IProps) {
+class NestedFieldSet extends Component<INestedFieldSetProps> {
+  public constructor (props: INestedFieldSetProps) {
     super(props);
     props.form.setFieldsValue({ [props.id]: {} });
   }

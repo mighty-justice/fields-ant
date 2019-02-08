@@ -18,7 +18,7 @@ import FormManager from '../utilities/FormManager';
 
 import FormField from './FormField';
 
-interface IProps {
+export interface IFormFieldSetProps {
   defaults?: object;
   fieldSet: IFieldSetPartial;
   form: any;
@@ -28,7 +28,7 @@ interface IProps {
 
 @autoBindMethods
 @observer
-class FormFieldSet extends Component<IProps> {
+class FormFieldSet extends Component<IFormFieldSetProps> {
   @computed
   public get fieldSet () {
     return fillInFieldSet(this.props.fieldSet);
