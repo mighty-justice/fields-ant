@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
@@ -9,7 +10,6 @@ import { ICommonCardProps } from '../interfaces';
 
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import { fillInFieldSets } from '../utilities/common';
-import { computed } from 'mobx';
 
 export interface IFormModalProps extends ICommonCardProps {
   children?: any;

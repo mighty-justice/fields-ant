@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
+import { computed } from 'mobx';
 import { observer } from 'mobx-react';
-import { kebabCase, result } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
+import { kebabCase, result } from 'lodash';
 import cx from 'classnames';
 
 import * as Antd from 'antd';
 
-import { ICommonCardProps, IFieldConfig } from '../interfaces';
 import { fillInFieldSets, getFieldSetFields } from '../utilities/common';
-import { computed } from 'mobx';
+import { ICommonCardProps, IFieldConfig } from '../interfaces';
 
 export interface ISummaryCardProps extends ICommonCardProps {
   className: any;
