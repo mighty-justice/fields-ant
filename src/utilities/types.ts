@@ -105,7 +105,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
         max: 100,
         message: 'Percentage must be an integer between 0 and 100',
         min: 0,
-        transform: (value?: string) => value ? Number(value) : undefined,
+        transform: (value?: string) => value ? Math.floor(Number(value)) : undefined,
         type: 'integer',
       },
     },

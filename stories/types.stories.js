@@ -8,20 +8,19 @@ import docObjectSearchCreate from '../docs/ObjectSearchCreate.md';
 import { Card, FormCard } from '../src';
 
 import {
-  fieldConfigFor,
   formCardPropsFactory,
   objectSearchCreateFactory,
-  TYPE_DATA,
+  TYPE_GENERATORS,
 } from '../test/factories';
 
 const props = {
-    fieldSets: [Object.keys(TYPE_DATA).map(type => ({
-      ...fieldConfigFor(type),
+    fieldSets: [Object.keys(TYPE_GENERATORS).map(type => ({
+      ...TYPE_GENERATORS[type].fieldConfigFactory.build(),
       field: type,
       label: type,
     }))],
     title: 'Working Title',
-    model: mapValues(TYPE_DATA, value => value()),
+    model: mapValues(TYPE_GENERATORS, value => value.valueFunction()),
   };
 
 storiesOf('Types', module)

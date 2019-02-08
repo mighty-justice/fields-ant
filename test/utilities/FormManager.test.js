@@ -1,12 +1,15 @@
 /* global describe, it, expect */
-import FormManager from '../../src/utilities/FormManager';
-import {Tester} from '@mighty-justice/tester';
-import {FormCard} from '../../src';
+import faker from 'faker';
 
-async function getFormManager (fieldSets) {
+import { Tester } from '@mighty-justice/tester';
+
+import FormManager from '../../src/utilities/FormManager';
+import { FormCard } from '../../src';
+
+async function getFormManager (fieldSets, model = {}) {
   const props = {
     fieldSets,
-    model: {},
+    model,
     onSave: jest.fn(),
     title: 'Title',
   };
@@ -31,5 +34,25 @@ describe('FormManager', () => {
 
     const formManager = await getFormManager([fieldNames.map(field => ({ field }))]);
     expect(formManager.formFieldNames).toEqual(fieldNames);
+  });
+
+  it(`Correctly nullifies values`, async () => {
+    const fieldSets = [[
+      { field: 'do_not_nullify' },
+      { field: 'do_nullify', nullify: true },
+    ]];
+
+    const formManager = await getFormManager(fieldSets);
+    expect(formManager.formModel).toEqual({ do_not_nullify: '', do_nullify: null });
+  });
+
+  it(`Correctly maintains id`, async () => {
+    const fieldSets = [[{ field: 'name' }]]
+      , name = faker.name.firstName()
+      , id = faker.random.uuid()
+      , notId = faker.random.uuid();
+
+    const formManager = await getFormManager(fieldSets, { id, name, notId });
+    expect(formManager.formModel).toEqual({ name, id });
   });
 });

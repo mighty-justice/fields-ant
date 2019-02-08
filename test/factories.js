@@ -23,44 +23,50 @@ const dateRecent = () => format(faker.date.recent(), 'YY-MM-YY')
   , attrRandomGet = (list, getter) => { return () => get(sample(list), getter); }
   , field = () => faker.random.words(3).replace(/ /g, '_').toLowerCase()
   , attrNoop = () => noop
+  , fakeObjectSearchCreate = () => ({ name: textShort(), id: faker.random.uuid() })
   ;
 
-export const FIELD_CONFIGS = {
-  radio: {
-    options: [
-      { value: 'first', name: 'first' },
-      { value: 'second', name: 'second' },
-      { value: 'third', name: 'third' },
-    ]
-  },
-  objectSearchCreate: {
-    createFields: [{ field: 'name', required: true }],
-    endpoint: '/endpoint/',
-  }
-};
 
-export function fieldConfigFor (type) {
-  return {
-    field: field(),
-    type,
-    ...FIELD_CONFIGS[type]
-  }
-}
-
-export const TYPE_DATA = {
-  date: dateRecent,
-  money: faker.finance.amount,
-  objectSearchCreate: () => null,
-  percentage: fakerPercentage,
-  radio: () => 'first',
-  string: textShort,
-  text: textLong,
-};
+/*
+ *   FIELD FACTORIES
+ * = = = = = = = = = = = = = =
+ */
 
 export const fieldFactory = new Factory()
   .attrs({
     field,
   });
+
+export const dateFactory = new Factory()
+  .extend(fieldFactory)
+  .attrs({ type: 'date' });
+
+export const moneyFactory = new Factory()
+  .extend(fieldFactory)
+  .attrs({ type: 'money' });
+
+export const percentageFactory = new Factory()
+  .extend(fieldFactory)
+  .attrs({ type: 'percentage' });
+
+export const radioFactory = new Factory()
+  .extend(fieldFactory)
+  .attrs({
+    type: 'radio',
+    options: [
+      { value: 'first', name: 'First Item' },
+      { value: 'second', name: 'Second Item' },
+      { value: 'third', name: 'Third Item' },
+    ],
+  });
+
+export const stringFactory = new Factory()
+  .extend(fieldFactory)
+  .attrs({ type: 'string' });
+
+export const textFactory = new Factory()
+  .extend(fieldFactory)
+  .attrs({ type: 'text' });
 
 export const objectSearchCreateFactory = new Factory()
   .extend(fieldFactory)
@@ -70,11 +76,23 @@ export const objectSearchCreateFactory = new Factory()
     type: 'objectSearchCreate',
   });
 
+
+/*
+ *   FIELD SET FACTORY
+ * = = = = = = = = = = = = = =
+ */
+
 export const fieldSetFactory = new Factory()
   .attrs({
     fields: attrSubFactoryList(fieldFactory),
     legend: 'Legend',
   });
+
+
+/*
+ *   COMPONENT PROP FACTORIES
+ * = = = = = = = = = = = = = =
+ */
 
 export const cardPropsFactory = new Factory()
   .attrs({
@@ -100,6 +118,22 @@ export const editableCardPropsFactory = new Factory()
     onDelete: attrNoop,
     onSave: attrNoop,
   });
+
+
+/*
+ *   COLLECTIONS
+ * = = = = = = = = = = = = = =
+ */
+
+export const TYPE_GENERATORS = {
+  date: { valueFunction: dateRecent, fieldConfigFactory: dateFactory },
+  money: { valueFunction: faker.finance.amount, fieldConfigFactory: moneyFactory },
+  objectSearchCreate: { valueFunction: () => {  }, fieldConfigFactory: objectSearchCreateFactory },
+  percentage: { valueFunction: fakerPercentage, fieldConfigFactory: percentageFactory },
+  radio: { valueFunction: () => 'first', fieldConfigFactory: radioFactory },
+  string: { valueFunction: textShort, fieldConfigFactory: stringFactory },
+  text: { valueFunction: textLong, fieldConfigFactory: textFactory },
+};
 
 export const COMPONENT_GENERATORS = {
   Card: { Component: Card, propsFactory: cardPropsFactory },

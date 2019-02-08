@@ -59,12 +59,6 @@ async function selectAddNew (tester) {
 }
 
 describe('objectSearchCreate', () => {
-  it('Renders', async () => {
-    const { props, expectedLabel } = getDefaults({});
-    const tester = await new Tester(Card, { props }).mount();
-    expect(tester.text()).toContain(expectedLabel);
-  });
-
   it('Selects existing', async () => {
     const { field, props, onSave, searchTerm, result } = getDefaults({})
       , tester = await getTester(props);
