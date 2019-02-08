@@ -15,7 +15,7 @@ import { IFormProps, IWrappedFormProps } from '../props';
 
 import { ICardProps } from './Card';
 
-export interface IFormCardProps extends ICardProps, IFormProps {}
+export interface IFormCardProps extends IFormProps, ICardProps {}
 
 export interface IFormCardWrappedProps extends IFormCardProps, IWrappedFormProps {}
 
