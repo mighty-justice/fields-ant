@@ -8,20 +8,13 @@ import SmartBool from '@mighty-justice/smart-bool';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import GuardedButton from '../building-blocks/GuardedButton';
-import { ICommonCardProps } from '../interfaces';
-import { IModel } from '../props';
+import { IFormProps } from '../props';
 
-import Card from './Card';
+import Card, { ICardProps } from './Card';
 import FormCard from './FormCard';
 
-export interface IEditableCardProps extends ICommonCardProps {
-  children?: any;
-  isGuarded?: boolean;
-  isLoading?: boolean;
-  model: IModel;
-  onDelete?: (model: any) => Promise<any>;
-  onSave: (model: any) => Promise<any>;
-  onSuccess?: () => Promise<any>;
+export interface IEditableCardProps extends ICardProps, IFormProps {
+  onDelete?: (model: unknown) => Promise<any>;
 }
 
 interface IPropDefaults extends IEditableCardProps {
@@ -35,6 +28,7 @@ class EditableCard extends Component<IEditableCardProps> {
   @observable private isEditing = new SmartBool();
 
   public static defaultProps: Partial<IEditableCardProps> = {
+    onSave: async () => { return; },
     onSuccess: async () => { return; },
   };
 

@@ -11,20 +11,12 @@ import {
   fillInFieldSets,
   FormFieldSet,
   FormManager,
-  IFieldSetPartial,
 } from '../';
 
-import { IForm } from '../props';
+import { IFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
 
-export interface IFormDrawerProps {
-  defaults?: object;
-  fieldSets: IFieldSetPartial[];
-  form: IForm;
+export interface IFormDrawerProps extends ISharedComponentProps, IWrappedFormProps, IFormProps {
   isVisible: SmartBool;
-  model?: any;
-  onSave: (args: any) => Promise<void>;
-  onSuccess?: (args?: any) => void;
-  title: string;
   width?: number | string;
 }
 

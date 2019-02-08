@@ -8,18 +8,10 @@ import * as Antd from 'antd';
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import FormManager from '../utilities/FormManager';
 import { fillInFieldSets } from '../utilities/common';
-import { ICommonCardProps } from '../interfaces';
-import { IForm } from '../props';
+import { IFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
 
-export interface IFormModalProps extends ICommonCardProps {
-  children?: any;
-  childrenBefore?: any;
-  defaults?: object;
-  form: IForm;
-  model?: any;
-  onCancel: () => void;
-  onSave: (data: object) => Promise<void>;
-  saveText?: string;
+export interface IFormModalProps extends ISharedComponentProps, IWrappedFormProps, IFormProps {
+  childrenBefore?: JSX.Element;
 }
 
 interface IPropDefaults extends IFormModalProps {

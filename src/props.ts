@@ -31,7 +31,31 @@ export { IOptionSelectProps } from './inputs/OptionSelect';
 // All below props are shared / inherited by components
 // This allows us to keep the library consistent and uniform
 
+import { IFieldSet, IFieldSetPartial } from './interfaces';
+
 export type IClassName = any;
 export type IForm = any;
 export type IModel = any;
 export type IValue = any;
+
+export interface ISharedComponentProps {
+  children?: JSX.Element;
+  classNameSuffix?: string;
+  fieldSets: IFieldSet[] | IFieldSetPartial[];
+  isLoading?: boolean;
+  model?: IModel;
+  title?: string;
+}
+
+export interface IWrappedFormProps {
+  form: IForm;
+}
+
+export interface IFormProps {
+  defaults?: object;
+  isGuarded?: boolean;
+  onCancel?: () => void;
+  onSave: (data: object) => Promise<void>;
+  onSuccess: () => Promise<any>;
+  saveText?: string;
+}
