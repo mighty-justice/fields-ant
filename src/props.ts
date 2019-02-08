@@ -31,7 +31,7 @@ export { IOptionSelectProps } from './inputs/OptionSelect';
 // All below props are shared / inherited by components
 // This allows us to keep the library consistent and uniform
 
+export type IClassName = any;
 export type IForm = any;
 export type IModel = any;
 export type IValue = any;
-export type IClassName = any;
