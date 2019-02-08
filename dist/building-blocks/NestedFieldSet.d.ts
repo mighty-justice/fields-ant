@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { IFieldSetPartial } from '../';
 import FormManager from '../utilities/FormManager';
-interface IProps {
+export interface INestedFieldSetProps {
     fieldSet: IFieldSetPartial;
     form: any;
     formManager: FormManager;
@@ -9,8 +9,8 @@ interface IProps {
     label: string | null;
     search?: string;
 }
-declare class NestedFieldSet extends Component<IProps> {
-    constructor(props: IProps);
+declare class NestedFieldSet extends Component<INestedFieldSetProps> {
+    constructor(props: INestedFieldSetProps);
     private readonly fieldSet;
     private readonly model;
     render(): JSX.Element;

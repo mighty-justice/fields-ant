@@ -1,10 +1,10 @@
 import { Component } from 'react';
 import { IFieldConfig, IFieldConfigOptionSelect } from '../interfaces';
-interface IProps {
+export interface IOptionSelectDisplayProps {
     fieldConfig: IFieldConfig;
     value: any;
 }
-declare class OptionSelectDisplay extends Component<IProps> {
+declare class OptionSelectDisplay extends Component<IOptionSelectDisplayProps> {
     private readonly injected;
     private readonly fieldConfig;
     private readonly options;

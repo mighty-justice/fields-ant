@@ -1,14 +1,14 @@
 import { Component } from 'react';
 import { IFieldSetPartial } from '../interfaces';
 import FormManager from '../utilities/FormManager';
-interface IProps {
+export interface IFormFieldSetProps {
     defaults?: object;
     fieldSet: IFieldSetPartial;
     form: any;
     formManager: FormManager;
     model?: any;
 }
-declare class FormFieldSet extends Component<IProps> {
+declare class FormFieldSet extends Component<IFormFieldSetProps> {
     readonly fieldSet: import("../interfaces").IFieldSet;
     render(): JSX.Element | null;
 }

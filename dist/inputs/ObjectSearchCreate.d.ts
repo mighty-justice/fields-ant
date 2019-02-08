@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { ButtonProps } from 'antd/lib/button';
 import { SelectProps } from 'antd/lib/select';
 import { FormManager, IFieldConfigObjectSearchCreate } from '../';
-interface IProps {
+export interface IObjectSearchCreateProps {
     buttonProps: ButtonProps;
     decoratorOptions: any;
     fieldConfig: IFieldConfigObjectSearchCreate;
@@ -10,7 +10,7 @@ interface IProps {
     formManager: FormManager;
     selectProps: SelectProps;
 }
-declare class ObjectSearchCreate extends Component<IProps> {
+declare class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     private isAddingNew;
     private search;
     private readonly injected;

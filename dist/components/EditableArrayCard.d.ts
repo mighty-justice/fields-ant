@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { ICommonCardProps } from '../interfaces';
-interface IProps extends ICommonCardProps {
+export interface IEditableArrayCardProps extends ICommonCardProps {
     children?: any;
     defaults?: object;
     isGuarded?: boolean;
@@ -11,7 +11,7 @@ interface IProps extends ICommonCardProps {
     onSave: (model: any) => Promise<any>;
     onSuccess: () => Promise<any>;
 }
-declare class EditableArrayCard extends Component<IProps> {
+declare class EditableArrayCard extends Component<IEditableArrayCardProps> {
     private isAddingNew;
     private handleSaveNew;
     private renderAddNew;

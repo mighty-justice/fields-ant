@@ -1,12 +1,12 @@
 import { Component } from 'react';
-interface IProps {
+export interface IButtonToolbarProps {
     align?: 'between' | 'right';
     children?: any;
     className?: any;
     fixed?: boolean;
     noSpacing?: boolean;
 }
-declare class ButtonToolbar extends Component<IProps> {
+declare class ButtonToolbar extends Component<IButtonToolbarProps> {
     render(): JSX.Element;
 }
 export default ButtonToolbar;

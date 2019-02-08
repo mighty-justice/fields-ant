@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { ICommonCardProps } from '../interfaces';
-interface IProps extends ICommonCardProps {
+export interface IEditableCardProps extends ICommonCardProps {
     children?: any;
     isGuarded?: boolean;
     isLoading?: boolean;
@@ -9,13 +9,13 @@ interface IProps extends ICommonCardProps {
     onSave: (model: any) => Promise<any>;
     onSuccess?: () => Promise<any>;
 }
-interface IPropDefaults extends IProps {
+interface IPropDefaults extends IEditableCardProps {
     onSuccess: () => Promise<any>;
 }
-declare class EditableCard extends Component<IProps> {
+declare class EditableCard extends Component<IEditableCardProps> {
     private isDeleting;
     private isEditing;
-    static defaultProps: Partial<IProps>;
+    static defaultProps: Partial<IEditableCardProps>;
     readonly propsWithDefaults: IPropDefaults;
     private handleDelete;
     private handleSave;

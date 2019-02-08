@@ -1,7 +1,7 @@
 import React from 'react';
 import SmartBool from '@mighty-justice/smart-bool';
 import { IFieldSetPartial } from '../';
-interface IProps {
+export interface IFormDrawerProps {
     defaults?: object;
     fieldSets: IFieldSetPartial[];
     form: any;
@@ -12,5 +12,5 @@ interface IProps {
     title: string;
     width?: number | string;
 }
-declare const FormDrawer: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<IProps, "title" | "width" | "model" | "fieldSets" | "onSave" | "onSuccess" | "defaults" | "isVisible">, any>;
+declare const FormDrawer: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<IFormDrawerProps, "title" | "width" | "model" | "fieldSets" | "onSave" | "onSuccess" | "defaults" | "isVisible">, any>;
 export default FormDrawer;

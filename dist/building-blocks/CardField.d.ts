@@ -1,12 +1,12 @@
 import { Component } from 'react';
 import { IFieldConfig } from '../interfaces';
-interface IProps {
+export interface ICardFieldProps {
     fieldConfig: IFieldConfig;
     model: {
         [key: string]: any;
     };
 }
-declare class CardField extends Component<IProps> {
+declare class CardField extends Component<ICardFieldProps> {
     render(): JSX.Element | null | undefined;
 }
 export default CardField;

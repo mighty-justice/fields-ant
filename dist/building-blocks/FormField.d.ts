@@ -1,14 +1,14 @@
 import { Component } from 'react';
 import { IFieldConfig } from '../interfaces';
 import FormManager from '../utilities/FormManager';
-interface IProps {
+export interface IFormFieldProps {
     defaults?: object;
     fieldConfig: IFieldConfig;
     form: any;
     formManager: FormManager;
     model?: any;
 }
-declare class FormField extends Component<IProps> {
+declare class FormField extends Component<IFormFieldProps> {
     private readonly label;
     private readonly initialValue;
     private readonly editProps;

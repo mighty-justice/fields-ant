@@ -1809,6 +1809,7 @@ function (_Component) {
       var _this2 = this;
 
       var _this$props = this.props,
+          isLoading = _this$props.isLoading,
           title = _this$props.title,
           onCancel = _this$props.onCancel,
           defaults = _this$props.defaults,
@@ -1816,6 +1817,7 @@ function (_Component) {
           form = _this$props.form,
           renderTopRight = _this$props.renderTopRight;
       return React.createElement(Card, {
+        loading: isLoading,
         title: title,
         extra: renderTopRight && renderTopRight()
       }, React.createElement(Form, {
