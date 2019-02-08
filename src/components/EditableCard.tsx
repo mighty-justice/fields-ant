@@ -8,6 +8,7 @@ import SmartBool from '@mighty-justice/smart-bool';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import GuardedButton from '../building-blocks/GuardedButton';
+import { asyncNoop } from '../utilities/common';
 import { IFormProps } from '../props';
 
 import Card, { ICardProps } from './Card';
@@ -28,8 +29,8 @@ class EditableCard extends Component<IEditableCardProps> {
   @observable private isEditing = new SmartBool();
 
   public static defaultProps: Partial<IEditableCardProps> = {
-    onSave: async () => { return; },
-    onSuccess: async () => { return; },
+    onSave: asyncNoop,
+    onSuccess: asyncNoop,
   };
 
   public get propsWithDefaults () {

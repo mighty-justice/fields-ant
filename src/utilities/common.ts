@@ -23,6 +23,9 @@ import { IValue } from '../props';
 
 import { TYPES } from './types';
 
+// istanbul ignore next
+export async function asyncNoop () { return; }
+
 const typeDefaults = {
   editComponent: Antd.Input,
   fieldConfigProp: false,
