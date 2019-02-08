@@ -15,8 +15,8 @@ import { fillInFieldSets } from '../utilities/common';
 
 export interface IFormCardProps extends ICommonCardProps {
   children?: any;
-  isLoading?: boolean;
   defaults?: object;
+  isLoading?: boolean;
   model?: any;
   onCancel?: () => void;
   onSave: (data: object) => Promise<void>;
