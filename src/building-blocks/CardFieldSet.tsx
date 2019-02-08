@@ -45,7 +45,7 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
           {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
           {legend && <h3>{legend}</h3>}
 
-          {getFieldSetFields(this.fieldSet).map(fieldConfig => (
+          {unfilteredFieldConfigs.map(fieldConfig => (
             <CardField
               fieldConfig={fieldConfig}
               key={fieldConfig.field}

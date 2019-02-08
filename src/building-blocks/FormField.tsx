@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { values } from 'lodash';
@@ -6,13 +7,13 @@ import { values } from 'lodash';
 import * as Antd from 'antd';
 
 import FormManager from '../utilities/FormManager';
-import { filterInsertIf } from '../utilities/common';
-import { IFieldConfig } from '../interfaces';
+import { fillInFieldConfig, filterInsertIf } from '../utilities/common';
+import { IFieldConfigPartial } from '../interfaces';
 import { IForm, IModel } from '../props';
 
 export interface IFormFieldProps {
   defaults?: object;
-  fieldConfig: IFieldConfig;
+  fieldConfig: IFieldConfigPartial;
   form: IForm;
   formManager: FormManager;
   model?: IModel;
@@ -21,13 +22,20 @@ export interface IFormFieldProps {
 @autoBindMethods
 @observer
 class FormField extends Component<IFormFieldProps> {
+  @computed
+  private get fieldConfig () {
+    return fillInFieldConfig(this.props.fieldConfig);
+  }
+
   private get label () {
     const { fieldConfig } = this.props;
     return fieldConfig.showLabel ? fieldConfig.label : '';
   }
 
   private get initialValue () {
-    const { model, defaults, fieldConfig } = this.props;
+    const { model, defaults } = this.props
+      , fieldConfig = this.fieldConfig;
+
     return (
       fieldConfig.value
       || fieldConfig.toForm(model, fieldConfig.field)
@@ -36,7 +44,8 @@ class FormField extends Component<IFormFieldProps> {
   }
 
   private get editProps () {
-    const { fieldConfig, form, formManager } = this.props
+    const { form, formManager } = this.props
+      , fieldConfig = this.fieldConfig
       , fieldConfigProp = fieldConfig.fieldConfigProp ? { fieldConfig, formManager } : {}
       ;
 
@@ -56,7 +65,8 @@ class FormField extends Component<IFormFieldProps> {
   }
 
   public render () {
-    const { form, fieldConfig } = this.props
+    const { form } = this.props
+      , fieldConfig = this.fieldConfig
       , { colProps, formItemProps, field, skipFieldDecorator } = fieldConfig
       , { getFieldDecorator } = form
       ;

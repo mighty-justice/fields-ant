@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
+import { computed } from 'mobx';
 import { get } from 'lodash';
 
 import { fillInFieldConfig, filterInsertIf } from '../utilities/common';
-import { IFieldConfig } from '../interfaces';
+import { IFieldConfigPartial } from '../interfaces';
 import { IModel } from '../props';
 
 import Info, { Label, Value } from './Info';
 
 export interface ICardFieldProps {
-  fieldConfig: IFieldConfig;
+  fieldConfig: IFieldConfigPartial;
   model?: IModel;
 }
 
 class CardField extends Component<ICardFieldProps> {
+  @computed
+  private get fieldConfig () {
+    return fillInFieldConfig(this.props.fieldConfig);
+  }
+
   public render () {
     const { model } = this.props
-      , fieldConfig = fillInFieldConfig(this.props.fieldConfig)
+      , fieldConfig = this.fieldConfig
       , { field, render, label, showLabel, writeOnly } = fieldConfig
       , value = render(fieldConfig.value || get(model, field), fieldConfig);
 
