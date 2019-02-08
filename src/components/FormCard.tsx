@@ -96,6 +96,7 @@ export class UnwrappedFormCard extends Component<IFormCardWrappedProps> {
   }
 }
 
+// istanbul ignore next
 const WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
 
 @autoBindMethods
