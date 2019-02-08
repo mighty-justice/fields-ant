@@ -7,12 +7,12 @@ import { Tester } from '@mighty-justice/tester';
 import { EditableCard } from '../../src';
 
 const title = 'testing'
-  , example_field = faker.lorem.sentence()
-  , label = faker.lorem.sentence()
-  , secondLabel = faker.lorem.sentence()
-  , legend = faker.lorem.sentence()
   , field = 'example_field'
-  , secondFieldSet = [{ field: 'second_example_field', label: secondLabel }]
+  , example_field = faker.lorem.sentence()
+  , exampleLabel = faker.lorem.sentence()
+  , normalLabel = faker.lorem.sentence()
+  , legend = faker.lorem.sentence()
+  , normalField = { field: 'second_example_field', label: normalLabel }
   ;
 
 
@@ -20,56 +20,79 @@ describe('insertIf', () => {
   it('Shows if no insertIf attribute', async () => {
     const onSave = jest.fn().mockResolvedValue({})
      , tester = await new Tester(EditableCard, { props: {
-      fieldSets: [{ fields: [{ field, label }], legend }, secondFieldSet],
-      model: { example_field },
-      onSave,
-      title,
-    }}).mount();
+        fieldSets: [{ fields: [{ field, label: exampleLabel }], legend }, [normalField]],
+        model: { example_field },
+        onSave,
+        title,
+      }}).mount();
 
+    // Should show everything
     expect(tester.text()).toContain(legend);
-    expect(tester.text()).toContain(label);
-    expect(tester.text()).toContain(secondLabel);
+    expect(tester.text()).toContain(exampleLabel);
+    expect(tester.text()).toContain(normalLabel);
     tester.find(`button.btn-edit`).simulate('click');
     expect(tester.text()).toContain(legend);
-    expect(tester.text()).toContain(label);
-    expect(tester.text()).toContain(secondLabel);
+    expect(tester.text()).toContain(exampleLabel);
+    expect(tester.text()).toContain(normalLabel);
   });
 
-  it('Hides if insertIf returns false', async () => {
+  it('Hides if insertIf returns false, separate fieldSets', async () => {
     const onSave = jest.fn().mockResolvedValue({})
       , insertIf = jest.fn(values => false)
       , tester = await new Tester(EditableCard, { props: {
-      fieldSets: [{ fields: [{ field, label, insertIf }], legend }, secondFieldSet],
-      model: { example_field },
-      onSave,
-      title,
-    }}).mount();
+        fieldSets: [{ fields: [{ field, label: exampleLabel, insertIf }], legend }, [normalField]],
+        model: { example_field },
+        onSave,
+        title,
+      }}).mount();
 
+    // Should hide field and empty fieldset, but keep normal field
     expect(tester.text()).not.toContain(legend);
-    expect(tester.text()).not.toContain(label);
-    expect(tester.text()).toContain(secondLabel);
+    expect(tester.text()).not.toContain(exampleLabel);
+    expect(tester.text()).toContain(normalLabel);
     tester.find(`button.btn-edit`).simulate('click');
     expect(tester.text()).not.toContain(legend);
-    expect(tester.text()).not.toContain(label);
-    expect(tester.text()).toContain(secondLabel);
+    expect(tester.text()).not.toContain(exampleLabel);
+    expect(tester.text()).toContain(normalLabel);
   });
+
+  it('Hides if insertIf returns false, same fieldSet', async () => {
+    const onSave = jest.fn().mockResolvedValue({})
+      , insertIf = jest.fn(values => false)
+      , tester = await new Tester(EditableCard, { props: {
+        fieldSets: [{ fields: [{ field, label: exampleLabel, insertIf }, normalField], legend }],
+        model: { example_field },
+        onSave,
+        title,
+      }}).mount();
+
+    // Should hide field but not accidently hide non-empty fieldset
+    expect(tester.text()).toContain(legend);
+    expect(tester.text()).not.toContain(exampleLabel);
+    expect(tester.text()).toContain(normalLabel);
+    tester.find(`button.btn-edit`).simulate('click');
+    expect(tester.text()).toContain(legend);
+    expect(tester.text()).not.toContain(exampleLabel);
+    expect(tester.text()).toContain(normalLabel);
+  });
+
 
   it('Shows if insertIf returns true', async () => {
     const onSave = jest.fn().mockResolvedValue({})
       , insertIf = jest.fn(values => true)
       , tester = await new Tester(EditableCard, { props: {
-      fieldSets: [{ fields: [{ field, label, insertIf }], legend }, secondFieldSet],
-      model: { example_field },
-      onSave,
-      title,
-    }}).mount();
+        fieldSets: [{ fields: [{ field, label: exampleLabel, insertIf }], legend }, [normalField]],
+        model: { example_field },
+        onSave,
+        title,
+      }}).mount();
 
     expect(tester.text()).toContain(legend);
-    expect(tester.text()).toContain(label);
-    expect(tester.text()).toContain(secondLabel);
+    expect(tester.text()).toContain(exampleLabel);
+    expect(tester.text()).toContain(normalLabel);
     tester.find(`button.btn-edit`).simulate('click');
     expect(tester.text()).toContain(legend);
-    expect(tester.text()).toContain(label);
-    expect(tester.text()).toContain(secondLabel);
+    expect(tester.text()).toContain(exampleLabel);
+    expect(tester.text()).toContain(normalLabel);
   });
 });

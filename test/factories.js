@@ -21,9 +21,10 @@ const dateRecent = () => format(faker.date.recent(), 'YY-MM-YY')
   , attrSubFactoryList = (factory, num) => { return () => factory.buildList(num || 3); }
   , attrRandom = (list) => { return () => sample(list); }
   , attrRandomGet = (list, getter) => { return () => get(sample(list), getter); }
-  , field = () => faker.random.words(3).replace(/ /g, '_').toLowerCase()
+  , field = () => faker.random.words(3).replace(/[^A-Za-z ]/g, '').replace(/ /g, '_').toLowerCase()
   , attrNoop = () => noop
   , fakeObjectSearchCreate = () => ({ name: textShort(), id: faker.random.uuid() })
+  , fakeRate = () => faker.random.number(4) + 1
   ;
 
 
@@ -75,6 +76,10 @@ export const objectSearchCreateFactory = new Factory()
     endpoint: '/endpoint/',
     type: 'objectSearchCreate',
   });
+
+export const ratingFactory = new Factory()
+  .extend(fieldFactory)
+  .attrs({ type: 'rating' });
 
 
 /*
@@ -131,6 +136,7 @@ export const TYPE_GENERATORS = {
   objectSearchCreate: { valueFunction: () => {  }, fieldConfigFactory: objectSearchCreateFactory },
   percentage: { valueFunction: fakerPercentage, fieldConfigFactory: percentageFactory },
   radio: { valueFunction: () => 'first', fieldConfigFactory: radioFactory },
+  rating: { valueFunction: fakeRate, fieldConfigFactory: ratingFactory },
   string: { valueFunction: textShort, fieldConfigFactory: stringFactory },
   text: { valueFunction: textLong, fieldConfigFactory: textFactory },
 };

@@ -33,10 +33,10 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
       , idx = this.props.idx || 0
       , legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend
       , fieldConfigs = getFieldSetFields(this.fieldSet)
-      , filteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, model))
+      , unfilteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, model))
       ;
 
-    if (!filteredFieldConfigs.length) {
+    if (!unfilteredFieldConfigs.length) {
       return null;
     }
 

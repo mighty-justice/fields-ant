@@ -6,11 +6,14 @@ import { Tester } from '@mighty-justice/tester';
 import { Card, FormCard } from '../../src';
 import { TYPE_GENERATORS } from '../factories';
 
+const SKIP = null;
+
 const expectedValue = {
-  objectSearchCreate: [{ name: 'Example Co.' }, 'Example Co.'],
   date: ['2017-11-22', '11/22/17'],
+  objectSearchCreate: [{ name: 'Example Co.' }, 'Example Co.'],
   percentage: ['0.278', '27.80%'],
-  radio: ['second', 'Second Item']
+  radio: ['second', 'Second Item'],
+  rating: ['3', SKIP],
 };
 
 Object.keys(TYPE_GENERATORS).forEach(type => {
@@ -28,12 +31,12 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
 
       // Renders empty placeholder
       const withoutData = await new Tester(Card, { props: { ...props, model: {} }}).mount();
-      expect(withoutData.text()).not.toContain(rendered);
+      rendered && expect(withoutData.text()).not.toContain(rendered);
       expect(withoutData.text()).toContain('--');
 
       // Renders formatted value
       const withData = await new Tester(Card, { props }).mount();
-      expect(withData.text()).toContain(rendered);
+      rendered && expect(withData.text()).toContain(rendered);
       expect(withData.text()).not.toContain('--');
     });
 
