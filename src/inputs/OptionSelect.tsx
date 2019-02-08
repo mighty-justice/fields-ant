@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { inject } from 'mobx-react';
+
 import * as Antd from 'antd';
 
 import {
@@ -12,7 +13,7 @@ import {
   IOption,
 } from '../interfaces';
 
-import { getOptions } from '..';
+import { getOptions } from '../';
 
 export interface IOptionSelectProps {
   fieldConfig: IFieldConfig;

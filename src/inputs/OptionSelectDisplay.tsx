@@ -11,11 +11,12 @@ import {
   IOption,
 } from '../interfaces';
 
-import { getOptions } from '..';
+import { getOptions } from '../';
+import { IValue } from '../props';
 
 export interface IOptionSelectDisplayProps {
   fieldConfig: IFieldConfig;
-  value: any;
+  value: IValue;
 }
 
 @inject('getOptions')

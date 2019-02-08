@@ -3,12 +3,13 @@ import { get } from 'lodash';
 
 import { fillInFieldConfig, filterInsertIf } from '../utilities/common';
 import { IFieldConfig } from '../interfaces';
+import { IModel } from '../props';
 
 import Info, { Label, Value } from './Info';
 
 export interface ICardFieldProps {
   fieldConfig: IFieldConfig;
-  model: { [key: string]: any };
+  model: IModel;
 }
 
 class CardField extends Component<ICardFieldProps> {

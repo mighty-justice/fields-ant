@@ -7,11 +7,11 @@ import { noop } from 'lodash';
 
 import * as Antd from 'antd';
 
-import { ICommonCardProps, IFieldSet } from '../interfaces';
-
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import FormManager from '../utilities/FormManager';
 import { fillInFieldSets } from '../utilities/common';
+import { ICommonCardProps, IFieldSet } from '../interfaces';
+import { IForm } from '../props';
 
 export interface IFormCardProps extends ICommonCardProps {
   children?: any;
@@ -23,22 +23,22 @@ export interface IFormCardProps extends ICommonCardProps {
   renderTopRight?: () => any;
 }
 
-interface IProps extends IFormCardProps {
-  form: any;
+interface IFormCardWrappedProps extends IFormCardProps {
+  form: IForm;
 }
 
 @autoBindMethods
 @observer
-export class UnwrappedFormCard extends Component<IProps> {
+export class UnwrappedFormCard extends Component<IFormCardWrappedProps> {
   private formManager: FormManager;
 
-  public static defaultProps: Partial<IProps> = {
+  public static defaultProps: Partial<IFormCardWrappedProps> = {
     onCancel: noop,
   };
 
-  public constructor (props: IProps) {
+  public constructor (props: IFormCardWrappedProps) {
     super(props);
-    const { model, onSave, onCancel, form } = props as IProps;
+    const { model, onSave, onCancel, form } = props as IFormCardWrappedProps;
 
     this.formManager = new FormManager(
       form,

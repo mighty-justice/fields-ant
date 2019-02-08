@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
-import SmartBool from '@mighty-justice/smart-bool';
 import { kebabCase } from 'lodash';
+
+import SmartBool from '@mighty-justice/smart-bool';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import GuardedButton from '../building-blocks/GuardedButton';
 import { ICommonCardProps } from '../interfaces';
+import { IModel } from '../props';
 
 import Card from './Card';
 import FormCard from './FormCard';
@@ -16,7 +18,7 @@ export interface IEditableCardProps extends ICommonCardProps {
   children?: any;
   isGuarded?: boolean;
   isLoading?: boolean;
-  model: any;
+  model: IModel;
   onDelete?: (model: any) => Promise<any>;
   onSave: (model: any) => Promise<any>;
   onSuccess?: () => Promise<any>;

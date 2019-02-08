@@ -4,14 +4,15 @@ import { observer } from 'mobx-react';
 
 import * as Antd from 'antd';
 
-import { ICommonCardProps } from '../interfaces';
-import { fillInFieldSets } from '../utilities/common';
 import CardFieldSet from '../building-blocks/CardFieldSet';
+import { fillInFieldSets } from '../utilities/common';
+import { ICommonCardProps } from '../interfaces';
+import { IModel } from '../props';
 
 export interface ICardProps extends ICommonCardProps {
   children?: any;
   isLoading?: boolean;
-  model: any;
+  model: IModel;
   renderTopRight?: () => any;
 }
 
