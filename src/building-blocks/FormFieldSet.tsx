@@ -43,7 +43,6 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
       ;
 
     if (!filteredFieldConfigs.length) {
-      console.log('Removing fieldset');
       return null;
     }
 
