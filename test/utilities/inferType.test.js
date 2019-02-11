@@ -2,6 +2,8 @@
 import { fillInFieldConfig, TYPES } from '../../src';
 
 const TYPE_INFERENCES = [
+  ['boolean', 'case.status.is_loading'],
+  ['boolean', 'case.status[5].is_loading'],
   ['boolean', 'is_loading'],
   ['date', 'appearance_date'],
   ['date', 'created_at'],

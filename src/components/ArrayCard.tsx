@@ -6,6 +6,7 @@ import * as Antd from 'antd';
 import { IModel } from '../props';
 
 import Card, { ICardProps } from './Card';
+import { isEmpty } from 'lodash';
 
 export interface IArrayCardProps extends ICardProps {
     model: IModel[];
@@ -18,6 +19,10 @@ class ArrayCard extends Component<IArrayCardProps> {
 
     return (
       <Antd.Card title={title} extra={renderTopRight && renderTopRight()} loading={isLoading}>
+        {isEmpty(model) && (
+          <p className='empty-message'>No records</p>
+        )}
+
         {model.map((modelItem: any) => (
           <Card
             classNameSuffix={classNameSuffix}
