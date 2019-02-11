@@ -1,6 +1,4 @@
 /* global it, describe, expect */
-import React from 'react';
-
 import { Tester } from '@mighty-justice/tester';
 
 import { Card, FormCard } from '../../src';

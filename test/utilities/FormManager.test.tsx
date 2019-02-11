@@ -3,10 +3,9 @@ import faker from 'faker';
 
 import { Tester } from '@mighty-justice/tester';
 
-import FormManager from '../../src/utilities/FormManager';
-import { FormCard } from '../../src';
+import { FormCard, IFieldSetPartial } from '../../src';
 
-async function getFormManager (fieldSets, model = {}) {
+async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
   const props = {
     fieldSets,
     model,

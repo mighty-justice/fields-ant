@@ -39,7 +39,7 @@ export type IModel = any;
 export type IValue = any;
 
 export interface ISharedComponentProps {
-  children?: JSX.Element;
+  children?: React.ReactNode;
   classNameSuffix?: string;
   fieldSets: IFieldSet[] | IFieldSetPartial[];
   isLoading?: boolean;

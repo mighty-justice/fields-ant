@@ -22,7 +22,7 @@ interface IFieldConfigBase {
   className?: any;
   label: string | null;
   nullify: boolean;
-  render: (...args: any[]) => string | JSX.Element | JSX.Element[];
+  render: (...args: any[]) => React.ReactNode;
   showLabel: boolean;
   value?: string | number;
 

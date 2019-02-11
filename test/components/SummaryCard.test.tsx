@@ -1,6 +1,5 @@
 /* global it, describe, expect */
 
-import React from 'react';
 import faker from 'faker';
 
 import { SummaryCard } from '../../src';

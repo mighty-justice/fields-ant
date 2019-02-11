@@ -1,5 +1,4 @@
 /* global it, describe, expect */
-import React from 'react';
 import faker from 'faker';
 
 import * as Antd from 'antd';
@@ -8,7 +7,7 @@ import { Tester } from '@mighty-justice/tester';
 
 import { FormCard } from '../../src';
 
-function changeInput (component, value) {
+function changeInput (component: any, value: string) {
   component.simulate('focus');
   component.simulate('change', { target: { value } });
   component.simulate('blur');
@@ -41,8 +40,8 @@ describe('FormCard', () => {
     const nameError = faker.lorem.sentence()
       , otherError = faker.lorem.sentence()
       , response = { response: { data: {
-        'non_field_errors': [otherError],
-        'plaintiff': [{ 'name': [nameError] }],
+        non_field_errors: [otherError],
+        plaintiff: [{ name: [nameError] }],
       }}}
       , name = faker.lorem.sentence()
       , onSave = jest.fn().mockRejectedValue(response)
@@ -63,7 +62,7 @@ describe('FormCard', () => {
     await tester.sleep();
 
     expect(Antd.notification.error).toHaveBeenCalled();
-    const antErrorCall = Antd.notification.error.calls.mostRecent();
+    const antErrorCall = (Antd.notification.error as any).calls.mostRecent();
     expect(JSON.stringify(antErrorCall)).toContain(otherError);
-  })
+  });
 });

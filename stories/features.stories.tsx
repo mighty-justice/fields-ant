@@ -12,8 +12,6 @@ storiesOf('Features', module)
     <FormCard
       {...formCardPropsFactory.build()}
       fieldSets={[{
-        legend: 'Legend Text',
-        rowProps: { gutter: 16 },
         fields: [
           {
             ...objectSearchCreateFactory.build(),
@@ -23,13 +21,15 @@ storiesOf('Features', module)
               { field: 'last_name', populateNameFromSearch: true },
               { field: 'lawfirm', populateFromSearch: true },
               {
+                createFields: [{ field: 'name' }],
                 field: 'organization',
                 type: 'objectSearchCreate',
-                createFields: [{ field: 'name' }],
               },
             ],
           },
-        ]
+        ] as any,
+        legend: 'Legend Text',
+        rowProps: { gutter: 16 },
       }]}
     />
   ))

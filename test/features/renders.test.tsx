@@ -1,5 +1,4 @@
 /* global it, describe, expect */
-import React from 'react';
 import { Tester } from '@mighty-justice/tester';
 import { get } from 'lodash';
 

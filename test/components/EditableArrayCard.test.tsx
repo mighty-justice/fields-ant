@@ -1,12 +1,11 @@
 /* global it, describe, expect */
 
-import React from 'react';
 import faker from 'faker';
 
 import { EditableArrayCard } from '../../src';
 import { Tester } from '@mighty-justice/tester';
 
-function changeInput (component, value) {
+function changeInput (component: any, value: string) {
   component.simulate('focus');
   component.simulate('change', { target: { value } });
   component.simulate('blur');
@@ -18,7 +17,7 @@ const name1 = faker.lorem.sentence()
   , title = faker.lorem.sentence()
   , props = {
     fieldSets: [[{ field: 'name' }]],
-    model: [{ id: 1, name: name1 }, { id: 2,  name: name2 }],
+    model: [{ id: 1, name: name1 }, { id: 2, name: name2 }],
     title,
   };
 

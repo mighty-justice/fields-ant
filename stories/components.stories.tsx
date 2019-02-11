@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react';
 import { withInfoConfigured } from '../.storybook/config';
 import { COMPONENT_GENERATORS } from '../test/factories';
 
-const componentStories =  storiesOf('Components', module)
+const componentStories = storiesOf('Components', module)
   .addDecorator(withInfoConfigured)
   ;
 

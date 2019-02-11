@@ -1,18 +1,17 @@
 /* global it, describe, expect */
-import React from 'react';
 import faker from 'faker';
 
 import { Tester } from '@mighty-justice/tester';
 
-import { Card, FormCard } from '../../src';
+import { FormCard } from '../../src';
 
-function changeInput (component, value) {
+function changeInput (component: any, value: string) {
   component.simulate('focus');
   component.simulate('change', { target: { value } });
   component.simulate('blur');
 }
 
-function getDefaults (overrides) {
+function getDefaults (overrides?: any) {
   const field = overrides.field || 'law_firm'
     , endpoint = overrides.endpoint || 'legal-organizations'
     , type = overrides.type || 'objectSearchCreate'
@@ -40,21 +39,21 @@ function getDefaults (overrides) {
     type,
 
     ...overrides,
-  }
+  };
 }
 
-async function getTester (props) {
+async function getTester (props: any) {
   return (await new Tester(FormCard, { props }).mount());
 }
 
-async function searchFor (tester, field, result, searchTerm) {
+async function searchFor (tester: any, field: string, result: any, searchTerm: string) {
   tester.endpoints['/legal-organizations/'] = { results: [result] };
   changeInput(tester.find(`input#${field}`), searchTerm);
   await tester.refresh();
   expect(tester.find('li').text()).toContain(result.name);
 }
 
-async function selectAddNew (tester) {
+async function selectAddNew (tester: any) {
   tester.find('button.osc-add-new').simulate('click');
 }
 

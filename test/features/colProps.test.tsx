@@ -1,5 +1,5 @@
 /* global it, describe, expect */
-import React from 'react';
+
 import { Tester } from '@mighty-justice/tester';
 
 import { COMPONENT_GENERATORS } from '../factories';

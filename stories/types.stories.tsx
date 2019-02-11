@@ -19,8 +19,8 @@ const props = {
       field: type,
       label: type,
     }))],
-    title: 'Working Title',
     model: mapValues(TYPE_GENERATORS, value => value.valueFunction()),
+    title: 'Working Title',
   };
 
 storiesOf('Types', module)
@@ -32,8 +32,6 @@ storiesOf('Types', module)
       <FormCard
         {...formCardPropsFactory.build()}
         fieldSets={[{
-          legend: 'Legend Text',
-          rowProps: { gutter: 16 },
           fields: [
             {
               ...objectSearchCreateFactory.build(),
@@ -43,9 +41,9 @@ storiesOf('Types', module)
                 { field: 'last_name', populateNameFromSearch: true },
                 { field: 'lawfirm', populateFromSearch: true },
                 {
+                  createFields: [{ field: 'name' }],
                   field: 'organization',
                   type: 'objectSearchCreate',
-                  createFields: [{ field: 'name' }],
                 },
               ],
             },
@@ -57,13 +55,15 @@ storiesOf('Types', module)
                 { field: 'last_name', required: true },
                 { field: 'lawfirm', populateFromSearch: true },
                 {
+                  createFields: [{ field: 'name' }],
                   field: 'organization',
                   type: 'objectSearchCreate',
-                  createFields: [{ field: 'name' }],
                 },
               ],
-            }
-          ]
+            },
+          ] as any,
+          legend: 'Legend Text',
+          rowProps: { gutter: 16 },
         }]}
       />
       <Marked md={docObjectSearchCreate} />
