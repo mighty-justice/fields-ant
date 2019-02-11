@@ -9,10 +9,11 @@
 **/node_modules/
 
 # Other
-storybook-static
-.cache
-source.html
 *.log
+.cache
+coverage
+source.html
+storybook-static
 
 # OS X
 .DS_Store
