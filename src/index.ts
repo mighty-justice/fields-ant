@@ -28,3 +28,4 @@ export { default as Rate, formatRating } from './inputs/Rate';
 export { default as FormManager } from './utilities/FormManager';
 export * from './interfaces';
 export * from './utilities/common';
+export * from './utilities/types';
