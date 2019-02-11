@@ -96,6 +96,7 @@ class FormManager {
   }
 
   private handleBackendResponse (response?: any) {
+    // istanbul ignore next
     if (!response || !response.data) {
       Antd.notification.error(toastError);
       return;

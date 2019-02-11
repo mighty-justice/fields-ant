@@ -23,6 +23,9 @@ import { IValue } from '../props';
 
 import { TYPES } from './types';
 
+// istanbul ignore next
+export async function asyncNoop () { return; }
+
 const typeDefaults = {
   editComponent: Antd.Input,
   fieldConfigProp: false,
@@ -49,18 +52,19 @@ function inferType (fieldConfig: Partial<IFieldConfig>) {
 
   const field = getFieldSuffix(fieldConfig.field);
 
-  if (field.includes('duration')) { return 'duration'; }
-  if (field.includes('rating')) { return 'rating'; }
   if (field.includes('amount')) { return 'money'; }
+  if (field.includes('body')) { return 'text'; }
+  if (field.includes('note')) { return 'text'; }
+  if (field.includes('percent')) { return 'percentage'; }
+  if (field.includes('summary')) { return 'text'; }
+
   if (field.endsWith('_on')) { return 'date'; }
-  if (field.startsWith('date')) { return 'date'; }
-  if (field.endsWith('date')) { return 'date'; }
   if (field.endsWith('_at')) { return 'date'; }
   if (field.startsWith('is_')) { return 'boolean'; }
-  if (field.includes('note')) { return 'text'; }
-  if (field.includes('body')) { return 'text'; }
-  if (field.includes('summary')) { return 'text'; }
-  if (field.includes('percent')) { return 'percentage'; }
+
+  for (const type in TYPES) {
+    if (field.includes(type)) { return type; }
+  }
 
   return 'string';
 }

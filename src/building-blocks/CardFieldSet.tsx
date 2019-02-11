@@ -33,10 +33,10 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
       , idx = this.props.idx || 0
       , legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend
       , fieldConfigs = getFieldSetFields(this.fieldSet)
-      , filteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, model))
+      , unfilteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, model))
       ;
 
-    if (!filteredFieldConfigs.length) {
+    if (!unfilteredFieldConfigs.length) {
       return null;
     }
 
@@ -45,7 +45,7 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
           {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
           {legend && <h3>{legend}</h3>}
 
-          {getFieldSetFields(this.fieldSet).map(fieldConfig => (
+          {unfilteredFieldConfigs.map(fieldConfig => (
             <CardField
               fieldConfig={fieldConfig}
               key={fieldConfig.field}

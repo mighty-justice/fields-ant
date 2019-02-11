@@ -9,7 +9,7 @@ import * as Antd from 'antd';
 
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import FormManager from '../utilities/FormManager';
-import { fillInFieldSets } from '../utilities/common';
+import { asyncNoop, fillInFieldSets } from '../utilities/common';
 import { IFieldSet } from '../interfaces';
 import { IFormProps, IWrappedFormProps } from '../props';
 
@@ -26,7 +26,7 @@ export class UnwrappedFormCard extends Component<IFormCardWrappedProps> {
 
   public static defaultProps: Partial<IFormCardWrappedProps> = {
     onCancel: noop,
-    onSuccess: async () => { return; },
+    onSuccess: asyncNoop,
   };
 
   public constructor (props: IFormCardWrappedProps) {
@@ -96,6 +96,7 @@ export class UnwrappedFormCard extends Component<IFormCardWrappedProps> {
   }
 }
 
+// istanbul ignore next
 const WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
 
 @autoBindMethods
@@ -103,7 +104,7 @@ const WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
 export class FormCard extends Component<IFormCardProps> {
   public static defaultProps: Partial<IFormCardWrappedProps> = {
     onCancel: noop,
-    onSuccess: async () => { return; },
+    onSuccess: asyncNoop,
   };
 
   public render () {

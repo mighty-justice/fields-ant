@@ -20,7 +20,7 @@ describe('EditableCard', () => {
       , onSave = jest.fn().mockResolvedValue({})
       , props = {
         ...editableCardPropsFactory.build(),
-        fieldSets: [[{ field: 'text' }]],
+        fieldSets: [[{ field: 'text', type: 'string' }]],
         model: { text },
         onSave,
       };

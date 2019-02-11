@@ -60,6 +60,7 @@
     "testURL": "http://localhost/",
     "collectCoverageFrom": [
       "!src/index.ts",
+      "!src/props.ts",
       "src/**/*.tsx",
       "src/**/*.ts"
     ]

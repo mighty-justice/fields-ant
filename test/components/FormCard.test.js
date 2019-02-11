@@ -21,7 +21,7 @@ describe('FormCard', () => {
       , title = 'testing'
       , onSave = jest.fn().mockResolvedValue({})
       , props = {
-        fieldSets: [[{ field: 'text' }]],
+        fieldSets: [[{ field: 'text', type: 'string' }]],
         model: { text },
         onSave,
         title,
