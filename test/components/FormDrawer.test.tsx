@@ -1,6 +1,4 @@
 /* global it, describe, expect */
-
-import React from 'react';
 import faker from 'faker';
 
 import { FormDrawer } from '../../src';

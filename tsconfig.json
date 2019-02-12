@@ -28,6 +28,7 @@
     "coverage"
   ],
   "include": [
-    "src"
+    "src",
+    "test"
   ]
 }

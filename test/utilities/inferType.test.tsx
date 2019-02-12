@@ -19,7 +19,7 @@ const TYPE_INFERENCES = [
   // ['email', 'email'],
   // ['rating', 'rating'],
   // etc.
-  Object.keys(TYPES).map(s => [s, s])
+  Object.keys(TYPES).map(s => [s, s]),
 );
 
 describe('inferType', () => {

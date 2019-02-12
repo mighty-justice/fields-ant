@@ -1,13 +1,12 @@
 /* global it, describe, expect */
-
-import React from 'react';
+// tslint:disable:no-inferred-empty-object-type
 import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
 import { EditableCard } from '../../src';
 import { editableCardPropsFactory } from '../factories';
 
-function changeInput (component, value) {
+function changeInput (component: any, value: string) {
   component.simulate('focus');
   component.simulate('change', { target: { value } });
   component.simulate('blur');

@@ -1,6 +1,5 @@
 /* global it, describe, expect */
 
-import React from 'react';
 import faker from 'faker';
 
 import { ArrayCard } from '../../src';
@@ -13,7 +12,7 @@ describe('ArrayCard', () => {
       , title = faker.lorem.sentence()
       , props = {
         fieldSets: [[{ field: 'text' }]],
-        model: [{ id: 1, text: text1 }, { id: 2,  text: text2 }],
+        model: [{ id: 1, text: text1 }, { id: 2, text: text2 }],
         title,
       };
 

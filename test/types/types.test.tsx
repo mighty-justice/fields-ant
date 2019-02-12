@@ -1,14 +1,13 @@
 /* global it, describe, expect */
-import React from 'react';
-
 import { Tester } from '@mighty-justice/tester';
 
 import { Card, FormCard, TYPES } from '../../src';
 import { TYPE_GENERATORS } from '../factories';
+import { IValue } from '../../src/props';
 
 const SKIP = null;
 
-const expectedValue = {
+const expectedValue: { [key: string]: [IValue, string | null] } = {
   boolean: [true, 'Yes'],
   date: ['2017-11-22', '11/22/17'],
   objectSearchCreate: [{ name: 'Example Co.' }, 'Example Co.'],
@@ -39,12 +38,12 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
 
       // Renders empty placeholder
       const withoutData = await new Tester(Card, { props: { ...props, model: {} }}).mount();
-      rendered && expect(withoutData.text()).not.toContain(rendered);
+      if (rendered) { expect(withoutData.text()).not.toContain(rendered); }
       expect(withoutData.text()).toContain('--');
 
       // Renders formatted value
       const withData = await new Tester(Card, { props }).mount();
-      rendered && expect(withData.text()).toContain(rendered);
+      if (rendered) { expect(withData.text()).toContain(rendered); }
       expect(withData.text()).not.toContain('--');
     });
 

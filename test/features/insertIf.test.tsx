@@ -1,6 +1,5 @@
 /* global it, describe, expect */
 
-import React from 'react';
 import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
@@ -8,20 +7,19 @@ import { EditableCard, CardField, FormField } from '../../src';
 
 const title = 'testing'
   , field = 'example_field'
-  , example_field = faker.lorem.sentence()
+  , exampleField = faker.lorem.sentence()
   , exampleLabel = faker.lorem.sentence()
   , normalLabel = faker.lorem.sentence()
   , legend = faker.lorem.sentence()
   , normalField = { field: 'second_example_field', label: normalLabel }
   ;
 
-
 describe('insertIf', () => {
   it('Shows if no insertIf attribute', async () => {
     const onSave = jest.fn().mockResolvedValue({})
      , tester = await new Tester(EditableCard, { props: {
         fieldSets: [{ fields: [{ field, label: exampleLabel }], legend }, [normalField]],
-        model: { example_field },
+        model: { example_field: exampleField },
         onSave,
         title,
       }}).mount();
@@ -38,10 +36,10 @@ describe('insertIf', () => {
 
   it('Hides if insertIf returns false, separate fieldSets', async () => {
     const onSave = jest.fn().mockResolvedValue({})
-      , insertIf = jest.fn(values => false)
+      , insertIf = jest.fn(_values => false)
       , tester = await new Tester(EditableCard, { props: {
         fieldSets: [{ fields: [{ field, label: exampleLabel, insertIf }], legend }, [normalField]],
-        model: { example_field },
+        model: { example_field: exampleField },
         onSave,
         title,
       }}).mount();
@@ -58,10 +56,10 @@ describe('insertIf', () => {
 
   it('Hides if insertIf returns false, same fieldSet', async () => {
     const onSave = jest.fn().mockResolvedValue({})
-      , insertIf = jest.fn(values => false)
+      , insertIf = jest.fn(_values => false)
       , tester = await new Tester(EditableCard, { props: {
         fieldSets: [{ fields: [{ field, label: exampleLabel, insertIf }, normalField], legend }],
-        model: { example_field },
+        model: { example_field: exampleField },
         onSave,
         title,
       }}).mount();
@@ -76,13 +74,12 @@ describe('insertIf', () => {
     expect(tester.text()).toContain(normalLabel);
   });
 
-
   it('Shows if insertIf returns true', async () => {
     const onSave = jest.fn().mockResolvedValue({})
-      , insertIf = jest.fn(values => true)
+      , insertIf = jest.fn(_values => true)
       , tester = await new Tester(EditableCard, { props: {
         fieldSets: [{ fields: [{ field, label: exampleLabel, insertIf }], legend }, [normalField]],
-        model: { example_field },
+        model: { example_field: exampleField },
         onSave,
         title,
       }}).mount();
@@ -97,15 +94,14 @@ describe('insertIf', () => {
   });
 
   it('Works with individual CardFields', async () => {
-    const insertIf = jest.fn(values => false)
-      , hidden = await new Tester(CardField, { props: {
-        fieldConfig: { field, label: exampleLabel, insertIf: jest.fn(values => false) }
+    const hidden = await new Tester(CardField, { props: {
+        fieldConfig: { field, label: exampleLabel, insertIf: jest.fn(_values => false) },
       }}).mount()
       , showing = await new Tester(CardField, { props: {
-        fieldConfig: { field, label: exampleLabel, insertIf: jest.fn(values => true) }
+        fieldConfig: { field, label: exampleLabel, insertIf: jest.fn(_values => true) },
       }}).mount()
       , none = await new Tester(CardField, { props: {
-        fieldConfig: { field, label: exampleLabel }
+        fieldConfig: { field, label: exampleLabel },
       }}).mount()
       ;
 
@@ -116,20 +112,20 @@ describe('insertIf', () => {
 
   it('Works with individual FormFields', async () => {
     const props = { form: {
-        getFieldDecorator: () => (x) => x,
+        getFieldDecorator: () => (x: any) => x,
         getFieldsValue: () => ({}),
       }}
       , hidden = await new Tester(FormField, { props: {
         ...props,
-        fieldConfig: { field, label: exampleLabel, insertIf: jest.fn(values => false) }
+        fieldConfig: { field, label: exampleLabel, insertIf: jest.fn(_values => false) },
       }}).mount()
       , showing = await new Tester(FormField, { props: {
         ...props,
-        fieldConfig: { field, label: exampleLabel, insertIf: jest.fn(values => true) }
+        fieldConfig: { field, label: exampleLabel, insertIf: jest.fn(_values => true) },
       }}).mount()
       , none = await new Tester(FormField, { props: {
         ...props,
-        fieldConfig: { field, label: exampleLabel }
+        fieldConfig: { field, label: exampleLabel },
       }}).mount()
       ;
 
@@ -137,5 +133,4 @@ describe('insertIf', () => {
     expect(showing.html()).not.toBe(null);
     expect(none.html()).not.toBe(null);
   });
-
 });

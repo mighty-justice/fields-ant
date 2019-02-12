@@ -1,4 +1,4 @@
-import "@babel/polyfill";
+import '@babel/polyfill';
 import enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { Provider } from 'mobx-react';
@@ -11,8 +11,8 @@ TesterConfig.configure(enzyme, {
   hooks: [
     {
       name: 'getOptions',
-      onBeforeMount: (tester) => {
-        tester.getOptions = jest.fn(optionName => [
+      onBeforeMount: (tester: any) => {
+        tester.getOptions = jest.fn((_optionName: string) => [
           { name: 'Yes', value: 'true' },
           { name: 'No', value: 'false' },
         ]);
@@ -20,7 +20,7 @@ TesterConfig.configure(enzyme, {
     },
     {
       name: 'getEndpoint',
-      onBeforeMount: (tester) => {
+      onBeforeMount: (tester: any) => {
         tester.endpoints = {};
         tester.getEndpoint = jest.fn(endpoint => {
           const endpointNoParams = endpoint.split('?').shift();
@@ -36,20 +36,18 @@ TesterConfig.configure(enzyme, {
     {
       component: Provider,
       name: 'appState',
-      props: (tester) => {
-        return {
-          getEndpoint: tester.getEndpoint,
-          getOptions: tester.getOptions,
-        };
-      },
+      props: (tester: any) => ({
+        getEndpoint: tester.getEndpoint,
+        getOptions: tester.getOptions,
+      }),
     },
   ],
   profiles: [
     {
-      name: 'Default',
       appState: true,
       getEndpoint: true,
       getOptions: true,
+      name: 'Default',
     },
   ],
 });

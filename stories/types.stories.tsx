@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react';
 import Marked from 'storybook-readme/components/Marked';
 
 import docObjectSearchCreate from '../docs/ObjectSearchCreate.md';
-import { Card, FormCard } from '../src';
+import { Card, FormCard, IFieldConfigObjectSearchCreate } from '../src';
 
 import {
   formCardPropsFactory,
@@ -19,8 +19,8 @@ const props = {
       field: type,
       label: type,
     }))],
-    title: 'Working Title',
     model: mapValues(TYPE_GENERATORS, value => value.valueFunction()),
+    title: 'Working Title',
   };
 
 storiesOf('Types', module)
@@ -32,38 +32,38 @@ storiesOf('Types', module)
       <FormCard
         {...formCardPropsFactory.build()}
         fieldSets={[{
-          legend: 'Legend Text',
-          rowProps: { gutter: 16 },
           fields: [
             {
-              ...objectSearchCreateFactory.build(),
+              ...objectSearchCreateFactory.build() as IFieldConfigObjectSearchCreate,
               colProps: { sm: 24, lg: 12 },
               createFields: [
                 { field: 'first_name', populateFromSearch: true },
                 { field: 'last_name', populateNameFromSearch: true },
                 { field: 'lawfirm', populateFromSearch: true },
                 {
+                  createFields: [{ field: 'name' }],
                   field: 'organization',
                   type: 'objectSearchCreate',
-                  createFields: [{ field: 'name' }],
                 },
               ],
             },
             {
-              ...objectSearchCreateFactory.build(),
+              ...objectSearchCreateFactory.build() as IFieldConfigObjectSearchCreate,
               colProps: { sm: 24, lg: 12 },
               createFields: [
                 { field: 'first_name', required: true },
                 { field: 'last_name', required: true },
                 { field: 'lawfirm', populateFromSearch: true },
                 {
+                  createFields: [{ field: 'name' }],
                   field: 'organization',
                   type: 'objectSearchCreate',
-                  createFields: [{ field: 'name' }],
                 },
               ],
-            }
-          ]
+            },
+          ],
+          legend: 'Legend Text',
+          rowProps: { gutter: 16 },
         }]}
       />
       <Marked md={docObjectSearchCreate} />

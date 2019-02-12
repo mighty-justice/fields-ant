@@ -11,7 +11,7 @@ import { fillInFieldSets } from '../utilities/common';
 import { IFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
 
 export interface IFormModalProps extends ISharedComponentProps, IWrappedFormProps, IFormProps {
-  childrenBefore?: JSX.Element;
+  childrenBefore?: React.ReactNode;
 }
 
 interface IPropDefaults extends IFormModalProps {

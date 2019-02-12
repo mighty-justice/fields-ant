@@ -1,6 +1,5 @@
 /* global it, describe, expect */
 
-import React from 'react';
 import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
@@ -9,14 +8,14 @@ import { EditableCard } from '../../src';
 describe('noLabel', () => {
   it('Respects noLabel attribute', async () => {
     const label = faker.lorem.sentence()
-      , example_field = faker.lorem.sentence()
+      , exampleField = faker.lorem.sentence()
       , title = 'testing'
       , onSave = jest.fn().mockResolvedValue({})
       ;
 
     const withoutNoLabel = await new Tester(EditableCard, { props: {
       fieldSets: [[{ field: 'example_field', label }]],
-      model: { example_field },
+      model: { example_field: exampleField },
       onSave,
       title,
     }}).mount();
@@ -26,7 +25,7 @@ describe('noLabel', () => {
 
     const withNoLabel = await new Tester(EditableCard, { props: {
       fieldSets: [[{ field: 'example_field', label, showLabel: false }]],
-      model: { example_field },
+      model: { example_field: exampleField },
       onSave,
       title,
     }}).mount();

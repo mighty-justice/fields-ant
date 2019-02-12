@@ -1,4 +1,3 @@
-import React from 'react';
 import { Factory } from 'rosie';
 import faker from 'faker';
 import { format } from 'date-fns';
@@ -16,31 +15,29 @@ import {
   FormDrawer,
   FormModal,
   SummaryCard,
-} from '../src'
+} from '../src';
 
-const onSave = () => (data) => action('onSave')(data)
+import { IValue } from '../src/props';
+
+const onSave = () => (data: any) => action('onSave')(data)
   // fake* functions take no arguments and return values when called
   // These are used, uncalled, in factory attr lists
+  , fakeTextShort = () => faker.random.words(3)
+
   , fakeBoolean = () => sample([true, false])
   , fakeDateRecent = () => format(faker.date.recent(), 'YYYY-MM-DD')
-  , fakeDatetimeRecent = () => faker.date.recent().toISOString()
   , fakeDuration = () => faker.helpers.replaceSymbolWithNumber('P#Y')
   , fakeField = () => faker.random.words(3).replace(/[^A-Za-z ]/g, '').replace(/ /g, '_').toLowerCase()
   , fakeObjectSearchCreate = () => ({ name: fakeTextShort(), id: faker.random.uuid() })
   , fakeRate = () => faker.random.number(4) + 1
   , fakerPercentage = () => faker.random.number(1000) / 1000
   , fakeTextLong = () => faker.random.words(12)
-  , fakeTextShort = () => faker.random.words(3)
 
   // attr* functions return fake* functions when called
   // These are used, called, in factory attr lists
   , attrNumber = (num = 1000) => () => faker.random.number(num)
-  , attrRandom = (list) => () => sample(list)
-  , attrRandomGet = (list, getter) => () => get(sample(list), getter)
-  , attrSubFactory = (factory) => () => factory.build()
-  , attrSubFactoryList = (factory, num) => () => factory.buildList(num || 3)
+  , attrSubFactoryList = (factory: any, num?: number) => () => factory.buildList(num || 3)
   ;
-
 
 /*
  *   FIELD FACTORIES
@@ -67,12 +64,12 @@ export const percentageFactory = new Factory()
 export const radioFactory = new Factory()
   .extend(fieldFactory)
   .attrs({
-    type: 'radio',
     options: [
       { value: 'first', name: 'First Item' },
       { value: 'second', name: 'Second Item' },
       { value: 'third', name: 'Third Item' },
     ],
+    type: 'radio',
   });
 
 export const stringFactory = new Factory()
@@ -122,7 +119,6 @@ export const optionSelectFactory = new Factory()
     type: 'optionSelect',
   });
 
-
 /*
  *   FIELD SET FACTORY
  * = = = = = = = = = = = = = =
@@ -133,7 +129,6 @@ export const fieldSetFactory = new Factory()
     fields: attrSubFactoryList(fieldFactory),
     legend: 'Legend',
   });
-
 
 /*
  *   COMPONENT PROP FACTORIES
@@ -189,20 +184,26 @@ export const formModalPropsFactory = new Factory()
   .attrs({
   });
 
-
 /*
  *   COLLECTIONS
  * = = = = = = = = = = = = = =
  */
 
-export const TYPE_GENERATORS = {
+interface ITypeGenerators {
+  [key: string]: {
+    fieldConfigFactory: any,
+    valueFunction: () => IValue,
+  };
+}
+
+export const TYPE_GENERATORS: ITypeGenerators = {
   boolean: { valueFunction: fakeBoolean, fieldConfigFactory: booleanFactory },
   date: { valueFunction: fakeDateRecent, fieldConfigFactory: dateFactory },
   duration: { valueFunction: fakeDuration, fieldConfigFactory: durationFactory },
   email: { valueFunction: faker.internet.email, fieldConfigFactory: emailFactory },
   money: { valueFunction: faker.finance.amount, fieldConfigFactory: moneyFactory },
   number: { valueFunction: attrNumber(), fieldConfigFactory: numberFactory },
-  objectSearchCreate: { valueFunction: () => {  }, fieldConfigFactory: objectSearchCreateFactory },
+  objectSearchCreate: { valueFunction: fakeObjectSearchCreate, fieldConfigFactory: objectSearchCreateFactory },
   optionSelect: { valueFunction: () => 'first', fieldConfigFactory: optionSelectFactory },
   percentage: { valueFunction: fakerPercentage, fieldConfigFactory: percentageFactory },
   radio: { valueFunction: () => 'first', fieldConfigFactory: radioFactory },
@@ -211,7 +212,14 @@ export const TYPE_GENERATORS = {
   text: { valueFunction: fakeTextLong, fieldConfigFactory: textFactory },
 };
 
-export const COMPONENT_GENERATORS = {
+interface IComponentGenerators {
+  [key: string]: {
+    Component: any,
+    propsFactory: { build: (overrides?: object) => object },
+  };
+}
+
+export const COMPONENT_GENERATORS: IComponentGenerators = {
   ArrayCard: { Component: ArrayCard, propsFactory: arrayCardPropsFactory },
   Card: { Component: Card, propsFactory: cardPropsFactory },
   EditableArrayCard: { Component: EditableArrayCard, propsFactory: editableArrayCardPropsFactory },
