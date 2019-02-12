@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Table, Tag } from 'antd';
 import { Provider } from 'mobx-react';
-import { pickBy } from 'lodash';
 
 import { configure, addDecorator } from '@storybook/react';
 import { withInfo } from "@storybook/addon-info";

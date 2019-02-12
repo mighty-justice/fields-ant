@@ -9,32 +9,50 @@ import { IForm, IValue } from './props';
 // much easier to call a function to fill in a partial definition
 // than to fill all this in (see further below for partials).
 interface IFieldConfigBase {
+  // Field is the ONLY required value of a fieldConfig
+  // All other attributes below are either optional or will be filled in
+  // by the component through the fillIn* functions
+  field: string;
+
+  // Another way of keeping fieldConfigs short are 'types' which are just
+  // different sets of defaults that can be quickly applied.
+  type: string;
+
+  // Core attributes
   className?: any;
-  colProps?: ColProps;
+  label: string | null;
+  nullify: boolean;
+  render: (...args: any[]) => string | JSX.Element | JSX.Element[];
+  showLabel: boolean;
+  value?: string | number;
+
+  // Attributes for filtering this field out, in read contexts,
+  // form contexts, or dynamically based on the model
+  insertIf?: (model: any) => boolean;
+  readOnly: boolean;
+  writeOnly: boolean;
+
+  // Attributes for controlling how fieldConfig works in form
   disabled: boolean;
   editComponent: any;
   editProps: { [key: string]: any };
-  field: string;
-  fieldConfigProp: boolean;
   formItemProps?: { [key: string]: any };
   formValidationRules: { [ruleName: string]: { [attribute: string]: any } };
   fromForm: (value: IValue) => any;
   icon?: string;
-  insertIf?: (model: any) => boolean;
-  key: string;
-  label: string | null;
-  nullify: boolean;
+  required: boolean;
+  toForm: (data: any, field: string) => any;
+
+  // These enable features in objectSearchCreate
+  // explained in the documentation for that type
   populateFromSearch: boolean;
   populateNameFromSearch: boolean;
-  readOnly: boolean;
-  render: (...args: any[]) => string | JSX.Element | JSX.Element[];
-  required: boolean;
-  showLabel: boolean;
+
+  // These are technical and you can safely ignore them
+  colProps?: ColProps;
+  fieldConfigProp: boolean;
+  key: string;
   skipFieldDecorator: boolean;
-  toForm: (data: any, field: string) => any;
-  type: string;
-  value?: string | number;
-  writeOnly: boolean;
 }
 
 export interface IAntFormField {
