@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { pick, debounce } from 'lodash';
+import { get, pick, debounce } from 'lodash';
 
 import * as Antd from 'antd';
 import { SelectProps } from 'antd/lib/select';
@@ -20,9 +20,12 @@ import {
 } from '../';
 
 export interface IObjectSearchProps {
+  addNewContent?: React.ReactNode;
   debounceWait: number;
   fieldConfig: IFieldConfigObjectSearchCreate;
   loadingIcon?: React.ReactNode;
+  noSearchContent?: React.ReactNode;
+  onAddNew: () => void;
   onSearchChange: (search: string) => void;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
@@ -41,6 +44,12 @@ inject their own props, do validation, and correctly show help:
 {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
   <ObjectSearchCreateSearchInput
 */
+
+const ITEM_KEYS = {
+  ADD: 'add',
+  EMPTY: 'empty',
+  NO_SEARCH: 'no-search',
+};
 
 @inject('getEndpoint')
 @autoBindMethods
@@ -69,6 +78,14 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
     return this.props.fieldConfig as IFieldConfigObjectSearchCreate;
   }
 
+  private get hasSearch () {
+    return this.search !== '';
+  }
+
+  private get hasOptions () {
+    return !!this.options.length;
+  }
+
   private get loadingIcon () {
     return this.props.loadingIcon || <Antd.Icon type='loading' />;
   }
@@ -81,6 +98,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
     // Handpicking specific props to avoid unintentional behaviors
     return pick(this.props.selectProps as SelectProps, [
       'clearIcon',
+      'placeholder',
       'removeIcon',
       'suffixIcon',
     ]);
@@ -103,6 +121,39 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
     this.isLoading.setFalse();
   }
 
+  private renderOptionAdd () {
+    const { addNewContent } = this.props
+      , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.ADD}`;
+
+    return (
+      <Antd.Select.Option className={className} key={ITEM_KEYS.ADD}>
+        <div>{addNewContent || <><Antd.Icon type='plus' /> Add new</>}</div>
+      </Antd.Select.Option>
+    );
+  }
+
+  private renderOptionEmpty () {
+    const { selectProps } = this.props
+      , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.EMPTY}`;
+
+    return (
+      <Antd.Select.Option className={className} disabled key={ITEM_KEYS.EMPTY}>
+        <div>{get(selectProps, 'notFoundContent') || 'No results'}</div>
+      </Antd.Select.Option>
+    );
+  }
+
+  private renderOptionNoSearch () {
+    const { noSearchContent } = this.props
+      , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.NO_SEARCH}`;
+
+    return (
+      <Antd.Select.Option className={className} disabled key={ITEM_KEYS.NO_SEARCH}>
+        <div>{noSearchContent || 'Type in search text'}</div>
+      </Antd.Select.Option>
+    );
+  }
+
   private renderOption (option: IEndpointOption) {
     const className = `${CX_PREFIX_SEARCH_CREATE}-item`;
 
@@ -116,14 +167,26 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
       </Antd.Select.Option>
     );
   }
+  private onChange (selectedOption: any) {
+    if (selectedOption.key === ITEM_KEYS.ADD) {
+      this.props.onAddNew();
+    }
 
-  private onChange (value: any) {
-    const foundOption = this.options.find(option => option.id === value.key);
+    const foundOption = this.options.find(option => option.id === selectedOption.key);
     this.injected.onChange(toJS(foundOption));
+  }
+
+  private onFocus () {
+    if (!this.hasOptions && !this.hasSearch) {
+      this.handleSearch(this.search);
+    }
   }
 
   public render () {
     const { id } = this.injected
+      , showEmpty = this.hasSearch && !this.hasOptions
+      , showNoSearch = !this.hasOptions && !this.hasOptions
+      , showAdd = this.hasSearch
       ;
 
     return (
@@ -135,6 +198,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         labelInValue
         loading={this.isLoading.isTrue}
         onChange={this.onChange}
+        onFocus={this.onFocus}
         onSearch={this.debouncedHandleSearch}
         placeholder='Search...'
         showSearch
@@ -142,6 +206,9 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         {...this.selectProps}
       >
         {this.options.map(this.renderOption)}
+        {showEmpty && this.renderOptionEmpty()}
+        {showNoSearch && this.renderOptionNoSearch()}
+        {showAdd && this.renderOptionAdd()}
       </Antd.Select>
     );
   }
