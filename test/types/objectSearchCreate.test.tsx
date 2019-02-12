@@ -49,7 +49,7 @@ async function searchFor (tester: any, field: string, result: any, searchTerm: s
 }
 
 async function selectAddNew (tester: any) {
-  tester.click('button.osc-add-new');
+  tester.click('.ant-input-search-create-item-add div');
 }
 
 describe('objectSearchCreate', () => {
