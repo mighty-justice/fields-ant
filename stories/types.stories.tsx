@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react';
 import Marked from 'storybook-readme/components/Marked';
 
 import docObjectSearchCreate from '../docs/ObjectSearchCreate.md';
-import { Card, FormCard } from '../src';
+import { Card, FormCard, IFieldConfigObjectSearchCreate } from '../src';
 
 import {
   formCardPropsFactory,
@@ -34,7 +34,7 @@ storiesOf('Types', module)
         fieldSets={[{
           fields: [
             {
-              ...objectSearchCreateFactory.build(),
+              ...objectSearchCreateFactory.build() as IFieldConfigObjectSearchCreate,
               colProps: { sm: 24, lg: 12 },
               createFields: [
                 { field: 'first_name', populateFromSearch: true },
@@ -48,7 +48,7 @@ storiesOf('Types', module)
               ],
             },
             {
-              ...objectSearchCreateFactory.build(),
+              ...objectSearchCreateFactory.build() as IFieldConfigObjectSearchCreate,
               colProps: { sm: 24, lg: 12 },
               createFields: [
                 { field: 'first_name', required: true },
@@ -61,7 +61,7 @@ storiesOf('Types', module)
                 },
               ],
             },
-          ] as any,
+          ],
           legend: 'Legend Text',
           rowProps: { gutter: 16 },
         }]}

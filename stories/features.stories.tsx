@@ -2,9 +2,10 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 
-import { FormCard } from '../src';
+import { FormCard, IFieldConfigObjectSearchCreate } from '../src';
 import { withInfoConfigured } from '../.storybook/config';
 import { objectSearchCreateFactory, formCardPropsFactory } from '../test/factories';
+import { ColProps } from '../node_modules/antd/lib/grid';
 
 storiesOf('Features', module)
   .addDecorator(withInfoConfigured)
@@ -14,8 +15,8 @@ storiesOf('Features', module)
       fieldSets={[{
         fields: [
           {
-            ...objectSearchCreateFactory.build(),
-            colProps: { sm: 24, lg: 12 },
+            ...objectSearchCreateFactory.build() as IFieldConfigObjectSearchCreate,
+            colProps: { sm: 24, lg: 12 } as ColProps,
             createFields: [
               { field: 'first_name', populateFromSearch: true },
               { field: 'last_name', populateNameFromSearch: true },
@@ -27,7 +28,7 @@ storiesOf('Features', module)
               },
             ],
           },
-        ] as any,
+        ],
         legend: 'Legend Text',
         rowProps: { gutter: 16 },
       }]}
