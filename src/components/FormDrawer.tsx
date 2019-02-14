@@ -1,3 +1,4 @@
+// tslint:disable max-classes-per-file
 import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
@@ -16,17 +17,19 @@ import {
 import { formPropsDefaults } from '../propsDefaults';
 import { IFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
 
-export interface IFormDrawerProps extends ISharedComponentProps, IWrappedFormProps, IFormProps {
+export interface IFormDrawerProps extends ISharedComponentProps, IFormProps {
   isVisible: SmartBool;
   width?: number | string;
 }
 
+export interface IFormDrawerWrappedProps extends IFormDrawerProps, IWrappedFormProps {}
+
 @autoBindMethods
 @observer
-class BaseFormDrawer extends Component<IFormDrawerProps> {
+class UnwrappedFormDrawer extends Component<IFormDrawerWrappedProps> {
   private formManager: FormManager;
 
-  public static defaultProps: Partial<IFormDrawerProps> = {
+  public static defaultProps: Partial<IFormDrawerWrappedProps> = {
     ...formPropsDefaults,
   };
 
@@ -35,7 +38,7 @@ class BaseFormDrawer extends Component<IFormDrawerProps> {
     return fillInFieldSets(this.props.fieldSets);
   }
 
-  public constructor (props: IFormDrawerProps) {
+  public constructor (props: IFormDrawerWrappedProps) {
     super(props);
 
     const {
@@ -109,6 +112,18 @@ class BaseFormDrawer extends Component<IFormDrawerProps> {
   }
 }
 
-const FormDrawer = Antd.Form.create()(BaseFormDrawer);
+const WrappedFormDrawer = Antd.Form.create()(UnwrappedFormDrawer);
+
+@autoBindMethods
+@observer
+export class FormDrawer extends Component<IFormDrawerProps> {
+  public static defaultProps: Partial<IFormDrawerProps> = {
+    ...formPropsDefaults,
+  };
+
+  public render () {
+    return <WrappedFormDrawer {...this.props} />;
+  }
+}
 
 export default FormDrawer;

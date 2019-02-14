@@ -1,3 +1,4 @@
+// tslint:disable max-classes-per-file
 import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
@@ -11,28 +12,22 @@ import { fillInFieldSets } from '../utilities/common';
 import { formPropsDefaults } from '../propsDefaults';
 import { IFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
 
-export interface IFormModalProps extends ISharedComponentProps, IWrappedFormProps, IFormProps {
+export interface IFormModalProps extends ISharedComponentProps, IFormProps {
   childrenBefore?: React.ReactNode;
 }
 
-interface IPropDefaults extends IFormModalProps {
-  saveText: string;
-}
+export interface IFormModalWrappedProps extends IFormModalProps, IWrappedFormProps {}
 
 @autoBindMethods
 @observer
-class FormModal extends Component<IFormModalProps> {
+class UnwrappedFormModal extends Component<IFormModalWrappedProps> {
   private formManager: FormManager;
 
-  public static defaultProps: Partial<IFormModalProps> = {
+  public static defaultProps: Partial<IFormModalWrappedProps> = {
     ...formPropsDefaults,
   };
 
-  public get propsWithDefaults () {
-    return this.props as IPropDefaults;
-  }
-
-  public constructor (props: IFormModalProps) {
+  public constructor (props: IFormModalWrappedProps) {
     super(props);
     const { model, onSave, onCancel } = props;
 
@@ -54,7 +49,7 @@ class FormModal extends Component<IFormModalProps> {
 
   public render () {
     const { title, onCancel, defaults, model, form } = this.props
-      , { saveText } = this.propsWithDefaults;
+      , { saveText } = this.props;
 
     return (
       <Antd.Modal
@@ -87,6 +82,18 @@ class FormModal extends Component<IFormModalProps> {
   }
 }
 
-const WrappedFormModal = Antd.Form.create()(FormModal);
+const WrappedFormModal = Antd.Form.create()(UnwrappedFormModal);
 
-export default WrappedFormModal;
+@autoBindMethods
+@observer
+export class FormModal extends Component<IFormModalProps> {
+  public static defaultProps: Partial<IFormModalProps> = {
+    ...formPropsDefaults,
+  };
+
+  public render () {
+    return <WrappedFormModal {...this.props} />;
+  }
+}
+
+export default FormModal;
