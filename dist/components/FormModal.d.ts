@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { IFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
-export interface IFormModalProps extends ISharedComponentProps, IWrappedFormProps, IFormProps {
+export interface IFormModalProps extends ISharedComponentProps, IFormProps {
     childrenBefore?: React.ReactNode;
 }
-declare const WrappedFormModal: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<IFormModalProps, "title" | "children" | "isGuarded" | "model" | "fieldSets" | "onSave" | "onSuccess" | "defaults" | "classNameSuffix" | "isLoading" | "onCancel" | "saveText" | "childrenBefore">, any>;
-export default WrappedFormModal;
+export interface IFormModalWrappedProps extends IFormModalProps, IWrappedFormProps {
+}
+export declare class FormModal extends Component<IFormModalProps> {
+    static defaultProps: Partial<IFormModalProps>;
+    render(): JSX.Element;
+}
+export default FormModal;

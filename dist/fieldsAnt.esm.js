@@ -2218,26 +2218,26 @@ function (_Component) {
   }
 })), _class2$d)) || _class$g) || _class$g;
 
-var _class$h, _class2$e, _class3$3, _temp$6;
+var _class$h, _class2$e, _class3$3, _temp$6, _class4$1, _class5$1, _temp2$1;
 
-var BaseFormDrawer = autoBindMethods(_class$h = observer(_class$h = (_class2$e = (_temp$6 = _class3$3 =
+var UnwrappedFormDrawer = autoBindMethods(_class$h = observer(_class$h = (_class2$e = (_temp$6 = _class3$3 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(BaseFormDrawer, _Component);
+  _inherits(UnwrappedFormDrawer, _Component);
 
-  _createClass(BaseFormDrawer, [{
+  _createClass(UnwrappedFormDrawer, [{
     key: "fieldSets",
     get: function get$$1() {
       return fillInFieldSets(this.props.fieldSets);
     }
   }]);
 
-  function BaseFormDrawer(props) {
+  function UnwrappedFormDrawer(props) {
     var _this;
 
-    _classCallCheck(this, BaseFormDrawer);
+    _classCallCheck(this, UnwrappedFormDrawer);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(BaseFormDrawer).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(UnwrappedFormDrawer).call(this, props));
     _this.formManager = void 0;
     var form = props.form,
         isVisible = props.isVisible,
@@ -2252,7 +2252,7 @@ function (_Component) {
     return _this;
   }
 
-  _createClass(BaseFormDrawer, [{
+  _createClass(UnwrappedFormDrawer, [{
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -2302,31 +2302,44 @@ function (_Component) {
     }
   }]);
 
-  return BaseFormDrawer;
+  return UnwrappedFormDrawer;
 }(Component), _class3$3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$6), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$h) || _class$h;
 
-var FormDrawer$$1 = Form.create()(BaseFormDrawer);
-
-var _class$i, _class2$f, _class3$4, _temp$7;
-
-var FormModal = autoBindMethods(_class$i = observer(_class$i = (_class2$f = (_temp$7 = _class3$4 =
+var WrappedFormDrawer = Form.create()(UnwrappedFormDrawer);
+var FormDrawer$$1 = autoBindMethods(_class4$1 = observer(_class4$1 = (_temp2$1 = _class5$1 =
 /*#__PURE__*/
-function (_Component) {
-  _inherits(FormModal, _Component);
+function (_Component2) {
+  _inherits(FormDrawer$$1, _Component2);
 
-  _createClass(FormModal, [{
-    key: "propsWithDefaults",
-    get: function get$$1() {
-      return this.props;
+  function FormDrawer$$1() {
+    _classCallCheck(this, FormDrawer$$1);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(FormDrawer$$1).apply(this, arguments));
+  }
+
+  _createClass(FormDrawer$$1, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(WrappedFormDrawer, this.props);
     }
   }]);
 
-  function FormModal(props) {
+  return FormDrawer$$1;
+}(Component), _class5$1.defaultProps = _objectSpread({}, formPropsDefaults), _temp2$1)) || _class4$1) || _class4$1;
+
+var _class$i, _class2$f, _class3$4, _temp$7, _class4$2, _class5$2, _temp2$2;
+
+var UnwrappedFormModal = autoBindMethods(_class$i = observer(_class$i = (_class2$f = (_temp$7 = _class3$4 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(UnwrappedFormModal, _Component);
+
+  function UnwrappedFormModal(props) {
     var _this;
 
-    _classCallCheck(this, FormModal);
+    _classCallCheck(this, UnwrappedFormModal);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(FormModal).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(UnwrappedFormModal).call(this, props));
     _this.formManager = void 0;
     var model = props.model,
         onSave = props.onSave,
@@ -2339,7 +2352,7 @@ function (_Component) {
     return _this;
   }
 
-  _createClass(FormModal, [{
+  _createClass(UnwrappedFormModal, [{
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -2350,7 +2363,7 @@ function (_Component) {
           defaults = _this$props.defaults,
           model = _this$props.model,
           form = _this$props.form,
-          saveText = this.propsWithDefaults.saveText;
+          saveText = this.props.saveText;
       return React.createElement(Modal, {
         confirmLoading: this.formManager.saving,
         okText: this.formManager.saving ? 'Saving...' : saveText,
@@ -2380,10 +2393,30 @@ function (_Component) {
     }
   }]);
 
-  return FormModal;
+  return UnwrappedFormModal;
 }(Component), _class3$4.defaultProps = _objectSpread({}, formPropsDefaults), _temp$7), (_applyDecoratedDescriptor(_class2$f.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$f.prototype, "fieldSets"), _class2$f.prototype)), _class2$f)) || _class$i) || _class$i;
 
-var WrappedFormModal = Form.create()(FormModal);
+var WrappedFormModal = Form.create()(UnwrappedFormModal);
+var FormModal = autoBindMethods(_class4$2 = observer(_class4$2 = (_temp2$2 = _class5$2 =
+/*#__PURE__*/
+function (_Component2) {
+  _inherits(FormModal, _Component2);
+
+  function FormModal() {
+    _classCallCheck(this, FormModal);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(FormModal).apply(this, arguments));
+  }
+
+  _createClass(FormModal, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(WrappedFormModal, this.props);
+    }
+  }]);
+
+  return FormModal;
+}(Component), _class5$2.defaultProps = _objectSpread({}, formPropsDefaults), _temp2$2)) || _class4$2) || _class4$2;
 
 var _class$j, _class2$g, _class3$5, _temp$8;
 
@@ -2453,4 +2486,4 @@ function (_Component) {
 
 // Lower-level building blocks and helper components
 
-export { ButtonToolbar, CardField, FormField, FormFieldSet, GuardedButton, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE, NestedFieldSet$$1 as NestedFieldSet, ArrayCard, Card$1 as Card, EditableArrayCard, EditableCard, FormCard, FormDrawer$$1 as FormDrawer, WrappedFormModal as FormModal, SummaryCard, ObjectSearchCreate$$1 as ObjectSearchCreate, OptionSelect$$1 as OptionSelect, OptionSelectDisplay$$1 as OptionSelectDisplay, formatOptionSelect$$1 as formatOptionSelect, RadioGroup$$1 as RadioGroup, Rate$1 as Rate, formatRating, FormManager, asyncNoop, isPartialFieldSetSimple, isFieldSetSimple, filterInsertIf, fillInFieldConfig, fillInFieldSet, fillInFieldSets, getFieldSetFields, getUnsortedOptions, getOptions, TYPES };
+export { ButtonToolbar, CardField, FormField, FormFieldSet, GuardedButton, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE, NestedFieldSet$$1 as NestedFieldSet, ArrayCard, Card$1 as Card, EditableArrayCard, EditableCard, FormCard, FormDrawer$$1 as FormDrawer, FormModal, SummaryCard, ObjectSearchCreate$$1 as ObjectSearchCreate, OptionSelect$$1 as OptionSelect, OptionSelectDisplay$$1 as OptionSelectDisplay, formatOptionSelect$$1 as formatOptionSelect, RadioGroup$$1 as RadioGroup, Rate$1 as Rate, formatRating, FormManager, asyncNoop, isPartialFieldSetSimple, isFieldSetSimple, filterInsertIf, fillInFieldConfig, fillInFieldSet, fillInFieldSets, getFieldSetFields, getUnsortedOptions, getOptions, TYPES };
