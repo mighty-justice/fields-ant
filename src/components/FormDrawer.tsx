@@ -1,3 +1,4 @@
+// tslint:disable max-classes-per-file
 import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
