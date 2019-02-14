@@ -13,6 +13,7 @@ import {
   FormManager,
 } from '../';
 
+import { formPropsDefaults } from '../propsDefaults';
 import { IFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
 
 export interface IFormDrawerProps extends ISharedComponentProps, IWrappedFormProps, IFormProps {
@@ -24,6 +25,10 @@ export interface IFormDrawerProps extends ISharedComponentProps, IWrappedFormPro
 @observer
 class BaseFormDrawer extends Component<IFormDrawerProps> {
   private formManager: FormManager;
+
+  public static defaultProps: Partial<IFormDrawerProps> = {
+    ...formPropsDefaults,
+  };
 
   @computed
   private get fieldSets () {

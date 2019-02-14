@@ -8,6 +8,7 @@ import * as Antd from 'antd';
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import FormManager from '../utilities/FormManager';
 import { fillInFieldSets } from '../utilities/common';
+import { formPropsDefaults } from '../propsDefaults';
 import { IFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
 
 export interface IFormModalProps extends ISharedComponentProps, IWrappedFormProps, IFormProps {
@@ -24,7 +25,7 @@ class FormModal extends Component<IFormModalProps> {
   private formManager: FormManager;
 
   public static defaultProps: Partial<IFormModalProps> = {
-    saveText: 'Save',
+    ...formPropsDefaults,
   };
 
   public get propsWithDefaults () {

@@ -54,8 +54,8 @@ export interface IWrappedFormProps {
 export interface IFormProps {
   defaults?: object;
   isGuarded?: boolean;
-  onCancel?: () => void;
+  onCancel: () => void;
   onSave: (data: object) => Promise<void>;
   onSuccess: () => Promise<any>;
-  saveText?: string;
+  saveText: string;
 }

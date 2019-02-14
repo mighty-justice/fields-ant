@@ -8,7 +8,7 @@ import SmartBool from '@mighty-justice/smart-bool';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import GuardedButton from '../building-blocks/GuardedButton';
-import { asyncNoop } from '../utilities/common';
+import { formPropsDefaults } from '../propsDefaults';
 import { IFormProps } from '../props';
 
 import Card, { ICardProps } from './Card';
@@ -18,10 +18,6 @@ export interface IEditableCardProps extends ICardProps, IFormProps {
   onDelete?: (model: unknown) => Promise<any>;
 }
 
-interface IPropDefaults extends IEditableCardProps {
-  onSuccess: () => Promise<any>;
-}
-
 @autoBindMethods
 @observer
 class EditableCard extends Component<IEditableCardProps> {
@@ -29,16 +25,11 @@ class EditableCard extends Component<IEditableCardProps> {
   @observable private isEditing = new SmartBool();
 
   public static defaultProps: Partial<IEditableCardProps> = {
-    onSave: asyncNoop,
-    onSuccess: asyncNoop,
+    ...formPropsDefaults,
   };
 
-  public get propsWithDefaults () {
-    return this.props as IPropDefaults;
-  }
-
   private async handleDelete () {
-    const { model, onDelete, onSuccess } = this.propsWithDefaults;
+    const { model, onDelete, onSuccess } = this.props;
     // istanbul ignore next
     if (!onDelete) { return; }
 
@@ -49,15 +40,15 @@ class EditableCard extends Component<IEditableCardProps> {
   }
 
   private async handleSave (model: any) {
-    const { onSuccess, onSave } = this.propsWithDefaults;
+    const { onSuccess, onSave } = this.props;
 
     await onSave(model);
     await onSuccess();
   }
 
   private get deleteButton () {
-    const { isGuarded, title, onDelete, isLoading } = this.propsWithDefaults
-      , classNameSuffix = this.propsWithDefaults.classNameSuffix || kebabCase(title);
+    const { isGuarded, title, onDelete, isLoading } = this.props
+      , classNameSuffix = this.props.classNameSuffix || kebabCase(title);
 
     if (!onDelete) { return; }
 
@@ -78,8 +69,8 @@ class EditableCard extends Component<IEditableCardProps> {
   }
 
   private get editButton () {
-    const { isLoading, title, isGuarded } = this.propsWithDefaults
-      , classNameSuffix = this.propsWithDefaults.classNameSuffix || kebabCase(title);
+    const { isLoading, title, isGuarded } = this.props
+      , classNameSuffix = this.props.classNameSuffix || kebabCase(title);
 
     return (
       <GuardedButton

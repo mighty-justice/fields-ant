@@ -8,7 +8,7 @@ import SmartBool from '@mighty-justice/smart-bool';
 import * as Antd from 'antd';
 
 import GuardedButton from '../building-blocks/GuardedButton';
-import { asyncNoop } from '../utilities/common';
+import { formPropsDefaults } from '../propsDefaults';
 import { IFormProps } from '../props';
 
 import EditableCard from './EditableCard';
@@ -27,7 +27,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
   @observable private isAddingNew = new SmartBool();
 
   public static defaultProps: Partial<IEditableArrayCardProps> = {
-    onSuccess: asyncNoop,
+    ...formPropsDefaults,
   };
 
   private async handleSaveNew (model: any) {
