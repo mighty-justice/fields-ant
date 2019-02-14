@@ -3,13 +3,13 @@ import React, { Component, Fragment } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { noop } from 'lodash';
 
 import * as Antd from 'antd';
 
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import FormManager from '../utilities/FormManager';
-import { asyncNoop, fillInFieldSets } from '../utilities/common';
+import { fillInFieldSets } from '../utilities/common';
+import { formPropsDefaults } from '../propsDefaults';
 import { IFieldSet } from '../interfaces';
 import { IFormProps, IWrappedFormProps } from '../props';
 
@@ -25,8 +25,7 @@ export class UnwrappedFormCard extends Component<IFormCardWrappedProps> {
   private formManager: FormManager;
 
   public static defaultProps: Partial<IFormCardWrappedProps> = {
-    onCancel: noop,
-    onSuccess: asyncNoop,
+    ...formPropsDefaults,
   };
 
   public constructor (props: IFormCardWrappedProps) {
@@ -103,8 +102,7 @@ const WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
 @observer
 export class FormCard extends Component<IFormCardProps> {
   public static defaultProps: Partial<IFormCardWrappedProps> = {
-    onCancel: noop,
-    onSuccess: asyncNoop,
+    ...formPropsDefaults,
   };
 
   public render () {
