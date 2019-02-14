@@ -3,7 +3,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form, Select, Button, Icon, Input, Rate, Radio, DatePicker, Row, Col, Popconfirm, Divider, Card, notification, Drawer, Modal, List } from 'antd';
 import { toJS, observable, computed } from 'mobx';
-import { pick, isArray, get, sortBy, values, omit, isEmpty, isPlainObject, extend, mapValues, set, noop, pickBy, kebabCase, result } from 'lodash';
+import { pick, isArray, get, sortBy, values, omit, isEmpty, noop, isPlainObject, extend, mapValues, set, pickBy, kebabCase, result } from 'lodash';
 import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, parseAndPreserveNewlines, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
 import moment from 'moment';
 import { format } from 'date-fns';
@@ -1488,6 +1488,13 @@ function (_Component) {
   return ArrayCard;
 }(Component)) || _class$c;
 
+var formPropsDefaults = {
+  onCancel: noop,
+  onSave: asyncNoop,
+  onSuccess: asyncNoop,
+  saveText: 'Save'
+};
+
 function getFieldErrors(errors) {
   var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
   var messages = {};
@@ -1871,10 +1878,7 @@ function (_Component) {
   }]);
 
   return UnwrappedFormCard;
-}(Component), _class3.defaultProps = {
-  onCancel: noop,
-  onSuccess: asyncNoop
-}, _temp$3), (_applyDecoratedDescriptor(_class2$b.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$b.prototype, "fieldSets"), _class2$b.prototype)), _class2$b)) || _class$e) || _class$e; // istanbul ignore next
+}(Component), _class3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$3), (_applyDecoratedDescriptor(_class2$b.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$b.prototype, "fieldSets"), _class2$b.prototype)), _class2$b)) || _class$e) || _class$e; // istanbul ignore next
 
 var WrappedFormCard = Form.create()(UnwrappedFormCard);
 var FormCard = autoBindMethods(_class4 = observer(_class4 = (_temp2 = _class5 =
@@ -1896,10 +1900,7 @@ function (_Component2) {
   }]);
 
   return FormCard;
-}(Component), _class5.defaultProps = {
-  onCancel: noop,
-  onSuccess: asyncNoop
-}, _temp2)) || _class4) || _class4;
+}(Component), _class5.defaultProps = _objectSpread({}, formPropsDefaults), _temp2)) || _class4) || _class4;
 
 var _class$f, _class2$c, _descriptor$3, _descriptor2$2, _class3$1, _temp$4;
 
@@ -1934,13 +1935,13 @@ function (_Component) {
       var _handleDelete = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee() {
-        var _this$propsWithDefaul, model, onDelete, onSuccess;
+        var _this$props, model, onDelete, onSuccess;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this$propsWithDefaul = this.propsWithDefaults, model = _this$propsWithDefaul.model, onDelete = _this$propsWithDefaul.onDelete, onSuccess = _this$propsWithDefaul.onSuccess; // istanbul ignore next
+                _this$props = this.props, model = _this$props.model, onDelete = _this$props.onDelete, onSuccess = _this$props.onSuccess; // istanbul ignore next
 
                 if (onDelete) {
                   _context.next = 3;
@@ -1981,13 +1982,13 @@ function (_Component) {
       var _handleSave = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(model) {
-        var _this$propsWithDefaul2, onSuccess, onSave;
+        var _this$props2, onSuccess, onSave;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this$propsWithDefaul2 = this.propsWithDefaults, onSuccess = _this$propsWithDefaul2.onSuccess, onSave = _this$propsWithDefaul2.onSave;
+                _this$props2 = this.props, onSuccess = _this$props2.onSuccess, onSave = _this$props2.onSave;
                 _context2.next = 3;
                 return onSave(model);
 
@@ -2030,19 +2031,14 @@ function (_Component) {
       }));
     }
   }, {
-    key: "propsWithDefaults",
-    get: function get$$1() {
-      return this.props;
-    }
-  }, {
     key: "deleteButton",
     get: function get$$1() {
-      var _this$propsWithDefaul3 = this.propsWithDefaults,
-          isGuarded = _this$propsWithDefaul3.isGuarded,
-          title = _this$propsWithDefaul3.title,
-          onDelete = _this$propsWithDefaul3.onDelete,
-          isLoading = _this$propsWithDefaul3.isLoading,
-          classNameSuffix = this.propsWithDefaults.classNameSuffix || kebabCase(title);
+      var _this$props3 = this.props,
+          isGuarded = _this$props3.isGuarded,
+          title = _this$props3.title,
+          onDelete = _this$props3.onDelete,
+          isLoading = _this$props3.isLoading,
+          classNameSuffix = this.props.classNameSuffix || kebabCase(title);
 
       if (!onDelete) {
         return;
@@ -2062,11 +2058,11 @@ function (_Component) {
   }, {
     key: "editButton",
     get: function get$$1() {
-      var _this$propsWithDefaul4 = this.propsWithDefaults,
-          isLoading = _this$propsWithDefaul4.isLoading,
-          title = _this$propsWithDefaul4.title,
-          isGuarded = _this$propsWithDefaul4.isGuarded,
-          classNameSuffix = this.propsWithDefaults.classNameSuffix || kebabCase(title);
+      var _this$props4 = this.props,
+          isLoading = _this$props4.isLoading,
+          title = _this$props4.title,
+          isGuarded = _this$props4.isGuarded,
+          classNameSuffix = this.props.classNameSuffix || kebabCase(title);
       return React.createElement(GuardedButton, {
         className: "btn-edit btn-edit-".concat(classNameSuffix),
         disabled: isLoading || this.isEditing.isTrue || this.isDeleting.isTrue,
@@ -2080,10 +2076,7 @@ function (_Component) {
   }]);
 
   return EditableCard;
-}(Component), _class3$1.defaultProps = {
-  onSave: asyncNoop,
-  onSuccess: asyncNoop
-}, _temp$4), (_descriptor$3 = _applyDecoratedDescriptor(_class2$c.prototype, "isDeleting", [observable], {
+}(Component), _class3$1.defaultProps = _objectSpread({}, formPropsDefaults), _temp$4), (_descriptor$3 = _applyDecoratedDescriptor(_class2$c.prototype, "isDeleting", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -2216,9 +2209,7 @@ function (_Component) {
   }]);
 
   return EditableArrayCard;
-}(Component), _class3$2.defaultProps = {
-  onSuccess: asyncNoop
-}, _temp$5), (_descriptor$4 = _applyDecoratedDescriptor(_class2$d.prototype, "isAddingNew", [observable], {
+}(Component), _class3$2.defaultProps = _objectSpread({}, formPropsDefaults), _temp$5), (_descriptor$4 = _applyDecoratedDescriptor(_class2$d.prototype, "isAddingNew", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -2227,9 +2218,9 @@ function (_Component) {
   }
 })), _class2$d)) || _class$g) || _class$g;
 
-var _class$h, _class2$e, _temp$6;
+var _class$h, _class2$e, _class3$3, _temp$6;
 
-var BaseFormDrawer = autoBindMethods(_class$h = observer(_class$h = (_class2$e = (_temp$6 =
+var BaseFormDrawer = autoBindMethods(_class$h = observer(_class$h = (_class2$e = (_temp$6 = _class3$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(BaseFormDrawer, _Component);
@@ -2312,13 +2303,13 @@ function (_Component) {
   }]);
 
   return BaseFormDrawer;
-}(Component), _temp$6), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$h) || _class$h;
+}(Component), _class3$3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$6), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$h) || _class$h;
 
 var FormDrawer$$1 = Form.create()(BaseFormDrawer);
 
-var _class$i, _class2$f, _class3$3, _temp$7;
+var _class$i, _class2$f, _class3$4, _temp$7;
 
-var FormModal = autoBindMethods(_class$i = observer(_class$i = (_class2$f = (_temp$7 = _class3$3 =
+var FormModal = autoBindMethods(_class$i = observer(_class$i = (_class2$f = (_temp$7 = _class3$4 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormModal, _Component);
@@ -2390,15 +2381,13 @@ function (_Component) {
   }]);
 
   return FormModal;
-}(Component), _class3$3.defaultProps = {
-  saveText: 'Save'
-}, _temp$7), (_applyDecoratedDescriptor(_class2$f.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$f.prototype, "fieldSets"), _class2$f.prototype)), _class2$f)) || _class$i) || _class$i;
+}(Component), _class3$4.defaultProps = _objectSpread({}, formPropsDefaults), _temp$7), (_applyDecoratedDescriptor(_class2$f.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$f.prototype, "fieldSets"), _class2$f.prototype)), _class2$f)) || _class$i) || _class$i;
 
 var WrappedFormModal = Form.create()(FormModal);
 
-var _class$j, _class2$g, _class3$4, _temp$8;
+var _class$j, _class2$g, _class3$5, _temp$8;
 
-var SummaryCard = autoBindMethods(_class$j = observer(_class$j = (_class2$g = (_temp$8 = _class3$4 =
+var SummaryCard = autoBindMethods(_class$j = observer(_class$j = (_class2$g = (_temp$8 = _class3$5 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(SummaryCard, _Component);
@@ -2458,7 +2447,7 @@ function (_Component) {
   }]);
 
   return SummaryCard;
-}(Component), _class3$4.defaultProps = {
+}(Component), _class3$5.defaultProps = {
   column: 4
 }, _temp$8), (_applyDecoratedDescriptor(_class2$g.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$g.prototype, "fieldSets"), _class2$g.prototype)), _class2$g)) || _class$j) || _class$j;
 

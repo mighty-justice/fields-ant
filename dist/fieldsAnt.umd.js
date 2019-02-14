@@ -1487,6 +1487,13 @@
     return ArrayCard;
   }(React.Component)) || _class$c;
 
+  var formPropsDefaults = {
+    onCancel: lodash.noop,
+    onSave: asyncNoop,
+    onSuccess: asyncNoop,
+    saveText: 'Save'
+  };
+
   function getFieldErrors(errors) {
     var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
     var messages = {};
@@ -1870,10 +1877,7 @@
     }]);
 
     return UnwrappedFormCard;
-  }(React.Component), _class3.defaultProps = {
-    onCancel: lodash.noop,
-    onSuccess: asyncNoop
-  }, _temp$3), (_applyDecoratedDescriptor(_class2$b.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$b.prototype, "fieldSets"), _class2$b.prototype)), _class2$b)) || _class$e) || _class$e; // istanbul ignore next
+  }(React.Component), _class3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$3), (_applyDecoratedDescriptor(_class2$b.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$b.prototype, "fieldSets"), _class2$b.prototype)), _class2$b)) || _class$e) || _class$e; // istanbul ignore next
 
   var WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
   var FormCard = autoBindMethods(_class4 = mobxReact.observer(_class4 = (_temp2 = _class5 =
@@ -1895,10 +1899,7 @@
     }]);
 
     return FormCard;
-  }(React.Component), _class5.defaultProps = {
-    onCancel: lodash.noop,
-    onSuccess: asyncNoop
-  }, _temp2)) || _class4) || _class4;
+  }(React.Component), _class5.defaultProps = _objectSpread({}, formPropsDefaults), _temp2)) || _class4) || _class4;
 
   var _class$f, _class2$c, _descriptor$3, _descriptor2$2, _class3$1, _temp$4;
 
@@ -1933,13 +1934,13 @@
         var _handleDelete = _asyncToGenerator(
         /*#__PURE__*/
         regeneratorRuntime.mark(function _callee() {
-          var _this$propsWithDefaul, model, onDelete, onSuccess;
+          var _this$props, model, onDelete, onSuccess;
 
           return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  _this$propsWithDefaul = this.propsWithDefaults, model = _this$propsWithDefaul.model, onDelete = _this$propsWithDefaul.onDelete, onSuccess = _this$propsWithDefaul.onSuccess; // istanbul ignore next
+                  _this$props = this.props, model = _this$props.model, onDelete = _this$props.onDelete, onSuccess = _this$props.onSuccess; // istanbul ignore next
 
                   if (onDelete) {
                     _context.next = 3;
@@ -1980,13 +1981,13 @@
         var _handleSave = _asyncToGenerator(
         /*#__PURE__*/
         regeneratorRuntime.mark(function _callee2(model) {
-          var _this$propsWithDefaul2, onSuccess, onSave;
+          var _this$props2, onSuccess, onSave;
 
           return regeneratorRuntime.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
-                  _this$propsWithDefaul2 = this.propsWithDefaults, onSuccess = _this$propsWithDefaul2.onSuccess, onSave = _this$propsWithDefaul2.onSave;
+                  _this$props2 = this.props, onSuccess = _this$props2.onSuccess, onSave = _this$props2.onSave;
                   _context2.next = 3;
                   return onSave(model);
 
@@ -2029,19 +2030,14 @@
         }));
       }
     }, {
-      key: "propsWithDefaults",
-      get: function get() {
-        return this.props;
-      }
-    }, {
       key: "deleteButton",
       get: function get() {
-        var _this$propsWithDefaul3 = this.propsWithDefaults,
-            isGuarded = _this$propsWithDefaul3.isGuarded,
-            title = _this$propsWithDefaul3.title,
-            onDelete = _this$propsWithDefaul3.onDelete,
-            isLoading = _this$propsWithDefaul3.isLoading,
-            classNameSuffix = this.propsWithDefaults.classNameSuffix || lodash.kebabCase(title);
+        var _this$props3 = this.props,
+            isGuarded = _this$props3.isGuarded,
+            title = _this$props3.title,
+            onDelete = _this$props3.onDelete,
+            isLoading = _this$props3.isLoading,
+            classNameSuffix = this.props.classNameSuffix || lodash.kebabCase(title);
 
         if (!onDelete) {
           return;
@@ -2061,11 +2057,11 @@
     }, {
       key: "editButton",
       get: function get() {
-        var _this$propsWithDefaul4 = this.propsWithDefaults,
-            isLoading = _this$propsWithDefaul4.isLoading,
-            title = _this$propsWithDefaul4.title,
-            isGuarded = _this$propsWithDefaul4.isGuarded,
-            classNameSuffix = this.propsWithDefaults.classNameSuffix || lodash.kebabCase(title);
+        var _this$props4 = this.props,
+            isLoading = _this$props4.isLoading,
+            title = _this$props4.title,
+            isGuarded = _this$props4.isGuarded,
+            classNameSuffix = this.props.classNameSuffix || lodash.kebabCase(title);
         return React__default.createElement(GuardedButton, {
           className: "btn-edit btn-edit-".concat(classNameSuffix),
           disabled: isLoading || this.isEditing.isTrue || this.isDeleting.isTrue,
@@ -2079,10 +2075,7 @@
     }]);
 
     return EditableCard;
-  }(React.Component), _class3$1.defaultProps = {
-    onSave: asyncNoop,
-    onSuccess: asyncNoop
-  }, _temp$4), (_descriptor$3 = _applyDecoratedDescriptor(_class2$c.prototype, "isDeleting", [mobx.observable], {
+  }(React.Component), _class3$1.defaultProps = _objectSpread({}, formPropsDefaults), _temp$4), (_descriptor$3 = _applyDecoratedDescriptor(_class2$c.prototype, "isDeleting", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -2215,9 +2208,7 @@
     }]);
 
     return EditableArrayCard;
-  }(React.Component), _class3$2.defaultProps = {
-    onSuccess: asyncNoop
-  }, _temp$5), (_descriptor$4 = _applyDecoratedDescriptor(_class2$d.prototype, "isAddingNew", [mobx.observable], {
+  }(React.Component), _class3$2.defaultProps = _objectSpread({}, formPropsDefaults), _temp$5), (_descriptor$4 = _applyDecoratedDescriptor(_class2$d.prototype, "isAddingNew", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -2226,9 +2217,9 @@
     }
   })), _class2$d)) || _class$g) || _class$g;
 
-  var _class$h, _class2$e, _temp$6;
+  var _class$h, _class2$e, _class3$3, _temp$6;
 
-  var BaseFormDrawer = autoBindMethods(_class$h = mobxReact.observer(_class$h = (_class2$e = (_temp$6 =
+  var BaseFormDrawer = autoBindMethods(_class$h = mobxReact.observer(_class$h = (_class2$e = (_temp$6 = _class3$3 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(BaseFormDrawer, _Component);
@@ -2311,13 +2302,13 @@
     }]);
 
     return BaseFormDrawer;
-  }(React.Component), _temp$6), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$h) || _class$h;
+  }(React.Component), _class3$3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$6), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$h) || _class$h;
 
   var FormDrawer$$1 = Antd.Form.create()(BaseFormDrawer);
 
-  var _class$i, _class2$f, _class3$3, _temp$7;
+  var _class$i, _class2$f, _class3$4, _temp$7;
 
-  var FormModal = autoBindMethods(_class$i = mobxReact.observer(_class$i = (_class2$f = (_temp$7 = _class3$3 =
+  var FormModal = autoBindMethods(_class$i = mobxReact.observer(_class$i = (_class2$f = (_temp$7 = _class3$4 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(FormModal, _Component);
@@ -2389,15 +2380,13 @@
     }]);
 
     return FormModal;
-  }(React.Component), _class3$3.defaultProps = {
-    saveText: 'Save'
-  }, _temp$7), (_applyDecoratedDescriptor(_class2$f.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$f.prototype, "fieldSets"), _class2$f.prototype)), _class2$f)) || _class$i) || _class$i;
+  }(React.Component), _class3$4.defaultProps = _objectSpread({}, formPropsDefaults), _temp$7), (_applyDecoratedDescriptor(_class2$f.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$f.prototype, "fieldSets"), _class2$f.prototype)), _class2$f)) || _class$i) || _class$i;
 
   var WrappedFormModal = Antd.Form.create()(FormModal);
 
-  var _class$j, _class2$g, _class3$4, _temp$8;
+  var _class$j, _class2$g, _class3$5, _temp$8;
 
-  var SummaryCard = autoBindMethods(_class$j = mobxReact.observer(_class$j = (_class2$g = (_temp$8 = _class3$4 =
+  var SummaryCard = autoBindMethods(_class$j = mobxReact.observer(_class$j = (_class2$g = (_temp$8 = _class3$5 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(SummaryCard, _Component);
@@ -2457,7 +2446,7 @@
     }]);
 
     return SummaryCard;
-  }(React.Component), _class3$4.defaultProps = {
+  }(React.Component), _class3$5.defaultProps = {
     column: 4
   }, _temp$8), (_applyDecoratedDescriptor(_class2$g.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$g.prototype, "fieldSets"), _class2$g.prototype)), _class2$g)) || _class$j) || _class$j;
 
