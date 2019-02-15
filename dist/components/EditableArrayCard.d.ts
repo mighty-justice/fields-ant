@@ -1,7 +1,7 @@
 import { Component } from 'react';
-import { IFormProps } from '../props';
+import { ISharedFormProps } from '../props';
 import { IArrayCardProps } from './ArrayCard';
-export interface IEditableArrayCardProps extends IArrayCardProps, IFormProps {
+export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormProps {
     defaults?: object;
     onCreate: (model: unknown) => Promise<any>;
     onDelete?: (model: unknown) => Promise<any>;

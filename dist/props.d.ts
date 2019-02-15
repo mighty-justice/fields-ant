@@ -12,6 +12,7 @@ export { IEditableCardProps } from './components/EditableCard';
 export { IFormCardProps } from './components/FormCard';
 export { IFormDrawerProps } from './components/FormDrawer';
 export { IFormModalProps } from './components/FormModal';
+export { IFormProps } from './components/Form';
 export { ISummaryCardProps } from './components/SummaryCard';
 export { IObjectSearchCreateProps } from './inputs/ObjectSearchCreate';
 export { IObjectSearchProps } from './inputs/ObjectSearch';
@@ -33,7 +34,7 @@ export interface ISharedComponentProps {
 export interface IWrappedFormProps {
     form: IForm;
 }
-export interface IFormProps {
+export interface ISharedFormProps {
     defaults?: object;
     isGuarded?: boolean;
     onCancel: () => void;

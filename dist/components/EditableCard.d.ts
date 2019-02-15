@@ -1,7 +1,7 @@
 import { Component } from 'react';
-import { IFormProps } from '../props';
+import { ISharedFormProps } from '../props';
 import { ICardProps } from './Card';
-export interface IEditableCardProps extends ICardProps, IFormProps {
+export interface IEditableCardProps extends ICardProps, ISharedFormProps {
     onDelete?: (model: unknown) => Promise<any>;
 }
 declare class EditableCard extends Component<IEditableCardProps> {

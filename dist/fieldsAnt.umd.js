@@ -1798,53 +1798,72 @@
     }
   })), _class2$a)) || _class$d;
 
-  var _class$e, _class2$b, _class3, _temp$3, _class4, _class5, _temp2;
-  var UnwrappedFormCard = autoBindMethods(_class$e = mobxReact.observer(_class$e = (_class2$b = (_temp$3 = _class3 =
+  var _class$e, _class2$b, _temp$3, _class4, _class5, _temp2;
+  var UnwrappedForm = autoBindMethods(_class$e = mobxReact.observer(_class$e = (_class2$b = (_temp$3 =
   /*#__PURE__*/
   function (_Component) {
-    _inherits(UnwrappedFormCard, _Component);
+    _inherits(UnwrappedForm, _Component);
 
-    function UnwrappedFormCard(props) {
+    function UnwrappedForm(props) {
       var _this;
 
-      _classCallCheck(this, UnwrappedFormCard);
+      _classCallCheck(this, UnwrappedForm);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(UnwrappedFormCard).call(this, props));
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(UnwrappedForm).call(this, props));
       _this.formManager = void 0;
-      var _ref = props,
-          model = _ref.model,
-          onSave = _ref.onSave,
-          onCancel = _ref.onCancel,
-          form = _ref.form;
+      var form = props.form,
+          model = props.model,
+          onCancel = props.onCancel,
+          onSave = props.onSave,
+          setRefFormManager = props.setRefFormManager;
       _this.formManager = new FormManager(form, _this.fieldSets, {
         model: model,
         onSave: onSave,
         onSuccess: onCancel
       });
+
+      if (setRefFormManager) {
+        setRefFormManager(_this.formManager);
+      }
+
       return _this;
     }
 
-    _createClass(UnwrappedFormCard, [{
+    _createClass(UnwrappedForm, [{
+      key: "renderControls",
+      value: function renderControls() {
+        var _this$props = this.props,
+            onCancel = _this$props.onCancel,
+            saveText = _this$props.saveText;
+        return React__default.createElement(React__default.Fragment, null, React__default.createElement(Antd.Divider, null), React__default.createElement(ButtonToolbar, {
+          align: "right"
+        }, React__default.createElement(Antd.Button, {
+          disabled: this.formManager.saving,
+          onClick: onCancel,
+          size: "large"
+        }, "Cancel"), React__default.createElement(Antd.Button, {
+          htmlType: "submit",
+          loading: this.formManager.saving,
+          size: "large",
+          type: "primary"
+        }, saveText)));
+      }
+    }, {
       key: "render",
       value: function render() {
         var _this2 = this;
 
-        var _this$props = this.props,
-            isLoading = _this$props.isLoading,
-            title = _this$props.title,
-            onCancel = _this$props.onCancel,
-            defaults = _this$props.defaults,
-            model = _this$props.model,
-            form = _this$props.form,
-            renderTopRight = _this$props.renderTopRight;
-        return React__default.createElement(Antd.Card, {
-          loading: isLoading,
-          title: title,
-          extra: renderTopRight && renderTopRight()
-        }, React__default.createElement(Antd.Form, {
+        var _this$props2 = this.props,
+            defaults = _this$props2.defaults,
+            form = _this$props2.form,
+            model = _this$props2.model,
+            showControls = _this$props2.showControls,
+            title = _this$props2.title;
+        return React__default.createElement(Antd.Form, {
+          layout: "vertical",
           onSubmit: this.formManager.onSave,
-          className: "notes-form"
-        }, this.fieldSets.map(function (fieldSet, idx) {
+          className: "mfa-form"
+        }, title && React__default.createElement("h2", null, title), this.fieldSets.map(function (fieldSet, idx) {
           return React__default.createElement(React.Fragment, {
             key: idx
           }, idx > 0 && React__default.createElement(Antd.Divider, {
@@ -1856,18 +1875,7 @@
             formManager: _this2.formManager,
             model: model
           })));
-        }), this.props.children, React__default.createElement("div", {
-          className: "button-toolbar"
-        }, React__default.createElement(Antd.Button, {
-          htmlType: "submit",
-          loading: this.formManager.saving,
-          size: "large",
-          type: "primary"
-        }, "Save"), React__default.createElement(Antd.Button, {
-          disabled: this.formManager.saving,
-          onClick: onCancel,
-          size: "large"
-        }, "Cancel"))));
+        }), this.props.children, showControls && this.renderControls());
       }
     }, {
       key: "fieldSets",
@@ -1876,14 +1884,38 @@
       }
     }]);
 
-    return UnwrappedFormCard;
-  }(React.Component), _class3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$3), (_applyDecoratedDescriptor(_class2$b.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$b.prototype, "fieldSets"), _class2$b.prototype)), _class2$b)) || _class$e) || _class$e; // istanbul ignore next
+    return UnwrappedForm;
+  }(React.Component), _temp$3), (_applyDecoratedDescriptor(_class2$b.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$b.prototype, "fieldSets"), _class2$b.prototype)), _class2$b)) || _class$e) || _class$e; // istanbul ignore next
 
-  var WrappedFormCard = Antd.Form.create()(UnwrappedFormCard);
-  var FormCard = autoBindMethods(_class4 = mobxReact.observer(_class4 = (_temp2 = _class5 =
+  var WrappedForm = Antd.Form.create()(UnwrappedForm);
+  var Form = autoBindMethods(_class4 = mobxReact.observer(_class4 = (_temp2 = _class5 =
   /*#__PURE__*/
   function (_Component2) {
-    _inherits(FormCard, _Component2);
+    _inherits(Form, _Component2);
+
+    function Form() {
+      _classCallCheck(this, Form);
+
+      return _possibleConstructorReturn(this, _getPrototypeOf(Form).apply(this, arguments));
+    }
+
+    _createClass(Form, [{
+      key: "render",
+      value: function render() {
+        return React__default.createElement(WrappedForm, this.props);
+      }
+    }]);
+
+    return Form;
+  }(React.Component), _class5.defaultProps = _objectSpread({}, formPropsDefaults, {
+    showControls: true
+  }), _temp2)) || _class4) || _class4;
+
+  var _class$f, _class2$c, _temp$4;
+  var FormCard = autoBindMethods(_class$f = mobxReact.observer(_class$f = (_temp$4 = _class2$c =
+  /*#__PURE__*/
+  function (_Component) {
+    _inherits(FormCard, _Component);
 
     function FormCard() {
       _classCallCheck(this, FormCard);
@@ -1894,16 +1926,25 @@
     _createClass(FormCard, [{
       key: "render",
       value: function render() {
-        return React__default.createElement(WrappedFormCard, this.props);
+        var _this$props = this.props,
+            isLoading = _this$props.isLoading,
+            title = _this$props.title,
+            renderTopRight = _this$props.renderTopRight,
+            HANDLED_PROPS = ['title', 'renderTopRight'];
+        return React__default.createElement(Antd.Card, {
+          loading: isLoading,
+          title: title,
+          extra: renderTopRight && renderTopRight()
+        }, React__default.createElement(Form, lodash.omit(this.props, HANDLED_PROPS)));
       }
     }]);
 
     return FormCard;
-  }(React.Component), _class5.defaultProps = _objectSpread({}, formPropsDefaults), _temp2)) || _class4) || _class4;
+  }(React.Component), _class2$c.defaultProps = _objectSpread({}, formPropsDefaults), _temp$4)) || _class$f) || _class$f;
 
-  var _class$f, _class2$c, _descriptor$3, _descriptor2$2, _class3$1, _temp$4;
+  var _class$g, _class2$d, _descriptor$3, _descriptor2$2, _class3, _temp$5;
 
-  var EditableCard = autoBindMethods(_class$f = mobxReact.observer(_class$f = (_class2$c = (_temp$4 = _class3$1 =
+  var EditableCard = autoBindMethods(_class$g = mobxReact.observer(_class$g = (_class2$d = (_temp$5 = _class3 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(EditableCard, _Component);
@@ -2075,25 +2116,25 @@
     }]);
 
     return EditableCard;
-  }(React.Component), _class3$1.defaultProps = _objectSpread({}, formPropsDefaults), _temp$4), (_descriptor$3 = _applyDecoratedDescriptor(_class2$c.prototype, "isDeleting", [mobx.observable], {
+  }(React.Component), _class3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$5), (_descriptor$3 = _applyDecoratedDescriptor(_class2$d.prototype, "isDeleting", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return new SmartBool();
     }
-  }), _descriptor2$2 = _applyDecoratedDescriptor(_class2$c.prototype, "isEditing", [mobx.observable], {
+  }), _descriptor2$2 = _applyDecoratedDescriptor(_class2$d.prototype, "isEditing", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return new SmartBool();
     }
-  })), _class2$c)) || _class$f) || _class$f;
+  })), _class2$d)) || _class$g) || _class$g;
 
-  var _class$g, _class2$d, _descriptor$4, _class3$2, _temp$5;
+  var _class$h, _class2$e, _descriptor$4, _class3$1, _temp$6;
 
-  var EditableArrayCard = autoBindMethods(_class$g = mobxReact.observer(_class$g = (_class2$d = (_temp$5 = _class3$2 =
+  var EditableArrayCard = autoBindMethods(_class$h = mobxReact.observer(_class$h = (_class2$e = (_temp$6 = _class3$1 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(EditableArrayCard, _Component);
@@ -2208,218 +2249,142 @@
     }]);
 
     return EditableArrayCard;
-  }(React.Component), _class3$2.defaultProps = _objectSpread({}, formPropsDefaults), _temp$5), (_descriptor$4 = _applyDecoratedDescriptor(_class2$d.prototype, "isAddingNew", [mobx.observable], {
+  }(React.Component), _class3$1.defaultProps = _objectSpread({}, formPropsDefaults), _temp$6), (_descriptor$4 = _applyDecoratedDescriptor(_class2$e.prototype, "isAddingNew", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return new SmartBool();
     }
-  })), _class2$d)) || _class$g) || _class$g;
+  })), _class2$e)) || _class$h) || _class$h;
 
-  var _class$h, _class2$e, _class3$3, _temp$6, _class4$1, _class5$1, _temp2$1;
+  var _class$i, _class2$f, _temp$7;
 
-  var UnwrappedFormDrawer = autoBindMethods(_class$h = mobxReact.observer(_class$h = (_class2$e = (_temp$6 = _class3$3 =
+  var FormDrawer = autoBindMethods(_class$i = mobxReact.observer(_class$i = (_temp$7 = _class2$f =
   /*#__PURE__*/
   function (_Component) {
-    _inherits(UnwrappedFormDrawer, _Component);
+    _inherits(FormDrawer, _Component);
 
-    _createClass(UnwrappedFormDrawer, [{
-      key: "fieldSets",
-      get: function get() {
-        return fillInFieldSets(this.props.fieldSets);
-      }
-    }]);
+    function FormDrawer() {
+      _classCallCheck(this, FormDrawer);
 
-    function UnwrappedFormDrawer(props) {
-      var _this;
-
-      _classCallCheck(this, UnwrappedFormDrawer);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(UnwrappedFormDrawer).call(this, props));
-      _this.formManager = void 0;
-      var form = props.form,
-          isVisible = props.isVisible,
-          model = props.model,
-          onSave = props.onSave,
-          onSuccess = props.onSuccess;
-      _this.formManager = new FormManager(form, _this.fieldSets, {
-        model: model,
-        onSave: onSave,
-        onSuccess: onSuccess || isVisible.setFalse
-      });
-      return _this;
+      return _possibleConstructorReturn(this, _getPrototypeOf(FormDrawer).apply(this, arguments));
     }
 
-    _createClass(UnwrappedFormDrawer, [{
+    _createClass(FormDrawer, [{
+      key: "onCancel",
+      value: function onCancel() {
+        var _this$props = this.props,
+            onCancel = _this$props.onCancel,
+            isVisible = _this$props.isVisible;
+        onCancel();
+        isVisible.setFalse();
+      }
+    }, {
       key: "render",
       value: function render() {
-        var _this2 = this;
-
-        var _this$props = this.props,
-            form = _this$props.form,
-            isVisible = _this$props.isVisible,
-            model = _this$props.model,
-            title = _this$props.title,
-            width = _this$props.width,
-            defaults = _this$props.defaults;
+        var _this$props2 = this.props,
+            isVisible = _this$props2.isVisible,
+            title = _this$props2.title,
+            width = _this$props2.width,
+            HANDLED_PROPS = ['title', 'isVisible'];
         return React__default.createElement(Antd.Drawer, {
           className: "mfa-form-drawer",
           closable: true,
           destroyOnClose: true,
           maskClosable: false,
-          onClose: isVisible.setFalse,
+          onClose: this.onCancel,
           placement: "right",
           title: title,
           visible: isVisible.isTrue,
           width: width
-        }, React__default.createElement(Antd.Form, {
-          layout: "vertical",
-          onSubmit: this.formManager.onSave
-        }, this.fieldSets.map(function (fieldSet, idx) {
-          return React__default.createElement("div", {
-            key: idx
-          }, React__default.createElement(FormFieldSet, {
-            defaults: defaults,
-            fieldSet: fieldSet,
-            form: form,
-            formManager: _this2.formManager,
-            model: model
-          }));
-        }), React__default.createElement(Antd.Divider, null), React__default.createElement(ButtonToolbar, {
-          align: "right"
-        }, React__default.createElement(Antd.Button, {
-          disabled: this.formManager.saving,
-          onClick: isVisible.setFalse,
-          size: "large"
-        }, "Cancel"), React__default.createElement(Antd.Button, {
-          htmlType: "submit",
-          loading: this.formManager.saving,
-          size: "large",
-          type: "primary"
-        }, "Submit"))));
+        }, React__default.createElement(Form, _extends({}, lodash.omit(this.props, HANDLED_PROPS), {
+          onCancel: this.onCancel
+        })));
       }
     }]);
 
-    return UnwrappedFormDrawer;
-  }(React.Component), _class3$3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$6), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$h) || _class$h;
+    return FormDrawer;
+  }(React.Component), _class2$f.defaultProps = _objectSpread({}, formPropsDefaults), _temp$7)) || _class$i) || _class$i;
 
-  var WrappedFormDrawer = Antd.Form.create()(UnwrappedFormDrawer);
-  var FormDrawer$$1 = autoBindMethods(_class4$1 = mobxReact.observer(_class4$1 = (_temp2$1 = _class5$1 =
-  /*#__PURE__*/
-  function (_Component2) {
-    _inherits(FormDrawer$$1, _Component2);
+  var _class$j, _class2$g, _descriptor$5, _class3$2, _temp$8;
 
-    function FormDrawer$$1() {
-      _classCallCheck(this, FormDrawer$$1);
-
-      return _possibleConstructorReturn(this, _getPrototypeOf(FormDrawer$$1).apply(this, arguments));
-    }
-
-    _createClass(FormDrawer$$1, [{
-      key: "render",
-      value: function render() {
-        return React__default.createElement(WrappedFormDrawer, this.props);
-      }
-    }]);
-
-    return FormDrawer$$1;
-  }(React.Component), _class5$1.defaultProps = _objectSpread({}, formPropsDefaults), _temp2$1)) || _class4$1) || _class4$1;
-
-  var _class$i, _class2$f, _class3$4, _temp$7, _class4$2, _class5$2, _temp2$2;
-
-  var UnwrappedFormModal = autoBindMethods(_class$i = mobxReact.observer(_class$i = (_class2$f = (_temp$7 = _class3$4 =
+  var FormModal = autoBindMethods(_class$j = mobxReact.observer(_class$j = (_class2$g = (_temp$8 = _class3$2 =
   /*#__PURE__*/
   function (_Component) {
-    _inherits(UnwrappedFormModal, _Component);
+    _inherits(FormModal, _Component);
 
-    function UnwrappedFormModal(props) {
+    function FormModal() {
+      var _getPrototypeOf2;
+
       var _this;
 
-      _classCallCheck(this, UnwrappedFormModal);
+      _classCallCheck(this, FormModal);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(UnwrappedFormModal).call(this, props));
-      _this.formManager = void 0;
-      var model = props.model,
-          onSave = props.onSave,
-          onCancel = props.onCancel;
-      _this.formManager = new FormManager(props.form, _this.fieldSets, {
-        model: model,
-        onSave: onSave,
-        onSuccess: onCancel
-      });
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(FormModal)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+      _initializerDefineProperty(_this, "formManager", _descriptor$5, _assertThisInitialized(_assertThisInitialized(_this)));
+
       return _this;
     }
 
-    _createClass(UnwrappedFormModal, [{
+    _createClass(FormModal, [{
+      key: "setRefFormManager",
+      value: function setRefFormManager(formManager) {
+        this.formManager = formManager;
+      }
+    }, {
       key: "render",
       value: function render() {
-        var _this2 = this;
-
         var _this$props = this.props,
             title = _this$props.title,
             onCancel = _this$props.onCancel,
-            defaults = _this$props.defaults,
-            model = _this$props.model,
-            form = _this$props.form,
-            saveText = this.props.saveText;
-        return React__default.createElement(Antd.Modal, {
-          confirmLoading: this.formManager.saving,
-          okText: this.formManager.saving ? 'Saving...' : saveText,
+            HANDLED_PROPS = ['title', 'children', 'childrenBefore'];
+        return React__default.createElement(Antd.Modal, _extends({
           onCancel: onCancel,
-          onOk: this.formManager.onSave,
           title: title,
           visible: true
-        }, React__default.createElement(Antd.Form, {
-          onSubmit: this.formManager.onSave,
-          className: "notes-form"
-        }, this.props.childrenBefore, this.fieldSets.map(function (fieldSet, idx) {
-          return React__default.createElement("div", {
-            key: idx
-          }, React__default.createElement(FormFieldSet, {
-            defaults: defaults,
-            fieldSet: fieldSet,
-            form: form,
-            formManager: _this2.formManager,
-            model: model
-          }));
-        }), this.props.children));
+        }, this.modalProps), this.props.childrenBefore, React__default.createElement(Form, _extends({}, lodash.omit(this.props, HANDLED_PROPS), {
+          setRefFormManager: this.setRefFormManager,
+          showControls: false
+        })), this.props.children);
       }
     }, {
-      key: "fieldSets",
+      key: "modalProps",
       get: function get() {
-        return fillInFieldSets(this.props.fieldSets);
-      }
-    }]);
+        var saveText = this.props.saveText;
 
-    return UnwrappedFormModal;
-  }(React.Component), _class3$4.defaultProps = _objectSpread({}, formPropsDefaults), _temp$7), (_applyDecoratedDescriptor(_class2$f.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$f.prototype, "fieldSets"), _class2$f.prototype)), _class2$f)) || _class$i) || _class$i;
+        if (!this.formManager) {
+          return {
+            confirmLoading: true,
+            okText: saveText,
+            onOk: lodash.noop
+          };
+        }
 
-  var WrappedFormModal = Antd.Form.create()(UnwrappedFormModal);
-  var FormModal = autoBindMethods(_class4$2 = mobxReact.observer(_class4$2 = (_temp2$2 = _class5$2 =
-  /*#__PURE__*/
-  function (_Component2) {
-    _inherits(FormModal, _Component2);
-
-    function FormModal() {
-      _classCallCheck(this, FormModal);
-
-      return _possibleConstructorReturn(this, _getPrototypeOf(FormModal).apply(this, arguments));
-    }
-
-    _createClass(FormModal, [{
-      key: "render",
-      value: function render() {
-        return React__default.createElement(WrappedFormModal, this.props);
+        return {
+          confirmLoading: this.formManager.saving,
+          okText: this.formManager.saving ? 'Saving...' : saveText,
+          onOk: this.formManager.onSave
+        };
       }
     }]);
 
     return FormModal;
-  }(React.Component), _class5$2.defaultProps = _objectSpread({}, formPropsDefaults), _temp2$2)) || _class4$2) || _class4$2;
+  }(React.Component), _class3$2.defaultProps = _objectSpread({}, formPropsDefaults), _temp$8), (_descriptor$5 = _applyDecoratedDescriptor(_class2$g.prototype, "formManager", [mobx.observable], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  })), _class2$g)) || _class$j) || _class$j;
 
-  var _class$j, _class2$g, _class3$5, _temp$8;
+  var _class$k, _class2$h, _class3$3, _temp$9;
 
-  var SummaryCard = autoBindMethods(_class$j = mobxReact.observer(_class$j = (_class2$g = (_temp$8 = _class3$5 =
+  var SummaryCard = autoBindMethods(_class$k = mobxReact.observer(_class$k = (_class2$h = (_temp$9 = _class3$3 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(SummaryCard, _Component);
@@ -2479,9 +2444,9 @@
     }]);
 
     return SummaryCard;
-  }(React.Component), _class3$5.defaultProps = {
+  }(React.Component), _class3$3.defaultProps = {
     column: 4
-  }, _temp$8), (_applyDecoratedDescriptor(_class2$g.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$g.prototype, "fieldSets"), _class2$g.prototype)), _class2$g)) || _class$j) || _class$j;
+  }, _temp$9), (_applyDecoratedDescriptor(_class2$h.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$h.prototype, "fieldSets"), _class2$h.prototype)), _class2$h)) || _class$k) || _class$k;
 
   // Lower-level building blocks and helper components
 
@@ -2500,8 +2465,9 @@
   exports.Card = Card;
   exports.EditableArrayCard = EditableArrayCard;
   exports.EditableCard = EditableCard;
+  exports.Form = Form;
   exports.FormCard = FormCard;
-  exports.FormDrawer = FormDrawer$$1;
+  exports.FormDrawer = FormDrawer;
   exports.FormModal = FormModal;
   exports.SummaryCard = SummaryCard;
   exports.ObjectSearchCreate = ObjectSearchCreate$$1;

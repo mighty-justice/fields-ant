@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { IFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
-export interface IFormModalProps extends ISharedComponentProps, IFormProps {
+import { ISharedFormProps, ISharedComponentProps } from '../props';
+export interface IFormModalProps extends ISharedComponentProps, ISharedFormProps {
     childrenBefore?: React.ReactNode;
 }
-export interface IFormModalWrappedProps extends IFormModalProps, IWrappedFormProps {
-}
-export declare class FormModal extends Component<IFormModalProps> {
+declare class FormModal extends Component<IFormModalProps> {
+    private formManager?;
     static defaultProps: Partial<IFormModalProps>;
+    private readonly modalProps;
+    private setRefFormManager;
     render(): JSX.Element;
 }
 export default FormModal;
