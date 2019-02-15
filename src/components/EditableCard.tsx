@@ -9,12 +9,12 @@ import SmartBool from '@mighty-justice/smart-bool';
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import GuardedButton from '../building-blocks/GuardedButton';
 import { formPropsDefaults } from '../propsDefaults';
-import { IFormProps } from '../props';
+import { ISharedFormProps } from '../props';
 
 import Card, { ICardProps } from './Card';
 import FormCard from './FormCard';
 
-export interface IEditableCardProps extends ICardProps, IFormProps {
+export interface IEditableCardProps extends ICardProps, ISharedFormProps {
   onDelete?: (model: unknown) => Promise<any>;
 }
 

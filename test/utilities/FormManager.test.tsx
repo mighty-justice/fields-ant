@@ -14,7 +14,7 @@ async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
   };
 
   const tester = await new Tester(FormCard, { props }).mount();
-  return tester.find('UnwrappedFormCard').instance().formManager;
+  return tester.find('UnwrappedForm').instance().formManager;
 }
 
 describe('FormManager', () => {

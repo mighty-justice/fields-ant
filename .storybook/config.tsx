@@ -8,33 +8,54 @@ import { withInfo } from '@storybook/addon-info';
 import 'antd/dist/antd.css';
 import './stories.css';
 
-const PropsTable = (props: any) => (
-  <Table
-    bordered
-    columns={[
-      {
-        dataIndex: 'property',
-        sorter: (a: any, b: any) => (a.property).localeCompare(b.property),
-        title: 'Prop',
-      },
-      {
-        dataIndex: 'propType.name',
-        sorter: (a: any, b: any) => (a.propType.name).localeCompare(b.propType.name),
-        title: 'Type',
-      },
-      {
-        dataIndex: 'required',
-        defaultSortOrder: 'descend' as 'descend',
-        render: (value: any) => value ? <Tag color='red'>Yes</Tag> : <Tag>No</Tag>,
-        sorter: (a: any, b: any) => (a.required === b.required) ? 0 : a.required ? 1 : -1,
-        title: 'required',
-      },
-    ].map(row => ({ ...row, key: row.dataIndex }))}
-    dataSource={props.propDefinitions}
-    pagination={false}
-    rowKey='property'
-  />
-);
+function stringSortFor (attr: string) {
+  return (a: any, b: any) => (a[attr]).localeCompare(b[attr]);
+}
+
+function boolSortFor (attr: string) {
+  return (a: any, b: any) => (a[attr] === b[attr]) ? 0 : a[attr] ? 1 : -1;
+}
+
+const propTableColumns = [
+  {
+    dataIndex: 'property',
+    sorter: stringSortFor('property'),
+    title: 'Prop',
+  },
+  {
+    dataIndex: 'propType.name',
+    sorter: stringSortFor('name'),
+    title: 'Type',
+  },
+  {
+    dataIndex: 'required',
+    defaultSortOrder: 'descend' as 'descend',
+    render: (value: any) => value ? <Tag color='red'>Yes</Tag> : <Tag>No</Tag>,
+    sorter: boolSortFor('required'),
+    title: 'required',
+  },
+  {
+    dataIndex: 'defaultValue',
+    title: 'default',
+  },
+].map(row => ({ ...row, key: row.dataIndex }));
+
+const PropsTable = (props: any) => {
+  const dataSource = props.propDefinitions.map((propDefinition: any) => ({
+    ...propDefinition,
+    required: propDefinition.required && !propDefinition.defaultValue,
+  }));
+
+  return (
+    <Table
+      bordered
+      columns={propTableColumns}
+      dataSource={dataSource}
+      pagination={false}
+      rowKey='property'
+    />
+  );
+};
 
 const providers = {
   getEndpoint: async (_endpoint: string) => ({ results: [

@@ -18,6 +18,11 @@
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
 }
 
+#story-root > .ant-form {
+  background-color: white;
+  padding: 15px;
+}
+
 .button-toolbar button {
   margin-right: 10px;
 }
@@ -29,4 +34,8 @@
 .markdown-body {
   background-color: white;
   margin: 30px 0;
+}
+
+.align-right {
+  text-align: right;
 }

@@ -11,6 +11,7 @@ import {
   Card,
   EditableArrayCard,
   EditableCard,
+  Form,
   FormCard,
   FormDrawer,
   FormModal,
@@ -147,11 +148,15 @@ export const summaryCardPropsFactory = new Factory()
   .attrs({
   });
 
-export const formCardPropsFactory = new Factory()
+export const formPropsFactory = new Factory()
   .extend(cardPropsFactory)
   .attrs({
     onSave,
   });
+
+export const formCardPropsFactory = new Factory()
+  .extend(formPropsFactory)
+  .attrs({});
 
 export const editableCardPropsFactory = new Factory()
   .extend(cardPropsFactory)
@@ -220,6 +225,7 @@ interface IComponentGenerators {
 }
 
 export const COMPONENT_GENERATORS: IComponentGenerators = {
+  Form: { Component: Form, propsFactory: formPropsFactory },
   ArrayCard: { Component: ArrayCard, propsFactory: arrayCardPropsFactory },
   Card: { Component: Card, propsFactory: cardPropsFactory },
   EditableArrayCard: { Component: EditableArrayCard, propsFactory: editableArrayCardPropsFactory },
