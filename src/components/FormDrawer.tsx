@@ -41,8 +41,8 @@ class FormDrawer extends Component<IFormDrawerProps> {
         width={width}
       >
         <Form
-          onCancel={isVisible.setFalse}
           {...omit(this.props, HANDLED_PROPS)}
+          onCancel={isVisible.setFalse}
         />
       </Antd.Drawer>
     );

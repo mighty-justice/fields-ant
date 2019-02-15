@@ -61,9 +61,9 @@ class FormModal extends Component<IFormModalProps> {
         {this.props.childrenBefore}
 
         <Form
+          {...omit(this.props, HANDLED_PROPS)}
           setRefFormManager={this.setRefFormManager}
           showControls={false}
-          {...omit(this.props, HANDLED_PROPS)}
         />
 
         {this.props.children}

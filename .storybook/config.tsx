@@ -16,6 +16,30 @@ function boolSortFor (attr: string) {
   return (a: any, b: any) => (a[attr] === b[attr]) ? 0 : a[attr] ? 1 : -1;
 }
 
+const propTableColumns = [
+  {
+    dataIndex: 'property',
+    sorter: stringSortFor('property'),
+    title: 'Prop',
+  },
+  {
+    dataIndex: 'propType.name',
+    sorter: stringSortFor('name'),
+    title: 'Type',
+  },
+  {
+    dataIndex: 'required',
+    defaultSortOrder: 'descend' as 'descend',
+    render: (value: any) => value ? <Tag color='red'>Yes</Tag> : <Tag>No</Tag>,
+    sorter: boolSortFor('required'),
+    title: 'required',
+  },
+  {
+    dataIndex: 'defaultValue',
+    title: 'default',
+  },
+].map(row => ({ ...row, key: row.dataIndex }));
+
 const PropsTable = (props: any) => {
   const dataSource = props.propDefinitions.map((propDefinition: any) => ({
     ...propDefinition,
@@ -25,35 +49,13 @@ const PropsTable = (props: any) => {
   return (
     <Table
       bordered
-      columns={[
-        {
-          dataIndex: 'property',
-          sorter: stringSortFor('property'),
-          title: 'Prop',
-        },
-        {
-          dataIndex: 'propType.name',
-          sorter: stringSortFor('name'),
-          title: 'Type',
-        },
-        {
-          dataIndex: 'required',
-          defaultSortOrder: 'descend' as 'descend',
-          render: (value: any) => value ? <Tag color='red'>Yes</Tag> : <Tag>No</Tag>,
-          sorter: boolSortFor('required'),
-          title: 'required',
-        },
-        {
-          dataIndex: 'defaultValue',
-          title: 'defaultValue',
-        },
-      ].map(row => ({ ...row, key: row.dataIndex }))}
+      columns={propTableColumns}
       dataSource={dataSource}
       pagination={false}
       rowKey='property'
     />
   );
-}
+};
 
 const providers = {
   getEndpoint: async (_endpoint: string) => ({ results: [
