@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import { omit } from 'lodash';
+
 import SmartBool from '@mighty-justice/smart-bool';
 
 import * as Antd from 'antd';
 
 import { formPropsDefaults } from '../propsDefaults';
-import { IFormProps, ISharedComponentProps } from '../props';
+import { ISharedFormProps, ISharedComponentProps } from '../props';
 
 import Form from './Form';
 
-export interface IFormDrawerProps extends ISharedComponentProps, IFormProps {
+export interface IFormDrawerProps extends ISharedComponentProps, ISharedFormProps {
   isVisible: SmartBool;
   width?: number | string;
 }
@@ -23,7 +25,8 @@ class FormDrawer extends Component<IFormDrawerProps> {
   };
 
   public render () {
-    const { isVisible, title, width } = this.props;
+    const { isVisible, title, width } = this.props
+      , HANDLED_PROPS = ['title', 'isVisible'];
 
     return (
       <Antd.Drawer
@@ -37,7 +40,10 @@ class FormDrawer extends Component<IFormDrawerProps> {
         visible={isVisible.isTrue}
         width={width}
       >
-        <Form {...this.props} />
+        <Form
+          onCancel={isVisible.setFalse}
+          {...omit(this.props, HANDLED_PROPS)}
+        />
       </Antd.Drawer>
     );
   }

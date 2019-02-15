@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import { noop, omit } from 'lodash';
 
 import * as Antd from 'antd';
 
 import FormManager from '../utilities/FormManager';
 import { formPropsDefaults } from '../propsDefaults';
-import { IFormProps, ISharedComponentProps } from '../props';
+import { ISharedFormProps, ISharedComponentProps } from '../props';
 
 import Form from './Form';
 
-export interface IFormModalProps extends ISharedComponentProps, IFormProps {
+export interface IFormModalProps extends ISharedComponentProps, ISharedFormProps {
   childrenBefore?: React.ReactNode;
 }
 
 @autoBindMethods
 @observer
 class FormModal extends Component<IFormModalProps> {
-  private formManager?: FormManager;
+  @observable private formManager?: FormManager;
 
   public static defaultProps: Partial<IFormModalProps> = {
     ...formPropsDefaults,
@@ -27,7 +29,11 @@ class FormModal extends Component<IFormModalProps> {
     const { saveText } = this.props;
 
     if (!this.formManager) {
-      return {};
+      return {
+        confirmLoading: true,
+        okText: saveText,
+        onOk: noop,
+      };
     }
 
     return {
@@ -42,7 +48,8 @@ class FormModal extends Component<IFormModalProps> {
   }
 
   public render () {
-    const { title, onCancel } = this.props;
+    const { title, onCancel } = this.props
+      , HANDLED_PROPS = ['title', 'children', 'childrenBefore'];
 
     return (
       <Antd.Modal
@@ -55,7 +62,8 @@ class FormModal extends Component<IFormModalProps> {
 
         <Form
           setRefFormManager={this.setRefFormManager}
-          {...this.props}
+          showControls={false}
+          {...omit(this.props, HANDLED_PROPS)}
         />
 
         {this.props.children}

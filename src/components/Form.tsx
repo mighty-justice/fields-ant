@@ -6,33 +6,35 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
+import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import FormManager from '../utilities/FormManager';
 import { fillInFieldSets } from '../utilities/common';
 import { formPropsDefaults } from '../propsDefaults';
 import { IFieldSet } from '../interfaces';
+import { ISharedFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
 
-import { IFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
-import { ButtonToolbar } from '../index';
-
-export interface IFormComponentProps extends ISharedComponentProps, IFormProps {
+export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
   setRefFormManager?: (formManager: FormManager) => void;
+  showControls: boolean;
 }
 
-export interface IFormWrappedProps extends IFormComponentProps, IWrappedFormProps {}
+export interface IFormWrappedProps extends IFormProps, IWrappedFormProps {}
 
 @autoBindMethods
 @observer
 export class UnwrappedForm extends Component<IFormWrappedProps> {
   private formManager: FormManager;
 
-  public static defaultProps: Partial<IFormWrappedProps> = {
-    ...formPropsDefaults,
-  };
-
   public constructor (props: IFormWrappedProps) {
     super(props);
-    const { model, onSave, onCancel, form, setRefFormManager } = props as IFormWrappedProps;
+    const {
+      form,
+      model,
+      onCancel,
+      onSave,
+      setRefFormManager,
+    } = props;
 
     this.formManager = new FormManager(
       form,
@@ -54,28 +56,14 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
     return fillInFieldSets(this.props.fieldSets);
   }
 
-  public render () {
-    const { onCancel, defaults, model, form, saveText } = this.props;
+  private renderControls () {
+    const {
+      onCancel,
+      saveText,
+    } = this.props;
 
     return (
-      <Antd.Form layout='vertical' onSubmit={this.formManager.onSave} className='mfa-form'>
-        {this.fieldSets.map((fieldSet: IFieldSet, idx: number) => (
-          <Fragment key={idx}>
-            {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
-            <div>
-              <FormFieldSet
-                defaults={defaults}
-                fieldSet={fieldSet}
-                form={form}
-                formManager={this.formManager}
-                model={model}
-              />
-            </div>
-          </Fragment>
-        ))}
-
-        {this.props.children}
-
+      <>
         <Antd.Divider />
 
         <ButtonToolbar align='right'>
@@ -96,6 +84,42 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
             {saveText}
           </Antd.Button>
         </ButtonToolbar>
+      </>
+    );
+  }
+
+  public render () {
+    const {
+      defaults,
+      form,
+      model,
+      showControls,
+      title,
+    } = this.props;
+
+    return (
+      <Antd.Form layout='vertical' onSubmit={this.formManager.onSave} className='mfa-form'>
+        {title && <h2>{title}</h2>}
+
+        {this.fieldSets.map((fieldSet: IFieldSet, idx: number) => (
+          <Fragment key={idx}>
+            {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
+
+            <div>
+              <FormFieldSet
+                defaults={defaults}
+                fieldSet={fieldSet}
+                form={form}
+                formManager={this.formManager}
+                model={model}
+              />
+            </div>
+          </Fragment>
+        ))}
+
+        {this.props.children}
+
+        {showControls && this.renderControls()}
       </Antd.Form>
     );
   }
@@ -106,9 +130,10 @@ const WrappedForm = Antd.Form.create()(UnwrappedForm);
 
 @autoBindMethods
 @observer
-export class Form extends Component<IFormComponentProps> {
+export class Form extends Component<IFormProps> {
   public static defaultProps: Partial<IFormWrappedProps> = {
     ...formPropsDefaults,
+    showControls: true,
   };
 
   public render () {

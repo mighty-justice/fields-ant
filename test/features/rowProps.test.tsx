@@ -4,6 +4,7 @@ import { Tester } from '@mighty-justice/tester';
 import { COMPONENT_GENERATORS } from '../factories';
 
 const SUPPORTING_COMPONENTS = [
+  'Form',
   'FormCard',
 ];
 

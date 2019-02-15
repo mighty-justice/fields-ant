@@ -9,13 +9,13 @@ import * as Antd from 'antd';
 
 import GuardedButton from '../building-blocks/GuardedButton';
 import { formPropsDefaults } from '../propsDefaults';
-import { IFormProps } from '../props';
+import { ISharedFormProps } from '../props';
 
 import EditableCard from './EditableCard';
 import FormCard from './FormCard';
 import { IArrayCardProps } from './ArrayCard';
 
-export interface IEditableArrayCardProps extends IArrayCardProps, IFormProps {
+export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormProps {
   defaults?: object;
   onCreate: (model: unknown) => Promise<any>;
   onDelete?: (model: unknown) => Promise<any>;
