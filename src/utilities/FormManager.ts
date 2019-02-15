@@ -16,7 +16,7 @@ interface IArgs {
   form: IForm;
   model: { [key: string]: any, id?: string };
   onSave: (data: { [key: string]: any }) => void | Promise<void>;
-  onSuccess: () => void;
+  onSuccess: () => any | Promise<any>;
 }
 
 const toastError = {
