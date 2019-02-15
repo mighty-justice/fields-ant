@@ -38,7 +38,7 @@ export interface ISharedFormProps {
     defaults?: object;
     isGuarded?: boolean;
     onCancel: () => void;
-    onSave: (data: object) => Promise<void>;
-    onSuccess: () => Promise<any>;
+    onSave: (data: object) => any | Promise<any>;
+    onSuccess: () => any | Promise<any>;
     saveText: string;
 }

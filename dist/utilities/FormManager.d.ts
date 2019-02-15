@@ -10,7 +10,7 @@ interface IArgs {
     onSave: (data: {
         [key: string]: any;
     }) => void | Promise<void>;
-    onSuccess: () => void;
+    onSuccess: () => any | Promise<any>;
 }
 declare class FormManager {
     saving: boolean;
