@@ -24,6 +24,12 @@ class FormDrawer extends Component<IFormDrawerProps> {
     ...formPropsDefaults,
   };
 
+  private onCancel () {
+    const { onCancel, isVisible } = this.props;
+    onCancel();
+    isVisible.setFalse();
+  }
+
   public render () {
     const { isVisible, title, width } = this.props
       , HANDLED_PROPS = ['title', 'isVisible'];
@@ -34,7 +40,7 @@ class FormDrawer extends Component<IFormDrawerProps> {
         closable
         destroyOnClose
         maskClosable={false}
-        onClose={isVisible.setFalse}
+        onClose={this.onCancel}
         placement='right'
         title={title}
         visible={isVisible.isTrue}
@@ -42,7 +48,7 @@ class FormDrawer extends Component<IFormDrawerProps> {
       >
         <Form
           {...omit(this.props, HANDLED_PROPS)}
-          onCancel={isVisible.setFalse}
+          onCancel={this.onCancel}
         />
       </Antd.Drawer>
     );
