@@ -28,7 +28,7 @@ describe('insertIf', () => {
     expect(tester.text()).toContain(legend);
     expect(tester.text()).toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
-    tester.find(`button.btn-edit`).simulate('click');
+    tester.click(`button.btn-edit`);
     expect(tester.text()).toContain(legend);
     expect(tester.text()).toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
@@ -48,7 +48,7 @@ describe('insertIf', () => {
     expect(tester.text()).not.toContain(legend);
     expect(tester.text()).not.toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
-    tester.find(`button.btn-edit`).simulate('click');
+    tester.click(`button.btn-edit`);
     expect(tester.text()).not.toContain(legend);
     expect(tester.text()).not.toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
@@ -68,7 +68,7 @@ describe('insertIf', () => {
     expect(tester.text()).toContain(legend);
     expect(tester.text()).not.toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
-    tester.find(`button.btn-edit`).simulate('click');
+    tester.click(`button.btn-edit`);
     expect(tester.text()).toContain(legend);
     expect(tester.text()).not.toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
@@ -87,7 +87,7 @@ describe('insertIf', () => {
     expect(tester.text()).toContain(legend);
     expect(tester.text()).toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
-    tester.find(`button.btn-edit`).simulate('click');
+    tester.click(`button.btn-edit`);
     expect(tester.text()).toContain(legend);
     expect(tester.text()).toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);

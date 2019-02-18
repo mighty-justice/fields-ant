@@ -54,7 +54,7 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
       // Renders formatted value
       const tester = await new Tester(FormCard, { props }).mount();
       expect(onSave).not.toHaveBeenCalled();
-      tester.find('form').simulate('submit');
+      tester.submit();
       expect(onSave).toHaveBeenCalledWith(model);
     });
   });

@@ -6,12 +6,6 @@ import { Tester } from '@mighty-justice/tester';
 import { EditableCard } from '../../src';
 import { editableCardPropsFactory } from '../factories';
 
-function changeInput (component: any, value: string) {
-  component.simulate('focus');
-  component.simulate('change', { target: { value } });
-  component.simulate('blur');
-}
-
 describe('EditableCard', () => {
   it('Edits text', async () => {
     const text = faker.lorem.sentence()
@@ -26,11 +20,11 @@ describe('EditableCard', () => {
 
     const tester = await new Tester(EditableCard, { props }).mount();
 
-    tester.find(`button.btn-edit`).simulate('click');
-    changeInput(tester.find('input'), newText);
+    tester.click(`button.btn-edit`);
+    tester.changeInput('input', newText);
 
     expect(onSave).not.toHaveBeenCalled();
-    tester.find('form').simulate('submit');
+    tester.submit();
     await tester.sleep();
     expect(onSave).toHaveBeenCalledWith({ text: newText });
   });
@@ -42,8 +36,8 @@ describe('EditableCard', () => {
     const tester = await new Tester(EditableCard, { props }).mount();
 
     expect(onDelete).not.toHaveBeenCalled();
-    tester.find(`button.btn-delete`).simulate('click');
-    tester.find('.btn-delete .ant-popover-inner .ant-btn-primary').first().simulate('click');
+    tester.click(`button.btn-delete`);
+    tester.click('.btn-delete .ant-popover-inner .ant-btn-primary');
     expect(onDelete).toHaveBeenCalled();
   });
 });

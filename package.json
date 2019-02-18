@@ -100,7 +100,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
     "@mighty-justice/smart-bool": "^0.3.2",
-    "@mighty-justice/tester": "^1.0.4",
+    "@mighty-justice/tester": "^1.2.1",
     "@mighty-justice/tslint-config": "^0.3.0",
     "@storybook/addon-actions": "^4.1.11",
     "@storybook/addon-info": "^4.1.11",
