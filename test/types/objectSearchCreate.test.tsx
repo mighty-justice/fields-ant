@@ -5,12 +5,6 @@ import { Tester } from '@mighty-justice/tester';
 
 import { FormCard } from '../../src';
 
-function changeInput (component: any, value: string) {
-  component.simulate('focus');
-  component.simulate('change', { target: { value } });
-  component.simulate('blur');
-}
-
 function getDefaults (overrides?: any) {
   const field = overrides.field || 'law_firm'
     , endpoint = overrides.endpoint || 'legal-organizations'
@@ -48,13 +42,13 @@ async function getTester (props: any) {
 
 async function searchFor (tester: any, field: string, result: any, searchTerm: string) {
   tester.endpoints['/legal-organizations/'] = { results: [result] };
-  changeInput(tester.find(`input#${field}`), searchTerm);
+  tester.changeInput(`input#${field}`, searchTerm);
   await tester.refresh();
   expect(tester.find('li').text()).toContain(result.name);
 }
 
 async function selectAddNew (tester: any) {
-  tester.find('button.osc-add-new').simulate('click');
+  tester.click('button.osc-add-new');
 }
 
 describe('objectSearchCreate', () => {
@@ -65,8 +59,8 @@ describe('objectSearchCreate', () => {
     await searchFor(tester, field, result, searchTerm);
 
     // Select first result and test response
-    tester.find('li').simulate('click');
-    tester.find('form').simulate('submit');
+    tester.click('li');
+    tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: result });
   });
 
@@ -82,19 +76,19 @@ describe('objectSearchCreate', () => {
     expect(tester.text()).toContain('Back');
 
     // Will not submit until required sub-form filled out
-    tester.find('form').simulate('submit');
+    tester.submit();
     expect(tester.text()).toContain('required');
     expect(onSave).not.toHaveBeenCalled();
 
     // Will not clear errors when changing valid field
-    changeInput(tester.find('input[id="law_firm.amount_owed"]'), fakeOwed);
-    tester.find('form').simulate('submit');
+    tester.changeInput('input[id="law_firm.amount_owed"]', fakeOwed);
+    tester.submit();
     expect(tester.text()).toContain('required');
     expect(onSave).not.toHaveBeenCalled();
 
     // Will clear errors when fixing invalid field
-    changeInput(tester.find('input[id="law_firm.name"]'), searchTerm);
-    tester.find('form').simulate('submit');
+    tester.changeInput('input[id="law_firm.name"]', searchTerm);
+    tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed }});
   });
 
@@ -111,7 +105,7 @@ describe('objectSearchCreate', () => {
     await selectAddNew(tester);
 
     expect(tester.find('input[id="law_firm.name"]').html()).toContain(searchTerm);
-    tester.find('form').simulate('submit');
+    tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: '' }});
   });
 
@@ -133,7 +127,7 @@ describe('objectSearchCreate', () => {
     expect(tester.find('input[id="law_firm.first_name"]').html()).toContain(firstName);
     expect(tester.find('input[id="law_firm.last_name"]').html()).toContain(lastName);
 
-    tester.find('form').simulate('submit');
+    tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: {
       amount_owed: '',
       first_name: firstName,

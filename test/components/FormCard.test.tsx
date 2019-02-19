@@ -7,12 +7,6 @@ import { Tester } from '@mighty-justice/tester';
 
 import { FormCard } from '../../src';
 
-function changeInput (component: any, value: string) {
-  component.simulate('focus');
-  component.simulate('change', { target: { value } });
-  component.simulate('blur');
-}
-
 describe('FormCard', () => {
   it('Edits text', async () => {
     const text = faker.lorem.sentence()
@@ -28,10 +22,10 @@ describe('FormCard', () => {
 
     const tester = await new Tester(FormCard, { props }).mount();
 
-    changeInput(tester.find('input'), newText);
+    tester.changeInput('input', newText);
 
     expect(onSave).not.toHaveBeenCalled();
-    tester.find('form').simulate('submit');
+    tester.submit();
     await tester.sleep();
     expect(onSave).toHaveBeenCalledWith({ text: newText });
   });
@@ -58,7 +52,7 @@ describe('FormCard', () => {
     expect(Antd.notification.error).not.toHaveBeenCalled();
     expect(tester.text()).not.toContain(nameError);
 
-    tester.find('form').simulate('submit');
+    tester.submit();
     await tester.sleep();
 
     expect(Antd.notification.error).toHaveBeenCalled();

@@ -1159,10 +1159,10 @@
   dependencies:
     class-autobind-decorator "^3.0.1"
 
-"@mighty-justice/tester@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@mighty-justice/tester/-/tester-1.0.4.tgz#78c4b3b73849e111f9e9ae26fbd72bf8210bb6e4"
-  integrity sha512-WohMoxoI6pwJGW4seG85MJWS5bWZ0fTrw1u+KpvxplOqKCqNutFzndZ5fSy2L1ABd0yT4FRb71PWhu2FrlBAAA==
+"@mighty-justice/tester@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@mighty-justice/tester/-/tester-1.2.1.tgz#d17aa4b7f62718aa429d3e21bbe6149b3b438a6b"
+  integrity sha512-caj/wKiwwREEs4H4RXojbcqd+RPeEwoHi/izE/uAq0ys9laQ4AgrpuiO+dCLACZEdcwtfCEGV0f8rwJKyAO9iA==
 
 "@mighty-justice/tslint-config@^0.3.0":
   version "0.3.0"
