@@ -13,10 +13,15 @@ import { getFieldSetFields } from './common';
 
 interface IArgs {
   fieldSets: IFieldSet[];
-  form: IForm;
   model: { [key: string]: any, id?: string };
   onSave: (data: { [key: string]: any }) => void | Promise<void>;
   onSuccess: () => any | Promise<any>;
+}
+
+interface IFormWrappedInstance {
+  props: {
+    form: IForm,
+  };
 }
 
 const toastError = {
@@ -29,11 +34,12 @@ const toastError = {
 class FormManager {
   @observable public saving = false;
   private args: IArgs;
+  public formWrappedInstance: IFormWrappedInstance;
 
-  public constructor (form: any, fieldSets: IFieldSet[], args: Partial<IArgs>) {
+  public constructor (formWrappedInstance: IFormWrappedInstance, fieldSets: IFieldSet[], args: Partial<IArgs>) {
+    this.formWrappedInstance = formWrappedInstance;
     this.args = {
       fieldSets,
-      form,
       model: {},
       onSave: noop,
       onSuccess: noop,
@@ -41,9 +47,14 @@ class FormManager {
     };
   }
 
+  public get form () {
+    // The form prop continuously changes identity, so we can't just save it locally
+    return this.formWrappedInstance.props.form;
+  }
+
   public get formModel () {
-    const { form, fieldSets } = this.args
-      , model = form.getFieldsValue();
+    const { fieldSets } = this.args
+      , model = this.form.getFieldsValue();
 
     fieldSets.forEach(fieldSet => {
       getFieldSetFields(fieldSet).forEach(fieldConfig => {
@@ -67,7 +78,7 @@ class FormManager {
   }
 
   private get formValues () {
-    return this.args.form.getFieldsValue();
+    return this.form.getFieldsValue();
   }
 
   public get formFieldNames () {
@@ -81,8 +92,7 @@ class FormManager {
   }
 
   private setErrorsOnFormFields (errors: { [key: string]: string }) {
-    const { form } = this.args;
-    form.setFields(mapValues(errors, (error, field) => ({
+    this.form.setFields(mapValues(errors, (error, field) => ({
       errors: [new Error(error)],
       value: this.formValues[field],
     })));
@@ -115,7 +125,7 @@ class FormManager {
       try {
         await onSave(this.formModel);
         this.onSuccess();
-        this.args.form.resetFields();
+        this.form.resetFields();
       }
       catch (err) {
         this.handleBackendResponse(err.response);
@@ -126,11 +136,10 @@ class FormManager {
   }
 
   public async onSave (event: any) {
-    const { form } = this.args;
     event.preventDefault();
 
     this.saving = true;
-    form.validateFields(this.validateThenSaveCallback);
+    this.form.validateFields(this.validateThenSaveCallback);
   }
 }
 

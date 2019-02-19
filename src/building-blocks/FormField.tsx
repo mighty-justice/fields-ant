@@ -44,7 +44,7 @@ class FormField extends Component<IFormFieldProps> {
   }
 
   private get editProps () {
-    const { form, formManager } = this.props
+    const { formManager } = this.props
       , fieldConfig = this.fieldConfig
       , fieldConfigProp = fieldConfig.fieldConfigProp ? { fieldConfig, formManager } : {}
       ;
@@ -52,7 +52,7 @@ class FormField extends Component<IFormFieldProps> {
     return {
       ...fieldConfig.editProps,
       ...fieldConfigProp,
-      form,
+      form: formManager.form,
     };
   }
 
@@ -65,13 +65,13 @@ class FormField extends Component<IFormFieldProps> {
   }
 
   public render () {
-    const { form } = this.props
+    const { formManager } = this.props
       , fieldConfig = this.fieldConfig
       , { colProps, formItemProps, field, skipFieldDecorator } = fieldConfig
-      , { getFieldDecorator } = form
+      , { getFieldDecorator } = formManager.form
       ;
 
-    if (filterInsertIf(fieldConfig, form.getFieldsValue())) {
+    if (filterInsertIf(fieldConfig, formManager.form.getFieldsValue())) {
       return null;
     }
 

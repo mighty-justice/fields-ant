@@ -17,7 +17,6 @@ import { IForm } from '../props';
 
 export interface INestedFieldSetProps {
   fieldSet: IFieldSetPartial;
-  form: IForm;
   formManager: FormManager;
   id: string;
   label: string | null;
@@ -29,7 +28,7 @@ export interface INestedFieldSetProps {
 class NestedFieldSet extends Component<INestedFieldSetProps> {
   public constructor (props: INestedFieldSetProps) {
     super(props);
-    props.form.setFieldsValue({ [props.id]: {} });
+    props.formManager.form.setFieldsValue({ [props.id]: {} });
   }
 
   @computed
@@ -82,7 +81,6 @@ class NestedFieldSet extends Component<INestedFieldSetProps> {
     return (
       <FormFieldSet
         fieldSet={this.fieldSet}
-        form={this.props.form}
         formManager={this.props.formManager}
         model={this.model}
       />

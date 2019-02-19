@@ -14,14 +14,13 @@ import {
 
 import FormManager from '../utilities/FormManager';
 import { IFieldSetPartial } from '../interfaces';
-import { IForm, IModel } from '../props';
+import { IModel } from '../props';
 
 import FormField from './FormField';
 
 export interface IFormFieldSetProps {
   defaults?: object;
   fieldSet: IFieldSetPartial;
-  form: IForm;
   formManager: FormManager;
   model?: IModel;
 }
@@ -36,7 +35,7 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
 
   public render () {
     const fieldConfigs = getFieldSetFields(this.fieldSet)
-      , formValues = this.props.form.getFieldsValue()
+      , formValues = this.props.formManager.form.getFieldsValue()
       , filteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, formValues))
       , legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend
       , rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps
