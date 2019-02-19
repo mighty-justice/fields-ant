@@ -13,7 +13,6 @@ import {
 } from '../';
 
 import FormManager from '../utilities/FormManager';
-import { IForm } from '../props';
 
 export interface INestedFieldSetProps {
   fieldSet: IFieldSetPartial;
