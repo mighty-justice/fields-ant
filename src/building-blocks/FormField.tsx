@@ -61,7 +61,7 @@ class FormField extends Component<IFormFieldProps> {
       , { getFieldDecorator } = formManager.form
       ;
 
-    if (filterInsertIf(fieldConfig, formManager.form.getFieldsValue())) {
+    if (filterInsertIf(fieldConfig, formManager.formModel)) {
       return null;
     }
 
