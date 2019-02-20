@@ -1,20 +1,34 @@
 import { observable } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
-import { get, set, noop, mapValues, pickBy } from 'lodash';
-import flatten from 'flat';
+import flattenObject from 'flat';
+
+import {
+  flatten as flattenArray,
+  get,
+  mapValues,
+  noop,
+  pickBy,
+  set,
+} from 'lodash';
 
 import * as Antd from 'antd';
 
-import { IFieldSet } from '../interfaces';
+import { IFieldConfigPartial, IFieldSet } from '../interfaces';
 import { IForm } from '../props';
 
 import backendValidation from './backendValidation';
-import { getFieldSetFields } from './common';
+import { fillInFieldConfig, getFieldSetFields } from './common';
+
+interface IModel {
+  [key: string]: any;
+  id?: string;
+}
 
 interface IArgs {
+  defaults: IModel;
   fieldSets: IFieldSet[];
-  model: { [key: string]: any, id?: string };
-  onSave: (data: { [key: string]: any }) => void | Promise<void>;
+  model: IModel;
+  onSave: (data: IModel) => void | Promise<void>;
   onSuccess: () => any | Promise<any>;
 }
 
@@ -39,6 +53,7 @@ class FormManager {
   public constructor (formWrappedInstance: IFormWrappedInstance, fieldSets: IFieldSet[], args: Partial<IArgs>) {
     this.formWrappedInstance = formWrappedInstance;
     this.args = {
+      defaults: {},
       fieldSets,
       model: {},
       onSave: noop,
@@ -50,6 +65,21 @@ class FormManager {
   public get form () {
     // The form prop continuously changes identity, so we can't just save it locally
     return this.formWrappedInstance.props.form;
+  }
+
+  public get fieldConfigs () {
+    return flattenArray(this.args.fieldSets.map(getFieldSetFields));
+  }
+
+  public getDefaultValue (fieldConfigPartial: IFieldConfigPartial) {
+    const { model, defaults } = this.args
+      , fieldConfig = fillInFieldConfig(fieldConfigPartial);
+
+    return (
+      fieldConfig.value
+      || fieldConfig.toForm(model, fieldConfig.field)
+      || fieldConfig.toForm(defaults, fieldConfig.field)
+    );
   }
 
   public get formModel () {
@@ -82,7 +112,7 @@ class FormManager {
   }
 
   public get formFieldNames () {
-    return Object.keys(flatten<{ [key: string]: any }, { [key: string]: any }>(this.formValues));
+    return Object.keys(flattenObject<{ [key: string]: any }, { [key: string]: any }>(this.formValues));
   }
 
   private onSuccess () {

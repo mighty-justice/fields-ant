@@ -32,14 +32,8 @@ class FormField extends Component<IFormFieldProps> {
   }
 
   private get initialValue () {
-    const { model, defaults } = this.props
-      , fieldConfig = this.fieldConfig;
-
-    return (
-      fieldConfig.value
-      || fieldConfig.toForm(model, fieldConfig.field)
-      || fieldConfig.toForm(defaults, fieldConfig.field)
-    );
+    const { formManager } = this.props;
+    return formManager.getDefaultValue(this.fieldConfig);
   }
 
   private get editProps () {

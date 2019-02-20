@@ -29,6 +29,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   public constructor (props: IFormWrappedProps) {
     super(props);
     const {
+      defaults,
       model,
       onCancel,
       onSave,
@@ -39,6 +40,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       this,
       this.fieldSets,
       {
+        defaults,
         model,
         onSave,
         onSuccess: onCancel,
