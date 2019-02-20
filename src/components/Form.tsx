@@ -29,7 +29,6 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   public constructor (props: IFormWrappedProps) {
     super(props);
     const {
-      form,
       model,
       onCancel,
       onSave,
@@ -37,7 +36,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
     } = props;
 
     this.formManager = new FormManager(
-      form,
+      this,
       this.fieldSets,
       {
         model,
@@ -91,7 +90,6 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   public render () {
     const {
       defaults,
-      form,
       model,
       showControls,
       title,
@@ -109,7 +107,6 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
               <FormFieldSet
                 defaults={defaults}
                 fieldSet={fieldSet}
-                form={form}
                 formManager={this.formManager}
                 model={model}
               />

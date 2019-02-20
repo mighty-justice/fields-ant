@@ -60,7 +60,6 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     const {
       decoratorOptions,
       fieldConfig,
-      form,
       formManager,
       selectProps,
     } = this.injected;
@@ -70,7 +69,6 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
         <>
           <NestedFieldSet
             fieldSet={this.fieldConfig.createFields}
-            form={form}
             formManager={formManager}
             id={fieldConfig.field}
             label={this.fieldConfig.label}
@@ -86,7 +84,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     return (
       <Antd.Form.Item>
         <Antd.Input.Group className='ant-input-group-search-create' compact>
-          {form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
+          {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
             <ObjectSearch
               fieldConfig={fieldConfig}
               onSearchChange={this.handleSearch}

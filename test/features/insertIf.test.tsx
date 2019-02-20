@@ -3,6 +3,7 @@
 import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
+import FormManager from '../../src/utilities/FormManager';
 import { EditableCard, CardField, FormField } from '../../src';
 
 const title = 'testing'
@@ -111,10 +112,12 @@ describe('insertIf', () => {
   });
 
   it('Works with individual FormFields', async () => {
-    const props = { form: {
+    const form = {
         getFieldDecorator: () => (x: any) => x,
         getFieldsValue: () => ({}),
-      }}
+      }
+      , formManager = new FormManager({ props: { form }}, [], {})
+      , props = { form, formManager }
       , hidden = await new Tester(FormField, { props: {
         ...props,
         fieldConfig: { field, label: exampleLabel, insertIf: jest.fn(_values => false) },
