@@ -36,8 +36,12 @@ import { IFieldSet, IFieldSetPartial } from './interfaces';
 
 export type IClassName = any;
 export type IForm = any;
-export type IModel = any;
 export type IValue = any;
+
+export interface IModel {
+  [key: string]: any;
+  id?: string;
+}
 
 export interface ISharedComponentProps {
   children?: React.ReactNode;
