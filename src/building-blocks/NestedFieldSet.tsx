@@ -48,9 +48,7 @@ class NestedFieldSet extends Component<INestedFieldSetProps> {
     populateFromSearch and populateNameFromSearch
     */
     const { search } = this.props
-      , [firstName, lastName] = splitName(search)
-      , defaults: { [key: string]: string } = {}
-      ;
+      , [firstName, lastName] = splitName(search);
 
     if (!search) { return {}; }
 
