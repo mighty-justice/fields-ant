@@ -14,15 +14,10 @@ import {
 import * as Antd from 'antd';
 
 import { IFieldConfigPartial, IFieldSet } from '../interfaces';
-import { IForm } from '../props';
+import { IForm, IModel } from '../props';
 
 import backendValidation from './backendValidation';
 import { fillInFieldConfig, getFieldSetFields } from './common';
-
-interface IModel {
-  [key: string]: any;
-  id?: string;
-}
 
 interface IArgs {
   defaults: IModel;
@@ -83,21 +78,18 @@ class FormManager {
   }
 
   public get formModel () {
-    const { fieldSets } = this.args
-      , model = this.form.getFieldsValue();
+    const model = this.form.getFieldsValue();
 
-    fieldSets.forEach(fieldSet => {
-      getFieldSetFields(fieldSet).forEach(fieldConfig => {
-        const formValue = get(model, fieldConfig.field)
-          , value = fieldConfig.fromForm(formValue);
+    this.fieldConfigs.forEach(fieldConfig => {
+      const formValue = get(model, fieldConfig.field)
+        , value = fieldConfig.fromForm(formValue);
 
-        if (!value && fieldConfig.nullify) {
-          set(model, fieldConfig.field, null);
-        }
-        else {
-          set(model, fieldConfig.field, value);
-        }
-      });
+      if (!value && fieldConfig.nullify) {
+        set(model, fieldConfig.field, null);
+      }
+      else {
+        set(model, fieldConfig.field, value);
+      }
     });
 
     if (this.args.model && this.args.model.id) {

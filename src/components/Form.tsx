@@ -91,8 +91,6 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
 
   public render () {
     const {
-      defaults,
-      model,
       showControls,
       title,
     } = this.props;
@@ -107,10 +105,8 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
 
             <div>
               <FormFieldSet
-                defaults={defaults}
                 fieldSet={fieldSet}
                 formManager={this.formManager}
-                model={model}
               />
             </div>
           </Fragment>

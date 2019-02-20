@@ -14,15 +14,12 @@ import {
 
 import FormManager from '../utilities/FormManager';
 import { IFieldSetPartial } from '../interfaces';
-import { IModel } from '../props';
 
 import FormField from './FormField';
 
 export interface IFormFieldSetProps {
-  defaults?: object;
   fieldSet: IFieldSetPartial;
   formManager: FormManager;
-  model?: IModel;
 }
 
 @autoBindMethods

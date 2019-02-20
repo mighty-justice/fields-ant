@@ -9,6 +9,7 @@ import {
   fillInFieldSet,
   FormFieldSet,
   getFieldSetFields,
+  IFieldConfigPartial,
   IFieldSetPartial,
 } from '../';
 
@@ -37,11 +38,11 @@ class NestedFieldSet extends Component<INestedFieldSetProps> {
       .map(fieldConfig => ({
         ...fieldConfig,
         field: `${id}.${fieldConfig.field}`,
+        ...this.getDefaultValue(fieldConfig),
       }));
   }
 
-  @computed
-  private get model () {
+  private getDefaultValue (fieldConfig: IFieldConfigPartial): object {
     /*
     This function implements the fieldConfig features
     populateFromSearch and populateNameFromSearch
@@ -51,29 +52,27 @@ class NestedFieldSet extends Component<INestedFieldSetProps> {
       , defaults: { [key: string]: string } = {}
       ;
 
-    if (!search) { return defaults; }
+    if (!search) { return {}; }
 
-    this.fieldSet.map(fieldConfig => {
-      const {
-        field,
-        populateFromSearch,
-        populateNameFromSearch,
-      } = fieldConfig;
+    const {
+      field,
+      populateFromSearch,
+      populateNameFromSearch,
+    } = fieldConfig;
 
-      if (populateFromSearch) {
-        defaults[field] = search;
-      }
+    if (populateFromSearch) {
+      return { value: search };
+    }
 
-      if (populateNameFromSearch && field.endsWith('first_name')) {
-        defaults[field] = firstName;
-      }
+    if (populateNameFromSearch && field.endsWith('first_name')) {
+      return { value: firstName };
+    }
 
-      if (populateNameFromSearch && field.endsWith('last_name')) {
-        defaults[field] = lastName;
-      }
-    });
+    if (populateNameFromSearch && field.endsWith('last_name')) {
+      return { value: lastName };
+    }
 
-    return defaults;
+    return {};
   }
 
   public render () {
@@ -81,7 +80,6 @@ class NestedFieldSet extends Component<INestedFieldSetProps> {
       <FormFieldSet
         fieldSet={this.fieldSet}
         formManager={this.props.formManager}
-        model={this.model}
       />
     );
   }

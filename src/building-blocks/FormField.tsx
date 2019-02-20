@@ -9,13 +9,10 @@ import * as Antd from 'antd';
 import FormManager from '../utilities/FormManager';
 import { fillInFieldConfig, filterInsertIf } from '../utilities/common';
 import { IFieldConfigPartial } from '../interfaces';
-import { IModel } from '../props';
 
 export interface IFormFieldProps {
-  defaults?: object;
   fieldConfig: IFieldConfigPartial;
   formManager: FormManager;
-  model?: IModel;
 }
 
 @autoBindMethods
