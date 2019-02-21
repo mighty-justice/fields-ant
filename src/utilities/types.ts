@@ -5,7 +5,6 @@ import { pattern as iso8601pattern } from 'iso8601-duration';
 
 import * as Antd from 'antd';
 
-
 import {
   IFieldConfig,
 } from '../interfaces';
