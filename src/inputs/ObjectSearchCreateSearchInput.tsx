@@ -8,6 +8,7 @@ import * as Antd from 'antd';
 import { SelectProps } from 'antd/lib/select';
 
 import { toKey } from '@mighty-justice/utils';
+import SmartBool from '@mighty-justice/smart-bool';
 
 import {
   DEFAULT_DEBOUNCE_WAIT,
@@ -20,7 +21,9 @@ import {
 export interface IObjectSearchProps {
   debounceWait: number;
   fieldConfig: IFieldConfigObjectSearchCreate;
+  loadingIcon?: React.ReactNode;
   onSearchChange: (search: string) => void;
+  searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }
 
@@ -29,11 +32,21 @@ interface IEndpointOption {
   name: string;
 }
 
+/*
+This component performs the 'search' action of ObjectSearchCreate.
+It must be a separate component so that Ant Design / rc-form can
+inject their own props, do validation, and correctly show help:
+
+{formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
+  <ObjectSearchCreateSearchInput
+*/
+
 @inject('getEndpoint')
 @autoBindMethods
 @observer
-class ObjectSearch extends Component<IObjectSearchProps> {
+class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   @observable private options: IEndpointOption[] = [];
+  @observable private isLoading = new SmartBool();
   @observable private search = '';
 
   public static defaultProps: Partial<IObjectSearchProps> = {
@@ -55,6 +68,14 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     return this.props.fieldConfig as IFieldConfigObjectSearchCreate;
   }
 
+  private get loadingIcon () {
+    return this.props.loadingIcon || <Antd.Icon type='loading' />;
+  }
+
+  private get searchIcon () {
+    return this.props.searchIcon || <Antd.Icon type='search' />;
+  }
+
   private get selectProps () {
     // Handpicking specific props to avoid unintentional behaviors
     return pick(this.props.selectProps as SelectProps, ['suffixIcon', 'clearIcon', 'removeIcon']);
@@ -70,9 +91,11 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       ;
 
     this.search = value;
+    this.isLoading.setTrue();
     this.props.onSearchChange(this.search);
     const response = await getEndpoint(`/${endpoint}/${toKey(params)}`);
     this.options = response.results;
+    this.isLoading.setFalse();
   }
 
   private onChange (value: any) {
@@ -90,10 +113,12 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         filterOption={false}
         id={id}
         labelInValue
+        loading={this.isLoading.isTrue}
         onChange={this.onChange}
         onSearch={this.debouncedHandleSearch}
-        placeholder='Select existing'
+        placeholder='Search...'
         showSearch
+        suffixIcon={this.isLoading.isTrue ? this.loadingIcon : this.searchIcon}
         {...this.selectProps}
       >
         {this.options.map(option => (
@@ -109,4 +134,4 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 }
 
-export default ObjectSearch;
+export default ObjectSearchCreateSearchInput;

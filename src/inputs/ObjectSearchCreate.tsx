@@ -19,7 +19,7 @@ import {
   NestedFieldSet,
 } from '../';
 
-import ObjectSearch from './ObjectSearch';
+import ObjectSearchCreateSearchInput from './ObjectSearchCreateSearchInput';
 
 const MIN_SEARCH_LENGTH = 3;
 
@@ -29,6 +29,8 @@ export interface IObjectSearchCreateProps {
   fieldConfig: IFieldConfigObjectSearchCreate;
   fieldDecorator: <T>(component: T) => T;
   formManager: FormManager;
+  loadingIcon?: React.ReactNode;
+  searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }
 
@@ -55,6 +57,8 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
   private get objectSearchProps () {
     return pick(this.props, [
       'fieldConfig',
+      'loadingIcon',
+      'searchIcon',
       'selectProps',
     ]);
   }
@@ -91,7 +95,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
       <Antd.Form.Item>
         <Antd.Input.Group className='ant-input-group-search-create' compact>
           {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
-            <ObjectSearch
+            <ObjectSearchCreateSearchInput
               onSearchChange={this.handleSearch}
               {...this.objectSearchProps}
             />,
