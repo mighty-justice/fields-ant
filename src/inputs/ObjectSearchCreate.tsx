@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import cx from 'classnames';
 import { pick } from 'lodash';
 
 import SmartBool from '@mighty-justice/smart-bool';
@@ -11,6 +12,7 @@ import { ButtonProps } from 'antd/lib/button';
 import { SelectProps } from 'antd/lib/select';
 
 import {
+  CX_PREFIX_SEARCH_CREATE,
   FormManager,
   IAntFormField,
   IFieldConfigObjectSearchCreate,
@@ -25,6 +27,7 @@ const MIN_SEARCH_LENGTH = 3;
 
 export interface IObjectSearchCreateProps {
   buttonProps: ButtonProps;
+  debounceWait?: number;
   decoratorOptions: { [key: string]: any };
   fieldConfig: IFieldConfigObjectSearchCreate;
   fieldDecorator: <T>(component: T) => T;
@@ -56,6 +59,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
 
   private get objectSearchProps () {
     return pick(this.props, [
+      'debounceWait',
       'fieldConfig',
       'loadingIcon',
       'searchIcon',
@@ -67,16 +71,24 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     this.search = value;
   }
 
+  private async onSearch () {
+    this.isAddingNew.setFalse();
+  }
+
   public render () {
     const {
       decoratorOptions,
       fieldConfig,
       formManager,
-    } = this.injected;
+    } = this.injected
+    , className = cx(
+      CX_PREFIX_SEARCH_CREATE,
+      {[`${CX_PREFIX_SEARCH_CREATE}-create`]: this.isAddingNew.isTrue },
+    );
 
     if (this.isAddingNew.isTrue) {
       return (
-        <>
+        <div className={className}>
           <NestedFieldSet
             fieldSet={this.fieldConfig.createFields}
             formManager={formManager}
@@ -84,15 +96,15 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
             label={this.fieldConfig.label}
             search={this.search}
           />
-          <Antd.Button size='small' onClick={this.isAddingNew.setFalse}>
+          <Antd.Button size='small' onClick={this.onSearch}>
             <Antd.Icon type='left' /> Back to search
           </Antd.Button>
-        </>
+        </div>
       );
     }
 
     return (
-      <Antd.Form.Item>
+      <Antd.Form.Item className={className}>
         <Antd.Input.Group className='ant-input-group-search-create' compact>
           {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
             <ObjectSearchCreateSearchInput
