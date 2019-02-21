@@ -11,6 +11,7 @@ import { toKey } from '@mighty-justice/utils';
 import SmartBool from '@mighty-justice/smart-bool';
 
 import {
+  CX_PREFIX_SEARCH_CREATE,
   DEFAULT_DEBOUNCE_WAIT,
   IAntFormField,
   IFieldConfigObjectSearchCreate,
@@ -102,13 +103,28 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
     this.isLoading.setFalse();
   }
 
+  private renderOption (option: IEndpointOption) {
+    const className = `${CX_PREFIX_SEARCH_CREATE}-item`;
+
+    return (
+      <Antd.Select.Option
+        className={className}
+        key={option.id}
+        value={option.id}
+      >
+        {option.name}
+      </Antd.Select.Option>
+    );
+  }
+
   private onChange (value: any) {
     const foundOption = this.options.find(option => option.id === value.key);
     this.injected.onChange(toJS(foundOption));
   }
 
   public render () {
-    const { id } = this.injected;
+    const { id } = this.injected
+      ;
 
     return (
       <Antd.Select
@@ -125,14 +141,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         suffixIcon={this.isLoading.isTrue ? this.loadingIcon : this.searchIcon}
         {...this.selectProps}
       >
-        {this.options.map(option => (
-          <Antd.Select.Option
-            key={option.id}
-            value={option.id}
-          >
-            {option.name}
-          </Antd.Select.Option>
-        ))}
+        {this.options.map(this.renderOption)}
       </Antd.Select>
     );
   }

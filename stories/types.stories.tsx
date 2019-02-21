@@ -46,6 +46,10 @@ storiesOf('Types', module)
                   type: 'objectSearchCreate',
                 },
               ],
+              editProps: {
+                searchIcon: <span>O</span>,
+                selectProps: { placeholder: 'Search lawfirm...' },
+              },
             },
             {
               ...objectSearchCreateFactory.build() as IFieldConfigObjectSearchCreate,
