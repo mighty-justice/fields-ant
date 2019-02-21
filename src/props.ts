@@ -25,7 +25,6 @@ export { ISummaryCardProps } from './components/SummaryCard';
 
 // Form inputs
 export { IObjectSearchCreateProps } from './inputs/ObjectSearchCreate';
-export { IObjectSearchProps } from './inputs/ObjectSearch';
 export { IOptionSelectDisplayProps } from './inputs/OptionSelectDisplay';
 export { IOptionSelectProps } from './inputs/OptionSelect';
 
