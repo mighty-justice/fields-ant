@@ -78,11 +78,15 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
 
   private get selectProps () {
     // Handpicking specific props to avoid unintentional behaviors
-    return pick(this.props.selectProps as SelectProps, ['suffixIcon', 'clearIcon', 'removeIcon']);
+    return pick(this.props.selectProps as SelectProps, [
+      'clearIcon',
+      'removeIcon',
+      'suffixIcon',
+    ]);
   }
 
   private async handleSearch (value: string) {
-    const { getEndpoint } = this.injected
+    const { getEndpoint, onSearchChange } = this.injected
       , { endpoint, searchFilters } = this.fieldConfig
       , params = {
         search: value,
@@ -92,7 +96,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
 
     this.search = value;
     this.isLoading.setTrue();
-    this.props.onSearchChange(this.search);
+    onSearchChange(this.search);
     const response = await getEndpoint(`/${endpoint}/${toKey(params)}`);
     this.options = response.results;
     this.isLoading.setFalse();
