@@ -1,0 +1,1 @@
+export const DEFAULT_DEBOUNCE_WAIT = 300;

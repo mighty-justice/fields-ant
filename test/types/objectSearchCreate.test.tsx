@@ -7,10 +7,11 @@ import { FormCard } from '../../src';
 
 function getDefaults (overrides?: any) {
   const field = overrides.field || 'law_firm'
+    , editProps = { debounceWait: 0 }
     , endpoint = overrides.endpoint || 'legal-organizations'
     , type = overrides.type || 'objectSearchCreate'
     , createFields = overrides.createFields || [{ field: 'name', required: true }, { field: 'amount_owed' }]
-    , fieldConfig = overrides.fieldConfig || { field, type, endpoint, createFields }
+    , fieldConfig = overrides.fieldConfig || { editProps, field, type, endpoint, createFields }
     , fieldSets = overrides.fieldSets || [[fieldConfig]]
     , onSave = jest.fn()
     , model = overrides.model || { law_firm: faker.random.uuid() }

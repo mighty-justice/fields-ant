@@ -58,11 +58,17 @@ const PropsTable = (props: any) => {
 };
 
 const providers = {
-  getEndpoint: async (_endpoint: string) => ({ results: [
-    { id: 'first', name: 'first' },
-    { id: 'second', name: 'second' },
-    { id: 'third', name: 'third' },
-  ]}),
+  getEndpoint: async (endpoint: string) => {
+    if (endpoint.includes('empty')) {
+      return { results: [] };
+    }
+
+    return { results: [
+      { id: 'first', name: 'first' },
+      { id: 'second', name: 'second' },
+      { id: 'third', name: 'third' },
+    ]};
+  },
   getOptions: async (_optionType: string) => ([
     { value: 'first', name: 'first' },
     { value: 'second', name: 'second' },

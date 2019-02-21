@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { pick } from 'lodash';
+import { pick, debounce } from 'lodash';
 
 import * as Antd from 'antd';
 import { SelectProps } from 'antd/lib/select';
@@ -10,6 +10,7 @@ import { SelectProps } from 'antd/lib/select';
 import { toKey } from '@mighty-justice/utils';
 
 import {
+  DEFAULT_DEBOUNCE_WAIT,
   IAntFormField,
   IFieldConfigObjectSearchCreate,
   IInjected,
@@ -17,17 +18,34 @@ import {
 } from '../';
 
 export interface IObjectSearchProps {
+  debounceWait: number;
   fieldConfig: IFieldConfigObjectSearchCreate;
   onSearchChange: (search: string) => void;
   selectProps: SelectProps;
+}
+
+interface IEndpointOption {
+  id: string;
+  name: string;
 }
 
 @inject('getEndpoint')
 @autoBindMethods
 @observer
 class ObjectSearch extends Component<IObjectSearchProps> {
-  @observable private options: Array<{ id: string, name: string }> = [];
+  @observable private options: IEndpointOption[] = [];
   @observable private search = '';
+
+  public static defaultProps: Partial<IObjectSearchProps> = {
+    debounceWait: DEFAULT_DEBOUNCE_WAIT,
+  };
+
+  private debouncedHandleSearch: (search: string) => void;
+
+  public constructor (props: IObjectSearchProps) {
+    super(props);
+    this.debouncedHandleSearch = debounce(this.handleSearch, props.debounceWait);
+  }
 
   private get injected () {
     return this.props as IObjectSearchProps & IInjected & IInputProps & IAntFormField;
@@ -73,7 +91,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         id={id}
         labelInValue
         onChange={this.onChange}
-        onSearch={this.handleSearch}
+        onSearch={this.debouncedHandleSearch}
         placeholder='Select existing'
         showSearch
         {...this.selectProps}

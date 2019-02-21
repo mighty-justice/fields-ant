@@ -52,6 +52,13 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     return pick(this.props.buttonProps as ButtonProps, ['children', 'icon']);
   }
 
+  private get objectSearchProps () {
+    return pick(this.props, [
+      'fieldConfig',
+      'selectProps',
+    ]);
+  }
+
   private async handleSearch (value: string) {
     this.search = value;
   }
@@ -61,7 +68,6 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
       decoratorOptions,
       fieldConfig,
       formManager,
-      selectProps,
     } = this.injected;
 
     if (this.isAddingNew.isTrue) {
@@ -86,9 +92,8 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
         <Antd.Input.Group className='ant-input-group-search-create' compact>
           {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
             <ObjectSearch
-              fieldConfig={fieldConfig}
               onSearchChange={this.handleSearch}
-              selectProps={selectProps}
+              {...this.objectSearchProps}
             />,
           )}
           <Antd.Button
