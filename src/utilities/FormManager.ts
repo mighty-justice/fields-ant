@@ -5,6 +5,7 @@ import flattenObject from 'flat';
 import {
   flatten as flattenArray,
   get,
+  has,
   mapValues,
   noop,
   pickBy,
@@ -70,11 +71,19 @@ class FormManager {
     const { model, defaults } = this.args
       , fieldConfig = fillInFieldConfig(fieldConfigPartial);
 
-    return (
-      fieldConfig.value
-      || fieldConfig.toForm(model, fieldConfig.field)
-      || fieldConfig.toForm(defaults, fieldConfig.field)
-    );
+    if (has(fieldConfig, 'value')) {
+      return fieldConfig.toForm({ [fieldConfig.field]: fieldConfig.value }, fieldConfig.field);
+    }
+
+    if (has(model, fieldConfig.field)) {
+      return fieldConfig.toForm(model, fieldConfig.field);
+    }
+
+    if (has(defaults, fieldConfig.field)) {
+      return fieldConfig.toForm(defaults, fieldConfig.field);
+    }
+
+    return fieldConfig.toForm({ ...model, ...defaults }, fieldConfig.field);
   }
 
   public get formModel () {
@@ -84,7 +93,7 @@ class FormManager {
       const formValue = get(model, fieldConfig.field)
         , value = fieldConfig.fromForm(formValue);
 
-      if (!value && fieldConfig.nullify) {
+      if (!value && value !== false && fieldConfig.nullify) {
         set(model, fieldConfig.field, null);
       }
       else {

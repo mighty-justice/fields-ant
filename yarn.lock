@@ -1172,16 +1172,17 @@
     tslint-eslint-rules "^5.4"
     tslint-react "^3.6"
 
-"@mighty-justice/utils@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@mighty-justice/utils/-/utils-0.0.4.tgz#2a73b5c72764c7f3e657938b9ffe2d5c2d0e3028"
-  integrity sha512-5Wd7OnTMU0yL5eHQcmZbcn7y084WbxOFPp0gWxCELnCL2uaCCPkeYW2SWLwix5KfCuV+y+ClP5qUKDN7i9PUVw==
+"@mighty-justice/utils@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@mighty-justice/utils/-/utils-1.0.0.tgz#8a8faf01b3e4e846d001800bd390c30b8191b606"
+  integrity sha512-9MTBxoT5HSV9+a87aFPSCF/wFboZooss0MSKmTSjRQbiXzVGJa1hwB7ToElXJu6mubqt0LZDizheny/pCGWn8A==
   dependencies:
     classnames "^2.2.6"
     date-fns "^1.30.1"
-    html-react-parser "0.6.0"
-    iso8601-duration "^1.1.6"
-    mobx "^5.8.0"
+    decimal.js "^10.0.2"
+    html-react-parser "0.6.1"
+    iso8601-duration "^1.1.7"
+    mobx "^5.9.0"
     mobx-react "^5.4.3"
     numeral "^2.0.6"
 
@@ -4043,6 +4044,11 @@ decamelize@^1.1.0, decamelize@^1.1.1, decamelize@^1.2.0:
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
   integrity sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
 
+decimal.js@^10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.0.2.tgz#50fd0f9184139f543e5b84c97681534292deb640"
+  integrity sha512-qL5tUTXAWjB5cSBfm0V2a4jO5FaDLumCfwc/0f7WaTOT3WU8pIeq2HHrd98eXHtbey4qFWlaPzfml1JWIoO9TQ==
+
 decode-uri-component@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
@@ -5864,10 +5870,10 @@ html-minifier@^3.5.20, html-minifier@^3.5.8:
     relateurl "0.2.x"
     uglify-js "3.4.x"
 
-html-react-parser@0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/html-react-parser/-/html-react-parser-0.6.0.tgz#cc5baf75b454ea7e336362860b0584dd1fa8e256"
-  integrity sha512-pbGxk7WnEbITjmr/6QHVzYx7ZkITiVkM6r+Cm3aW4378zTfxW+NHc4uGGoW4U6T/PJr3xRkGKw41Kqy+i4unBw==
+html-react-parser@0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/html-react-parser/-/html-react-parser-0.6.1.tgz#b81929ce83b7a358c2a425eaf662237a1b424ffe"
+  integrity sha512-KIVma8fvzrUIuLVsZJ4MU7HJxQGCa/LmgBti2iOSjIdf3iVDRQvR+iJ07y0AByuzyYCL6TUCOPi/OF+Joa2OSg==
   dependencies:
     html-dom-parser "0.1.3"
     react-dom-core "0.0.3"
@@ -6600,11 +6606,6 @@ ismobilejs@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/ismobilejs/-/ismobilejs-0.5.1.tgz#0e3f825e29e32f84ad5ddbb60e9e04a894046488"
   integrity sha512-QX4STsOcBYqlTjVGuAdP1MiRVxtiUbRHOKH0v7Gn1EvfUVIQnrSdgCM4zB4VCZuIejnb2NUMUx0Bwd3EIG6yyA==
-
-iso8601-duration@^1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/iso8601-duration/-/iso8601-duration-1.1.6.tgz#b393a1afcbc011f48206b439925317807883d81f"
-  integrity sha512-wyVl4tmjZyaoh9GeohL3Dh4DKwr8CgiOL8eFRyRJyk8nopHOhZ0Ql76EwOUvx3OGQeI08xGj8+4AJgyXYs3iJw==
 
 iso8601-duration@^1.1.7:
   version "1.1.7"
@@ -7985,15 +7986,10 @@ mobx-react@5.4.3, mobx-react@^5.4.3:
     hoist-non-react-statics "^3.0.0"
     react-lifecycles-compat "^3.0.2"
 
-mobx@5.9.0:
+mobx@5.9.0, mobx@^5.9.0:
   version "5.9.0"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.9.0.tgz#a08edd7132787f771409c9c33788a5df66ff7ce7"
   integrity sha512-D3mY1uM3H9BP5duk5tTanrOq92yqetYKsprPJWvkKDrbs+fro59xrpWX+vtr10YoLgJIFz+a4A8lI+4YtqmCUQ==
-
-mobx@^5.8.0:
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.8.0.tgz#cf59eae4baa2fde4387ffb6462b7ccf3b497b03c"
-  integrity sha512-NsZB+9bF5j+nv9Qwk6bNeE3np26a4TbTGkMpOLf6o1zXoM9BtHPQn/00px4uZ2AXJXtQML5P4MEWdMm6icMIfQ==
 
 mocha@^5.2.0:
   version "5.2.0"

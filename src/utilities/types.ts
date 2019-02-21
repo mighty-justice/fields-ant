@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, isBoolean } from 'lodash';
 import moment from 'moment';
 import { format } from 'date-fns';
 import { pattern as iso8601pattern } from 'iso8601-duration';
@@ -32,9 +32,29 @@ function stripFieldConfig (func: (...args: any[]) => any) {
   return (value: any) => func(value);
 }
 
+function booleanToForm (data: any, field: string) {
+  const value = get(data, field);
+  return isBoolean(value) ? value.toString() : value;
+}
+
+function booleanFromForm (value: any) {
+  for (const bool of [true, false]) {
+    if (value === bool || value === bool.toString()) {
+      return bool;
+    }
+  }
+  return value;
+}
+
 export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   boolean: {
+    editComponent: OptionSelect,
+    fieldConfigProp: true,
+    fromForm: booleanFromForm,
+    nullify: true,
+    options: [{ value: 'false', name: 'No' }, { value: 'true', name: 'Yes' }],
     render: stripFieldConfig(mapBooleanToText),
+    toForm: booleanToForm,
   },
   date: {
     editComponent: Antd.DatePicker,

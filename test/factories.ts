@@ -20,25 +20,25 @@ import {
 
 import { IValue } from '../src/props';
 
-const onSave = () => (data: any) => action('onSave')(data)
-  // fake* functions take no arguments and return values when called
-  // These are used, uncalled, in factory attr lists
-  , fakeTextShort = () => faker.random.words(3)
+export const onSave = () => (data: any) => action('onSave')(data);
 
-  , fakeBoolean = () => sample([true, false])
-  , fakeDateRecent = () => format(faker.date.recent(), 'YYYY-MM-DD')
-  , fakeDuration = () => faker.helpers.replaceSymbolWithNumber('P#Y')
-  , fakeField = () => faker.random.words(3).replace(/[^A-Za-z ]/g, '').replace(/ /g, '_').toLowerCase()
-  , fakeObjectSearchCreate = () => ({ name: fakeTextShort(), id: faker.random.uuid() })
-  , fakeRate = () => faker.random.number(4) + 1
-  , fakerPercentage = () => faker.random.number(1000) / 1000
-  , fakeTextLong = () => faker.random.words(12)
+// fake* functions take no arguments and return values when called
+// These are used, uncalled, in factory attr lists
+export const fakeTextShort = () => faker.random.words(3);
 
-  // attr* functions return fake* functions when called
-  // These are used, called, in factory attr lists
-  , attrNumber = (num = 1000) => () => faker.random.number(num)
-  , attrSubFactoryList = (factory: any, num?: number) => () => factory.buildList(num || 3)
-  ;
+export const fakeBoolean = () => sample([true, false]);
+export const fakeDateRecent = () => format(faker.date.recent(), 'YYYY-MM-DD');
+export const fakeDuration = () => faker.helpers.replaceSymbolWithNumber('P#Y');
+export const fakeField = () => faker.random.words(3).replace(/[^A-Za-z ]/g, '').replace(/ /g, '_').toLowerCase();
+export const fakeObjectSearchCreate = () => ({ name: fakeTextShort(), id: faker.random.uuid() });
+export const fakerPercentage = () => sample(['1', Number(faker.helpers.replaceSymbolWithNumber('0.###')).toString()]);
+export const fakeTextLong = () => faker.random.words(12);
+export const fakeRate = () => faker.random.number(4) + 1;
+
+// attr* functions return fake* functions when called
+// These are used, called, in factory attr lists
+export const attrNumber = (num = 1000) => () => faker.random.number(num);
+export const attrSubFactoryList = (factory: any, num?: number) => () => factory.buildList(num || 3);
 
 /*
  *   FIELD FACTORIES
@@ -225,11 +225,11 @@ interface IComponentGenerators {
 }
 
 export const COMPONENT_GENERATORS: IComponentGenerators = {
-  Form: { Component: Form, propsFactory: formPropsFactory },
   ArrayCard: { Component: ArrayCard, propsFactory: arrayCardPropsFactory },
   Card: { Component: Card, propsFactory: cardPropsFactory },
   EditableArrayCard: { Component: EditableArrayCard, propsFactory: editableArrayCardPropsFactory },
   EditableCard: { Component: EditableCard, propsFactory: editableCardPropsFactory },
+  Form: { Component: Form, propsFactory: formPropsFactory },
   FormCard: { Component: FormCard, propsFactory: formCardPropsFactory },
   FormDrawer: { Component: FormDrawer, propsFactory: formDrawerPropsFactory },
   FormModal: { Component: FormModal, propsFactory: formModalPropsFactory },

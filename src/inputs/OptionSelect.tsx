@@ -43,7 +43,12 @@ class OptionSelect extends Component<IOptionSelectProps> {
         {...this.props}
       >
         {this.options.map(option => (
-          <Antd.Select.Option value={option.value} key={option.value}>{option.name}</Antd.Select.Option>
+          <Antd.Select.Option
+            key={option.value}
+            value={option.value}
+          >
+            {option.name}
+          </Antd.Select.Option>
         ))}
       </Antd.Select>
     );
