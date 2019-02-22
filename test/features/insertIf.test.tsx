@@ -136,4 +136,40 @@ describe('insertIf', () => {
     expect(showing.html()).not.toBe(null);
     expect(none.html()).not.toBe(null);
   });
+
+  it('Recieves data from model', async () => {
+    const insertIf = jest.fn(_values => !!(_values && _values.second_example_field))
+      , fieldSets = [[normalField, { field, label: exampleLabel, insertIf }]]
+      , props = { fieldSets, title }
+      ;
+
+    for (const secondExampleField of [true, false]) {
+      const tester = await new Tester(EditableCard, { props: {
+        ...props,
+        model: { second_example_field: secondExampleField },
+      }}).mount();
+
+      expect(tester.text().includes(exampleLabel)).toBe(secondExampleField);
+      tester.click(`button.btn-edit`);
+      expect(tester.text().includes(exampleLabel)).toBe(secondExampleField);
+    }
+  });
+
+  it('Recieves data from defaults', async () => {
+    const onSave = jest.fn().mockResolvedValue({})
+      , insertIf = jest.fn(_values => !!(_values && _values.second_example_field))
+      , fieldSets = [[normalField, { field, label: exampleLabel, insertIf }]]
+      , props = { fieldSets, onSave, title }
+      ;
+
+    for (const secondExampleField of [true, false]) {
+      const tester = await new Tester(EditableCard, { props: {
+        ...props,
+        defaults: { second_example_field: secondExampleField },
+      }}).mount();
+
+      tester.click(`button.btn-edit`);
+      expect(tester.text().includes(exampleLabel)).toBe(secondExampleField);
+    }
+  });
 });

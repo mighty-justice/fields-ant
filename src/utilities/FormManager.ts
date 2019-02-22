@@ -86,26 +86,33 @@ class FormManager {
     return fieldConfig.toForm({ ...model, ...defaults }, fieldConfig.field);
   }
 
+  public getFormValue (fieldConfigPartial: IFieldConfigPartial) {
+    const fieldConfig = fillInFieldConfig(fieldConfigPartial)
+      , formValue = get(this.formValues, fieldConfig.field)
+      , convertedValue = fieldConfig.fromForm(formValue)
+      , isValueFalsey = !convertedValue && convertedValue !== false
+      , shouldNullify = isValueFalsey && fieldConfig.nullify
+      ;
+
+    return shouldNullify ? null : convertedValue;
+  }
+
   public get formModel () {
-    const model = this.form.getFieldsValue();
+    const formValues: IModel = {};
 
     this.fieldConfigs.forEach(fieldConfig => {
-      const formValue = get(model, fieldConfig.field)
-        , value = fieldConfig.fromForm(formValue);
+      const isInForm = has(this.formValues, fieldConfig.field)
+        , value = isInForm ? this.getFormValue(fieldConfig) : this.getDefaultValue(fieldConfig)
+        ;
 
-      if (!value && value !== false && fieldConfig.nullify) {
-        set(model, fieldConfig.field, null);
-      }
-      else {
-        set(model, fieldConfig.field, value);
-      }
+      set(formValues, fieldConfig.field, value);
     });
 
-    if (this.args.model && this.args.model.id) {
-      model.id = this.args.model.id;
-    }
+    const ID_ATTR = 'id'
+      , id = get(this.args.model, ID_ATTR);
+    if (id) { set(formValues, ID_ATTR, id); }
 
-    return model;
+    return formValues;
   }
 
   private get formValues () {
