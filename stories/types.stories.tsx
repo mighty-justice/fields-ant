@@ -47,6 +47,7 @@ storiesOf('Types', module)
                 },
               ],
               editProps: {
+                noSearchContent: `Type in lawfirm's name`,
                 searchIcon: <span>O</span>,
                 selectProps: { placeholder: 'Search lawfirm...' },
               },

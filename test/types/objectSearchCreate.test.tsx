@@ -45,7 +45,7 @@ async function searchFor (tester: any, field: string, result: any, searchTerm: s
   tester.endpoints['/legal-organizations/'] = { results: [result] };
   tester.changeInput(`input#${field}`, searchTerm);
   await tester.refresh();
-  expect(tester.find('li').text()).toContain(result.name);
+  expect(tester.find('li').first().text()).toContain(result.name);
 }
 
 async function selectAddNew (tester: any) {

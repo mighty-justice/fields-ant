@@ -33,6 +33,7 @@ export interface IObjectSearchCreateProps {
   fieldDecorator: <T>(component: T) => T;
   formManager: FormManager;
   loadingIcon?: React.ReactNode;
+  noSearchContent?: React.ReactNode;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }
@@ -62,6 +63,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
       'debounceWait',
       'fieldConfig',
       'loadingIcon',
+      'noSearchContent',
       'searchIcon',
       'selectProps',
     ]);
