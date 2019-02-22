@@ -20,11 +20,12 @@ import {
 } from '../';
 
 export interface IObjectSearchProps {
+  addNewContent?: React.ReactNode;
   debounceWait: number;
   fieldConfig: IFieldConfigObjectSearchCreate;
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
-  onSearchChange: (search: string) => void;
+  onAddNew: (search: string) => void;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }
@@ -44,6 +45,7 @@ inject their own props, do validation, and correctly show help:
 */
 
 const ITEM_KEYS = {
+  ADD: 'add',
   EMPTY: 'empty',
   NO_SEARCH: 'no-search',
 };
@@ -102,7 +104,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   }
 
   private async handleSearch (value: string) {
-    const { getEndpoint, onSearchChange } = this.injected
+    const { getEndpoint } = this.injected
       , { endpoint, searchFilters } = this.fieldConfig
       , params = {
         search: value,
@@ -112,10 +114,20 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
 
     this.search = value;
     this.isLoading.setTrue();
-    onSearchChange(this.search);
     const response = await getEndpoint(`/${endpoint}/${toKey(params)}`);
     this.options = response.results;
     this.isLoading.setFalse();
+  }
+
+  private renderOptionAdd () {
+    const { addNewContent } = this.props
+      , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.ADD}`;
+
+    return (
+      <Antd.Select.Option className={className} key={ITEM_KEYS.ADD}>
+        <div>{addNewContent || <><Antd.Icon type='plus' /> Add new</>}</div>
+      </Antd.Select.Option>
+    );
   }
 
   private renderOptionEmpty () {
@@ -154,15 +166,28 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
     );
   }
 
-  private onChange (value: any) {
-    const foundOption = this.options.find(option => option.id === value.key);
+  private onChange (selectedOption: any) {
+    if (selectedOption.key === ITEM_KEYS.ADD) {
+      this.props.onAddNew(this.search);
+    }
+
+    const foundOption = this.options.find(option => option.id === selectedOption.key);
     this.injected.onChange(toJS(foundOption));
+  }
+
+  private onFocus () {
+    const isPristine = !this.hasOptions && !this.hasSearch;
+    if (isPristine) {
+      // Trigger empty search
+      this.handleSearch(this.search);
+    }
   }
 
   public render () {
     const { id } = this.injected
       , showEmpty = this.hasSearch && !this.hasOptions
       , showNoSearch = !this.hasOptions && !this.hasOptions
+      , showAdd = this.hasSearch
       ;
 
     return (
@@ -174,6 +199,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         labelInValue
         loading={this.isLoading.isTrue}
         onChange={this.onChange}
+        onFocus={this.onFocus}
         onSearch={this.debouncedHandleSearch}
         placeholder='Search...'
         showSearch
@@ -183,6 +209,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         {this.options.map(this.renderOption)}
         {showEmpty && this.renderOptionEmpty()}
         {showNoSearch && this.renderOptionNoSearch()}
+        {showAdd && this.renderOptionAdd()}
       </Antd.Select>
     );
   }

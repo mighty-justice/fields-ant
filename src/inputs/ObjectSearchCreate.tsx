@@ -8,7 +8,6 @@ import { pick } from 'lodash';
 import SmartBool from '@mighty-justice/smart-bool';
 
 import * as Antd from 'antd';
-import { ButtonProps } from 'antd/lib/button';
 import { SelectProps } from 'antd/lib/select';
 
 import {
@@ -23,10 +22,8 @@ import {
 
 import ObjectSearchCreateSearchInput from './ObjectSearchCreateSearchInput';
 
-const MIN_SEARCH_LENGTH = 3;
-
 export interface IObjectSearchCreateProps {
-  buttonProps: ButtonProps;
+  addNewContent?: React.ReactNode;
   debounceWait?: number;
   decoratorOptions: { [key: string]: any };
   fieldConfig: IFieldConfigObjectSearchCreate;
@@ -34,6 +31,7 @@ export interface IObjectSearchCreateProps {
   formManager: FormManager;
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
+  onAddNewToggle?: (isAddingNew: boolean) => void;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }
@@ -53,13 +51,9 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     return this.props.fieldConfig as IFieldConfigObjectSearchCreate;
   }
 
-  private get buttonProps () {
-    // Handpicking specific props to avoid unintentional behaviors
-    return pick(this.props.buttonProps as ButtonProps, ['children', 'icon']);
-  }
-
   private get objectSearchProps () {
     return pick(this.props, [
+      'addNewContent',
       'debounceWait',
       'fieldConfig',
       'loadingIcon',
@@ -69,12 +63,17 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     ]);
   }
 
-  private async handleSearch (value: string) {
-    this.search = value;
+  private async onAddNew (search: string) {
+    const { onAddNewToggle } = this.props;
+    this.search = search;
+    this.isAddingNew.setTrue();
+    if (onAddNewToggle) { onAddNewToggle(true); }
   }
 
   private async onSearch () {
+    const { onAddNewToggle } = this.props;
     this.isAddingNew.setFalse();
+    if (onAddNewToggle) { onAddNewToggle(false); }
   }
 
   public render () {
@@ -107,22 +106,12 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
 
     return (
       <Antd.Form.Item className={className}>
-        <Antd.Input.Group className='ant-input-group-search-create' compact>
-          {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
-            <ObjectSearchCreateSearchInput
-              onSearchChange={this.handleSearch}
-              {...this.objectSearchProps}
-            />,
-          )}
-          <Antd.Button
-            children='Add New'
-            className='osc-add-new'
-            disabled={this.search.length < MIN_SEARCH_LENGTH}
-            icon='plus'
-            onClick={this.isAddingNew.setTrue}
-            {...this.buttonProps}
-          />
-        </Antd.Input.Group>
+        {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
+          <ObjectSearchCreateSearchInput
+            onAddNew={this.onAddNew}
+            {...this.objectSearchProps}
+          />,
+        )}
       </Antd.Form.Item>
     );
   }
