@@ -43,7 +43,12 @@ async function getTester (props: any) {
 
 async function searchFor (tester: any, field: string, result: any, searchTerm: string) {
   tester.endpoints['/legal-organizations/'] = { results: [result] };
-  tester.changeInput(`input#${field}`, searchTerm);
+
+  // Change input without blurring
+  const component = tester.find(`input#${field}`).first();
+  component.simulate('focus');
+  component.simulate('change', { target: { value: searchTerm } });
+
   await tester.refresh();
   expect(tester.find('li').first().text()).toContain(result.name);
 }
