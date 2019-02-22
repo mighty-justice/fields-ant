@@ -25,8 +25,7 @@ export interface IObjectSearchProps {
   fieldConfig: IFieldConfigObjectSearchCreate;
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
-  onAddNew: () => void;
-  onSearchChange: (search: string) => void;
+  onAddNew: (search: string) => void;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }
@@ -105,7 +104,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   }
 
   private async handleSearch (value: string) {
-    const { getEndpoint, onSearchChange } = this.injected
+    const { getEndpoint } = this.injected
       , { endpoint, searchFilters } = this.fieldConfig
       , params = {
         search: value,
@@ -115,7 +114,6 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
 
     this.search = value;
     this.isLoading.setTrue();
-    onSearchChange(this.search);
     const response = await getEndpoint(`/${endpoint}/${toKey(params)}`);
     this.options = response.results;
     this.isLoading.setFalse();
@@ -169,7 +167,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   }
   private onChange (selectedOption: any) {
     if (selectedOption.key === ITEM_KEYS.ADD) {
-      this.props.onAddNew();
+      this.props.onAddNew(this.search);
     }
 
     const foundOption = this.options.find(option => option.id === selectedOption.key);

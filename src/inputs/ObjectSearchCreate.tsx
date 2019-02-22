@@ -63,12 +63,9 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     ]);
   }
 
-  private async handleSearch (value: string) {
-    this.search = value;
-  }
-
-  private async onAddNew () {
+  private async onAddNew (search: string) {
     const { onAddNewToggle } = this.props;
+    this.search = search;
     this.isAddingNew.setTrue();
     if (onAddNewToggle) { onAddNewToggle(true); }
   }
@@ -112,7 +109,6 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
         {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
           <ObjectSearchCreateSearchInput
             onAddNew={this.onAddNew}
-            onSearchChange={this.handleSearch}
             {...this.objectSearchProps}
           />,
         )}
