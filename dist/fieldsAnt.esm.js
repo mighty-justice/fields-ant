@@ -1,16 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
-import { Form, Select, Button, Icon, Input, Rate, Radio, DatePicker, Row, Col, Popconfirm, Divider, Card, notification, Drawer, Modal, List } from 'antd';
+import { Form as Form$1, Select, Icon, Button, Rate as Rate$1, Radio, DatePicker, Input, Row, Col, Popconfirm, Divider, Card as Card$1, notification, Drawer, Modal, List } from 'antd';
 import { toJS, observable, computed } from 'mobx';
-import { pick, isArray, get, sortBy, values, omit, isEmpty, noop, isPlainObject, extend, mapValues, set, pickBy, kebabCase, result } from 'lodash';
+import { debounce, get, pick, isArray, isBoolean, sortBy, values, omit, isEmpty, noop, isPlainObject, extend, has, mapValues, flatten, set, pickBy, kebabCase, result } from 'lodash';
 import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, parseAndPreserveNewlines, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
 import moment from 'moment';
 import { format } from 'date-fns';
 import { pattern } from 'iso8601-duration';
 import { inject, observer } from 'mobx-react';
 import SmartBool from '@mighty-justice/smart-bool';
-import flatten from 'flat';
+import flattenObject from 'flat';
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
@@ -265,7 +265,7 @@ function (_Component) {
       var className = cx('button-toolbar', this.props.align ? "align-".concat(this.props.align) : null, {
         'no-spacing': this.props.noSpacing
       }, _defineProperty({}, "position-fixed", this.props.fixed), this.props.className);
-      return React.createElement(Form.Item, _extends({}, this.props, {
+      return React.createElement(Form$1.Item, _extends({}, this.props, {
         className: className
       }), this.props.children);
     }
@@ -274,33 +274,45 @@ function (_Component) {
   return ButtonToolbar;
 }(Component)) || _class;
 
-var _dec, _class$1, _class2, _descriptor, _descriptor2, _temp;
-var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$1 = autoBindMethods(_class$1 = observer(_class$1 = (_class2 = (_temp =
+var _dec, _class$1, _class2, _descriptor, _descriptor2, _descriptor3, _class3, _temp;
+
+/*
+This component performs the 'search' action of ObjectSearchCreate.
+It must be a separate component so that Ant Design / rc-form can
+inject their own props, do validation, and correctly show help:
+
+{formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
+  <ObjectSearchCreateSearchInput
+*/
+var ITEM_KEYS = {
+  ADD: 'add',
+  EMPTY: 'empty',
+  NO_SEARCH: 'no-search'
+};
+var ObjectSearchCreateSearchInput = (_dec = inject('getEndpoint'), _dec(_class$1 = autoBindMethods(_class$1 = observer(_class$1 = (_class2 = (_temp = _class3 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(ObjectSearch, _Component);
+  _inherits(ObjectSearchCreateSearchInput, _Component);
 
-  function ObjectSearch() {
-    var _getPrototypeOf2;
-
+  function ObjectSearchCreateSearchInput(props) {
     var _this;
 
-    _classCallCheck(this, ObjectSearch);
+    _classCallCheck(this, ObjectSearchCreateSearchInput);
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ObjectSearchCreateSearchInput).call(this, props));
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ObjectSearch)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _initializerDefineProperty(_this, "options", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "options", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "isLoading", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "search", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "search", _descriptor3, _assertThisInitialized(_this));
 
+    _this.debouncedHandleSearch = void 0;
+    _this.debouncedHandleSearch = debounce(_this.handleSearch, props.debounceWait);
     return _this;
   }
 
-  _createClass(ObjectSearch, [{
+  _createClass(ObjectSearchCreateSearchInput, [{
     key: "handleSearch",
     value: function () {
       var _handleSearch = _asyncToGenerator(
@@ -316,15 +328,16 @@ function (_Component) {
                   search: value
                 }, searchFilters);
                 this.search = value;
-                this.props.onSearchChange(this.search);
+                this.isLoading.setTrue();
                 _context.next = 5;
                 return getEndpoint("/".concat(endpoint, "/").concat(toKey(params)));
 
               case 5:
                 response = _context.sent;
                 this.options = response.results;
+                this.isLoading.setFalse();
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -339,61 +352,171 @@ function (_Component) {
       return handleSearch;
     }()
   }, {
+    key: "renderOptionAdd",
+    value: function renderOptionAdd() {
+      var addNewContent = this.props.addNewContent,
+          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.ADD);
+      return React.createElement(Select.Option, {
+        className: className,
+        key: ITEM_KEYS.ADD
+      }, React.createElement("div", null, addNewContent || React.createElement(React.Fragment, null, React.createElement(Icon, {
+        type: "plus"
+      }), " Add new")));
+    }
+  }, {
+    key: "renderOptionEmpty",
+    value: function renderOptionEmpty() {
+      var selectProps = this.props.selectProps,
+          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.EMPTY);
+      return React.createElement(Select.Option, {
+        className: className,
+        disabled: true,
+        key: ITEM_KEYS.EMPTY
+      }, React.createElement("div", null, get(selectProps, 'notFoundContent') || 'No results'));
+    }
+  }, {
+    key: "renderOptionNoSearch",
+    value: function renderOptionNoSearch() {
+      var noSearchContent = this.props.noSearchContent,
+          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.NO_SEARCH);
+      return React.createElement(Select.Option, {
+        className: className,
+        disabled: true,
+        key: ITEM_KEYS.NO_SEARCH
+      }, React.createElement("div", null, noSearchContent || 'Type in search text'));
+    }
+  }, {
+    key: "renderOption",
+    value: function renderOption(option) {
+      var className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item");
+      return React.createElement(Select.Option, {
+        className: className,
+        key: option.id,
+        value: option.id
+      }, option.name);
+    }
+  }, {
     key: "onChange",
-    value: function onChange(value) {
+    value: function onChange(selectedOption) {
+      var _this$injected = this.injected,
+          onChange = _this$injected.onChange,
+          onAddNew = _this$injected.onAddNew; // Clear
+
+      if (!selectedOption) {
+        onChange(selectedOption);
+        return;
+      } // Add new
+
+
+      if (selectedOption.key === ITEM_KEYS.ADD) {
+        onAddNew(this.search);
+        return;
+      } // Select from search
+
+
       var foundOption = this.options.find(function (option) {
-        return option.id === value.key;
+        return option.id === selectedOption.key;
       });
-      this.injected.onChange(toJS(foundOption));
+      onChange(toJS(foundOption));
+    }
+  }, {
+    key: "onBlur",
+    value: function onBlur() {
+      this.search = '';
+    }
+  }, {
+    key: "onFocus",
+    value: function onFocus() {
+      var isPristine = !this.hasOptions && !this.hasSearch;
+
+      if (isPristine) {
+        // Trigger empty search
+        this.handleSearch(this.search);
+      }
     }
   }, {
     key: "render",
     value: function render() {
-      var id = this.injected.id;
+      var id = this.injected.id,
+          showEmpty = this.hasSearch && !this.hasOptions,
+          showNoSearch = !this.hasOptions && !this.hasOptions,
+          showAdd = this.hasSearch;
       return React.createElement(Select, _extends({
         allowClear: true,
         defaultActiveFirstOption: false,
         filterOption: false,
         id: id,
         labelInValue: true,
+        loading: this.isLoading.isTrue,
+        onBlur: this.onBlur,
         onChange: this.onChange,
-        onSearch: this.handleSearch,
-        placeholder: "Select existing",
-        showSearch: true
-      }, this.selectProps), this.options.map(function (option) {
-        return React.createElement(Select.Option, {
-          key: option.id,
-          value: option.id
-        }, option.name);
-      }));
+        onFocus: this.onFocus,
+        onSearch: this.debouncedHandleSearch,
+        placeholder: "Search...",
+        showSearch: true,
+        suffixIcon: this.isLoading.isTrue ? this.loadingIcon : this.searchIcon
+      }, this.selectProps), this.options.map(this.renderOption), showEmpty && this.renderOptionEmpty(), showNoSearch && this.renderOptionNoSearch(), showAdd && this.renderOptionAdd());
     }
   }, {
     key: "injected",
-    get: function get$$1() {
+    get: function get() {
       return this.props;
     }
   }, {
     key: "fieldConfig",
-    get: function get$$1() {
+    get: function get() {
       return this.props.fieldConfig;
     }
   }, {
+    key: "hasSearch",
+    get: function get() {
+      return this.search !== '';
+    }
+  }, {
+    key: "hasOptions",
+    get: function get() {
+      return !!this.options.length;
+    }
+  }, {
+    key: "loadingIcon",
+    get: function get() {
+      return this.props.loadingIcon || React.createElement(Icon, {
+        type: "loading"
+      });
+    }
+  }, {
+    key: "searchIcon",
+    get: function get() {
+      return this.props.searchIcon || React.createElement(Icon, {
+        type: "search"
+      });
+    }
+  }, {
     key: "selectProps",
-    get: function get$$1() {
+    get: function get() {
       // Handpicking specific props to avoid unintentional behaviors
-      return pick(this.props.selectProps, ['suffixIcon', 'clearIcon', 'removeIcon']);
+      return pick(this.props.selectProps, ['clearIcon', 'placeholder', 'removeIcon', 'suffixIcon']);
     }
   }]);
 
-  return ObjectSearch;
-}(Component), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "options", [observable], {
+  return ObjectSearchCreateSearchInput;
+}(Component), _class3.defaultProps = {
+  debounceWait: DEFAULT_DEBOUNCE_WAIT
+}, _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "options", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return [];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "search", [observable], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "isLoading", [observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return new SmartBool();
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "search", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -403,45 +526,51 @@ function (_Component) {
 })), _class2)) || _class$1) || _class$1) || _class$1);
 
 var _dec$1, _class$2, _class2$1, _descriptor$1, _descriptor2$1, _temp$1;
-var MIN_SEARCH_LENGTH = 3;
-var ObjectSearchCreate$$1 = (_dec$1 = inject('getEndpoint'), _dec$1(_class$2 = autoBindMethods(_class$2 = observer(_class$2 = (_class2$1 = (_temp$1 =
+var ObjectSearchCreate = (_dec$1 = inject('getEndpoint'), _dec$1(_class$2 = autoBindMethods(_class$2 = observer(_class$2 = (_class2$1 = (_temp$1 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(ObjectSearchCreate$$1, _Component);
+  _inherits(ObjectSearchCreate, _Component);
 
-  function ObjectSearchCreate$$1() {
+  function ObjectSearchCreate() {
     var _getPrototypeOf2;
 
     var _this;
 
-    _classCallCheck(this, ObjectSearchCreate$$1);
+    _classCallCheck(this, ObjectSearchCreate);
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ObjectSearchCreate$$1)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ObjectSearchCreate)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _initializerDefineProperty(_this, "isAddingNew", _descriptor$1, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "isAddingNew", _descriptor$1, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "search", _descriptor2$1, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "search", _descriptor2$1, _assertThisInitialized(_this));
 
     return _this;
   }
 
-  _createClass(ObjectSearchCreate$$1, [{
-    key: "handleSearch",
+  _createClass(ObjectSearchCreate, [{
+    key: "onAddNew",
     value: function () {
-      var _handleSearch = _asyncToGenerator(
+      var _onAddNew = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(value) {
+      regeneratorRuntime.mark(function _callee(search) {
+        var onAddNewToggle;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                this.search = value;
+                onAddNewToggle = this.props.onAddNewToggle;
+                this.search = search;
+                this.isAddingNew.setTrue();
 
-              case 1:
+                if (onAddNewToggle) {
+                  onAddNewToggle(true);
+                }
+
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -449,11 +578,43 @@ function (_Component) {
         }, _callee, this);
       }));
 
-      function handleSearch(_x) {
-        return _handleSearch.apply(this, arguments);
+      function onAddNew(_x) {
+        return _onAddNew.apply(this, arguments);
       }
 
-      return handleSearch;
+      return onAddNew;
+    }()
+  }, {
+    key: "onSearch",
+    value: function () {
+      var _onSearch = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
+        var onAddNewToggle;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                onAddNewToggle = this.props.onAddNewToggle;
+                this.isAddingNew.setFalse();
+
+                if (onAddNewToggle) {
+                  onAddNewToggle(false);
+                }
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function onSearch() {
+        return _onSearch.apply(this, arguments);
+      }
+
+      return onSearch;
     }()
   }, {
     key: "render",
@@ -461,60 +622,50 @@ function (_Component) {
       var _this$injected = this.injected,
           decoratorOptions = _this$injected.decoratorOptions,
           fieldConfig = _this$injected.fieldConfig,
-          form = _this$injected.form,
           formManager = _this$injected.formManager,
-          selectProps = _this$injected.selectProps;
+          className = cx(CX_PREFIX_SEARCH_CREATE, _defineProperty({}, "".concat(CX_PREFIX_SEARCH_CREATE, "-create"), this.isAddingNew.isTrue));
 
       if (this.isAddingNew.isTrue) {
-        return React.createElement(React.Fragment, null, React.createElement(NestedFieldSet$$1, {
+        return React.createElement("div", {
+          className: className
+        }, React.createElement(NestedFieldSet, {
           fieldSet: this.fieldConfig.createFields,
-          form: form,
           formManager: formManager,
           id: fieldConfig.field,
           label: this.fieldConfig.label,
           search: this.search
         }), React.createElement(Button, {
           size: "small",
-          onClick: this.isAddingNew.setFalse
+          onClick: this.onSearch
         }, React.createElement(Icon, {
           type: "left"
         }), " Back to search"));
       }
 
-      return React.createElement(Form.Item, null, React.createElement(Input.Group, {
-        className: "ant-input-group-search-create",
-        compact: true
-      }, form.getFieldDecorator(fieldConfig.field, decoratorOptions)(React.createElement(ObjectSearch, {
-        fieldConfig: fieldConfig,
-        onSearchChange: this.handleSearch,
-        selectProps: selectProps
-      })), React.createElement(Button, _extends({
-        children: "Add New",
-        className: "osc-add-new",
-        disabled: this.search.length < MIN_SEARCH_LENGTH,
-        icon: "plus",
-        onClick: this.isAddingNew.setTrue
-      }, this.buttonProps))));
+      return React.createElement(Form$1.Item, {
+        className: className
+      }, formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(React.createElement(ObjectSearchCreateSearchInput, _extends({
+        onAddNew: this.onAddNew
+      }, this.objectSearchProps))));
     }
   }, {
     key: "injected",
-    get: function get$$1() {
+    get: function get() {
       return this.props;
     }
   }, {
     key: "fieldConfig",
-    get: function get$$1() {
+    get: function get() {
       return this.props.fieldConfig;
     }
   }, {
-    key: "buttonProps",
-    get: function get$$1() {
-      // Handpicking specific props to avoid unintentional behaviors
-      return pick(this.props.buttonProps, ['children', 'icon']);
+    key: "objectSearchProps",
+    get: function get() {
+      return pick(this.props, ['addNewContent', 'debounceWait', 'fieldConfig', 'loadingIcon', 'noSearchContent', 'searchIcon', 'selectProps']);
     }
   }]);
 
-  return ObjectSearchCreate$$1;
+  return ObjectSearchCreate;
 }(Component), _temp$1), (_descriptor$1 = _applyDecoratedDescriptor(_class2$1.prototype, "isAddingNew", [observable], {
   configurable: true,
   enumerable: true,
@@ -532,18 +683,18 @@ function (_Component) {
 })), _class2$1)) || _class$2) || _class$2) || _class$2);
 
 var _dec$2, _class$3, _class2$2;
-var OptionSelect$$1 = (_dec$2 = inject('getOptions'), _dec$2(_class$3 = (_class2$2 =
+var OptionSelect = (_dec$2 = inject('getOptions'), _dec$2(_class$3 = (_class2$2 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(OptionSelect$$1, _Component);
+  _inherits(OptionSelect, _Component);
 
-  function OptionSelect$$1() {
-    _classCallCheck(this, OptionSelect$$1);
+  function OptionSelect() {
+    _classCallCheck(this, OptionSelect);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(OptionSelect$$1).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(OptionSelect).apply(this, arguments));
   }
 
-  _createClass(OptionSelect$$1, [{
+  _createClass(OptionSelect, [{
     key: "render",
     value: function render() {
       return React.createElement(Select, _extends({
@@ -552,74 +703,74 @@ function (_Component) {
         showSearch: !!this.fieldConfig.showSearch
       }, this.props), this.options.map(function (option) {
         return React.createElement(Select.Option, {
-          value: option.value,
-          key: option.value
+          key: option.value,
+          value: option.value
         }, option.name);
       }));
     }
   }, {
     key: "injected",
-    get: function get$$1() {
+    get: function get() {
       return this.props;
     }
   }, {
     key: "fieldConfig",
-    get: function get$$1() {
+    get: function get() {
       return this.props.fieldConfig;
     }
   }, {
     key: "options",
-    get: function get$$1() {
+    get: function get() {
       return getOptions(this.fieldConfig, this.injected);
     }
   }]);
 
-  return OptionSelect$$1;
+  return OptionSelect;
 }(Component), (_applyDecoratedDescriptor(_class2$2.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$2.prototype, "options"), _class2$2.prototype)), _class2$2)) || _class$3);
 
 function formatRating(value) {
-  return value ? React.createElement(Rate, {
+  return value ? React.createElement(Rate$1, {
     disabled: true,
     defaultValue: +value
   }) : EMPTY_FIELD;
 }
 
-var Rate$1 =
+var Rate =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(Rate$$1, _Component);
+  _inherits(Rate, _Component);
 
-  function Rate$$1() {
-    _classCallCheck(this, Rate$$1);
+  function Rate() {
+    _classCallCheck(this, Rate);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Rate$$1).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Rate).apply(this, arguments));
   }
 
-  _createClass(Rate$$1, [{
+  _createClass(Rate, [{
     key: "render",
     value: function render() {
-      return React.createElement(Rate, _extends({}, this.props, {
+      return React.createElement(Rate$1, _extends({}, this.props, {
         value: Number(this.props.value)
       }));
     }
   }]);
 
-  return Rate$$1;
+  return Rate;
 }(Component);
 
 var _dec$3, _class$4, _class2$3;
-var OptionSelectDisplay$$1 = (_dec$3 = inject('getOptions'), _dec$3(_class$4 = autoBindMethods(_class$4 = observer(_class$4 = (_class2$3 =
+var OptionSelectDisplay = (_dec$3 = inject('getOptions'), _dec$3(_class$4 = autoBindMethods(_class$4 = observer(_class$4 = (_class2$3 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(OptionSelectDisplay$$1, _Component);
+  _inherits(OptionSelectDisplay, _Component);
 
-  function OptionSelectDisplay$$1() {
-    _classCallCheck(this, OptionSelectDisplay$$1);
+  function OptionSelectDisplay() {
+    _classCallCheck(this, OptionSelectDisplay);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(OptionSelectDisplay$$1).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(OptionSelectDisplay).apply(this, arguments));
   }
 
-  _createClass(OptionSelectDisplay$$1, [{
+  _createClass(OptionSelectDisplay, [{
     key: "render",
     value: function render() {
       var value = this.props.value,
@@ -635,54 +786,54 @@ function (_Component) {
     }
   }, {
     key: "injected",
-    get: function get$$1() {
+    get: function get() {
       return this.props;
     }
   }, {
     key: "fieldConfig",
-    get: function get$$1() {
+    get: function get() {
       return this.props.fieldConfig;
     }
   }, {
     key: "options",
-    get: function get$$1() {
+    get: function get() {
       return getOptions(this.fieldConfig, this.injected);
     }
   }]);
 
-  return OptionSelectDisplay$$1;
+  return OptionSelectDisplay;
 }(Component), (_applyDecoratedDescriptor(_class2$3.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$3.prototype, "options"), _class2$3.prototype)), _class2$3)) || _class$4) || _class$4) || _class$4);
-function formatOptionSelect$$1(value, fieldConfig) {
+function formatOptionSelect(value, fieldConfig) {
   if (isArray(value)) {
     if (value.length > 1) {
       return "(".concat(value.length, " values)");
     }
 
-    return React.createElement(OptionSelectDisplay$$1, {
+    return React.createElement(OptionSelectDisplay, {
       value: value[0],
       fieldConfig: fieldConfig
     });
   }
 
-  return React.createElement(OptionSelectDisplay$$1, {
+  return React.createElement(OptionSelectDisplay, {
     value: value,
     fieldConfig: fieldConfig
   });
 }
 
 var _dec$4, _class$5, _class2$4;
-var RadioGroup$$1 = (_dec$4 = inject('getOptions'), _dec$4(_class$5 = autoBindMethods(_class$5 = observer(_class$5 = (_class2$4 =
+var RadioGroup = (_dec$4 = inject('getOptions'), _dec$4(_class$5 = autoBindMethods(_class$5 = observer(_class$5 = (_class2$4 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(RadioGroup$$1, _Component);
+  _inherits(RadioGroup, _Component);
 
-  function RadioGroup$$1() {
-    _classCallCheck(this, RadioGroup$$1);
+  function RadioGroup() {
+    _classCallCheck(this, RadioGroup);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(RadioGroup$$1).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(RadioGroup).apply(this, arguments));
   }
 
-  _createClass(RadioGroup$$1, [{
+  _createClass(RadioGroup, [{
     key: "render",
     value: function render() {
       return React.createElement(Radio.Group, this.props, this.options.map(function (option) {
@@ -694,22 +845,22 @@ function (_Component) {
     }
   }, {
     key: "injected",
-    get: function get$$1() {
+    get: function get() {
       return this.props;
     }
   }, {
     key: "fieldConfig",
-    get: function get$$1() {
+    get: function get() {
       return this.props.fieldConfig;
     }
   }, {
     key: "options",
-    get: function get$$1() {
+    get: function get() {
       return getOptions(this.fieldConfig, this.injected);
     }
   }]);
 
-  return RadioGroup$$1;
+  return RadioGroup;
 }(Component), (_applyDecoratedDescriptor(_class2$4.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$4.prototype, "options"), _class2$4.prototype)), _class2$4)) || _class$5) || _class$5) || _class$5);
 
 function stripFieldConfig(func) {
@@ -719,9 +870,40 @@ function stripFieldConfig(func) {
   };
 }
 
+function booleanToForm(data, field) {
+  var value = get(data, field);
+  return isBoolean(value) ? value.toString() : value;
+}
+
+function booleanFromForm(value) {
+  var _arr = [true, false];
+
+  for (var _i = 0; _i < _arr.length; _i++) {
+    var bool = _arr[_i];
+
+    if (value === bool || value === bool.toString()) {
+      return bool;
+    }
+  }
+
+  return value;
+}
+
 var TYPES = {
   boolean: {
-    render: stripFieldConfig(mapBooleanToText)
+    editComponent: OptionSelect,
+    fieldConfigProp: true,
+    fromForm: booleanFromForm,
+    nullify: true,
+    options: [{
+      value: 'false',
+      name: 'No'
+    }, {
+      value: 'true',
+      name: 'Yes'
+    }],
+    render: stripFieldConfig(mapBooleanToText),
+    toForm: booleanToForm
   },
   date: {
     editComponent: DatePicker,
@@ -780,17 +962,17 @@ var TYPES = {
     render: formatCommaSeparatedNumber
   },
   objectSearchCreate: {
-    editComponent: ObjectSearchCreate$$1,
+    editComponent: ObjectSearchCreate,
     fieldConfigProp: true,
     nullify: true,
     render: stripFieldConfig(getNameOrDefault),
     skipFieldDecorator: true
   },
   optionSelect: {
-    editComponent: OptionSelect$$1,
+    editComponent: OptionSelect,
     fieldConfigProp: true,
     nullify: true,
-    render: formatOptionSelect$$1
+    render: formatOptionSelect
   },
   percentage: {
     editProps: {
@@ -817,13 +999,13 @@ var TYPES = {
     }
   },
   radio: {
-    editComponent: RadioGroup$$1,
+    editComponent: RadioGroup,
     fieldConfigProp: true,
     nullify: true,
-    render: formatOptionSelect$$1
+    render: formatOptionSelect
   },
   rating: {
-    editComponent: Rate$1,
+    editComponent: Rate,
     nullify: true,
     render: formatRating
   },
@@ -858,7 +1040,7 @@ function _asyncNoop() {
             return _context.stop();
         }
       }
-    }, _callee, this);
+    }, _callee);
   }));
   return _asyncNoop.apply(this, arguments);
 }
@@ -1076,7 +1258,7 @@ function (_Component) {
     }
   }, {
     key: "fieldConfig",
-    get: function get$$1() {
+    get: function get() {
       return fillInFieldConfig(this.props.fieldConfig);
     }
   }]);
@@ -1100,15 +1282,15 @@ function (_Component) {
   _createClass(FormField, [{
     key: "render",
     value: function render() {
-      var form = this.props.form,
+      var formManager = this.props.formManager,
           fieldConfig = this.fieldConfig,
           colProps = fieldConfig.colProps,
           formItemProps = fieldConfig.formItemProps,
           field = fieldConfig.field,
           skipFieldDecorator = fieldConfig.skipFieldDecorator,
-          getFieldDecorator = form.getFieldDecorator;
+          getFieldDecorator = formManager.form.getFieldDecorator;
 
-      if (filterInsertIf(fieldConfig, form.getFieldsValue())) {
+      if (filterInsertIf(fieldConfig, formManager.formModel)) {
         return null;
       }
 
@@ -1117,7 +1299,7 @@ function (_Component) {
       } : {},
           editComponent = React.createElement(fieldConfig.editComponent, _extends({}, this.editProps, decoratorOptionsProp)),
           wrappedComponent = skipFieldDecorator ? editComponent : getFieldDecorator(field, this.decoratorOptions)(editComponent),
-          FormItemComponent = React.createElement(Form.Item, _extends({}, formItemProps, {
+          FormItemComponent = React.createElement(Form$1.Item, _extends({}, formItemProps, {
         label: this.label
       }), wrappedComponent);
 
@@ -1131,42 +1313,37 @@ function (_Component) {
     }
   }, {
     key: "fieldConfig",
-    get: function get$$1() {
+    get: function get() {
       return fillInFieldConfig(this.props.fieldConfig);
     }
   }, {
     key: "label",
-    get: function get$$1() {
+    get: function get() {
       var fieldConfig = this.props.fieldConfig;
       return fieldConfig.showLabel ? fieldConfig.label : '';
     }
   }, {
     key: "initialValue",
-    get: function get$$1() {
-      var _this$props = this.props,
-          model = _this$props.model,
-          defaults = _this$props.defaults,
-          fieldConfig = this.fieldConfig;
-      return fieldConfig.value || fieldConfig.toForm(model, fieldConfig.field) || fieldConfig.toForm(defaults, fieldConfig.field);
+    get: function get() {
+      var formManager = this.props.formManager;
+      return formManager.getDefaultValue(this.fieldConfig);
     }
   }, {
     key: "editProps",
-    get: function get$$1() {
-      var _this$props2 = this.props,
-          form = _this$props2.form,
-          formManager = _this$props2.formManager,
+    get: function get() {
+      var formManager = this.props.formManager,
           fieldConfig = this.fieldConfig,
           fieldConfigProp = fieldConfig.fieldConfigProp ? {
         fieldConfig: fieldConfig,
         formManager: formManager
       } : {};
       return _objectSpread({}, fieldConfig.editProps, fieldConfigProp, {
-        form: form
+        form: formManager.form
       });
     }
   }, {
     key: "decoratorOptions",
-    get: function get$$1() {
+    get: function get() {
       var fieldConfig = this.props.fieldConfig;
       return {
         initialValue: this.initialValue,
@@ -1196,10 +1373,10 @@ function (_Component) {
     value: function render() {
       var _this = this;
 
-      var fieldConfigs = getFieldSetFields(this.fieldSet),
-          formValues = this.props.form.getFieldsValue(),
+      var formManager = this.props.formManager,
+          fieldConfigs = getFieldSetFields(this.fieldSet),
           filteredFieldConfigs = fieldConfigs.filter(function (fieldConfig) {
-        return !filterInsertIf(fieldConfig, formValues);
+        return !filterInsertIf(fieldConfig, formManager.formModel);
       }),
           legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend,
           rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps;
@@ -1217,7 +1394,7 @@ function (_Component) {
     }
   }, {
     key: "fieldSet",
-    get: function get$$1() {
+    get: function get() {
       return fillInFieldSet(this.props.fieldSet);
     }
   }]);
@@ -1271,46 +1448,24 @@ function (_Component) {
 
 var _class$9, _class2$7;
 
-var NestedFieldSet$$1 = autoBindMethods(_class$9 = observer(_class$9 = (_class2$7 =
+var NestedFieldSet = autoBindMethods(_class$9 = observer(_class$9 = (_class2$7 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(NestedFieldSet$$1, _Component);
+  _inherits(NestedFieldSet, _Component);
 
-  function NestedFieldSet$$1(props) {
+  function NestedFieldSet(props) {
     var _this;
 
-    _classCallCheck(this, NestedFieldSet$$1);
+    _classCallCheck(this, NestedFieldSet);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(NestedFieldSet$$1).call(this, props));
-    props.form.setFieldsValue(_defineProperty({}, props.id, {}));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(NestedFieldSet).call(this, props));
+    props.formManager.form.setFieldsValue(_defineProperty({}, props.id, {}));
     return _this;
   }
 
-  _createClass(NestedFieldSet$$1, [{
-    key: "render",
-    value: function render() {
-      return React.createElement(FormFieldSet, {
-        fieldSet: this.fieldSet,
-        form: this.props.form,
-        formManager: this.props.formManager,
-        model: this.model
-      });
-    }
-  }, {
-    key: "fieldSet",
-    get: function get$$1() {
-      var _this$props = this.props,
-          id = _this$props.id,
-          fieldSet = _this$props.fieldSet;
-      return getFieldSetFields(fillInFieldSet(fieldSet)).map(function (fieldConfig) {
-        return _objectSpread({}, fieldConfig, {
-          field: "".concat(id, ".").concat(fieldConfig.field)
-        });
-      });
-    }
-  }, {
-    key: "model",
-    get: function get$$1() {
+  _createClass(NestedFieldSet, [{
+    key: "getDefaultValue",
+    value: function getDefaultValue(fieldConfig) {
       /*
       This function implements the fieldConfig features
       populateFromSearch and populateNameFromSearch
@@ -1319,36 +1474,62 @@ function (_Component) {
           _splitName = splitName(search),
           _splitName2 = _slicedToArray(_splitName, 2),
           firstName = _splitName2[0],
-          lastName = _splitName2[1],
-          defaults = {};
+          lastName = _splitName2[1];
 
       if (!search) {
-        return defaults;
+        return {};
       }
 
-      this.fieldSet.map(function (fieldConfig) {
-        var field = fieldConfig.field,
-            populateFromSearch = fieldConfig.populateFromSearch,
-            populateNameFromSearch = fieldConfig.populateNameFromSearch;
+      var field = fieldConfig.field,
+          populateFromSearch = fieldConfig.populateFromSearch,
+          populateNameFromSearch = fieldConfig.populateNameFromSearch;
 
-        if (populateFromSearch) {
-          defaults[field] = search;
-        }
+      if (populateFromSearch) {
+        return {
+          value: search
+        };
+      }
 
-        if (populateNameFromSearch && field.endsWith('first_name')) {
-          defaults[field] = firstName;
-        }
+      if (populateNameFromSearch && field.endsWith('first_name')) {
+        return {
+          value: firstName
+        };
+      }
 
-        if (populateNameFromSearch && field.endsWith('last_name')) {
-          defaults[field] = lastName;
-        }
+      if (populateNameFromSearch && field.endsWith('last_name')) {
+        return {
+          value: lastName
+        };
+      }
+
+      return {};
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return React.createElement(FormFieldSet, {
+        fieldSet: this.fieldSet,
+        formManager: this.props.formManager
       });
-      return defaults;
+    }
+  }, {
+    key: "fieldSet",
+    get: function get() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          id = _this$props.id,
+          fieldSet = _this$props.fieldSet;
+      return getFieldSetFields(fillInFieldSet(fieldSet)).map(function (fieldConfig) {
+        return _objectSpread({}, fieldConfig, {
+          field: "".concat(id, ".").concat(fieldConfig.field)
+        }, _this2.getDefaultValue(fieldConfig));
+      });
     }
   }]);
 
-  return NestedFieldSet$$1;
-}(Component), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldSet"), _class2$7.prototype), _applyDecoratedDescriptor(_class2$7.prototype, "model", [computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "model"), _class2$7.prototype)), _class2$7)) || _class$9) || _class$9;
+  return NestedFieldSet;
+}(Component), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldSet"), _class2$7.prototype)), _class2$7)) || _class$9) || _class$9;
 
 var _class$a, _class2$8;
 
@@ -1392,7 +1573,7 @@ function (_Component) {
     }
   }, {
     key: "fieldSet",
-    get: function get$$1() {
+    get: function get() {
       return fillInFieldSet(this.props.fieldSet);
     }
   }]);
@@ -1402,18 +1583,18 @@ function (_Component) {
 
 var _class$b, _class2$9;
 
-var Card$1 = observer(_class$b = (_class2$9 =
+var Card = observer(_class$b = (_class2$9 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(Card$$1, _Component);
+  _inherits(Card, _Component);
 
-  function Card$$1() {
-    _classCallCheck(this, Card$$1);
+  function Card() {
+    _classCallCheck(this, Card);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Card$$1).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Card).apply(this, arguments));
   }
 
-  _createClass(Card$$1, [{
+  _createClass(Card, [{
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -1421,7 +1602,7 @@ function (_Component) {
           renderTopRight = _this$props.renderTopRight,
           isLoading = _this$props.isLoading,
           model = _this$props.model;
-      return React.createElement(Card, {
+      return React.createElement(Card$1, {
         title: title,
         extra: renderTopRight && renderTopRight(),
         loading: isLoading
@@ -1436,12 +1617,12 @@ function (_Component) {
     }
   }, {
     key: "fieldSets",
-    get: function get$$1() {
+    get: function get() {
       return fillInFieldSets(this.props.fieldSets);
     }
   }]);
 
-  return Card$$1;
+  return Card;
 }(Component), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldSets"), _class2$9.prototype)), _class2$9)) || _class$b;
 
 var _class$c;
@@ -1467,14 +1648,14 @@ function (_Component) {
           model = _this$props.model,
           fieldSets = _this$props.fieldSets,
           classNameSuffix = _this$props.classNameSuffix;
-      return React.createElement(Card, {
+      return React.createElement(Card$1, {
         title: title,
         extra: renderTopRight && renderTopRight(),
         loading: isLoading
       }, isEmpty(model) && React.createElement("p", {
         className: "empty-message"
       }, "No records"), model.map(function (modelItem) {
-        return React.createElement(Card$1, {
+        return React.createElement(Card, {
           classNameSuffix: classNameSuffix,
           fieldSets: fieldSets,
           key: modelItem.id,
@@ -1595,15 +1776,17 @@ var toastError = {
 var FormManager = autoBindMethods(_class$d = (_class2$a = (_temp$2 =
 /*#__PURE__*/
 function () {
-  function FormManager(form, fieldSets, args) {
+  function FormManager(formWrappedInstance, fieldSets, args) {
     _classCallCheck(this, FormManager);
 
     _initializerDefineProperty(this, "saving", _descriptor$2, this);
 
     this.args = void 0;
+    this.formWrappedInstance = void 0;
+    this.formWrappedInstance = formWrappedInstance;
     this.args = _objectSpread({
+      defaults: {},
       fieldSets: fieldSets,
-      form: form,
       model: {},
       onSave: noop,
       onSuccess: noop
@@ -1613,6 +1796,39 @@ function () {
   }
 
   _createClass(FormManager, [{
+    key: "getDefaultValue",
+    value: function getDefaultValue(fieldConfigPartial) {
+      var _this$args = this.args,
+          model = _this$args.model,
+          defaults = _this$args.defaults,
+          fieldConfig = fillInFieldConfig(fieldConfigPartial);
+
+      if (has(fieldConfig, 'value')) {
+        return fieldConfig.toForm(_defineProperty({}, fieldConfig.field, fieldConfig.value), fieldConfig.field);
+      }
+
+      if (has(model, fieldConfig.field)) {
+        return fieldConfig.toForm(model, fieldConfig.field);
+      }
+
+      if (has(defaults, fieldConfig.field)) {
+        return fieldConfig.toForm(defaults, fieldConfig.field);
+      }
+
+      return fieldConfig.toForm(_objectSpread({}, model, defaults), fieldConfig.field);
+    }
+  }, {
+    key: "getFormValue",
+    value: function getFormValue(fieldConfigPartial) {
+      var fieldConfig = fillInFieldConfig(fieldConfigPartial),
+          formValue = get(this.formValues, fieldConfig.field),
+          convertedValue = fieldConfig.fromForm(formValue),
+          isValueFalsey = !convertedValue && convertedValue !== false,
+          shouldNullify = isValueFalsey && fieldConfig.nullify;
+
+      return shouldNullify ? null : convertedValue;
+    }
+  }, {
     key: "onSuccess",
     value: function onSuccess() {
       var onSuccess = this.args.onSuccess;
@@ -1628,8 +1844,7 @@ function () {
     value: function setErrorsOnFormFields(errors) {
       var _this = this;
 
-      var form = this.args.form;
-      form.setFields(mapValues(errors, function (error, field) {
+      this.form.setFields(mapValues(errors, function (error, field) {
         return {
           errors: [new Error(error)],
           value: _this.formValues[field]
@@ -1693,7 +1908,7 @@ function () {
 
               case 8:
                 this.onSuccess();
-                this.args.form.resetFields();
+                this.form.resetFields();
                 _context.next = 15;
                 break;
 
@@ -1727,17 +1942,15 @@ function () {
       var _onSave = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(event) {
-        var form;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                form = this.args.form;
                 event.preventDefault();
                 this.saving = true;
-                form.validateFields(this.validateThenSaveCallback);
+                this.form.validateFields(this.validateThenSaveCallback);
 
-              case 4:
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -1752,40 +1965,46 @@ function () {
       return onSave;
     }()
   }, {
+    key: "form",
+    get: function get() {
+      // The form prop continuously changes identity, so we can't just save it locally
+      return this.formWrappedInstance.props.form;
+    }
+  }, {
+    key: "fieldConfigs",
+    get: function get() {
+      return flatten(this.args.fieldSets.map(getFieldSetFields));
+    }
+  }, {
     key: "formModel",
-    get: function get$$1() {
-      var _this$args = this.args,
-          form = _this$args.form,
-          fieldSets = _this$args.fieldSets,
-          model = form.getFieldsValue();
-      fieldSets.forEach(function (fieldSet) {
-        getFieldSetFields(fieldSet).forEach(function (fieldConfig) {
-          var formValue = get(model, fieldConfig.field),
-              value = fieldConfig.fromForm(formValue);
+    get: function get$1() {
+      var _this2 = this;
 
-          if (!value && fieldConfig.nullify) {
-            set(model, fieldConfig.field, null);
-          } else {
-            set(model, fieldConfig.field, value);
-          }
-        });
+      var formValues = {};
+      this.fieldConfigs.forEach(function (fieldConfig) {
+        var isInForm = has(_this2.formValues, fieldConfig.field),
+            value = isInForm ? _this2.getFormValue(fieldConfig) : _this2.getDefaultValue(fieldConfig);
+        set(formValues, fieldConfig.field, value);
       });
 
-      if (this.args.model && this.args.model.id) {
-        model.id = this.args.model.id;
+      var ID_ATTR = 'id',
+          id = get(this.args.model, ID_ATTR);
+
+      if (id) {
+        set(formValues, ID_ATTR, id);
       }
 
-      return model;
+      return formValues;
     }
   }, {
     key: "formValues",
-    get: function get$$1() {
-      return this.args.form.getFieldsValue();
+    get: function get() {
+      return this.form.getFieldsValue();
     }
   }, {
     key: "formFieldNames",
-    get: function get$$1() {
-      return Object.keys(flatten(this.formValues));
+    get: function get() {
+      return Object.keys(flattenObject(this.formValues));
     }
   }]);
 
@@ -1812,12 +2031,13 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(UnwrappedForm).call(this, props));
     _this.formManager = void 0;
-    var form = props.form,
+    var defaults = props.defaults,
         model = props.model,
         onCancel = props.onCancel,
         onSave = props.onSave,
         setRefFormManager = props.setRefFormManager;
-    _this.formManager = new FormManager(form, _this.fieldSets, {
+    _this.formManager = new FormManager(_assertThisInitialized(_this), _this.fieldSets, {
+      defaults: defaults,
       model: model,
       onSave: onSave,
       onSuccess: onCancel
@@ -1855,12 +2075,9 @@ function (_Component) {
       var _this2 = this;
 
       var _this$props2 = this.props,
-          defaults = _this$props2.defaults,
-          form = _this$props2.form,
-          model = _this$props2.model,
           showControls = _this$props2.showControls,
           title = _this$props2.title;
-      return React.createElement(Form, {
+      return React.createElement(Form$1, {
         layout: "vertical",
         onSubmit: this.formManager.onSave,
         className: "mfa-form"
@@ -1870,17 +2087,14 @@ function (_Component) {
         }, idx > 0 && React.createElement(Divider, {
           key: "divider-".concat(idx)
         }), React.createElement("div", null, React.createElement(FormFieldSet, {
-          defaults: defaults,
           fieldSet: fieldSet,
-          form: form,
-          formManager: _this2.formManager,
-          model: model
+          formManager: _this2.formManager
         })));
       }), this.props.children, showControls && this.renderControls());
     }
   }, {
     key: "fieldSets",
-    get: function get$$1() {
+    get: function get() {
       return fillInFieldSets(this.props.fieldSets);
     }
   }]);
@@ -1888,26 +2102,26 @@ function (_Component) {
   return UnwrappedForm;
 }(Component), _temp$3), (_applyDecoratedDescriptor(_class2$b.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$b.prototype, "fieldSets"), _class2$b.prototype)), _class2$b)) || _class$e) || _class$e; // istanbul ignore next
 
-var WrappedForm = Form.create()(UnwrappedForm);
-var Form$1 = autoBindMethods(_class4 = observer(_class4 = (_temp2 = _class5 =
+var WrappedForm = Form$1.create()(UnwrappedForm);
+var Form = autoBindMethods(_class4 = observer(_class4 = (_temp2 = _class5 =
 /*#__PURE__*/
 function (_Component2) {
-  _inherits(Form$$1, _Component2);
+  _inherits(Form, _Component2);
 
-  function Form$$1() {
-    _classCallCheck(this, Form$$1);
+  function Form() {
+    _classCallCheck(this, Form);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Form$$1).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Form).apply(this, arguments));
   }
 
-  _createClass(Form$$1, [{
+  _createClass(Form, [{
     key: "render",
     value: function render() {
       return React.createElement(WrappedForm, this.props);
     }
   }]);
 
-  return Form$$1;
+  return Form;
 }(Component), _class5.defaultProps = _objectSpread({}, formPropsDefaults, {
   showControls: true
 }), _temp2)) || _class4) || _class4;
@@ -1932,20 +2146,20 @@ function (_Component) {
           title = _this$props.title,
           renderTopRight = _this$props.renderTopRight,
           HANDLED_PROPS = ['title', 'renderTopRight'];
-      return React.createElement(Card, {
+      return React.createElement(Card$1, {
         loading: isLoading,
         title: title,
         extra: renderTopRight && renderTopRight()
-      }, React.createElement(Form$1, omit(this.props, HANDLED_PROPS)));
+      }, React.createElement(Form, omit(this.props, HANDLED_PROPS)));
     }
   }]);
 
   return FormCard;
 }(Component), _class2$c.defaultProps = _objectSpread({}, formPropsDefaults), _temp$4)) || _class$f) || _class$f;
 
-var _class$g, _class2$d, _descriptor$3, _descriptor2$2, _class3, _temp$5;
+var _class$g, _class2$d, _descriptor$3, _descriptor2$2, _class3$1, _temp$5;
 
-var EditableCard = autoBindMethods(_class$g = observer(_class$g = (_class2$d = (_temp$5 = _class3 =
+var EditableCard = autoBindMethods(_class$g = observer(_class$g = (_class2$d = (_temp$5 = _class3$1 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableCard, _Component);
@@ -1963,9 +2177,9 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(EditableCard)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _initializerDefineProperty(_this, "isDeleting", _descriptor$3, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "isDeleting", _descriptor$3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "isEditing", _descriptor2$2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "isEditing", _descriptor2$2, _assertThisInitialized(_this));
 
     return _this;
   }
@@ -2067,13 +2281,13 @@ function (_Component) {
         }));
       }
 
-      return React.createElement(Card$1, _extends({}, this.props, {
+      return React.createElement(Card, _extends({}, this.props, {
         renderTopRight: this.buttons
       }));
     }
   }, {
     key: "deleteButton",
-    get: function get$$1() {
+    get: function get() {
       var _this$props3 = this.props,
           isGuarded = _this$props3.isGuarded,
           title = _this$props3.title,
@@ -2098,7 +2312,7 @@ function (_Component) {
     }
   }, {
     key: "editButton",
-    get: function get$$1() {
+    get: function get() {
       var _this$props4 = this.props,
           isLoading = _this$props4.isLoading,
           title = _this$props4.title,
@@ -2117,7 +2331,7 @@ function (_Component) {
   }]);
 
   return EditableCard;
-}(Component), _class3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$5), (_descriptor$3 = _applyDecoratedDescriptor(_class2$d.prototype, "isDeleting", [observable], {
+}(Component), _class3$1.defaultProps = _objectSpread({}, formPropsDefaults), _temp$5), (_descriptor$3 = _applyDecoratedDescriptor(_class2$d.prototype, "isDeleting", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -2133,9 +2347,9 @@ function (_Component) {
   }
 })), _class2$d)) || _class$g) || _class$g;
 
-var _class$h, _class2$e, _descriptor$4, _class3$1, _temp$6;
+var _class$h, _class2$e, _descriptor$4, _class3$2, _temp$6;
 
-var EditableArrayCard = autoBindMethods(_class$h = observer(_class$h = (_class2$e = (_temp$6 = _class3$1 =
+var EditableArrayCard = autoBindMethods(_class$h = observer(_class$h = (_class2$e = (_temp$6 = _class3$2 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableArrayCard, _Component);
@@ -2153,7 +2367,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(EditableArrayCard)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _initializerDefineProperty(_this, "isAddingNew", _descriptor$4, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "isAddingNew", _descriptor$4, _assertThisInitialized(_this));
 
     return _this;
   }
@@ -2222,7 +2436,7 @@ function (_Component) {
           onSave = _this$props3.onSave,
           onSuccess = _this$props3.onSuccess,
           title = _this$props3.title;
-      return React.createElement(Card, {
+      return React.createElement(Card$1, {
         title: title,
         extra: this.renderAddNew(),
         loading: isLoading
@@ -2250,7 +2464,7 @@ function (_Component) {
   }]);
 
   return EditableArrayCard;
-}(Component), _class3$1.defaultProps = _objectSpread({}, formPropsDefaults), _temp$6), (_descriptor$4 = _applyDecoratedDescriptor(_class2$e.prototype, "isAddingNew", [observable], {
+}(Component), _class3$2.defaultProps = _objectSpread({}, formPropsDefaults), _temp$6), (_descriptor$4 = _applyDecoratedDescriptor(_class2$e.prototype, "isAddingNew", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -2299,7 +2513,7 @@ function (_Component) {
         title: title,
         visible: isVisible.isTrue,
         width: width
-      }, React.createElement(Form$1, _extends({}, omit(this.props, HANDLED_PROPS), {
+      }, React.createElement(Form, _extends({}, omit(this.props, HANDLED_PROPS), {
         onCancel: this.onCancel
       })));
     }
@@ -2308,9 +2522,9 @@ function (_Component) {
   return FormDrawer;
 }(Component), _class2$f.defaultProps = _objectSpread({}, formPropsDefaults), _temp$7)) || _class$i) || _class$i;
 
-var _class$j, _class2$g, _descriptor$5, _class3$2, _temp$8;
+var _class$j, _class2$g, _descriptor$5, _class3$3, _temp$8;
 
-var FormModal = autoBindMethods(_class$j = observer(_class$j = (_class2$g = (_temp$8 = _class3$2 =
+var FormModal = autoBindMethods(_class$j = observer(_class$j = (_class2$g = (_temp$8 = _class3$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormModal, _Component);
@@ -2328,7 +2542,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(FormModal)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _initializerDefineProperty(_this, "formManager", _descriptor$5, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "formManager", _descriptor$5, _assertThisInitialized(_this));
 
     return _this;
   }
@@ -2349,14 +2563,14 @@ function (_Component) {
         onCancel: onCancel,
         title: title,
         visible: true
-      }, this.modalProps), this.props.childrenBefore, React.createElement(Form$1, _extends({}, omit(this.props, HANDLED_PROPS), {
+      }, this.modalProps), this.props.childrenBefore, React.createElement(Form, _extends({}, omit(this.props, HANDLED_PROPS), {
         setRefFormManager: this.setRefFormManager,
         showControls: false
       })), this.props.children);
     }
   }, {
     key: "modalProps",
-    get: function get$$1() {
+    get: function get() {
       var saveText = this.props.saveText;
 
       if (!this.formManager) {
@@ -2376,16 +2590,16 @@ function (_Component) {
   }]);
 
   return FormModal;
-}(Component), _class3$2.defaultProps = _objectSpread({}, formPropsDefaults), _temp$8), (_descriptor$5 = _applyDecoratedDescriptor(_class2$g.prototype, "formManager", [observable], {
+}(Component), _class3$3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$8), (_descriptor$5 = _applyDecoratedDescriptor(_class2$g.prototype, "formManager", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: null
 })), _class2$g)) || _class$j) || _class$j;
 
-var _class$k, _class2$h, _class3$3, _temp$9;
+var _class$k, _class2$h, _class3$4, _temp$9;
 
-var SummaryCard = autoBindMethods(_class$k = observer(_class$k = (_class2$h = (_temp$9 = _class3$3 =
+var SummaryCard = autoBindMethods(_class$k = observer(_class$k = (_class2$h = (_temp$9 = _class3$4 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(SummaryCard, _Component);
@@ -2419,7 +2633,7 @@ function (_Component) {
           isLoading = _this$props.isLoading,
           renderTopRight = _this$props.renderTopRight,
           className = _this$props.className;
-      return React.createElement(Card, {
+      return React.createElement(Card$1, {
         className: cx('summary-card', className),
         extra: renderTopRight && renderTopRight(),
         loading: isLoading,
@@ -2439,16 +2653,19 @@ function (_Component) {
     }
   }, {
     key: "fieldSets",
-    get: function get$$1() {
+    get: function get() {
       return fillInFieldSets(this.props.fieldSets);
     }
   }]);
 
   return SummaryCard;
-}(Component), _class3$3.defaultProps = {
+}(Component), _class3$4.defaultProps = {
   column: 4
 }, _temp$9), (_applyDecoratedDescriptor(_class2$h.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$h.prototype, "fieldSets"), _class2$h.prototype)), _class2$h)) || _class$k) || _class$k;
 
+var DEFAULT_DEBOUNCE_WAIT = 300;
+var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
+
 // Lower-level building blocks and helper components
 
-export { ButtonToolbar, CardField, FormField, FormFieldSet, GuardedButton, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE, NestedFieldSet$$1 as NestedFieldSet, ArrayCard, Card$1 as Card, EditableArrayCard, EditableCard, Form$1 as Form, FormCard, FormDrawer, FormModal, SummaryCard, ObjectSearchCreate$$1 as ObjectSearchCreate, OptionSelect$$1 as OptionSelect, OptionSelectDisplay$$1 as OptionSelectDisplay, formatOptionSelect$$1 as formatOptionSelect, RadioGroup$$1 as RadioGroup, Rate$1 as Rate, formatRating, FormManager, asyncNoop, isPartialFieldSetSimple, isFieldSetSimple, filterInsertIf, fillInFieldConfig, fillInFieldSet, fillInFieldSets, getFieldSetFields, getUnsortedOptions, getOptions, TYPES };
+export { ButtonToolbar, CardField, FormField, FormFieldSet, GuardedButton, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE, NestedFieldSet, ArrayCard, Card, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormModal, SummaryCard, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, formatOptionSelect, RadioGroup, Rate, formatRating, FormManager, DEFAULT_DEBOUNCE_WAIT, CX_PREFIX_SEARCH_CREATE, asyncNoop, isPartialFieldSetSimple, isFieldSetSimple, filterInsertIf, fillInFieldConfig, fillInFieldSet, fillInFieldSets, getFieldSetFields, getUnsortedOptions, getOptions, TYPES };

@@ -1,22 +1,27 @@
-import { IFieldSet } from '../interfaces';
-import { IForm } from '../props';
+import { IFieldConfigPartial, IFieldSet } from '../interfaces';
+import { IForm, IModel } from '../props';
 interface IArgs {
+    defaults: IModel;
     fieldSets: IFieldSet[];
-    form: IForm;
-    model: {
-        [key: string]: any;
-        id?: string;
-    };
-    onSave: (data: {
-        [key: string]: any;
-    }) => void | Promise<void>;
+    model: IModel;
+    onSave: (data: IModel) => void | Promise<void>;
     onSuccess: () => any | Promise<any>;
+}
+interface IFormWrappedInstance {
+    props: {
+        form: IForm;
+    };
 }
 declare class FormManager {
     saving: boolean;
     private args;
-    constructor(form: any, fieldSets: IFieldSet[], args: Partial<IArgs>);
-    readonly formModel: any;
+    formWrappedInstance: IFormWrappedInstance;
+    constructor(formWrappedInstance: IFormWrappedInstance, fieldSets: IFieldSet[], args: Partial<IArgs>);
+    readonly form: any;
+    readonly fieldConfigs: import("../interfaces").IFieldConfig[];
+    getDefaultValue(fieldConfigPartial: IFieldConfigPartial): any;
+    getFormValue(fieldConfigPartial: IFieldConfigPartial): any;
+    readonly formModel: IModel;
     private readonly formValues;
     readonly formFieldNames: string[];
     private onSuccess;

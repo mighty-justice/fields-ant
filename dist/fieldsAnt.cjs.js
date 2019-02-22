@@ -17,7 +17,7 @@ var dateFns = require('date-fns');
 var iso8601Duration = require('iso8601-duration');
 var mobxReact = require('mobx-react');
 var SmartBool = _interopDefault(require('@mighty-justice/smart-bool'));
-var flatten = _interopDefault(require('flat'));
+var flattenObject = _interopDefault(require('flat'));
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
@@ -281,33 +281,45 @@ function (_Component) {
   return ButtonToolbar;
 }(React.Component)) || _class;
 
-var _dec, _class$1, _class2, _descriptor, _descriptor2, _temp;
-var ObjectSearch = (_dec = mobxReact.inject('getEndpoint'), _dec(_class$1 = autoBindMethods(_class$1 = mobxReact.observer(_class$1 = (_class2 = (_temp =
+var _dec, _class$1, _class2, _descriptor, _descriptor2, _descriptor3, _class3, _temp;
+
+/*
+This component performs the 'search' action of ObjectSearchCreate.
+It must be a separate component so that Ant Design / rc-form can
+inject their own props, do validation, and correctly show help:
+
+{formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
+  <ObjectSearchCreateSearchInput
+*/
+var ITEM_KEYS = {
+  ADD: 'add',
+  EMPTY: 'empty',
+  NO_SEARCH: 'no-search'
+};
+var ObjectSearchCreateSearchInput = (_dec = mobxReact.inject('getEndpoint'), _dec(_class$1 = autoBindMethods(_class$1 = mobxReact.observer(_class$1 = (_class2 = (_temp = _class3 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(ObjectSearch, _Component);
+  _inherits(ObjectSearchCreateSearchInput, _Component);
 
-  function ObjectSearch() {
-    var _getPrototypeOf2;
-
+  function ObjectSearchCreateSearchInput(props) {
     var _this;
 
-    _classCallCheck(this, ObjectSearch);
+    _classCallCheck(this, ObjectSearchCreateSearchInput);
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ObjectSearchCreateSearchInput).call(this, props));
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ObjectSearch)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _initializerDefineProperty(_this, "options", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "options", _descriptor, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "isLoading", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "search", _descriptor2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "search", _descriptor3, _assertThisInitialized(_this));
 
+    _this.debouncedHandleSearch = void 0;
+    _this.debouncedHandleSearch = lodash.debounce(_this.handleSearch, props.debounceWait);
     return _this;
   }
 
-  _createClass(ObjectSearch, [{
+  _createClass(ObjectSearchCreateSearchInput, [{
     key: "handleSearch",
     value: function () {
       var _handleSearch = _asyncToGenerator(
@@ -323,15 +335,16 @@ function (_Component) {
                   search: value
                 }, searchFilters);
                 this.search = value;
-                this.props.onSearchChange(this.search);
+                this.isLoading.setTrue();
                 _context.next = 5;
                 return getEndpoint("/".concat(endpoint, "/").concat(utils.toKey(params)));
 
               case 5:
                 response = _context.sent;
                 this.options = response.results;
+                this.isLoading.setFalse();
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -346,33 +359,110 @@ function (_Component) {
       return handleSearch;
     }()
   }, {
+    key: "renderOptionAdd",
+    value: function renderOptionAdd() {
+      var addNewContent = this.props.addNewContent,
+          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.ADD);
+      return React__default.createElement(Antd.Select.Option, {
+        className: className,
+        key: ITEM_KEYS.ADD
+      }, React__default.createElement("div", null, addNewContent || React__default.createElement(React__default.Fragment, null, React__default.createElement(Antd.Icon, {
+        type: "plus"
+      }), " Add new")));
+    }
+  }, {
+    key: "renderOptionEmpty",
+    value: function renderOptionEmpty() {
+      var selectProps = this.props.selectProps,
+          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.EMPTY);
+      return React__default.createElement(Antd.Select.Option, {
+        className: className,
+        disabled: true,
+        key: ITEM_KEYS.EMPTY
+      }, React__default.createElement("div", null, lodash.get(selectProps, 'notFoundContent') || 'No results'));
+    }
+  }, {
+    key: "renderOptionNoSearch",
+    value: function renderOptionNoSearch() {
+      var noSearchContent = this.props.noSearchContent,
+          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.NO_SEARCH);
+      return React__default.createElement(Antd.Select.Option, {
+        className: className,
+        disabled: true,
+        key: ITEM_KEYS.NO_SEARCH
+      }, React__default.createElement("div", null, noSearchContent || 'Type in search text'));
+    }
+  }, {
+    key: "renderOption",
+    value: function renderOption(option) {
+      var className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item");
+      return React__default.createElement(Antd.Select.Option, {
+        className: className,
+        key: option.id,
+        value: option.id
+      }, option.name);
+    }
+  }, {
     key: "onChange",
-    value: function onChange(value) {
+    value: function onChange(selectedOption) {
+      var _this$injected = this.injected,
+          onChange = _this$injected.onChange,
+          onAddNew = _this$injected.onAddNew; // Clear
+
+      if (!selectedOption) {
+        onChange(selectedOption);
+        return;
+      } // Add new
+
+
+      if (selectedOption.key === ITEM_KEYS.ADD) {
+        onAddNew(this.search);
+        return;
+      } // Select from search
+
+
       var foundOption = this.options.find(function (option) {
-        return option.id === value.key;
+        return option.id === selectedOption.key;
       });
-      this.injected.onChange(mobx.toJS(foundOption));
+      onChange(mobx.toJS(foundOption));
+    }
+  }, {
+    key: "onBlur",
+    value: function onBlur() {
+      this.search = '';
+    }
+  }, {
+    key: "onFocus",
+    value: function onFocus() {
+      var isPristine = !this.hasOptions && !this.hasSearch;
+
+      if (isPristine) {
+        // Trigger empty search
+        this.handleSearch(this.search);
+      }
     }
   }, {
     key: "render",
     value: function render() {
-      var id = this.injected.id;
+      var id = this.injected.id,
+          showEmpty = this.hasSearch && !this.hasOptions,
+          showNoSearch = !this.hasOptions && !this.hasOptions,
+          showAdd = this.hasSearch;
       return React__default.createElement(Antd.Select, _extends({
         allowClear: true,
         defaultActiveFirstOption: false,
         filterOption: false,
         id: id,
         labelInValue: true,
+        loading: this.isLoading.isTrue,
+        onBlur: this.onBlur,
         onChange: this.onChange,
-        onSearch: this.handleSearch,
-        placeholder: "Select existing",
-        showSearch: true
-      }, this.selectProps), this.options.map(function (option) {
-        return React__default.createElement(Antd.Select.Option, {
-          key: option.id,
-          value: option.id
-        }, option.name);
-      }));
+        onFocus: this.onFocus,
+        onSearch: this.debouncedHandleSearch,
+        placeholder: "Search...",
+        showSearch: true,
+        suffixIcon: this.isLoading.isTrue ? this.loadingIcon : this.searchIcon
+      }, this.selectProps), this.options.map(this.renderOption), showEmpty && this.renderOptionEmpty(), showNoSearch && this.renderOptionNoSearch(), showAdd && this.renderOptionAdd());
     }
   }, {
     key: "injected",
@@ -385,22 +475,55 @@ function (_Component) {
       return this.props.fieldConfig;
     }
   }, {
+    key: "hasSearch",
+    get: function get() {
+      return this.search !== '';
+    }
+  }, {
+    key: "hasOptions",
+    get: function get() {
+      return !!this.options.length;
+    }
+  }, {
+    key: "loadingIcon",
+    get: function get() {
+      return this.props.loadingIcon || React__default.createElement(Antd.Icon, {
+        type: "loading"
+      });
+    }
+  }, {
+    key: "searchIcon",
+    get: function get() {
+      return this.props.searchIcon || React__default.createElement(Antd.Icon, {
+        type: "search"
+      });
+    }
+  }, {
     key: "selectProps",
     get: function get() {
       // Handpicking specific props to avoid unintentional behaviors
-      return lodash.pick(this.props.selectProps, ['suffixIcon', 'clearIcon', 'removeIcon']);
+      return lodash.pick(this.props.selectProps, ['clearIcon', 'placeholder', 'removeIcon', 'suffixIcon']);
     }
   }]);
 
-  return ObjectSearch;
-}(React.Component), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "options", [mobx.observable], {
+  return ObjectSearchCreateSearchInput;
+}(React.Component), _class3.defaultProps = {
+  debounceWait: DEFAULT_DEBOUNCE_WAIT
+}, _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "options", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return [];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "search", [mobx.observable], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "isLoading", [mobx.observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return new SmartBool();
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "search", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -410,45 +533,51 @@ function (_Component) {
 })), _class2)) || _class$1) || _class$1) || _class$1);
 
 var _dec$1, _class$2, _class2$1, _descriptor$1, _descriptor2$1, _temp$1;
-var MIN_SEARCH_LENGTH = 3;
-var ObjectSearchCreate$$1 = (_dec$1 = mobxReact.inject('getEndpoint'), _dec$1(_class$2 = autoBindMethods(_class$2 = mobxReact.observer(_class$2 = (_class2$1 = (_temp$1 =
+var ObjectSearchCreate = (_dec$1 = mobxReact.inject('getEndpoint'), _dec$1(_class$2 = autoBindMethods(_class$2 = mobxReact.observer(_class$2 = (_class2$1 = (_temp$1 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(ObjectSearchCreate$$1, _Component);
+  _inherits(ObjectSearchCreate, _Component);
 
-  function ObjectSearchCreate$$1() {
+  function ObjectSearchCreate() {
     var _getPrototypeOf2;
 
     var _this;
 
-    _classCallCheck(this, ObjectSearchCreate$$1);
+    _classCallCheck(this, ObjectSearchCreate);
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ObjectSearchCreate$$1)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ObjectSearchCreate)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _initializerDefineProperty(_this, "isAddingNew", _descriptor$1, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "isAddingNew", _descriptor$1, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "search", _descriptor2$1, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "search", _descriptor2$1, _assertThisInitialized(_this));
 
     return _this;
   }
 
-  _createClass(ObjectSearchCreate$$1, [{
-    key: "handleSearch",
+  _createClass(ObjectSearchCreate, [{
+    key: "onAddNew",
     value: function () {
-      var _handleSearch = _asyncToGenerator(
+      var _onAddNew = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(value) {
+      regeneratorRuntime.mark(function _callee(search) {
+        var onAddNewToggle;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                this.search = value;
+                onAddNewToggle = this.props.onAddNewToggle;
+                this.search = search;
+                this.isAddingNew.setTrue();
 
-              case 1:
+                if (onAddNewToggle) {
+                  onAddNewToggle(true);
+                }
+
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -456,11 +585,43 @@ function (_Component) {
         }, _callee, this);
       }));
 
-      function handleSearch(_x) {
-        return _handleSearch.apply(this, arguments);
+      function onAddNew(_x) {
+        return _onAddNew.apply(this, arguments);
       }
 
-      return handleSearch;
+      return onAddNew;
+    }()
+  }, {
+    key: "onSearch",
+    value: function () {
+      var _onSearch = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
+        var onAddNewToggle;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                onAddNewToggle = this.props.onAddNewToggle;
+                this.isAddingNew.setFalse();
+
+                if (onAddNewToggle) {
+                  onAddNewToggle(false);
+                }
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function onSearch() {
+        return _onSearch.apply(this, arguments);
+      }
+
+      return onSearch;
     }()
   }, {
     key: "render",
@@ -468,40 +629,31 @@ function (_Component) {
       var _this$injected = this.injected,
           decoratorOptions = _this$injected.decoratorOptions,
           fieldConfig = _this$injected.fieldConfig,
-          form = _this$injected.form,
           formManager = _this$injected.formManager,
-          selectProps = _this$injected.selectProps;
+          className = cx(CX_PREFIX_SEARCH_CREATE, _defineProperty({}, "".concat(CX_PREFIX_SEARCH_CREATE, "-create"), this.isAddingNew.isTrue));
 
       if (this.isAddingNew.isTrue) {
-        return React__default.createElement(React__default.Fragment, null, React__default.createElement(NestedFieldSet$$1, {
+        return React__default.createElement("div", {
+          className: className
+        }, React__default.createElement(NestedFieldSet, {
           fieldSet: this.fieldConfig.createFields,
-          form: form,
           formManager: formManager,
           id: fieldConfig.field,
           label: this.fieldConfig.label,
           search: this.search
         }), React__default.createElement(Antd.Button, {
           size: "small",
-          onClick: this.isAddingNew.setFalse
+          onClick: this.onSearch
         }, React__default.createElement(Antd.Icon, {
           type: "left"
         }), " Back to search"));
       }
 
-      return React__default.createElement(Antd.Form.Item, null, React__default.createElement(Antd.Input.Group, {
-        className: "ant-input-group-search-create",
-        compact: true
-      }, form.getFieldDecorator(fieldConfig.field, decoratorOptions)(React__default.createElement(ObjectSearch, {
-        fieldConfig: fieldConfig,
-        onSearchChange: this.handleSearch,
-        selectProps: selectProps
-      })), React__default.createElement(Antd.Button, _extends({
-        children: "Add New",
-        className: "osc-add-new",
-        disabled: this.search.length < MIN_SEARCH_LENGTH,
-        icon: "plus",
-        onClick: this.isAddingNew.setTrue
-      }, this.buttonProps))));
+      return React__default.createElement(Antd.Form.Item, {
+        className: className
+      }, formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(React__default.createElement(ObjectSearchCreateSearchInput, _extends({
+        onAddNew: this.onAddNew
+      }, this.objectSearchProps))));
     }
   }, {
     key: "injected",
@@ -514,14 +666,13 @@ function (_Component) {
       return this.props.fieldConfig;
     }
   }, {
-    key: "buttonProps",
+    key: "objectSearchProps",
     get: function get() {
-      // Handpicking specific props to avoid unintentional behaviors
-      return lodash.pick(this.props.buttonProps, ['children', 'icon']);
+      return lodash.pick(this.props, ['addNewContent', 'debounceWait', 'fieldConfig', 'loadingIcon', 'noSearchContent', 'searchIcon', 'selectProps']);
     }
   }]);
 
-  return ObjectSearchCreate$$1;
+  return ObjectSearchCreate;
 }(React.Component), _temp$1), (_descriptor$1 = _applyDecoratedDescriptor(_class2$1.prototype, "isAddingNew", [mobx.observable], {
   configurable: true,
   enumerable: true,
@@ -539,18 +690,18 @@ function (_Component) {
 })), _class2$1)) || _class$2) || _class$2) || _class$2);
 
 var _dec$2, _class$3, _class2$2;
-var OptionSelect$$1 = (_dec$2 = mobxReact.inject('getOptions'), _dec$2(_class$3 = (_class2$2 =
+var OptionSelect = (_dec$2 = mobxReact.inject('getOptions'), _dec$2(_class$3 = (_class2$2 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(OptionSelect$$1, _Component);
+  _inherits(OptionSelect, _Component);
 
-  function OptionSelect$$1() {
-    _classCallCheck(this, OptionSelect$$1);
+  function OptionSelect() {
+    _classCallCheck(this, OptionSelect);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(OptionSelect$$1).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(OptionSelect).apply(this, arguments));
   }
 
-  _createClass(OptionSelect$$1, [{
+  _createClass(OptionSelect, [{
     key: "render",
     value: function render() {
       return React__default.createElement(Antd.Select, _extends({
@@ -559,8 +710,8 @@ function (_Component) {
         showSearch: !!this.fieldConfig.showSearch
       }, this.props), this.options.map(function (option) {
         return React__default.createElement(Antd.Select.Option, {
-          value: option.value,
-          key: option.value
+          key: option.value,
+          value: option.value
         }, option.name);
       }));
     }
@@ -581,7 +732,7 @@ function (_Component) {
     }
   }]);
 
-  return OptionSelect$$1;
+  return OptionSelect;
 }(React.Component), (_applyDecoratedDescriptor(_class2$2.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$2.prototype, "options"), _class2$2.prototype)), _class2$2)) || _class$3);
 
 function formatRating(value) {
@@ -615,18 +766,18 @@ function (_Component) {
 }(React.Component);
 
 var _dec$3, _class$4, _class2$3;
-var OptionSelectDisplay$$1 = (_dec$3 = mobxReact.inject('getOptions'), _dec$3(_class$4 = autoBindMethods(_class$4 = mobxReact.observer(_class$4 = (_class2$3 =
+var OptionSelectDisplay = (_dec$3 = mobxReact.inject('getOptions'), _dec$3(_class$4 = autoBindMethods(_class$4 = mobxReact.observer(_class$4 = (_class2$3 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(OptionSelectDisplay$$1, _Component);
+  _inherits(OptionSelectDisplay, _Component);
 
-  function OptionSelectDisplay$$1() {
-    _classCallCheck(this, OptionSelectDisplay$$1);
+  function OptionSelectDisplay() {
+    _classCallCheck(this, OptionSelectDisplay);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(OptionSelectDisplay$$1).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(OptionSelectDisplay).apply(this, arguments));
   }
 
-  _createClass(OptionSelectDisplay$$1, [{
+  _createClass(OptionSelectDisplay, [{
     key: "render",
     value: function render() {
       var value = this.props.value,
@@ -657,39 +808,39 @@ function (_Component) {
     }
   }]);
 
-  return OptionSelectDisplay$$1;
+  return OptionSelectDisplay;
 }(React.Component), (_applyDecoratedDescriptor(_class2$3.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$3.prototype, "options"), _class2$3.prototype)), _class2$3)) || _class$4) || _class$4) || _class$4);
-function formatOptionSelect$$1(value, fieldConfig) {
+function formatOptionSelect(value, fieldConfig) {
   if (lodash.isArray(value)) {
     if (value.length > 1) {
       return "(".concat(value.length, " values)");
     }
 
-    return React__default.createElement(OptionSelectDisplay$$1, {
+    return React__default.createElement(OptionSelectDisplay, {
       value: value[0],
       fieldConfig: fieldConfig
     });
   }
 
-  return React__default.createElement(OptionSelectDisplay$$1, {
+  return React__default.createElement(OptionSelectDisplay, {
     value: value,
     fieldConfig: fieldConfig
   });
 }
 
 var _dec$4, _class$5, _class2$4;
-var RadioGroup$$1 = (_dec$4 = mobxReact.inject('getOptions'), _dec$4(_class$5 = autoBindMethods(_class$5 = mobxReact.observer(_class$5 = (_class2$4 =
+var RadioGroup = (_dec$4 = mobxReact.inject('getOptions'), _dec$4(_class$5 = autoBindMethods(_class$5 = mobxReact.observer(_class$5 = (_class2$4 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(RadioGroup$$1, _Component);
+  _inherits(RadioGroup, _Component);
 
-  function RadioGroup$$1() {
-    _classCallCheck(this, RadioGroup$$1);
+  function RadioGroup() {
+    _classCallCheck(this, RadioGroup);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(RadioGroup$$1).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(RadioGroup).apply(this, arguments));
   }
 
-  _createClass(RadioGroup$$1, [{
+  _createClass(RadioGroup, [{
     key: "render",
     value: function render() {
       return React__default.createElement(Antd.Radio.Group, this.props, this.options.map(function (option) {
@@ -716,7 +867,7 @@ function (_Component) {
     }
   }]);
 
-  return RadioGroup$$1;
+  return RadioGroup;
 }(React.Component), (_applyDecoratedDescriptor(_class2$4.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$4.prototype, "options"), _class2$4.prototype)), _class2$4)) || _class$5) || _class$5) || _class$5);
 
 function stripFieldConfig(func) {
@@ -726,9 +877,40 @@ function stripFieldConfig(func) {
   };
 }
 
+function booleanToForm(data, field) {
+  var value = lodash.get(data, field);
+  return lodash.isBoolean(value) ? value.toString() : value;
+}
+
+function booleanFromForm(value) {
+  var _arr = [true, false];
+
+  for (var _i = 0; _i < _arr.length; _i++) {
+    var bool = _arr[_i];
+
+    if (value === bool || value === bool.toString()) {
+      return bool;
+    }
+  }
+
+  return value;
+}
+
 var TYPES = {
   boolean: {
-    render: stripFieldConfig(utils.mapBooleanToText)
+    editComponent: OptionSelect,
+    fieldConfigProp: true,
+    fromForm: booleanFromForm,
+    nullify: true,
+    options: [{
+      value: 'false',
+      name: 'No'
+    }, {
+      value: 'true',
+      name: 'Yes'
+    }],
+    render: stripFieldConfig(utils.mapBooleanToText),
+    toForm: booleanToForm
   },
   date: {
     editComponent: Antd.DatePicker,
@@ -787,17 +969,17 @@ var TYPES = {
     render: utils.formatCommaSeparatedNumber
   },
   objectSearchCreate: {
-    editComponent: ObjectSearchCreate$$1,
+    editComponent: ObjectSearchCreate,
     fieldConfigProp: true,
     nullify: true,
     render: stripFieldConfig(utils.getNameOrDefault),
     skipFieldDecorator: true
   },
   optionSelect: {
-    editComponent: OptionSelect$$1,
+    editComponent: OptionSelect,
     fieldConfigProp: true,
     nullify: true,
-    render: formatOptionSelect$$1
+    render: formatOptionSelect
   },
   percentage: {
     editProps: {
@@ -824,10 +1006,10 @@ var TYPES = {
     }
   },
   radio: {
-    editComponent: RadioGroup$$1,
+    editComponent: RadioGroup,
     fieldConfigProp: true,
     nullify: true,
-    render: formatOptionSelect$$1
+    render: formatOptionSelect
   },
   rating: {
     editComponent: Rate,
@@ -865,7 +1047,7 @@ function _asyncNoop() {
             return _context.stop();
         }
       }
-    }, _callee, this);
+    }, _callee);
   }));
   return _asyncNoop.apply(this, arguments);
 }
@@ -1107,15 +1289,15 @@ function (_Component) {
   _createClass(FormField, [{
     key: "render",
     value: function render() {
-      var form = this.props.form,
+      var formManager = this.props.formManager,
           fieldConfig = this.fieldConfig,
           colProps = fieldConfig.colProps,
           formItemProps = fieldConfig.formItemProps,
           field = fieldConfig.field,
           skipFieldDecorator = fieldConfig.skipFieldDecorator,
-          getFieldDecorator = form.getFieldDecorator;
+          getFieldDecorator = formManager.form.getFieldDecorator;
 
-      if (filterInsertIf(fieldConfig, form.getFieldsValue())) {
+      if (filterInsertIf(fieldConfig, formManager.formModel)) {
         return null;
       }
 
@@ -1150,25 +1332,20 @@ function (_Component) {
   }, {
     key: "initialValue",
     get: function get() {
-      var _this$props = this.props,
-          model = _this$props.model,
-          defaults = _this$props.defaults,
-          fieldConfig = this.fieldConfig;
-      return fieldConfig.value || fieldConfig.toForm(model, fieldConfig.field) || fieldConfig.toForm(defaults, fieldConfig.field);
+      var formManager = this.props.formManager;
+      return formManager.getDefaultValue(this.fieldConfig);
     }
   }, {
     key: "editProps",
     get: function get() {
-      var _this$props2 = this.props,
-          form = _this$props2.form,
-          formManager = _this$props2.formManager,
+      var formManager = this.props.formManager,
           fieldConfig = this.fieldConfig,
           fieldConfigProp = fieldConfig.fieldConfigProp ? {
         fieldConfig: fieldConfig,
         formManager: formManager
       } : {};
       return _objectSpread({}, fieldConfig.editProps, fieldConfigProp, {
-        form: form
+        form: formManager.form
       });
     }
   }, {
@@ -1203,10 +1380,10 @@ function (_Component) {
     value: function render() {
       var _this = this;
 
-      var fieldConfigs = getFieldSetFields(this.fieldSet),
-          formValues = this.props.form.getFieldsValue(),
+      var formManager = this.props.formManager,
+          fieldConfigs = getFieldSetFields(this.fieldSet),
           filteredFieldConfigs = fieldConfigs.filter(function (fieldConfig) {
-        return !filterInsertIf(fieldConfig, formValues);
+        return !filterInsertIf(fieldConfig, formManager.formModel);
       }),
           legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend,
           rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps;
@@ -1278,46 +1455,24 @@ function (_Component) {
 
 var _class$9, _class2$7;
 
-var NestedFieldSet$$1 = autoBindMethods(_class$9 = mobxReact.observer(_class$9 = (_class2$7 =
+var NestedFieldSet = autoBindMethods(_class$9 = mobxReact.observer(_class$9 = (_class2$7 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(NestedFieldSet$$1, _Component);
+  _inherits(NestedFieldSet, _Component);
 
-  function NestedFieldSet$$1(props) {
+  function NestedFieldSet(props) {
     var _this;
 
-    _classCallCheck(this, NestedFieldSet$$1);
+    _classCallCheck(this, NestedFieldSet);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(NestedFieldSet$$1).call(this, props));
-    props.form.setFieldsValue(_defineProperty({}, props.id, {}));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(NestedFieldSet).call(this, props));
+    props.formManager.form.setFieldsValue(_defineProperty({}, props.id, {}));
     return _this;
   }
 
-  _createClass(NestedFieldSet$$1, [{
-    key: "render",
-    value: function render() {
-      return React__default.createElement(FormFieldSet, {
-        fieldSet: this.fieldSet,
-        form: this.props.form,
-        formManager: this.props.formManager,
-        model: this.model
-      });
-    }
-  }, {
-    key: "fieldSet",
-    get: function get() {
-      var _this$props = this.props,
-          id = _this$props.id,
-          fieldSet = _this$props.fieldSet;
-      return getFieldSetFields(fillInFieldSet(fieldSet)).map(function (fieldConfig) {
-        return _objectSpread({}, fieldConfig, {
-          field: "".concat(id, ".").concat(fieldConfig.field)
-        });
-      });
-    }
-  }, {
-    key: "model",
-    get: function get() {
+  _createClass(NestedFieldSet, [{
+    key: "getDefaultValue",
+    value: function getDefaultValue(fieldConfig) {
       /*
       This function implements the fieldConfig features
       populateFromSearch and populateNameFromSearch
@@ -1326,36 +1481,62 @@ function (_Component) {
           _splitName = utils.splitName(search),
           _splitName2 = _slicedToArray(_splitName, 2),
           firstName = _splitName2[0],
-          lastName = _splitName2[1],
-          defaults = {};
+          lastName = _splitName2[1];
 
       if (!search) {
-        return defaults;
+        return {};
       }
 
-      this.fieldSet.map(function (fieldConfig) {
-        var field = fieldConfig.field,
-            populateFromSearch = fieldConfig.populateFromSearch,
-            populateNameFromSearch = fieldConfig.populateNameFromSearch;
+      var field = fieldConfig.field,
+          populateFromSearch = fieldConfig.populateFromSearch,
+          populateNameFromSearch = fieldConfig.populateNameFromSearch;
 
-        if (populateFromSearch) {
-          defaults[field] = search;
-        }
+      if (populateFromSearch) {
+        return {
+          value: search
+        };
+      }
 
-        if (populateNameFromSearch && field.endsWith('first_name')) {
-          defaults[field] = firstName;
-        }
+      if (populateNameFromSearch && field.endsWith('first_name')) {
+        return {
+          value: firstName
+        };
+      }
 
-        if (populateNameFromSearch && field.endsWith('last_name')) {
-          defaults[field] = lastName;
-        }
+      if (populateNameFromSearch && field.endsWith('last_name')) {
+        return {
+          value: lastName
+        };
+      }
+
+      return {};
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return React__default.createElement(FormFieldSet, {
+        fieldSet: this.fieldSet,
+        formManager: this.props.formManager
       });
-      return defaults;
+    }
+  }, {
+    key: "fieldSet",
+    get: function get() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          id = _this$props.id,
+          fieldSet = _this$props.fieldSet;
+      return getFieldSetFields(fillInFieldSet(fieldSet)).map(function (fieldConfig) {
+        return _objectSpread({}, fieldConfig, {
+          field: "".concat(id, ".").concat(fieldConfig.field)
+        }, _this2.getDefaultValue(fieldConfig));
+      });
     }
   }]);
 
-  return NestedFieldSet$$1;
-}(React.Component), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldSet"), _class2$7.prototype), _applyDecoratedDescriptor(_class2$7.prototype, "model", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "model"), _class2$7.prototype)), _class2$7)) || _class$9) || _class$9;
+  return NestedFieldSet;
+}(React.Component), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldSet"), _class2$7.prototype)), _class2$7)) || _class$9) || _class$9;
 
 var _class$a, _class2$8;
 
@@ -1602,15 +1783,17 @@ var toastError = {
 var FormManager = autoBindMethods(_class$d = (_class2$a = (_temp$2 =
 /*#__PURE__*/
 function () {
-  function FormManager(form, fieldSets, args) {
+  function FormManager(formWrappedInstance, fieldSets, args) {
     _classCallCheck(this, FormManager);
 
     _initializerDefineProperty(this, "saving", _descriptor$2, this);
 
     this.args = void 0;
+    this.formWrappedInstance = void 0;
+    this.formWrappedInstance = formWrappedInstance;
     this.args = _objectSpread({
+      defaults: {},
       fieldSets: fieldSets,
-      form: form,
       model: {},
       onSave: lodash.noop,
       onSuccess: lodash.noop
@@ -1620,6 +1803,39 @@ function () {
   }
 
   _createClass(FormManager, [{
+    key: "getDefaultValue",
+    value: function getDefaultValue(fieldConfigPartial) {
+      var _this$args = this.args,
+          model = _this$args.model,
+          defaults = _this$args.defaults,
+          fieldConfig = fillInFieldConfig(fieldConfigPartial);
+
+      if (lodash.has(fieldConfig, 'value')) {
+        return fieldConfig.toForm(_defineProperty({}, fieldConfig.field, fieldConfig.value), fieldConfig.field);
+      }
+
+      if (lodash.has(model, fieldConfig.field)) {
+        return fieldConfig.toForm(model, fieldConfig.field);
+      }
+
+      if (lodash.has(defaults, fieldConfig.field)) {
+        return fieldConfig.toForm(defaults, fieldConfig.field);
+      }
+
+      return fieldConfig.toForm(_objectSpread({}, model, defaults), fieldConfig.field);
+    }
+  }, {
+    key: "getFormValue",
+    value: function getFormValue(fieldConfigPartial) {
+      var fieldConfig = fillInFieldConfig(fieldConfigPartial),
+          formValue = lodash.get(this.formValues, fieldConfig.field),
+          convertedValue = fieldConfig.fromForm(formValue),
+          isValueFalsey = !convertedValue && convertedValue !== false,
+          shouldNullify = isValueFalsey && fieldConfig.nullify;
+
+      return shouldNullify ? null : convertedValue;
+    }
+  }, {
     key: "onSuccess",
     value: function onSuccess() {
       var onSuccess = this.args.onSuccess;
@@ -1635,8 +1851,7 @@ function () {
     value: function setErrorsOnFormFields(errors) {
       var _this = this;
 
-      var form = this.args.form;
-      form.setFields(lodash.mapValues(errors, function (error, field) {
+      this.form.setFields(lodash.mapValues(errors, function (error, field) {
         return {
           errors: [new Error(error)],
           value: _this.formValues[field]
@@ -1700,7 +1915,7 @@ function () {
 
               case 8:
                 this.onSuccess();
-                this.args.form.resetFields();
+                this.form.resetFields();
                 _context.next = 15;
                 break;
 
@@ -1734,17 +1949,15 @@ function () {
       var _onSave = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(event) {
-        var form;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                form = this.args.form;
                 event.preventDefault();
                 this.saving = true;
-                form.validateFields(this.validateThenSaveCallback);
+                this.form.validateFields(this.validateThenSaveCallback);
 
-              case 4:
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -1759,40 +1972,46 @@ function () {
       return onSave;
     }()
   }, {
+    key: "form",
+    get: function get() {
+      // The form prop continuously changes identity, so we can't just save it locally
+      return this.formWrappedInstance.props.form;
+    }
+  }, {
+    key: "fieldConfigs",
+    get: function get() {
+      return lodash.flatten(this.args.fieldSets.map(getFieldSetFields));
+    }
+  }, {
     key: "formModel",
     get: function get() {
-      var _this$args = this.args,
-          form = _this$args.form,
-          fieldSets = _this$args.fieldSets,
-          model = form.getFieldsValue();
-      fieldSets.forEach(function (fieldSet) {
-        getFieldSetFields(fieldSet).forEach(function (fieldConfig) {
-          var formValue = lodash.get(model, fieldConfig.field),
-              value = fieldConfig.fromForm(formValue);
+      var _this2 = this;
 
-          if (!value && fieldConfig.nullify) {
-            lodash.set(model, fieldConfig.field, null);
-          } else {
-            lodash.set(model, fieldConfig.field, value);
-          }
-        });
+      var formValues = {};
+      this.fieldConfigs.forEach(function (fieldConfig) {
+        var isInForm = lodash.has(_this2.formValues, fieldConfig.field),
+            value = isInForm ? _this2.getFormValue(fieldConfig) : _this2.getDefaultValue(fieldConfig);
+        lodash.set(formValues, fieldConfig.field, value);
       });
 
-      if (this.args.model && this.args.model.id) {
-        model.id = this.args.model.id;
+      var ID_ATTR = 'id',
+          id = lodash.get(this.args.model, ID_ATTR);
+
+      if (id) {
+        lodash.set(formValues, ID_ATTR, id);
       }
 
-      return model;
+      return formValues;
     }
   }, {
     key: "formValues",
     get: function get() {
-      return this.args.form.getFieldsValue();
+      return this.form.getFieldsValue();
     }
   }, {
     key: "formFieldNames",
     get: function get() {
-      return Object.keys(flatten(this.formValues));
+      return Object.keys(flattenObject(this.formValues));
     }
   }]);
 
@@ -1819,12 +2038,13 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(UnwrappedForm).call(this, props));
     _this.formManager = void 0;
-    var form = props.form,
+    var defaults = props.defaults,
         model = props.model,
         onCancel = props.onCancel,
         onSave = props.onSave,
         setRefFormManager = props.setRefFormManager;
-    _this.formManager = new FormManager(form, _this.fieldSets, {
+    _this.formManager = new FormManager(_assertThisInitialized(_this), _this.fieldSets, {
+      defaults: defaults,
       model: model,
       onSave: onSave,
       onSuccess: onCancel
@@ -1862,9 +2082,6 @@ function (_Component) {
       var _this2 = this;
 
       var _this$props2 = this.props,
-          defaults = _this$props2.defaults,
-          form = _this$props2.form,
-          model = _this$props2.model,
           showControls = _this$props2.showControls,
           title = _this$props2.title;
       return React__default.createElement(Antd.Form, {
@@ -1877,11 +2094,8 @@ function (_Component) {
         }, idx > 0 && React__default.createElement(Antd.Divider, {
           key: "divider-".concat(idx)
         }), React__default.createElement("div", null, React__default.createElement(FormFieldSet, {
-          defaults: defaults,
           fieldSet: fieldSet,
-          form: form,
-          formManager: _this2.formManager,
-          model: model
+          formManager: _this2.formManager
         })));
       }), this.props.children, showControls && this.renderControls());
     }
@@ -1950,9 +2164,9 @@ function (_Component) {
   return FormCard;
 }(React.Component), _class2$c.defaultProps = _objectSpread({}, formPropsDefaults), _temp$4)) || _class$f) || _class$f;
 
-var _class$g, _class2$d, _descriptor$3, _descriptor2$2, _class3, _temp$5;
+var _class$g, _class2$d, _descriptor$3, _descriptor2$2, _class3$1, _temp$5;
 
-var EditableCard = autoBindMethods(_class$g = mobxReact.observer(_class$g = (_class2$d = (_temp$5 = _class3 =
+var EditableCard = autoBindMethods(_class$g = mobxReact.observer(_class$g = (_class2$d = (_temp$5 = _class3$1 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableCard, _Component);
@@ -1970,9 +2184,9 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(EditableCard)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _initializerDefineProperty(_this, "isDeleting", _descriptor$3, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "isDeleting", _descriptor$3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "isEditing", _descriptor2$2, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "isEditing", _descriptor2$2, _assertThisInitialized(_this));
 
     return _this;
   }
@@ -2124,7 +2338,7 @@ function (_Component) {
   }]);
 
   return EditableCard;
-}(React.Component), _class3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$5), (_descriptor$3 = _applyDecoratedDescriptor(_class2$d.prototype, "isDeleting", [mobx.observable], {
+}(React.Component), _class3$1.defaultProps = _objectSpread({}, formPropsDefaults), _temp$5), (_descriptor$3 = _applyDecoratedDescriptor(_class2$d.prototype, "isDeleting", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -2140,9 +2354,9 @@ function (_Component) {
   }
 })), _class2$d)) || _class$g) || _class$g;
 
-var _class$h, _class2$e, _descriptor$4, _class3$1, _temp$6;
+var _class$h, _class2$e, _descriptor$4, _class3$2, _temp$6;
 
-var EditableArrayCard = autoBindMethods(_class$h = mobxReact.observer(_class$h = (_class2$e = (_temp$6 = _class3$1 =
+var EditableArrayCard = autoBindMethods(_class$h = mobxReact.observer(_class$h = (_class2$e = (_temp$6 = _class3$2 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableArrayCard, _Component);
@@ -2160,7 +2374,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(EditableArrayCard)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _initializerDefineProperty(_this, "isAddingNew", _descriptor$4, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "isAddingNew", _descriptor$4, _assertThisInitialized(_this));
 
     return _this;
   }
@@ -2257,7 +2471,7 @@ function (_Component) {
   }]);
 
   return EditableArrayCard;
-}(React.Component), _class3$1.defaultProps = _objectSpread({}, formPropsDefaults), _temp$6), (_descriptor$4 = _applyDecoratedDescriptor(_class2$e.prototype, "isAddingNew", [mobx.observable], {
+}(React.Component), _class3$2.defaultProps = _objectSpread({}, formPropsDefaults), _temp$6), (_descriptor$4 = _applyDecoratedDescriptor(_class2$e.prototype, "isAddingNew", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -2315,9 +2529,9 @@ function (_Component) {
   return FormDrawer;
 }(React.Component), _class2$f.defaultProps = _objectSpread({}, formPropsDefaults), _temp$7)) || _class$i) || _class$i;
 
-var _class$j, _class2$g, _descriptor$5, _class3$2, _temp$8;
+var _class$j, _class2$g, _descriptor$5, _class3$3, _temp$8;
 
-var FormModal = autoBindMethods(_class$j = mobxReact.observer(_class$j = (_class2$g = (_temp$8 = _class3$2 =
+var FormModal = autoBindMethods(_class$j = mobxReact.observer(_class$j = (_class2$g = (_temp$8 = _class3$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormModal, _Component);
@@ -2335,7 +2549,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(FormModal)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _initializerDefineProperty(_this, "formManager", _descriptor$5, _assertThisInitialized(_assertThisInitialized(_this)));
+    _initializerDefineProperty(_this, "formManager", _descriptor$5, _assertThisInitialized(_this));
 
     return _this;
   }
@@ -2383,16 +2597,16 @@ function (_Component) {
   }]);
 
   return FormModal;
-}(React.Component), _class3$2.defaultProps = _objectSpread({}, formPropsDefaults), _temp$8), (_descriptor$5 = _applyDecoratedDescriptor(_class2$g.prototype, "formManager", [mobx.observable], {
+}(React.Component), _class3$3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$8), (_descriptor$5 = _applyDecoratedDescriptor(_class2$g.prototype, "formManager", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: null
 })), _class2$g)) || _class$j) || _class$j;
 
-var _class$k, _class2$h, _class3$3, _temp$9;
+var _class$k, _class2$h, _class3$4, _temp$9;
 
-var SummaryCard = autoBindMethods(_class$k = mobxReact.observer(_class$k = (_class2$h = (_temp$9 = _class3$3 =
+var SummaryCard = autoBindMethods(_class$k = mobxReact.observer(_class$k = (_class2$h = (_temp$9 = _class3$4 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(SummaryCard, _Component);
@@ -2452,9 +2666,12 @@ function (_Component) {
   }]);
 
   return SummaryCard;
-}(React.Component), _class3$3.defaultProps = {
+}(React.Component), _class3$4.defaultProps = {
   column: 4
 }, _temp$9), (_applyDecoratedDescriptor(_class2$h.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$h.prototype, "fieldSets"), _class2$h.prototype)), _class2$h)) || _class$k) || _class$k;
+
+var DEFAULT_DEBOUNCE_WAIT = 300;
+var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
 
 // Lower-level building blocks and helper components
 
@@ -2468,7 +2685,7 @@ exports.Label = Label;
 exports.Value = Value;
 exports.CARD_COL_LABEL = CARD_COL_LABEL;
 exports.CARD_COL_VALUE = CARD_COL_VALUE;
-exports.NestedFieldSet = NestedFieldSet$$1;
+exports.NestedFieldSet = NestedFieldSet;
 exports.ArrayCard = ArrayCard;
 exports.Card = Card;
 exports.EditableArrayCard = EditableArrayCard;
@@ -2478,14 +2695,16 @@ exports.FormCard = FormCard;
 exports.FormDrawer = FormDrawer;
 exports.FormModal = FormModal;
 exports.SummaryCard = SummaryCard;
-exports.ObjectSearchCreate = ObjectSearchCreate$$1;
-exports.OptionSelect = OptionSelect$$1;
-exports.OptionSelectDisplay = OptionSelectDisplay$$1;
-exports.formatOptionSelect = formatOptionSelect$$1;
-exports.RadioGroup = RadioGroup$$1;
+exports.ObjectSearchCreate = ObjectSearchCreate;
+exports.OptionSelect = OptionSelect;
+exports.OptionSelectDisplay = OptionSelectDisplay;
+exports.formatOptionSelect = formatOptionSelect;
+exports.RadioGroup = RadioGroup;
 exports.Rate = Rate;
 exports.formatRating = formatRating;
 exports.FormManager = FormManager;
+exports.DEFAULT_DEBOUNCE_WAIT = DEFAULT_DEBOUNCE_WAIT;
+exports.CX_PREFIX_SEARCH_CREATE = CX_PREFIX_SEARCH_CREATE;
 exports.asyncNoop = asyncNoop;
 exports.isPartialFieldSetSimple = isPartialFieldSetSimple;
 exports.isFieldSetSimple = isFieldSetSimple;

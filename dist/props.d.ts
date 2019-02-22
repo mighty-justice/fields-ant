@@ -15,14 +15,16 @@ export { IFormModalProps } from './components/FormModal';
 export { IFormProps } from './components/Form';
 export { ISummaryCardProps } from './components/SummaryCard';
 export { IObjectSearchCreateProps } from './inputs/ObjectSearchCreate';
-export { IObjectSearchProps } from './inputs/ObjectSearch';
 export { IOptionSelectDisplayProps } from './inputs/OptionSelectDisplay';
 export { IOptionSelectProps } from './inputs/OptionSelect';
 import { IFieldSet, IFieldSetPartial } from './interfaces';
 export declare type IClassName = any;
 export declare type IForm = any;
-export declare type IModel = any;
 export declare type IValue = any;
+export interface IModel {
+    [key: string]: any;
+    id?: string;
+}
 export interface ISharedComponentProps {
     children?: React.ReactNode;
     classNameSuffix?: string;
