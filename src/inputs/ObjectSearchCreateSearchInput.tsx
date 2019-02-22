@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { pick, debounce } from 'lodash';
+import { pick, debounce, get } from 'lodash';
 
 import * as Antd from 'antd';
 import { SelectProps } from 'antd/lib/select';
@@ -23,6 +23,7 @@ export interface IObjectSearchProps {
   debounceWait: number;
   fieldConfig: IFieldConfigObjectSearchCreate;
   loadingIcon?: React.ReactNode;
+  noSearchContent?: React.ReactNode;
   onSearchChange: (search: string) => void;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
@@ -41,6 +42,11 @@ inject their own props, do validation, and correctly show help:
 {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
   <ObjectSearchCreateSearchInput
 */
+
+const ITEM_KEYS = {
+  EMPTY: 'empty',
+  NO_SEARCH: 'no-search',
+};
 
 @inject('getEndpoint')
 @autoBindMethods
@@ -69,6 +75,14 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
     return this.props.fieldConfig as IFieldConfigObjectSearchCreate;
   }
 
+  private get hasSearch () {
+    return this.search !== '';
+  }
+
+  private get hasOptions () {
+    return !!this.options.length;
+  }
+
   private get loadingIcon () {
     return this.props.loadingIcon || <Antd.Icon type='loading' />;
   }
@@ -81,6 +95,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
     // Handpicking specific props to avoid unintentional behaviors
     return pick(this.props.selectProps as SelectProps, [
       'clearIcon',
+      'placeholder',
       'removeIcon',
       'suffixIcon',
     ]);
@@ -101,6 +116,28 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
     const response = await getEndpoint(`/${endpoint}/${toKey(params)}`);
     this.options = response.results;
     this.isLoading.setFalse();
+  }
+
+  private renderOptionEmpty () {
+    const { selectProps } = this.props
+      , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.EMPTY}`;
+
+    return (
+      <Antd.Select.Option className={className} disabled key={ITEM_KEYS.EMPTY}>
+        <div>{get(selectProps, 'notFoundContent') || 'No results'}</div>
+      </Antd.Select.Option>
+    );
+  }
+
+  private renderOptionNoSearch () {
+    const { noSearchContent } = this.props
+      , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.NO_SEARCH}`;
+
+    return (
+      <Antd.Select.Option className={className} disabled key={ITEM_KEYS.NO_SEARCH}>
+        <div>{noSearchContent || 'Type in search text'}</div>
+      </Antd.Select.Option>
+    );
   }
 
   private renderOption (option: IEndpointOption) {
@@ -124,6 +161,8 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
 
   public render () {
     const { id } = this.injected
+      , showEmpty = this.hasSearch && !this.hasOptions
+      , showNoSearch = !this.hasOptions && !this.hasOptions
       ;
 
     return (
@@ -142,6 +181,8 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         {...this.selectProps}
       >
         {this.options.map(this.renderOption)}
+        {showEmpty && this.renderOptionEmpty()}
+        {showNoSearch && this.renderOptionNoSearch()}
       </Antd.Select>
     );
   }
