@@ -165,6 +165,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
       </Antd.Select.Option>
     );
   }
+
   private onChange (selectedOption: any) {
     if (selectedOption.key === ITEM_KEYS.ADD) {
       this.props.onAddNew(this.search);
