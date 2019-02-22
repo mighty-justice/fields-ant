@@ -41,12 +41,6 @@ async function getTester (props: any) {
   return (await new Tester(FormCard, { props }).mount());
 }
 
-function changeInputNoBlur (tester: any, selector: string, value: string) {
-  const component = tester.find(selector).first();
-  component.simulate('focus');
-  component.simulate('change', { target: { value } });
-}
-
 async function searchFor (tester: any, field: string, result: any, searchTerm: string) {
   tester.endpoints['/legal-organizations/'] = { results: [result] };
 
