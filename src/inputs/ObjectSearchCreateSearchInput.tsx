@@ -176,7 +176,9 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   }
 
   private onFocus () {
-    if (!this.hasOptions && !this.hasSearch) {
+    const isPristine = !this.hasOptions && !this.hasSearch;
+    if (isPristine) {
+      // Trigger empty search
       this.handleSearch(this.search);
     }
   }
