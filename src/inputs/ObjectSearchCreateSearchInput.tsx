@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { pick, debounce } from 'lodash';
+import { pick, debounce, get } from 'lodash';
 
 import * as Antd from 'antd';
 import { SelectProps } from 'antd/lib/select';
