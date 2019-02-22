@@ -47,10 +47,7 @@ storiesOf('Types', module)
                 },
               ],
               editProps: {
-<<<<<<< HEAD
-=======
                 addNewContent: <>Can't find it ? <a>Add new lawfirm</a></>,
->>>>>>> Move ObjectSearchCreate Add New to dropdown
                 noSearchContent: `Type in lawfirm's name`,
                 searchIcon: <span>O</span>,
                 selectProps: { placeholder: 'Search lawfirm...' },
