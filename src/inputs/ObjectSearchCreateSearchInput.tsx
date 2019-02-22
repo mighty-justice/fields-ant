@@ -167,12 +167,27 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   }
 
   private onChange (selectedOption: any) {
-    if (selectedOption.key === ITEM_KEYS.ADD) {
-      this.props.onAddNew(this.search);
+    const { onChange, onAddNew } = this.injected;
+
+    // Clear
+    if (!selectedOption) {
+      onChange(selectedOption);
+      return;
     }
 
+    // Add new
+    if (selectedOption.key === ITEM_KEYS.ADD) {
+      onAddNew(this.search);
+      return;
+    }
+
+    // Select from search
     const foundOption = this.options.find(option => option.id === selectedOption.key);
-    this.injected.onChange(toJS(foundOption));
+    onChange(toJS(foundOption));
+  }
+
+  private onBlur () {
+    this.search = '';
   }
 
   private onFocus () {
@@ -198,6 +213,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         id={id}
         labelInValue
         loading={this.isLoading.isTrue}
+        onBlur={this.onBlur}
         onChange={this.onChange}
         onFocus={this.onFocus}
         onSearch={this.debouncedHandleSearch}

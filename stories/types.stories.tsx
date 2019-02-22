@@ -37,7 +37,7 @@ storiesOf('Types', module)
               ...objectSearchCreateFactory.build() as IFieldConfigObjectSearchCreate,
               colProps: { sm: 24, lg: 12 },
               createFields: [
-                { field: 'first_name', populateFromSearch: true },
+                { field: 'first_name', populateNameFromSearch: true },
                 { field: 'last_name', populateNameFromSearch: true },
                 { field: 'lawfirm', populateFromSearch: true },
                 {
