@@ -201,7 +201,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   public render () {
     const { id } = this.injected
       , showEmpty = this.hasSearch && !this.hasOptions
-      , showNoSearch = !this.hasOptions && !this.hasOptions
+      , showNoSearch = !this.hasSearch && !this.hasOptions
       , showAdd = this.hasSearch
       ;
 
