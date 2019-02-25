@@ -446,7 +446,7 @@ function (_Component) {
     value: function render() {
       var id = this.injected.id,
           showEmpty = this.hasSearch && !this.hasOptions,
-          showNoSearch = !this.hasOptions && !this.hasOptions,
+          showNoSearch = !this.hasSearch && !this.hasOptions,
           showAdd = this.hasSearch;
       return React__default.createElement(Antd.Select, _extends({
         allowClear: true,
