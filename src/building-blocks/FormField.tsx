@@ -57,7 +57,7 @@ class FormField extends Component<IFormFieldProps> {
   public render () {
     const { formManager } = this.props
       , fieldConfig = this.fieldConfig
-      , { colProps, formItemProps, field, skipFieldDecorator } = fieldConfig
+      , { className, colProps, formItemProps, field, skipFieldDecorator } = fieldConfig
       , { getFieldDecorator } = formManager.form
       ;
 
@@ -71,7 +71,7 @@ class FormField extends Component<IFormFieldProps> {
         ? editComponent
         : getFieldDecorator(field, this.decoratorOptions)(editComponent)
       , FormItemComponent = (
-        <Antd.Form.Item {...formItemProps} label={this.label}>
+        <Antd.Form.Item className={className} {...formItemProps} label={this.label} >
           {wrappedComponent}
         </Antd.Form.Item>
     );

@@ -24,6 +24,7 @@ import ObjectSearchCreateSearchInput from './ObjectSearchCreateSearchInput';
 
 export interface IObjectSearchCreateProps {
   addNewContent?: React.ReactNode;
+  className?: string;
   debounceWait?: number;
   decoratorOptions: { [key: string]: any };
   fieldConfig: IFieldConfigObjectSearchCreate;
@@ -76,36 +77,30 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     if (onAddNewToggle) { onAddNewToggle(false); }
   }
 
-  public render () {
-    const {
-      decoratorOptions,
-      fieldConfig,
-      formManager,
-    } = this.injected
-    , className = cx(
-      CX_PREFIX_SEARCH_CREATE,
-      {[`${CX_PREFIX_SEARCH_CREATE}-create`]: this.isAddingNew.isTrue },
-    );
-
-    if (this.isAddingNew.isTrue) {
-      return (
-        <div className={className}>
-          <NestedFieldSet
-            fieldSet={this.fieldConfig.createFields}
-            formManager={formManager}
-            id={fieldConfig.field}
-            label={this.fieldConfig.label}
-            search={this.search}
-          />
-          <Antd.Button size='small' onClick={this.onSearch}>
-            <Antd.Icon type='left' /> Back to search
-          </Antd.Button>
-        </div>
-      );
-    }
+  private renderAddNew () {
+    const { fieldConfig, formManager } = this.injected;
 
     return (
-      <Antd.Form.Item className={className}>
+      <>
+        <NestedFieldSet
+          fieldSet={this.fieldConfig.createFields}
+          formManager={formManager}
+          id={fieldConfig.field}
+          label={this.fieldConfig.label}
+          search={this.search}
+        />
+        <Antd.Button size='small' onClick={this.onSearch}>
+          <Antd.Icon type='left' /> Back to search
+        </Antd.Button>
+      </>
+    );
+  }
+
+  private renderSearch () {
+    const { decoratorOptions, fieldConfig, formManager } = this.injected;
+
+    return (
+      <Antd.Form.Item>
         {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
           <ObjectSearchCreateSearchInput
             onAddNew={this.onAddNew}
@@ -113,6 +108,24 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
           />,
         )}
       </Antd.Form.Item>
+    );
+  }
+
+  public render () {
+    const className = cx(
+      CX_PREFIX_SEARCH_CREATE,
+      {[`${CX_PREFIX_SEARCH_CREATE}-create`]: this.isAddingNew.isTrue },
+      this.props.className,
+    );
+
+    return (
+      <div className={className}>
+        {
+          this.isAddingNew.isTrue
+            ? this.renderAddNew()
+            : this.renderSearch()
+        }
+      </div>
     );
   }
 }

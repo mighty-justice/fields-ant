@@ -96,6 +96,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   private get selectProps () {
     // Handpicking specific props to avoid unintentional behaviors
     return pick(this.props.selectProps as SelectProps, [
+      'className',
       'clearIcon',
       'placeholder',
       'removeIcon',

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import * as Antd from 'antd';
+import { computed } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
 import { inject, observer } from 'mobx-react';
+
+import * as Antd from 'antd';
 
 import {
   IAntFormField,
@@ -12,7 +14,6 @@ import {
 } from '../interfaces';
 
 import { getOptions } from '..';
-import { computed } from 'mobx';
 
 @inject('getOptions')
 @autoBindMethods
