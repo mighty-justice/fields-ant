@@ -12,7 +12,9 @@ const expectedValue: { [key: string]: [IValue, string | null] } = {
   date: ['2017-11-22', '11/22/17'],
   objectSearchCreate: [{ name: 'Example Co.' }, 'Example Co.'],
   optionSelect: ['second', 'Second Item'],
+  password: ['hunter2', '********'],
   percentage: ['0.278', '27.80%'],
+  phone: ['555-995-1669', '(555) 995-1669'],
   radio: ['second', 'Second Item'],
   rating: ['3', SKIP],
 };
@@ -33,19 +35,21 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
     ;
 
   describe(type, () => {
-    it('Renders', async () => {
-      const props = { fieldSets, model };
+    if (type !== 'hidden') {
+      it('Renders', async () => {
+        const props = { fieldSets, model };
 
-      // Renders empty placeholder
-      const withoutData = await new Tester(Card, { props: { ...props, model: {} }}).mount();
-      if (rendered) { expect(withoutData.text()).not.toContain(rendered); }
-      expect(withoutData.text()).toContain('--');
+        // Renders empty placeholder
+        const withoutData = await new Tester(Card, { props: { ...props, model: {} }}).mount();
+        if (rendered) { expect(withoutData.text()).not.toContain(rendered); }
+        expect(withoutData.text()).toContain('--');
 
-      // Renders formatted value
-      const withData = await new Tester(Card, { props }).mount();
-      if (rendered) { expect(withData.text()).toContain(rendered); }
-      expect(withData.text()).not.toContain('--');
-    });
+        // Renders formatted value
+        const withData = await new Tester(Card, { props }).mount();
+        if (rendered) { expect(withData.text()).toContain(rendered); }
+        expect(withData.text()).not.toContain('--');
+      });
+    }
 
     it('Edits', async () => {
       const onSave = jest.fn()

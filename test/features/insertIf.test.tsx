@@ -139,7 +139,10 @@ describe('insertIf', () => {
 
   it('Recieves data from model', async () => {
     const insertIf = jest.fn(_values => !!(_values && _values.second_example_field))
-      , fieldSets = [[normalField, { field, label: exampleLabel, insertIf }]]
+      , fieldSets = [[
+        { ...normalField, type: 'boolean' },
+        { field, label: exampleLabel, insertIf, type: 'boolean' },
+      ]]
       , props = { fieldSets, title }
       ;
 
@@ -158,7 +161,8 @@ describe('insertIf', () => {
   it('Recieves data from defaults', async () => {
     const onSave = jest.fn().mockResolvedValue({})
       , insertIf = jest.fn(_values => !!(_values && _values.second_example_field))
-      , fieldSets = [[normalField, { field, label: exampleLabel, insertIf }]]
+      , fieldSets = [[normalField, { field, label: exampleLabel, insertIf }]
+          .map(fc => ({ ...fc, type: 'boolean' }))] // Render true / false values
       , props = { fieldSets, onSave, title }
       ;
 

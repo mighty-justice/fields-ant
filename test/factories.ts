@@ -34,6 +34,7 @@ export const fakeObjectSearchCreate = () => ({ name: fakeTextShort(), id: faker.
 export const fakerPercentage = () => sample(['1', Number(faker.helpers.replaceSymbolWithNumber('0.###')).toString()]);
 export const fakeTextLong = () => faker.random.words(12);
 export const fakeRate = () => faker.random.number(4) + 1;
+export const fakeSsn = () => faker.helpers.replaceSymbolWithNumber('###-##-####');
 
 // attr* functions return fake* functions when called
 // These are used, called, in factory attr lists
@@ -119,6 +120,26 @@ export const optionSelectFactory = new Factory()
     ],
     type: 'optionSelect',
   });
+
+export const hiddenFactory = new Factory()
+  .extend(fieldFactory)
+  .attrs({ type: 'hidden' });
+
+export const passwordFactory = new Factory()
+  .extend(fieldFactory)
+  .attrs({ type: 'password' });
+
+export const phoneFactory = new Factory()
+  .extend(fieldFactory)
+  .attrs({ type: 'phone' });
+
+export const ssnFactory = new Factory()
+  .extend(fieldFactory)
+  .attrs({ type: 'ssn' });
+
+export const urlFactory = new Factory()
+  .extend(fieldFactory)
+  .attrs({ type: 'url' });
 
 /*
  *   FIELD SET FACTORY
@@ -206,15 +227,20 @@ export const TYPE_GENERATORS: ITypeGenerators = {
   date: { valueFunction: fakeDateRecent, fieldConfigFactory: dateFactory },
   duration: { valueFunction: fakeDuration, fieldConfigFactory: durationFactory },
   email: { valueFunction: faker.internet.email, fieldConfigFactory: emailFactory },
+  hidden: { valueFunction: faker.random.uuid, fieldConfigFactory: hiddenFactory },
   money: { valueFunction: faker.finance.amount, fieldConfigFactory: moneyFactory },
   number: { valueFunction: attrNumber(), fieldConfigFactory: numberFactory },
   objectSearchCreate: { valueFunction: fakeObjectSearchCreate, fieldConfigFactory: objectSearchCreateFactory },
   optionSelect: { valueFunction: () => 'first', fieldConfigFactory: optionSelectFactory },
+  password: { valueFunction: faker.internet.password, fieldConfigFactory: passwordFactory },
   percentage: { valueFunction: fakerPercentage, fieldConfigFactory: percentageFactory },
+  phone: { valueFunction: faker.phone.phoneNumber, fieldConfigFactory: phoneFactory },
   radio: { valueFunction: () => 'first', fieldConfigFactory: radioFactory },
   rating: { valueFunction: fakeRate, fieldConfigFactory: ratingFactory },
+  ssn: { valueFunction: fakeSsn, fieldConfigFactory: ssnFactory },
   string: { valueFunction: fakeTextShort, fieldConfigFactory: stringFactory },
   text: { valueFunction: fakeTextLong, fieldConfigFactory: textFactory },
+  url: { valueFunction: faker.internet.url, fieldConfigFactory: urlFactory },
 };
 
 interface IComponentGenerators {
