@@ -19,7 +19,7 @@ interface IFieldConfigBase {
   type: string;
 
   // Core attributes
-  className?: any;
+  className?: any; // Applied on the Antd.Form.Item
   label: string | null;
   nullify: boolean;
   render: (...args: any[]) => React.ReactNode;

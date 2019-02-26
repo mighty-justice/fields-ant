@@ -48,6 +48,7 @@ storiesOf('Types', module)
               ],
               editProps: {
                 addNewContent: <>Can't find it ? <a>Add new lawfirm</a></>,
+                className: 'custom-class-name marvel-ironman',
                 noSearchContent: `Type in lawfirm's name`,
                 searchIcon: <span>O</span>,
                 selectProps: { placeholder: 'Search lawfirm...' },
