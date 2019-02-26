@@ -185,10 +185,12 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
     onChange(toJS(foundOption));
   }
 
+  // istanbul ignore next
   private onBlur () {
     this.search = '';
   }
 
+  // istanbul ignore next
   private onFocus () {
     const isPristine = !this.hasOptions && !this.hasSearch;
     if (isPristine) {

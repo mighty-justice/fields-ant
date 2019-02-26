@@ -68,14 +68,16 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
   }
 
   private async onAddNew (search: string) {
-    const { onAddNewToggle } = this.props;
+    const { onAddNewToggle, formManager, id } = this.injected;
     this.search = search;
+    formManager.form.setFieldsValue({ [id]: {} });
     this.isAddingNew.setTrue();
     if (onAddNewToggle) { onAddNewToggle(true); }
   }
 
   private async onSearch () {
-    const { onAddNewToggle } = this.props;
+    const { onAddNewToggle, formManager, id, fieldConfig } = this.injected;
+    formManager.form.setFieldsValue({ [id]: formManager.getDefaultValue(fieldConfig) });
     this.isAddingNew.setFalse();
     if (onAddNewToggle) { onAddNewToggle(false); }
   }
@@ -92,7 +94,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
           label={this.fieldConfig.label}
           search={this.search}
         />
-        <Antd.Button size='small' onClick={this.onSearch}>
+        <Antd.Button className='btn-back' size='small' onClick={this.onSearch}>
           <Antd.Icon type='left' /> Back to search
         </Antd.Button>
       </>

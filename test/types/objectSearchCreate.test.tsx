@@ -74,6 +74,10 @@ describe('objectSearchCreate', () => {
     const { field, onSave, searchTerm, result, props, fakeOwed } = getDefaults({})
       , tester = await getTester(props) ;
 
+    tester.submit();
+    expect(onSave).toHaveBeenCalledWith(props.model);
+    onSave.mockClear();
+
     await searchFor(tester, field, result, searchTerm);
     await selectAddNew(tester);
 
@@ -96,6 +100,10 @@ describe('objectSearchCreate', () => {
     tester.changeInput('input[id="law_firm.name"]', searchTerm);
     tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed }});
+
+    tester.click('.btn-back');
+    tester.submit();
+    expect(onSave).toHaveBeenCalledWith(props.model);
   });
 
   it('Populates from search', async () => {
