@@ -1,7 +1,7 @@
 /* global it, describe, expect */
 import { Tester } from '@mighty-justice/tester';
 
-import { Card, FormCard, TYPES } from '../../src';
+import { Card, fillInFieldConfig, FormCard, TYPES } from '../../src';
 import { TYPE_GENERATORS } from '../factories';
 import { IValue } from '../../src/props';
 
@@ -35,21 +35,23 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
     ;
 
   describe(type, () => {
-    if (type !== 'hidden') {
-      it('Renders', async () => {
-        const props = { fieldSets, model };
+    it('Renders', async () => {
+      const props = { fieldSets, model };
 
-        // Renders empty placeholder
-        const withoutData = await new Tester(Card, { props: { ...props, model: {} }}).mount();
-        if (rendered) { expect(withoutData.text()).not.toContain(rendered); }
-        expect(withoutData.text()).toContain('--');
+      // Renders empty placeholder
+      const withoutData = await new Tester(Card, { props: { ...props, model: {} }}).mount();
+      if (fillInFieldConfig(fieldConfig).writeOnly) {
+        expect(withoutData.text()).not.toContain('--');
+        return;
+      }
+      if (rendered) { expect(withoutData.text()).not.toContain(rendered); }
+      expect(withoutData.text()).toContain('--');
 
-        // Renders formatted value
-        const withData = await new Tester(Card, { props }).mount();
-        if (rendered) { expect(withData.text()).toContain(rendered); }
-        expect(withData.text()).not.toContain('--');
-      });
-    }
+      // Renders formatted value
+      const withData = await new Tester(Card, { props }).mount();
+      if (rendered) { expect(withData.text()).toContain(rendered); }
+      expect(withData.text()).not.toContain('--');
+    });
 
     it('Edits', async () => {
       const onSave = jest.fn()
