@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { pick, debounce, get } from 'lodash';
+import { omit, debounce, get } from 'lodash';
 
 import * as Antd from 'antd';
 import { SelectProps } from 'antd/lib/select';
@@ -91,13 +91,15 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   }
 
   private get selectProps () {
-    // Handpicking specific props to avoid unintentional behaviors
-    return pick(this.props.selectProps as SelectProps, [
-      'className',
-      'clearIcon',
-      'placeholder',
-      'removeIcon',
-      'suffixIcon',
+    // Omitting specific props to avoid unintentional behaviors
+    return omit(this.props.selectProps as SelectProps, [
+      'id',
+      'loading',
+      'onBlur',
+      'onChange',
+      'onFocus',
+      'onSearch',
+      'showSearch',
     ]);
   }
 
