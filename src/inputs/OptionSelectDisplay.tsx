@@ -4,6 +4,8 @@ import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { isArray } from 'lodash';
 
+import { EMPTY_FIELD } from '@mighty-justice/utils';
+
 import {
   IFieldConfig,
   IFieldConfigOptionSelect,
@@ -40,7 +42,7 @@ class OptionSelectDisplay extends Component<IOptionSelectDisplayProps> {
     const { value } = this.props
       , option = this.options.find(o => o.value === value);
 
-    if (!option) { return '--'; }
+    if (!option) { return EMPTY_FIELD; }
     return option.name;
   }
 }

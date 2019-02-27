@@ -47,99 +47,47 @@ export const attrSubFactoryList = (factory: any, num?: number) => () => factory.
  */
 
 export const fieldFactory = new Factory()
-  .attrs({
-    field: fakeField,
-  });
+  .attrs({ field: fakeField });
 
-export const dateFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'date' });
+export function fieldFactoryForType (type: string) {
+  return new Factory()
+    .extend(fieldFactory)
+    .attrs({ type });
+}
 
-export const moneyFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'money' });
+export const booleanFactory = fieldFactoryForType('boolean');
+export const dateFactory = fieldFactoryForType('date');
+export const durationFactory = fieldFactoryForType('duration');
+export const emailFactory = fieldFactoryForType('email');
+export const hiddenFactory = fieldFactoryForType('hidden');
+export const moneyFactory = fieldFactoryForType('money');
+export const numberFactory = fieldFactoryForType('number');
+export const passwordFactory = fieldFactoryForType('password');
+export const percentageFactory = fieldFactoryForType('percentage');
+export const phoneFactory = fieldFactoryForType('phone');
+export const ratingFactory = fieldFactoryForType('rating');
+export const ssnFactory = fieldFactoryForType('ssn');
+export const stringFactory = fieldFactoryForType('string');
+export const textFactory = fieldFactoryForType('text');
+export const urlFactory = fieldFactoryForType('url');
 
-export const percentageFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'percentage' });
+export const attrOptions = [
+  { value: 'first', name: 'First Item' },
+  { value: 'second', name: 'Second Item' },
+  { value: 'third', name: 'Third Item' },
+];
 
-export const radioFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({
-    options: [
-      { value: 'first', name: 'First Item' },
-      { value: 'second', name: 'Second Item' },
-      { value: 'third', name: 'Third Item' },
-    ],
-    type: 'radio',
-  });
+export const radioFactory = fieldFactoryForType('radio')
+  .attrs({ options: attrOptions });
 
-export const stringFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'string' });
+export const optionSelectFactory = fieldFactoryForType('optionSelect')
+  .attrs({ options: attrOptions });
 
-export const textFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'text' });
-
-export const objectSearchCreateFactory = new Factory()
-  .extend(fieldFactory)
+export const objectSearchCreateFactory = fieldFactoryForType('objectSearchCreate')
   .attrs({
     createFields: [{ field: 'name', required: true }],
     endpoint: '/endpoint/',
-    type: 'objectSearchCreate',
   });
-
-export const ratingFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'rating' });
-
-export const booleanFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'boolean' });
-
-export const durationFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'duration' });
-
-export const emailFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'email' });
-
-export const numberFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'number' });
-
-export const optionSelectFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({
-    options: [
-      { value: 'first', name: 'First Item' },
-      { value: 'second', name: 'Second Item' },
-      { value: 'third', name: 'Third Item' },
-    ],
-    type: 'optionSelect',
-  });
-
-export const hiddenFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'hidden' });
-
-export const passwordFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'password' });
-
-export const phoneFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'phone' });
-
-export const ssnFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'ssn' });
-
-export const urlFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'url' });
 
 /*
  *   FIELD SET FACTORY

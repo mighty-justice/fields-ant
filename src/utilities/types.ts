@@ -86,7 +86,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   hidden: {
     editComponent: Antd.Input,
     editProps: { type: 'hidden' },
-    render: () => '',
+    render: () => null,
     showLabel: false,
     writeOnly: true,
   },

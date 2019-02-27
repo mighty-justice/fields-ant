@@ -1,5 +1,6 @@
 /* global it, describe, expect */
 import { Tester } from '@mighty-justice/tester';
+import { EMPTY_FIELD } from '@mighty-justice/utils';
 
 import { Card, fillInFieldConfig, FormCard, TYPES } from '../../src';
 import { TYPE_GENERATORS } from '../factories';
@@ -41,16 +42,16 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
       // Renders empty placeholder
       const withoutData = await new Tester(Card, { props: { ...props, model: {} }}).mount();
       if (fillInFieldConfig(fieldConfig).writeOnly) {
-        expect(withoutData.text()).not.toContain('--');
+        expect(withoutData.text()).not.toContain(EMPTY_FIELD);
         return;
       }
       if (rendered) { expect(withoutData.text()).not.toContain(rendered); }
-      expect(withoutData.text()).toContain('--');
+      expect(withoutData.text()).toContain(EMPTY_FIELD);
 
       // Renders formatted value
       const withData = await new Tester(Card, { props }).mount();
       if (rendered) { expect(withData.text()).toContain(rendered); }
-      expect(withData.text()).not.toContain('--');
+      expect(withData.text()).not.toContain(EMPTY_FIELD);
     });
 
     it('Edits', async () => {
