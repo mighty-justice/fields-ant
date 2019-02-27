@@ -27,7 +27,7 @@ export interface IObjectSearchProps {
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
   onAddNew: (search: string) => void;
-  renderOption: (option: IEndpointOption) => React.ReactNode;
+  renderOption?: (option: IEndpointOption) => React.ReactNode;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }

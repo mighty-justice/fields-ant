@@ -13,8 +13,6 @@ import {
   TYPE_GENERATORS,
 } from '../test/factories';
 
-console.log('Object.keys(TYPE_GENERATORS)', Object.keys(TYPE_GENERATORS));
-
 const props = {
     fieldSets: [Object.keys(TYPE_GENERATORS).map(type => ({
       ...TYPE_GENERATORS[type].fieldConfigFactory.build(),

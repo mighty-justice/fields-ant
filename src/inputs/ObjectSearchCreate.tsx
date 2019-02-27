@@ -34,7 +34,7 @@ export interface IObjectSearchCreateProps {
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
   onAddNewToggle?: (isAddingNew: boolean) => void;
-  renderOption: (option: IEndpointOption) => React.ReactNode;
+  renderOption?: (option: IEndpointOption) => React.ReactNode;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }

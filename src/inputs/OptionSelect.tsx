@@ -17,7 +17,7 @@ import { getOptions } from '../';
 
 export interface IOptionSelectProps {
   fieldConfig: IFieldConfig;
-  renderOption: (option: IOption) => React.ReactNode;
+  renderOption?: (option: IOption) => React.ReactNode;
 }
 
 @inject('getOptions')
@@ -37,7 +37,6 @@ class OptionSelect extends Component<IOptionSelectProps> {
 
   public render () {
     const { renderOption } = this.props;
-    console.log('renderOption', renderOption);
 
     return (
       <Antd.Select
