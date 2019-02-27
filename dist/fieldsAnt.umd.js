@@ -1186,7 +1186,13 @@
 
     if (field.startsWith('is_')) {
       return 'boolean';
-    }
+    } // Putting this ahead of loop so phone_number => phone, and not number
+
+
+    if (field.includes('phone')) {
+      return 'phone';
+    } // start_date => date etc.
+
 
     for (var type in TYPES) {
       if (field.includes(type)) {
