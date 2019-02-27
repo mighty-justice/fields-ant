@@ -1,6 +1,6 @@
 {
   "name": "@mighty-justice/fields-ant",
-  "version": "0.0.44",
+  "version": "0.0.45",
   "description": "Standard Ant design component interface for Field Sets",
   "main": "dist/fieldsAnt.cjs.js",
   "module": "dist/fieldsAnt.esm.js",

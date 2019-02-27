@@ -1,7 +1,6 @@
 import { Component } from 'react';
 export interface IButtonToolbarProps {
     align?: 'between' | 'right';
-    children?: any;
     className?: any;
     fixed?: boolean;
     noSpacing?: boolean;

@@ -5,7 +5,7 @@ import { IForm, IValue } from './props';
 interface IFieldConfigBase {
     field: string;
     type: string;
-    className?: any;
+    className?: string;
     label: string | null;
     nullify: boolean;
     render: (...args: any[]) => React.ReactNode;
@@ -87,5 +87,9 @@ export interface IInjected {
 export interface IInputProps {
     fieldConfig: IFieldConfig;
     form: IForm;
+}
+export interface IEndpointOption {
+    id: string;
+    name: string;
 }
 export {};

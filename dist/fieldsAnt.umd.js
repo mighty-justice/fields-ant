@@ -387,12 +387,13 @@
     }, {
       key: "renderOption",
       value: function renderOption(option) {
-        var className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item");
+        var renderOption = this.props.renderOption,
+            className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item");
         return React__default.createElement(Antd.Select.Option, {
           className: className,
           key: option.id,
           value: option.id
-        }, option.name);
+        }, renderOption ? renderOption(option) : option.name);
       }
     }, {
       key: "onChange",
@@ -417,12 +418,14 @@
           return option.id === selectedOption.key;
         });
         onChange(mobx.toJS(foundOption));
-      }
+      } // istanbul ignore next
+
     }, {
       key: "onBlur",
       value: function onBlur() {
         this.search = '';
-      }
+      } // istanbul ignore next
+
     }, {
       key: "onFocus",
       value: function onFocus() {
@@ -494,7 +497,7 @@
       key: "selectProps",
       get: function get() {
         // Handpicking specific props to avoid unintentional behaviors
-        return lodash.pick(this.props.selectProps, ['clearIcon', 'placeholder', 'removeIcon', 'suffixIcon']);
+        return lodash.pick(this.props.selectProps, ['className', 'clearIcon', 'placeholder', 'removeIcon', 'suffixIcon']);
       }
     }]);
 
@@ -556,20 +559,22 @@
         var _onAddNew = _asyncToGenerator(
         /*#__PURE__*/
         regeneratorRuntime.mark(function _callee(search) {
-          var onAddNewToggle;
+          var _this$injected, onAddNewToggle, formManager, id;
+
           return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  onAddNewToggle = this.props.onAddNewToggle;
+                  _this$injected = this.injected, onAddNewToggle = _this$injected.onAddNewToggle, formManager = _this$injected.formManager, id = _this$injected.id;
                   this.search = search;
+                  formManager.form.setFieldsValue(_defineProperty({}, id, {}));
                   this.isAddingNew.setTrue();
 
                   if (onAddNewToggle) {
                     onAddNewToggle(true);
                   }
 
-                case 4:
+                case 5:
                 case "end":
                   return _context.stop();
               }
@@ -589,19 +594,21 @@
         var _onSearch = _asyncToGenerator(
         /*#__PURE__*/
         regeneratorRuntime.mark(function _callee2() {
-          var onAddNewToggle;
+          var _this$injected2, onAddNewToggle, formManager, id, fieldConfig;
+
           return regeneratorRuntime.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
-                  onAddNewToggle = this.props.onAddNewToggle;
+                  _this$injected2 = this.injected, onAddNewToggle = _this$injected2.onAddNewToggle, formManager = _this$injected2.formManager, id = _this$injected2.id, fieldConfig = _this$injected2.fieldConfig;
+                  formManager.form.setFieldsValue(_defineProperty({}, id, formManager.getDefaultValue(fieldConfig)));
                   this.isAddingNew.setFalse();
 
                   if (onAddNewToggle) {
                     onAddNewToggle(false);
                   }
 
-                case 3:
+                case 4:
                 case "end":
                   return _context2.stop();
               }
@@ -616,36 +623,43 @@
         return onSearch;
       }()
     }, {
-      key: "render",
-      value: function render() {
-        var _this$injected = this.injected,
-            decoratorOptions = _this$injected.decoratorOptions,
-            fieldConfig = _this$injected.fieldConfig,
-            formManager = _this$injected.formManager,
-            className = cx(CX_PREFIX_SEARCH_CREATE, _defineProperty({}, "".concat(CX_PREFIX_SEARCH_CREATE, "-create"), this.isAddingNew.isTrue));
-
-        if (this.isAddingNew.isTrue) {
-          return React__default.createElement("div", {
-            className: className
-          }, React__default.createElement(NestedFieldSet, {
-            fieldSet: this.fieldConfig.createFields,
-            formManager: formManager,
-            id: fieldConfig.field,
-            label: this.fieldConfig.label,
-            search: this.search
-          }), React__default.createElement(Antd.Button, {
-            size: "small",
-            onClick: this.onSearch
-          }, React__default.createElement(Antd.Icon, {
-            type: "left"
-          }), " Back to search"));
-        }
-
-        return React__default.createElement(Antd.Form.Item, {
-          className: className
-        }, formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(React__default.createElement(ObjectSearchCreateSearchInput, _extends({
+      key: "renderAddNew",
+      value: function renderAddNew() {
+        var _this$injected3 = this.injected,
+            fieldConfig = _this$injected3.fieldConfig,
+            formManager = _this$injected3.formManager;
+        return React__default.createElement(React__default.Fragment, null, React__default.createElement(NestedFieldSet, {
+          fieldSet: this.fieldConfig.createFields,
+          formManager: formManager,
+          id: fieldConfig.field,
+          label: this.fieldConfig.label,
+          search: this.search
+        }), React__default.createElement(Antd.Button, {
+          className: "".concat(CX_PREFIX_SEARCH_CREATE, "-btn-back"),
+          size: "small",
+          onClick: this.onSearch
+        }, React__default.createElement(Antd.Icon, {
+          type: "left"
+        }), " Back to search"));
+      }
+    }, {
+      key: "renderSearch",
+      value: function renderSearch() {
+        var _this$injected4 = this.injected,
+            decoratorOptions = _this$injected4.decoratorOptions,
+            fieldConfig = _this$injected4.fieldConfig,
+            formManager = _this$injected4.formManager;
+        return React__default.createElement(Antd.Form.Item, null, formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(React__default.createElement(ObjectSearchCreateSearchInput, _extends({
           onAddNew: this.onAddNew
         }, this.objectSearchProps))));
+      }
+    }, {
+      key: "render",
+      value: function render() {
+        var className = cx(CX_PREFIX_SEARCH_CREATE, _defineProperty({}, "".concat(CX_PREFIX_SEARCH_CREATE, "-create"), this.isAddingNew.isTrue), this.props.className);
+        return React__default.createElement("div", {
+          className: className
+        }, this.isAddingNew.isTrue ? this.renderAddNew() : this.renderSearch(), this.props.children);
       }
     }, {
       key: "injected",
@@ -660,7 +674,7 @@
     }, {
       key: "objectSearchProps",
       get: function get() {
-        return lodash.pick(this.props, ['addNewContent', 'debounceWait', 'fieldConfig', 'loadingIcon', 'noSearchContent', 'searchIcon', 'selectProps']);
+        return lodash.pick(this.props, ['addNewContent', 'debounceWait', 'fieldConfig', 'loadingIcon', 'noSearchContent', 'renderOption', 'searchIcon', 'selectProps']);
       }
     }]);
 
@@ -696,6 +710,7 @@
     _createClass(OptionSelect, [{
       key: "render",
       value: function render() {
+        var renderOption = this.props.renderOption;
         return React__default.createElement(Antd.Select, _extends({
           allowClear: true,
           optionFilterProp: "children",
@@ -704,7 +719,7 @@
           return React__default.createElement(Antd.Select.Option, {
             key: option.value,
             value: option.value
-          }, option.name);
+          }, renderOption ? renderOption(option) : option.name);
         }));
       }
     }, {
@@ -749,8 +764,13 @@
       key: "render",
       value: function render() {
         return React__default.createElement(Antd.Rate, _extends({}, this.props, {
-          value: Number(this.props.value)
+          value: Number(this.injected.value)
         }));
+      }
+    }, {
+      key: "injected",
+      get: function get() {
+        return this.props;
       }
     }]);
 
@@ -1283,6 +1303,7 @@
       value: function render() {
         var formManager = this.props.formManager,
             fieldConfig = this.fieldConfig,
+            className = fieldConfig.className,
             colProps = fieldConfig.colProps,
             formItemProps = fieldConfig.formItemProps,
             field = fieldConfig.field,
@@ -1298,7 +1319,9 @@
         } : {},
             editComponent = React__default.createElement(fieldConfig.editComponent, _extends({}, this.editProps, decoratorOptionsProp)),
             wrappedComponent = skipFieldDecorator ? editComponent : getFieldDecorator(field, this.decoratorOptions)(editComponent),
-            FormItemComponent = React__default.createElement(Antd.Form.Item, _extends({}, formItemProps, {
+            FormItemComponent = React__default.createElement(Antd.Form.Item, _extends({
+          className: className
+        }, formItemProps, {
           label: this.label
         }), wrappedComponent);
 
@@ -1452,14 +1475,10 @@
   function (_Component) {
     _inherits(NestedFieldSet, _Component);
 
-    function NestedFieldSet(props) {
-      var _this;
-
+    function NestedFieldSet() {
       _classCallCheck(this, NestedFieldSet);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(NestedFieldSet).call(this, props));
-      props.formManager.form.setFieldsValue(_defineProperty({}, props.id, {}));
-      return _this;
+      return _possibleConstructorReturn(this, _getPrototypeOf(NestedFieldSet).apply(this, arguments));
     }
 
     _createClass(NestedFieldSet, [{
@@ -1514,7 +1533,7 @@
     }, {
       key: "fieldSet",
       get: function get() {
-        var _this2 = this;
+        var _this = this;
 
         var _this$props = this.props,
             id = _this$props.id,
@@ -1522,7 +1541,7 @@
         return getFieldSetFields(fillInFieldSet(fieldSet)).map(function (fieldConfig) {
           return _objectSpread({}, fieldConfig, {
             field: "".concat(id, ".").concat(fieldConfig.field)
-          }, _this2.getDefaultValue(fieldConfig));
+          }, _this.getDefaultValue(fieldConfig));
         });
       }
     }]);

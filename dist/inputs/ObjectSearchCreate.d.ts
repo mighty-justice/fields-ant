@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { SelectProps } from 'antd/lib/select';
-import { FormManager, IFieldConfigObjectSearchCreate } from '../';
+import { FormManager, IEndpointOption, IFieldConfigObjectSearchCreate } from '../';
 export interface IObjectSearchCreateProps {
     addNewContent?: React.ReactNode;
+    className?: string;
     debounceWait?: number;
     decoratorOptions: {
         [key: string]: any;
@@ -13,6 +14,7 @@ export interface IObjectSearchCreateProps {
     loadingIcon?: React.ReactNode;
     noSearchContent?: React.ReactNode;
     onAddNewToggle?: (isAddingNew: boolean) => void;
+    renderOption?: (option: IEndpointOption) => React.ReactNode;
     searchIcon?: React.ReactNode;
     selectProps: SelectProps;
 }
@@ -24,6 +26,8 @@ declare class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     private readonly objectSearchProps;
     private onAddNew;
     private onSearch;
+    private renderAddNew;
+    private renderSearch;
     render(): JSX.Element;
 }
 export default ObjectSearchCreate;

@@ -1,7 +1,8 @@
-import { Component } from 'react';
-import { IFieldConfig } from '../interfaces';
+import React, { Component } from 'react';
+import { IFieldConfig, IOption } from '../interfaces';
 export interface IOptionSelectProps {
     fieldConfig: IFieldConfig;
+    renderOption?: (option: IOption) => React.ReactNode;
 }
 declare class OptionSelect extends Component<IOptionSelectProps> {
     private readonly injected;
