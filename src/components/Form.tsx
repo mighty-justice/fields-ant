@@ -67,7 +67,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       <>
         <Antd.Divider />
 
-        <ButtonToolbar align='right'>
+        <ButtonToolbar align='right' noSpacing>
           <Antd.Button
             disabled={this.formManager.saving}
             onClick={onCancel}

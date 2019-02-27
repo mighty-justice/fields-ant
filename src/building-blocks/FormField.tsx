@@ -57,11 +57,11 @@ class FormField extends Component<IFormFieldProps> {
   public render () {
     const { formManager } = this.props
       , fieldConfig = this.fieldConfig
-      , { className, colProps, formItemProps, field, skipFieldDecorator } = fieldConfig
+      , { className, colProps, formItemProps, field, skipFieldDecorator, readOnly } = fieldConfig
       , { getFieldDecorator } = formManager.form
       ;
 
-    if (filterInsertIf(fieldConfig, formManager.formModel)) {
+    if (readOnly || filterInsertIf(fieldConfig, formManager.formModel)) {
       return null;
     }
 
