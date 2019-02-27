@@ -62,6 +62,10 @@ function inferType (fieldConfig: Partial<IFieldConfig>) {
   if (field.endsWith('_at')) { return 'date'; }
   if (field.startsWith('is_')) { return 'boolean'; }
 
+  // Putting this ahead of loop so phone_number => phone, and not number
+  if (field.includes('phone')) { return 'phone'; }
+
+  // start_date => date etc.
   for (const type in TYPES) {
     if (field.includes(type)) { return type; }
   }
