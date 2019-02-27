@@ -161,6 +161,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         className={className}
         key={option.id}
         value={option.id}
+        title={option.name}
       >
         {renderOption ? renderOption(option) : option.name}
       </Antd.Select.Option>
@@ -220,6 +221,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         onChange={this.onChange}
         onFocus={this.onFocus}
         onSearch={this.debouncedHandleSearch}
+        optionLabelProp='title'
         placeholder='Search...'
         showSearch
         suffixIcon={this.isLoading.isTrue ? this.loadingIcon : this.searchIcon}
