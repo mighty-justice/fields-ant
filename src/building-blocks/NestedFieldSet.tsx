@@ -26,11 +26,6 @@ export interface INestedFieldSetProps {
 @autoBindMethods
 @observer
 class NestedFieldSet extends Component<INestedFieldSetProps> {
-  public constructor (props: INestedFieldSetProps) {
-    super(props);
-    props.formManager.form.setFieldsValue({ [props.id]: {} });
-  }
-
   @computed
   private get fieldSet () {
     const { id, fieldSet } = this.props;
