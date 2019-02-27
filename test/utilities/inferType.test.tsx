@@ -10,6 +10,7 @@ const TYPE_INFERENCES = [
   ['date', 'created_on'],
   ['money', 'amount'],
   ['percentage', 'percent'],
+  ['phone', 'phone_number'],
   ['string', 'name'],
   ['text', 'body'],
   ['text', 'note'],
