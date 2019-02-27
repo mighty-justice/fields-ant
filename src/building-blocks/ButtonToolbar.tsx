@@ -6,7 +6,6 @@ import { Form } from 'antd';
 
 export interface IButtonToolbarProps {
   align?: 'between' | 'right';
-  children?: React.ReactNode;
   className?: any;
   fixed?: boolean;
   noSpacing?: boolean;
