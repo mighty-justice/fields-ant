@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
+import cx from 'classnames';
 
 import SmartBool from '@mighty-justice/smart-bool';
 
@@ -31,12 +32,13 @@ class FormDrawer extends Component<IFormDrawerProps> {
   }
 
   public render () {
-    const { isVisible, title, width } = this.props
+    const { className, isVisible, title, width } = this.props
+      , drawerClassName = cx('mfa-form-drawer', className || null)
       , HANDLED_PROPS = ['title', 'isVisible'];
 
     return (
       <Antd.Drawer
-        className='mfa-form-drawer'
+        className={drawerClassName}
         closable
         destroyOnClose
         maskClosable={false}
