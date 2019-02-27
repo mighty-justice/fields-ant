@@ -17,12 +17,13 @@ import { getOptions } from '../';
 
 export interface IOptionSelectProps {
   fieldConfig: IFieldConfig;
+  renderOption: (option: IOption) => React.ReactNode;
 }
 
 @inject('getOptions')
 class OptionSelect extends Component<IOptionSelectProps> {
   private get injected () {
-    return this.props as IInjected & IInputProps & IAntFormField;
+    return this.props as IOptionSelectProps & IInjected & IInputProps & IAntFormField;
   }
 
   private get fieldConfig () {
@@ -35,6 +36,9 @@ class OptionSelect extends Component<IOptionSelectProps> {
   }
 
   public render () {
+    const { renderOption } = this.props;
+    console.log('renderOption', renderOption);
+
     return (
       <Antd.Select
         allowClear
@@ -47,7 +51,7 @@ class OptionSelect extends Component<IOptionSelectProps> {
             key={option.value}
             value={option.value}
           >
-            {option.name}
+            {renderOption ? renderOption(option) : option.name}
           </Antd.Select.Option>
         ))}
       </Antd.Select>

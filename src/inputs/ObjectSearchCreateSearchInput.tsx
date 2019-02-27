@@ -14,6 +14,7 @@ import {
   CX_PREFIX_SEARCH_CREATE,
   DEFAULT_DEBOUNCE_WAIT,
   IAntFormField,
+  IEndpointOption,
   IFieldConfigObjectSearchCreate,
   IInjected,
   IInputProps,
@@ -26,13 +27,9 @@ export interface IObjectSearchProps {
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
   onAddNew: (search: string) => void;
+  renderOption: (option: IEndpointOption) => React.ReactNode;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
-}
-
-interface IEndpointOption {
-  id: string;
-  name: string;
 }
 
 /*
@@ -154,7 +151,8 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   }
 
   private renderOption (option: IEndpointOption) {
-    const className = `${CX_PREFIX_SEARCH_CREATE}-item`;
+    const { renderOption } = this.props
+       , className = `${CX_PREFIX_SEARCH_CREATE}-item`;
 
     return (
       <Antd.Select.Option
@@ -162,7 +160,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         key={option.id}
         value={option.id}
       >
-        {option.name}
+        {renderOption ? renderOption(option) : option.name}
       </Antd.Select.Option>
     );
   }

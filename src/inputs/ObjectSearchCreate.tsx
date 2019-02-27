@@ -14,6 +14,7 @@ import {
   CX_PREFIX_SEARCH_CREATE,
   FormManager,
   IAntFormField,
+  IEndpointOption,
   IFieldConfigObjectSearchCreate,
   IInjected,
   IInputProps,
@@ -33,6 +34,7 @@ export interface IObjectSearchCreateProps {
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
   onAddNewToggle?: (isAddingNew: boolean) => void;
+  renderOption: (option: IEndpointOption) => React.ReactNode;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }
@@ -59,6 +61,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
       'fieldConfig',
       'loadingIcon',
       'noSearchContent',
+      'renderOption',
       'searchIcon',
       'selectProps',
     ]);

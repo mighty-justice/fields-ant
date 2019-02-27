@@ -130,3 +130,8 @@ export interface IInputProps {
   fieldConfig: IFieldConfig;
   form: IForm;
 }
+
+export interface IEndpointOption {
+  id: string;
+  name: string;
+}
