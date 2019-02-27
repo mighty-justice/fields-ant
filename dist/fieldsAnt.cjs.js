@@ -750,106 +750,8 @@ function (_Component) {
   return OptionSelect;
 }(React.Component), (_applyDecoratedDescriptor(_class2$2.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$2.prototype, "options"), _class2$2.prototype)), _class2$2)) || _class$3);
 
-function formatRating(value) {
-  return value ? React__default.createElement(Antd.Rate, {
-    disabled: true,
-    defaultValue: +value
-  }) : utils.EMPTY_FIELD;
-}
-
-var Rate =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(Rate, _Component);
-
-  function Rate() {
-    _classCallCheck(this, Rate);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(Rate).apply(this, arguments));
-  }
-
-  _createClass(Rate, [{
-    key: "render",
-    value: function render() {
-      return React__default.createElement(Antd.Rate, _extends({}, this.props, {
-        value: Number(this.injected.value)
-      }));
-    }
-  }, {
-    key: "injected",
-    get: function get() {
-      return this.props;
-    }
-  }]);
-
-  return Rate;
-}(React.Component);
-
 var _dec$3, _class$4, _class2$3;
-var OptionSelectDisplay = (_dec$3 = mobxReact.inject('getOptions'), _dec$3(_class$4 = autoBindMethods(_class$4 = mobxReact.observer(_class$4 = (_class2$3 =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(OptionSelectDisplay, _Component);
-
-  function OptionSelectDisplay() {
-    _classCallCheck(this, OptionSelectDisplay);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(OptionSelectDisplay).apply(this, arguments));
-  }
-
-  _createClass(OptionSelectDisplay, [{
-    key: "render",
-    value: function render() {
-      var value = this.props.value,
-          option = this.options.find(function (o) {
-        return o.value === value;
-      });
-
-      if (!option) {
-        return '--';
-      }
-
-      return option.name;
-    }
-  }, {
-    key: "injected",
-    get: function get() {
-      return this.props;
-    }
-  }, {
-    key: "fieldConfig",
-    get: function get() {
-      return this.props.fieldConfig;
-    }
-  }, {
-    key: "options",
-    get: function get() {
-      return getOptions(this.fieldConfig, this.injected);
-    }
-  }]);
-
-  return OptionSelectDisplay;
-}(React.Component), (_applyDecoratedDescriptor(_class2$3.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$3.prototype, "options"), _class2$3.prototype)), _class2$3)) || _class$4) || _class$4) || _class$4);
-function formatOptionSelect(value, fieldConfig) {
-  if (lodash.isArray(value)) {
-    if (value.length > 1) {
-      return "(".concat(value.length, " values)");
-    }
-
-    return React__default.createElement(OptionSelectDisplay, {
-      value: value[0],
-      fieldConfig: fieldConfig
-    });
-  }
-
-  return React__default.createElement(OptionSelectDisplay, {
-    value: value,
-    fieldConfig: fieldConfig
-  });
-}
-
-var _dec$4, _class$5, _class2$4;
-var RadioGroup = (_dec$4 = mobxReact.inject('getOptions'), _dec$4(_class$5 = autoBindMethods(_class$5 = mobxReact.observer(_class$5 = (_class2$4 =
+var RadioGroup = (_dec$3 = mobxReact.inject('getOptions'), _dec$3(_class$4 = autoBindMethods(_class$4 = mobxReact.observer(_class$4 = (_class2$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(RadioGroup, _Component);
@@ -888,7 +790,110 @@ function (_Component) {
   }]);
 
   return RadioGroup;
+}(React.Component), (_applyDecoratedDescriptor(_class2$3.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$3.prototype, "options"), _class2$3.prototype)), _class2$3)) || _class$4) || _class$4) || _class$4);
+
+function formatRating(value) {
+  return value ? React__default.createElement(Antd.Rate, {
+    disabled: true,
+    defaultValue: +value
+  }) : utils.EMPTY_FIELD;
+}
+
+var Rate =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Rate, _Component);
+
+  function Rate() {
+    _classCallCheck(this, Rate);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Rate).apply(this, arguments));
+  }
+
+  _createClass(Rate, [{
+    key: "render",
+    value: function render() {
+      return React__default.createElement(Antd.Rate, _extends({}, this.props, {
+        value: Number(this.injected.value)
+      }));
+    }
+  }, {
+    key: "injected",
+    get: function get() {
+      return this.props;
+    }
+  }]);
+
+  return Rate;
+}(React.Component);
+
+var _dec$4, _class$5, _class2$4;
+var OptionSelectDisplay = (_dec$4 = mobxReact.inject('getOptions'), _dec$4(_class$5 = autoBindMethods(_class$5 = mobxReact.observer(_class$5 = (_class2$4 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(OptionSelectDisplay, _Component);
+
+  function OptionSelectDisplay() {
+    _classCallCheck(this, OptionSelectDisplay);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(OptionSelectDisplay).apply(this, arguments));
+  }
+
+  _createClass(OptionSelectDisplay, [{
+    key: "render",
+    value: function render() {
+      var value = this.props.value,
+          option = this.options.find(function (o) {
+        return o.value === value;
+      });
+
+      if (!option) {
+        return utils.EMPTY_FIELD;
+      }
+
+      return option.name;
+    }
+  }, {
+    key: "injected",
+    get: function get() {
+      return this.props;
+    }
+  }, {
+    key: "fieldConfig",
+    get: function get() {
+      return this.props.fieldConfig;
+    }
+  }, {
+    key: "options",
+    get: function get() {
+      return getOptions(this.fieldConfig, this.injected);
+    }
+  }]);
+
+  return OptionSelectDisplay;
 }(React.Component), (_applyDecoratedDescriptor(_class2$4.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$4.prototype, "options"), _class2$4.prototype)), _class2$4)) || _class$5) || _class$5) || _class$5);
+function formatOptionSelect(value, fieldConfig) {
+  if (lodash.isArray(value)) {
+    if (value.length > 1) {
+      return "(".concat(value.length, " values)");
+    }
+
+    return React__default.createElement(OptionSelectDisplay, {
+      value: value[0],
+      fieldConfig: fieldConfig
+    });
+  }
+
+  return React__default.createElement(OptionSelectDisplay, {
+    value: value,
+    fieldConfig: fieldConfig
+  });
+}
+
+var DEFAULT_DEBOUNCE_WAIT = 300;
+var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
+var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
+var REGEXP_PHONE = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
 function stripFieldConfig(func) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -959,6 +964,17 @@ var TYPES = {
       }
     }
   },
+  hidden: {
+    editComponent: Antd.Input,
+    editProps: {
+      type: 'hidden'
+    },
+    render: function render() {
+      return null;
+    },
+    showLabel: false,
+    writeOnly: true
+  },
   money: {
     editProps: {
       addonBefore: '$',
@@ -1001,6 +1017,15 @@ var TYPES = {
     nullify: true,
     render: formatOptionSelect
   },
+  password: {
+    editComponent: Antd.Input,
+    editProps: {
+      type: 'password'
+    },
+    render: function render(value) {
+      return value ? '********' : utils.EMPTY_FIELD;
+    }
+  },
   percentage: {
     editProps: {
       addonAfter: '%',
@@ -1025,6 +1050,17 @@ var TYPES = {
       return utils.getPercentDisplay(lodash.get(data, field));
     }
   },
+  phone: {
+    editComponent: Antd.Input,
+    formValidationRules: {
+      isPhoneNumber: {
+        message: 'Must be a valid phone number',
+        pattern: REGEXP_PHONE,
+        type: 'regexp'
+      }
+    },
+    render: stripFieldConfig(utils.formatPhoneNumber)
+  },
   radio: {
     editComponent: RadioGroup,
     fieldConfigProp: true,
@@ -1036,6 +1072,17 @@ var TYPES = {
     nullify: true,
     render: formatRating
   },
+  ssn: {
+    editComponent: Antd.Input,
+    formValidationRules: {
+      ssn: {
+        message: 'Must be a valid social security number',
+        pattern: REGEXP_SSN,
+        type: 'regexp'
+      }
+    },
+    render: utils.formatSocialSecurityNumber
+  },
   string: {},
   text: {
     editComponent: Antd.Input.TextArea,
@@ -1045,6 +1092,19 @@ var TYPES = {
       }
     },
     render: stripFieldConfig(utils.parseAndPreserveNewlines)
+  },
+  url: {
+    editComponent: Antd.Input,
+    editProps: {
+      type: 'url'
+    },
+    formValidationRules: {
+      url: {
+        message: 'Not a valid website (URLs should start with http:// or https://)',
+        type: 'url'
+      }
+    },
+    render: stripFieldConfig(utils.formatWebsite)
   }
 };
 
@@ -2689,9 +2749,6 @@ function (_Component) {
   column: 4
 }, _temp$9), (_applyDecoratedDescriptor(_class2$h.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$h.prototype, "fieldSets"), _class2$h.prototype)), _class2$h)) || _class$k) || _class$k;
 
-var DEFAULT_DEBOUNCE_WAIT = 300;
-var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
-
 // Lower-level building blocks and helper components
 
 exports.ButtonToolbar = ButtonToolbar;
@@ -2724,6 +2781,8 @@ exports.formatRating = formatRating;
 exports.FormManager = FormManager;
 exports.DEFAULT_DEBOUNCE_WAIT = DEFAULT_DEBOUNCE_WAIT;
 exports.CX_PREFIX_SEARCH_CREATE = CX_PREFIX_SEARCH_CREATE;
+exports.REGEXP_SSN = REGEXP_SSN;
+exports.REGEXP_PHONE = REGEXP_PHONE;
 exports.asyncNoop = asyncNoop;
 exports.isPartialFieldSetSimple = isPartialFieldSetSimple;
 exports.isFieldSetSimple = isFieldSetSimple;

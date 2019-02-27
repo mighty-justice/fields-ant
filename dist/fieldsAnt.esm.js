@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
-import { Form as Form$1, Select, Icon, Button, Rate as Rate$1, Radio, DatePicker, Input, Row, Col, Popconfirm, Divider, Card as Card$1, notification, Drawer, Modal, List } from 'antd';
+import { Form as Form$1, Select, Icon, Button, Radio, Rate as Rate$1, DatePicker, Input, Row, Col, Popconfirm, Divider, Card as Card$1, notification, Drawer, Modal, List } from 'antd';
 import { toJS, observable, computed } from 'mobx';
 import { debounce, get, pick, isArray, isBoolean, sortBy, values, omit, isEmpty, noop, isPlainObject, extend, has, mapValues, flatten, set, pickBy, kebabCase, result } from 'lodash';
-import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, parseAndPreserveNewlines, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
+import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, formatPhoneNumber, formatSocialSecurityNumber, parseAndPreserveNewlines, formatWebsite, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
 import moment from 'moment';
 import { format } from 'date-fns';
 import { pattern } from 'iso8601-duration';
@@ -743,106 +743,8 @@ function (_Component) {
   return OptionSelect;
 }(Component), (_applyDecoratedDescriptor(_class2$2.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$2.prototype, "options"), _class2$2.prototype)), _class2$2)) || _class$3);
 
-function formatRating(value) {
-  return value ? React.createElement(Rate$1, {
-    disabled: true,
-    defaultValue: +value
-  }) : EMPTY_FIELD;
-}
-
-var Rate =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(Rate, _Component);
-
-  function Rate() {
-    _classCallCheck(this, Rate);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(Rate).apply(this, arguments));
-  }
-
-  _createClass(Rate, [{
-    key: "render",
-    value: function render() {
-      return React.createElement(Rate$1, _extends({}, this.props, {
-        value: Number(this.injected.value)
-      }));
-    }
-  }, {
-    key: "injected",
-    get: function get() {
-      return this.props;
-    }
-  }]);
-
-  return Rate;
-}(Component);
-
 var _dec$3, _class$4, _class2$3;
-var OptionSelectDisplay = (_dec$3 = inject('getOptions'), _dec$3(_class$4 = autoBindMethods(_class$4 = observer(_class$4 = (_class2$3 =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(OptionSelectDisplay, _Component);
-
-  function OptionSelectDisplay() {
-    _classCallCheck(this, OptionSelectDisplay);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(OptionSelectDisplay).apply(this, arguments));
-  }
-
-  _createClass(OptionSelectDisplay, [{
-    key: "render",
-    value: function render() {
-      var value = this.props.value,
-          option = this.options.find(function (o) {
-        return o.value === value;
-      });
-
-      if (!option) {
-        return '--';
-      }
-
-      return option.name;
-    }
-  }, {
-    key: "injected",
-    get: function get() {
-      return this.props;
-    }
-  }, {
-    key: "fieldConfig",
-    get: function get() {
-      return this.props.fieldConfig;
-    }
-  }, {
-    key: "options",
-    get: function get() {
-      return getOptions(this.fieldConfig, this.injected);
-    }
-  }]);
-
-  return OptionSelectDisplay;
-}(Component), (_applyDecoratedDescriptor(_class2$3.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$3.prototype, "options"), _class2$3.prototype)), _class2$3)) || _class$4) || _class$4) || _class$4);
-function formatOptionSelect(value, fieldConfig) {
-  if (isArray(value)) {
-    if (value.length > 1) {
-      return "(".concat(value.length, " values)");
-    }
-
-    return React.createElement(OptionSelectDisplay, {
-      value: value[0],
-      fieldConfig: fieldConfig
-    });
-  }
-
-  return React.createElement(OptionSelectDisplay, {
-    value: value,
-    fieldConfig: fieldConfig
-  });
-}
-
-var _dec$4, _class$5, _class2$4;
-var RadioGroup = (_dec$4 = inject('getOptions'), _dec$4(_class$5 = autoBindMethods(_class$5 = observer(_class$5 = (_class2$4 =
+var RadioGroup = (_dec$3 = inject('getOptions'), _dec$3(_class$4 = autoBindMethods(_class$4 = observer(_class$4 = (_class2$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(RadioGroup, _Component);
@@ -881,7 +783,110 @@ function (_Component) {
   }]);
 
   return RadioGroup;
+}(Component), (_applyDecoratedDescriptor(_class2$3.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$3.prototype, "options"), _class2$3.prototype)), _class2$3)) || _class$4) || _class$4) || _class$4);
+
+function formatRating(value) {
+  return value ? React.createElement(Rate$1, {
+    disabled: true,
+    defaultValue: +value
+  }) : EMPTY_FIELD;
+}
+
+var Rate =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Rate, _Component);
+
+  function Rate() {
+    _classCallCheck(this, Rate);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Rate).apply(this, arguments));
+  }
+
+  _createClass(Rate, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(Rate$1, _extends({}, this.props, {
+        value: Number(this.injected.value)
+      }));
+    }
+  }, {
+    key: "injected",
+    get: function get() {
+      return this.props;
+    }
+  }]);
+
+  return Rate;
+}(Component);
+
+var _dec$4, _class$5, _class2$4;
+var OptionSelectDisplay = (_dec$4 = inject('getOptions'), _dec$4(_class$5 = autoBindMethods(_class$5 = observer(_class$5 = (_class2$4 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(OptionSelectDisplay, _Component);
+
+  function OptionSelectDisplay() {
+    _classCallCheck(this, OptionSelectDisplay);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(OptionSelectDisplay).apply(this, arguments));
+  }
+
+  _createClass(OptionSelectDisplay, [{
+    key: "render",
+    value: function render() {
+      var value = this.props.value,
+          option = this.options.find(function (o) {
+        return o.value === value;
+      });
+
+      if (!option) {
+        return EMPTY_FIELD;
+      }
+
+      return option.name;
+    }
+  }, {
+    key: "injected",
+    get: function get() {
+      return this.props;
+    }
+  }, {
+    key: "fieldConfig",
+    get: function get() {
+      return this.props.fieldConfig;
+    }
+  }, {
+    key: "options",
+    get: function get() {
+      return getOptions(this.fieldConfig, this.injected);
+    }
+  }]);
+
+  return OptionSelectDisplay;
 }(Component), (_applyDecoratedDescriptor(_class2$4.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$4.prototype, "options"), _class2$4.prototype)), _class2$4)) || _class$5) || _class$5) || _class$5);
+function formatOptionSelect(value, fieldConfig) {
+  if (isArray(value)) {
+    if (value.length > 1) {
+      return "(".concat(value.length, " values)");
+    }
+
+    return React.createElement(OptionSelectDisplay, {
+      value: value[0],
+      fieldConfig: fieldConfig
+    });
+  }
+
+  return React.createElement(OptionSelectDisplay, {
+    value: value,
+    fieldConfig: fieldConfig
+  });
+}
+
+var DEFAULT_DEBOUNCE_WAIT = 300;
+var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
+var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
+var REGEXP_PHONE = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
 function stripFieldConfig(func) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -952,6 +957,17 @@ var TYPES = {
       }
     }
   },
+  hidden: {
+    editComponent: Input,
+    editProps: {
+      type: 'hidden'
+    },
+    render: function render() {
+      return null;
+    },
+    showLabel: false,
+    writeOnly: true
+  },
   money: {
     editProps: {
       addonBefore: '$',
@@ -994,6 +1010,15 @@ var TYPES = {
     nullify: true,
     render: formatOptionSelect
   },
+  password: {
+    editComponent: Input,
+    editProps: {
+      type: 'password'
+    },
+    render: function render(value) {
+      return value ? '********' : EMPTY_FIELD;
+    }
+  },
   percentage: {
     editProps: {
       addonAfter: '%',
@@ -1018,6 +1043,17 @@ var TYPES = {
       return getPercentDisplay(get(data, field));
     }
   },
+  phone: {
+    editComponent: Input,
+    formValidationRules: {
+      isPhoneNumber: {
+        message: 'Must be a valid phone number',
+        pattern: REGEXP_PHONE,
+        type: 'regexp'
+      }
+    },
+    render: stripFieldConfig(formatPhoneNumber)
+  },
   radio: {
     editComponent: RadioGroup,
     fieldConfigProp: true,
@@ -1029,6 +1065,17 @@ var TYPES = {
     nullify: true,
     render: formatRating
   },
+  ssn: {
+    editComponent: Input,
+    formValidationRules: {
+      ssn: {
+        message: 'Must be a valid social security number',
+        pattern: REGEXP_SSN,
+        type: 'regexp'
+      }
+    },
+    render: formatSocialSecurityNumber
+  },
   string: {},
   text: {
     editComponent: Input.TextArea,
@@ -1038,6 +1085,19 @@ var TYPES = {
       }
     },
     render: stripFieldConfig(parseAndPreserveNewlines)
+  },
+  url: {
+    editComponent: Input,
+    editProps: {
+      type: 'url'
+    },
+    formValidationRules: {
+      url: {
+        message: 'Not a valid website (URLs should start with http:// or https://)',
+        type: 'url'
+      }
+    },
+    render: stripFieldConfig(formatWebsite)
   }
 };
 
@@ -2682,9 +2742,6 @@ function (_Component) {
   column: 4
 }, _temp$9), (_applyDecoratedDescriptor(_class2$h.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$h.prototype, "fieldSets"), _class2$h.prototype)), _class2$h)) || _class$k) || _class$k;
 
-var DEFAULT_DEBOUNCE_WAIT = 300;
-var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
-
 // Lower-level building blocks and helper components
 
-export { ButtonToolbar, CardField, FormField, FormFieldSet, GuardedButton, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE, NestedFieldSet, ArrayCard, Card, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormModal, SummaryCard, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, formatOptionSelect, RadioGroup, Rate, formatRating, FormManager, DEFAULT_DEBOUNCE_WAIT, CX_PREFIX_SEARCH_CREATE, asyncNoop, isPartialFieldSetSimple, isFieldSetSimple, filterInsertIf, fillInFieldConfig, fillInFieldSet, fillInFieldSets, getFieldSetFields, getUnsortedOptions, getOptions, TYPES };
+export { ButtonToolbar, CardField, FormField, FormFieldSet, GuardedButton, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE, NestedFieldSet, ArrayCard, Card, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormModal, SummaryCard, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, formatOptionSelect, RadioGroup, Rate, formatRating, FormManager, DEFAULT_DEBOUNCE_WAIT, CX_PREFIX_SEARCH_CREATE, REGEXP_SSN, REGEXP_PHONE, asyncNoop, isPartialFieldSetSimple, isFieldSetSimple, filterInsertIf, fillInFieldConfig, fillInFieldSet, fillInFieldSets, getFieldSetFields, getUnsortedOptions, getOptions, TYPES };
