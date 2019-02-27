@@ -30,6 +30,7 @@ import OptionSelect from '../inputs/OptionSelect';
 import RadioGroup from '../inputs/RadioGroup';
 import Rate, { formatRating } from '../inputs/Rate';
 import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
+import { REGEXP_PHONE, REGEXP_SSN } from '../consts';
 
 function stripFieldConfig (func: (...args: any[]) => any) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -154,7 +155,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     formValidationRules: {
       isPhoneNumber: {
         message: 'Must be a valid phone number',
-        pattern: /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+        pattern: REGEXP_PHONE,
         type: 'regexp',
       },
     },
@@ -176,7 +177,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     formValidationRules: {
       ssn: {
         message: 'Must be a valid social security number',
-        pattern: /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/,
+        pattern: REGEXP_SSN,
         type: 'regexp',
       },
     },
