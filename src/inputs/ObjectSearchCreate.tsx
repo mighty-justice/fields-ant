@@ -128,6 +128,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
             ? this.renderAddNew()
             : this.renderSearch()
         }
+        {this.props.children}
       </div>
     );
   }
