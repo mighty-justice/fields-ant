@@ -101,7 +101,7 @@ describe('objectSearchCreate', () => {
     tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed }});
 
-    tester.click('.btn-back');
+    tester.click('.ant-input-search-create-btn-back');
     tester.submit();
     expect(onSave).toHaveBeenCalledWith(props.model);
   });
