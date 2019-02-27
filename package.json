@@ -151,7 +151,7 @@
   },
   "dependencies": {
     "@mighty-justice/smart-bool": "^0.3.2",
-    "@mighty-justice/utils": "^1.0.0",
+    "@mighty-justice/utils": "^1.0.1",
     "antd": "3.13.5",
     "class-autobind-decorator": "^3.0.1",
     "classnames": "^2.2.6",

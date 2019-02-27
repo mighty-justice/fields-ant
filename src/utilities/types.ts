@@ -10,10 +10,14 @@ import {
 } from '../interfaces';
 
 import {
+  EMPTY_FIELD,
   formatCommaSeparatedNumber,
   formatDate,
   formatMoney,
   formatPercentage,
+  formatPhoneNumber,
+  formatSocialSecurityNumber,
+  formatWebsite,
   getNameOrDefault,
   getPercentDisplay,
   getPercentValue,
@@ -23,9 +27,10 @@ import {
 
 import ObjectSearchCreate from '../inputs/ObjectSearchCreate';
 import OptionSelect from '../inputs/OptionSelect';
+import RadioGroup from '../inputs/RadioGroup';
 import Rate, { formatRating } from '../inputs/Rate';
 import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
-import RadioGroup from '../inputs/RadioGroup';
+import { REGEXP_PHONE, REGEXP_SSN } from '../consts';
 
 function stripFieldConfig (func: (...args: any[]) => any) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -79,6 +84,13 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
       },
     },
   },
+  hidden: {
+    editComponent: Antd.Input,
+    editProps: { type: 'hidden' },
+    render: () => null,
+    showLabel: false,
+    writeOnly: true,
+  },
   money: {
     editProps: {
       addonBefore: '$',
@@ -115,6 +127,11 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     nullify: true,
     render: formatOptionSelect,
   },
+  password: {
+    editComponent: Antd.Input,
+    editProps: { type: 'password' },
+    render: (value) => value ? '********' : EMPTY_FIELD,
+  },
   percentage: {
     editProps: {
       addonAfter: '%',
@@ -133,6 +150,17 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: stripFieldConfig(formatPercentage),
     toForm: (data: any, field: string) => getPercentDisplay(get(data, field)),
   },
+  phone: {
+    editComponent: Antd.Input,
+    formValidationRules: {
+      isPhoneNumber: {
+        message: 'Must be a valid phone number',
+        pattern: REGEXP_PHONE,
+        type: 'regexp',
+      },
+    },
+    render: stripFieldConfig(formatPhoneNumber),
+  },
   radio: {
     editComponent: RadioGroup,
     fieldConfigProp: true,
@@ -144,6 +172,17 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     nullify: true,
     render: formatRating,
   },
+  ssn: {
+    editComponent: Antd.Input,
+    formValidationRules: {
+      ssn: {
+        message: 'Must be a valid social security number',
+        pattern: REGEXP_SSN,
+        type: 'regexp',
+      },
+    },
+    render: formatSocialSecurityNumber,
+  },
   string: {},
   text: {
     editComponent: Antd.Input.TextArea,
@@ -151,5 +190,16 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
       autosize: { minRows: 4 },
     },
     render: stripFieldConfig(parseAndPreserveNewlines),
+  },
+  url: {
+    editComponent: Antd.Input,
+    editProps: { type: 'url' },
+    formValidationRules: {
+      url: {
+        message: 'Not a valid website (URLs should start with http:// or https://)',
+        type: 'url',
+      },
+    },
+    render: stripFieldConfig(formatWebsite),
   },
 };

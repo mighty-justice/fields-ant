@@ -34,6 +34,7 @@ export const fakeObjectSearchCreate = () => ({ name: fakeTextShort(), id: faker.
 export const fakerPercentage = () => sample(['1', Number(faker.helpers.replaceSymbolWithNumber('0.###')).toString()]);
 export const fakeTextLong = () => faker.random.words(12);
 export const fakeRate = () => faker.random.number(4) + 1;
+export const fakeSsn = () => faker.helpers.replaceSymbolWithNumber('###-##-####');
 
 // attr* functions return fake* functions when called
 // These are used, called, in factory attr lists
@@ -46,78 +47,46 @@ export const attrSubFactoryList = (factory: any, num?: number) => () => factory.
  */
 
 export const fieldFactory = new Factory()
-  .attrs({
-    field: fakeField,
-  });
+  .attrs({ field: fakeField });
 
-export const dateFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'date' });
+export function fieldFactoryForType (type: string) {
+  return new Factory()
+    .extend(fieldFactory)
+    .attrs({ type });
+}
 
-export const moneyFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'money' });
+export const booleanFactory = fieldFactoryForType('boolean');
+export const dateFactory = fieldFactoryForType('date');
+export const durationFactory = fieldFactoryForType('duration');
+export const emailFactory = fieldFactoryForType('email');
+export const hiddenFactory = fieldFactoryForType('hidden');
+export const moneyFactory = fieldFactoryForType('money');
+export const numberFactory = fieldFactoryForType('number');
+export const passwordFactory = fieldFactoryForType('password');
+export const percentageFactory = fieldFactoryForType('percentage');
+export const phoneFactory = fieldFactoryForType('phone');
+export const ratingFactory = fieldFactoryForType('rating');
+export const ssnFactory = fieldFactoryForType('ssn');
+export const stringFactory = fieldFactoryForType('string');
+export const textFactory = fieldFactoryForType('text');
+export const urlFactory = fieldFactoryForType('url');
 
-export const percentageFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'percentage' });
+export const attrOptions = [
+  { value: 'first', name: 'First Item' },
+  { value: 'second', name: 'Second Item' },
+  { value: 'third', name: 'Third Item' },
+];
 
-export const radioFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({
-    options: [
-      { value: 'first', name: 'First Item' },
-      { value: 'second', name: 'Second Item' },
-      { value: 'third', name: 'Third Item' },
-    ],
-    type: 'radio',
-  });
+export const radioFactory = fieldFactoryForType('radio')
+  .attrs({ options: attrOptions });
 
-export const stringFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'string' });
+export const optionSelectFactory = fieldFactoryForType('optionSelect')
+  .attrs({ options: attrOptions });
 
-export const textFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'text' });
-
-export const objectSearchCreateFactory = new Factory()
-  .extend(fieldFactory)
+export const objectSearchCreateFactory = fieldFactoryForType('objectSearchCreate')
   .attrs({
     createFields: [{ field: 'name', required: true }],
     endpoint: '/endpoint/',
-    type: 'objectSearchCreate',
-  });
-
-export const ratingFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'rating' });
-
-export const booleanFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'boolean' });
-
-export const durationFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'duration' });
-
-export const emailFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'email' });
-
-export const numberFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({ type: 'number' });
-
-export const optionSelectFactory = new Factory()
-  .extend(fieldFactory)
-  .attrs({
-    options: [
-      { value: 'first', name: 'First Item' },
-      { value: 'second', name: 'Second Item' },
-      { value: 'third', name: 'Third Item' },
-    ],
-    type: 'optionSelect',
   });
 
 /*
@@ -206,15 +175,20 @@ export const TYPE_GENERATORS: ITypeGenerators = {
   date: { valueFunction: fakeDateRecent, fieldConfigFactory: dateFactory },
   duration: { valueFunction: fakeDuration, fieldConfigFactory: durationFactory },
   email: { valueFunction: faker.internet.email, fieldConfigFactory: emailFactory },
+  hidden: { valueFunction: faker.random.uuid, fieldConfigFactory: hiddenFactory },
   money: { valueFunction: faker.finance.amount, fieldConfigFactory: moneyFactory },
   number: { valueFunction: attrNumber(), fieldConfigFactory: numberFactory },
   objectSearchCreate: { valueFunction: fakeObjectSearchCreate, fieldConfigFactory: objectSearchCreateFactory },
   optionSelect: { valueFunction: () => 'first', fieldConfigFactory: optionSelectFactory },
+  password: { valueFunction: faker.internet.password, fieldConfigFactory: passwordFactory },
   percentage: { valueFunction: fakerPercentage, fieldConfigFactory: percentageFactory },
+  phone: { valueFunction: faker.phone.phoneNumber, fieldConfigFactory: phoneFactory },
   radio: { valueFunction: () => 'first', fieldConfigFactory: radioFactory },
   rating: { valueFunction: fakeRate, fieldConfigFactory: ratingFactory },
+  ssn: { valueFunction: fakeSsn, fieldConfigFactory: ssnFactory },
   string: { valueFunction: fakeTextShort, fieldConfigFactory: stringFactory },
   text: { valueFunction: fakeTextLong, fieldConfigFactory: textFactory },
+  url: { valueFunction: faker.internet.url, fieldConfigFactory: urlFactory },
 };
 
 interface IComponentGenerators {
