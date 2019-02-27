@@ -3,7 +3,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form as Form$1, Select, Icon, Button, Radio, Rate as Rate$1, DatePicker, Input, Row, Col, Popconfirm, Divider, Card as Card$1, notification, Drawer, Modal, List } from 'antd';
 import { toJS, observable, computed } from 'mobx';
-import { debounce, get, pick, isArray, isBoolean, sortBy, values, omit, isEmpty, noop, isPlainObject, extend, has, mapValues, flatten, set, pickBy, kebabCase, result } from 'lodash';
+import { debounce, get, omit, pick, isArray, isBoolean, sortBy, values, isEmpty, noop, isPlainObject, extend, has, mapValues, flatten, set, pickBy, kebabCase, result } from 'lodash';
 import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, formatPhoneNumber, formatSocialSecurityNumber, parseAndPreserveNewlines, formatWebsite, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
 import moment from 'moment';
 import { format } from 'date-fns';
@@ -393,7 +393,8 @@ function (_Component) {
       return React.createElement(Select.Option, {
         className: className,
         key: option.id,
-        value: option.id
+        value: option.id,
+        title: option.name
       }, renderOption ? renderOption(option) : option.name);
     }
   }, {
@@ -455,6 +456,7 @@ function (_Component) {
         onChange: this.onChange,
         onFocus: this.onFocus,
         onSearch: this.debouncedHandleSearch,
+        optionLabelProp: "title",
         placeholder: "Search...",
         showSearch: true,
         suffixIcon: this.isLoading.isTrue ? this.loadingIcon : this.searchIcon
@@ -497,8 +499,8 @@ function (_Component) {
   }, {
     key: "selectProps",
     get: function get() {
-      // Handpicking specific props to avoid unintentional behaviors
-      return pick(this.props.selectProps, ['className', 'clearIcon', 'placeholder', 'removeIcon', 'suffixIcon']);
+      // Omitting specific props to avoid unintentional behaviors
+      return omit(this.props.selectProps, ['id', 'loading', 'onBlur', 'onChange', 'onFocus', 'onSearch', 'showSearch']);
     }
   }]);
 

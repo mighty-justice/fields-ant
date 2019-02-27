@@ -400,7 +400,8 @@ function (_Component) {
       return React__default.createElement(Antd.Select.Option, {
         className: className,
         key: option.id,
-        value: option.id
+        value: option.id,
+        title: option.name
       }, renderOption ? renderOption(option) : option.name);
     }
   }, {
@@ -462,6 +463,7 @@ function (_Component) {
         onChange: this.onChange,
         onFocus: this.onFocus,
         onSearch: this.debouncedHandleSearch,
+        optionLabelProp: "title",
         placeholder: "Search...",
         showSearch: true,
         suffixIcon: this.isLoading.isTrue ? this.loadingIcon : this.searchIcon
@@ -504,8 +506,8 @@ function (_Component) {
   }, {
     key: "selectProps",
     get: function get() {
-      // Handpicking specific props to avoid unintentional behaviors
-      return lodash.pick(this.props.selectProps, ['className', 'clearIcon', 'placeholder', 'removeIcon', 'suffixIcon']);
+      // Omitting specific props to avoid unintentional behaviors
+      return lodash.omit(this.props.selectProps, ['id', 'loading', 'onBlur', 'onChange', 'onFocus', 'onSearch', 'showSearch']);
     }
   }]);
 
