@@ -27,6 +27,7 @@ export interface IModel {
 }
 export interface ISharedComponentProps {
     children?: React.ReactNode;
+    className?: string;
     classNameSuffix?: string;
     fieldSets: IFieldSet[] | IFieldSetPartial[];
     isLoading?: boolean;

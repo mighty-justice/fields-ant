@@ -2593,12 +2593,14 @@ function (_Component) {
     key: "render",
     value: function render() {
       var _this$props2 = this.props,
+          className = _this$props2.className,
           isVisible = _this$props2.isVisible,
           title = _this$props2.title,
           width = _this$props2.width,
+          drawerClassName = cx('mfa-form-drawer', className || null),
           HANDLED_PROPS = ['title', 'isVisible'];
       return React__default.createElement(Antd.Drawer, {
-        className: "mfa-form-drawer",
+        className: drawerClassName,
         closable: true,
         destroyOnClose: true,
         maskClosable: false,
