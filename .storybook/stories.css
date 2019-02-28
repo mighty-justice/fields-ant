@@ -37,5 +37,27 @@
 }
 
 .align-right {
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/*
+  COMPONENT: BUTTON TOOLBAR
+*/
+
+.button-toolbar.no-spacing {
+  padding: 0;
+  margin: 0;
+}
+
+.button-toolbar .ant-btn {
+  margin-right: 10px;
+}
+
+.button-toolbar .ant-btn:last-child {
+  margin-right: 0;
+}
+
+.button-toolbar .ant-btn:last-child {
+  margin-right: 0;
 }

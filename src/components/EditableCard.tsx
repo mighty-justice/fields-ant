@@ -89,7 +89,7 @@ class EditableCard extends Component<IEditableCardProps> {
 
   private buttons () {
     return (
-      <ButtonToolbar>
+      <ButtonToolbar noSpacing>
         {this.deleteButton}
         {this.editButton}
       </ButtonToolbar>
