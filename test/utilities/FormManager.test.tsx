@@ -1,10 +1,10 @@
 /* global describe, it, expect */
 import faker from 'faker';
+import * as Antd from 'antd';
 
 import { Tester } from '@mighty-justice/tester';
 
 import { FormCard, IFieldSetPartial } from '../../src';
-import * as Antd from 'antd';
 import { toastError } from '../../src/utilities/FormManager';
 
 async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {

@@ -1,4 +1,4 @@
-import { get, isArray, sortBy } from 'lodash';
+import { flatten as flattenArray, get, isArray, sortBy } from 'lodash';
 
 import * as Antd from 'antd';
 
@@ -154,6 +154,10 @@ export function getFieldSetFields (fieldSet: IFieldSet): IFieldConfig[] {
   }
 
   return fieldSet.fields;
+}
+
+export function getFieldSetsFields (fieldSets: IFieldSet[]): IFieldConfig[] {
+  return flattenArray(fieldSets.map(getFieldSetFields));
 }
 
 export function getUnsortedOptions (fieldConfig: IFieldConfigOptionSelect, injected: IInjected): IOption[] {

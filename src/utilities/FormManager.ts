@@ -4,7 +4,6 @@ import flattenObject from 'flat';
 import httpStatus from 'http-status-codes';
 
 import {
-  flatten as flattenArray,
   get,
   has,
   mapValues,
@@ -19,7 +18,7 @@ import { IFieldConfigPartial, IFieldSet } from '../interfaces';
 import { IForm, IModel } from '../props';
 
 import backendValidation from './backendValidation';
-import { fillInFieldConfig, getFieldSetFields } from './common';
+import { fillInFieldConfig, getFieldSetsFields } from './common';
 
 interface IArgs {
   defaults: IModel;
@@ -65,7 +64,7 @@ class FormManager {
   }
 
   public get fieldConfigs () {
-    return flattenArray(this.args.fieldSets.map(getFieldSetFields));
+    return getFieldSetsFields(this.args.fieldSets);
   }
 
   public getDefaultValue (fieldConfigPartial: IFieldConfigPartial) {
@@ -147,7 +146,6 @@ class FormManager {
   private handleBackendResponse (response?: any) {
     // console.log('validateThenSaveCallback', response);
     // istanbul ignore next
-    console.log('handleBackendResponse', { response });
     if (get(response, 'status') !== httpStatus.BAD_REQUEST) {
       Antd.notification.error(toastError);
       return;
