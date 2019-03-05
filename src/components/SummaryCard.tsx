@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { kebabCase, result } from 'lodash';
+import { kebabCase } from 'lodash';
 import cx from 'classnames';
 
 import * as Antd from 'antd';
 
-import { fillInFieldSets, getFieldSetFields } from '../utilities/common';
+import { fillInFieldSets, getFieldSetFields, renderValue } from '../utilities/common';
 import { IClassName } from '../props';
 import { IFieldConfig } from '../interfaces';
 
@@ -31,15 +31,13 @@ class SummaryCard extends Component<ISummaryCardProps> {
   }
 
   private renderItem (fieldConfig: IFieldConfig) {
-    const { model } = this.props;
-
-    const value = fieldConfig.value || result(model, fieldConfig.field)
+    const { model } = this.props
       , className = `summary-${kebabCase(fieldConfig.field)}`;
 
     return (
       <Antd.List.Item key={fieldConfig.field} className={className} extra={null}>
         <h4>{fieldConfig.label}</h4>
-        <p>{fieldConfig.render(value, fieldConfig)}</p>
+        <p>{renderValue(fieldConfig, model)}</p>
       </Antd.List.Item>
     );
   }

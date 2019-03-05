@@ -1,4 +1,4 @@
-import { get, isArray, sortBy } from 'lodash';
+import { flatten as flattenArray, get, isArray, sortBy } from 'lodash';
 
 import * as Antd from 'antd';
 
@@ -19,7 +19,7 @@ import {
   IOption,
 } from '../interfaces';
 
-import { IValue } from '../props';
+import { IModel, IValue } from '../props';
 
 import { TYPES } from './types';
 
@@ -156,6 +156,10 @@ export function getFieldSetFields (fieldSet: IFieldSet): IFieldConfig[] {
   return fieldSet.fields;
 }
 
+export function getFieldSetsFields (fieldSets: IFieldSet[]): IFieldConfig[] {
+  return flattenArray(fieldSets.map(getFieldSetFields));
+}
+
 export function getUnsortedOptions (fieldConfig: IFieldConfigOptionSelect, injected: IInjected): IOption[] {
   const { options, optionType } = fieldConfig;
 
@@ -170,4 +174,11 @@ export function getUnsortedOptions (fieldConfig: IFieldConfigOptionSelect, injec
 export function getOptions (fieldConfig: IFieldConfigOptionSelect, injected: IInjected): IOption[] {
   const unsortedOptions = getUnsortedOptions(fieldConfig, injected);
   return fieldConfig.sorted ? sortBy(unsortedOptions, 'name') : unsortedOptions;
+}
+
+export function renderValue (fieldConfigPartial: IFieldConfigPartial, model?: IModel): React.ReactNode {
+  const fieldConfig = fillInFieldConfig(fieldConfigPartial)
+    , { field, render } = fieldConfig;
+
+  return render(fieldConfig.value || get(model, field), fieldConfig, model || {});
 }

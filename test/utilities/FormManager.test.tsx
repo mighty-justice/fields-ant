@@ -1,9 +1,11 @@
 /* global describe, it, expect */
 import faker from 'faker';
+import * as Antd from 'antd';
 
 import { Tester } from '@mighty-justice/tester';
 
 import { FormCard, IFieldSetPartial } from '../../src';
+import { toastError } from '../../src/utilities/FormManager';
 
 async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
   const props = {
@@ -18,7 +20,7 @@ async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
 }
 
 describe('FormManager', () => {
-  it(`Correctly extracts field names`, async () => {
+  it('Correctly extracts field names', async () => {
     const fieldNames = [
       'case.plaintiff.first_name',
       'case.plaintiff.last_name',
@@ -35,7 +37,7 @@ describe('FormManager', () => {
     expect(formManager.formFieldNames).toEqual(fieldNames);
   });
 
-  it(`Correctly nullifies values`, async () => {
+  it('Correctly nullifies values', async () => {
     const fieldSets = [[
       { field: 'do_not_nullify' },
       { field: 'do_nullify', nullify: true },
@@ -45,7 +47,7 @@ describe('FormManager', () => {
     expect(formManager.formModel).toEqual({ do_not_nullify: '', do_nullify: null });
   });
 
-  it(`Correctly maintains id`, async () => {
+  it('Correctly maintains id', async () => {
     const fieldSets = [[{ field: 'name' }]]
       , name = faker.name.firstName()
       , id = faker.random.uuid()
@@ -53,5 +55,24 @@ describe('FormManager', () => {
 
     const formManager = await getFormManager(fieldSets, { id, name, notId });
     expect(formManager.formModel).toEqual({ name, id });
+  });
+
+  it('Handles 500 responses', async () => {
+    const fieldSets = [[{ field: 'name' }]]
+      , name = faker.name.firstName()
+      , id = faker.random.uuid()
+      , notId = faker.random.uuid()
+      , badResponse = {
+        config: {},
+        data: '<!DOCTYPE html><html lang="en"><head /></html>',
+        headers: {},
+        status: 500,
+        statusText: 'Internal Server Error',
+      };
+
+    spyOn(Antd.notification, 'error');
+    const formManager = await getFormManager(fieldSets, { id, name, notId });
+    formManager.handleBackendResponse(badResponse);
+    expect(Antd.notification.error).toHaveBeenCalledWith(toastError);
   });
 });
