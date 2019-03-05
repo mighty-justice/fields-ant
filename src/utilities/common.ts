@@ -19,7 +19,7 @@ import {
   IOption,
 } from '../interfaces';
 
-import { IValue } from '../props';
+import { IModel, IValue } from '../props';
 
 import { TYPES } from './types';
 
@@ -170,4 +170,11 @@ export function getUnsortedOptions (fieldConfig: IFieldConfigOptionSelect, injec
 export function getOptions (fieldConfig: IFieldConfigOptionSelect, injected: IInjected): IOption[] {
   const unsortedOptions = getUnsortedOptions(fieldConfig, injected);
   return fieldConfig.sorted ? sortBy(unsortedOptions, 'name') : unsortedOptions;
+}
+
+export function renderValue (fieldConfigPartial: IFieldConfigPartial, model?: IModel): React.ReactNode {
+  const fieldConfig = fillInFieldConfig(fieldConfigPartial)
+    , { field, render } = fieldConfig;
+
+  return render(fieldConfig.value || get(model, field), fieldConfig, model || {});
 }

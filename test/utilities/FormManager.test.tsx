@@ -4,6 +4,8 @@ import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
 import { FormCard, IFieldSetPartial } from '../../src';
+import * as Antd from 'antd';
+import { toastError } from '../../src/utilities/FormManager';
 
 async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
   const props = {
@@ -53,5 +55,34 @@ describe('FormManager', () => {
 
     const formManager = await getFormManager(fieldSets, { id, name, notId });
     expect(formManager.formModel).toEqual({ name, id });
+  });
+
+  it(`Correctly maintains id`, async () => {
+    const fieldSets = [[{ field: 'name' }]]
+      , name = faker.name.firstName()
+      , id = faker.random.uuid()
+      , notId = faker.random.uuid();
+
+    const formManager = await getFormManager(fieldSets, { id, name, notId });
+    expect(formManager.formModel).toEqual({ name, id });
+  });
+
+  it(`Handles 500 responses`, async () => {
+    const fieldSets = [[{ field: 'name' }]]
+      , name = faker.name.firstName()
+      , id = faker.random.uuid()
+      , notId = faker.random.uuid()
+      , response = {
+        config: {},
+        data: '<!DOCTYPE html><html lang="en"><head /></html>',
+        headers: {},
+        status: 500,
+        statusText: 'Internal Server Error',
+      };
+
+    spyOn(Antd.notification, 'error');
+    const formManager = await getFormManager(fieldSets, { id, name, notId });
+    formManager.handleBackendResponse(response);
+    expect(Antd.notification.error).toHaveBeenCalledWith(toastError);
   });
 });

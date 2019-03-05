@@ -30,14 +30,20 @@ import OptionSelect from '../inputs/OptionSelect';
 import RadioGroup from '../inputs/RadioGroup';
 import Rate, { formatRating } from '../inputs/Rate';
 import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
+import { IModel, IValue } from '../props';
 import { REGEXP_PHONE, REGEXP_SSN } from '../consts';
 
-function stripFieldConfig (func: (...args: any[]) => any) {
+function passOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
-  return (value: any) => func(value);
+  return (value: IValue, _fieldConfig: IFieldConfig, _model: IModel) => func(value);
 }
 
-function booleanToForm (data: any, field: string) {
+function passValueAndFieldConfig (func: (value: IValue, fieldConfig: IFieldConfig) => React.ReactNode) {
+  // tslint:disable-next-line no-unnecessary-callback-wrapper
+  return (value: IValue, fieldConfig: IFieldConfig, _model: IModel) => func(value, fieldConfig);
+}
+
+export function booleanToForm (data: any, field: string) {
   const value = get(data, field);
   return isBoolean(value) ? value.toString() : value;
 }
@@ -58,13 +64,13 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     fromForm: booleanFromForm,
     nullify: true,
     options: [{ value: 'false', name: 'No' }, { value: 'true', name: 'Yes' }],
-    render: stripFieldConfig(mapBooleanToText),
+    render: passOnlyValue(mapBooleanToText),
     toForm: booleanToForm,
   },
   date: {
     editComponent: Antd.DatePicker,
     fromForm: (value: any) => value && format(value, 'YYYY-MM-DD'),
-    render: stripFieldConfig(formatDate),
+    render: passOnlyValue(formatDate),
     toForm: (data: any, field: string) => get(data, field, null) && moment(data[field]),
   },
   duration: {
@@ -105,7 +111,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
       },
     },
     nullify: true,
-    render: stripFieldConfig(formatMoney),
+    render: passOnlyValue(formatMoney),
     toForm: (data: any, field: string) => get(data, field, ''),
   },
   number: {
@@ -118,14 +124,14 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     editComponent: ObjectSearchCreate,
     fieldConfigProp: true,
     nullify: true,
-    render: stripFieldConfig(getNameOrDefault),
+    render: passOnlyValue(getNameOrDefault),
     skipFieldDecorator: true,
   },
   optionSelect: {
     editComponent: OptionSelect,
     fieldConfigProp: true,
     nullify: true,
-    render: formatOptionSelect,
+    render: passValueAndFieldConfig(formatOptionSelect),
   },
   password: {
     editComponent: Antd.Input,
@@ -147,7 +153,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
       },
     },
     fromForm: (value: any) => value && getPercentValue(value),
-    render: stripFieldConfig(formatPercentage),
+    render: passOnlyValue(formatPercentage),
     toForm: (data: any, field: string) => getPercentDisplay(get(data, field)),
   },
   phone: {
@@ -159,13 +165,13 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
         type: 'regexp',
       },
     },
-    render: stripFieldConfig(formatPhoneNumber),
+    render: passOnlyValue(formatPhoneNumber),
   },
   radio: {
     editComponent: RadioGroup,
     fieldConfigProp: true,
     nullify: true,
-    render: formatOptionSelect,
+    render: passValueAndFieldConfig(formatOptionSelect),
   },
   rating: {
     editComponent: Rate,
@@ -181,7 +187,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
         type: 'regexp',
       },
     },
-    render: formatSocialSecurityNumber,
+    render: passOnlyValue(formatSocialSecurityNumber),
   },
   string: {},
   text: {
@@ -189,7 +195,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     editProps: {
       autosize: { minRows: 4 },
     },
-    render: stripFieldConfig(parseAndPreserveNewlines),
+    render: passOnlyValue(parseAndPreserveNewlines),
   },
   url: {
     editComponent: Antd.Input,
@@ -200,6 +206,6 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
         type: 'url',
       },
     },
-    render: stripFieldConfig(formatWebsite),
+    render: passOnlyValue(formatWebsite),
   },
 };

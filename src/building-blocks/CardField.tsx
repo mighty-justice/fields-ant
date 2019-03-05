@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { computed } from 'mobx';
-import { get } from 'lodash';
 
-import { fillInFieldConfig, filterInsertIf } from '../utilities/common';
+import { fillInFieldConfig, filterInsertIf, renderValue } from '../utilities/common';
 import { IFieldConfigPartial } from '../interfaces';
 import { IModel } from '../props';
 
@@ -22,8 +21,8 @@ class CardField extends Component<ICardFieldProps> {
   public render () {
     const { model } = this.props
       , fieldConfig = this.fieldConfig
-      , { field, render, label, showLabel, writeOnly } = fieldConfig
-      , value = render(fieldConfig.value || get(model, field), fieldConfig);
+      , { field, label, showLabel, writeOnly } = fieldConfig
+      , value = renderValue(fieldConfig, model);
 
     if (writeOnly || filterInsertIf(fieldConfig, model)) {
       return null;

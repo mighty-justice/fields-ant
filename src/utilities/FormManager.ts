@@ -1,6 +1,7 @@
 import { observable } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
 import flattenObject from 'flat';
+import httpStatus from 'http-status-codes';
 
 import {
   flatten as flattenArray,
@@ -34,7 +35,7 @@ interface IFormWrappedInstance {
   };
 }
 
-const toastError = {
+export const toastError = {
   description: '',
   duration: null,
   message: 'Error submitting form',
@@ -144,8 +145,10 @@ class FormManager {
   }
 
   private handleBackendResponse (response?: any) {
+    // console.log('validateThenSaveCallback', response);
     // istanbul ignore next
-    if (!response || !response.data) {
+    console.log('handleBackendResponse', { response });
+    if (get(response, 'status') !== httpStatus.BAD_REQUEST) {
       Antd.notification.error(toastError);
       return;
     }

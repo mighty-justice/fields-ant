@@ -1,6 +1,6 @@
 import { ColProps } from 'antd/lib/col';
 import { RowProps } from 'antd/lib/row';
-import { IForm, IValue } from './props';
+import { IForm, IModel, IValue } from './props';
 
 // This defines the core common interface for Mighty fields
 //
@@ -22,7 +22,7 @@ interface IFieldConfigBase {
   className?: string; // Applied on the Antd.Form.Item
   label: string | null;
   nullify: boolean;
-  render: (...args: any[]) => React.ReactNode;
+  render: (value: IValue, fieldConfig: IFieldConfig, model: IModel) => React.ReactNode;
   showLabel: boolean;
   value?: string | number;
 
