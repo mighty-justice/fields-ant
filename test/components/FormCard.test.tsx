@@ -6,6 +6,7 @@ import * as Antd from 'antd';
 import { Tester } from '@mighty-justice/tester';
 
 import { FormCard } from '../../src';
+import httpStatus from 'http-status-codes';
 
 describe('FormCard', () => {
   it('Edits text', async () => {
@@ -33,10 +34,15 @@ describe('FormCard', () => {
   it('Maps backend errors to fields on form', async () => {
     const nameError = faker.lorem.sentence()
       , otherError = faker.lorem.sentence()
-      , response = { response: { data: {
-        non_field_errors: [otherError],
-        plaintiff: [{ name: [nameError] }],
-      }}}
+      , response = {
+        response: {
+          data: {
+            non_field_errors: [otherError],
+            plaintiff: [{ name: [nameError] }],
+          },
+          status: httpStatus.BAD_REQUEST,
+        },
+      }
       , name = faker.lorem.sentence()
       , onSave = jest.fn().mockRejectedValue(response)
       , props = {
