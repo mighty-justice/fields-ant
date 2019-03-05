@@ -1,14 +1,14 @@
 /// <reference types="react" />
 import { ColProps } from 'antd/lib/col';
 import { RowProps } from 'antd/lib/row';
-import { IForm, IValue } from './props';
+import { IForm, IModel, IValue } from './props';
 interface IFieldConfigBase {
     field: string;
     type: string;
     className?: string;
     label: string | null;
     nullify: boolean;
-    render: (...args: any[]) => React.ReactNode;
+    render: (value: IValue, fieldConfig: IFieldConfig, model: IModel) => React.ReactNode;
     showLabel: boolean;
     value?: string | number;
     insertIf?: (model: any) => boolean;

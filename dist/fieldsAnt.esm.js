@@ -3,7 +3,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form as Form$1, Select, Icon, Button, Radio, Rate as Rate$1, DatePicker, Input, Row, Col, Popconfirm, Divider, Card as Card$1, notification, Drawer, Modal, List } from 'antd';
 import { toJS, observable, computed } from 'mobx';
-import { debounce, get, omit, pick, isArray, isBoolean, sortBy, values, isEmpty, noop, isPlainObject, extend, has, mapValues, flatten, set, pickBy, kebabCase, result } from 'lodash';
+import { debounce, get, omit, pick, isArray, isBoolean, sortBy, flatten, values, isEmpty, noop, isPlainObject, extend, has, mapValues, set, pickBy, kebabCase } from 'lodash';
 import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, formatPhoneNumber, formatSocialSecurityNumber, parseAndPreserveNewlines, formatWebsite, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
 import moment from 'moment';
 import { format } from 'date-fns';
@@ -890,10 +890,17 @@ var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
 var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
 var REGEXP_PHONE = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
-function stripFieldConfig(func) {
+function passOnlyValue(func) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
-  return function (value) {
+  return function (value, _fieldConfig, _model) {
     return func(value);
+  };
+}
+
+function passValueAndFieldConfig(func) {
+  // tslint:disable-next-line no-unnecessary-callback-wrapper
+  return function (value, fieldConfig, _model) {
+    return func(value, fieldConfig);
   };
 }
 
@@ -929,7 +936,7 @@ var TYPES = {
       value: 'true',
       name: 'Yes'
     }],
-    render: stripFieldConfig(mapBooleanToText),
+    render: passOnlyValue(mapBooleanToText),
     toForm: booleanToForm
   },
   date: {
@@ -937,7 +944,7 @@ var TYPES = {
     fromForm: function fromForm(value) {
       return value && format(value, 'YYYY-MM-DD');
     },
-    render: stripFieldConfig(formatDate),
+    render: passOnlyValue(formatDate),
     toForm: function toForm(data, field) {
       return get(data, field, null) && moment(data[field]);
     }
@@ -986,7 +993,7 @@ var TYPES = {
       }
     },
     nullify: true,
-    render: stripFieldConfig(formatMoney),
+    render: passOnlyValue(formatMoney),
     toForm: function toForm(data, field) {
       return get(data, field, '');
     }
@@ -1003,14 +1010,14 @@ var TYPES = {
     editComponent: ObjectSearchCreate,
     fieldConfigProp: true,
     nullify: true,
-    render: stripFieldConfig(getNameOrDefault),
+    render: passOnlyValue(getNameOrDefault),
     skipFieldDecorator: true
   },
   optionSelect: {
     editComponent: OptionSelect,
     fieldConfigProp: true,
     nullify: true,
-    render: formatOptionSelect
+    render: passValueAndFieldConfig(formatOptionSelect)
   },
   password: {
     editComponent: Input,
@@ -1040,7 +1047,7 @@ var TYPES = {
     fromForm: function fromForm(value) {
       return value && getPercentValue(value);
     },
-    render: stripFieldConfig(formatPercentage),
+    render: passOnlyValue(formatPercentage),
     toForm: function toForm(data, field) {
       return getPercentDisplay(get(data, field));
     }
@@ -1054,13 +1061,13 @@ var TYPES = {
         type: 'regexp'
       }
     },
-    render: stripFieldConfig(formatPhoneNumber)
+    render: passOnlyValue(formatPhoneNumber)
   },
   radio: {
     editComponent: RadioGroup,
     fieldConfigProp: true,
     nullify: true,
-    render: formatOptionSelect
+    render: passValueAndFieldConfig(formatOptionSelect)
   },
   rating: {
     editComponent: Rate,
@@ -1076,7 +1083,7 @@ var TYPES = {
         type: 'regexp'
       }
     },
-    render: formatSocialSecurityNumber
+    render: passOnlyValue(formatSocialSecurityNumber)
   },
   string: {},
   text: {
@@ -1086,7 +1093,7 @@ var TYPES = {
         minRows: 4
       }
     },
-    render: stripFieldConfig(parseAndPreserveNewlines)
+    render: passOnlyValue(parseAndPreserveNewlines)
   },
   url: {
     editComponent: Input,
@@ -1099,7 +1106,7 @@ var TYPES = {
         type: 'url'
       }
     },
-    render: stripFieldConfig(formatWebsite)
+    render: passOnlyValue(formatWebsite)
   }
 };
 
@@ -1140,7 +1147,7 @@ var typeDefaults = {
   }
 };
 
-function stripFieldConfig$1(func) {
+function stripFieldConfig(func) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
   return function (value) {
     return func(value);
@@ -1232,7 +1239,7 @@ function fillInFieldConfig(fieldConfig) {
     populateFromSearch: false,
     populateNameFromSearch: false,
     readOnly: false,
-    render: stripFieldConfig$1(getOrDefault),
+    render: stripFieldConfig(getOrDefault),
     required: false,
     showLabel: true,
     skipFieldDecorator: false,
@@ -1265,6 +1272,9 @@ function getFieldSetFields(fieldSet) {
 
   return fieldSet.fields;
 }
+function getFieldSetsFields(fieldSets) {
+  return flatten(fieldSets.map(getFieldSetFields));
+}
 function getUnsortedOptions(fieldConfig, injected) {
   var options = fieldConfig.options,
       optionType = fieldConfig.optionType;
@@ -1287,6 +1297,12 @@ function getUnsortedOptions(fieldConfig, injected) {
 function getOptions(fieldConfig, injected) {
   var unsortedOptions = getUnsortedOptions(fieldConfig, injected);
   return fieldConfig.sorted ? sortBy(unsortedOptions, 'name') : unsortedOptions;
+}
+function renderValue(fieldConfigPartial, model) {
+  var fieldConfig = fillInFieldConfig(fieldConfigPartial),
+      field = fieldConfig.field,
+      render = fieldConfig.render;
+  return render(fieldConfig.value || get(model, field), fieldConfig, model || {});
 }
 
 var CARD_COL_LABEL = 8;
@@ -1330,11 +1346,10 @@ function (_Component) {
       var model = this.props.model,
           fieldConfig = this.fieldConfig,
           field = fieldConfig.field,
-          render = fieldConfig.render,
           label = fieldConfig.label,
           showLabel = fieldConfig.showLabel,
           writeOnly = fieldConfig.writeOnly,
-          value = render(fieldConfig.value || get(model, field), fieldConfig);
+          value = renderValue(fieldConfig, model);
 
       if (writeOnly || filterInsertIf(fieldConfig, model)) {
         return null;
@@ -1377,9 +1392,10 @@ function (_Component) {
           formItemProps = fieldConfig.formItemProps,
           field = fieldConfig.field,
           skipFieldDecorator = fieldConfig.skipFieldDecorator,
+          readOnly = fieldConfig.readOnly,
           getFieldDecorator = formManager.form.getFieldDecorator;
 
-      if (filterInsertIf(fieldConfig, formManager.formModel)) {
+      if (readOnly || filterInsertIf(fieldConfig, formManager.formModel)) {
         return null;
       }
 
@@ -1763,6 +1779,144 @@ var formPropsDefaults = {
   saveText: 'Save'
 };
 
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var httpStatusCodes = createCommonjsModule(function (module, exports) {
+/**
+ * Constants enumerating the HTTP status codes.
+ *
+ * All status codes defined in RFC1945 (HTTP/1.0, RFC2616 (HTTP/1.1),
+ * RFC2518 (WebDAV), RFC6585 (Additional HTTP Status Codes), and
+ * RFC7538 (Permanent Redirect) are supported.
+ *
+ * Based on the org.apache.commons.httpclient.HttpStatus Java API.
+ *
+ * Ported by Bryce Neal.
+ */
+
+var statusCodes = {};
+
+statusCodes[exports.ACCEPTED = 202] = "Accepted";
+statusCodes[exports.BAD_GATEWAY = 502] = "Bad Gateway";
+statusCodes[exports.BAD_REQUEST = 400] = "Bad Request";
+statusCodes[exports.CONFLICT = 409] = "Conflict";
+statusCodes[exports.CONTINUE = 100] = "Continue";
+statusCodes[exports.CREATED = 201] = "Created";
+statusCodes[exports.EXPECTATION_FAILED = 417] = "Expectation Failed";
+statusCodes[exports.FAILED_DEPENDENCY  = 424] = "Failed Dependency";
+statusCodes[exports.FORBIDDEN = 403] = "Forbidden";
+statusCodes[exports.GATEWAY_TIMEOUT = 504] = "Gateway Timeout";
+statusCodes[exports.GONE = 410] = "Gone";
+statusCodes[exports.HTTP_VERSION_NOT_SUPPORTED = 505] = "HTTP Version Not Supported";
+statusCodes[exports.IM_A_TEAPOT = 418] = "I'm a teapot";
+statusCodes[exports.INSUFFICIENT_SPACE_ON_RESOURCE = 419] = "Insufficient Space on Resource";
+statusCodes[exports.INSUFFICIENT_STORAGE = 507] = "Insufficient Storage";
+statusCodes[exports.INTERNAL_SERVER_ERROR = 500] = "Server Error";
+statusCodes[exports.LENGTH_REQUIRED = 411] = "Length Required";
+statusCodes[exports.LOCKED = 423] = "Locked";
+statusCodes[exports.METHOD_FAILURE = 420] = "Method Failure";
+statusCodes[exports.METHOD_NOT_ALLOWED = 405] = "Method Not Allowed";
+statusCodes[exports.MOVED_PERMANENTLY = 301] = "Moved Permanently";
+statusCodes[exports.MOVED_TEMPORARILY = 302] = "Moved Temporarily";
+statusCodes[exports.MULTI_STATUS = 207] = "Multi-Status";
+statusCodes[exports.MULTIPLE_CHOICES = 300] = "Multiple Choices";
+statusCodes[exports.NETWORK_AUTHENTICATION_REQUIRED = 511] = "Network Authentication Required";
+statusCodes[exports.NO_CONTENT = 204] = "No Content";
+statusCodes[exports.NON_AUTHORITATIVE_INFORMATION = 203] = "Non Authoritative Information";
+statusCodes[exports.NOT_ACCEPTABLE = 406] = "Not Acceptable";
+statusCodes[exports.NOT_FOUND = 404] = "Not Found";
+statusCodes[exports.NOT_IMPLEMENTED = 501] = "Not Implemented";
+statusCodes[exports.NOT_MODIFIED = 304] = "Not Modified";
+statusCodes[exports.OK = 200] = "OK";
+statusCodes[exports.PARTIAL_CONTENT = 206] = "Partial Content";
+statusCodes[exports.PAYMENT_REQUIRED = 402] = "Payment Required";
+statusCodes[exports.PERMANENT_REDIRECT = 308] = "Permanent Redirect";
+statusCodes[exports.PRECONDITION_FAILED = 412] = "Precondition Failed";
+statusCodes[exports.PRECONDITION_REQUIRED = 428] = "Precondition Required";
+statusCodes[exports.PROCESSING = 102] = "Processing";
+statusCodes[exports.PROXY_AUTHENTICATION_REQUIRED = 407] = "Proxy Authentication Required";
+statusCodes[exports.REQUEST_HEADER_FIELDS_TOO_LARGE = 431] = "Request Header Fields Too Large";
+statusCodes[exports.REQUEST_TIMEOUT = 408] = "Request Timeout";
+statusCodes[exports.REQUEST_TOO_LONG = 413] = "Request Entity Too Large";
+statusCodes[exports.REQUEST_URI_TOO_LONG = 414] = "Request-URI Too Long";
+statusCodes[exports.REQUESTED_RANGE_NOT_SATISFIABLE = 416] = "Requested Range Not Satisfiable";
+statusCodes[exports.RESET_CONTENT = 205] = "Reset Content";
+statusCodes[exports.SEE_OTHER = 303] = "See Other";
+statusCodes[exports.SERVICE_UNAVAILABLE = 503] = "Service Unavailable";
+statusCodes[exports.SWITCHING_PROTOCOLS = 101] = "Switching Protocols";
+statusCodes[exports.TEMPORARY_REDIRECT = 307] = "Temporary Redirect";
+statusCodes[exports.TOO_MANY_REQUESTS = 429] = "Too Many Requests";
+statusCodes[exports.UNAUTHORIZED = 401] = "Unauthorized";
+statusCodes[exports.UNPROCESSABLE_ENTITY = 422] = "Unprocessable Entity";
+statusCodes[exports.UNSUPPORTED_MEDIA_TYPE = 415] = "Unsupported Media Type";
+statusCodes[exports.USE_PROXY = 305] = "Use Proxy";
+
+exports.getStatusText = function(statusCode) {
+  if (statusCodes.hasOwnProperty(statusCode)) {
+    return statusCodes[statusCode];
+  } else {
+    throw new Error("Status code does not exist: " + statusCode);
+  }
+};
+});
+var httpStatusCodes_1 = httpStatusCodes.ACCEPTED;
+var httpStatusCodes_2 = httpStatusCodes.BAD_GATEWAY;
+var httpStatusCodes_3 = httpStatusCodes.BAD_REQUEST;
+var httpStatusCodes_4 = httpStatusCodes.CONFLICT;
+var httpStatusCodes_5 = httpStatusCodes.CONTINUE;
+var httpStatusCodes_6 = httpStatusCodes.CREATED;
+var httpStatusCodes_7 = httpStatusCodes.EXPECTATION_FAILED;
+var httpStatusCodes_8 = httpStatusCodes.FAILED_DEPENDENCY;
+var httpStatusCodes_9 = httpStatusCodes.FORBIDDEN;
+var httpStatusCodes_10 = httpStatusCodes.GATEWAY_TIMEOUT;
+var httpStatusCodes_11 = httpStatusCodes.GONE;
+var httpStatusCodes_12 = httpStatusCodes.HTTP_VERSION_NOT_SUPPORTED;
+var httpStatusCodes_13 = httpStatusCodes.IM_A_TEAPOT;
+var httpStatusCodes_14 = httpStatusCodes.INSUFFICIENT_SPACE_ON_RESOURCE;
+var httpStatusCodes_15 = httpStatusCodes.INSUFFICIENT_STORAGE;
+var httpStatusCodes_16 = httpStatusCodes.INTERNAL_SERVER_ERROR;
+var httpStatusCodes_17 = httpStatusCodes.LENGTH_REQUIRED;
+var httpStatusCodes_18 = httpStatusCodes.LOCKED;
+var httpStatusCodes_19 = httpStatusCodes.METHOD_FAILURE;
+var httpStatusCodes_20 = httpStatusCodes.METHOD_NOT_ALLOWED;
+var httpStatusCodes_21 = httpStatusCodes.MOVED_PERMANENTLY;
+var httpStatusCodes_22 = httpStatusCodes.MOVED_TEMPORARILY;
+var httpStatusCodes_23 = httpStatusCodes.MULTI_STATUS;
+var httpStatusCodes_24 = httpStatusCodes.MULTIPLE_CHOICES;
+var httpStatusCodes_25 = httpStatusCodes.NETWORK_AUTHENTICATION_REQUIRED;
+var httpStatusCodes_26 = httpStatusCodes.NO_CONTENT;
+var httpStatusCodes_27 = httpStatusCodes.NON_AUTHORITATIVE_INFORMATION;
+var httpStatusCodes_28 = httpStatusCodes.NOT_ACCEPTABLE;
+var httpStatusCodes_29 = httpStatusCodes.NOT_FOUND;
+var httpStatusCodes_30 = httpStatusCodes.NOT_IMPLEMENTED;
+var httpStatusCodes_31 = httpStatusCodes.NOT_MODIFIED;
+var httpStatusCodes_32 = httpStatusCodes.OK;
+var httpStatusCodes_33 = httpStatusCodes.PARTIAL_CONTENT;
+var httpStatusCodes_34 = httpStatusCodes.PAYMENT_REQUIRED;
+var httpStatusCodes_35 = httpStatusCodes.PERMANENT_REDIRECT;
+var httpStatusCodes_36 = httpStatusCodes.PRECONDITION_FAILED;
+var httpStatusCodes_37 = httpStatusCodes.PRECONDITION_REQUIRED;
+var httpStatusCodes_38 = httpStatusCodes.PROCESSING;
+var httpStatusCodes_39 = httpStatusCodes.PROXY_AUTHENTICATION_REQUIRED;
+var httpStatusCodes_40 = httpStatusCodes.REQUEST_HEADER_FIELDS_TOO_LARGE;
+var httpStatusCodes_41 = httpStatusCodes.REQUEST_TIMEOUT;
+var httpStatusCodes_42 = httpStatusCodes.REQUEST_TOO_LONG;
+var httpStatusCodes_43 = httpStatusCodes.REQUEST_URI_TOO_LONG;
+var httpStatusCodes_44 = httpStatusCodes.REQUESTED_RANGE_NOT_SATISFIABLE;
+var httpStatusCodes_45 = httpStatusCodes.RESET_CONTENT;
+var httpStatusCodes_46 = httpStatusCodes.SEE_OTHER;
+var httpStatusCodes_47 = httpStatusCodes.SERVICE_UNAVAILABLE;
+var httpStatusCodes_48 = httpStatusCodes.SWITCHING_PROTOCOLS;
+var httpStatusCodes_49 = httpStatusCodes.TEMPORARY_REDIRECT;
+var httpStatusCodes_50 = httpStatusCodes.TOO_MANY_REQUESTS;
+var httpStatusCodes_51 = httpStatusCodes.UNAUTHORIZED;
+var httpStatusCodes_52 = httpStatusCodes.UNPROCESSABLE_ENTITY;
+var httpStatusCodes_53 = httpStatusCodes.UNSUPPORTED_MEDIA_TYPE;
+var httpStatusCodes_54 = httpStatusCodes.USE_PROXY;
+var httpStatusCodes_55 = httpStatusCodes.getStatusText;
+
 function getFieldErrors(errors) {
   var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
   var messages = {};
@@ -1953,8 +2107,9 @@ function () {
   }, {
     key: "handleBackendResponse",
     value: function handleBackendResponse(response) {
+      // console.log('validateThenSaveCallback', response);
       // istanbul ignore next
-      if (!response || !response.data) {
+      if (get(response, 'status') !== httpStatusCodes.BAD_REQUEST) {
         notification.error(toastError);
         return;
       }
@@ -2060,7 +2215,7 @@ function () {
   }, {
     key: "fieldConfigs",
     get: function get() {
-      return flatten(this.args.fieldSets.map(getFieldSetFields));
+      return getFieldSetsFields(this.args.fieldSets);
     }
   }, {
     key: "formModel",
@@ -2144,7 +2299,8 @@ function (_Component) {
           onCancel = _this$props.onCancel,
           saveText = _this$props.saveText;
       return React.createElement(React.Fragment, null, React.createElement(Divider, null), React.createElement(ButtonToolbar, {
-        align: "right"
+        align: "right",
+        noSpacing: true
       }, React.createElement(Button, {
         disabled: this.formManager.saving,
         onClick: onCancel,
@@ -2355,7 +2511,9 @@ function (_Component) {
   }, {
     key: "buttons",
     value: function buttons() {
-      return React.createElement(ButtonToolbar, null, this.deleteButton, this.editButton);
+      return React.createElement(ButtonToolbar, {
+        noSpacing: true
+      }, this.deleteButton, this.editButton);
     }
   }, {
     key: "render",
@@ -2702,14 +2860,13 @@ function (_Component) {
   _createClass(SummaryCard, [{
     key: "renderItem",
     value: function renderItem(fieldConfig) {
-      var model = this.props.model;
-      var value = fieldConfig.value || result(model, fieldConfig.field),
+      var model = this.props.model,
           className = "summary-".concat(kebabCase(fieldConfig.field));
       return React.createElement(List.Item, {
         key: fieldConfig.field,
         className: className,
         extra: null
-      }, React.createElement("h4", null, fieldConfig.label), React.createElement("p", null, fieldConfig.render(value, fieldConfig)));
+      }, React.createElement("h4", null, fieldConfig.label), React.createElement("p", null, renderValue(fieldConfig, model)));
     }
   }, {
     key: "render",
@@ -2754,4 +2911,4 @@ function (_Component) {
 
 // Lower-level building blocks and helper components
 
-export { ButtonToolbar, CardField, FormField, FormFieldSet, GuardedButton, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE, NestedFieldSet, ArrayCard, Card, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormModal, SummaryCard, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, formatOptionSelect, RadioGroup, Rate, formatRating, FormManager, DEFAULT_DEBOUNCE_WAIT, CX_PREFIX_SEARCH_CREATE, REGEXP_SSN, REGEXP_PHONE, asyncNoop, isPartialFieldSetSimple, isFieldSetSimple, filterInsertIf, fillInFieldConfig, fillInFieldSet, fillInFieldSets, getFieldSetFields, getUnsortedOptions, getOptions, TYPES };
+export { ButtonToolbar, CardField, FormField, FormFieldSet, GuardedButton, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE, NestedFieldSet, ArrayCard, Card, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormModal, SummaryCard, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, formatOptionSelect, RadioGroup, Rate, formatRating, FormManager, DEFAULT_DEBOUNCE_WAIT, CX_PREFIX_SEARCH_CREATE, REGEXP_SSN, REGEXP_PHONE, formPropsDefaults, asyncNoop, isPartialFieldSetSimple, isFieldSetSimple, filterInsertIf, fillInFieldConfig, fillInFieldSet, fillInFieldSets, getFieldSetFields, getFieldSetsFields, getUnsortedOptions, getOptions, renderValue, booleanToForm, TYPES };

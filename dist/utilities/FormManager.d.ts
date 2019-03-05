@@ -12,6 +12,11 @@ interface IFormWrappedInstance {
         form: IForm;
     };
 }
+export declare const toastError: {
+    description: string;
+    duration: null;
+    message: string;
+};
 declare class FormManager {
     saving: boolean;
     private args;
