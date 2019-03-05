@@ -20,7 +20,7 @@ async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
 }
 
 describe('FormManager', () => {
-  it(`Correctly extracts field names`, async () => {
+  it('Correctly extracts field names', async () => {
     const fieldNames = [
       'case.plaintiff.first_name',
       'case.plaintiff.last_name',
@@ -37,7 +37,7 @@ describe('FormManager', () => {
     expect(formManager.formFieldNames).toEqual(fieldNames);
   });
 
-  it(`Correctly nullifies values`, async () => {
+  it('Correctly nullifies values', async () => {
     const fieldSets = [[
       { field: 'do_not_nullify' },
       { field: 'do_nullify', nullify: true },
@@ -47,7 +47,7 @@ describe('FormManager', () => {
     expect(formManager.formModel).toEqual({ do_not_nullify: '', do_nullify: null });
   });
 
-  it(`Correctly maintains id`, async () => {
+  it('Correctly maintains id', async () => {
     const fieldSets = [[{ field: 'name' }]]
       , name = faker.name.firstName()
       , id = faker.random.uuid()
@@ -57,22 +57,12 @@ describe('FormManager', () => {
     expect(formManager.formModel).toEqual({ name, id });
   });
 
-  it(`Correctly maintains id`, async () => {
-    const fieldSets = [[{ field: 'name' }]]
-      , name = faker.name.firstName()
-      , id = faker.random.uuid()
-      , notId = faker.random.uuid();
-
-    const formManager = await getFormManager(fieldSets, { id, name, notId });
-    expect(formManager.formModel).toEqual({ name, id });
-  });
-
-  it(`Handles 500 responses`, async () => {
+  it('Handles 500 responses', async () => {
     const fieldSets = [[{ field: 'name' }]]
       , name = faker.name.firstName()
       , id = faker.random.uuid()
       , notId = faker.random.uuid()
-      , response = {
+      , badResponse = {
         config: {},
         data: '<!DOCTYPE html><html lang="en"><head /></html>',
         headers: {},
@@ -82,7 +72,7 @@ describe('FormManager', () => {
 
     spyOn(Antd.notification, 'error');
     const formManager = await getFormManager(fieldSets, { id, name, notId });
-    formManager.handleBackendResponse(response);
+    formManager.handleBackendResponse(badResponse);
     expect(Antd.notification.error).toHaveBeenCalledWith(toastError);
   });
 });
