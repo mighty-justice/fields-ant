@@ -15,6 +15,7 @@ import Form from './Form';
 
 export interface IFormDrawerProps extends ISharedComponentProps, ISharedFormProps {
   isVisible: SmartBool;
+  onCancel: () => void;
   width?: number | string;
 }
 

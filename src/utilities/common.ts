@@ -22,6 +22,7 @@ import {
 import { IModel, IValue } from '../props';
 
 import { TYPES } from './types';
+import { ColumnProps } from '../../node_modules/antd/es/table';
 
 // istanbul ignore next
 export async function asyncNoop () { return; }
@@ -181,4 +182,16 @@ export function renderValue (fieldConfigPartial: IFieldConfigPartial, model?: IM
     , { field, render } = fieldConfig;
 
   return render(fieldConfig.value || get(model, field), fieldConfig, model || {});
+}
+
+export function fieldSetsToColumns (fieldSets: IFieldSetPartial[]): Array<ColumnProps<IModel>> {
+  return getFieldSetsFields(fillInFieldSets(fieldSets))
+    .filter(fieldConfig => !fieldConfig.writeOnly)
+    .map(fieldConfig => ({
+      dataIndex: fieldConfig.field,
+      key: fieldConfig.field,
+      render: (value: IValue, model: IModel) => fieldConfig.render(value, fieldConfig, model),
+      title: fieldConfig.showLabel ? fieldConfig.label : '`',
+      ...fieldConfig.tableColumnProps,
+    }));
 }

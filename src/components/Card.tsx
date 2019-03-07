@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
+import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
@@ -12,6 +13,7 @@ export interface ICardProps extends ISharedComponentProps {
   renderTopRight?: () => any;
 }
 
+@autoBindMethods
 @observer
 class Card extends Component<ICardProps> {
   @computed

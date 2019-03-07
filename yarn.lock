@@ -1088,10 +1088,10 @@
   dependencies:
     class-autobind-decorator "^3.0.1"
 
-"@mighty-justice/tester@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@mighty-justice/tester/-/tester-1.2.1.tgz#d17aa4b7f62718aa429d3e21bbe6149b3b438a6b"
-  integrity sha512-caj/wKiwwREEs4H4RXojbcqd+RPeEwoHi/izE/uAq0ys9laQ4AgrpuiO+dCLACZEdcwtfCEGV0f8rwJKyAO9iA==
+"@mighty-justice/tester@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@mighty-justice/tester/-/tester-1.2.3.tgz#a9b14ea0f52e9670cb01f29eb926f284628967fe"
+  integrity sha512-9hBUT/S9s9fX0mPCVo9MUj7K9La8f9W2+wjOz0xNty6P/WCDcEcwCc9IyUbKwUxn2xhlFpRpEaDjjnf27lC1Dw==
 
 "@mighty-justice/tslint-config@^0.3.0":
   version "0.3.0"
@@ -1101,14 +1101,14 @@
     tslint-eslint-rules "^5.4"
     tslint-react "^3.6"
 
-"@mighty-justice/utils@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@mighty-justice/utils/-/utils-1.0.1.tgz#377efec33765efc9e07c3b2613b494dc7bef36af"
-  integrity sha512-b1vuSML0zzLunj9b9X2BsMEd2dhZxPHdPSgXauimob1ceTWiorpZ0clSdpULV+mxeuQ9Oxn0+xluRF2h50/hvQ==
+"@mighty-justice/utils@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@mighty-justice/utils/-/utils-1.1.1.tgz#9a28b2da269b2c1b242ff092206f877e12e8e64a"
+  integrity sha512-aVaUaXEaMnxOY6t2wMVLX/hsmcP1WcBR9Ki/8vWsf/GIfLdcMvOhD32D7egBtib3B7zF/fG+XU8LNCfHLzIs6g==
   dependencies:
     classnames "^2.2.6"
     date-fns "^1.30.1"
-    decimal.js "^10.0.2"
+    decimal.js "^10.1.1"
     html-react-parser "0.6.1"
     iso8601-duration "^1.1.7"
     mobx "^5.9.0"
@@ -3942,10 +3942,10 @@ decamelize@^1.1.0, decamelize@^1.1.1, decamelize@^1.2.0:
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
   integrity sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
 
-decimal.js@^10.0.2:
-  version "10.0.2"
-  resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.0.2.tgz#50fd0f9184139f543e5b84c97681534292deb640"
-  integrity sha512-qL5tUTXAWjB5cSBfm0V2a4jO5FaDLumCfwc/0f7WaTOT3WU8pIeq2HHrd98eXHtbey4qFWlaPzfml1JWIoO9TQ==
+decimal.js@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.1.1.tgz#fb541922a2e8fc618f5e6fbb474e281ed3d2a64c"
+  integrity sha512-vEEgyk1fWVEnv7lPjkNedAIjzxQDue5Iw4FeX4UkNUDSVyD/jZTD0Bw2kAO7k6iyyJRAhM9oxxI0D1ET6k0Mmg==
 
 decode-uri-component@^0.2.0:
   version "0.2.0"

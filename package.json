@@ -100,7 +100,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@mighty-justice/smart-bool": "^0.3.2",
-    "@mighty-justice/tester": "^1.2.1",
+    "@mighty-justice/tester": "^1.2.3",
     "@mighty-justice/tslint-config": "^0.3.0",
     "@storybook/addon-actions": "^4.1.13",
     "@storybook/addon-info": "^4.1.13",
@@ -151,7 +151,7 @@
   },
   "dependencies": {
     "@mighty-justice/smart-bool": "^0.3.2",
-    "@mighty-justice/utils": "^1.0.1",
+    "@mighty-justice/utils": "^1.1.1",
     "antd": "3.13.5",
     "class-autobind-decorator": "^3.0.1",
     "classnames": "^2.2.6",

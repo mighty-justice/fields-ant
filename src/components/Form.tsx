@@ -31,7 +31,6 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
     const {
       defaults,
       model,
-      onCancel,
       onSave,
       setRefFormManager,
     } = props;
@@ -43,13 +42,19 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
         defaults,
         model,
         onSave,
-        onSuccess: onCancel,
+        onSuccess: this.onSuccess,
       },
     );
 
     if (setRefFormManager) {
       setRefFormManager(this.formManager);
     }
+  }
+
+  private onSuccess () {
+    const { onSuccess, onCancel } = this.props;
+    if (onSuccess) { onSuccess(); }
+    if (onCancel) { onCancel(); }
   }
 
   @computed
@@ -64,10 +69,8 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
     } = this.props;
 
     return (
-      <>
-        <Antd.Divider />
-
-        <ButtonToolbar align='right' noSpacing>
+      <ButtonToolbar align='right' noSpacing>
+        {onCancel && (
           <Antd.Button
             disabled={this.formManager.saving}
             onClick={onCancel}
@@ -75,17 +78,17 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
           >
             Cancel
           </Antd.Button>
+        )}
 
-          <Antd.Button
-            htmlType='submit'
-            loading={this.formManager.saving}
-            size='large'
-            type='primary'
-          >
-            {saveText}
-          </Antd.Button>
-        </ButtonToolbar>
-      </>
+        <Antd.Button
+          htmlType='submit'
+          loading={this.formManager.saving}
+          size='large'
+          type='primary'
+        >
+          {saveText}
+        </Antd.Button>
+      </ButtonToolbar>
     );
   }
 
