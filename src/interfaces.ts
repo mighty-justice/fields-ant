@@ -1,6 +1,7 @@
 import { ColProps } from 'antd/lib/col';
 import { RowProps } from 'antd/lib/row';
 import { IForm, IModel, IValue } from './props';
+import { ColumnProps } from '../node_modules/antd/es/table';
 
 // This defines the core common interface for Mighty fields
 //
@@ -42,6 +43,9 @@ interface IFieldConfigBase {
   icon?: string;
   required: boolean;
   toForm: (data: any, field: string) => any;
+
+  // Attributes for controlling how fieldConfig works in table
+  tableColumnProps?: Partial<ColumnProps<IModel>>;
 
   // These enable features in objectSearchCreate
   // explained in the documentation for that type

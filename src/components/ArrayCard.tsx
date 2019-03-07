@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
+import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
@@ -12,6 +13,7 @@ export interface IArrayCardProps extends ICardProps {
     model: IModel[];
 }
 
+@autoBindMethods
 @observer
 class ArrayCard extends Component<IArrayCardProps> {
   public render () {

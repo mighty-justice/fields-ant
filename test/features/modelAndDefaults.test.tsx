@@ -40,7 +40,7 @@ describe('Renders', () => {
   ['model', 'defaults'].forEach(propType => {
     TEST_PAIRS.forEach(({ data, fieldSets, name }) => {
       it(`Respects ${propType}: ${name}`, async () => {
-        const { Component, propsFactory } = COMPONENT_GENERATORS['FormCard']
+        const { ComponentClass, propsFactory } = COMPONENT_GENERATORS['FormCard']
           , props = {
             ...propsFactory.build(),
             [propType]: data,
@@ -49,7 +49,7 @@ describe('Renders', () => {
           }
           ;
 
-        const tester = await new Tester(Component, { props }).mount();
+        const tester = await new Tester(ComponentClass, { props }).mount();
         expect(props.onSave).not.toHaveBeenCalled();
         tester.submit();
         expect(props.onSave).toHaveBeenCalledWith(data);
@@ -58,7 +58,7 @@ describe('Renders', () => {
   });
 
   it('Respects model over defaults', async () => {
-    const { Component, propsFactory } = COMPONENT_GENERATORS['FormCard']
+    const { ComponentClass, propsFactory } = COMPONENT_GENERATORS['FormCard']
       , props = {
         ...propsFactory.build(),
         defaults: { both: 'defaults', defaultsOnly: 'defaults' },
@@ -69,7 +69,7 @@ describe('Renders', () => {
       , newNeither = fakeTextShort()
       ;
 
-    const tester = await new Tester(Component, { props }).mount();
+    const tester = await new Tester(ComponentClass, { props }).mount();
     expect(props.onSave).not.toHaveBeenCalled();
     tester.submit();
     expect(props.onSave).toHaveBeenCalledWith({

@@ -19,6 +19,7 @@ import {
 } from '../src';
 
 import { IValue } from '../src/props';
+import Table from '../src/components/Table';
 
 export const onSave = () => (data: any) => action('onSave')(data);
 
@@ -140,6 +141,10 @@ export const arrayCardPropsFactory = new Factory()
     model: [{ id: faker.random.uuid() }],
   });
 
+export const tablePropsFactory = new Factory()
+  .extend(arrayCardPropsFactory)
+  .attrs({});
+
 export const editableArrayCardPropsFactory = new Factory()
   .extend(arrayCardPropsFactory)
   .attrs({
@@ -191,21 +196,24 @@ export const TYPE_GENERATORS: ITypeGenerators = {
   url: { valueFunction: faker.internet.url, fieldConfigFactory: urlFactory },
 };
 
-interface IComponentGenerators {
-  [key: string]: {
-    Component: any,
-    propsFactory: { build: (overrides?: object) => object },
-  };
+export interface IComponentGenerator {
+  ComponentClass: any;
+  propsFactory: { build: (overrides?: object) => object };
+}
+
+export interface IComponentGenerators {
+  [key: string]: IComponentGenerator;
 }
 
 export const COMPONENT_GENERATORS: IComponentGenerators = {
-  ArrayCard: { Component: ArrayCard, propsFactory: arrayCardPropsFactory },
-  Card: { Component: Card, propsFactory: cardPropsFactory },
-  EditableArrayCard: { Component: EditableArrayCard, propsFactory: editableArrayCardPropsFactory },
-  EditableCard: { Component: EditableCard, propsFactory: editableCardPropsFactory },
-  Form: { Component: Form, propsFactory: formPropsFactory },
-  FormCard: { Component: FormCard, propsFactory: formCardPropsFactory },
-  FormDrawer: { Component: FormDrawer, propsFactory: formDrawerPropsFactory },
-  FormModal: { Component: FormModal, propsFactory: formModalPropsFactory },
-  SummaryCard: { Component: SummaryCard, propsFactory: summaryCardPropsFactory },
+  ArrayCard: { ComponentClass: ArrayCard, propsFactory: arrayCardPropsFactory },
+  Card: { ComponentClass: Card, propsFactory: cardPropsFactory },
+  EditableArrayCard: { ComponentClass: EditableArrayCard, propsFactory: editableArrayCardPropsFactory },
+  EditableCard: {ComponentClass: EditableCard, propsFactory: editableCardPropsFactory },
+  Form: { ComponentClass: Form, propsFactory: formPropsFactory },
+  FormCard: { ComponentClass: FormCard, propsFactory: formCardPropsFactory },
+  FormDrawer: { ComponentClass: FormDrawer, propsFactory: formDrawerPropsFactory },
+  FormModal: { ComponentClass: FormModal, propsFactory: formModalPropsFactory },
+  SummaryCard: { ComponentClass: SummaryCard, propsFactory: summaryCardPropsFactory },
+  Table: { ComponentClass: Table, propsFactory: tablePropsFactory },
 };

@@ -13,13 +13,13 @@ const SUPPORTING_COMPONENTS = [
 describe('Renders', () => {
   SUPPORTING_COMPONENTS.forEach(componentName => {
     it(`Renders isLoading in ${componentName}`, async () => {
-      const { Component, propsFactory } = COMPONENT_GENERATORS[componentName]
+      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName]
         , props = propsFactory.build();
 
-      const noLoading = await new Tester(Component, { props }).mount();
+      const noLoading = await new Tester(ComponentClass, { props }).mount();
       expect(noLoading.find('.ant-card').hasClass('ant-card-loading')).toBe(false);
 
-      const yesLoading = await new Tester(Component, { props: { ...props, isLoading: true } }).mount();
+      const yesLoading = await new Tester(ComponentClass, { props: { ...props, isLoading: true } }).mount();
       expect(yesLoading.find('.ant-card').hasClass('ant-card-loading')).toBe(true);
     });
   });
