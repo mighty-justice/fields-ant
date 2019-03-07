@@ -14,7 +14,7 @@ const componentStories = storiesOf('Components', module)
   .addDecorator(withInfoConfigured)
   ;
 
-const BUTTON_WRAP = ['FormModal'];
+const BUTTON_WRAP = ['FormModal', 'FormDrawer'];
 
 @autoBindMethods
 @observer
@@ -28,7 +28,11 @@ class ButtonWrap extends Component<IComponentGenerator> {
       <div>
         <Button onClick={this.showComponent.toggle}>Open</Button>
         {this.showComponent.isTrue && (
-          <ComponentClass onCancel={this.showComponent.setFalse} {...propsFactory.build()} />
+          <ComponentClass
+            {...propsFactory.build()}
+            isVisible={this.showComponent}
+            onCancel={this.showComponent.setFalse}
+          />
         )}
       </div>
     );

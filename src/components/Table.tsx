@@ -37,7 +37,6 @@ class Table extends Component<ITableProps> {
     return (
       <Antd.Table
         {...this.props}
-        className='ant-table-simple'
         columns={this.columns}
         dataSource={this.dataSource}
         title={this.title}
