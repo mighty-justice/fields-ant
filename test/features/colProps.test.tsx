@@ -41,15 +41,15 @@ const colProps = { span: 12 }
 describe('colProps', () => {
   SUPPORTING_COMPONENTS.forEach(componentName => {
     it(`Renders colProps in ${componentName}`, async () => {
-      const { Component, propsFactory } = COMPONENT_GENERATORS[componentName]
+      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName]
         , propsWithout = propsFactory.build({ fieldSets: fieldSetsWithout })
         , propsWith = { ...propsWithout, fieldSets: fieldSetsWith }
         ;
 
-      const testerWithout = await new Tester(Component, { props: propsWithout }).mount();
+      const testerWithout = await new Tester(ComponentClass, { props: propsWithout }).mount();
       expect(testerWithout.find('.ant-row div').first().hasClass('ant-col-12')).toBe(false);
 
-      const testerWith = await new Tester(Component, { props: propsWith }).mount();
+      const testerWith = await new Tester(ComponentClass, { props: propsWith }).mount();
       expect(testerWith.find('.ant-row div').first().hasClass('ant-col-12')).toBe(true);
     });
   });

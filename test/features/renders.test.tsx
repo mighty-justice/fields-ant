@@ -7,9 +7,9 @@ import { COMPONENT_GENERATORS } from '../factories';
 describe('Renders', () => {
   Object.keys(COMPONENT_GENERATORS).forEach(componentName => {
     it(`Renders ${componentName}`, async () => {
-      const { Component, propsFactory } = COMPONENT_GENERATORS[componentName]
+      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName]
         , props = propsFactory.build()
-        , tester = await new Tester(Component, { props }).mount();
+        , tester = await new Tester(ComponentClass, { props }).mount();
 
       expect(tester.text().length > 10).toBe(true);
 
