@@ -2,6 +2,7 @@
 import { ColProps } from 'antd/lib/col';
 import { RowProps } from 'antd/lib/row';
 import { IForm, IModel, IValue } from './props';
+import { ColumnProps } from '../node_modules/antd/es/table';
 interface IFieldConfigBase {
     field: string;
     type: string;
@@ -31,6 +32,7 @@ interface IFieldConfigBase {
     icon?: string;
     required: boolean;
     toForm: (data: any, field: string) => any;
+    tableColumnProps?: Partial<ColumnProps<IModel>>;
     populateFromSearch: boolean;
     populateNameFromSearch: boolean;
     colProps?: ColProps;

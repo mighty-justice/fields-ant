@@ -14,6 +14,7 @@ export { default as FormCard } from './components/FormCard';
 export { default as FormDrawer } from './components/FormDrawer';
 export { default as FormModal } from './components/FormModal';
 export { default as SummaryCard } from './components/SummaryCard';
+export { default as Table } from './components/Table';
 export { default as ObjectSearchCreate } from './inputs/ObjectSearchCreate';
 export { default as OptionSelect } from './inputs/OptionSelect';
 export { default as OptionSelectDisplay, formatOptionSelect } from './inputs/OptionSelectDisplay';

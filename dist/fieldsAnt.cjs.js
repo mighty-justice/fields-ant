@@ -1117,6 +1117,7 @@ var TYPES = {
   }
 };
 
+// istanbul ignore next
 function asyncNoop() {
   return _asyncNoop.apply(this, arguments);
 }
@@ -1310,6 +1311,20 @@ function renderValue(fieldConfigPartial, model) {
       field = fieldConfig.field,
       render = fieldConfig.render;
   return render(fieldConfig.value || lodash.get(model, field), fieldConfig, model || {});
+}
+function fieldSetsToColumns(fieldSets) {
+  return getFieldSetsFields(fillInFieldSets(fieldSets)).filter(function (fieldConfig) {
+    return !fieldConfig.writeOnly;
+  }).map(function (fieldConfig) {
+    return _objectSpread({
+      dataIndex: fieldConfig.field,
+      key: fieldConfig.field,
+      render: function render(value, model) {
+        return fieldConfig.render(value, fieldConfig, model);
+      },
+      title: fieldConfig.showLabel ? fieldConfig.label : ''
+    }, fieldConfig.tableColumnProps);
+  });
 }
 
 var CARD_COL_LABEL = 8;
@@ -1693,7 +1708,7 @@ function (_Component) {
 
 var _class$b, _class2$9;
 
-var Card = mobxReact.observer(_class$b = (_class2$9 =
+var Card = autoBindMethods(_class$b = mobxReact.observer(_class$b = (_class2$9 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Card, _Component);
@@ -1733,11 +1748,11 @@ function (_Component) {
   }]);
 
   return Card;
-}(React.Component), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldSets"), _class2$9.prototype)), _class2$9)) || _class$b;
+}(React.Component), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldSets"), _class2$9.prototype)), _class2$9)) || _class$b) || _class$b;
 
 var _class$c;
 
-var ArrayCard = mobxReact.observer(_class$c =
+var ArrayCard = autoBindMethods(_class$c = mobxReact.observer(_class$c =
 /*#__PURE__*/
 function (_Component) {
   _inherits(ArrayCard, _Component);
@@ -1777,10 +1792,9 @@ function (_Component) {
   }]);
 
   return ArrayCard;
-}(React.Component)) || _class$c;
+}(React.Component)) || _class$c) || _class$c;
 
 var formPropsDefaults = {
-  onCancel: lodash.noop,
   onSave: asyncNoop,
   onSuccess: asyncNoop,
   saveText: 'Save'
@@ -2282,14 +2296,13 @@ function (_Component) {
     _this.formManager = void 0;
     var defaults = props.defaults,
         model = props.model,
-        onCancel = props.onCancel,
         onSave = props.onSave,
         setRefFormManager = props.setRefFormManager;
     _this.formManager = new FormManager(_assertThisInitialized(_this), _this.fieldSets, {
       defaults: defaults,
       model: model,
       onSave: onSave,
-      onSuccess: onCancel
+      onSuccess: _this.onSuccess
     });
 
     if (setRefFormManager) {
@@ -2300,15 +2313,30 @@ function (_Component) {
   }
 
   _createClass(UnwrappedForm, [{
+    key: "onSuccess",
+    value: function onSuccess() {
+      var _this$props = this.props,
+          onSuccess = _this$props.onSuccess,
+          onCancel = _this$props.onCancel;
+
+      if (onSuccess) {
+        onSuccess();
+      }
+
+      if (onCancel) {
+        onCancel();
+      }
+    }
+  }, {
     key: "renderControls",
     value: function renderControls() {
-      var _this$props = this.props,
-          onCancel = _this$props.onCancel,
-          saveText = _this$props.saveText;
-      return React__default.createElement(React__default.Fragment, null, React__default.createElement(Antd.Divider, null), React__default.createElement(ButtonToolbar, {
+      var _this$props2 = this.props,
+          onCancel = _this$props2.onCancel,
+          saveText = _this$props2.saveText;
+      return React__default.createElement(ButtonToolbar, {
         align: "right",
         noSpacing: true
-      }, React__default.createElement(Antd.Button, {
+      }, onCancel && React__default.createElement(Antd.Button, {
         disabled: this.formManager.saving,
         onClick: onCancel,
         size: "large"
@@ -2317,16 +2345,16 @@ function (_Component) {
         loading: this.formManager.saving,
         size: "large",
         type: "primary"
-      }, saveText)));
+      }, saveText));
     }
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
-      var _this$props2 = this.props,
-          showControls = _this$props2.showControls,
-          title = _this$props2.title;
+      var _this$props3 = this.props,
+          showControls = _this$props3.showControls,
+          title = _this$props3.title;
       return React__default.createElement(Antd.Form, {
         layout: "vertical",
         onSubmit: this.formManager.onSave,
@@ -2916,6 +2944,52 @@ function (_Component) {
   column: 4
 }, _temp$9), (_applyDecoratedDescriptor(_class2$h.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$h.prototype, "fieldSets"), _class2$h.prototype)), _class2$h)) || _class$k) || _class$k;
 
+var _class$l, _class2$i;
+
+var Table = autoBindMethods(_class$l = mobxReact.observer(_class$l = (_class2$i =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Table, _Component);
+
+  function Table() {
+    _classCallCheck(this, Table);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Table).apply(this, arguments));
+  }
+
+  _createClass(Table, [{
+    key: "title",
+    value: function title() {
+      return this.props.title;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return React__default.createElement(Antd.Table, _extends({}, this.props, {
+        columns: this.columns,
+        dataSource: this.dataSource,
+        title: this.title
+      }));
+    }
+  }, {
+    key: "columns",
+    get: function get() {
+      return fieldSetsToColumns(this.props.fieldSets);
+    }
+  }, {
+    key: "dataSource",
+    get: function get() {
+      return this.props.model.map(function (item, idx) {
+        return _objectSpread({
+          key: item.id || idx.toString()
+        }, item);
+      });
+    }
+  }]);
+
+  return Table;
+}(React.Component), (_applyDecoratedDescriptor(_class2$i.prototype, "columns", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$i.prototype, "columns"), _class2$i.prototype), _applyDecoratedDescriptor(_class2$i.prototype, "dataSource", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$i.prototype, "dataSource"), _class2$i.prototype)), _class2$i)) || _class$l) || _class$l;
+
 // Lower-level building blocks and helper components
 
 exports.ButtonToolbar = ButtonToolbar;
@@ -2938,6 +3012,7 @@ exports.FormCard = FormCard;
 exports.FormDrawer = FormDrawer;
 exports.FormModal = FormModal;
 exports.SummaryCard = SummaryCard;
+exports.Table = Table;
 exports.ObjectSearchCreate = ObjectSearchCreate;
 exports.OptionSelect = OptionSelect;
 exports.OptionSelectDisplay = OptionSelectDisplay;
@@ -2963,5 +3038,6 @@ exports.getFieldSetsFields = getFieldSetsFields;
 exports.getUnsortedOptions = getUnsortedOptions;
 exports.getOptions = getOptions;
 exports.renderValue = renderValue;
+exports.fieldSetsToColumns = fieldSetsToColumns;
 exports.booleanToForm = booleanToForm;
 exports.TYPES = TYPES;
