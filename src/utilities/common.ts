@@ -191,7 +191,7 @@ export function fieldSetsToColumns (fieldSets: IFieldSetPartial[]): Array<Column
       dataIndex: fieldConfig.field,
       key: fieldConfig.field,
       render: (value: IValue, model: IModel) => fieldConfig.render(value, fieldConfig, model),
-      title: fieldConfig.showLabel ? fieldConfig.label : '`',
+      title: fieldConfig.showLabel ? fieldConfig.label : '',
       ...fieldConfig.tableColumnProps,
     }));
 }
