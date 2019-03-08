@@ -2958,17 +2958,17 @@ function (_Component) {
   }
 
   _createClass(Table, [{
-    key: "title",
-    value: function title() {
-      return this.props.title;
+    key: "getTitle",
+    value: function getTitle() {
+      return this.props.title || '';
     }
   }, {
     key: "render",
     value: function render() {
-      return React__default.createElement(Antd.Table, _extends({}, this.props, {
+      return React__default.createElement(Antd.Table, _extends({}, lodash.omit(this.props, 'title'), {
+        title: this.props.title ? this.getTitle : undefined,
         columns: this.columns,
-        dataSource: this.dataSource,
-        title: this.title
+        dataSource: this.dataSource
       }));
     }
   }, {
