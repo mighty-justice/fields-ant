@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
@@ -30,15 +30,15 @@ class Table extends Component<ITableProps> {
     }));
   }
 
-  private getTitle (_currentPageData: object[]): ReactNode {
-    return (this.props.title || '') as ReactNode;
+  private getTitle () {
+    return this.props.title || '';
   }
 
-  private titleProps (): { title?: (currentPageData: object[]) => ReactNode } {
+  private titleProps () {
     return (this.props.title ? { title: this.getTitle } : { title: undefined });
   }
 
-  private propsWithoutTitle (): Pick<ITableProps, Exclude<keyof ITableProps, 'title'>> {
+  private propsWithoutTitle () {
     return omit(this.props, 'title');
   }
 
