@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import { omit } from 'lodash';
 
 import * as Antd from 'antd';
 
@@ -29,17 +30,17 @@ class Table extends Component<ITableProps> {
     }));
   }
 
-  private title () {
-    return this.props.title;
+  private getTitle () {
+    return this.props.title || '';
   }
 
   public render () {
     return (
       <Antd.Table
-        {...this.props}
+        {...omit(this.props, 'title')}
+        title={this.props.title ? this.getTitle : undefined}
         columns={this.columns}
         dataSource={this.dataSource}
-        title={this.title}
       />
     );
   }

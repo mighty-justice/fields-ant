@@ -114,7 +114,7 @@
     "@types/faker": "^4.1.5",
     "@types/flat": "^0.0.28",
     "@types/jest": "^24.0.6",
-    "@types/lodash": "^4.14.121",
+    "@types/lodash": "^4.14.122",
     "@types/react": "16.8.4",
     "@types/rosie": "^0.0.36",
     "@types/storybook-readme": "^4.0.0",
