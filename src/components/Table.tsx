@@ -35,7 +35,7 @@ class Table extends Component<ITableProps> {
   }
 
   private titleProps () {
-    return (this.props.title ? { title: this.getTitle } : { title: undefined });
+    return (this.props.title ? { title: this.getTitle } : {});
   }
 
   private propsWithoutTitle () {
