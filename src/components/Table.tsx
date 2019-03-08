@@ -34,19 +34,11 @@ class Table extends Component<ITableProps> {
     return this.props.title || '';
   }
 
-  private titleProps () {
-    return (this.props.title ? { title: this.getTitle } : {});
-  }
-
-  private propsWithoutTitle () {
-    return omit(this.props, 'title');
-  }
-
   public render () {
     return (
       <Antd.Table
-        {...this.propsWithoutTitle}
-        {...this.titleProps}
+        {...omit(this.props, 'title')}
+        title={this.props.title ? this.getTitle : undefined}
         columns={this.columns}
         dataSource={this.dataSource}
       />
