@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import { omit } from 'lodash';
 
 import * as Antd from 'antd';
 
@@ -29,17 +30,25 @@ class Table extends Component<ITableProps> {
     }));
   }
 
-  private title () {
-    return this.props.title;
+  private getTitle (_currentPageData: object[]): ReactNode {
+    return (this.props.title || '') as ReactNode;
+  }
+
+  private titleProps (): { title?: (currentPageData: object[]) => ReactNode } {
+    return (this.props.title ? { title: this.getTitle } : { title: undefined });
+  }
+
+  private propsWithoutTitle (): Pick<ITableProps, Exclude<keyof ITableProps, 'title'>> {
+    return omit(this.props, 'title');
   }
 
   public render () {
     return (
       <Antd.Table
-        {...this.props}
+        {...this.propsWithoutTitle}
+        {...this.titleProps}
         columns={this.columns}
         dataSource={this.dataSource}
-        title={this.title}
       />
     );
   }
