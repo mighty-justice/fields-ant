@@ -1313,8 +1313,11 @@ function renderValue(fieldConfigPartial, model) {
   return render(fieldConfig.value || lodash.get(model, field), fieldConfig, model || {});
 }
 function fieldSetsToColumns(fieldSets) {
+  var tableModel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   return getFieldSetsFields(fillInFieldSets(fieldSets)).filter(function (fieldConfig) {
     return !fieldConfig.writeOnly;
+  }).filter(function (fieldConfig) {
+    return !filterInsertIf(fieldConfig, tableModel);
   }).map(function (fieldConfig) {
     return _objectSpread({
       dataIndex: fieldConfig.field,
@@ -2974,7 +2977,7 @@ function (_Component) {
   }, {
     key: "columns",
     get: function get() {
-      return fieldSetsToColumns(this.props.fieldSets);
+      return fieldSetsToColumns(this.props.fieldSets, this.props.model);
     }
   }, {
     key: "dataSource",

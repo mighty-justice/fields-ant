@@ -5,7 +5,7 @@ import { ColumnProps } from '../../node_modules/antd/es/table';
 export declare function asyncNoop(): Promise<void>;
 export declare function isPartialFieldSetSimple(fieldSet: IFieldSetPartial): fieldSet is IFieldSetSimplePartial;
 export declare function isFieldSetSimple(fieldSet: IFieldSet): fieldSet is IFieldSetSimple;
-export declare function filterInsertIf(fieldConfig: IFieldConfig, model: any): boolean | undefined;
+export declare function filterInsertIf(fieldConfig: IFieldConfig, model?: IModel | IModel[]): boolean | undefined;
 export declare function fillInFieldConfig(fieldConfig: IFieldConfigPartial): IFieldConfig;
 export declare function fillInFieldSet(fieldSet: IFieldSetPartial): IFieldSet;
 export declare function fillInFieldSets(fieldSets: IFieldSetPartial[]): IFieldSet[];
@@ -14,4 +14,6 @@ export declare function getFieldSetsFields(fieldSets: IFieldSet[]): IFieldConfig
 export declare function getUnsortedOptions(fieldConfig: IFieldConfigOptionSelect, injected: IInjected): IOption[];
 export declare function getOptions(fieldConfig: IFieldConfigOptionSelect, injected: IInjected): IOption[];
 export declare function renderValue(fieldConfigPartial: IFieldConfigPartial, model?: IModel): React.ReactNode;
-export declare function fieldSetsToColumns(fieldSets: IFieldSetPartial[]): Array<ColumnProps<IModel>>;
+declare type IColumns = Array<ColumnProps<IModel>>;
+export declare function fieldSetsToColumns(fieldSets: IFieldSetPartial[], tableModel?: IModel[]): IColumns;
+export {};
