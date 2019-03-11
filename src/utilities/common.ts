@@ -82,7 +82,7 @@ export function isFieldSetSimple (fieldSet: IFieldSet): fieldSet is IFieldSetSim
   return isArray(fieldSet);
 }
 
-export function filterInsertIf (fieldConfig: IFieldConfig, model: any) {
+export function filterInsertIf (fieldConfig: IFieldConfig, model: IModel | IModel[]) {
   return fieldConfig.insertIf && !fieldConfig.insertIf(model);
 }
 
