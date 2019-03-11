@@ -5,6 +5,7 @@ import { Tester } from '@mighty-justice/tester';
 
 import FormManager from '../../src/utilities/FormManager';
 import { EditableCard, CardField, FormField, Table } from '../../src';
+import { fakeTextShort } from '../factories';
 
 const title = 'testing'
   , field = 'example_field'
@@ -138,23 +139,22 @@ describe('insertIf', () => {
   });
 
   it('Works with individual CardFields', async () => {
-    const hidden = await new Tester(Table, { props: {
-        fieldSets: [[{ field, label: exampleLabel, insertIf: jest.fn(_values => false) }]],
-        model: [],
-      }}).mount()
-      , showing = await new Tester(Table, { props: {
-        fieldSets: [[{ field, label: exampleLabel, insertIf: jest.fn(_values => true) }]],
-        model: [],
-      }}).mount()
-      , none = await new Tester(Table, { props: {
-        fieldSets: [[{ field, label: exampleLabel }]],
+    const labelHidden = fakeTextShort()
+      , labelShowing = fakeTextShort()
+      , labelNone = fakeTextShort()
+      , tester = await new Tester(Table, { props: {
+        fieldSets: [[
+          { type: 'string', field: `hidden`, label: labelHidden, insertIf: jest.fn(_values => false) },
+          { type: 'string', field: `showing`, label: labelShowing, insertIf: jest.fn(_values => true) },
+          { type: 'string', field: `none`, label: labelNone },
+        ]],
         model: [],
       }}).mount()
       ;
 
-    expect(hidden.text()).not.toContain(exampleLabel);
-    expect(showing.text()).toContain(exampleLabel);
-    expect(none.text()).toContain(exampleLabel);
+    expect(tester.text()).not.toContain(labelHidden);
+    expect(tester.text()).toContain(labelShowing);
+    expect(tester.text()).toContain(labelNone);
   });
 
   it('Receives data from model', async () => {
