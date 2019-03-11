@@ -1117,7 +1117,6 @@ var TYPES = {
   }
 };
 
-// istanbul ignore next
 function asyncNoop() {
   return _asyncNoop.apply(this, arguments);
 }

@@ -1,8 +1,8 @@
 /// <reference types="react" />
 import { ColProps } from 'antd/lib/col';
+import { ColumnProps } from 'antd/es/table';
 import { RowProps } from 'antd/lib/row';
 import { IForm, IModel, IValue } from './props';
-import { ColumnProps } from '../node_modules/antd/es/table';
 interface IFieldConfigBase {
     field: string;
     type: string;

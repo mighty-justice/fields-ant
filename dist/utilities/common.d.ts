@@ -1,7 +1,7 @@
 /// <reference types="react" />
+import { ColumnProps } from 'antd/es/table';
 import { IFieldConfig, IFieldConfigOptionSelect, IFieldConfigPartial, IFieldSet, IFieldSetPartial, IFieldSetSimple, IFieldSetSimplePartial, IInjected, IOption } from '../interfaces';
 import { IModel } from '../props';
-import { ColumnProps } from '../../node_modules/antd/es/table';
 export declare function asyncNoop(): Promise<void>;
 export declare function isPartialFieldSetSimple(fieldSet: IFieldSetPartial): fieldSet is IFieldSetSimplePartial;
 export declare function isFieldSetSimple(fieldSet: IFieldSet): fieldSet is IFieldSetSimple;
