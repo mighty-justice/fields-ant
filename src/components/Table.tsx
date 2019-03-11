@@ -5,10 +5,10 @@ import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 
 import * as Antd from 'antd';
+import { ColumnProps } from 'antd/lib/table/interface';
 
 import { fieldSetsToColumns } from '../utilities/common';
 import { IModel, ISharedComponentProps } from '../props';
-import { ColumnProps } from '../../node_modules/antd/lib/table/interface';
 
 export interface ITableProps extends ISharedComponentProps {
   model: IModel[];

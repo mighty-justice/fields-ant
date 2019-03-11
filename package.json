@@ -73,7 +73,7 @@
   ],
   "peerDependencies": {
     "@mighty-justice/smart-bool": "0",
-    "@mighty-justice/utils": "0",
+    "@mighty-justice/utils": "1",
     "antd": "3",
     "class-autobind-decorator": "3",
     "classnames": "2",
