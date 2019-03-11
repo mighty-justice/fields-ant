@@ -4,7 +4,7 @@ import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
 import FormManager from '../../src/utilities/FormManager';
-import { EditableCard, CardField, FormField } from '../../src';
+import { EditableCard, CardField, FormField, Table } from '../../src';
 
 const title = 'testing'
   , field = 'example_field'
@@ -135,6 +135,26 @@ describe('insertIf', () => {
     expect(hidden.html()).toBe(null);
     expect(showing.html()).not.toBe(null);
     expect(none.html()).not.toBe(null);
+  });
+
+  it('Works with individual CardFields', async () => {
+    const hidden = await new Tester(Table, { props: {
+        fieldSets: [[{ field, label: exampleLabel, insertIf: jest.fn(_values => false) }]],
+        model: [],
+      }}).mount()
+      , showing = await new Tester(Table, { props: {
+        fieldSets: [[{ field, label: exampleLabel, insertIf: jest.fn(_values => true) }]],
+        model: [],
+      }}).mount()
+      , none = await new Tester(Table, { props: {
+        fieldSets: [[{ field, label: exampleLabel }]],
+        model: [],
+      }}).mount()
+      ;
+
+    expect(hidden.text()).not.toContain(exampleLabel);
+    expect(showing.text()).toContain(exampleLabel);
+    expect(none.text()).toContain(exampleLabel);
   });
 
   it('Receives data from model', async () => {
