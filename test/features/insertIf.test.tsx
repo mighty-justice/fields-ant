@@ -144,9 +144,9 @@ describe('insertIf', () => {
       , labelNone = fakeTextShort()
       , tester = await new Tester(Table, { props: {
         fieldSets: [[
-          { type: 'string', field: `hidden`, label: labelHidden, insertIf: jest.fn(_values => false) },
-          { type: 'string', field: `showing`, label: labelShowing, insertIf: jest.fn(_values => true) },
-          { type: 'string', field: `none`, label: labelNone },
+          { type: 'string', field: 'hidden', label: labelHidden, insertIf: jest.fn(_values => false) },
+          { type: 'string', field: 'showing', label: labelShowing, insertIf: jest.fn(_values => true) },
+          { type: 'string', field: 'none', label: labelNone },
         ]],
         model: [],
       }}).mount()
