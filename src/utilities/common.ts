@@ -184,10 +184,12 @@ export function renderValue (fieldConfigPartial: IFieldConfigPartial, model?: IM
   return render(fieldConfig.value || get(model, field), fieldConfig, model || {});
 }
 
-export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], model: IModel = {}): Array<ColumnProps<IModel>> {
+type IColumns = Array<ColumnProps<IModel>>;
+
+export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: IModel[] = []): IColumns {
   return getFieldSetsFields(fillInFieldSets(fieldSets))
     .filter(fieldConfig => !fieldConfig.writeOnly)
-    .filter(fieldConfig => !filterInsertIf(fieldConfig, model))
+    .filter(fieldConfig => !filterInsertIf(fieldConfig, tableModel))
     .map(fieldConfig => ({
       dataIndex: fieldConfig.field,
       key: fieldConfig.field,
