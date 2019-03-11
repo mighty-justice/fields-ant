@@ -1,7 +1,8 @@
 import { ColProps } from 'antd/lib/col';
+import { ColumnProps } from 'antd/es/table';
 import { RowProps } from 'antd/lib/row';
+
 import { IForm, IModel, IValue } from './props';
-import { ColumnProps } from '../node_modules/antd/es/table';
 
 // This defines the core common interface for Mighty fields
 //

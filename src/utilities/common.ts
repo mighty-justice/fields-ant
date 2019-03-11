@@ -1,6 +1,7 @@
 import { flatten as flattenArray, get, isArray, sortBy } from 'lodash';
 
 import * as Antd from 'antd';
+import { ColumnProps } from 'antd/es/table';
 
 import {
   getOrDefault,
@@ -22,7 +23,6 @@ import {
 import { IModel, IValue } from '../props';
 
 import { TYPES } from './types';
-import { ColumnProps } from '../../node_modules/antd/es/table';
 
 // istanbul ignore next
 export async function asyncNoop () { return; }
