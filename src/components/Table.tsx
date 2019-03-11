@@ -19,7 +19,7 @@ export interface ITableProps extends ISharedComponentProps {
 class Table extends Component<ITableProps> {
   @computed
   private get columns (): Array<ColumnProps<IModel>> {
-    return fieldSetsToColumns(this.props.fieldSets);
+    return fieldSetsToColumns(this.props.fieldSets, this.props.model);
   }
 
   @computed

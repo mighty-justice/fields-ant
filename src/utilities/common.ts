@@ -82,7 +82,7 @@ export function isFieldSetSimple (fieldSet: IFieldSet): fieldSet is IFieldSetSim
   return isArray(fieldSet);
 }
 
-export function filterInsertIf (fieldConfig: IFieldConfig, model: any) {
+export function filterInsertIf (fieldConfig: IFieldConfig, model?: IModel | IModel[]) {
   return fieldConfig.insertIf && !fieldConfig.insertIf(model);
 }
 
@@ -184,9 +184,12 @@ export function renderValue (fieldConfigPartial: IFieldConfigPartial, model?: IM
   return render(fieldConfig.value || get(model, field), fieldConfig, model || {});
 }
 
-export function fieldSetsToColumns (fieldSets: IFieldSetPartial[]): Array<ColumnProps<IModel>> {
+type IColumns = Array<ColumnProps<IModel>>;
+
+export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: IModel[] = []): IColumns {
   return getFieldSetsFields(fillInFieldSets(fieldSets))
     .filter(fieldConfig => !fieldConfig.writeOnly)
+    .filter(fieldConfig => !filterInsertIf(fieldConfig, tableModel))
     .map(fieldConfig => ({
       dataIndex: fieldConfig.field,
       key: fieldConfig.field,
