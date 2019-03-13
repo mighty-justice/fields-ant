@@ -19,6 +19,7 @@ import { IForm, IModel } from '../props';
 
 import backendValidation from './backendValidation';
 import { fillInFieldConfig, getFieldSetsFields, modelFromFieldConfigs } from './common';
+import { ID_ATTR } from '../consts';
 
 interface IArgs {
   defaults: IModel;
@@ -109,8 +110,7 @@ class FormManager {
       set(formValues, fieldConfig.field, value);
     });
 
-    const ID_ATTR = 'id'
-      , id = get(this.args.model, ID_ATTR);
+    const id = get(this.args.model, ID_ATTR);
     if (id) { set(formValues, ID_ATTR, id); }
 
     return formValues;

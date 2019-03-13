@@ -1,4 +1,12 @@
-import { flatten as flattenArray, get, isArray, sortBy, has, set } from 'lodash';
+import {
+  flatten as flattenArray,
+  get,
+  has,
+  isArray,
+  isObject,
+  set,
+  sortBy,
+} from 'lodash';
 
 import * as Antd from 'antd';
 import { ColumnProps } from 'antd/es/table';
@@ -23,6 +31,8 @@ import {
 import { IModel, IValue } from '../props';
 
 import { TYPES } from './types';
+import { isTypeObjectSearchCreate } from '../inputs/ObjectSearchCreate';
+import { ID_ATTR } from '../consts';
 
 // istanbul ignore next
 export async function asyncNoop () { return; }
@@ -213,11 +223,16 @@ export function modelFromFieldConfigs (fieldConfigs: IFieldConfigPartial[], data
         const { field, nullify } = fieldConfig
           , formValue = get(data, field)
           , shouldNullify = nullify && !formValue && formValue !== false
-          , value = shouldNullify ? null : formValue
-          ;
+          , value = isTypeObjectSearchCreate(fieldConfig) && isObject(formValue) && !has(formValue, ID_ATTR)
+            ? modelFromFieldConfigs(fieldConfig.createFields, formValue)
+            : shouldNullify ? null : formValue
+            ;
 
         set(returnValues, field, value);
       });
+
+    const id = get(data, ID_ATTR);
+    if (id) { set(returnValues, ID_ATTR, id); }
 
     return returnValues;
   }

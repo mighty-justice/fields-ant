@@ -119,7 +119,7 @@ describe('objectSearchCreate', () => {
 
     expect(tester.find('input[id="law_firm.name"]').html()).toContain(searchTerm);
     tester.submit();
-    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: '' }});
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: null }});
   });
 
   it('Populates name from search', async () => {
@@ -142,9 +142,26 @@ describe('objectSearchCreate', () => {
 
     tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: {
-      amount_owed: '',
+      amount_owed: null,
       first_name: firstName,
       last_name: lastName,
     }});
   });
+
+  it('Nullifies nullable create fields', async () => {
+    const { field, onSave, searchTerm, result, props } = getDefaults({
+        createFields: [
+          { field: 'non_nullable' },
+          { field: 'nullable', nullify: true },
+        ],
+      })
+      , tester = await getTester(props);
+
+    await searchFor(tester, field, result, searchTerm);
+    await selectAddNew(tester);
+    tester.submit();
+
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { non_nullable: '', nullable: null }});
+  });
+
 });
