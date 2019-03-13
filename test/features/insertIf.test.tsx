@@ -196,4 +196,16 @@ describe('insertIf', () => {
       expect(tester.text().includes(exampleLabel)).toBe(secondExampleField);
     }
   });
+
+  it('Does not pass removed field on save', async () => {
+    const onSave = jest.fn().mockResolvedValue({})
+      , tester = await new Tester(EditableCard, { props: {
+        fieldSets: [[{ field, insertIf: jest.fn(_values => false) }]],
+        onSave,
+      }}).mount();
+    tester.click('button.btn-edit');
+    tester.submit();
+
+    expect(onSave).not.toHaveBeenCalledWith(expect.objectContaining({[field]: ''}));
+  });
 });
