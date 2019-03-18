@@ -35,12 +35,17 @@ class Table extends Component<ITableProps> {
   }
 
   public render () {
+    const { isLoading, title } = this.props;
+
+    console.log('render.isLoading', isLoading);
+
     return (
       <Antd.Table
         {...omit(this.props, 'title')}
-        title={this.props.title ? this.getTitle : undefined}
         columns={this.columns}
         dataSource={this.dataSource}
+        loading={isLoading}
+        title={title ? this.getTitle : undefined}
       />
     );
   }
