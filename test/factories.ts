@@ -2,7 +2,7 @@ import { Factory } from 'rosie';
 import faker from 'faker';
 import { format } from 'date-fns';
 import { action } from '@storybook/addon-actions';
-import { noop, sample } from 'lodash';
+import { noop, sample, fromPairs } from 'lodash';
 
 import SmartBool from '@mighty-justice/smart-bool';
 
@@ -194,6 +194,27 @@ export const TYPE_GENERATORS: ITypeGenerators = {
   string: { valueFunction: fakeTextShort, fieldConfigFactory: stringFactory },
   text: { valueFunction: fakeTextLong, fieldConfigFactory: textFactory },
   url: { valueFunction: faker.internet.url, fieldConfigFactory: urlFactory },
+};
+
+const SKIP = null;
+
+export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
+  // value: [valueFunction(), valueFunction()]
+  ...fromPairs(Object.keys(TYPE_GENERATORS).map(type => {
+    const value = TYPE_GENERATORS[type].valueFunction();
+    return [type, [value, value]];
+  })),
+
+  boolean: sample([[true, 'Yes'], [false, 'No']]) as [boolean, string],
+  date: ['2017-11-22', '11/22/17'],
+  hidden: [TYPE_GENERATORS.hidden.valueFunction(), SKIP],
+  objectSearchCreate: [{ name: 'Example Co.' }, 'Example Co.'],
+  optionSelect: ['second', 'Second Item'],
+  password: [TYPE_GENERATORS.password.valueFunction(), '********'],
+  percentage: ['0.278', '27.80%'],
+  phone: ['555-995-1669', '(555) 995-1669'],
+  radio: ['second', 'Second Item'],
+  rating: [TYPE_GENERATORS.rating.valueFunction(), SKIP],
 };
 
 export interface IComponentGenerator {

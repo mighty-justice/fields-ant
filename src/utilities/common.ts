@@ -1,4 +1,4 @@
-import { flatten as flattenArray, get, isArray, sortBy } from 'lodash';
+import { flatten as flattenArray, get, isArray, sortBy, has } from 'lodash';
 
 import * as Antd from 'antd';
 import { ColumnProps } from 'antd/es/table';
@@ -179,9 +179,10 @@ export function getOptions (fieldConfig: IFieldConfigOptionSelect, injected: IIn
 
 export function renderValue (fieldConfigPartial: IFieldConfigPartial, model?: IModel): React.ReactNode {
   const fieldConfig = fillInFieldConfig(fieldConfigPartial)
-    , { field, render } = fieldConfig;
+    , { field, render } = fieldConfig
+    , value = has(fieldConfig, 'value') ? fieldConfig.value : get(model, field);
 
-  return render(fieldConfig.value || get(model, field), fieldConfig, model || {});
+  return render(value, fieldConfig, model || {});
 }
 
 type IColumns = Array<ColumnProps<IModel>>;
