@@ -1,4 +1,3 @@
-/* global describe, it, expect */
 /* tslint:disable:no-magic-numbers object-literal-sort-keys */
 import { has } from 'lodash';
 import faker from 'faker';

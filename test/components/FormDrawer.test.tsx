@@ -1,4 +1,3 @@
-/* global it, describe, expect */
 import faker from 'faker';
 
 import { FormDrawer } from '../../src';

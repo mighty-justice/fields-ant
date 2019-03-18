@@ -1,4 +1,3 @@
-/* global it, describe, expect */
 // tslint:disable:no-inferred-empty-object-type
 import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';

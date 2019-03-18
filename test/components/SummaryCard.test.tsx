@@ -1,5 +1,3 @@
-/* global it, describe, expect */
-
 import faker from 'faker';
 
 import { SummaryCard } from '../../src';
