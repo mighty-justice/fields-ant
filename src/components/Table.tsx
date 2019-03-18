@@ -37,8 +37,6 @@ class Table extends Component<ITableProps> {
   public render () {
     const { isLoading, title } = this.props;
 
-    console.log('render.isLoading', isLoading);
-
     return (
       <Antd.Table
         {...omit(this.props, 'title')}
