@@ -87,4 +87,36 @@ describe('Renders', () => {
       neither: newNeither,
     });
   });
+
+  it('Respects value attribute over all else', async () => {
+    const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.FormCard
+      , props = {
+        ...propsFactory.build(),
+        defaults: { both: 'defaults', defaultsOnly: 'defaults' },
+        fieldSets: [['modelOnly', 'both', 'defaultsOnly', 'neither'].map(field => ({ field, value: 'value' }))],
+        model: { modelOnly: 'model', both: 'model' },
+        onSave: jest.fn().mockResolvedValue({}),
+      }
+      , newNeither = fakeTextShort()
+      ;
+
+    const tester = await new Tester(ComponentClass, { props }).mount();
+    expect(props.onSave).not.toHaveBeenCalled();
+    tester.submit();
+    expect(props.onSave).toHaveBeenCalledWith({
+      both: 'value',
+      defaultsOnly: 'value',
+      modelOnly: 'value',
+      neither: 'value',
+    });
+
+    tester.changeInput('input#neither', newNeither);
+    tester.submit();
+    expect(props.onSave).toHaveBeenCalledWith({
+      both: 'value',
+      defaultsOnly: 'value',
+      modelOnly: 'value',
+      neither: newNeither,
+    });
+  });
 });
