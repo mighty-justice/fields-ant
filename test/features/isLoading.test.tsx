@@ -10,17 +10,39 @@ const SUPPORTING_COMPONENTS = [
   'SummaryCard',
 ];
 
-describe('Renders', () => {
+describe('isLoading', () => {
   SUPPORTING_COMPONENTS.forEach(componentName => {
     it(`Renders isLoading in ${componentName}`, async () => {
       const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName]
-        , props = propsFactory.build();
+        , props = propsFactory.build()
+        , isShowingLoader = (tester: Tester) => (
+          tester
+            .find('.ant-card')
+            .hasClass('ant-card-loading')
+        )
+        ;
 
       const noLoading = await new Tester(ComponentClass, { props }).mount();
-      expect(noLoading.find('.ant-card').hasClass('ant-card-loading')).toBe(false);
+      expect(isShowingLoader(noLoading)).toBe(false);
 
       const yesLoading = await new Tester(ComponentClass, { props: { ...props, isLoading: true } }).mount();
-      expect(yesLoading.find('.ant-card').hasClass('ant-card-loading')).toBe(true);
+      expect(isShowingLoader(yesLoading)).toBe(true);
     });
+  });
+
+  it(`Renders isLoading in Table`, async () => {
+    const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.Table
+      , props = propsFactory.build()
+      , isShowingLoader = (tester: Tester) => (
+        tester
+          .find('.ant-table-wrapper div.ant-spin-container')
+          .hasClass('ant-spin-blur')
+      );
+
+    const noLoading = await new Tester(ComponentClass, { props }).mount();
+    expect(isShowingLoader(noLoading)).toBe(false);
+
+    const yesLoading = await new Tester(ComponentClass, { props: { ...props, isLoading: true } }).mount();
+    expect(isShowingLoader(yesLoading)).toBe(true);
   });
 });

@@ -144,7 +144,6 @@ class FormManager {
   }
 
   private handleBackendResponse (response?: any) {
-    // console.log('validateThenSaveCallback', response);
     // istanbul ignore next
     if (get(response, 'status') !== httpStatus.BAD_REQUEST) {
       Antd.notification.error(toastError);
