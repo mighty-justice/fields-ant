@@ -1,4 +1,3 @@
-/* global describe, it, expect */
 import { fillInFieldConfig, TYPES } from '../../src';
 
 const TYPE_INFERENCES = [

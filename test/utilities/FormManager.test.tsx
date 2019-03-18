@@ -1,4 +1,3 @@
-/* global describe, it, expect */
 import faker from 'faker';
 import * as Antd from 'antd';
 

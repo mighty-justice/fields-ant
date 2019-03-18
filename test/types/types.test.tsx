@@ -1,4 +1,3 @@
-/* global it, describe, expect */
 import { Tester } from '@mighty-justice/tester';
 import { EMPTY_FIELD } from '@mighty-justice/utils';
 

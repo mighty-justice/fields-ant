@@ -1,4 +1,3 @@
-/* global it, describe, expect */
 import { Tester } from '@mighty-justice/tester';
 import { get } from 'lodash';
 
