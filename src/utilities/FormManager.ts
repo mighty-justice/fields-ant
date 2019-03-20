@@ -116,7 +116,7 @@ class FormManager {
   }
 
   public get submitModel (): IModel {
-    const submitModel: IModel = {};
+    const submitValues: IModel = {};
 
     this.fieldConfigs
       .filter(fieldConfig => !filterInsertIf(fieldConfig, this.formModel))
@@ -125,10 +125,10 @@ class FormManager {
         const { field } = fieldConfig
           , value = get(this.formModel, field);
 
-        set(submitModel, field, value);
+        set(submitValues, field, value);
       });
 
-    return submitModel;
+    return submitValues;
   }
 
   private get formValues () {

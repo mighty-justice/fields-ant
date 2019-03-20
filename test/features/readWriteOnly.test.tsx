@@ -1,9 +1,9 @@
 import { Tester } from '@mighty-justice/tester';
 import { COMPONENT_GENERATORS, fakeField, fakeTextShort } from '../factories';
 
-const readOnly = { type: 'string', field: fakeField(), readOnly: true, label: fakeTextShort() }
-  , writeOnly = { type: 'string', field: fakeField(), writeOnly: true, label: fakeTextShort() }
-  , normal = { type: 'string', field: fakeField(), label: fakeTextShort() }
+const readOnly = { field: fakeField(), label: fakeTextShort(), readOnly: true, type: 'string' }
+  , writeOnly = { field: fakeField(), label: fakeTextShort(), writeOnly: true, type: 'string' }
+  , normal = { field: fakeField(), label: fakeTextShort(), type: 'string' }
   , WRITE_COMPONENTS = [
     'FormCard',
   ]
