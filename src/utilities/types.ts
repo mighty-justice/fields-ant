@@ -7,7 +7,6 @@ import * as Antd from 'antd';
 
 import {
   IFieldConfig,
-  IFieldConfigObjectSearchCreate,
 } from '../interfaces';
 
 import {
@@ -34,7 +33,7 @@ import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
 import { IModel, IValue } from '../props';
 import { REGEXP_PHONE, REGEXP_SSN } from '../consts';
 
-import { falseyToString, modelFromFieldConfigs } from './common';
+import { falseyToString } from './common';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
