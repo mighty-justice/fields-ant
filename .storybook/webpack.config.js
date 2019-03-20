@@ -3,12 +3,15 @@
 // after https://github.com/webpack/webpack/issues/3460 will be resolved.
 const TSDocgenPlugin = require('react-docgen-typescript-webpack-plugin');
 
-module.exports = (baseConfig, env, defaultConfig) => {
-  defaultConfig.module.rules.push({
+module.exports = ({ config, mode }) => {
+  config.module.rules.push({
     test: /\.(ts|tsx)$/,
     loader: require.resolve('awesome-typescript-loader')
   });
-  defaultConfig.plugins.push(new TSDocgenPlugin());
-  defaultConfig.resolve.extensions.push('.ts', '.tsx');
-  return defaultConfig;
+
+  config.plugins.push(new TSDocgenPlugin());
+
+  config.resolve.extensions.push('.ts', '.tsx');
+
+  return config;
 };
