@@ -18,7 +18,7 @@ import { IFieldConfigPartial, IFieldSet } from '../interfaces';
 import { IForm, IModel } from '../props';
 
 import backendValidation from './backendValidation';
-import { fillInFieldConfig, filterInsertIf, getFieldSetsFields } from './common';
+import { fillInFieldConfig, getFieldSetsFields, modelFromFieldConfigs } from './common';
 
 interface IArgs {
   defaults: IModel;
@@ -116,19 +116,7 @@ class FormManager {
   }
 
   public get submitModel (): IModel {
-    const submitValues: IModel = {};
-
-    this.fieldConfigs
-      .filter(fieldConfig => !filterInsertIf(fieldConfig, this.formModel))
-      .filter(fieldConfig => !fieldConfig.readOnly)
-      .forEach(fieldConfig => {
-        const { field } = fieldConfig
-          , value = get(this.formModel, field);
-
-        set(submitValues, field, value);
-      });
-
-    return submitValues;
+    return modelFromFieldConfigs(this.fieldConfigs, this.formModel);
   }
 
   private get formValues () {

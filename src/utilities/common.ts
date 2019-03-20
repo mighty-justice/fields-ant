@@ -1,4 +1,4 @@
-import { flatten as flattenArray, get, isArray, sortBy, has } from 'lodash';
+import { flatten as flattenArray, get, isArray, sortBy, has, set } from 'lodash';
 
 import * as Antd from 'antd';
 import { ColumnProps } from 'antd/es/table';
@@ -199,3 +199,23 @@ export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: I
       ...fieldConfig.tableColumnProps,
     }));
 }
+
+export function modelFromFieldConfigs (fieldConfigs: IFieldConfigPartial[], data: IModel) {
+    const returnValues: IModel = {};
+
+    fieldConfigs
+      .map(fillInFieldConfig)
+      .filter(fieldConfig => !filterInsertIf(fieldConfig, data))
+      .filter(fieldConfig => !fieldConfig.readOnly)
+      .forEach(fieldConfig => {
+        const { field, nullify } = fieldConfig
+          , formValue = get(data, field)
+          , shouldNullify = nullify && !formValue && formValue !== false
+          , value = shouldNullify ? null : formValue
+          ;
+
+        set(returnValues, field, value);
+      });
+
+    return returnValues;
+  }
