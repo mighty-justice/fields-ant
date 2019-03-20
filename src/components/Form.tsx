@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
+import { ButtonProps } from 'antd/lib/button';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
@@ -64,9 +65,21 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
 
   private renderControls () {
     const {
-      onCancel,
-      saveText,
-    } = this.props;
+        blockSubmit,
+        onCancel,
+        saveText,
+      } = this.props
+      , submitProps: ButtonProps = {
+        children: saveText,
+        htmlType: 'submit',
+        loading: this.formManager.saving,
+        size: 'large',
+        type: 'primary',
+      };
+
+    if (blockSubmit) {
+      return <Antd.Button block {...submitProps}/>;
+    }
 
     return (
       <ButtonToolbar align='right' noSpacing>
@@ -80,14 +93,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
           </Antd.Button>
         )}
 
-        <Antd.Button
-          htmlType='submit'
-          loading={this.formManager.saving}
-          size='large'
-          type='primary'
-        >
-          {saveText}
-        </Antd.Button>
+        <Antd.Button {...submitProps}/>
       </ButtonToolbar>
     );
   }
