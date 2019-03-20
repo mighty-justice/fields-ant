@@ -90,11 +90,9 @@ class FormManager {
     const fieldConfig = fillInFieldConfig(fieldConfigPartial)
       , formValue = get(this.formValues, fieldConfig.field)
       , convertedValue = fieldConfig.fromForm(formValue)
-      , isValueFalsey = !convertedValue && convertedValue !== false
-      , shouldNullify = isValueFalsey && fieldConfig.nullify
       ;
 
-    return shouldNullify ? null : convertedValue;
+    return convertedValue;
   }
 
   public get formModel () {
