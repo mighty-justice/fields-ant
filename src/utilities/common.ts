@@ -27,7 +27,7 @@ import { TYPES } from './types';
 // istanbul ignore next
 export async function asyncNoop () { return; }
 
-export function falseyToString (value: IValue) { return value || ''; };
+export function falseyToString (value: IValue) { return value || ''; }
 
 const typeDefaults = {
   editComponent: Antd.Input,
