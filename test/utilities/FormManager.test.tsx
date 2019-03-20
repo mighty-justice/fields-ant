@@ -43,7 +43,7 @@ describe('FormManager', () => {
     ]];
 
     const formManager = await getFormManager(fieldSets);
-    expect(formManager.formModel).toEqual({ do_not_nullify: '', do_nullify: null });
+    expect(formManager.submitModel).toEqual({ do_not_nullify: '', do_nullify: null });
   });
 
   it('Correctly maintains id', async () => {
