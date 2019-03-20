@@ -1,4 +1,4 @@
-import { get, isBoolean } from 'lodash';
+import { isBoolean } from 'lodash';
 import moment from 'moment';
 import { format } from 'date-fns';
 import { pattern as iso8601pattern } from 'iso8601-duration';
@@ -7,6 +7,7 @@ import * as Antd from 'antd';
 
 import {
   IFieldConfig,
+  IFieldConfigObjectSearchCreate,
 } from '../interfaces';
 
 import {
@@ -33,22 +34,28 @@ import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
 import { IModel, IValue } from '../props';
 import { REGEXP_PHONE, REGEXP_SSN } from '../consts';
 
-function passOnlyValue (func: (value: IValue) => React.ReactNode) {
+import { falseyToString, modelFromFieldConfigs } from './common';
+
+function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
   return (value: IValue, _fieldConfig: IFieldConfig, _model: IModel) => func(value);
 }
 
-function passValueAndFieldConfig (func: (value: IValue, fieldConfig: IFieldConfig) => React.ReactNode) {
+function passRenderOnlyValueAndFieldConfig (func: (value: IValue, fieldConfig: IFieldConfig) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
   return (value: IValue, fieldConfig: IFieldConfig, _model: IModel) => func(value, fieldConfig);
 }
 
-export function booleanToForm (data: any, field: string) {
-  const value = get(data, field);
+function passToFormOnlyValue (func: (value: IValue) => IValue) {
+  // tslint:disable-next-line no-unnecessary-callback-wrapper
+  return (value: IValue, _fieldConfig: IFieldConfig) => func(value);
+}
+
+export function booleanToForm (value: IValue) {
   return isBoolean(value) ? value.toString() : value;
 }
 
-function booleanFromForm (value: any) {
+function booleanFromForm (value: IValue) {
   for (const bool of [true, false]) {
     if (value === bool || value === bool.toString()) {
       return bool;
@@ -64,14 +71,14 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     fromForm: booleanFromForm,
     nullify: true,
     options: [{ value: 'false', name: 'No' }, { value: 'true', name: 'Yes' }],
-    render: passOnlyValue(mapBooleanToText),
-    toForm: booleanToForm,
+    render: passRenderOnlyValue(mapBooleanToText),
+    toForm: passToFormOnlyValue(booleanToForm),
   },
   date: {
     editComponent: Antd.DatePicker,
     fromForm: (value: any) => value && format(value, 'YYYY-MM-DD'),
-    render: passOnlyValue(formatDate),
-    toForm: (data: any, field: string) => get(data, field, null) && moment(data[field]),
+    render: passRenderOnlyValue(formatDate),
+    toForm: (value: any) => (value || null) && moment(value),
   },
   duration: {
     formValidationRules: {
@@ -111,8 +118,8 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
       },
     },
     nullify: true,
-    render: passOnlyValue(formatMoney),
-    toForm: (data: any, field: string) => get(data, field, ''),
+    render: passRenderOnlyValue(formatMoney),
+    toForm: falseyToString,
   },
   number: {
     editComponent: Antd.Input,
@@ -124,14 +131,14 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     editComponent: ObjectSearchCreate,
     fieldConfigProp: true,
     nullify: true,
-    render: passOnlyValue(getNameOrDefault),
+    render: passRenderOnlyValue(getNameOrDefault),
     skipFieldDecorator: true,
   },
   optionSelect: {
     editComponent: OptionSelect,
     fieldConfigProp: true,
     nullify: true,
-    render: passValueAndFieldConfig(formatOptionSelect),
+    render: passRenderOnlyValueAndFieldConfig(formatOptionSelect),
   },
   password: {
     editComponent: Antd.Input,
@@ -153,8 +160,8 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
       },
     },
     fromForm: (value: any) => value && getPercentValue(value),
-    render: passOnlyValue(formatPercentage),
-    toForm: (data: any, field: string) => getPercentDisplay(get(data, field)),
+    render: passRenderOnlyValue(formatPercentage),
+    toForm: passToFormOnlyValue(getPercentDisplay),
   },
   phone: {
     editComponent: Antd.Input,
@@ -165,13 +172,13 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
         type: 'regexp',
       },
     },
-    render: passOnlyValue(formatPhoneNumber),
+    render: passRenderOnlyValue(formatPhoneNumber),
   },
   radio: {
     editComponent: RadioGroup,
     fieldConfigProp: true,
     nullify: true,
-    render: passValueAndFieldConfig(formatOptionSelect),
+    render: passRenderOnlyValueAndFieldConfig(formatOptionSelect),
   },
   rating: {
     editComponent: Rate,
@@ -187,7 +194,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
         type: 'regexp',
       },
     },
-    render: passOnlyValue(formatSocialSecurityNumber),
+    render: passRenderOnlyValue(formatSocialSecurityNumber),
   },
   string: {},
   text: {
@@ -195,7 +202,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     editProps: {
       autosize: { minRows: 4 },
     },
-    render: passOnlyValue(parseAndPreserveNewlines),
+    render: passRenderOnlyValue(parseAndPreserveNewlines),
   },
   url: {
     editComponent: Antd.Input,
@@ -206,6 +213,6 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
         type: 'url',
       },
     },
-    render: passOnlyValue(formatWebsite),
+    render: passRenderOnlyValue(formatWebsite),
   },
 };

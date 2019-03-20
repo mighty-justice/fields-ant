@@ -27,13 +27,15 @@ import { TYPES } from './types';
 // istanbul ignore next
 export async function asyncNoop () { return; }
 
+export function falseyToString (value: IValue) { return value || ''; };
+
 const typeDefaults = {
   editComponent: Antd.Input,
   fieldConfigProp: false,
   formValidationRules: {},
-  fromForm: (value: IValue) => value,
+  fromForm: falseyToString,
   nullify: false,
-  toForm: (data: any, field: string) => get(data, field, ''),
+  toForm: falseyToString,
 };
 
 function stripFieldConfig (func: (...args: any[]) => any) {
