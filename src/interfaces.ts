@@ -53,11 +53,18 @@ interface IFieldConfigBase {
   editComponent: any;
   editProps: { [key: string]: any };
   formItemProps?: { [key: string]: any };
-  formValidationRules: { [ruleName: string]: IValidationRule };
   fromForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
   icon?: string;
   required: boolean;
   toForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
+
+  /*
+  Validation rules are documented here:
+  https://ant.design/components/form/#Validation-Rules
+  Alternatively we support fieldsValidator defined by IFieldsValidator
+  above which is much nicer than the default validator attribute
+  */
+  formValidationRules: { [ruleName: string]: IValidationRule };
 
   // Attributes for controlling how fieldConfig works in table
   tableColumnProps?: Partial<ColumnProps<IModel>>;
