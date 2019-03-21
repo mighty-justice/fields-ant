@@ -3,6 +3,13 @@ import { ColumnProps } from 'antd/es/table';
 import { RowProps } from 'antd/lib/row';
 
 import { IForm, IModel, IValue } from './props';
+import { ValidationRule as AntValidationRule } from 'antd/lib/form';
+
+export type IFieldsValidator = (value: IValue, fieldConfig: IFieldConfig, model: IModel) => boolean;
+
+export interface IValidationRule extends AntValidationRule {
+  fieldsValidator?: IFieldsValidator;
+}
 
 /*
 This defines the core common interface for Mighty fields
@@ -46,7 +53,7 @@ interface IFieldConfigBase {
   editComponent: any;
   editProps: { [key: string]: any };
   formItemProps?: { [key: string]: any };
-  formValidationRules: { [ruleName: string]: { [attribute: string]: any } };
+  formValidationRules: { [ruleName: string]: IValidationRule };
   fromForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
   icon?: string;
   required: boolean;

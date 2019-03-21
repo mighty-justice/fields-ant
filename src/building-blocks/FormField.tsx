@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { values } from 'lodash';
+import { values, omit, get } from 'lodash';
 
 import * as Antd from 'antd';
+import { ValidationRule as AntValidationRule } from 'antd/lib/form';
 
 import FormManager from '../utilities/FormManager';
 import { fillInFieldConfig, filterInsertIf } from '../utilities/common';
-import { IFieldConfigPartial } from '../interfaces';
+import { IFieldConfigPartial, IFieldsValidator } from '../interfaces';
 
 export interface IFormFieldProps {
   fieldConfig: IFieldConfigPartial;
@@ -46,11 +47,48 @@ class FormField extends Component<IFormFieldProps> {
     };
   }
 
+  private fieldsValidatorToValidator (fieldsValidator: IFieldsValidator, message?: any) {
+    // This returns a valid rc-form validator.
+    // It would be enforced by typing, but their validation interface is basically just anys
+    return (_rule: any, _value: any, callback: (message?: string) => void) => {
+      const { formManager } = this.props
+        , model = formManager.formModel
+        , value = get(model, this.fieldConfig.field)
+        , valid = fieldsValidator(value, this.fieldConfig, model);
+
+      if (valid) {
+        callback();
+      }
+      else {
+        callback(message || 'Validation error');
+      }
+    };
+  }
+
+  private get rules (): AntValidationRule[] {
+    // Here we take the { [key: string]: formValidationRules } object
+    // found in fieldConfig.formValidationRules and return a valid list
+    // of rules for rc-form
+    return values(this.fieldConfig.formValidationRules)
+      .map(validationRule => {
+        // Our own proprietary ( much more sane and powerful ) validation attribute
+        // is converted here to the rc-form style validator
+        if (validationRule.fieldsValidator) {
+          return {
+            validator: this.fieldsValidatorToValidator(validationRule.fieldsValidator, validationRule.message),
+            ...omit(validationRule, 'fieldsValidator'),
+          };
+        }
+
+        // However, all default rc-form validators will still work as expected
+        return validationRule;
+      });
+  }
+
   private get decoratorOptions () {
-    const { fieldConfig } = this.props;
     return {
       initialValue: this.initialValue,
-      rules: values(fieldConfig.formValidationRules),
+      rules: this.rules,
     };
   }
 

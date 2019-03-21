@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react';
 import { FormCard, IFieldConfigObjectSearchCreate } from '../src';
 import { withInfoConfigured } from '../.storybook/config';
 import { objectSearchCreateFactory, formCardPropsFactory } from '../test/factories';
-import { ColProps } from '../node_modules/antd/lib/grid';
+import { ColProps } from 'antd/lib/grid';
 
 storiesOf('Features', module)
   .addDecorator(withInfoConfigured)
