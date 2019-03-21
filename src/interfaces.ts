@@ -40,10 +40,10 @@ interface IFieldConfigBase {
   editProps: { [key: string]: any };
   formItemProps?: { [key: string]: any };
   formValidationRules: { [ruleName: string]: { [attribute: string]: any } };
-  fromForm: (value: IValue) => any;
+  fromForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
   icon?: string;
   required: boolean;
-  toForm: (data: any, field: string) => any;
+  toForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
 
   // Attributes for controlling how fieldConfig works in table
   tableColumnProps?: Partial<ColumnProps<IModel>>;

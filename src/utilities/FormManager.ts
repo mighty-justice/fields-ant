@@ -69,27 +69,30 @@ class FormManager {
 
   public getDefaultValue (fieldConfigPartial: IFieldConfigPartial) {
     const { model, defaults } = this.args
-      , fieldConfig = fillInFieldConfig(fieldConfigPartial);
+      , fieldConfig = fillInFieldConfig(fieldConfigPartial)
+      , modelToValue = (from: IModel) => get(from, fieldConfig.field)
+      , modelToForm = (from: IModel) => fieldConfig.toForm(modelToValue(from), fieldConfig)
+      ;
 
     if (has(fieldConfig, 'value')) {
-      return fieldConfig.toForm({ [fieldConfig.field]: fieldConfig.value }, fieldConfig.field);
+      return fieldConfig.toForm(fieldConfig.value, fieldConfig);
     }
 
     if (has(model, fieldConfig.field)) {
-      return fieldConfig.toForm(model, fieldConfig.field);
+      return modelToForm(model);
     }
 
     if (has(defaults, fieldConfig.field)) {
-      return fieldConfig.toForm(defaults, fieldConfig.field);
+      return modelToForm(defaults);
     }
 
-    return fieldConfig.toForm({ ...model, ...defaults }, fieldConfig.field);
+    return modelToForm({ ...model, ...defaults });
   }
 
   public getFormValue (fieldConfigPartial: IFieldConfigPartial) {
     const fieldConfig = fillInFieldConfig(fieldConfigPartial)
       , formValue = get(this.formValues, fieldConfig.field)
-      , convertedValue = fieldConfig.fromForm(formValue)
+      , convertedValue = fieldConfig.fromForm(formValue, fieldConfig)
       ;
 
     return convertedValue;
