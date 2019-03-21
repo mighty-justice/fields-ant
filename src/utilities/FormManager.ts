@@ -99,7 +99,24 @@ class FormManager {
     return convertedValue;
   }
 
+  private get formValues () {
+    // WARNING: Pure unprocessed rc-form response
+    // formValues < formModel < submitModel
+    return this.form.getFieldsValue();
+  }
+
+
   public get formModel () {
+    /*
+    formValues < formModel < submitModel
+
+    Get the current value of all fields according to rc-form,
+    or so that we have the model before the first render,
+    compile it from all the default values.
+
+    WARNING: This will include many values you don't see on the page.
+    Use submitModel to get the fully processed form state.
+    */
     const formValues: IModel = {};
 
     this.fieldConfigs.forEach(fieldConfig => {
@@ -110,6 +127,7 @@ class FormManager {
       set(formValues, fieldConfig.field, value);
     });
 
+    // We always include ids of models on submit
     const id = get(this.args.model, ID_ATTR);
     if (id) { set(formValues, ID_ATTR, id); }
 
@@ -117,11 +135,16 @@ class FormManager {
   }
 
   public get submitModel (): IModel {
-    return modelFromFieldConfigs(this.fieldConfigs, this.formModel);
-  }
+    /*
+    formValues < formModel < submitModel
 
-  private get formValues () {
-    return this.form.getFieldsValue();
+    This is the finalized form model. We only use it in critical situations like onSubmit
+    because many of the places we use formModel are used to build submitModel.
+
+    For example: We can't call all insertIf functions to build submitModel if those functions
+    are called with submitModel. So we use formModel unless we need perfection.
+    */
+    return modelFromFieldConfigs(this.fieldConfigs, this.formModel);
   }
 
   public get formFieldNames () {
@@ -149,6 +172,14 @@ class FormManager {
   }
 
   private handleBackendResponse (response?: any) {
+    /*
+    Here we take the raw HTTP response and try to extract as much information from it as we can
+    and use it to inform the user. If we're lucky, we have a nicely formatted JSON bad request
+    response. If so, we will try to assign those validation errors to fields, and if that fails
+    we will display them in toast notifications.
+    */
+
+    // A response with no status cannot be reasoned with
     // istanbul ignore next
     if (get(response, 'status') !== httpStatus.BAD_REQUEST) {
       Antd.notification.error(toastError);
@@ -161,21 +192,26 @@ class FormManager {
   }
 
   private async validateThenSaveCallback (errors: any, _values: any) {
-      const { onSave } = this.args;
-      this.saving = true;
-      if (errors) { this.saving = false; return; }
+    /*
+    rc-form validateFields cannot be awaited and takes a callback as input,
+    so we have to split the bulk of onSave out into this function to make
+    sure we don't try to submit an un-validated form.
+    */
+    const { onSave } = this.args;
+    this.saving = true;
+    if (errors) { this.saving = false; return; }
 
-      try {
-        await onSave(this.submitModel);
-        this.onSuccess();
-        this.form.resetFields();
-      }
-      catch (err) {
-        this.handleBackendResponse(err.response);
-      }
-      finally {
-        this.saving = false;
-      }
+    try {
+      await onSave(this.submitModel);
+      this.onSuccess();
+      this.form.resetFields();
+    }
+    catch (err) {
+      this.handleBackendResponse(err.response);
+    }
+    finally {
+      this.saving = false;
+    }
   }
 
   public async onSave (event: any) {

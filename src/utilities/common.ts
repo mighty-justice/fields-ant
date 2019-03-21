@@ -213,6 +213,9 @@ export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: I
 }
 
 export function modelFromFieldConfigs (fieldConfigs: IFieldConfigPartial[], data: IModel) {
+    /*
+    This function takes in a model with ALL form values, including
+     */
     const returnValues: IModel = {};
 
     fieldConfigs
@@ -223,14 +226,20 @@ export function modelFromFieldConfigs (fieldConfigs: IFieldConfigPartial[], data
         const { field, nullify } = fieldConfig
           , formValue = get(data, field)
           , shouldNullify = nullify && !formValue && formValue !== false
-          , value = isTypeObjectSearchCreate(fieldConfig) && isObject(formValue) && !has(formValue, ID_ATTR)
+          , nullifiedValue = shouldNullify ? null : formValue
+
+          // When using the add new feature of objectSearchCreate, we should
+          // make sure to nullify the appropriate fields in the new model
+          , isAddingNew = isObject(formValue) && !has(formValue, ID_ATTR)
+          , value = (isTypeObjectSearchCreate(fieldConfig) && isAddingNew)
             ? modelFromFieldConfigs(fieldConfig.createFields, formValue)
-            : shouldNullify ? null : formValue
+            : nullifiedValue
             ;
 
         set(returnValues, field, value);
       });
 
+    // We always include ids of models on submit
     const id = get(data, ID_ATTR);
     if (id) { set(returnValues, ID_ATTR, id); }
 
