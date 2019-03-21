@@ -53,7 +53,7 @@ describe('FormManager', () => {
       , notId = faker.random.uuid();
 
     const formManager = await getFormManager(fieldSets, { id, name, notId });
-    expect(formManager.formModel).toEqual({ name, id });
+    expect(formManager.submitModel).toEqual({ name, id });
   });
 
   it('Handles 500 responses', async () => {

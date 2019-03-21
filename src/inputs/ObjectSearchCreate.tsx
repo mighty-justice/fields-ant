@@ -15,6 +15,7 @@ import {
   FormManager,
   IAntFormField,
   IEndpointOption,
+  IFieldConfig,
   IFieldConfigObjectSearchCreate,
   IInjected,
   IInputProps,
@@ -22,6 +23,10 @@ import {
 } from '../';
 
 import ObjectSearchCreateSearchInput from './ObjectSearchCreateSearchInput';
+
+export function isTypeObjectSearchCreate (fieldConfig: IFieldConfig): fieldConfig is IFieldConfigObjectSearchCreate {
+  return fieldConfig.type === 'objectSearchCreate';
+}
 
 export interface IObjectSearchCreateProps {
   addNewContent?: React.ReactNode;
