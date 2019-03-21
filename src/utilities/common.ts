@@ -214,8 +214,11 @@ export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: I
 
 export function modelFromFieldConfigs (fieldConfigs: IFieldConfigPartial[], data: IModel) {
     /*
-    This function takes in a model with ALL form values, including
-     */
+    This function takes in a model with ALL form values, including those that should be hidden like
+    readOnly fieldConfigs and those hidden by insertIf. We build a new model from scratch, only
+    including those that should be there. We also nullify falsey values that require it here, and
+    include the id from the model even if there is no fieldConfig for it.
+    */
     const returnValues: IModel = {};
 
     fieldConfigs
