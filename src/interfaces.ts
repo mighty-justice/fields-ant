@@ -14,6 +14,9 @@ interface IFieldConfigBase {
   // Field is the ONLY required value of a fieldConfig
   // All other attributes below are either optional or will be filled in
   // by the component through the fillIn* functions
+  //
+  // Field can be any string which would be supported in lodash
+  // get, like 'name', 'lawfirm.name', or 'lawfirms[0].name'
   field: string;
 
   // Another way of keeping fieldConfigs short are 'types' which are just
@@ -106,20 +109,21 @@ export type IFieldSetSimplePartial = IFieldConfigPartial[];
 // Has a simple list form and a more complex object form;
 // Is often used throughout the library as FieldSet[]
 export type IFieldSetSimple = IFieldConfig[];
+
 export interface IFieldSetComplex {
   fields: IFieldSetSimple;
   legend: string;
   rowProps?: RowProps;
 }
 
+// fieldSets: IFieldSet[]
+export type IFieldSet = IFieldSetSimple | IFieldSetComplex;
+
 export interface IFieldSetComplexPartial {
   fields: IFieldSetSimplePartial;
   legend: string;
   rowProps?: RowProps;
 }
-
-// fieldSets: IFieldSet[]
-export type IFieldSet = IFieldSetSimple | IFieldSetComplex;
 
 // fillInFieldSets(fieldSets: IFieldSetPartial[]): IFieldSet[] {
 export type IFieldSetPartial = IFieldSetSimplePartial | IFieldSetComplexPartial;
