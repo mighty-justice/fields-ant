@@ -105,7 +105,6 @@ class FormManager {
     return this.form.getFieldsValue();
   }
 
-
   public get formModel () {
     /*
     formValues < formModel < submitModel
