@@ -26,8 +26,9 @@ declare class FormManager {
     readonly fieldConfigs: import("../interfaces").IFieldConfig[];
     getDefaultValue(fieldConfigPartial: IFieldConfigPartial): any;
     getFormValue(fieldConfigPartial: IFieldConfigPartial): any;
-    readonly formModel: IModel;
     private readonly formValues;
+    readonly formModel: IModel;
+    readonly submitModel: IModel;
     readonly formFieldNames: string[];
     private onSuccess;
     private setErrorsOnFormFields;

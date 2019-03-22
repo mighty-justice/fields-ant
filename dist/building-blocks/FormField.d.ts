@@ -10,6 +10,8 @@ declare class FormField extends Component<IFormFieldProps> {
     private readonly label;
     private readonly initialValue;
     private readonly editProps;
+    private fieldsValidatorToValidator;
+    private readonly rules;
     private readonly decoratorOptions;
     render(): JSX.Element | null;
 }

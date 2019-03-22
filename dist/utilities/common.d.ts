@@ -1,8 +1,9 @@
 /// <reference types="react" />
 import { ColumnProps } from 'antd/es/table';
 import { IFieldConfig, IFieldConfigOptionSelect, IFieldConfigPartial, IFieldSet, IFieldSetPartial, IFieldSetSimple, IFieldSetSimplePartial, IInjected, IOption } from '../interfaces';
-import { IModel } from '../props';
+import { IModel, IValue } from '../props';
 export declare function asyncNoop(): Promise<void>;
+export declare function falseyToString(value: IValue): any;
 export declare function isPartialFieldSetSimple(fieldSet: IFieldSetPartial): fieldSet is IFieldSetSimplePartial;
 export declare function isFieldSetSimple(fieldSet: IFieldSet): fieldSet is IFieldSetSimple;
 export declare function filterInsertIf(fieldConfig: IFieldConfig, model?: IModel | IModel[]): boolean | undefined;
@@ -16,4 +17,5 @@ export declare function getOptions(fieldConfig: IFieldConfigOptionSelect, inject
 export declare function renderValue(fieldConfigPartial: IFieldConfigPartial, model?: IModel): React.ReactNode;
 declare type IColumns = Array<ColumnProps<IModel>>;
 export declare function fieldSetsToColumns(fieldSets: IFieldSetPartial[], tableModel?: IModel[]): IColumns;
+export declare function modelFromFieldConfigs(fieldConfigs: IFieldConfigPartial[], data: IModel): IModel;
 export {};

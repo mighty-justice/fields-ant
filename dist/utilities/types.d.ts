@@ -1,5 +1,6 @@
 import { IFieldConfig } from '../interfaces';
-export declare function booleanToForm(data: any, field: string): any;
+import { IValue } from '../props';
+export declare function booleanToForm(value: IValue): any;
 export declare const TYPES: {
     [key: string]: Partial<IFieldConfig>;
 };

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { SelectProps } from 'antd/lib/select';
-import { FormManager, IEndpointOption, IFieldConfigObjectSearchCreate } from '../';
+import { FormManager, IEndpointOption, IFieldConfig, IFieldConfigObjectSearchCreate } from '../';
+export declare function isTypeObjectSearchCreate(fieldConfig: IFieldConfig): fieldConfig is IFieldConfigObjectSearchCreate;
 export interface IObjectSearchCreateProps {
     addNewContent?: React.ReactNode;
     className?: string;

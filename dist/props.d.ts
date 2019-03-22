@@ -38,6 +38,7 @@ export interface IWrappedFormProps {
     form: IForm;
 }
 export interface ISharedFormProps {
+    blockSubmit?: boolean;
     defaults?: object;
     isGuarded?: boolean;
     onCancel?: () => void;

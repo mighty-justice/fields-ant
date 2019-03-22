@@ -226,7 +226,7 @@ function _initializerDefineProperty(target, property, descriptor, context) {
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
   var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+  Object.keys(descriptor).forEach(function (key) {
     desc[key] = descriptor[key];
   });
   desc.enumerable = !!desc.enumerable;
@@ -246,7 +246,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   }
 
   if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
+    Object.defineProperty(target, property, desc);
     desc = null;
   }
 
@@ -538,6 +538,9 @@ function (_Component) {
 })), _class2)) || _class$1) || _class$1) || _class$1);
 
 var _dec$1, _class$2, _class2$1, _descriptor$1, _descriptor2$1, _temp$1;
+function isTypeObjectSearchCreate(fieldConfig) {
+  return fieldConfig.type === 'objectSearchCreate';
+}
 var ObjectSearchCreate = (_dec$1 = mobxReact.inject('getEndpoint'), _dec$1(_class$2 = autoBindMethods(_class$2 = mobxReact.observer(_class$2 = (_class2$1 = (_temp$1 =
 /*#__PURE__*/
 function (_Component) {
@@ -896,23 +899,30 @@ var DEFAULT_DEBOUNCE_WAIT = 300;
 var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
 var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
 var REGEXP_PHONE = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+var ID_ATTR = 'id';
 
-function passOnlyValue(func) {
+function passRenderOnlyValue(func) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
   return function (value, _fieldConfig, _model) {
     return func(value);
   };
 }
 
-function passValueAndFieldConfig(func) {
+function passRenderOnlyValueAndFieldConfig(func) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
   return function (value, fieldConfig, _model) {
     return func(value, fieldConfig);
   };
 }
 
-function booleanToForm(data, field) {
-  var value = lodash.get(data, field);
+function passToFormOnlyValue(func) {
+  // tslint:disable-next-line no-unnecessary-callback-wrapper
+  return function (value, _fieldConfig) {
+    return func(value);
+  };
+}
+
+function booleanToForm(value) {
   return lodash.isBoolean(value) ? value.toString() : value;
 }
 
@@ -943,17 +953,17 @@ var TYPES = {
       value: 'true',
       name: 'Yes'
     }],
-    render: passOnlyValue(utils.mapBooleanToText),
-    toForm: booleanToForm
+    render: passRenderOnlyValue(utils.mapBooleanToText),
+    toForm: passToFormOnlyValue(booleanToForm)
   },
   date: {
     editComponent: Antd.DatePicker,
     fromForm: function fromForm(value) {
       return value && dateFns.format(value, 'YYYY-MM-DD');
     },
-    render: passOnlyValue(utils.formatDate),
-    toForm: function toForm(data, field) {
-      return lodash.get(data, field, null) && moment(data[field]);
+    render: passRenderOnlyValue(utils.formatDate),
+    toForm: function toForm(value) {
+      return (value || null) && moment(value);
     }
   },
   duration: {
@@ -1000,10 +1010,8 @@ var TYPES = {
       }
     },
     nullify: true,
-    render: passOnlyValue(utils.formatMoney),
-    toForm: function toForm(data, field) {
-      return lodash.get(data, field, '');
-    }
+    render: passRenderOnlyValue(utils.formatMoney),
+    toForm: falseyToString
   },
   number: {
     editComponent: Antd.Input,
@@ -1017,14 +1025,14 @@ var TYPES = {
     editComponent: ObjectSearchCreate,
     fieldConfigProp: true,
     nullify: true,
-    render: passOnlyValue(utils.getNameOrDefault),
+    render: passRenderOnlyValue(utils.getNameOrDefault),
     skipFieldDecorator: true
   },
   optionSelect: {
     editComponent: OptionSelect,
     fieldConfigProp: true,
     nullify: true,
-    render: passValueAndFieldConfig(formatOptionSelect)
+    render: passRenderOnlyValueAndFieldConfig(formatOptionSelect)
   },
   password: {
     editComponent: Antd.Input,
@@ -1054,10 +1062,8 @@ var TYPES = {
     fromForm: function fromForm(value) {
       return value && utils.getPercentValue(value);
     },
-    render: passOnlyValue(utils.formatPercentage),
-    toForm: function toForm(data, field) {
-      return utils.getPercentDisplay(lodash.get(data, field));
-    }
+    render: passRenderOnlyValue(utils.formatPercentage),
+    toForm: passToFormOnlyValue(utils.getPercentDisplay)
   },
   phone: {
     editComponent: Antd.Input,
@@ -1068,13 +1074,13 @@ var TYPES = {
         type: 'regexp'
       }
     },
-    render: passOnlyValue(utils.formatPhoneNumber)
+    render: passRenderOnlyValue(utils.formatPhoneNumber)
   },
   radio: {
     editComponent: RadioGroup,
     fieldConfigProp: true,
     nullify: true,
-    render: passValueAndFieldConfig(formatOptionSelect)
+    render: passRenderOnlyValueAndFieldConfig(formatOptionSelect)
   },
   rating: {
     editComponent: Rate,
@@ -1090,7 +1096,7 @@ var TYPES = {
         type: 'regexp'
       }
     },
-    render: passOnlyValue(utils.formatSocialSecurityNumber)
+    render: passRenderOnlyValue(utils.formatSocialSecurityNumber)
   },
   string: {},
   text: {
@@ -1100,7 +1106,7 @@ var TYPES = {
         minRows: 4
       }
     },
-    render: passOnlyValue(utils.parseAndPreserveNewlines)
+    render: passRenderOnlyValue(utils.parseAndPreserveNewlines)
   },
   url: {
     editComponent: Antd.Input,
@@ -1113,7 +1119,7 @@ var TYPES = {
         type: 'url'
       }
     },
-    render: passOnlyValue(utils.formatWebsite)
+    render: passRenderOnlyValue(utils.formatWebsite)
   }
 };
 
@@ -1141,17 +1147,16 @@ function _asyncNoop() {
   return _asyncNoop.apply(this, arguments);
 }
 
+function falseyToString(value) {
+  return value || '';
+}
 var typeDefaults = {
   editComponent: Antd.Input,
   fieldConfigProp: false,
   formValidationRules: {},
-  fromForm: function fromForm(value) {
-    return value;
-  },
+  fromForm: falseyToString,
   nullify: false,
-  toForm: function toForm(data, field) {
-    return lodash.get(data, field, '');
-  }
+  toForm: falseyToString
 };
 
 function stripFieldConfig(func) {
@@ -1308,8 +1313,9 @@ function getOptions(fieldConfig, injected) {
 function renderValue(fieldConfigPartial, model) {
   var fieldConfig = fillInFieldConfig(fieldConfigPartial),
       field = fieldConfig.field,
-      render = fieldConfig.render;
-  return render(fieldConfig.value || lodash.get(model, field), fieldConfig, model || {});
+      render = fieldConfig.render,
+      value = lodash.has(fieldConfig, 'value') ? fieldConfig.value : lodash.get(model, field);
+  return render(value, fieldConfig, model || {});
 }
 function fieldSetsToColumns(fieldSets) {
   var tableModel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
@@ -1327,6 +1333,37 @@ function fieldSetsToColumns(fieldSets) {
       title: fieldConfig.showLabel ? fieldConfig.label : ''
     }, fieldConfig.tableColumnProps);
   });
+}
+function modelFromFieldConfigs(fieldConfigs, data) {
+  /*
+  This function takes in a model with ALL form values, including those that should be hidden like
+  readOnly fieldConfigs and those hidden by insertIf. We build a new model from scratch, only
+  including those that should be there. We also nullify falsey values that require it here, and
+  include the id from the model even if there is no fieldConfig for it.
+  */
+  var returnValues = {};
+  fieldConfigs.map(fillInFieldConfig).filter(function (fieldConfig) {
+    return !filterInsertIf(fieldConfig, data);
+  }).filter(function (fieldConfig) {
+    return !fieldConfig.readOnly;
+  }).forEach(function (fieldConfig) {
+    var field = fieldConfig.field,
+        nullify = fieldConfig.nullify,
+        formValue = lodash.get(data, field),
+        shouldNullify = nullify && !formValue && formValue !== false,
+        nullifiedValue = shouldNullify ? null : formValue,
+        isAddingNew = lodash.isObject(formValue) && !lodash.has(formValue, ID_ATTR),
+        value = isTypeObjectSearchCreate(fieldConfig) && isAddingNew ? modelFromFieldConfigs(fieldConfig.createFields, formValue) : nullifiedValue;
+    lodash.set(returnValues, field, value);
+  }); // We always include ids of models on submit
+
+  var id = lodash.get(data, ID_ATTR);
+
+  if (id) {
+    lodash.set(returnValues, ID_ATTR, id);
+  }
+
+  return returnValues;
 }
 
 var CARD_COL_LABEL = 8;
@@ -1407,6 +1444,26 @@ function (_Component) {
   }
 
   _createClass(FormField, [{
+    key: "fieldsValidatorToValidator",
+    value: function fieldsValidatorToValidator(fieldsValidator, message) {
+      var _this = this;
+
+      // This returns a valid rc-form validator.
+      // It would be enforced by typing, but their validation interface is basically just anys
+      return function (_rule, _value, callback) {
+        var formManager = _this.props.formManager,
+            model = formManager.formModel,
+            value = lodash.get(model, _this.fieldConfig.field),
+            valid = fieldsValidator(value, _this.fieldConfig, model);
+
+        if (valid) {
+          callback();
+        } else {
+          callback(message || 'Validation error');
+        }
+      };
+    }
+  }, {
     key: "render",
     value: function render() {
       var formManager = this.props.formManager,
@@ -1473,12 +1530,32 @@ function (_Component) {
       });
     }
   }, {
+    key: "rules",
+    get: function get() {
+      var _this2 = this;
+
+      // Here we take the { [key: string]: formValidationRules } object
+      // found in fieldConfig.formValidationRules and return a valid list
+      // of rules for rc-form
+      return lodash.values(this.fieldConfig.formValidationRules).map(function (validationRule) {
+        // Our own proprietary ( much more sane and powerful ) validation attribute
+        // is converted here to the rc-form style validator
+        if (validationRule.fieldsValidator) {
+          return _objectSpread({
+            validator: _this2.fieldsValidatorToValidator(validationRule.fieldsValidator, validationRule.message)
+          }, lodash.omit(validationRule, 'fieldsValidator'));
+        } // However, all default rc-form validators will still work as expected
+
+
+        return validationRule;
+      });
+    }
+  }, {
     key: "decoratorOptions",
     get: function get() {
-      var fieldConfig = this.props.fieldConfig;
       return {
         initialValue: this.initialValue,
-        rules: lodash.values(fieldConfig.formValidationRules)
+        rules: this.rules
       };
     }
   }]);
@@ -2065,32 +2142,36 @@ function () {
       var _this$args = this.args,
           model = _this$args.model,
           defaults = _this$args.defaults,
-          fieldConfig = fillInFieldConfig(fieldConfigPartial);
+          fieldConfig = fillInFieldConfig(fieldConfigPartial),
+          modelToValue = function modelToValue(from) {
+        return lodash.get(from, fieldConfig.field);
+      },
+          modelToForm = function modelToForm(from) {
+        return fieldConfig.toForm(modelToValue(from), fieldConfig);
+      };
 
       if (lodash.has(fieldConfig, 'value')) {
-        return fieldConfig.toForm(_defineProperty({}, fieldConfig.field, fieldConfig.value), fieldConfig.field);
+        return fieldConfig.toForm(fieldConfig.value, fieldConfig);
       }
 
       if (lodash.has(model, fieldConfig.field)) {
-        return fieldConfig.toForm(model, fieldConfig.field);
+        return modelToForm(model);
       }
 
       if (lodash.has(defaults, fieldConfig.field)) {
-        return fieldConfig.toForm(defaults, fieldConfig.field);
+        return modelToForm(defaults);
       }
 
-      return fieldConfig.toForm(_objectSpread({}, model, defaults), fieldConfig.field);
+      return modelToForm(_objectSpread({}, model, defaults));
     }
   }, {
     key: "getFormValue",
     value: function getFormValue(fieldConfigPartial) {
       var fieldConfig = fillInFieldConfig(fieldConfigPartial),
           formValue = lodash.get(this.formValues, fieldConfig.field),
-          convertedValue = fieldConfig.fromForm(formValue),
-          isValueFalsey = !convertedValue && convertedValue !== false,
-          shouldNullify = isValueFalsey && fieldConfig.nullify;
+          convertedValue = fieldConfig.fromForm(formValue, fieldConfig);
 
-      return shouldNullify ? null : convertedValue;
+      return convertedValue;
     }
   }, {
     key: "onSuccess",
@@ -2130,7 +2211,13 @@ function () {
   }, {
     key: "handleBackendResponse",
     value: function handleBackendResponse(response) {
-      // console.log('validateThenSaveCallback', response);
+      /*
+      Here we take the raw HTTP response and try to extract as much information from it as we can
+      and use it to inform the user. If we're lucky, we have a nicely formatted JSON bad request
+      response. If so, we will try to assign those validation errors to fields, and if that fails
+      we will display them in toast notifications.
+      */
+      // A response with no status cannot be reasoned with
       // istanbul ignore next
       if (lodash.get(response, 'status') !== httpStatusCodes.BAD_REQUEST) {
         Antd.notification.error(toastError);
@@ -2155,6 +2242,11 @@ function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                /*
+                rc-form validateFields cannot be awaited and takes a callback as input,
+                so we have to split the bulk of onSave out into this function to make
+                sure we don't try to submit an un-validated form.
+                */
                 onSave = this.args.onSave;
                 this.saving = true;
 
@@ -2169,7 +2261,7 @@ function () {
               case 5:
                 _context.prev = 5;
                 _context.next = 8;
-                return onSave(this.formModel);
+                return onSave(this.submitModel);
 
               case 8:
                 this.onSuccess();
@@ -2241,19 +2333,33 @@ function () {
       return getFieldSetsFields(this.args.fieldSets);
     }
   }, {
+    key: "formValues",
+    get: function get() {
+      // WARNING: Pure unprocessed rc-form response
+      // formValues < formModel < submitModel
+      return this.form.getFieldsValue();
+    }
+  }, {
     key: "formModel",
     get: function get() {
       var _this2 = this;
 
+      /*
+      formValues < formModel < submitModel
+       Get the current value of all fields according to rc-form,
+      or so that we have the model before the first render,
+      compile it from all the default values.
+       WARNING: This will include many values you don't see on the page.
+      Use submitModel to get the fully processed form state.
+      */
       var formValues = {};
       this.fieldConfigs.forEach(function (fieldConfig) {
         var isInForm = lodash.has(_this2.formValues, fieldConfig.field),
             value = isInForm ? _this2.getFormValue(fieldConfig) : _this2.getDefaultValue(fieldConfig);
         lodash.set(formValues, fieldConfig.field, value);
-      });
+      }); // We always include ids of models on submit
 
-      var ID_ATTR = 'id',
-          id = lodash.get(this.args.model, ID_ATTR);
+      var id = lodash.get(this.args.model, ID_ATTR);
 
       if (id) {
         lodash.set(formValues, ID_ATTR, id);
@@ -2262,9 +2368,16 @@ function () {
       return formValues;
     }
   }, {
-    key: "formValues",
+    key: "submitModel",
     get: function get() {
-      return this.form.getFieldsValue();
+      /*
+      formValues < formModel < submitModel
+       This is the finalized form model. We only use it in critical situations like onSubmit
+      because many of the places we use formModel are used to build submitModel.
+       For example: We can't call all insertIf functions to build submitModel if those functions
+      are called with submitModel. So we use formModel unless we need perfection.
+      */
+      return modelFromFieldConfigs(this.fieldConfigs, this.formModel);
     }
   }, {
     key: "formFieldNames",
@@ -2333,8 +2446,23 @@ function (_Component) {
     key: "renderControls",
     value: function renderControls() {
       var _this$props2 = this.props,
+          blockSubmit = _this$props2.blockSubmit,
           onCancel = _this$props2.onCancel,
-          saveText = _this$props2.saveText;
+          saveText = _this$props2.saveText,
+          submitProps = {
+        children: saveText,
+        htmlType: 'submit',
+        loading: this.formManager.saving,
+        size: 'large',
+        type: 'primary'
+      };
+
+      if (blockSubmit) {
+        return React__default.createElement(Antd.Button, _extends({
+          block: true
+        }, submitProps));
+      }
+
       return React__default.createElement(ButtonToolbar, {
         align: "right",
         noSpacing: true
@@ -2342,12 +2470,7 @@ function (_Component) {
         disabled: this.formManager.saving,
         onClick: onCancel,
         size: "large"
-      }, "Cancel"), React__default.createElement(Antd.Button, {
-        htmlType: "submit",
-        loading: this.formManager.saving,
-        size: "large",
-        type: "primary"
-      }, saveText));
+      }, "Cancel"), React__default.createElement(Antd.Button, submitProps));
     }
   }, {
     key: "render",
@@ -2967,10 +3090,14 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this$props = this.props,
+          isLoading = _this$props.isLoading,
+          title = _this$props.title;
       return React__default.createElement(Antd.Table, _extends({}, lodash.omit(this.props, 'title'), {
-        title: this.props.title ? this.getTitle : undefined,
         columns: this.columns,
-        dataSource: this.dataSource
+        dataSource: this.dataSource,
+        loading: isLoading,
+        title: title ? this.getTitle : undefined
       }));
     }
   }, {
@@ -2994,52 +3121,55 @@ function (_Component) {
 
 // Lower-level building blocks and helper components
 
+exports.ArrayCard = ArrayCard;
 exports.ButtonToolbar = ButtonToolbar;
-exports.CardField = CardField;
-exports.FormField = FormField;
-exports.FormFieldSet = FormFieldSet;
-exports.GuardedButton = GuardedButton;
-exports.Info = Info;
-exports.Label = Label;
-exports.Value = Value;
 exports.CARD_COL_LABEL = CARD_COL_LABEL;
 exports.CARD_COL_VALUE = CARD_COL_VALUE;
-exports.NestedFieldSet = NestedFieldSet;
-exports.ArrayCard = ArrayCard;
+exports.CX_PREFIX_SEARCH_CREATE = CX_PREFIX_SEARCH_CREATE;
 exports.Card = Card;
+exports.CardField = CardField;
+exports.DEFAULT_DEBOUNCE_WAIT = DEFAULT_DEBOUNCE_WAIT;
 exports.EditableArrayCard = EditableArrayCard;
 exports.EditableCard = EditableCard;
 exports.Form = Form;
 exports.FormCard = FormCard;
 exports.FormDrawer = FormDrawer;
+exports.FormField = FormField;
+exports.FormFieldSet = FormFieldSet;
+exports.FormManager = FormManager;
 exports.FormModal = FormModal;
-exports.SummaryCard = SummaryCard;
-exports.Table = Table;
+exports.GuardedButton = GuardedButton;
+exports.ID_ATTR = ID_ATTR;
+exports.Info = Info;
+exports.Label = Label;
+exports.NestedFieldSet = NestedFieldSet;
 exports.ObjectSearchCreate = ObjectSearchCreate;
 exports.OptionSelect = OptionSelect;
 exports.OptionSelectDisplay = OptionSelectDisplay;
-exports.formatOptionSelect = formatOptionSelect;
+exports.REGEXP_PHONE = REGEXP_PHONE;
+exports.REGEXP_SSN = REGEXP_SSN;
 exports.RadioGroup = RadioGroup;
 exports.Rate = Rate;
-exports.formatRating = formatRating;
-exports.FormManager = FormManager;
-exports.DEFAULT_DEBOUNCE_WAIT = DEFAULT_DEBOUNCE_WAIT;
-exports.CX_PREFIX_SEARCH_CREATE = CX_PREFIX_SEARCH_CREATE;
-exports.REGEXP_SSN = REGEXP_SSN;
-exports.REGEXP_PHONE = REGEXP_PHONE;
-exports.formPropsDefaults = formPropsDefaults;
+exports.SummaryCard = SummaryCard;
+exports.TYPES = TYPES;
+exports.Table = Table;
+exports.Value = Value;
 exports.asyncNoop = asyncNoop;
-exports.isPartialFieldSetSimple = isPartialFieldSetSimple;
-exports.isFieldSetSimple = isFieldSetSimple;
-exports.filterInsertIf = filterInsertIf;
+exports.booleanToForm = booleanToForm;
+exports.falseyToString = falseyToString;
+exports.fieldSetsToColumns = fieldSetsToColumns;
 exports.fillInFieldConfig = fillInFieldConfig;
 exports.fillInFieldSet = fillInFieldSet;
 exports.fillInFieldSets = fillInFieldSets;
+exports.filterInsertIf = filterInsertIf;
+exports.formPropsDefaults = formPropsDefaults;
+exports.formatOptionSelect = formatOptionSelect;
+exports.formatRating = formatRating;
 exports.getFieldSetFields = getFieldSetFields;
 exports.getFieldSetsFields = getFieldSetsFields;
-exports.getUnsortedOptions = getUnsortedOptions;
 exports.getOptions = getOptions;
+exports.getUnsortedOptions = getUnsortedOptions;
+exports.isFieldSetSimple = isFieldSetSimple;
+exports.isPartialFieldSetSimple = isPartialFieldSetSimple;
+exports.modelFromFieldConfigs = modelFromFieldConfigs;
 exports.renderValue = renderValue;
-exports.fieldSetsToColumns = fieldSetsToColumns;
-exports.booleanToForm = booleanToForm;
-exports.TYPES = TYPES;

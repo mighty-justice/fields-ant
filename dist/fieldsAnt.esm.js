@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form as Form$1, Select, Icon, Button, Radio, Rate as Rate$1, DatePicker, Input, Row, Col, Popconfirm, Divider, Card as Card$1, notification, Drawer, Modal, List, Table as Table$1 } from 'antd';
-import { toJS, observable, computed } from 'mobx';
-import { debounce, get, omit, pick, isArray, isBoolean, sortBy, flatten, values, isEmpty, isPlainObject, extend, has, mapValues, set, noop, pickBy, kebabCase } from 'lodash';
+import { observable, toJS, computed } from 'mobx';
+import { debounce, get, omit, pick, isArray, isBoolean, flatten, sortBy, has, isObject, set, values, isEmpty, isPlainObject, extend, mapValues, noop, pickBy, kebabCase } from 'lodash';
 import { toKey, EMPTY_FIELD, mapBooleanToText, formatDate, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, formatPhoneNumber, formatSocialSecurityNumber, parseAndPreserveNewlines, formatWebsite, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
 import moment from 'moment';
 import { format } from 'date-fns';
@@ -219,7 +219,7 @@ function _initializerDefineProperty(target, property, descriptor, context) {
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
   var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+  Object.keys(descriptor).forEach(function (key) {
     desc[key] = descriptor[key];
   });
   desc.enumerable = !!desc.enumerable;
@@ -239,7 +239,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   }
 
   if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
+    Object.defineProperty(target, property, desc);
     desc = null;
   }
 
@@ -531,6 +531,9 @@ function (_Component) {
 })), _class2)) || _class$1) || _class$1) || _class$1);
 
 var _dec$1, _class$2, _class2$1, _descriptor$1, _descriptor2$1, _temp$1;
+function isTypeObjectSearchCreate(fieldConfig) {
+  return fieldConfig.type === 'objectSearchCreate';
+}
 var ObjectSearchCreate = (_dec$1 = inject('getEndpoint'), _dec$1(_class$2 = autoBindMethods(_class$2 = observer(_class$2 = (_class2$1 = (_temp$1 =
 /*#__PURE__*/
 function (_Component) {
@@ -889,23 +892,30 @@ var DEFAULT_DEBOUNCE_WAIT = 300;
 var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
 var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
 var REGEXP_PHONE = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+var ID_ATTR = 'id';
 
-function passOnlyValue(func) {
+function passRenderOnlyValue(func) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
   return function (value, _fieldConfig, _model) {
     return func(value);
   };
 }
 
-function passValueAndFieldConfig(func) {
+function passRenderOnlyValueAndFieldConfig(func) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
   return function (value, fieldConfig, _model) {
     return func(value, fieldConfig);
   };
 }
 
-function booleanToForm(data, field) {
-  var value = get(data, field);
+function passToFormOnlyValue(func) {
+  // tslint:disable-next-line no-unnecessary-callback-wrapper
+  return function (value, _fieldConfig) {
+    return func(value);
+  };
+}
+
+function booleanToForm(value) {
   return isBoolean(value) ? value.toString() : value;
 }
 
@@ -936,17 +946,17 @@ var TYPES = {
       value: 'true',
       name: 'Yes'
     }],
-    render: passOnlyValue(mapBooleanToText),
-    toForm: booleanToForm
+    render: passRenderOnlyValue(mapBooleanToText),
+    toForm: passToFormOnlyValue(booleanToForm)
   },
   date: {
     editComponent: DatePicker,
     fromForm: function fromForm(value) {
       return value && format(value, 'YYYY-MM-DD');
     },
-    render: passOnlyValue(formatDate),
-    toForm: function toForm(data, field) {
-      return get(data, field, null) && moment(data[field]);
+    render: passRenderOnlyValue(formatDate),
+    toForm: function toForm(value) {
+      return (value || null) && moment(value);
     }
   },
   duration: {
@@ -993,10 +1003,8 @@ var TYPES = {
       }
     },
     nullify: true,
-    render: passOnlyValue(formatMoney),
-    toForm: function toForm(data, field) {
-      return get(data, field, '');
-    }
+    render: passRenderOnlyValue(formatMoney),
+    toForm: falseyToString
   },
   number: {
     editComponent: Input,
@@ -1010,14 +1018,14 @@ var TYPES = {
     editComponent: ObjectSearchCreate,
     fieldConfigProp: true,
     nullify: true,
-    render: passOnlyValue(getNameOrDefault),
+    render: passRenderOnlyValue(getNameOrDefault),
     skipFieldDecorator: true
   },
   optionSelect: {
     editComponent: OptionSelect,
     fieldConfigProp: true,
     nullify: true,
-    render: passValueAndFieldConfig(formatOptionSelect)
+    render: passRenderOnlyValueAndFieldConfig(formatOptionSelect)
   },
   password: {
     editComponent: Input,
@@ -1047,10 +1055,8 @@ var TYPES = {
     fromForm: function fromForm(value) {
       return value && getPercentValue(value);
     },
-    render: passOnlyValue(formatPercentage),
-    toForm: function toForm(data, field) {
-      return getPercentDisplay(get(data, field));
-    }
+    render: passRenderOnlyValue(formatPercentage),
+    toForm: passToFormOnlyValue(getPercentDisplay)
   },
   phone: {
     editComponent: Input,
@@ -1061,13 +1067,13 @@ var TYPES = {
         type: 'regexp'
       }
     },
-    render: passOnlyValue(formatPhoneNumber)
+    render: passRenderOnlyValue(formatPhoneNumber)
   },
   radio: {
     editComponent: RadioGroup,
     fieldConfigProp: true,
     nullify: true,
-    render: passValueAndFieldConfig(formatOptionSelect)
+    render: passRenderOnlyValueAndFieldConfig(formatOptionSelect)
   },
   rating: {
     editComponent: Rate,
@@ -1083,7 +1089,7 @@ var TYPES = {
         type: 'regexp'
       }
     },
-    render: passOnlyValue(formatSocialSecurityNumber)
+    render: passRenderOnlyValue(formatSocialSecurityNumber)
   },
   string: {},
   text: {
@@ -1093,7 +1099,7 @@ var TYPES = {
         minRows: 4
       }
     },
-    render: passOnlyValue(parseAndPreserveNewlines)
+    render: passRenderOnlyValue(parseAndPreserveNewlines)
   },
   url: {
     editComponent: Input,
@@ -1106,7 +1112,7 @@ var TYPES = {
         type: 'url'
       }
     },
-    render: passOnlyValue(formatWebsite)
+    render: passRenderOnlyValue(formatWebsite)
   }
 };
 
@@ -1134,17 +1140,16 @@ function _asyncNoop() {
   return _asyncNoop.apply(this, arguments);
 }
 
+function falseyToString(value) {
+  return value || '';
+}
 var typeDefaults = {
   editComponent: Input,
   fieldConfigProp: false,
   formValidationRules: {},
-  fromForm: function fromForm(value) {
-    return value;
-  },
+  fromForm: falseyToString,
   nullify: false,
-  toForm: function toForm(data, field) {
-    return get(data, field, '');
-  }
+  toForm: falseyToString
 };
 
 function stripFieldConfig(func) {
@@ -1301,8 +1306,9 @@ function getOptions(fieldConfig, injected) {
 function renderValue(fieldConfigPartial, model) {
   var fieldConfig = fillInFieldConfig(fieldConfigPartial),
       field = fieldConfig.field,
-      render = fieldConfig.render;
-  return render(fieldConfig.value || get(model, field), fieldConfig, model || {});
+      render = fieldConfig.render,
+      value = has(fieldConfig, 'value') ? fieldConfig.value : get(model, field);
+  return render(value, fieldConfig, model || {});
 }
 function fieldSetsToColumns(fieldSets) {
   var tableModel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
@@ -1320,6 +1326,37 @@ function fieldSetsToColumns(fieldSets) {
       title: fieldConfig.showLabel ? fieldConfig.label : ''
     }, fieldConfig.tableColumnProps);
   });
+}
+function modelFromFieldConfigs(fieldConfigs, data) {
+  /*
+  This function takes in a model with ALL form values, including those that should be hidden like
+  readOnly fieldConfigs and those hidden by insertIf. We build a new model from scratch, only
+  including those that should be there. We also nullify falsey values that require it here, and
+  include the id from the model even if there is no fieldConfig for it.
+  */
+  var returnValues = {};
+  fieldConfigs.map(fillInFieldConfig).filter(function (fieldConfig) {
+    return !filterInsertIf(fieldConfig, data);
+  }).filter(function (fieldConfig) {
+    return !fieldConfig.readOnly;
+  }).forEach(function (fieldConfig) {
+    var field = fieldConfig.field,
+        nullify = fieldConfig.nullify,
+        formValue = get(data, field),
+        shouldNullify = nullify && !formValue && formValue !== false,
+        nullifiedValue = shouldNullify ? null : formValue,
+        isAddingNew = isObject(formValue) && !has(formValue, ID_ATTR),
+        value = isTypeObjectSearchCreate(fieldConfig) && isAddingNew ? modelFromFieldConfigs(fieldConfig.createFields, formValue) : nullifiedValue;
+    set(returnValues, field, value);
+  }); // We always include ids of models on submit
+
+  var id = get(data, ID_ATTR);
+
+  if (id) {
+    set(returnValues, ID_ATTR, id);
+  }
+
+  return returnValues;
 }
 
 var CARD_COL_LABEL = 8;
@@ -1400,6 +1437,26 @@ function (_Component) {
   }
 
   _createClass(FormField, [{
+    key: "fieldsValidatorToValidator",
+    value: function fieldsValidatorToValidator(fieldsValidator, message) {
+      var _this = this;
+
+      // This returns a valid rc-form validator.
+      // It would be enforced by typing, but their validation interface is basically just anys
+      return function (_rule, _value, callback) {
+        var formManager = _this.props.formManager,
+            model = formManager.formModel,
+            value = get(model, _this.fieldConfig.field),
+            valid = fieldsValidator(value, _this.fieldConfig, model);
+
+        if (valid) {
+          callback();
+        } else {
+          callback(message || 'Validation error');
+        }
+      };
+    }
+  }, {
     key: "render",
     value: function render() {
       var formManager = this.props.formManager,
@@ -1466,12 +1523,32 @@ function (_Component) {
       });
     }
   }, {
+    key: "rules",
+    get: function get() {
+      var _this2 = this;
+
+      // Here we take the { [key: string]: formValidationRules } object
+      // found in fieldConfig.formValidationRules and return a valid list
+      // of rules for rc-form
+      return values(this.fieldConfig.formValidationRules).map(function (validationRule) {
+        // Our own proprietary ( much more sane and powerful ) validation attribute
+        // is converted here to the rc-form style validator
+        if (validationRule.fieldsValidator) {
+          return _objectSpread({
+            validator: _this2.fieldsValidatorToValidator(validationRule.fieldsValidator, validationRule.message)
+          }, omit(validationRule, 'fieldsValidator'));
+        } // However, all default rc-form validators will still work as expected
+
+
+        return validationRule;
+      });
+    }
+  }, {
     key: "decoratorOptions",
     get: function get() {
-      var fieldConfig = this.props.fieldConfig;
       return {
         initialValue: this.initialValue,
-        rules: values(fieldConfig.formValidationRules)
+        rules: this.rules
       };
     }
   }]);
@@ -2058,32 +2135,36 @@ function () {
       var _this$args = this.args,
           model = _this$args.model,
           defaults = _this$args.defaults,
-          fieldConfig = fillInFieldConfig(fieldConfigPartial);
+          fieldConfig = fillInFieldConfig(fieldConfigPartial),
+          modelToValue = function modelToValue(from) {
+        return get(from, fieldConfig.field);
+      },
+          modelToForm = function modelToForm(from) {
+        return fieldConfig.toForm(modelToValue(from), fieldConfig);
+      };
 
       if (has(fieldConfig, 'value')) {
-        return fieldConfig.toForm(_defineProperty({}, fieldConfig.field, fieldConfig.value), fieldConfig.field);
+        return fieldConfig.toForm(fieldConfig.value, fieldConfig);
       }
 
       if (has(model, fieldConfig.field)) {
-        return fieldConfig.toForm(model, fieldConfig.field);
+        return modelToForm(model);
       }
 
       if (has(defaults, fieldConfig.field)) {
-        return fieldConfig.toForm(defaults, fieldConfig.field);
+        return modelToForm(defaults);
       }
 
-      return fieldConfig.toForm(_objectSpread({}, model, defaults), fieldConfig.field);
+      return modelToForm(_objectSpread({}, model, defaults));
     }
   }, {
     key: "getFormValue",
     value: function getFormValue(fieldConfigPartial) {
       var fieldConfig = fillInFieldConfig(fieldConfigPartial),
           formValue = get(this.formValues, fieldConfig.field),
-          convertedValue = fieldConfig.fromForm(formValue),
-          isValueFalsey = !convertedValue && convertedValue !== false,
-          shouldNullify = isValueFalsey && fieldConfig.nullify;
+          convertedValue = fieldConfig.fromForm(formValue, fieldConfig);
 
-      return shouldNullify ? null : convertedValue;
+      return convertedValue;
     }
   }, {
     key: "onSuccess",
@@ -2123,7 +2204,13 @@ function () {
   }, {
     key: "handleBackendResponse",
     value: function handleBackendResponse(response) {
-      // console.log('validateThenSaveCallback', response);
+      /*
+      Here we take the raw HTTP response and try to extract as much information from it as we can
+      and use it to inform the user. If we're lucky, we have a nicely formatted JSON bad request
+      response. If so, we will try to assign those validation errors to fields, and if that fails
+      we will display them in toast notifications.
+      */
+      // A response with no status cannot be reasoned with
       // istanbul ignore next
       if (get(response, 'status') !== httpStatusCodes.BAD_REQUEST) {
         notification.error(toastError);
@@ -2148,6 +2235,11 @@ function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                /*
+                rc-form validateFields cannot be awaited and takes a callback as input,
+                so we have to split the bulk of onSave out into this function to make
+                sure we don't try to submit an un-validated form.
+                */
                 onSave = this.args.onSave;
                 this.saving = true;
 
@@ -2162,7 +2254,7 @@ function () {
               case 5:
                 _context.prev = 5;
                 _context.next = 8;
-                return onSave(this.formModel);
+                return onSave(this.submitModel);
 
               case 8:
                 this.onSuccess();
@@ -2234,19 +2326,33 @@ function () {
       return getFieldSetsFields(this.args.fieldSets);
     }
   }, {
+    key: "formValues",
+    get: function get() {
+      // WARNING: Pure unprocessed rc-form response
+      // formValues < formModel < submitModel
+      return this.form.getFieldsValue();
+    }
+  }, {
     key: "formModel",
     get: function get$1() {
       var _this2 = this;
 
+      /*
+      formValues < formModel < submitModel
+       Get the current value of all fields according to rc-form,
+      or so that we have the model before the first render,
+      compile it from all the default values.
+       WARNING: This will include many values you don't see on the page.
+      Use submitModel to get the fully processed form state.
+      */
       var formValues = {};
       this.fieldConfigs.forEach(function (fieldConfig) {
         var isInForm = has(_this2.formValues, fieldConfig.field),
             value = isInForm ? _this2.getFormValue(fieldConfig) : _this2.getDefaultValue(fieldConfig);
         set(formValues, fieldConfig.field, value);
-      });
+      }); // We always include ids of models on submit
 
-      var ID_ATTR = 'id',
-          id = get(this.args.model, ID_ATTR);
+      var id = get(this.args.model, ID_ATTR);
 
       if (id) {
         set(formValues, ID_ATTR, id);
@@ -2255,9 +2361,16 @@ function () {
       return formValues;
     }
   }, {
-    key: "formValues",
+    key: "submitModel",
     get: function get() {
-      return this.form.getFieldsValue();
+      /*
+      formValues < formModel < submitModel
+       This is the finalized form model. We only use it in critical situations like onSubmit
+      because many of the places we use formModel are used to build submitModel.
+       For example: We can't call all insertIf functions to build submitModel if those functions
+      are called with submitModel. So we use formModel unless we need perfection.
+      */
+      return modelFromFieldConfigs(this.fieldConfigs, this.formModel);
     }
   }, {
     key: "formFieldNames",
@@ -2326,8 +2439,23 @@ function (_Component) {
     key: "renderControls",
     value: function renderControls() {
       var _this$props2 = this.props,
+          blockSubmit = _this$props2.blockSubmit,
           onCancel = _this$props2.onCancel,
-          saveText = _this$props2.saveText;
+          saveText = _this$props2.saveText,
+          submitProps = {
+        children: saveText,
+        htmlType: 'submit',
+        loading: this.formManager.saving,
+        size: 'large',
+        type: 'primary'
+      };
+
+      if (blockSubmit) {
+        return React.createElement(Button, _extends({
+          block: true
+        }, submitProps));
+      }
+
       return React.createElement(ButtonToolbar, {
         align: "right",
         noSpacing: true
@@ -2335,12 +2463,7 @@ function (_Component) {
         disabled: this.formManager.saving,
         onClick: onCancel,
         size: "large"
-      }, "Cancel"), React.createElement(Button, {
-        htmlType: "submit",
-        loading: this.formManager.saving,
-        size: "large",
-        type: "primary"
-      }, saveText));
+      }, "Cancel"), React.createElement(Button, submitProps));
     }
   }, {
     key: "render",
@@ -2960,10 +3083,14 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this$props = this.props,
+          isLoading = _this$props.isLoading,
+          title = _this$props.title;
       return React.createElement(Table$1, _extends({}, omit(this.props, 'title'), {
-        title: this.props.title ? this.getTitle : undefined,
         columns: this.columns,
-        dataSource: this.dataSource
+        dataSource: this.dataSource,
+        loading: isLoading,
+        title: title ? this.getTitle : undefined
       }));
     }
   }, {
@@ -2987,4 +3114,4 @@ function (_Component) {
 
 // Lower-level building blocks and helper components
 
-export { ButtonToolbar, CardField, FormField, FormFieldSet, GuardedButton, Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE, NestedFieldSet, ArrayCard, Card, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormModal, SummaryCard, Table, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, formatOptionSelect, RadioGroup, Rate, formatRating, FormManager, DEFAULT_DEBOUNCE_WAIT, CX_PREFIX_SEARCH_CREATE, REGEXP_SSN, REGEXP_PHONE, formPropsDefaults, asyncNoop, isPartialFieldSetSimple, isFieldSetSimple, filterInsertIf, fillInFieldConfig, fillInFieldSet, fillInFieldSets, getFieldSetFields, getFieldSetsFields, getUnsortedOptions, getOptions, renderValue, fieldSetsToColumns, booleanToForm, TYPES };
+export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormManager, FormModal, GuardedButton, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_PHONE, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, asyncNoop, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterInsertIf, formPropsDefaults, formatOptionSelect, formatRating, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, modelFromFieldConfigs, renderValue };
