@@ -5,7 +5,8 @@ import { storiesOf } from '@storybook/react';
 import { FormCard, IFieldConfigObjectSearchCreate } from '../src';
 import { withInfoConfigured } from '../.storybook/config';
 import { objectSearchCreateFactory, formCardPropsFactory } from '../test/factories';
-import { ColProps } from '../node_modules/antd/lib/grid';
+import { ColProps } from 'antd/lib/grid';
+import { IModel } from '../src/props';
 
 storiesOf('Features', module)
   .addDecorator(withInfoConfigured)
@@ -32,6 +33,21 @@ storiesOf('Features', module)
         legend: 'Legend Text',
         rowProps: { gutter: 16 },
       }]}
+    />
+  ))
+  .add('fieldsValidator', () => (
+    <FormCard
+      {...formCardPropsFactory.build()}
+      fieldSets={[[
+        { field: 'first_field' },
+        {
+          field: 'only_valid_if_first_field_is_sam',
+          formValidationRules: { isSam: {
+            fieldsValidator: (_value: any, _fieldConfig: any, model: IModel) => model.first_field === 'sam',
+            message: 'First field must be "sam"',
+          }},
+        },
+      ]]}
     />
   ))
   .add('Login page', () => (
