@@ -4,16 +4,23 @@ import { RowProps } from 'antd/lib/row';
 
 import { IForm, IModel, IValue } from './props';
 
-// This defines the core common interface for Mighty fields
-//
-// This excludes all fields used only by a single type ( see below )
-// It also will almost never be written out by a user, since it's
-// much easier to call a function to fill in a partial definition
-// than to fill all this in (see further below for partials).
+/*
+This defines the core common interface for Mighty fields
+
+This excludes all fields used only by a single type ( see below )
+It also will almost never be written out by a user, since it's
+much easier to call a function to fill in a partial definition
+than to fill all this in (see further below for partials).
+*/
 interface IFieldConfigBase {
-  // Field is the ONLY required value of a fieldConfig
-  // All other attributes below are either optional or will be filled in
-  // by the component through the fillIn* functions
+  /*
+  Field is the ONLY required value of a fieldConfig
+  All other attributes below are either optional or will be filled in
+  by the component through the fillIn* functions
+
+  Field can be any string which would be supported in lodash
+  get, like 'name', 'lawfirm.name', or 'lawfirms[0].name'
+  */
   field: string;
 
   // Another way of keeping fieldConfigs short are 'types' which are just
@@ -98,22 +105,15 @@ export type IFieldConfig = IFieldConfigBase
   | IFieldConfigOptionSelect
   ;
 
-// Partial definitions passed to fillIn* functions
-export type IFieldConfigPartial = Partial<IFieldConfig> & { field: string; };
-export type IFieldSetSimplePartial = IFieldConfigPartial[];
-
-// A set of fieldConfigs, or fieldSet
-// Has a simple list form and a more complex object form;
-// Is often used throughout the library as FieldSet[]
+/*
+A set of fieldConfigs, or fieldSet
+Has a simple list form and a more complex object form;
+Is often used throughout the library as FieldSet[]
+*/
 export type IFieldSetSimple = IFieldConfig[];
+
 export interface IFieldSetComplex {
   fields: IFieldSetSimple;
-  legend: string;
-  rowProps?: RowProps;
-}
-
-export interface IFieldSetComplexPartial {
-  fields: IFieldSetSimplePartial;
   legend: string;
   rowProps?: RowProps;
 }
@@ -121,8 +121,22 @@ export interface IFieldSetComplexPartial {
 // fieldSets: IFieldSet[]
 export type IFieldSet = IFieldSetSimple | IFieldSetComplex;
 
-// fillInFieldSets(fieldSets: IFieldSetPartial[]): IFieldSet[] {
+/*
+Usually, you won't directly import fill interfaces. Components take partial
+definitions and then fill them in with the defaults for their type. See the
+utilities page for more.
+
+fillInFieldSets(fieldSets: IFieldSetPartial[]): IFieldSet[] {
+ */
+export type IFieldConfigPartial = Partial<IFieldConfig> & { field: string; };
+export type IFieldSetSimplePartial = IFieldConfigPartial[];
 export type IFieldSetPartial = IFieldSetSimplePartial | IFieldSetComplexPartial;
+
+export interface IFieldSetComplexPartial {
+  fields: IFieldSetSimplePartial;
+  legend: string;
+  rowProps?: RowProps;
+}
 
 export type IGetOptions = (optionType: string) => IOption[];
 
