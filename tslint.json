@@ -1,4 +1,6 @@
 {
   "extends": ["@mighty-justice/tslint-config"],
-  "rules": {}
+  "rules": {
+    "no-implicit-dependencies": [true, "dev"]
+  }
 }
