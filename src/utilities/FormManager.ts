@@ -180,22 +180,42 @@ class FormManager {
 
   private handleRequestError (error: Error & { response?: any }) {
     /*
-    Here we take the raw HTTP response and try to extract as much information from it as we can
+    Here we take the raw axios error and try to extract as much information from it as we can
     and use it to inform the user. If we're lucky, we have a nicely formatted JSON bad request
     response. If so, we will try to assign those validation errors to fields, and if that fails
     we will display them in toast notifications.
     */
+    const status = get(error, 'response.status') as undefined | number
+      , backendErrors: IBackendValidation = { foundOnForm: {}, errorMessages: [] };
+
+    function logError () {
+      // tslint:disable-next-line no-console
+      console.error('Error submitting form:', { error });
+    }
 
     // A response with no status cannot be reasoned with
     // istanbul ignore next
-    if (get(error, 'response.status') !== httpStatus.BAD_REQUEST) {
-      Antd.notification.error(toastError);
-      return;
+    if (!status) {
+      backendErrors.errorMessages.push({ field: '', message: '' });
+      logError();
     }
 
-    const { foundOnForm, errorMessages } = backendValidation(this.formFieldNames, error.response.data);
-    this.setErrorsOnFormFields(foundOnForm);
-    this.notifyUserAboutErrors(errorMessages);
+    // Errors like 500 and 403 Forbidden should be as descriptive as possible
+    if (status && status !== httpStatus.BAD_REQUEST) {
+      const statusMessage = httpStatus.getStatusText(status);
+      backendErrors.errorMessages.push({ field: status.toString(), message: statusMessage });
+      logError();
+    }
+
+    // Bad request errors are mapped to fields when possible
+    if (status === httpStatus.BAD_REQUEST) {
+      const { foundOnForm, errorMessages } = backendValidation(this.formFieldNames, error.response.data);
+      backendErrors.errorMessages = [...backendErrors.errorMessages, ...errorMessages];
+      backendErrors.foundOnForm = {...backendErrors.foundOnForm, ...foundOnForm };
+    }
+
+    this.setErrorsOnFormFields(backendErrors.foundOnForm);
+    this.notifyUserAboutErrors(backendErrors.errorMessages);
   }
 
   private async validateThenSaveCallback (errors: any, _values: any) {

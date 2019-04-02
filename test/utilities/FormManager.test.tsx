@@ -75,6 +75,10 @@ describe('FormManager', () => {
     spyOn(Antd.notification, 'error');
     const formManager = await getFormManager(fieldSets, { id, name, notId });
     formManager.handleRequestError(error);
-    expect(Antd.notification.error).toHaveBeenCalledWith(toastError);
+    expect(Antd.notification.error).toHaveBeenCalledWith({
+       description: '500 - Server Error',
+       duration: null,
+       message: 'Error submitting form',
+    });
   });
 });
