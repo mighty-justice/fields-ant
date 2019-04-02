@@ -21,6 +21,14 @@ import backendValidation from './backendValidation';
 import { fillInFieldConfig, getFieldSetsFields, modelFromFieldConfigs } from './common';
 import { ID_ATTR } from '../consts';
 
+export interface IFoundOnForm { [key: string]: string; }
+export interface IErrorMessage { field: string; message: string; }
+
+export interface IBackendValidation {
+  errorMessages: IErrorMessage[];
+  foundOnForm: IFoundOnForm;
+}
+
 interface IArgs {
   defaults: IModel;
   fieldSets: IFieldSet[];
@@ -163,7 +171,7 @@ class FormManager {
     })));
   }
 
-  private notifyUserAboutErrors (errors: Array<{ field: string, message: string }>) {
+  private notifyUserAboutErrors (errors: IErrorMessage[]) {
     errors.forEach(({ field, message }) => {
       const description = `${field} - ${message}`;
       Antd.notification.error({ ...toastError, description });

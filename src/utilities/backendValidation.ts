@@ -2,6 +2,8 @@ import { isArray, isPlainObject, extend } from 'lodash';
 
 import { varToLabel } from '@mighty-justice/utils';
 
+import { IBackendValidation, IErrorMessage, IFoundOnForm } from './FormManager';
+
 // Takes an API response and converts it to a string to string map
 function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
   const messages: { [key: string]: string } = {};
@@ -27,10 +29,10 @@ function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
   return messages;
 }
 
-export default function backendValidation (fieldNames: string[], response: object) {
+export default function backendValidation (fieldNames: string[], response: object): IBackendValidation {
   const fieldErrors = getFieldErrors(response)
-    , foundOnForm: { [key: string]: string } = {}
-    , errorMessages: Array<{ field: string, message: string }> = [];
+    , foundOnForm: IFoundOnForm = {}
+    , errorMessages: IErrorMessage[] = [];
 
   // Try to assign error fields to form fields, falling back on generic array
   Object.keys(fieldErrors).forEach(errorField => {
