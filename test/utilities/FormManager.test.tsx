@@ -61,6 +61,7 @@ describe('FormManager', () => {
       , name = faker.name.firstName()
       , id = faker.random.uuid()
       , notId = faker.random.uuid()
+      , error: any = new Error()
       , badResponse = {
         config: {},
         data: '<!DOCTYPE html><html lang="en"><head /></html>',
@@ -69,9 +70,11 @@ describe('FormManager', () => {
         statusText: 'Internal Server Error',
       };
 
+    error.response = badResponse;
+
     spyOn(Antd.notification, 'error');
     const formManager = await getFormManager(fieldSets, { id, name, notId });
-    formManager.handleBackendResponse(badResponse);
+    formManager.handleRequestError(error);
     expect(Antd.notification.error).toHaveBeenCalledWith(toastError);
   });
 });

@@ -178,7 +178,7 @@ class FormManager {
     });
   }
 
-  private handleBackendResponse (response?: any) {
+  private handleRequestError (error: Error & { response?: any }) {
     /*
     Here we take the raw HTTP response and try to extract as much information from it as we can
     and use it to inform the user. If we're lucky, we have a nicely formatted JSON bad request
@@ -188,12 +188,12 @@ class FormManager {
 
     // A response with no status cannot be reasoned with
     // istanbul ignore next
-    if (get(response, 'status') !== httpStatus.BAD_REQUEST) {
+    if (get(error, 'response.status') !== httpStatus.BAD_REQUEST) {
       Antd.notification.error(toastError);
       return;
     }
 
-    const { foundOnForm, errorMessages } = backendValidation(this.formFieldNames, response.data);
+    const { foundOnForm, errorMessages } = backendValidation(this.formFieldNames, error.response.data);
     this.setErrorsOnFormFields(foundOnForm);
     this.notifyUserAboutErrors(errorMessages);
   }
@@ -213,8 +213,8 @@ class FormManager {
       this.onSuccess();
       this.form.resetFields();
     }
-    catch (err) {
-      this.handleBackendResponse(err.response);
+    catch (error) {
+      this.handleRequestError(error);
     }
     finally {
       this.saving = false;
