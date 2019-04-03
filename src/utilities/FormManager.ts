@@ -44,8 +44,6 @@ interface IFormWrappedInstance {
   };
 }
 
-// export const HandledFormError = new Error('Handled form error');
-
 export const toastError = {
   description: '',
   duration: null,
