@@ -1,5 +1,5 @@
 import React from 'react';
-import { mapValues } from 'lodash';
+import { mapValues, omit } from 'lodash';
 
 import { storiesOf } from '@storybook/react';
 import Marked from 'storybook-readme/components/Marked';
@@ -24,8 +24,9 @@ const props = {
   };
 
 storiesOf('Types', module)
-  .add('Displaying', () => <Card {...props} />)
+  .add('Creating', () => <FormCard {...formCardPropsFactory.build()} {...omit(props, 'model')} />)
   .add('Editing', () => <FormCard {...formCardPropsFactory.build()} {...props} />)
+  .add('Displaying', () => <Card {...props} />)
   .add('objectSearchCreate', () => (
     <>
       <Marked md={`# { type: 'objectSearchCreate' }`} />
