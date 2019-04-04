@@ -78,7 +78,8 @@ class Birthday extends Component<IInputProps> {
   }
 
   private renderFieldInput (field: IField) {
-    const { style } = inputConfig[field]
+    const { id } = this.injected
+      , { style } = inputConfig[field]
       , placeholder = varToLabel(field)
       , defaultValue = this.getValueField(field)
       , onChange = (event: any) => this.onChange(field, event.target.value)
@@ -88,7 +89,7 @@ class Birthday extends Component<IInputProps> {
       <span style={{ display: 'inline-block', ...style }}>
         <Antd.Input
           defaultValue={defaultValue}
-          id={field}
+          id={[id, field].join('.')}
           onChange={onChange}
           placeholder={placeholder}
         />
