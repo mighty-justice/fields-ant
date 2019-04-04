@@ -26,14 +26,14 @@ import {
   parseAndPreserveNewlines,
 } from '@mighty-justice/utils';
 
+import Birthdate, { isValidDate } from '../inputs/Birthdate';
 import ObjectSearchCreate from '../inputs/ObjectSearchCreate';
 import OptionSelect from '../inputs/OptionSelect';
 import RadioGroup from '../inputs/RadioGroup';
 import Rate, { formatRating } from '../inputs/Rate';
 import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
 import { IModel, IValue } from '../props';
-import { REGEXP_PHONE, REGEXP_SSN } from '../consts';
-import Birthdate from '../inputs/Birthdate';
+import { REGEXP_SSN } from '../consts';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -61,10 +61,6 @@ function booleanFromForm (value: IValue) {
     }
   }
   return value;
-}
-
-function isValidDate (value: string) {
-  return !!value && value.length === '####-##-##'.length && moment(value).isValid();
 }
 
 export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
