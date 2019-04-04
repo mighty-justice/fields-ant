@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import moment from 'moment';
-import { isNumber } from 'lodash';
+import { observer } from 'mobx-react';
+import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
@@ -10,102 +10,96 @@ import {
   IInputProps,
 } from '../interfaces';
 
-interface IInputConfig {
-  max: number;
-  min: number;
-  placeholder: string;
-  // style: { width: string };
+type IField = 'years' | 'date' | 'months';
+
+interface IValueObject {
+  years: string;
+  date: string;
+  months: string;
 }
 
-const inputConfig: { [key: string]: IInputConfig } = {
+interface IInputConfig {
+  placeholder: string;
+  padStart: number;
+  style: { width: string, marginRight?: string };
+}
+
+const inputConfig: {
+  date: IInputConfig,
+  months: IInputConfig,
+  years: IInputConfig,
+} = {
   date: {
-    max: 31,
-    min: 1,
+    padStart: 2,
     placeholder: 'Day',
-    // style: { width: '25%' },
+    style: { width: '23%', marginRight: '3%' },
   },
   months: {
-    max: 12,
-    min: 1,
+    padStart: 2,
     placeholder: 'Month',
-    // style: { width: '25%' },
+    style: { width: '23%', marginRight: '3%' },
   },
   years: {
-    max: 3000,
-    min: 1000,
+    padStart: 0,
     placeholder: 'Year',
-    // style: { width: '50%' },
+    style: { width: '48%' },
   },
 };
 
+@autoBindMethods
+@observer
 class Birthdate extends Component<IInputProps> {
   private get injected () {
     return this.props as IInjected & IInputProps & IAntFormField;
   }
 
-  private get value () {
-    return this.injected.value as moment.Moment | null;
-  }
-
-  private static isWAT (field: string, fieldValue: number) {
-    // This function is for dealing with a JS WAT
-    // https://www.destroyallsoftware.com/talks/wat
-
-    // Months start with zero in JS because of Java
-    // https://stackoverflow.com/a/41992352/224873
-    // Months start with zero in Java because of C
-    // Months start with zero in C because of array indexing
-    // Arrays start with zero because of pointer math
-    return field === 'months' && isNumber(fieldValue);
-  }
-
-  private getValueField (field: string) {
+  private get valueObject (): IValueObject {
     const { value } = this.injected
-      , fieldValue = value && value.toObject()[field]
-      , numVal = Birthdate.isWAT(field, fieldValue) ? fieldValue + 1 : fieldValue
+      , [years, months, date] = value.split('-');
+
+    return { years, months, date };
+  }
+
+  private getValueField (field: IField) {
+    return this.valueObject[field] || '';
+  }
+
+  private onChange (field: IField, inputValue: string) {
+    const valueObject = {
+        ...this.valueObject,
+        [field]: inputValue && inputValue.padStart(inputConfig[field].padStart, '0'),
+      }
+      , { years, date, months } = valueObject;
+
+    const value = [years, months, date].join('-');
+    this.injected.onChange(value);
+  }
+
+  private renderFieldInput (field: IField) {
+    const { style, placeholder } = inputConfig[field]
+      , defaultValue = this.getValueField(field)
+      , onChange = (event: any) => this.onChange(field, event.target.value)
       ;
 
-    return numVal && numVal.toString();
-  }
-
-  private onChange (field: string, inputValue: string) {
-    const valueObject = !!this.value ? this.value.toObject() : {}
-      , fieldValue = Number(inputValue)
-      , adjustedValue = fieldValue && Birthdate.isWAT(field, fieldValue) ? fieldValue - 1 : fieldValue;
-
-    console.log({ field, adjustedValue, valueObject });
-    console.log(moment({ ...valueObject, [field]: adjustedValue }))
-
-    this.injected.onChange(moment({
-      ...valueObject,
-      [field]: adjustedValue,
-    }));
-  }
-
-  private getInputProps (field: string) {
-    return {
-      ...inputConfig[field],
-      defaultValue: this.getValueField(field),
-      id: field,
-      onChange: (event: any) => this.onChange(field, event.target.value),
-    };
+    return (
+      <span style={{ display: 'inline-block', ...style }}>
+        <Antd.Input
+          defaultValue={defaultValue}
+          id={field}
+          onChange={onChange}
+          placeholder={placeholder}
+        />
+      </span>
+    );
   }
 
   public render () {
     return (
-      <>
-        <Antd.Input.Group compact>
-          <span style={{ display: 'inline-block', width: '23%', marginRight: '3%' }}>
-            <Antd.Input {...this.getInputProps('months')} />
-          </span>
-          <span style={{ display: 'inline-block', width: '23%', marginRight: '3%' }}>
-            <Antd.Input {...this.getInputProps('date')} />
-          </span>
-          <span style={{ display: 'inline-block', width: '48%' }}>
-            <Antd.Input {...this.getInputProps('years')} />
-          </span>
-        </Antd.Input.Group>
-      </>
+      <Antd.Input.Group compact>
+        {this.renderFieldInput('months')}
+        {this.renderFieldInput('date')}
+        {this.renderFieldInput('years')}
+      </Antd.Input.Group>
     );
   }
 }

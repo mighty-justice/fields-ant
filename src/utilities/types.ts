@@ -32,7 +32,7 @@ import RadioGroup from '../inputs/RadioGroup';
 import Rate, { formatRating } from '../inputs/Rate';
 import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
 import { IModel, IValue } from '../props';
-import { REGEXP_DATE, REGEXP_PHONE, REGEXP_SSN } from '../consts';
+import { REGEXP_PHONE, REGEXP_SSN } from '../consts';
 import Birthdate from '../inputs/Birthdate';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
@@ -63,19 +63,20 @@ function booleanFromForm (value: IValue) {
   return value;
 }
 
+function isValidDate (value: string) {
+  return !!value && value.length === '####-##-##'.length && moment(value).isValid();
+}
+
 export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   birthdate: {
     editComponent: Birthdate,
     formValidationRules: {
       isValidDate: {
+        fieldsValidator: isValidDate,
         message: 'Must be a valid date',
-        pattern: REGEXP_DATE,
-        type: 'regexp',
       },
     },
-    fromForm: (value: any) => value && format(value, 'YYYY-MM-DD'),
     render: passRenderOnlyValue(formatDate),
-    toForm: (value: any) => (value || null) && moment(value),
   },
   boolean: {
     editComponent: OptionSelect,
@@ -176,13 +177,6 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   },
   phone: {
     editComponent: Antd.Input,
-    formValidationRules: {
-      isPhoneNumber: {
-        message: 'Must be a valid phone number',
-        pattern: REGEXP_PHONE,
-        type: 'regexp',
-      },
-    },
     render: passRenderOnlyValue(formatPhoneNumber),
   },
   radio: {
@@ -202,7 +196,6 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
       ssn: {
         message: 'Must be a valid social security number',
         pattern: REGEXP_SSN,
-        type: 'regexp',
       },
     },
     render: passRenderOnlyValue(formatSocialSecurityNumber),
