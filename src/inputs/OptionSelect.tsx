@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { inject } from 'mobx-react';
+import { isBoolean } from 'lodash';
 
 import * as Antd from 'antd';
 
@@ -35,6 +36,18 @@ class OptionSelect extends Component<IOptionSelectProps> {
     return getOptions(this.fieldConfig, this.injected);
   }
 
+  private get showSearch (): boolean {
+    // 8 is the most number of options you can show with no scroll
+    const SHOW_SEARCH_IF_OVER = 8;
+
+    // the showSearch fieldConfig option will override this
+    if (isBoolean(this.fieldConfig.showSearch)) {
+      return this.fieldConfig.showSearch;
+    }
+
+    return this.options.length > SHOW_SEARCH_IF_OVER;
+  }
+
   public render () {
     const { renderOption } = this.props;
 
@@ -42,7 +55,7 @@ class OptionSelect extends Component<IOptionSelectProps> {
       <Antd.Select
         allowClear
         optionFilterProp='children'
-        showSearch={!!this.fieldConfig.showSearch}
+        showSearch={this.showSearch}
         {...this.props}
       >
         {this.options.map(option => (
