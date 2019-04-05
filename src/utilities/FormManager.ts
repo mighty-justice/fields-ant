@@ -35,6 +35,7 @@ interface IArgs {
   model: IModel;
   onSave: (data: IModel) => void | Promise<void>;
   onSuccess: () => any | Promise<any>;
+  processErrors: (errors: IBackendValidation) => IBackendValidation;
 }
 
 interface IFormWrappedInstance {
@@ -63,6 +64,7 @@ class FormManager {
       model: {},
       onSave: noop,
       onSuccess: noop,
+      processErrors: (errors) => errors,
       ...pickBy(args, value => value !== undefined),
     };
   }
@@ -173,7 +175,7 @@ class FormManager {
 
   private notifyUserAboutErrors (errors: IErrorMessage[]) {
     errors.forEach(({ field, message }) => {
-      const description = `${field} - ${message}`;
+      const description = [field, message].filter(s => !!s).join(' - ');
       Antd.notification.error({ ...toastError, description });
     });
   }
@@ -185,8 +187,8 @@ class FormManager {
     response. If so, we will try to assign those validation errors to fields, and if that fails
     we will display them in toast notifications.
     */
-    const status = get(error, 'response.status') as undefined | number
-      , backendErrors: IBackendValidation = { foundOnForm: {}, errorMessages: [] };
+    const status = get(error, 'response.status') as undefined | number;
+    let backendErrors: IBackendValidation = { foundOnForm: {}, errorMessages: [] };
 
     function logError () {
       // tslint:disable-next-line no-console
@@ -214,6 +216,8 @@ class FormManager {
       backendErrors.foundOnForm = {...backendErrors.foundOnForm, ...foundOnForm };
     }
 
+    // This gives the user an opportunity to override, rewrite, or add errors
+    backendErrors = this.args.processErrors(backendErrors);
     this.setErrorsOnFormFields(backendErrors.foundOnForm);
     this.notifyUserAboutErrors(backendErrors.errorMessages);
   }
