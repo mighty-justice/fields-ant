@@ -29,6 +29,7 @@ export const fakeTextShort = () => faker.random.words(3);
 
 export const fakeBoolean = () => sample([true, false]);
 export const fakeDateRecent = () => format(faker.date.recent(), 'YYYY-MM-DD');
+export const fakeBirthdate = () => format(faker.date.past(100), 'YYYY-MM-DD');
 export const fakeDuration = () => faker.helpers.replaceSymbolWithNumber('P#Y');
 export const fakeField = () => faker.random.words(3).replace(/[^A-Za-z ]/g, '').replace(/ /g, '_').toLowerCase();
 export const fakeObjectSearchCreate = () => ({ name: fakeTextShort(), id: faker.random.uuid() });
@@ -56,6 +57,7 @@ export function fieldFactoryForType (type: string) {
     .attrs({ type });
 }
 
+export const birthdateFactory = fieldFactoryForType('birthdate');
 export const booleanFactory = fieldFactoryForType('boolean');
 export const dateFactory = fieldFactoryForType('date');
 export const durationFactory = fieldFactoryForType('duration');
@@ -176,6 +178,7 @@ interface ITypeGenerators {
 }
 
 export const TYPE_GENERATORS: ITypeGenerators = {
+  birthdate: { valueFunction: fakeBirthdate, fieldConfigFactory: birthdateFactory },
   boolean: { valueFunction: fakeBoolean, fieldConfigFactory: booleanFactory },
   date: { valueFunction: fakeDateRecent, fieldConfigFactory: dateFactory },
   duration: { valueFunction: fakeDuration, fieldConfigFactory: durationFactory },
@@ -205,6 +208,7 @@ export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
     return [type, [value, value]];
   })),
 
+  birthdate: ['2017-11-22', '11/22/17'],
   boolean: sample([[true, 'Yes'], [false, 'No']]) as [boolean, string],
   date: ['2017-11-22', '11/22/17'],
   hidden: [TYPE_GENERATORS.hidden.valueFunction(), SKIP],

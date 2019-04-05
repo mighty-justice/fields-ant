@@ -10,6 +10,7 @@ import {
 } from '../interfaces';
 
 import {
+  DATE_FORMATS,
   EMPTY_FIELD,
   formatCommaSeparatedNumber,
   formatDate,
@@ -25,15 +26,14 @@ import {
   parseAndPreserveNewlines,
 } from '@mighty-justice/utils';
 
+import Birthdate, { isValidDate } from '../inputs/Birthdate';
 import ObjectSearchCreate from '../inputs/ObjectSearchCreate';
 import OptionSelect from '../inputs/OptionSelect';
 import RadioGroup from '../inputs/RadioGroup';
 import Rate, { formatRating } from '../inputs/Rate';
 import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
 import { IModel, IValue } from '../props';
-import { REGEXP_PHONE, REGEXP_SSN } from '../consts';
-
-import { falseyToString } from './common';
+import { REGEXP_SSN } from '../consts';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -64,6 +64,16 @@ function booleanFromForm (value: IValue) {
 }
 
 export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
+  birthdate: {
+    editComponent: Birthdate,
+    formValidationRules: {
+      isValidDate: {
+        fieldsValidator: isValidDate,
+        message: 'Must be a valid date',
+      },
+    },
+    render: passRenderOnlyValue(formatDate),
+  },
   boolean: {
     editComponent: OptionSelect,
     fieldConfigProp: true,
@@ -75,6 +85,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   },
   date: {
     editComponent: Antd.DatePicker,
+    editProps: { format: DATE_FORMATS.date },
     fromForm: (value: any) => value && format(value, 'YYYY-MM-DD'),
     render: passRenderOnlyValue(formatDate),
     toForm: (value: any) => (value || null) && moment(value),
@@ -118,7 +129,6 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     },
     nullify: true,
     render: passRenderOnlyValue(formatMoney),
-    toForm: falseyToString,
   },
   number: {
     editComponent: Antd.Input,
@@ -140,8 +150,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: passRenderOnlyValueAndFieldConfig(formatOptionSelect),
   },
   password: {
-    editComponent: Antd.Input,
-    editProps: { type: 'password' },
+    editComponent: Antd.Input.Password,
     render: (value) => value ? '********' : EMPTY_FIELD,
   },
   percentage: {
@@ -164,13 +173,6 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   },
   phone: {
     editComponent: Antd.Input,
-    formValidationRules: {
-      isPhoneNumber: {
-        message: 'Must be a valid phone number',
-        pattern: REGEXP_PHONE,
-        type: 'regexp',
-      },
-    },
     render: passRenderOnlyValue(formatPhoneNumber),
   },
   radio: {
@@ -190,7 +192,6 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
       ssn: {
         message: 'Must be a valid social security number',
         pattern: REGEXP_SSN,
-        type: 'regexp',
       },
     },
     render: passRenderOnlyValue(formatSocialSecurityNumber),

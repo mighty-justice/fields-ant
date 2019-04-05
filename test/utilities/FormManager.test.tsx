@@ -4,7 +4,6 @@ import * as Antd from 'antd';
 import { Tester } from '@mighty-justice/tester';
 
 import { FormCard, IFieldSetPartial } from '../../src';
-import { toastError } from '../../src/utilities/FormManager';
 
 async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
   const props = {
