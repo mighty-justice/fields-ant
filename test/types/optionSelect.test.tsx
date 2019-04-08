@@ -4,6 +4,7 @@ import faker from 'faker';
 import { Card, FormCard, IFieldConfig } from '../../src';
 import { fakeTextShort } from '../factories';
 import Form from '../../src/components/Form';
+import { SHOW_OPTION_SEARCH_IF_OVER } from '../../src/inputs/OptionSelect';
 
 const field = 'is_open'
   , optionType = 'yesNo'
@@ -63,14 +64,14 @@ describe('optionSelect', () => {
   });
 
   it('Shows search for large data sets, or on command', async () => {
-    // tslint:disable no-magic-numbers
-    const states = Array(50).map((_v: any) => ({
+    const states = Array(SHOW_OPTION_SEARCH_IF_OVER + 1).map((_v: any) => ({
         name: fakeTextShort(),
         value: faker.random.uuid(),
       }))
+      , belowCutoff = states.slice(0, SHOW_OPTION_SEARCH_IF_OVER - 1)
       , fieldConfig = { field, options: states, optionType: 'state', type };
 
-    function getPropsFor (overrides: Partial<IFieldConfig> = {}) {
+    function getProps (overrides: Partial<IFieldConfig> = {}) {
       return { props: { fieldSets: [[{ ...fieldConfig, ...overrides }]] } };
     }
 
@@ -78,15 +79,15 @@ describe('optionSelect', () => {
       return !!tester.find('input').length;
     }
 
-    async function expectIsSearchable (overrides: Partial<IFieldConfig>, tobe: boolean)  {
-      const tester = await new Tester(Form, getPropsFor(overrides)).mount();
-      expect(isSearchable(tester)).toBe(tobe);
+    async function expectIsSearchable (overrides: Partial<IFieldConfig>, expectedValue: boolean) {
+      const tester = await new Tester(Form, getProps(overrides)).mount();
+      expect(isSearchable(tester)).toBe(expectedValue);
      }
 
     expectIsSearchable({}, true);
     expectIsSearchable({ showSearch: false }, false);
 
-    expectIsSearchable({ options: states.slice(0, 5) }, false);
-    expectIsSearchable({ options: states.slice(0, 5), showSearch: true }, true);
+    expectIsSearchable({ options: belowCutoff }, false);
+    expectIsSearchable({ options: belowCutoff, showSearch: true }, true);
   });
 });
