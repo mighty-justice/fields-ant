@@ -1,6 +1,9 @@
 import { Tester } from '@mighty-justice/tester';
+import faker from 'faker';
 
-import { Card, FormCard } from '../../src';
+import { Card, FormCard, IFieldConfig } from '../../src';
+import { fakeTextShort } from '../factories';
+import Form from '../../src/components/Form';
 
 const field = 'is_open'
   , optionType = 'yesNo'
@@ -57,5 +60,33 @@ describe('optionSelect', () => {
     expect(tester.text()).not.toContain('No');
     expect(tester.text()).not.toContain('Yes');
     expect(tester.text()).not.toContain('2 Values');
+  });
+
+  it('Shows search for large data sets, or on command', async () => {
+    // tslint:disable no-magic-numbers
+    const states = Array(50).map((_v: any) => ({
+        name: fakeTextShort(),
+        value: faker.random.uuid(),
+      }))
+      , fieldConfig = { field, options: states, optionType: 'state', type };
+
+    function getPropsFor (overrides: Partial<IFieldConfig> = {}) {
+      return { props: { fieldSets: [[{ ...fieldConfig, ...overrides }]] } };
+    }
+
+    function isSearchable (tester: Tester) {
+      return !!tester.find('input').length;
+    }
+
+    async function expectIsSearchable (overrides: Partial<IFieldConfig>, tobe: boolean)  {
+      const tester = await new Tester(Form, getPropsFor(overrides)).mount();
+      expect(isSearchable(tester)).toBe(tobe);
+     }
+
+    expectIsSearchable({}, true);
+    expectIsSearchable({ showSearch: false }, false);
+
+    expectIsSearchable({ options: states.slice(0, 5) }, false);
+    expectIsSearchable({ options: states.slice(0, 5), showSearch: true }, true);
   });
 });
