@@ -1,9 +1,2 @@
-export default function backendValidation(fieldNames: string[], response: object): {
-    errorMessages: {
-        field: string;
-        message: string;
-    }[];
-    foundOnForm: {
-        [key: string]: string;
-    };
-};
+import { IBackendValidation } from './FormManager';
+export default function backendValidation(fieldNames: string[], response: object): IBackendValidation;
