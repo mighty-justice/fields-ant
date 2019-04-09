@@ -1,5 +1,4 @@
 /// <reference types="react" />
-import { IBackendValidation } from './utilities/FormManager';
 export { IButtonToolbarProps } from './building-blocks/ButtonToolbar';
 export { ICardFieldProps } from './building-blocks/CardField';
 export { ICardFieldSetProps } from './building-blocks/CardFieldSet';
@@ -45,6 +44,5 @@ export interface ISharedFormProps {
     onCancel?: () => void;
     onSave: (data: object) => any | Promise<any>;
     onSuccess: () => any | Promise<any>;
-    processErrors?: (errors: IBackendValidation) => IBackendValidation;
     saveText: string;
 }
