@@ -153,7 +153,7 @@
     "@mighty-justice/utils": "1.2.1",
     "class-autobind-decorator": "3.0.1",
     "classnames": "2.2.6",
-    "date-fns": "^1.0.0",
+    "date-fns": "1.30.1",
     "flat": "^4.0.0",
     "http-status-codes": "^1.0.0",
     "iso8601-duration": "^1.0.0"
