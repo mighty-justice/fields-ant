@@ -149,10 +149,10 @@
     "typescript": "^3.3.4000"
   },
   "dependencies": {
-    "@mighty-justice/smart-bool": "^1.0.0",
-    "@mighty-justice/utils": "^1.0.0",
-    "class-autobind-decorator": "^3.0.0",
-    "classnames": "^2.0.0",
+    "@mighty-justice/smart-bool": "1.0.0",
+    "@mighty-justice/utils": "1.2.1",
+    "class-autobind-decorator": "3.0.1",
+    "classnames": "2.2.6",
     "date-fns": "^1.0.0",
     "flat": "^4.0.0",
     "http-status-codes": "^1.0.0",

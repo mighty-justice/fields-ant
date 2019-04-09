@@ -1453,7 +1453,7 @@
     "@types/istanbul-lib-coverage" "^2.0.0"
     "@types/yargs" "^12.0.9"
 
-"@mighty-justice/smart-bool@^1.0.0":
+"@mighty-justice/smart-bool@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@mighty-justice/smart-bool/-/smart-bool-1.0.0.tgz#12e74e770d0f11b466b4bf1f0ce1cb1b6b8b5280"
   integrity sha512-vWvB6vEvmPdFg4Qrv2lALFR0Bz/EG1X604xRVsyQ2oYUV7twwkmA24UQsfrhPXGrs0KWTJJo2GOlgCLONbk8kg==
@@ -1473,7 +1473,7 @@
     tslint-eslint-rules "^5.4"
     tslint-react "^3.6"
 
-"@mighty-justice/utils@^1.0.0":
+"@mighty-justice/utils@1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@mighty-justice/utils/-/utils-1.2.1.tgz#29cfaf6322a15bc7f21f4be6e573a339dec4be9f"
   integrity sha512-ClSxrOAbZVNURlSx/8c22Z3H0i8XIWqdbhcjpt/7eH64MTgtVNRmMqB2ttZE6jbFh2WDR5hbdvE1cne8ORkAcg==
@@ -3841,7 +3841,7 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-class-autobind-decorator@^3.0.0, class-autobind-decorator@^3.0.1:
+class-autobind-decorator@3.0.1, class-autobind-decorator@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/class-autobind-decorator/-/class-autobind-decorator-3.0.1.tgz#e55912cd79eed3b9244b6df4835b3d6fedde9c69"
   integrity sha512-/5QCUe6KYGIMDDFEI/UrVc3egWVTVhuK00ppY/8sS/9f0KapY5Y2TirBbM1qICRq0p0WafuTaMfEGL2GKHcN0Q==
@@ -3856,7 +3856,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@2.x, classnames@^2.0.0, classnames@^2.2.0, classnames@^2.2.1, classnames@^2.2.3, classnames@^2.2.5, classnames@^2.2.6, classnames@~2.2.6:
+classnames@2.2.6, classnames@2.x, classnames@^2.2.0, classnames@^2.2.1, classnames@^2.2.3, classnames@^2.2.5, classnames@^2.2.6, classnames@~2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
