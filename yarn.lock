@@ -1201,10 +1201,10 @@
     "@types/istanbul-lib-coverage" "^1.1.0"
     "@types/yargs" "^12.0.9"
 
-"@mighty-justice/smart-bool@^0":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@mighty-justice/smart-bool/-/smart-bool-0.3.2.tgz#7df667f1c3a93428fa3395d9d1dbd12542079454"
-  integrity sha512-2BBsbiUul/x0KlIll67PrmFhO0ssToDsrILWLA5vSe0C+ySwNb8blV7WbLt8q+jBQtS7R12ry3LaqnfszbPL2g==
+"@mighty-justice/smart-bool@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@mighty-justice/smart-bool/-/smart-bool-1.0.0.tgz#12e74e770d0f11b466b4bf1f0ce1cb1b6b8b5280"
+  integrity sha512-vWvB6vEvmPdFg4Qrv2lALFR0Bz/EG1X604xRVsyQ2oYUV7twwkmA24UQsfrhPXGrs0KWTJJo2GOlgCLONbk8kg==
   dependencies:
     class-autobind-decorator "^3.0.1"
 
@@ -1221,18 +1221,17 @@
     tslint-eslint-rules "^5.4"
     tslint-react "^3.6"
 
-"@mighty-justice/utils@^1":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@mighty-justice/utils/-/utils-1.1.2.tgz#2c227861b8604f1275452c25a6af66d4b4599e83"
-  integrity sha512-ofXq129G+4TeZKCbvwZCunDUN3bej8tPOYyASpf5eVKs14fH3sF/mHX8361v3K7jRb9kR02f5M/8nY1Ayg69iQ==
+"@mighty-justice/utils@^1.0.0":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@mighty-justice/utils/-/utils-1.2.1.tgz#29cfaf6322a15bc7f21f4be6e573a339dec4be9f"
+  integrity sha512-ClSxrOAbZVNURlSx/8c22Z3H0i8XIWqdbhcjpt/7eH64MTgtVNRmMqB2ttZE6jbFh2WDR5hbdvE1cne8ORkAcg==
   dependencies:
     classnames "^2.2.6"
     date-fns "^1.30.1"
     decimal.js "^10.1.1"
     html-react-parser "0.6.1"
     iso8601-duration "^1.1.7"
-    mobx "^5.9.0"
-    mobx-react "^5.4.3"
+    moment "^2.24.0"
     numeral "^2.0.6"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
@@ -2272,10 +2271,10 @@ ant-design-palettes@^1.1.3:
   dependencies:
     tinycolor2 "^1.4.1"
 
-antd@^3:
-  version "3.16.1"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-3.16.1.tgz#1d253931fc33e960f22025bef2d5c1548116ec6c"
-  integrity sha512-dtWLOvBm04/0Rkk8t/83DG8i3l+QRIxqDdPJyelrZV4dOiczNMJ/wEjdAq/DhTGVx3fUI5JolpmSUZLNJCNsWg==
+antd@^3.0.0:
+  version "3.16.2"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-3.16.2.tgz#a3b4a844a6de82e6c87c96f88dda2317f4d89075"
+  integrity sha512-VaGvXJePhH4O6KmLNkUTfUFyxy/BTi7Ml9P1Df7N3TCK0A8+YSiMNfrD2QjiMDOj3FLwI4FwaznDPj4DAGn/Uw==
   dependencies:
     "@ant-design/icons" "~1.2.0"
     "@ant-design/icons-react" "~1.1.2"
@@ -3559,7 +3558,7 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-class-autobind-decorator@^3, class-autobind-decorator@^3.0.1:
+class-autobind-decorator@^3.0.0, class-autobind-decorator@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/class-autobind-decorator/-/class-autobind-decorator-3.0.1.tgz#e55912cd79eed3b9244b6df4835b3d6fedde9c69"
   integrity sha512-/5QCUe6KYGIMDDFEI/UrVc3egWVTVhuK00ppY/8sS/9f0KapY5Y2TirBbM1qICRq0p0WafuTaMfEGL2GKHcN0Q==
@@ -3574,7 +3573,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@2.x, classnames@^2, classnames@^2.2.0, classnames@^2.2.1, classnames@^2.2.3, classnames@^2.2.5, classnames@^2.2.6, classnames@~2.2.6:
+classnames@2.x, classnames@^2.0.0, classnames@^2.2.0, classnames@^2.2.1, classnames@^2.2.3, classnames@^2.2.5, classnames@^2.2.6, classnames@~2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
@@ -4196,7 +4195,7 @@ data-urls@^1.0.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
-date-fns@^1, date-fns@^1.27.2, date-fns@^1.30.1:
+date-fns@^1.0.0, date-fns@^1.27.2, date-fns@^1.30.1:
   version "1.30.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
@@ -5334,7 +5333,7 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-flat@^4:
+flat@^4.0.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/flat/-/flat-4.1.0.tgz#090bec8b05e39cba309747f1d588f04dbaf98db2"
   integrity sha512-Px/TiLIznH7gEDlPXcUD4KnBusa6kR6ayRUVcnEAbreRIuhkqow/mun59BuRXwoYk7ZQOLW1ZM05ilIvK38hFw==
@@ -6102,7 +6101,7 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
-http-status-codes@^1:
+http-status-codes@^1.0.0:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/http-status-codes/-/http-status-codes-1.3.2.tgz#181dfa4455ef454e5e4d827718fca3936680d10d"
   integrity sha512-nDUtj0ltIt08tGi2VWSpSzNNFye0v3YSe9lX3lIqLTuVvvRiYCvs4QQBSHo0eomFYw1wlUuofurUAlTm+vHnXg==
@@ -6733,7 +6732,7 @@ ismobilejs@^0.5.1:
   resolved "https://registry.yarnpkg.com/ismobilejs/-/ismobilejs-0.5.1.tgz#0e3f825e29e32f84ad5ddbb60e9e04a894046488"
   integrity sha512-QX4STsOcBYqlTjVGuAdP1MiRVxtiUbRHOKH0v7Gn1EvfUVIQnrSdgCM4zB4VCZuIejnb2NUMUx0Bwd3EIG6yyA==
 
-iso8601-duration@^1, iso8601-duration@^1.1.7:
+iso8601-duration@^1.0.0, iso8601-duration@^1.1.7:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/iso8601-duration/-/iso8601-duration-1.2.0.tgz#5fa6fc180a8fe95ad6a6721c9bdd9069cb59e80e"
   integrity sha512-ErTBd++b17E8nmWII1K1uZtBgD1E8RjyvwmxlCjPHNqHMD7gmcMHOw0E8Ro/6+QT4PhHRSnnMo7bxa1vFPkwhg==
@@ -7691,7 +7690,7 @@ lodash.zip@^4.2.0:
   resolved "https://registry.yarnpkg.com/lodash.zip/-/lodash.zip-4.2.0.tgz#ec6662e4896408ed4ab6c542a3990b72cc080020"
   integrity sha1-7GZi5IlkCO1KtsVCo5kLcswIACA=
 
-lodash@^4, lodash@^4.15.0, lodash@^4.16.5, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0:
+lodash@^4.0.0, lodash@^4.15.0, lodash@^4.16.5, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
@@ -8173,7 +8172,7 @@ mkdirp@0.5.1, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   dependencies:
     minimist "0.0.8"
 
-mobx-react@^5, mobx-react@^5.4.3:
+mobx-react@^5.0.0:
   version "5.4.3"
   resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-5.4.3.tgz#6709b7dd89670c40e9815914ac2ca49cc02bfb47"
   integrity sha512-WC8yFlwvJ91hy8j6CrydAuFteUafcuvdITFQeHl3LRIf5ayfT/4W3M/byhEYD2BcJWejeXr8y4Rh2H26RunCRQ==
@@ -8181,15 +8180,10 @@ mobx-react@^5, mobx-react@^5.4.3:
     hoist-non-react-statics "^3.0.0"
     react-lifecycles-compat "^3.0.2"
 
-mobx@^5:
+mobx@^5.0.0:
   version "5.9.4"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.9.4.tgz#1dee92aba33f67b7baeeb679e3bd376a12e55812"
   integrity sha512-L9JjTX2rtQUAhCIgnHokfntNOsF14uioT9LqStf6Mya+16j56ZBe21E8Y9V59tfr2aH2kLQPD10qtCJXBuTAxw==
-
-mobx@^5.9.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.9.0.tgz#a08edd7132787f771409c9c33788a5df66ff7ce7"
-  integrity sha512-D3mY1uM3H9BP5duk5tTanrOq92yqetYKsprPJWvkKDrbs+fro59xrpWX+vtr10YoLgJIFz+a4A8lI+4YtqmCUQ==
 
 mocha@^5.2.0:
   version "5.2.0"
@@ -8208,7 +8202,7 @@ mocha@^5.2.0:
     mkdirp "0.5.1"
     supports-color "5.4.0"
 
-moment@2.x, moment@^2, moment@^2.24.0:
+moment@2.x, moment@^2.0.0, moment@^2.24.0:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
@@ -10277,7 +10271,7 @@ react@15:
     object-assign "^4.1.0"
     prop-types "^15.5.10"
 
-react@^16:
+react@^16.0.0:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react/-/react-16.8.6.tgz#ad6c3a9614fd3a4e9ef51117f54d888da01f2bbe"
   integrity sha512-pC0uMkhLaHm11ZSJULfOBqV4tIZkx87ZLvbbQYunNixAAvjnC+snJCg0XQXn9VIsttVsbZP/H/ewzgsd5fxKXw==

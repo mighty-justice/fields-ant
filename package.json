@@ -72,19 +72,12 @@
     "index.js"
   ],
   "peerDependencies": {
-    "@mighty-justice/smart-bool": "0",
-    "@mighty-justice/utils": "1",
-    "antd": "3",
-    "class-autobind-decorator": "3",
-    "classnames": "2",
-    "date-fns": "1",
-    "flat": "4",
-    "iso8601-duration": "1",
-    "lodash": "4",
-    "mobx": "5",
-    "mobx-react": "5",
-    "moment": "2",
-    "react": "16"
+    "antd": "^3.0.0",
+    "lodash": "^4.0.0",
+    "mobx": "^4.0.0 || ^5.0.0",
+    "mobx-react": "^5.0.0",
+    "moment": "^2.0.0",
+    "react": "^16.0.0"
   },
   "resolutions": {
     "babel-core": "7.0.0-bridge.0"
@@ -121,6 +114,7 @@
     "@types/storybook__addon-actions": "^3.4.2",
     "@types/storybook__addon-info": "^4.1.1",
     "@types/storybook__react": "^4.0.1",
+    "antd": "^3.0.0",
     "auto-changelog": "^1.12.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.5",
@@ -133,7 +127,12 @@
     "gh-pages": "^2.0.1",
     "jest": "^24.5.0",
     "jest-environment-jsdom": "^24.5.0",
+    "lodash": "^4.0.0",
+    "mobx": "^5.0.0",
+    "mobx-react": "^5.0.0",
+    "moment": "^2.0.0",
     "np": "^4.0.2",
+    "react": "^16.0.0",
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
     "react-dom": "^16.8.4",
     "regenerator-runtime": "^0.13.2",
@@ -150,19 +149,13 @@
     "typescript": "^3.3.4000"
   },
   "dependencies": {
-    "@mighty-justice/smart-bool": "^0",
-    "@mighty-justice/utils": "^1",
-    "antd": "^3",
-    "class-autobind-decorator": "^3",
-    "classnames": "^2",
-    "date-fns": "^1",
-    "flat": "^4",
-    "http-status-codes": "^1",
-    "iso8601-duration": "^1",
-    "lodash": "^4",
-    "mobx": "^5",
-    "mobx-react": "^5",
-    "moment": "^2",
-    "react": "^16"
+    "@mighty-justice/smart-bool": "^1.0.0",
+    "@mighty-justice/utils": "^1.0.0",
+    "class-autobind-decorator": "^3.0.0",
+    "classnames": "^2.0.0",
+    "date-fns": "^1.0.0",
+    "flat": "^4.0.0",
+    "http-status-codes": "^1.0.0",
+    "iso8601-duration": "^1.0.0"
   }
 }
