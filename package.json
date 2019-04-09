@@ -145,8 +145,8 @@
     "source-map-explorer": "^1.8.0",
     "storybook-readme": "^5.0.1",
     "style-loader": "^0.23.1",
-    "tslint": "^5.14.0",
-    "typescript": "^3.3.4000"
+    "tslint": "5.14.0",
+    "typescript": "3.3.4000"
   },
   "dependencies": {
     "@mighty-justice/smart-bool": "1.0.0",
