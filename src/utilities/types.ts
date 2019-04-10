@@ -22,11 +22,12 @@ import {
   getNameOrDefault,
   getPercentDisplay,
   getPercentValue,
+  isValidBirthdate,
   mapBooleanToText,
   parseAndPreserveNewlines,
 } from '@mighty-justice/utils';
 
-import Birthdate, { isValidDate } from '../inputs/Birthdate';
+import Birthdate from '../inputs/Birthdate';
 import ObjectSearchCreate from '../inputs/ObjectSearchCreate';
 import OptionSelect from '../inputs/OptionSelect';
 import RadioGroup from '../inputs/RadioGroup';
@@ -68,7 +69,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     editComponent: Birthdate,
     formValidationRules: {
       isValidDate: {
-        fieldsValidator: isValidDate,
+        fieldsValidator: isValidBirthdate,
         message: 'Must be a valid date',
       },
     },

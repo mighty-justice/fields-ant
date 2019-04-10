@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import moment from 'moment';
 
 import * as Antd from 'antd';
+
+import { inferCentury, varToLabel } from '@mighty-justice/utils';
 
 import {
   IAntFormField,
   IInjected,
   IInputProps,
 } from '../interfaces';
-import { varToLabel } from '@mighty-justice/utils';
 
 type IField = 'year' | 'day' | 'month';
 
@@ -21,12 +21,7 @@ interface IValueObject {
 }
 
 interface IInputConfig {
-  padStart: number;
   style: { width: string, marginRight?: string };
-}
-
-export function isValidDate (value: string) {
-  return !!value && value.length === '####-##-##'.length && moment(value).isValid();
 }
 
 const inputConfig: {
@@ -35,15 +30,12 @@ const inputConfig: {
   year: IInputConfig,
 } = {
   day: {
-    padStart: 2,
     style: { width: '23%', marginRight: '3%' },
   },
   month: {
-    padStart: 2,
     style: { width: '23%', marginRight: '3%' },
   },
   year: {
-    padStart: 0,
     style: { width: '48%' },
   },
 };
@@ -69,7 +61,7 @@ class Birthday extends Component<IInputProps> {
   private onChange (field: IField, inputValue: string) {
     const valueObject = {
         ...this.valueObject,
-        [field]: inputValue && inputValue.padStart(inputConfig[field].padStart, '0'),
+        [field]: (field === 'year') ? inferCentury(inputValue) : inputValue.padStart(2, '0'),
       }
       , { year, day, month } = valueObject;
 
