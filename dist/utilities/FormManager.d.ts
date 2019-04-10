@@ -1,11 +1,23 @@
 import { IFieldConfigPartial, IFieldSet } from '../interfaces';
 import { IForm, IModel } from '../props';
+export interface IFoundOnForm {
+    [key: string]: string;
+}
+export interface IErrorMessage {
+    field: string;
+    message: string;
+}
+export interface IBackendValidation {
+    errorMessages: IErrorMessage[];
+    foundOnForm: IFoundOnForm;
+}
 interface IArgs {
     defaults: IModel;
     fieldSets: IFieldSet[];
     model: IModel;
     onSave: (data: IModel) => void | Promise<void>;
     onSuccess: () => any | Promise<any>;
+    processErrors: (errors: IBackendValidation) => IBackendValidation;
 }
 interface IFormWrappedInstance {
     props: {
@@ -33,7 +45,7 @@ declare class FormManager {
     private onSuccess;
     private setErrorsOnFormFields;
     private notifyUserAboutErrors;
-    private handleBackendResponse;
+    private handleRequestError;
     private validateThenSaveCallback;
     onSave(event: any): Promise<void>;
 }
