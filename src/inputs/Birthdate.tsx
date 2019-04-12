@@ -30,19 +30,19 @@ const inputConfig: {
   year: IInputConfig,
 } = {
   day: {
-    style: { width: '23%', marginRight: '3%' },
+    style: { width: '29%', marginRight: '3%' },
   },
   month: {
-    style: { width: '23%', marginRight: '3%' },
+    style: { width: '29%', marginRight: '3%' },
   },
   year: {
-    style: { width: '48%' },
+    style: { width: '36%' },
   },
 };
 
 @autoBindMethods
 @observer
-class Birthday extends Component<IInputProps> {
+class Birthdate extends Component<IInputProps> {
   private get injected () {
     return this.props as IInjected & IInputProps & IAntFormField;
   }
@@ -100,4 +100,4 @@ class Birthday extends Component<IInputProps> {
   }
 }
 
-export default Birthday;
+export default Birthdate;
