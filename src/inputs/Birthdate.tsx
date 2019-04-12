@@ -30,13 +30,13 @@ const inputConfig: {
   year: IInputConfig,
 } = {
   day: {
-    style: { width: '27%', marginRight: '3%' },
+    style: { width: '29%', marginRight: '3%' },
   },
   month: {
-    style: { width: '27%', marginRight: '3%' },
+    style: { width: '29%', marginRight: '3%' },
   },
   year: {
-    style: { width: '40%' },
+    style: { width: '36%' },
   },
 };
 
