@@ -27577,8 +27577,7 @@
   }
 
   function isValidBirthdate(value) {
-    return !!value // Not empty
-    && value.length === '####-##-##'.length // ISO date
+    return !value || value.length === '####-##-##'.length // ISO date
     && moment(value).isValid() // Real day
     && moment(value).isBefore(moment()) // In the past
     ;
@@ -33316,35 +33315,35 @@
   var inputConfig = {
     day: {
       style: {
-        width: '23%',
+        width: '29%',
         marginRight: '3%'
       }
     },
     month: {
       style: {
-        width: '23%',
+        width: '29%',
         marginRight: '3%'
       }
     },
     year: {
       style: {
-        width: '48%'
+        width: '36%'
       }
     }
   };
 
-  var Birthday = autoBindMethods(_class$1 = mobxReact.observer(_class$1 =
+  var Birthdate = autoBindMethods(_class$1 = mobxReact.observer(_class$1 =
   /*#__PURE__*/
   function (_Component) {
-    _inherits(Birthday, _Component);
+    _inherits(Birthdate, _Component);
 
-    function Birthday() {
-      _classCallCheck(this, Birthday);
+    function Birthdate() {
+      _classCallCheck(this, Birthdate);
 
-      return _possibleConstructorReturn(this, _getPrototypeOf(Birthday).apply(this, arguments));
+      return _possibleConstructorReturn(this, _getPrototypeOf(Birthdate).apply(this, arguments));
     }
 
-    _createClass(Birthday, [{
+    _createClass(Birthdate, [{
       key: "getValueField",
       value: function getValueField(field) {
         return this.valueObject[field] || '';
@@ -33414,7 +33413,7 @@
       }
     }]);
 
-    return Birthday;
+    return Birthdate;
   }(React.Component)) || _class$1) || _class$1;
 
   function asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, key, arg) {
@@ -34619,7 +34618,7 @@
 
   var TYPES = {
     birthdate: {
-      editComponent: Birthday,
+      editComponent: Birthdate,
       formValidationRules: {
         isValidDate: {
           fieldsValidator: isValidBirthdate,

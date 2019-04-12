@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { IInputProps } from '../interfaces';
-declare class Birthday extends Component<IInputProps> {
+declare class Birthdate extends Component<IInputProps> {
     private readonly injected;
     private readonly valueObject;
     private getValueField;
@@ -8,4 +8,4 @@ declare class Birthday extends Component<IInputProps> {
     private renderFieldInput;
     render(): JSX.Element;
 }
-export default Birthday;
+export default Birthdate;
