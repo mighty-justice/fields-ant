@@ -14,11 +14,11 @@ import {
 
 import * as Antd from 'antd';
 
-import { IFieldConfigPartial, IFieldSet } from '../interfaces';
+import { IFieldConfig, IFieldSet } from '../interfaces';
 import { IForm, IModel } from '../props';
 
 import backendValidation from './backendValidation';
-import { fillInFieldConfig, getFieldSetsFields, modelFromFieldConfigs } from './common';
+import { getFieldSetsFields, modelFromFieldConfigs } from './common';
 import { ID_ATTR } from '../consts';
 
 export interface IFoundOnForm { [key: string]: string; }
@@ -78,9 +78,8 @@ class FormManager {
     return getFieldSetsFields(this.args.fieldSets);
   }
 
-  public getDefaultValue (fieldConfigPartial: IFieldConfigPartial) {
+  public getDefaultValue (fieldConfig: IFieldConfig) {
     const { model, defaults } = this.args
-      , fieldConfig = fillInFieldConfig(fieldConfigPartial)
       , modelToValue = (from: IModel) => get(from, fieldConfig.field)
       , modelToForm = (from: IModel) => fieldConfig.toForm(modelToValue(from), fieldConfig)
       ;
@@ -100,9 +99,8 @@ class FormManager {
     return modelToForm({ ...model, ...defaults });
   }
 
-  public getFormValue (fieldConfigPartial: IFieldConfigPartial) {
-    const fieldConfig = fillInFieldConfig(fieldConfigPartial)
-      , formValue = get(this.formValues, fieldConfig.field)
+  public getFormValue (fieldConfig: IFieldConfig) {
+    const formValue = get(this.formValues, fieldConfig.field)
       , convertedValue = fieldConfig.fromForm(formValue, fieldConfig)
       ;
 
@@ -126,21 +124,22 @@ class FormManager {
     WARNING: This will include many values you don't see on the page.
     Use submitModel to get the fully processed form state.
     */
-    const formValues: IModel = {};
+    const formModel: IModel = {}
+      , formValues = this.formValues;
 
     this.fieldConfigs.forEach(fieldConfig => {
-      const isInForm = has(this.formValues, fieldConfig.field)
+      const isInForm = has(formValues, fieldConfig.field)
         , value = isInForm ? this.getFormValue(fieldConfig) : this.getDefaultValue(fieldConfig)
         ;
 
-      set(formValues, fieldConfig.field, value);
+      set(formModel, fieldConfig.field, value);
     });
 
     // We always include ids of models on submit
     const id = get(this.args.model, ID_ATTR);
-    if (id) { set(formValues, ID_ATTR, id); }
+    if (id) { set(formModel, ID_ATTR, id); }
 
-    return formValues;
+    return formModel;
   }
 
   public get submitModel (): IModel {
