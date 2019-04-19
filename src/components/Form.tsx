@@ -1,6 +1,6 @@
 // tslint:disable max-classes-per-file
-import React, { Component, Fragment } from 'react';
-import { computed } from 'mobx';
+import React, { Component, ComponentClass, Fragment } from 'react';
+import { computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
@@ -16,6 +16,7 @@ import { IFieldSet } from '../interfaces';
 import { ISharedFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
 
 export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
+  formHash: number;
   setRefFormManager?: (formManager: FormManager) => void;
   showControls: boolean;
 }
@@ -131,19 +132,28 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   }
 }
 
-// istanbul ignore next
-const WrappedForm = Antd.Form.create()(UnwrappedForm);
-
 @autoBindMethods
 @observer
 export class Form extends Component<IFormProps> {
+  @observable private formHash = 0;
+  private WrappedForm: ComponentClass<any>;
+
+  public constructor (props: IFormProps) {
+    super(props);
+    this.WrappedForm = Antd.Form.create({ onValuesChange: this.onValuesChange })(UnwrappedForm);
+  }
+
+  public onValuesChange () {
+    this.formHash = this.formHash + 1;
+  }
+
   public static defaultProps: Partial<IFormWrappedProps> = {
     ...formPropsDefaults,
     showControls: true,
   };
 
   public render () {
-    return <WrappedForm {...this.props} />;
+    return <this.WrappedForm {...this.props} formHash={this.formHash} />;
   }
 }
 

@@ -41,6 +41,7 @@ interface IArgs {
 interface IFormWrappedInstance {
   props: {
     form: IForm,
+    formHash: number,
   };
 }
 
@@ -53,7 +54,9 @@ export const toastError = {
 @autoBindMethods
 class FormManager {
   @observable public saving = false;
+  private _formValues: IModel = {};
   private args: IArgs;
+  private formHash = -1;
   public formWrappedInstance: IFormWrappedInstance;
 
   public constructor (formWrappedInstance: IFormWrappedInstance, fieldSets: IFieldSet[], args: Partial<IArgs>) {
@@ -110,7 +113,12 @@ class FormManager {
   private get formValues () {
     // WARNING: Pure unprocessed rc-form response
     // formValues < formModel < submitModel
-    return this.form.getFieldsValue();
+    const newHash = this.formWrappedInstance.props.formHash;
+    if (newHash !== this.formHash) {
+      this.formHash = newHash;
+      this._formValues = this.form.getFieldsValue();
+    }
+    return this._formValues;
   }
 
   public get formModel () {
