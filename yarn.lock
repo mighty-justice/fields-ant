@@ -1473,14 +1473,15 @@
     tslint-eslint-rules "^5.4"
     tslint-react "^3.6"
 
-"@mighty-justice/utils@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@mighty-justice/utils/-/utils-1.2.2.tgz#0ae667a36148fd1af8755e33f2316a7628c78113"
-  integrity sha512-IcFE0FQl1OBCfzHf8x6yB4cnrvhH5kuyxoaMnCDFmCqWVsp09Cg2br090rOSb3ztNx+P/afn4BNJi3gZ92Yu3Q==
+"@mighty-justice/utils@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@mighty-justice/utils/-/utils-1.2.3.tgz#f210c6900a89ffe24facfe84ad4ee55a5c153760"
+  integrity sha512-u0v1JuP1GeUqvXaCxdxRV2CF4SLrMDSAMmP6QgSfKTkohucZ1anV9TzI72cmx1c42l0X+lFlRyKFMHjc1v4DPQ==
   dependencies:
     classnames "^2.2.6"
     date-fns "^1.30.1"
     decimal.js "^10.1.1"
+    fast-memoize "^2.5.1"
     html-react-parser "0.6.1"
     iso8601-duration "^1.1.7"
     moment "^2.24.0"
@@ -5427,6 +5428,11 @@ fast-levenshtein@~2.0.4:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
+
+fast-memoize@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/fast-memoize/-/fast-memoize-2.5.1.tgz#c3519241e80552ce395e1a32dcdde8d1fd680f5d"
+  integrity sha512-xdmw296PCL01tMOXx9mdJSmWY29jQgxyuZdq0rEHMu+Tpe1eOEtCycoG6chzlcrWsNgpZP7oL8RiQr7+G6Bl6g==
 
 fastparse@^1.1.1:
   version "1.1.2"
