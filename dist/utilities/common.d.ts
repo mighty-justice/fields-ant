@@ -17,5 +17,5 @@ export declare function getOptions(fieldConfig: IFieldConfigOptionSelect, inject
 export declare function renderValue(fieldConfigPartial: IFieldConfigPartial, model?: IModel): React.ReactNode;
 declare type IColumns = Array<ColumnProps<IModel>>;
 export declare function fieldSetsToColumns(fieldSets: IFieldSetPartial[], tableModel?: IModel[]): IColumns;
-export declare function modelFromFieldConfigs(fieldConfigs: IFieldConfigPartial[], data: IModel): IModel;
+export declare function modelFromFieldConfigs(fieldConfigs: IFieldConfig[], data: IModel): IModel;
 export {};

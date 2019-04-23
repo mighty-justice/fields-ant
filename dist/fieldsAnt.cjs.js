@@ -22647,6 +22647,152 @@ function HTMLReactParser(html, options) {
  */
 var htmlReactParser = HTMLReactParser;
 
+//
+// Main
+//
+
+function memoize (fn, options) {
+  var cache = options && options.cache
+    ? options.cache
+    : cacheDefault;
+
+  var serializer = options && options.serializer
+    ? options.serializer
+    : serializerDefault;
+
+  var strategy = options && options.strategy
+    ? options.strategy
+    : strategyDefault;
+
+  return strategy(fn, {
+    cache: cache,
+    serializer: serializer
+  })
+}
+
+//
+// Strategy
+//
+
+function isPrimitive (value) {
+  return value == null || typeof value === 'number' || typeof value === 'boolean' // || typeof value === "string" 'unsafe' primitive for our needs
+}
+
+function monadic (fn, cache, serializer, arg) {
+  var cacheKey = isPrimitive(arg) ? arg : serializer(arg);
+
+  var computedValue = cache.get(cacheKey);
+  if (typeof computedValue === 'undefined') {
+    computedValue = fn.call(this, arg);
+    cache.set(cacheKey, computedValue);
+  }
+
+  return computedValue
+}
+
+function variadic (fn, cache, serializer) {
+  var args = Array.prototype.slice.call(arguments, 3);
+  var cacheKey = serializer(args);
+
+  var computedValue = cache.get(cacheKey);
+  if (typeof computedValue === 'undefined') {
+    computedValue = fn.apply(this, args);
+    cache.set(cacheKey, computedValue);
+  }
+
+  return computedValue
+}
+
+function assemble (fn, context, strategy, cache, serialize) {
+  return strategy.bind(
+    context,
+    fn,
+    cache,
+    serialize
+  )
+}
+
+function strategyDefault (fn, options) {
+  var strategy = fn.length === 1 ? monadic : variadic;
+
+  return assemble(
+    fn,
+    this,
+    strategy,
+    options.cache.create(),
+    options.serializer
+  )
+}
+
+function strategyVariadic (fn, options) {
+  var strategy = variadic;
+
+  return assemble(
+    fn,
+    this,
+    strategy,
+    options.cache.create(),
+    options.serializer
+  )
+}
+
+function strategyMonadic (fn, options) {
+  var strategy = monadic;
+
+  return assemble(
+    fn,
+    this,
+    strategy,
+    options.cache.create(),
+    options.serializer
+  )
+}
+
+//
+// Serializer
+//
+
+function serializerDefault () {
+  return JSON.stringify(arguments)
+}
+
+//
+// Cache
+//
+
+function ObjectWithoutPrototypeCache () {
+  this.cache = Object.create(null);
+}
+
+ObjectWithoutPrototypeCache.prototype.has = function (key) {
+  return (key in this.cache)
+};
+
+ObjectWithoutPrototypeCache.prototype.get = function (key) {
+  return this.cache[key]
+};
+
+ObjectWithoutPrototypeCache.prototype.set = function (key, value) {
+  this.cache[key] = value;
+};
+
+var cacheDefault = {
+  create: function create () {
+    return new ObjectWithoutPrototypeCache()
+  }
+};
+
+//
+// API
+//
+
+var src = memoize;
+var strategies = {
+  variadic: strategyVariadic,
+  monadic: strategyMonadic
+};
+src.strategies = strategies;
+
 function canReplaceSymbols(template, chars) {
   return template.split('#').length - 1 === chars.length;
 }
@@ -22829,7 +22975,8 @@ function getDisplayName(component) {
 
   return component.displayName || component.name || 'Component';
 }
-function varToLabel(str) {
+
+function _varToLabel(str) {
   // Sourced significantly from https://github.com/gouch/to-title-case/blob/master/to-title-case.js
   var smallWords = /^(a|an|and|as|at|but|by|en|for|if|in|nor|of|on|or|per|the|to|vs?\.?|via)$/i,
       suffix = str.split('.').pop() || '',
@@ -22842,6 +22989,8 @@ function varToLabel(str) {
     return match.charAt(0).toUpperCase() + match.substr(1);
   });
 }
+
+var varToLabel = src(_varToLabel);
 function toKey(dict) {
   var dictSorted = lodash.sortBy(lodash.map(dict, function (value, key) {
     return [key, value];
@@ -34630,6 +34779,7 @@ var TYPES = {
         message: 'Must be a valid date'
       }
     },
+    nullify: true,
     render: passRenderOnlyValue(formatDate)
   },
   "boolean": {
@@ -35024,7 +35174,7 @@ function modelFromFieldConfigs(fieldConfigs, data) {
   include the id from the model even if there is no fieldConfig for it.
   */
   var returnValues = {};
-  fieldConfigs.map(fillInFieldConfig).filter(function (fieldConfig) {
+  fieldConfigs.filter(function (fieldConfig) {
     return !filterInsertIf(fieldConfig, data);
   }).filter(function (fieldConfig) {
     return !fieldConfig.readOnly;
@@ -35035,7 +35185,7 @@ function modelFromFieldConfigs(fieldConfigs, data) {
         shouldNullify = nullify && !formValue && formValue !== false,
         nullifiedValue = shouldNullify ? null : formValue,
         isAddingNew = lodash.isObject(formValue) && !lodash.has(formValue, ID_ATTR),
-        value = isTypeObjectSearchCreate(fieldConfig) && isAddingNew ? modelFromFieldConfigs(fieldConfig.createFields, formValue) : nullifiedValue;
+        value = isTypeObjectSearchCreate(fieldConfig) && isAddingNew ? modelFromFieldConfigs(fieldConfig.createFields.map(fillInFieldConfig), formValue) : nullifiedValue;
     lodash.set(returnValues, field, value);
   }); // We always include ids of models on submit
 
@@ -35941,11 +36091,10 @@ function () {
 
   _createClass(FormManager, [{
     key: "getDefaultValue",
-    value: function getDefaultValue(fieldConfigPartial) {
+    value: function getDefaultValue(fieldConfig) {
       var _this$args = this.args,
           model = _this$args.model,
           defaults = _this$args.defaults,
-          fieldConfig = fillInFieldConfig(fieldConfigPartial),
           modelToValue = function modelToValue(from) {
         return lodash.get(from, fieldConfig.field);
       },
@@ -35969,9 +36118,8 @@ function () {
     }
   }, {
     key: "getFormValue",
-    value: function getFormValue(fieldConfigPartial) {
-      var fieldConfig = fillInFieldConfig(fieldConfigPartial),
-          formValue = lodash.get(this.formValues, fieldConfig.field),
+    value: function getFormValue(fieldConfig) {
+      var formValue = lodash.get(this.formValues, fieldConfig.field),
           convertedValue = fieldConfig.fromForm(formValue, fieldConfig);
 
       return convertedValue;
@@ -36192,20 +36340,21 @@ function () {
        WARNING: This will include many values you don't see on the page.
       Use submitModel to get the fully processed form state.
       */
-      var formValues = {};
+      var formModel = {},
+          formValues = this.formValues;
       this.fieldConfigs.forEach(function (fieldConfig) {
-        var isInForm = lodash.has(_this2.formValues, fieldConfig.field),
+        var isInForm = lodash.has(formValues, fieldConfig.field),
             value = isInForm ? _this2.getFormValue(fieldConfig) : _this2.getDefaultValue(fieldConfig);
-        lodash.set(formValues, fieldConfig.field, value);
+        lodash.set(formModel, fieldConfig.field, value);
       }); // We always include ids of models on submit
 
       var id = lodash.get(this.args.model, ID_ATTR);
 
       if (id) {
-        lodash.set(formValues, ID_ATTR, id);
+        lodash.set(formModel, ID_ATTR, id);
       }
 
-      return formValues;
+      return formModel;
     }
   }, {
     key: "submitModel",

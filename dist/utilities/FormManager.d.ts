@@ -1,4 +1,4 @@
-import { IFieldConfigPartial, IFieldSet } from '../interfaces';
+import { IFieldConfig, IFieldSet } from '../interfaces';
 import { IForm, IModel } from '../props';
 export interface IFoundOnForm {
     [key: string]: string;
@@ -35,9 +35,9 @@ declare class FormManager {
     formWrappedInstance: IFormWrappedInstance;
     constructor(formWrappedInstance: IFormWrappedInstance, fieldSets: IFieldSet[], args: Partial<IArgs>);
     readonly form: any;
-    readonly fieldConfigs: import("../interfaces").IFieldConfig[];
-    getDefaultValue(fieldConfigPartial: IFieldConfigPartial): any;
-    getFormValue(fieldConfigPartial: IFieldConfigPartial): any;
+    readonly fieldConfigs: IFieldConfig[];
+    getDefaultValue(fieldConfig: IFieldConfig): any;
+    getFormValue(fieldConfig: IFieldConfig): any;
     private readonly formValues;
     readonly formModel: IModel;
     readonly submitModel: IModel;
