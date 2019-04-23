@@ -48,7 +48,7 @@ storiesOf('Types', module)
       {...omit(props, 'fieldSets')}
       fieldSets={[
         // tslint:disable-next-line no-magic-numbers
-        Array(159)
+        Array(175)
           .fill(null)
           .map(() => ({ field: fakeField(), type: 'text' }))]}
     />
