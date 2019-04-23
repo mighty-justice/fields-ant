@@ -73,6 +73,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
         message: 'Must be a valid date',
       },
     },
+    nullify: true,
     render: passRenderOnlyValue(formatDate),
   },
   boolean: {
