@@ -6,7 +6,7 @@ export declare function asyncNoop(): Promise<void>;
 export declare function falseyToString(value: IValue): any;
 export declare function isPartialFieldSetSimple(fieldSet: IFieldSetPartial): fieldSet is IFieldSetSimplePartial;
 export declare function isFieldSetSimple(fieldSet: IFieldSet): fieldSet is IFieldSetSimple;
-export declare function filterInsertIf(fieldConfig: IFieldConfig, model?: IModel | IModel[]): boolean | undefined;
+export declare function filterInsertIf(fieldConfig: IFieldConfig, model?: IModel | IModel[]): boolean;
 export declare function fillInFieldConfig(fieldConfig: IFieldConfigPartial): IFieldConfig;
 export declare function fillInFieldSet(fieldSet: IFieldSetPartial): IFieldSet;
 export declare function fillInFieldSets(fieldSets: IFieldSetPartial[]): IFieldSet[];

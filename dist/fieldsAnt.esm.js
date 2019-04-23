@@ -35057,7 +35057,7 @@ function isFieldSetSimple(fieldSet) {
   return isArray(fieldSet);
 }
 function filterInsertIf(fieldConfig, model) {
-  return fieldConfig.insertIf && !fieldConfig.insertIf(model);
+  return !!fieldConfig.insertIf && !fieldConfig.insertIf(model);
 }
 function fillInFieldConfig(fieldConfig) {
   var type = inferType(fieldConfig),
@@ -35291,6 +35291,10 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      if (!this.shouldRender) {
+        return null;
+      }
+
       var formManager = this.props.formManager,
           fieldConfig = this.fieldConfig,
           className = fieldConfig.className,
@@ -35298,13 +35302,7 @@ function (_Component) {
           formItemProps = fieldConfig.formItemProps,
           field = fieldConfig.field,
           skipFieldDecorator = fieldConfig.skipFieldDecorator,
-          readOnly = fieldConfig.readOnly,
           getFieldDecorator = formManager.form.getFieldDecorator;
-
-      if (readOnly || filterInsertIf(fieldConfig, formManager.formModel)) {
-        return null;
-      }
-
       var decoratorOptionsProp = skipFieldDecorator ? {
         decoratorOptions: this.decoratorOptions
       } : {},
@@ -35332,8 +35330,10 @@ function (_Component) {
   }, {
     key: "label",
     get: function get() {
-      var fieldConfig = this.props.fieldConfig;
-      return fieldConfig.showLabel ? fieldConfig.label : '';
+      var _this$fieldConfig = this.fieldConfig,
+          label = _this$fieldConfig.label,
+          showLabel = _this$fieldConfig.showLabel;
+      return showLabel ? label : '';
     }
   }, {
     key: "initialValue",
@@ -35383,6 +35383,23 @@ function (_Component) {
         rules: this.rules
       };
     }
+  }, {
+    key: "shouldRender",
+    get: function get() {
+      var formManager = this.props.formManager,
+          fieldConfig = this.fieldConfig,
+          readOnly = fieldConfig.readOnly;
+
+      if (readOnly) {
+        return false;
+      }
+
+      if (fieldConfig.insertIf) {
+        return !filterInsertIf(fieldConfig, formManager.formModel);
+      }
+
+      return true;
+    }
   }]);
 
   return FormField;
@@ -35406,11 +35423,7 @@ function (_Component) {
     value: function render() {
       var _this = this;
 
-      var formManager = this.props.formManager,
-          fieldConfigs = getFieldSetFields(this.fieldSet),
-          filteredFieldConfigs = fieldConfigs.filter(function (fieldConfig) {
-        return !filterInsertIf(fieldConfig, formManager.formModel);
-      }),
+      var filteredFieldConfigs = this.filteredFieldConfigs,
           legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend,
           rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps;
 
@@ -35429,6 +35442,22 @@ function (_Component) {
     key: "fieldSet",
     get: function get() {
       return fillInFieldSet(this.props.fieldSet);
+    }
+  }, {
+    key: "filteredFieldConfigs",
+    get: function get() {
+      var fieldConfigs = getFieldSetFields(this.fieldSet);
+
+      if (!fieldConfigs.some(function (fieldConfig) {
+        return !!fieldConfig.insertIf;
+      })) {
+        return fieldConfigs;
+      }
+
+      var formModel = this.props.formManager.formModel;
+      return fieldConfigs.filter(function (fieldConfig) {
+        return !filterInsertIf(fieldConfig, formModel);
+      });
     }
   }]);
 
@@ -36111,8 +36140,8 @@ function () {
     }
   }, {
     key: "getFormValue",
-    value: function getFormValue(fieldConfig) {
-      var formValue = get(this.formValues, fieldConfig.field),
+    value: function getFormValue(fieldConfig, formValues) {
+      var formValue = get(formValues, fieldConfig.field),
           convertedValue = fieldConfig.fromForm(formValue, fieldConfig);
 
       return convertedValue;
@@ -36131,12 +36160,11 @@ function () {
   }, {
     key: "setErrorsOnFormFields",
     value: function setErrorsOnFormFields(errors) {
-      var _this = this;
-
+      var formValues = this.formValues;
       this.form.setFields(mapValues(errors, function (error, field) {
         return {
           errors: [new Error(error)],
-          value: _this.formValues[field]
+          value: formValues[field]
         };
       }));
     }
@@ -36323,7 +36351,7 @@ function () {
   }, {
     key: "formModel",
     get: function get$1() {
-      var _this2 = this;
+      var _this = this;
 
       /*
       formValues < formModel < submitModel
@@ -36337,7 +36365,7 @@ function () {
           formValues = this.formValues;
       this.fieldConfigs.forEach(function (fieldConfig) {
         var isInForm = has(formValues, fieldConfig.field),
-            value = isInForm ? _this2.getFormValue(fieldConfig) : _this2.getDefaultValue(fieldConfig);
+            value = isInForm ? _this.getFormValue(fieldConfig, formValues) : _this.getDefaultValue(fieldConfig);
         set(formModel, fieldConfig.field, value);
       }); // We always include ids of models on submit
 
@@ -36394,8 +36422,8 @@ function (_Component) {
     var defaults = props.defaults,
         model = props.model,
         onSave = props.onSave,
-        setRefFormManager = props.setRefFormManager,
-        processErrors = props.processErrors;
+        processErrors = props.processErrors,
+        setRefFormManager = props.setRefFormManager;
     _this.formManager = new FormManager(_assertThisInitialized(_this), _this.fieldSets, {
       defaults: defaults,
       model: model,

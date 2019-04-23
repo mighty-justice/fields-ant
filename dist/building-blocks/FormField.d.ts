@@ -13,6 +13,7 @@ declare class FormField extends Component<IFormFieldProps> {
     private fieldsValidatorToValidator;
     private readonly rules;
     private readonly decoratorOptions;
+    private readonly shouldRender;
     render(): JSX.Element | null;
 }
 export default FormField;

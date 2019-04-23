@@ -37,7 +37,7 @@ declare class FormManager {
     readonly form: any;
     readonly fieldConfigs: IFieldConfig[];
     getDefaultValue(fieldConfig: IFieldConfig): any;
-    getFormValue(fieldConfig: IFieldConfig): any;
+    getFormValue(fieldConfig: IFieldConfig, formValues: IModel): any;
     private readonly formValues;
     readonly formModel: IModel;
     readonly submitModel: IModel;
