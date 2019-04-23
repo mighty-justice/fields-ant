@@ -33,8 +33,8 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       defaults,
       model,
       onSave,
-      setRefFormManager,
       processErrors,
+      setRefFormManager,
     } = props;
 
     this.formManager = new FormManager(

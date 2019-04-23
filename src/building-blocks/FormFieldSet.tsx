@@ -32,8 +32,9 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
 
   public render () {
     const { formManager } = this.props
+      , formModel = formManager.formModel
       , fieldConfigs = getFieldSetFields(this.fieldSet)
-      , filteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, formManager.formModel))
+      , filteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, formModel))
       , legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend
       , rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps
       ;

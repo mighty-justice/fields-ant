@@ -99,8 +99,8 @@ class FormManager {
     return modelToForm({ ...model, ...defaults });
   }
 
-  public getFormValue (fieldConfig: IFieldConfig) {
-    const formValue = get(this.formValues, fieldConfig.field)
+  public getFormValue (fieldConfig: IFieldConfig, formValues: IModel) {
+    const formValue = get(formValues, fieldConfig.field)
       , convertedValue = fieldConfig.fromForm(formValue, fieldConfig)
       ;
 
@@ -129,7 +129,9 @@ class FormManager {
 
     this.fieldConfigs.forEach(fieldConfig => {
       const isInForm = has(formValues, fieldConfig.field)
-        , value = isInForm ? this.getFormValue(fieldConfig) : this.getDefaultValue(fieldConfig)
+        , value = isInForm
+          ? this.getFormValue(fieldConfig, formValues)
+          : this.getDefaultValue(fieldConfig)
         ;
 
       set(formModel, fieldConfig.field, value);
@@ -166,9 +168,10 @@ class FormManager {
   }
 
   private setErrorsOnFormFields (errors: { [key: string]: string }) {
+    const formValues = this.formValues;
     this.form.setFields(mapValues(errors, (error, field) => ({
       errors: [new Error(error)],
-      value: this.formValues[field],
+      value: formValues[field],
     })));
   }
 

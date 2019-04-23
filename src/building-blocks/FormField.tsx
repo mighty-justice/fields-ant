@@ -25,8 +25,8 @@ class FormField extends Component<IFormFieldProps> {
   }
 
   private get label () {
-    const { fieldConfig } = this.props;
-    return fieldConfig.showLabel ? fieldConfig.label : '';
+    const { label, showLabel } = this.fieldConfig;
+    return showLabel ? label : '';
   }
 
   private get initialValue () {
@@ -92,14 +92,25 @@ class FormField extends Component<IFormFieldProps> {
     };
   }
 
+  private get shouldRender (): boolean {
+    const { formManager } = this.props
+      , fieldConfig = this.fieldConfig
+      , { readOnly } = fieldConfig
+      ;
+
+    if (readOnly) { return false; }
+    if (filterInsertIf) { return !filterInsertIf(fieldConfig, formManager.formModel); }
+    return true;
+  }
+
   public render () {
     const { formManager } = this.props
       , fieldConfig = this.fieldConfig
-      , { className, colProps, formItemProps, field, skipFieldDecorator, readOnly } = fieldConfig
+      , { className, colProps, formItemProps, field, skipFieldDecorator } = fieldConfig
       , { getFieldDecorator } = formManager.form
       ;
 
-    if (readOnly || filterInsertIf(fieldConfig, formManager.formModel)) {
+    if (!this.shouldRender) {
       return null;
     }
 
