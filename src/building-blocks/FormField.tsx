@@ -99,20 +99,18 @@ class FormField extends Component<IFormFieldProps> {
       ;
 
     if (readOnly) { return false; }
-    if (filterInsertIf) { return !filterInsertIf(fieldConfig, formManager.formModel); }
+    if (fieldConfig.insertIf) { return !filterInsertIf(fieldConfig, formManager.formModel); }
     return true;
   }
 
   public render () {
+    if (!this.shouldRender) { return null; }
+
     const { formManager } = this.props
       , fieldConfig = this.fieldConfig
       , { className, colProps, formItemProps, field, skipFieldDecorator } = fieldConfig
       , { getFieldDecorator } = formManager.form
       ;
-
-    if (!this.shouldRender) {
-      return null;
-    }
 
     const decoratorOptionsProp = skipFieldDecorator ? { decoratorOptions: this.decoratorOptions } : {}
       , editComponent = <fieldConfig.editComponent {...this.editProps} {...decoratorOptionsProp} />
