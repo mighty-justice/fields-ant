@@ -25,8 +25,8 @@ class FormField extends Component<IFormFieldProps> {
   }
 
   private get label () {
-    const { fieldConfig } = this.props;
-    return fieldConfig.showLabel ? fieldConfig.label : '';
+    const { label, showLabel } = this.fieldConfig;
+    return showLabel ? label : '';
   }
 
   private get initialValue () {
@@ -92,16 +92,25 @@ class FormField extends Component<IFormFieldProps> {
     };
   }
 
-  public render () {
+  private get shouldRender (): boolean {
     const { formManager } = this.props
       , fieldConfig = this.fieldConfig
-      , { className, colProps, formItemProps, field, skipFieldDecorator, readOnly } = fieldConfig
-      , { getFieldDecorator } = formManager.form
+      , { readOnly } = fieldConfig
       ;
 
-    if (readOnly || filterInsertIf(fieldConfig, formManager.formModel)) {
-      return null;
-    }
+    if (readOnly) { return false; }
+    if (fieldConfig.insertIf) { return !filterInsertIf(fieldConfig, formManager.formModel); }
+    return true;
+  }
+
+  public render () {
+    if (!this.shouldRender) { return null; }
+
+    const { formManager } = this.props
+      , fieldConfig = this.fieldConfig
+      , { className, colProps, formItemProps, field, skipFieldDecorator } = fieldConfig
+      , { getFieldDecorator } = formManager.form
+      ;
 
     const decoratorOptionsProp = skipFieldDecorator ? { decoratorOptions: this.decoratorOptions } : {}
       , editComponent = <fieldConfig.editComponent {...this.editProps} {...decoratorOptionsProp} />
