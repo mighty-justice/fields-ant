@@ -212,7 +212,7 @@ export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: I
     }));
 }
 
-export function modelFromFieldConfigs (fieldConfigs: IFieldConfigPartial[], data: IModel) {
+export function modelFromFieldConfigs (fieldConfigs: IFieldConfig[], data: IModel) {
     /*
     This function takes in a model with ALL form values, including those that should be hidden like
     readOnly fieldConfigs and those hidden by insertIf. We build a new model from scratch, only
@@ -222,7 +222,6 @@ export function modelFromFieldConfigs (fieldConfigs: IFieldConfigPartial[], data
     const returnValues: IModel = {};
 
     fieldConfigs
-      .map(fillInFieldConfig)
       .filter(fieldConfig => !filterInsertIf(fieldConfig, data))
       .filter(fieldConfig => !fieldConfig.readOnly)
       .forEach(fieldConfig => {
@@ -235,7 +234,7 @@ export function modelFromFieldConfigs (fieldConfigs: IFieldConfigPartial[], data
           // make sure to nullify the appropriate fields in the new model
           , isAddingNew = isObject(formValue) && !has(formValue, ID_ATTR)
           , value = (isTypeObjectSearchCreate(fieldConfig) && isAddingNew)
-            ? modelFromFieldConfigs(fieldConfig.createFields, formValue)
+            ? modelFromFieldConfigs(fieldConfig.createFields.map(fillInFieldConfig), formValue)
             : nullifiedValue
             ;
 

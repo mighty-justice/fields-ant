@@ -5,9 +5,10 @@ import { storiesOf } from '@storybook/react';
 import Marked from 'storybook-readme/components/Marked';
 
 import docObjectSearchCreate from '../docs/ObjectSearchCreate.md';
-import { Card, FormCard, IFieldConfigObjectSearchCreate } from '../src';
+import { Card, FormCard, IFieldConfigObjectSearchCreate, IFieldConfigPartial } from '../src';
 
 import {
+  fakeField,
   formCardPropsFactory,
   objectSearchCreateFactory,
   TYPE_GENERATORS,
@@ -24,6 +25,34 @@ const props = {
   };
 
 storiesOf('Types', module)
+  .add('Form Stress Test (all)', () => (
+    <FormCard
+      {...formCardPropsFactory.build()}
+      {...omit(props, 'fieldSets')}
+      fieldSets={(
+        // tslint:disable-next-line no-magic-numbers
+        Array(50)
+          .fill(props.fieldSets[0])
+          .map((fieldSet, idx) => (
+            fieldSet.map((fieldConfig: IFieldConfigPartial) => ({
+              ...fieldConfig,
+              field: fieldConfig.field + idx,
+            }))
+          ))
+      )}
+    />
+  ))
+  .add('Form Stress Test (text)', () => (
+    <FormCard
+      {...formCardPropsFactory.build()}
+      {...omit(props, 'fieldSets')}
+      fieldSets={[
+        // tslint:disable-next-line no-magic-numbers
+        Array(175)
+          .fill(null)
+          .map(() => ({ field: fakeField(), type: 'text' }))]}
+    />
+  ))
   .add('Creating', () => <FormCard {...formCardPropsFactory.build()} {...omit(props, 'model')} />)
   .add('Editing', () => <FormCard {...formCardPropsFactory.build()} {...props} />)
   .add('Displaying', () => <Card {...props} />)
