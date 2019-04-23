@@ -33,7 +33,7 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
   private get filteredFieldConfigs () {
     const fieldConfigs = getFieldSetFields(this.fieldSet);
 
-    if (!fieldConfigs.some(fc => !!fc.insertIf)) {
+    if (!fieldConfigs.some(fieldConfig => !!fieldConfig.insertIf)) {
       return fieldConfigs;
     }
 
