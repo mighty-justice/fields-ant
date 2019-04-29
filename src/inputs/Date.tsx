@@ -42,7 +42,7 @@ const inputConfig: {
 
 @autoBindMethods
 @observer
-class Birthdate extends Component<IInputProps> {
+class Date extends Component<IInputProps> {
   private get injected () {
     return this.props as IInjected & IInputProps & IAntFormField;
   }
@@ -100,4 +100,4 @@ class Birthdate extends Component<IInputProps> {
   }
 }
 
-export default Birthdate;
+export default Date;

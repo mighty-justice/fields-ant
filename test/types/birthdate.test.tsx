@@ -5,7 +5,7 @@ import { FormCard } from '../../src';
 import { TYPE_GENERATORS } from '../factories';
 
 async function checkInferYear (newYear: string) {
-  const { fieldConfigFactory } = TYPE_GENERATORS.birthdate
+  const { fieldConfigFactory } = TYPE_GENERATORS.date
     , fieldConfig = fieldConfigFactory.build()
     , fieldSets = [[fieldConfig]]
     , model = { [fieldConfig.field]: '0001-01-01' }
@@ -20,7 +20,7 @@ async function checkInferYear (newYear: string) {
 }
 
 async function isInputsValid (month: string, day: string, year: string) {
-  const { fieldConfigFactory } = TYPE_GENERATORS.birthdate
+  const { fieldConfigFactory } = TYPE_GENERATORS.date
     , fieldConfig = fieldConfigFactory.build()
     , fieldSets = [[fieldConfig]]
     , onSave = jest.fn()
@@ -36,9 +36,9 @@ async function isInputsValid (month: string, day: string, year: string) {
   return !!onSave.mock.calls.length;
 }
 
-describe('birthdate', () => {
+describe('date', () => {
   it('Edits', async () => {
-    const { valueFunction, fieldConfigFactory } = TYPE_GENERATORS.birthdate
+    const { valueFunction, fieldConfigFactory } = TYPE_GENERATORS.date
       , value = valueFunction()
       , newDay = faker.random.number({ min: 1, max: 9 }).toString().padStart(2)
       , newValue = value.substr(0, 8) + newDay
