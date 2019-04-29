@@ -80,6 +80,11 @@ function inferType (fieldConfig: Partial<IFieldConfig>) {
 
   // start_date => date etc.
   for (const type in TYPES) {
+    if (field === type) { return type; }
+  }
+
+  // start_date => date etc.
+  for (const type in TYPES) {
     if (field.includes(type)) { return type; }
   }
 
