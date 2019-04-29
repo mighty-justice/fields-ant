@@ -27,7 +27,7 @@ import {
   parseAndPreserveNewlines,
 } from '@mighty-justice/utils';
 
-import Birthdate from '../inputs/Birthdate';
+import Date from '../inputs/Date';
 import ObjectSearchCreate from '../inputs/ObjectSearchCreate';
 import OptionSelect from '../inputs/OptionSelect';
 import RadioGroup from '../inputs/RadioGroup';
@@ -65,17 +65,6 @@ function booleanFromForm (value: IValue) {
 }
 
 export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
-  birthdate: {
-    editComponent: Birthdate,
-    formValidationRules: {
-      isValidDate: {
-        fieldsValidator: isValidBirthdate,
-        message: 'Must be a valid date',
-      },
-    },
-    nullify: true,
-    render: passRenderOnlyValue(formatDate),
-  },
   boolean: {
     editComponent: OptionSelect,
     fieldConfigProp: true,
@@ -86,6 +75,17 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     toForm: passToFormOnlyValue(booleanToForm),
   },
   date: {
+    editComponent: Date,
+    formValidationRules: {
+      isValidDate: {
+        fieldsValidator: isValidBirthdate,
+        message: 'Must be a valid date',
+      },
+    },
+    nullify: true,
+    render: passRenderOnlyValue(formatDate),
+  },
+  datepicker: {
     editComponent: Antd.DatePicker,
     editProps: { format: DATE_FORMATS.date },
     fromForm: (value: any) => value && format(value, 'YYYY-MM-DD'),
