@@ -4,7 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
-import { inferCentury, varToLabel } from '@mighty-justice/utils';
+import { inferCentury } from '@mighty-justice/utils';
 
 import {
   IAntFormField,
@@ -21,24 +21,30 @@ interface IValueObject {
 }
 
 interface IInputConfig {
+  placeholder: string;
   style: { width: string, marginRight?: string };
 }
 
 const inputConfig: {
-  day: IInputConfig,
-  month: IInputConfig,
-  year: IInputConfig,
-} = {
-  day: {
-    style: { width: '29%', marginRight: '3%' },
-  },
-  month: {
-    style: { width: '29%', marginRight: '3%' },
-  },
-  year: {
-    style: { width: '36%' },
-  },
-};
+    day: IInputConfig,
+    month: IInputConfig,
+    year: IInputConfig,
+  } = {
+    day: {
+      placeholder: 'DD',
+      style: { width: '29%', marginRight: '3%' },
+    },
+    month: {
+      placeholder: 'MM',
+      style: { width: '29%', marginRight: '3%' },
+    },
+    year: {
+      placeholder: 'YYYY',
+      style: { width: '36%' },
+    },
+  }
+  , INPUT_ORDER: IField[] = ['month', 'day', 'year']
+  ;
 
 @autoBindMethods
 @observer
@@ -71,8 +77,7 @@ class Date extends Component<IInputProps> {
 
   private renderFieldInput (field: IField) {
     const { id } = this.injected
-      , { style } = inputConfig[field]
-      , placeholder = varToLabel(field)
+      , { style, placeholder } = inputConfig[field]
       , defaultValue = this.getValueField(field)
       , onChange = (event: any) => this.onChange(field, event.target.value)
       ;
@@ -92,9 +97,7 @@ class Date extends Component<IInputProps> {
   public render () {
     return (
       <Antd.Input.Group compact>
-        {this.renderFieldInput('month')}
-        {this.renderFieldInput('day')}
-        {this.renderFieldInput('year')}
+        {INPUT_ORDER.map(this.renderFieldInput)}
       </Antd.Input.Group>
     );
   }

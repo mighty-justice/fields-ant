@@ -78,7 +78,7 @@ function inferType (fieldConfig: Partial<IFieldConfig>) {
   // Putting this ahead of loop so phone_number => phone, and not number
   if (field.includes('phone')) { return 'phone'; }
 
-  // start_date => date etc.
+  // date => date etc.
   for (const type in TYPES) {
     if (field === type) { return type; }
   }
