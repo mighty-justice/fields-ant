@@ -49,8 +49,14 @@ const inputConfig: {
 @autoBindMethods
 @observer
 class Date extends Component<IInputProps> {
+  private refs: { [key: string]: any } = {};
+
   private get injected () {
     return this.props as IInjected & IInputProps & IAntFormField;
+  }
+
+  private getRefSetter (field: IField) {
+    return (ref: any) => this.refs[field] = ref;
   }
 
   private get valueObject (): IValueObject {
@@ -73,6 +79,8 @@ class Date extends Component<IInputProps> {
 
     const value = [year, month, day].join('-');
     this.injected.onChange(value);
+
+    if (['day', 'month'])
   }
 
   private renderFieldInput (field: IField) {
@@ -89,6 +97,7 @@ class Date extends Component<IInputProps> {
           id={[id, field].join('.')}
           onChange={onChange}
           placeholder={placeholder}
+          ref={this.getRefSetter(field)}
         />
       </span>
     );
