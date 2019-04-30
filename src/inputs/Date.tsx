@@ -49,14 +49,14 @@ const inputConfig: {
 @autoBindMethods
 @observer
 class Date extends Component<IInputProps> {
-  private _refs: { [key: string]: any } = {};
+  private inputRefs: { [key: string]: any } = {};
 
   private get injected () {
     return this.props as IInjected & IInputProps & IAntFormField;
   }
 
   private getRefSetter (field: IField) {
-    return (ref: any) => this._refs[field] = ref;
+    return (ref: any) => this.inputRefs[field] = ref;
   }
 
   private get valueObject (): IValueObject {
@@ -87,7 +87,7 @@ class Date extends Component<IInputProps> {
     const inputNum = INPUT_ORDER.findIndex((s) => s === field);
     if (inputNum < 2 && cleanedValue.length === 2) {
       const goTo = INPUT_ORDER[inputNum + 1]
-        , ref = this._refs[goTo];
+        , ref = this.inputRefs[goTo];
       ref.focus();
     }
   }
