@@ -143,6 +143,8 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     fieldConfigProp: true,
     nullify: true,
     render: passRenderOnlyValue(getNameOrDefault),
+    renderOption: passRenderOnlyValue(getNameOrDefault),
+    renderSelected: passRenderOnlyValue(getNameOrDefault),
     skipFieldDecorator: true,
   },
   optionSelect: {

@@ -96,6 +96,8 @@ storiesOf('Types', module)
                   type: 'objectSearchCreate',
                 },
               ],
+              renderOption: (option: any) => <p><strong>FFF</strong><br />{option && option.name}</p>,
+              renderSelected: (option: any) => `ZZZ ${option && option.name}`,
             },
           ],
           legend: 'Legend Text',
