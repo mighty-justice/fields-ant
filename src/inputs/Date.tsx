@@ -15,9 +15,9 @@ import {
 type IField = 'year' | 'day' | 'month';
 
 interface IValueObject {
-  year: string;
   day: string;
   month: string;
+  year: string;
 }
 
 interface IInputConfig {
@@ -71,18 +71,21 @@ class Date extends Component<IInputProps> {
   }
 
   private onChange (field: IField, inputValue: string) {
-    const valueObject = {
-        ...this.valueObject,
-        [field]: (field === 'year') ? inferCentury(inputValue) : inputValue.padStart(2, '0'),
-      }
-      , { year, day, month } = valueObject;
+    const regex = /^[^0-9]*$/
+      , cleanedValue = inputValue.replace(regex, '')
+      , filledInValue = (field === 'year')
+        ? inferCentury(cleanedValue)
+        : cleanedValue.padStart(2, '0')
+      , valueObject = { ...this.valueObject, [field]: filledInValue }
+      , { year, day, month } = valueObject
+      , value = [year, month, day].join('-')
+      ;
 
-    const value = [year, month, day].join('-');
     this.injected.onChange(value);
 
     // Auto-increment to next input if input length 2 and in one of the first 2 boxes
     const inputNum = INPUT_ORDER.findIndex((s) => s === field);
-    if (inputNum < 2 && inputValue.length === 2) {
+    if (inputNum < 2 && cleanedValue.length === 2) {
       const goTo = INPUT_ORDER[inputNum + 1]
         , ref = this._refs[goTo];
       ref.focus();
@@ -94,13 +97,14 @@ class Date extends Component<IInputProps> {
       , { style, placeholder } = inputConfig[field]
       , defaultValue = this.getValueField(field)
       , onChange = (event: any) => this.onChange(field, event.target.value)
+      , key = [id, field].join('.')
       ;
 
     return (
-      <span style={{ display: 'inline-block', ...style }}>
+      <span key={key} style={{ display: 'inline-block', ...style }}>
         <Antd.Input
           defaultValue={defaultValue}
-          id={[id, field].join('.')}
+          id={key}
           onChange={onChange}
           placeholder={placeholder}
           ref={this.getRefSetter(field)}
