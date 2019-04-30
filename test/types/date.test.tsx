@@ -41,7 +41,7 @@ describe('date', () => {
     const { valueFunction, fieldConfigFactory } = TYPE_GENERATORS.date
       , value = valueFunction()
       , newDay = faker.random.number({ min: 1, max: 9 }).toString().padStart(2)
-      , newValue = value.substr(0, 8) + newDay
+      , newValue = value.substr(0, 8) + newDay.trim().padStart(2, '0')
       , fieldConfig = fieldConfigFactory.build()
       , fieldSets = [[fieldConfig]]
       , model = { [fieldConfig.field]: value }
@@ -49,6 +49,7 @@ describe('date', () => {
       , props = { fieldSets, model, onSave }
       ;
 
+    console.log({ selector: `input[id="${fieldConfig.field}.day"]`, newDay: `"${newDay}"` });
     const tester = await new Tester(FormCard, { props }).mount();
     tester.changeInput(`input[id="${fieldConfig.field}.day"]`, newDay);
     tester.submit();
@@ -76,6 +77,9 @@ describe('date', () => {
     expect(await isInputsValid('01', '01', '1998')).toBe(true);
 
     // Sillyness
+    expect(await isInputsValid('11', '22', '1989a')).toBe(false);
+    expect(await isInputsValid('11', '22', '----')).toBe(false);
+    expect(await isInputsValid('11', '22', '1989-')).toBe(false);
     expect(await isInputsValid('', '', '')).toBe(false);
     expect(await isInputsValid('D', 'o', 'g')).toBe(false);
   });

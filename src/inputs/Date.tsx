@@ -71,8 +71,9 @@ class Date extends Component<IInputProps> {
   }
 
   private onChange (field: IField, inputValue: string) {
-    const regex = /^[^0-9]*$/
-      , cleanedValue = inputValue.replace(regex, '')
+    const regexNumbers = /[^0-9]+/
+      , trimmedValue = inputValue.trim()
+      , cleanedValue = regexNumbers.test(trimmedValue) ? '' : trimmedValue
       , filledInValue = (field === 'year')
         ? inferCentury(cleanedValue)
         : cleanedValue.padStart(2, '0')
