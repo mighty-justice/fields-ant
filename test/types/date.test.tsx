@@ -49,7 +49,6 @@ describe('date', () => {
       , props = { fieldSets, model, onSave }
       ;
 
-    console.log({ selector: `input[id="${fieldConfig.field}.day"]`, newDay: `"${newDay}"` });
     const tester = await new Tester(FormCard, { props }).mount();
     tester.changeInput(`input[id="${fieldConfig.field}.day"]`, newDay);
     tester.submit();
