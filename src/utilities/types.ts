@@ -1,4 +1,4 @@
-import { isBoolean } from 'lodash';
+import { isBoolean, flatten as flattenArray } from 'lodash';
 import moment from 'moment';
 import { format } from 'date-fns';
 import { pattern as iso8601pattern } from 'iso8601-duration';
@@ -10,7 +10,6 @@ import {
 } from '../interfaces';
 
 import {
-  DATE_FORMATS,
   EMPTY_FIELD,
   formatCommaSeparatedNumber,
   formatDate,
@@ -64,6 +63,12 @@ function booleanFromForm (value: IValue) {
   return value;
 }
 
+const dateFormatList = flattenArray(
+  ['/', '.', ' ', '-'].map(joinBy => ([
+    ['MM', 'DD', 'YY'].join(joinBy),
+    ['MM', 'DD', 'YYYY'].join(joinBy),
+  ])));
+
 export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   boolean: {
     editComponent: OptionSelect,
@@ -87,7 +92,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   },
   datepicker: {
     editComponent: Antd.DatePicker,
-    editProps: { format: DATE_FORMATS.date },
+    editProps: { format: dateFormatList },
     fromForm: (value: any) => value && format(value, 'YYYY-MM-DD'),
     render: passRenderOnlyValue(formatDate),
     toForm: (value: any) => (value || null) && moment(value),
