@@ -1,4 +1,4 @@
-import { isBoolean, flatten as flattenArray } from 'lodash';
+import { isBoolean } from 'lodash';
 import moment from 'moment';
 import { format } from 'date-fns';
 import { pattern as iso8601pattern } from 'iso8601-duration';
