@@ -34,6 +34,7 @@ import Rate, { formatRating } from '../inputs/Rate';
 import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
 import { IModel, IValue } from '../props';
 import { REGEXP_SSN } from '../consts';
+import { getDateFormatList } from './getDateFormatList';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -63,11 +64,7 @@ function booleanFromForm (value: IValue) {
   return value;
 }
 
-const dateFormatList = flattenArray(
-  ['/', '.', '', ' ', '-'].map(joinBy => ([
-    ['MM', 'DD', 'YY'].join(joinBy),
-    ['MM', 'DD', 'YYYY'].join(joinBy),
-  ])));
+const dateFormatList = getDateFormatList();
 
 export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   boolean: {
