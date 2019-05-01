@@ -8,9 +8,9 @@ import { splitName } from '@mighty-justice/utils';
 import {
   fillInFieldSet,
   FormFieldSet,
-  getFieldSetFields,
   IFieldConfigPartial,
   IFieldSetPartial,
+  mapFieldSetFields,
 } from '../';
 
 import FormManager from '../utilities/FormManager';
@@ -26,15 +26,20 @@ export interface INestedFieldSetProps {
 @autoBindMethods
 @observer
 class NestedFieldSet extends Component<INestedFieldSetProps> {
+  private fieldValueMapper (fieldConfig: IFieldConfigPartial) {
+    const { id } = this.props;
+
+    return {
+      ...fieldConfig,
+      field: `${id}.${fieldConfig.field}`,
+      ...this.getDefaultValue(fieldConfig),
+    };
+  }
+
   @computed
   private get fieldSet () {
-    const { id, fieldSet } = this.props;
-    return getFieldSetFields(fillInFieldSet(fieldSet))
-      .map(fieldConfig => ({
-        ...fieldConfig,
-        field: `${id}.${fieldConfig.field}`,
-        ...this.getDefaultValue(fieldConfig),
-      }));
+    const { fieldSet } = this.props;
+    return mapFieldSetFields(fillInFieldSet(fieldSet), this.fieldValueMapper);
   }
 
   private getDefaultValue (fieldConfig: IFieldConfigPartial): object {
