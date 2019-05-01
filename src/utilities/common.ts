@@ -192,7 +192,7 @@ export function getUnsortedOptions (fieldConfig: IFieldConfigOptionSelect, injec
   if (injected.getOptions && optionType) { return injected.getOptions(optionType); }
 
   // istanbul ignore next
-  throw new Error ('FieldConfig missing options, getOptions; getOptions not injected');
+  throw new Error ('options and getOptions are missing in FieldConfig and getOptions is not injected');
 }
 
 export function getOptions (fieldConfig: IFieldConfigOptionSelect, injected: IInjected): IOption[] {

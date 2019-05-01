@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observable } from 'mobx';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { pick } from 'lodash';
@@ -14,7 +14,6 @@ import {
   CX_PREFIX_SEARCH_CREATE,
   FormManager,
   IAntFormField,
-  IEndpointOption,
   IFieldConfig,
   IFieldConfigObjectSearchCreate,
   IInjected,
@@ -39,12 +38,10 @@ export interface IObjectSearchCreateProps {
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
   onAddNewToggle?: (isAddingNew: boolean) => void;
-  renderOption?: (option: IEndpointOption) => React.ReactNode;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }
 
-@inject('getEndpoint')
 @autoBindMethods
 @observer
 class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
@@ -66,7 +63,6 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
       'fieldConfig',
       'loadingIcon',
       'noSearchContent',
-      'renderOption',
       'searchIcon',
       'selectProps',
     ]);

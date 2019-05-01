@@ -11,7 +11,7 @@ function getDefaults (overrides?: any) {
     , endpoint = overrides.endpoint || 'legal-organizations'
     , type = overrides.type || 'objectSearchCreate'
     , createFields = overrides.createFields || [{ field: 'name', required: true }, { field: 'amount_owed' }]
-    , fieldConfig = overrides.fieldConfig || { editProps, field, type, endpoint, createFields }
+    , fieldConfig = { editProps, field, type, endpoint, createFields, ...overrides.fieldConfig }
     , fieldSets = overrides.fieldSets || [[fieldConfig]]
     , onSave = jest.fn()
     , model = overrides.model || { law_firm: faker.random.uuid() }
@@ -50,11 +50,14 @@ async function searchFor (tester: any, field: string, result: any, searchTerm: s
   component.simulate('change', { target: { value: searchTerm } });
 
   await tester.refresh();
-  expect(tester.find('li').first().text()).toContain(result.name);
 }
 
 async function selectAddNew (tester: any) {
   tester.click('.ant-input-search-create-item-add div');
+}
+
+async function selectFirst (tester: any) {
+  tester.click('li');
 }
 
 describe('objectSearchCreate', () => {
@@ -64,8 +67,7 @@ describe('objectSearchCreate', () => {
 
     await searchFor(tester, field, result, searchTerm);
 
-    // Select first result and test response
-    tester.click('li');
+    selectFirst(tester);
     tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: result });
   });
@@ -177,5 +179,33 @@ describe('objectSearchCreate', () => {
     await tester.refresh();
 
     expect(tester.text()).toContain(legend);
+  });
+
+  it('Renders non-standard objects', async () => {
+    const { field, onSave, searchTerm, result, props } = getDefaults({
+        createFields: [
+          { field: 'non_nullable' },
+          { field: 'nullable', nullify: true },
+        ],
+        fieldConfig: {
+          renderOption: (option: any) => `${option.first_name} FFF ${option.last_name}`,
+          renderSelected: (option: any) => `${option.last_name} ZZZ ${option.first_name}`,
+        },
+        result: {
+          first_name: faker.name.firstName(),
+          id: faker.random.uuid(),
+          last_name: faker.name.lastName(),
+        },
+      })
+      , tester = await getTester(props);
+
+    await searchFor(tester, field, result, searchTerm);
+
+    expect(tester.find('li').first().text()).toContain('FFF');
+    selectFirst(tester);
+    expect(tester.text()).toContain('ZZZ');
+    tester.submit();
+
+    expect(onSave).toHaveBeenCalledWith({ law_firm: result });
   });
 });

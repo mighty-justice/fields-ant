@@ -27,7 +27,6 @@ export interface IObjectSearchProps {
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
   onAddNew: (search: string) => void;
-  renderOption?: (option: IEndpointOption) => React.ReactNode;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }
@@ -153,17 +152,17 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   }
 
   private renderOption (option: IEndpointOption) {
-    const { renderOption } = this.props
+    const { renderOption, renderSelected } = this.fieldConfig
        , className = `${CX_PREFIX_SEARCH_CREATE}-item`;
 
     return (
       <Antd.Select.Option
         className={className}
         key={option.id}
+        title={renderSelected(option)}
         value={option.id}
-        title={option.name}
       >
-        {renderOption ? renderOption(option) : option.name}
+        {renderOption(option)}
       </Antd.Select.Option>
     );
   }
@@ -203,10 +202,12 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   }
 
   public render () {
-    const { id } = this.injected
+    const { id, value } = this.injected
+      , { renderSelected } = this.fieldConfig
       , showEmpty = this.hasSearch && !this.hasOptions
       , showNoSearch = !this.hasSearch && !this.hasOptions
       , showAdd = this.hasSearch
+      , valueProp = value && { key: value.id, label: renderSelected(value) }
       ;
 
     return (
@@ -225,6 +226,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         placeholder='Search...'
         showSearch
         suffixIcon={this.isLoading.isTrue ? this.loadingIcon : this.searchIcon}
+        value={valueProp}
         {...this.selectProps}
       >
         {this.options.map(this.renderOption)}
