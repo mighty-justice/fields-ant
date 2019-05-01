@@ -167,9 +167,10 @@ describe('objectSearchCreate', () => {
     expect(onSave).toHaveBeenCalledWith({ law_firm: { non_nullable: '', nullable: null }});
   });
 
-  it('Renders complex nested field sets', async () => {
+  it('Renders and saves complex nested field sets', async () => {
     const legend = fakeTextShort()
-      , { field, searchTerm, result, props } = getDefaults({
+      , submitValue = fakeTextShort()
+      , { field, onSave, searchTerm, result, props } = getDefaults({
         createFields: { fields: [{ field: 'complex'}], legend },
       })
       , tester = await getTester(props);
@@ -179,6 +180,10 @@ describe('objectSearchCreate', () => {
     await tester.refresh();
 
     expect(tester.text()).toContain(legend);
+    tester.changeInput('input[id="law_firm.complex"]', submitValue);
+
+    tester.submit();
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { complex: submitValue }});
   });
 
   it('Renders non-standard objects', async () => {
