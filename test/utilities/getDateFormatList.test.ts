@@ -1,8 +1,12 @@
 import { getDateFormatList } from '../../src/utilities/getDateFormatList';
 
+import { DATE_FORMATS } from '@mighty-justice/utils';
+
 describe('getDateFormatList', () => {
     it(`Correctly generates a complete date format list`, async () => {
       const dateFormats = getDateFormatList();
+
+      expect(dateFormats[0]).toBe(DATE_FORMATS.date);
 
       expect(dateFormats).toContain('M/D/YY');
       expect(dateFormats).toContain('M/D/YYYY');

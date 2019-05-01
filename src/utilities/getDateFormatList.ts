@@ -1,7 +1,7 @@
 export function getDateFormatList () {
   const months = ['MM', 'M']
     , days = ['DD', 'D']
-    , years = ['YYYY', 'YY']
+    , years = ['YY', 'YYYY']
     , delineators = ['/', '.', '', ' ', '-']
     , dateFormatList: string[] = []
     ;
