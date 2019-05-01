@@ -250,7 +250,7 @@ export function modelFromFieldConfigs (fieldConfigs: IFieldConfig[], data: IMode
           // make sure to nullify the appropriate fields in the new model
           , isAddingNew = isObject(formValue) && !has(formValue, ID_ATTR)
           , value = (isTypeObjectSearchCreate(fieldConfig) && isAddingNew)
-            ? modelFromFieldConfigs(fieldConfig.createFields.map(fillInFieldConfig), formValue)
+            ? modelFromFieldConfigs(getFieldSetFields(fieldConfig.createFields).map(fillInFieldConfig), formValue)
             : nullifiedValue
             ;
 
