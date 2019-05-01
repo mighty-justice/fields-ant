@@ -3,10 +3,14 @@ import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
 import { FormCard } from '../../src';
-import { fakeTextShort } from "../factories";
+import { fakeTextShort } from '../factories';
 
 function getDefaults (overrides?: any) {
-  const field = overrides.field || 'law_firm'
+  const fakeLawFirm = () => ({
+      id: faker.random.uuid(),
+      name: faker.company.companyName(),
+    })
+    , field = overrides.field || 'law_firm'
     , editProps = { debounceWait: 0 }
     , endpoint = overrides.endpoint || 'legal-organizations'
     , type = overrides.type || 'objectSearchCreate'
@@ -14,14 +18,14 @@ function getDefaults (overrides?: any) {
     , fieldConfig = { editProps, field, type, endpoint, createFields, ...overrides.fieldConfig }
     , fieldSets = overrides.fieldSets || [[fieldConfig]]
     , onSave = jest.fn()
-    , model = overrides.model || { law_firm: faker.random.uuid() }
+    , model = overrides.model || { law_firm: null }
     , props = { fieldSets, model, onSave }
     ;
 
   return {
     expectedLabel: 'Law Firm',
     fakeOwed: faker.finance.amount(),
-    result: { id: faker.random.uuid(), name: faker.company.companyName() },
+    result: fakeLawFirm(),
     searchTerm: faker.lorem.sentence(),
 
     createFields,
