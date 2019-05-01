@@ -3,6 +3,7 @@ import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
 import { FormCard } from '../../src';
+import { fakeTextShort } from "../factories";
 
 function getDefaults (overrides?: any) {
   const field = overrides.field || 'law_firm'
@@ -164,4 +165,17 @@ describe('objectSearchCreate', () => {
     expect(onSave).toHaveBeenCalledWith({ law_firm: { non_nullable: '', nullable: null }});
   });
 
+  it('Renders complex nested field sets', async () => {
+    const legend = fakeTextShort()
+      , { field, searchTerm, result, props } = getDefaults({
+        createFields: { fields: [{ field: 'complex'}], legend },
+      })
+      , tester = await getTester(props);
+
+    await searchFor(tester, field, result, searchTerm);
+    await selectAddNew(tester);
+    await tester.refresh();
+
+    expect(tester.text()).toContain(legend);
+  });
 });

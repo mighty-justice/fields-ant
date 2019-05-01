@@ -150,16 +150,22 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
   };
 }
 
-export function fillInFieldSet (fieldSet: IFieldSetPartial): IFieldSet {
-  // Fills in the defaults from common so we can keep configurations light
+type IMapper = (fields: IFieldConfigPartial) => IFieldConfigPartial;
+
+export function mapFieldSetFields (fieldSet: IFieldSetPartial, mapper: IMapper): IFieldSetPartial {
   if (isPartialFieldSetSimple(fieldSet)) {
-    return fieldSet.map(fillInFieldConfig);
+    return fieldSet.map(mapper);
   }
 
   return {
     ...fieldSet,
-    fields: fieldSet.fields.map(fillInFieldConfig),
+    fields: fieldSet.fields.map(mapper),
   };
+}
+
+export function fillInFieldSet (fieldSet: IFieldSetPartial): IFieldSet {
+  // Fills in the defaults from common so we can keep configurations light
+  return mapFieldSetFields(fieldSet, fillInFieldConfig) as IFieldSet;
 }
 
 export function fillInFieldSets (fieldSets: IFieldSetPartial[]): IFieldSet[] {
