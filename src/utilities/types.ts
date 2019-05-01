@@ -64,7 +64,7 @@ function booleanFromForm (value: IValue) {
 }
 
 const dateFormatList = flattenArray(
-  ['/', '.', ' ', '-'].map(joinBy => ([
+  ['/', '.', '', ' ', '-'].map(joinBy => ([
     ['MM', 'DD', 'YY'].join(joinBy),
     ['MM', 'DD', 'YYYY'].join(joinBy),
   ])));
