@@ -8,6 +8,8 @@ export declare function isPartialFieldSetSimple(fieldSet: IFieldSetPartial): fie
 export declare function isFieldSetSimple(fieldSet: IFieldSet): fieldSet is IFieldSetSimple;
 export declare function filterInsertIf(fieldConfig: IFieldConfig, model?: IModel | IModel[]): boolean;
 export declare function fillInFieldConfig(fieldConfig: IFieldConfigPartial): IFieldConfig;
+declare type IMapper = (fields: IFieldConfigPartial) => IFieldConfigPartial;
+export declare function mapFieldSetFields(fieldSet: IFieldSetPartial, mapper: IMapper): IFieldSetPartial;
 export declare function fillInFieldSet(fieldSet: IFieldSetPartial): IFieldSet;
 export declare function fillInFieldSets(fieldSets: IFieldSetPartial[]): IFieldSet[];
 export declare function getFieldSetFields(fieldSet: IFieldSet): IFieldConfig[];

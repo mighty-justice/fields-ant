@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { SelectProps } from 'antd/lib/select';
-import { FormManager, IEndpointOption, IFieldConfig, IFieldConfigObjectSearchCreate } from '../';
+import { FormManager, IFieldConfig, IFieldConfigObjectSearchCreate } from '../';
 export declare function isTypeObjectSearchCreate(fieldConfig: IFieldConfig): fieldConfig is IFieldConfigObjectSearchCreate;
 export interface IObjectSearchCreateProps {
     addNewContent?: React.ReactNode;
@@ -15,7 +15,6 @@ export interface IObjectSearchCreateProps {
     loadingIcon?: React.ReactNode;
     noSearchContent?: React.ReactNode;
     onAddNewToggle?: (isAddingNew: boolean) => void;
-    renderOption?: (option: IEndpointOption) => React.ReactNode;
     searchIcon?: React.ReactNode;
     selectProps: SelectProps;
 }

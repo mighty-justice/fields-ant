@@ -62,6 +62,8 @@ export interface IFieldConfigOptionSelect extends IFieldConfigBase {
 export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
     createFields: IFieldConfigBase[];
     endpoint: string;
+    renderOption: (option: IEndpointOption) => React.ReactNode;
+    renderSelected: (option: IEndpointOption) => string;
     searchFilters?: {
         [key: string]: any;
     };
@@ -95,6 +97,5 @@ export interface IInputProps {
 }
 export interface IEndpointOption {
     id: string;
-    name: string;
 }
 export {};

@@ -9,6 +9,7 @@ export interface INestedFieldSetProps {
     search?: string;
 }
 declare class NestedFieldSet extends Component<INestedFieldSetProps> {
+    private fieldValueMapper;
     private readonly fieldSet;
     private getDefaultValue;
     render(): JSX.Element;
