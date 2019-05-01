@@ -10,7 +10,6 @@ import {
 } from '../interfaces';
 
 import {
-  DATE_FORMATS,
   EMPTY_FIELD,
   formatCommaSeparatedNumber,
   formatDate,
@@ -35,6 +34,7 @@ import Rate, { formatRating } from '../inputs/Rate';
 import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
 import { IModel, IValue } from '../props';
 import { REGEXP_SSN } from '../consts';
+import { getDateFormatList } from './getDateFormatList';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -64,6 +64,8 @@ function booleanFromForm (value: IValue) {
   return value;
 }
 
+const dateFormatList = getDateFormatList();
+
 export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   boolean: {
     editComponent: OptionSelect,
@@ -87,7 +89,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   },
   datepicker: {
     editComponent: Antd.DatePicker,
-    editProps: { format: DATE_FORMATS.date },
+    editProps: { format: dateFormatList },
     fromForm: (value: any) => value && format(value, 'YYYY-MM-DD'),
     render: passRenderOnlyValue(formatDate),
     toForm: (value: any) => (value || null) && moment(value),

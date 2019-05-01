@@ -115,6 +115,11 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
       },
     } : undefined;
 
+  if (!TYPES[type]) {
+    // istanbul ignore next
+    throw new Error(`Type '${type}' not in fields-ant TYPES`);
+  }
+
   return {
     // Universal defaults
     disabled: false,
