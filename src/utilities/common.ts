@@ -150,8 +150,9 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
   };
 }
 
-export function mapFieldSetFields (fieldSet: IFieldSetPartial,
-                                   mapper: (fields: IFieldConfigPartial) => IFieldConfigPartial): IFieldSetPartial {
+type IMapper = (fields: IFieldConfigPartial) => IFieldConfigPartial;
+
+export function mapFieldSetFields (fieldSet: IFieldSetPartial, mapper: IMapper): IFieldSetPartial {
   if (isPartialFieldSetSimple(fieldSet)) {
     return fieldSet.map(mapper);
   }
