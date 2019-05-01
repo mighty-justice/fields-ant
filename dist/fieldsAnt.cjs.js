@@ -34785,6 +34785,24 @@ var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
 var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
 var ID_ATTR = 'id';
 
+function getDateFormatList() {
+  var months = ['MM', 'M'],
+      days = ['DD', 'D'],
+      years = ['YY', 'YYYY'],
+      delineators = ['/', '.', '', ' ', '-'],
+      dateFormatList = [];
+  months.forEach(function (month) {
+    days.forEach(function (day) {
+      years.forEach(function (year) {
+        delineators.forEach(function (delineator) {
+          dateFormatList.push([month, day, year].join(delineator));
+        });
+      });
+    });
+  });
+  return dateFormatList;
+}
+
 function passRenderOnlyValue(func) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
   return function (value, _fieldConfig, _model) {
@@ -34822,6 +34840,7 @@ function booleanFromForm(value) {
   return value;
 }
 
+var dateFormatList = getDateFormatList();
 var TYPES = {
   "boolean": {
     editComponent: OptionSelect,
@@ -34852,7 +34871,7 @@ var TYPES = {
   datepicker: {
     editComponent: Antd.DatePicker,
     editProps: {
-      format: DATE_FORMATS.date
+      format: dateFormatList
     },
     fromForm: function fromForm(value) {
       return value && dateFns_50$1(value, 'YYYY-MM-DD');
@@ -35136,6 +35155,12 @@ function fillInFieldConfig(fieldConfig) {
       required: true
     }
   } : undefined;
+
+  if (!TYPES[type]) {
+    // istanbul ignore next
+    throw new Error("Type '".concat(type, "' not in fields-ant TYPES"));
+  }
+
   return _objectSpread({
     // Universal defaults
     disabled: false,
@@ -35249,7 +35274,7 @@ function modelFromFieldConfigs(fieldConfigs, data) {
         shouldNullify = nullify && !formValue && formValue !== false,
         nullifiedValue = shouldNullify ? null : formValue,
         isAddingNew = lodash.isObject(formValue) && !lodash.has(formValue, ID_ATTR),
-        value = isTypeObjectSearchCreate(fieldConfig) && isAddingNew ? modelFromFieldConfigs(fieldConfig.createFields.map(fillInFieldConfig), formValue) : nullifiedValue;
+        value = isTypeObjectSearchCreate(fieldConfig) && isAddingNew ? modelFromFieldConfigs(getFieldSetFields(fieldConfig.createFields).map(fillInFieldConfig), formValue) : nullifiedValue;
     lodash.set(returnValues, field, value);
   }); // We always include ids of models on submit
 
