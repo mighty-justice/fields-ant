@@ -14,6 +14,7 @@ import {
 
 import FormManager from '../utilities/FormManager';
 import { IFieldSetPartial } from '../interfaces';
+import { renderWithTooltip } from '../utilities/renderWithTooltip';
 
 import FormField from './FormField';
 
@@ -41,9 +42,26 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
     return fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, formModel));
   }
 
+  private renderLegend () {
+    const fieldSet = this.fieldSet;
+
+    if (isFieldSetSimple(fieldSet)) { return null; }
+    const { legend, tooltip } = fieldSet;
+
+    if (!legend) { return null; }
+
+    return (
+      <h3>
+        {tooltip
+          ? renderWithTooltip(legend, tooltip)
+          : legend
+        }
+      </h3>
+    );
+  }
+
   public render () {
     const filteredFieldConfigs = this.filteredFieldConfigs
-      , legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend
       , rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps
       ;
 
@@ -53,7 +71,7 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
 
     return (
       <>
-        {legend && <h3>{legend}</h3>}
+        {this.renderLegend()}
 
         <Antd.Row {...rowProps}>
           {filteredFieldConfigs.map((fieldConfig, idx) => (

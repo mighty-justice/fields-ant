@@ -133,6 +133,7 @@ export interface IFieldSetComplex {
   fields: IFieldSetSimple;
   legend: string;
   rowProps?: RowProps;
+  tooltip?: string;
 }
 
 // fieldSets: IFieldSet[]
