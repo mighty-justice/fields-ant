@@ -35,6 +35,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       onSave,
       processErrors,
       setRefFormManager,
+      successText,
     } = props;
 
     this.formManager = new FormManager(
@@ -46,6 +47,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
         onSave,
         onSuccess: this.onSuccess,
         processErrors,
+        successText,
       },
     );
 

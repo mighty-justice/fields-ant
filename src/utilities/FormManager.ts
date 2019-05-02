@@ -36,6 +36,7 @@ interface IArgs {
   onSave: (data: IModel) => void | Promise<void>;
   onSuccess: () => any | Promise<any>;
   processErrors: (errors: IBackendValidation) => IBackendValidation;
+  successText: null | string;
 }
 
 interface IFormWrappedInstance {
@@ -65,6 +66,7 @@ class FormManager {
       onSave: noop,
       onSuccess: noop,
       processErrors: (errors) => errors,
+      successText: 'Success',
       ...pickBy(args, value => value !== undefined),
     };
   }
@@ -162,8 +164,15 @@ class FormManager {
   }
 
   private onSuccess () {
-    const { onSuccess } = this.args;
-    Antd.notification.success({ description: '', duration: 3, message: 'Success' });
+    const { onSuccess, successText } = this.args;
+
+    if (successText) {
+      Antd.notification.success({
+        description: '',
+        duration: 3,
+        message: successText,
+      });
+    }
     onSuccess();
   }
 

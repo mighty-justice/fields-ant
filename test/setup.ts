@@ -2,10 +2,13 @@ import '@babel/polyfill';
 import enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { Provider } from 'mobx-react';
+import addons, { mockChannel } from '@storybook/addons';
 
 import { TesterConfig } from '@mighty-justice/tester';
 
 enzyme.configure({ adapter: new Adapter() });
+
+addons.setChannel(mockChannel());
 
 TesterConfig.configure(enzyme, {
   hooks: [
