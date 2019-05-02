@@ -113,6 +113,14 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     const { addNewContent } = this.props
       , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.ADD}`;
 
+    if (!this.hasSearch) {
+      return (
+        <Antd.Select.Option className={className} key={ITEM_KEYS.ADD} disabled={true}>
+          <div><Antd.Icon type='plus' /> Search to add new</div>
+        </Antd.Select.Option>
+      );
+    }
+
     return (
       <Antd.Select.Option className={className} key={ITEM_KEYS.ADD}>
         <div>{addNewContent || <><Antd.Icon type='plus' /> Add new</>}</div>
@@ -212,7 +220,6 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     const { id, onAddNew } = this.injected
       , showEmpty = this.hasSearch && !this.hasOptions
       , showNoSearch = !this.hasSearch && !this.hasOptions
-      , showAdd = onAddNew && this.hasSearch
       , { label, showLabel } = this.fieldConfig
       , placeholderLabel = (showLabel && label) ? ` ${label}` : ''
       , placeholder = `Search${placeholderLabel}...`
@@ -240,7 +247,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         {this.options.map(this.renderOption)}
         {showEmpty && this.renderOptionEmpty()}
         {showNoSearch && this.renderOptionNoSearch()}
-        {showAdd && this.renderOptionAdd()}
+        {onAddNew && this.renderOptionAdd()}
       </Antd.Select>
     );
   }

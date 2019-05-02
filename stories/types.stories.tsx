@@ -19,6 +19,7 @@ const props = {
       ...TYPE_GENERATORS[type].fieldConfigFactory.build(),
       field: type,
       label: type,
+      type,
     }))],
     model: mapValues(TYPE_GENERATORS, value => value.valueFunction()),
     title: 'Working Title',
