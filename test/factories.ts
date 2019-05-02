@@ -86,10 +86,15 @@ export const radioFactory = fieldFactoryForType('radio')
 export const optionSelectFactory = fieldFactoryForType('optionSelect')
   .attrs({ options: attrOptions });
 
+export const objectSearchFactory = fieldFactoryForType('objectSearch')
+  .attrs({
+    endpoint: '/endpoint/',
+  });
+
 export const objectSearchCreateFactory = fieldFactoryForType('objectSearchCreate')
+  .extend(objectSearchFactory)
   .attrs({
     createFields: [{ field: 'name', required: true }],
-    endpoint: '/endpoint/',
   });
 
 /*
@@ -186,6 +191,7 @@ export const TYPE_GENERATORS: ITypeGenerators = {
   hidden: { valueFunction: faker.random.uuid, fieldConfigFactory: hiddenFactory },
   money: { valueFunction: faker.finance.amount, fieldConfigFactory: moneyFactory },
   number: { valueFunction: attrNumber(), fieldConfigFactory: numberFactory },
+  objectSearch: { valueFunction: fakeObjectSearchCreate, fieldConfigFactory: objectSearchFactory },
   objectSearchCreate: { valueFunction: fakeObjectSearchCreate, fieldConfigFactory: objectSearchCreateFactory },
   optionSelect: { valueFunction: () => 'first', fieldConfigFactory: optionSelectFactory },
   password: { valueFunction: faker.internet.password, fieldConfigFactory: passwordFactory },
@@ -212,6 +218,7 @@ export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
   date: ['2017-11-22', '11/22/17'],
   datepicker: ['2017-11-22', '11/22/17'],
   hidden: [TYPE_GENERATORS.hidden.valueFunction(), SKIP],
+  objectSearch: [{ name: 'Example Co.', id: faker.random.uuid() }, 'Example Co.'],
   objectSearchCreate: [{ name: 'Example Co.', id: faker.random.uuid() }, 'Example Co.'],
   optionSelect: ['second', 'Second Item'],
   password: [TYPE_GENERATORS.password.valueFunction(), '********'],

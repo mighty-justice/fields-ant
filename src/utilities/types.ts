@@ -35,6 +35,7 @@ import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
 import { IModel, IValue } from '../props';
 import { REGEXP_SSN } from '../consts';
 import { getDateFormatList } from './getDateFormatList';
+import ObjectSearch from '../inputs/ObjectSearch';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -139,6 +140,14 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     editProps: { type: 'number' },
     nullify: true,
     render: formatCommaSeparatedNumber,
+  },
+  objectSearch: {
+    editComponent: ObjectSearch,
+    fieldConfigProp: true,
+    nullify: true,
+    render: passRenderOnlyValue(getNameOrDefault),
+    renderOption: passRenderOnlyValue(getNameOrDefault),
+    renderSelected: passRenderOnlyValue(getNameOrDefault),
   },
   objectSearchCreate: {
     editComponent: ObjectSearchCreate,
