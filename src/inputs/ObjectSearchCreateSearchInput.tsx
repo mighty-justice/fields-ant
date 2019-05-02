@@ -201,13 +201,27 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
     }
   }
 
-  public render () {
-    const { id, value } = this.injected
+  private get valueProp (): { value?: { key: string, label: string } } {
+    const { value } = this.injected
+      , valueId = get(value, 'id')
       , { renderSelected } = this.fieldConfig
+      ;
+
+    if (!valueId) { return {}; }
+
+    return {
+      value: {
+        key: valueId,
+        label: renderSelected(value),
+      },
+    };
+  }
+
+  public render () {
+    const { id } = this.injected
       , showEmpty = this.hasSearch && !this.hasOptions
       , showNoSearch = !this.hasSearch && !this.hasOptions
       , showAdd = this.hasSearch
-      , valueProp = value && { key: value.id, label: renderSelected(value) }
       ;
 
     return (
@@ -226,7 +240,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         placeholder='Search...'
         showSearch
         suffixIcon={this.isLoading.isTrue ? this.loadingIcon : this.searchIcon}
-        value={valueProp}
+        {...this.valueProp}
         {...this.selectProps}
       >
         {this.options.map(this.renderOption)}

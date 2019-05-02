@@ -212,7 +212,7 @@ export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
   date: ['2017-11-22', '11/22/17'],
   datepicker: ['2017-11-22', '11/22/17'],
   hidden: [TYPE_GENERATORS.hidden.valueFunction(), SKIP],
-  objectSearchCreate: [{ name: 'Example Co.' }, 'Example Co.'],
+  objectSearchCreate: [{ name: 'Example Co.', id: faker.random.uuid() }, 'Example Co.'],
   optionSelect: ['second', 'Second Item'],
   password: [TYPE_GENERATORS.password.valueFunction(), '********'],
   percentage: ['0.278', '27.80%'],
