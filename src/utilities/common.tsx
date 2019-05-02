@@ -106,7 +106,7 @@ export function filterInsertIf (fieldConfig: IFieldConfig, model?: IModel | IMod
 
 export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConfig {
   const type = inferType(fieldConfig)
-    , label = varToLabel(getFieldSuffix(fieldConfig.field));
+    , label = fieldConfig.label || varToLabel(getFieldSuffix(fieldConfig.field));
 
   const requiredValidationRule = fieldConfig.required
     ? {
