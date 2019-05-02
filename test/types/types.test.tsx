@@ -47,5 +47,15 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
       tester.submit();
       expect(onSave).toHaveBeenCalledWith(model);
     });
+
+    it('Shows required asterisk', async () => {
+      const onSave = jest.fn()
+        , requiredFieldConfig = { ...fieldConfig, required: true }
+        , props = { fieldSets: [[requiredFieldConfig]], model, onSave }
+        , shouldShow = type !== 'hidden';
+
+      const tester = await new Tester(FormCard, { props }).mount();
+      expect(tester.find('.ant-form-item-required').exists()).toBe(shouldShow);
+    });
   });
 });
