@@ -223,6 +223,12 @@ export function renderValue (fieldConfigPartial: IFieldConfigPartial, model?: IM
   return render(value, fieldConfig, model || {});
 }
 
+export function renderLabel (fieldConfig: IFieldConfig): React.ReactNode {
+  const { label, showLabel } = fieldConfig;
+  if (!showLabel) { return ''; }
+  return label;
+}
+
 type IColumns = Array<ColumnProps<IModel>>;
 
 export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: IModel[] = []): IColumns {
@@ -233,7 +239,7 @@ export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: I
       dataIndex: fieldConfig.field,
       key: fieldConfig.field,
       render: (value: IValue, model: IModel) => fieldConfig.render(value, fieldConfig, model),
-      title: fieldConfig.showLabel ? fieldConfig.label : '',
+      title: renderLabel(fieldConfig),
       ...fieldConfig.tableColumnProps,
     }));
 }

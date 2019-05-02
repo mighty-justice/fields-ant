@@ -19,6 +19,7 @@ import {
   IInjected,
   IInputProps,
   NestedFieldSet,
+  renderLabel,
 } from '../';
 
 import ObjectSearch from './ObjectSearch';
@@ -92,7 +93,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
           fieldSet={this.fieldConfig.createFields}
           formManager={formManager}
           id={fieldConfig.field}
-          label={this.fieldConfig.label}
+          label={renderLabel(this.fieldConfig)}
           search={this.search}
         />
         <Antd.Button

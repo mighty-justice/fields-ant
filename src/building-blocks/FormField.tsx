@@ -8,7 +8,7 @@ import * as Antd from 'antd';
 import { ValidationRule as AntValidationRule } from 'antd/lib/form';
 
 import FormManager from '../utilities/FormManager';
-import { fillInFieldConfig, filterInsertIf } from '../utilities/common';
+import { fillInFieldConfig, filterInsertIf, renderLabel } from '../utilities/common';
 import { IFieldConfigPartial, IFieldsValidator } from '../interfaces';
 
 export interface IFormFieldProps {
@@ -22,11 +22,6 @@ class FormField extends Component<IFormFieldProps> {
   @computed
   private get fieldConfig () {
     return fillInFieldConfig(this.props.fieldConfig);
-  }
-
-  private get label () {
-    const { label, showLabel } = this.fieldConfig;
-    return showLabel ? label : '';
   }
 
   private get initialValue () {
@@ -118,7 +113,11 @@ class FormField extends Component<IFormFieldProps> {
         ? editComponent
         : getFieldDecorator(field, this.decoratorOptions)(editComponent)
       , FormItemComponent = (
-        <Antd.Form.Item className={className} {...formItemProps} label={this.label} >
+        <Antd.Form.Item
+          className={className}
+          {...formItemProps}
+          label={renderLabel(fieldConfig)}
+        >
           {wrappedComponent}
         </Antd.Form.Item>
     );

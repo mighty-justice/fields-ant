@@ -19,7 +19,7 @@ export interface INestedFieldSetProps {
   fieldSet: IFieldSetPartial;
   formManager: FormManager;
   id: string;
-  label: string | null;
+  label: React.ReactNode;
   search?: string;
 }
 
