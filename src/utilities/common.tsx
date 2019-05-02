@@ -33,6 +33,7 @@ import { IModel, IValue } from '../props';
 import { TYPES } from './types';
 import { isTypeObjectSearchCreate } from '../inputs/ObjectSearchCreate';
 import { ID_ATTR } from '../consts';
+import { Tooltip } from 'antd';
 
 // istanbul ignore next
 export async function asyncNoop () { return; }
@@ -224,8 +225,19 @@ export function renderValue (fieldConfigPartial: IFieldConfigPartial, model?: IM
 }
 
 export function renderLabel (fieldConfig: IFieldConfig): React.ReactNode {
-  const { label, showLabel } = fieldConfig;
+  const { label, showLabel, tooltip } = fieldConfig;
   if (!showLabel) { return ''; }
+  if (tooltip) {
+    return (
+      <span>
+        {label}&nbsp;
+        <Tooltip title="What do you want others to call you?">
+          <Icon type="question-circle-o" />
+        </Tooltip>
+      </span>
+    );
+  }
+
   return label;
 }
 
