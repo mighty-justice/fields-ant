@@ -92,10 +92,10 @@ export const objectSearchFactory = fieldFactoryForType('objectSearch')
   });
 
 export const objectSearchCreateFactory = fieldFactoryForType('objectSearchCreate')
-  .extend(objectSearchFactory)
   .attrs({
     createFields: [{ field: 'name', required: true }],
-    });
+    endpoint: '/endpoint/',
+  });
 
 /*
  *   FIELD SET FACTORY
