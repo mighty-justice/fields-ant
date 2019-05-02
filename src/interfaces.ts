@@ -40,6 +40,7 @@ interface IFieldConfigBase {
   nullify: boolean;
   render: (value: IValue, fieldConfig: IFieldConfig, model: IModel) => React.ReactNode;
   showLabel: boolean;
+  tooltip?: string;
   value?: string | number;
 
   // Attributes for filtering this field out, in read contexts,

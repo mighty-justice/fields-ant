@@ -29,11 +29,11 @@ import {
 } from '../interfaces';
 
 import { IModel, IValue } from '../props';
-
-import { TYPES } from './types';
 import { isTypeObjectSearchCreate } from '../inputs/ObjectSearchCreate';
 import { ID_ATTR } from '../consts';
-import { Tooltip } from 'antd';
+
+import { TYPES } from './types';
+import { renderWithTooltip } from './renderWithTooltip';
 
 // istanbul ignore next
 export async function asyncNoop () { return; }
@@ -111,7 +111,7 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
   const requiredValidationRule = fieldConfig.required
     ? {
       required: {
-        message: 'Field required',
+        message: `Please input a valid ${label || 'value'}`,
         required: true,
       },
     } : undefined;
@@ -227,17 +227,7 @@ export function renderValue (fieldConfigPartial: IFieldConfigPartial, model?: IM
 export function renderLabel (fieldConfig: IFieldConfig): React.ReactNode {
   const { label, showLabel, tooltip } = fieldConfig;
   if (!showLabel) { return ''; }
-  if (tooltip) {
-    return (
-      <span>
-        {label}&nbsp;
-        <Tooltip title="What do you want others to call you?">
-          <Icon type="question-circle-o" />
-        </Tooltip>
-      </span>
-    );
-  }
-
+  if (tooltip) { return renderWithTooltip(label, tooltip); }
   return label;
 }
 
