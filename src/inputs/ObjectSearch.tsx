@@ -90,12 +90,11 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   private get isPristine () {
-    return (
-      !this.hasOptions
-      && !this.hasSearch
-      && !this.hasNewEndpoint
-      && !this.hasNewSearchFilters
-    );
+    return !this.hasOptions && !this.hasSearch;
+  }
+
+  private get hasNewProps () {
+    return !this.hasNewEndpoint || !this.hasNewSearchFilters;
   }
 
   private get loadingIcon () {
@@ -220,7 +219,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   // istanbul ignore next
   private onFocus () {
-    if (this.isPristine) {
+    if (this.isPristine || this.hasNewProps) {
       // Trigger empty search
       this.handleSearch(this.search);
     }
