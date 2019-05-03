@@ -82,19 +82,19 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   private get hasNewEndpoint () {
-    return this.previousEndpoint === this.fieldConfig.endpoint;
+    return this.previousEndpoint !== this.fieldConfig.endpoint;
   }
 
   private get hasNewSearchFilters () {
-    return this.previousSearchFilters === toKey(this.fieldConfig.searchFilters || {});
+    return this.previousSearchFilters !== toKey(this.fieldConfig.searchFilters || {});
+  }
+
+  private get hasNewProps () {
+    return this.hasNewEndpoint || this.hasNewSearchFilters;
   }
 
   private get isPristine () {
     return !this.hasOptions && !this.hasSearch;
-  }
-
-  private get hasNewProps () {
-    return !this.hasNewEndpoint || !this.hasNewSearchFilters;
   }
 
   private get loadingIcon () {

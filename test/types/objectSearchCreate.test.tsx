@@ -4,6 +4,7 @@ import { Tester } from '@mighty-justice/tester';
 
 import { FormCard } from '../../src';
 import { fakeTextShort } from '../factories';
+import ObjectSearch from '../../src/inputs/ObjectSearch';
 
 function getDefaults (overrides?: any) {
   const fakeLawFirm = () => ({
@@ -216,5 +217,30 @@ describe('objectSearchCreate', () => {
     tester.submit();
 
     expect(onSave).toHaveBeenCalledWith({ law_firm: result });
+  });
+
+  it('Properly caches and displays options', async () => {
+    const { field, searchTerm, result, props, endpoint } = getDefaults({})
+      , testerForm = await getTester(props) as any
+      , inputProps = testerForm.find('ObjectSearch').props()
+      , tester = (await new Tester(ObjectSearch, { props: inputProps }).mount() as any)
+      ;
+
+    expect(tester.getEndpoint.mock.calls.length).toBe(0);
+
+    // First search
+    testerForm.endpoints['/legal-organizations/'] = { results: [result] };
+    await searchFor(tester, field, result, searchTerm);
+    expect(testerForm.getEndpoint.mock.calls.length).toBe(1);
+
+    // Re-focus but no new props
+    tester.instance.onFocus();
+    expect(testerForm.getEndpoint.mock.calls.length).toBe(1);
+
+    // Refocus but with new props
+    testerForm.endpoints['/legal-organizations-2/'] = { results: [result] };
+    inputProps.fieldConfig.endpoint = `${endpoint}-2`;
+    tester.instance.onFocus();
+    expect(testerForm.getEndpoint.mock.calls.length).toBe(2);
   });
 });
