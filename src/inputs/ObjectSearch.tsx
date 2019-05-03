@@ -26,19 +26,10 @@ export interface IObjectSearchProps {
   fieldConfig: IFieldConfigObjectSearchCreate;
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
-  onAddNew: (search: string) => void;
+  onAddNew?: (search: string) => void;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }
-
-/*
-This component performs the 'search' action of ObjectSearchCreate.
-It must be a separate component so that Ant Design / rc-form can
-inject their own props, do validation, and correctly show help:
-
-{formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
-  <ObjectSearchCreateSearchInput
-*/
 
 const ITEM_KEYS = {
   ADD: 'add',
@@ -49,7 +40,7 @@ const ITEM_KEYS = {
 @inject('getEndpoint')
 @autoBindMethods
 @observer
-class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
+class ObjectSearch extends Component<IObjectSearchProps> {
   @observable private options: IEndpointOption[] = [];
   @observable private isLoading = new SmartBool();
   @observable private search = '';
@@ -122,6 +113,14 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
     const { addNewContent } = this.props
       , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.ADD}`;
 
+    if (!this.hasSearch) {
+      return (
+        <Antd.Select.Option className={className} key={ITEM_KEYS.ADD} disabled={true}>
+          <div><Antd.Icon type='plus' /> Search to add new</div>
+        </Antd.Select.Option>
+      );
+    }
+
     return (
       <Antd.Select.Option className={className} key={ITEM_KEYS.ADD}>
         <div>{addNewContent || <><Antd.Icon type='plus' /> Add new</>}</div>
@@ -177,7 +176,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
     }
 
     // Add new
-    if (selectedOption.key === ITEM_KEYS.ADD) {
+    if (onAddNew && selectedOption.key === ITEM_KEYS.ADD) {
       onAddNew(this.search);
       return;
     }
@@ -218,10 +217,12 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
   }
 
   public render () {
-    const { id } = this.injected
+    const { id, onAddNew } = this.injected
       , showEmpty = this.hasSearch && !this.hasOptions
       , showNoSearch = !this.hasSearch && !this.hasOptions
-      , showAdd = this.hasSearch
+      , { label, showLabel } = this.fieldConfig
+      , placeholderLabel = (showLabel && label) ? ` ${label}` : ''
+      , placeholder = `Search${placeholderLabel}...`
       ;
 
     return (
@@ -237,7 +238,7 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         onFocus={this.onFocus}
         onSearch={this.debouncedHandleSearch}
         optionLabelProp='title'
-        placeholder='Search...'
+        placeholder={placeholder}
         showSearch
         suffixIcon={this.isLoading.isTrue ? this.loadingIcon : this.searchIcon}
         {...this.valueProp}
@@ -246,10 +247,10 @@ class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
         {this.options.map(this.renderOption)}
         {showEmpty && this.renderOptionEmpty()}
         {showNoSearch && this.renderOptionNoSearch()}
-        {showAdd && this.renderOptionAdd()}
+        {onAddNew && this.renderOptionAdd()}
       </Antd.Select>
     );
   }
 }
 
-export default ObjectSearchCreateSearchInput;
+export default ObjectSearch;

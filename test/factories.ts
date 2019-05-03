@@ -32,7 +32,7 @@ export const fakeDateRecent = () => format(faker.date.recent(), 'YYYY-MM-DD');
 export const fakeDatePast = () => format(faker.date.past(100), 'YYYY-MM-DD');
 export const fakeDuration = () => faker.helpers.replaceSymbolWithNumber('P#Y');
 export const fakeField = () => faker.random.words(3).replace(/[^A-Za-z ]/g, '').replace(/ /g, '_').toLowerCase();
-export const fakeObjectSearchCreate = () => ({ name: fakeTextShort(), id: faker.random.uuid() });
+export const fakeObjectSearch = () => ({ name: fakeTextShort(), id: faker.random.uuid() });
 export const fakerPercentage = () => sample(['1', Number(faker.helpers.replaceSymbolWithNumber('0.###')).toString()]);
 export const fakeTextLong = () => faker.random.words(12);
 export const fakeRate = () => faker.random.number(4) + 1;
@@ -85,6 +85,11 @@ export const radioFactory = fieldFactoryForType('radio')
 
 export const optionSelectFactory = fieldFactoryForType('optionSelect')
   .attrs({ options: attrOptions });
+
+export const objectSearchFactory = fieldFactoryForType('objectSearch')
+  .attrs({
+    endpoint: '/endpoint/',
+  });
 
 export const objectSearchCreateFactory = fieldFactoryForType('objectSearchCreate')
   .attrs({
@@ -186,7 +191,8 @@ export const TYPE_GENERATORS: ITypeGenerators = {
   hidden: { valueFunction: faker.random.uuid, fieldConfigFactory: hiddenFactory },
   money: { valueFunction: faker.finance.amount, fieldConfigFactory: moneyFactory },
   number: { valueFunction: attrNumber(), fieldConfigFactory: numberFactory },
-  objectSearchCreate: { valueFunction: fakeObjectSearchCreate, fieldConfigFactory: objectSearchCreateFactory },
+  objectSearch: { valueFunction: fakeObjectSearch, fieldConfigFactory: objectSearchFactory },
+  objectSearchCreate: { valueFunction: fakeObjectSearch, fieldConfigFactory: objectSearchCreateFactory },
   optionSelect: { valueFunction: () => 'first', fieldConfigFactory: optionSelectFactory },
   password: { valueFunction: faker.internet.password, fieldConfigFactory: passwordFactory },
   percentage: { valueFunction: fakerPercentage, fieldConfigFactory: percentageFactory },
@@ -212,6 +218,7 @@ export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
   date: ['2017-11-22', '11/22/17'],
   datepicker: ['2017-11-22', '11/22/17'],
   hidden: [TYPE_GENERATORS.hidden.valueFunction(), SKIP],
+  objectSearch: [{ name: 'Example Co.', id: faker.random.uuid() }, 'Example Co.'],
   objectSearchCreate: [{ name: 'Example Co.', id: faker.random.uuid() }, 'Example Co.'],
   optionSelect: ['second', 'Second Item'],
   password: [TYPE_GENERATORS.password.valueFunction(), '********'],

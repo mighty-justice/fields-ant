@@ -21,7 +21,7 @@ import {
   NestedFieldSet,
 } from '../';
 
-import ObjectSearchCreateSearchInput from './ObjectSearchCreateSearchInput';
+import ObjectSearch from './ObjectSearch';
 
 export function isTypeObjectSearchCreate (fieldConfig: IFieldConfig): fieldConfig is IFieldConfigObjectSearchCreate {
   return fieldConfig.type === 'objectSearchCreate';
@@ -108,7 +108,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     return (
       <Antd.Form.Item>
         {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
-          <ObjectSearchCreateSearchInput
+          <ObjectSearch
             onAddNew={this.onAddNew}
             {...this.objectSearchProps}
           />,
