@@ -70,7 +70,8 @@ class NestedFieldSet extends Component<INestedFieldSetProps> {
       return { value: lastName };
     }
 
-    return {};
+    // Keep add new form from populating with model data
+    return { value: '' };
   }
 
   public render () {

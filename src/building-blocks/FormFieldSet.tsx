@@ -16,7 +16,6 @@ import FormManager from '../utilities/FormManager';
 import { IFieldSetPartial } from '../interfaces';
 
 import FormField from './FormField';
-import WithTooltip from './WithTooltip';
 import Legend from './Legend';
 
 export interface IFormFieldSetProps {
