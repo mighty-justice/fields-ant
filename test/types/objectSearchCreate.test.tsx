@@ -84,13 +84,13 @@ describe('objectSearchCreate', () => {
 
     // Will not submit until required sub-form filled out
     tester.submit();
-    expect(tester.text()).toContain('required');
+    expect(tester.text()).toContain('Required');
     expect(onSave).not.toHaveBeenCalled();
 
     // Will not clear errors when changing valid field
     tester.changeInput('input[id="law_firm.amount_owed"]', fakeOwed);
     tester.submit();
-    expect(tester.text()).toContain('required');
+    expect(tester.text()).toContain('Required');
     expect(onSave).not.toHaveBeenCalled();
 
     // Will clear errors when fixing invalid field

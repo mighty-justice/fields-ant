@@ -8,12 +8,13 @@ import {
   fillInFieldSet,
   filterInsertIf,
   getFieldSetFields,
-  isFieldSetSimple,
 } from '../utilities/common';
 
 import CardField from '../building-blocks/CardField';
 import { IFieldSetPartial } from '../interfaces';
 import { IModel } from '../props';
+
+import Legend from './Legend';
 
 export interface ICardFieldSetProps {
   fieldSet: IFieldSetPartial;
@@ -29,23 +30,23 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
   }
 
   public render () {
-    const { model } = this.props
+    const { model , fieldSet} = this.props
       , idx = this.props.idx || 0
-      , legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend
       , fieldConfigs = getFieldSetFields(this.fieldSet)
-      , unfilteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, model))
+      , filteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, model))
       ;
 
-    if (!unfilteredFieldConfigs.length) {
+    if (!filteredFieldConfigs.length) {
       return null;
     }
 
     return (
         <Fragment key={idx}>
           {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
-          {legend && <h3>{legend}</h3>}
 
-          {unfilteredFieldConfigs.map(fieldConfig => (
+          <Legend fieldSet={fieldSet} />
+
+          {filteredFieldConfigs.map(fieldConfig => (
             <CardField
               fieldConfig={fieldConfig}
               key={fieldConfig.field}

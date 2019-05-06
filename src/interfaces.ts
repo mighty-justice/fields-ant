@@ -40,6 +40,7 @@ interface IFieldConfigBase {
   nullify: boolean;
   render: (value: IValue, fieldConfig: IFieldConfig, model: IModel) => React.ReactNode;
   showLabel: boolean;
+  tooltip?: string;
   value?: string | number;
 
   // Attributes for filtering this field out, in read contexts,
@@ -132,6 +133,7 @@ export interface IFieldSetComplex {
   fields: IFieldSetSimple;
   legend: string;
   rowProps?: RowProps;
+  tooltip?: string;
 }
 
 // fieldSets: IFieldSet[]
@@ -152,6 +154,7 @@ export interface IFieldSetComplexPartial {
   fields: IFieldSetSimplePartial;
   legend: string;
   rowProps?: RowProps;
+  tooltip?: string;
 }
 
 export type IGetOptions = (optionType: string) => IOption[];

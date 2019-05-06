@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   flatten as flattenArray,
   get,
@@ -28,11 +29,12 @@ import {
   IOption,
 } from '../interfaces';
 
+import { ID_ATTR } from '../consts';
 import { IModel, IValue } from '../props';
+import { isTypeObjectSearchCreate } from '../inputs/ObjectSearchCreate';
+import WithTooltip from '../building-blocks/WithTooltip';
 
 import { TYPES } from './types';
-import { isTypeObjectSearchCreate } from '../inputs/ObjectSearchCreate';
-import { ID_ATTR } from '../consts';
 
 // istanbul ignore next
 export async function asyncNoop () { return; }
@@ -105,12 +107,12 @@ export function filterInsertIf (fieldConfig: IFieldConfig, model?: IModel | IMod
 
 export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConfig {
   const type = inferType(fieldConfig)
-    , label = varToLabel(getFieldSuffix(fieldConfig.field));
+    , label = fieldConfig.label || varToLabel(getFieldSuffix(fieldConfig.field));
 
   const requiredValidationRule = fieldConfig.required
     ? {
       required: {
-        message: 'Field required',
+        message: `Required - Please input a valid ${label || 'value'}`,
         required: true,
       },
     } : undefined;
@@ -223,6 +225,13 @@ export function renderValue (fieldConfigPartial: IFieldConfigPartial, model?: IM
   return render(value, fieldConfig, model || {});
 }
 
+export function renderLabel (fieldConfig: IFieldConfig): React.ReactNode {
+  const { label, showLabel, tooltip } = fieldConfig;
+  if (!showLabel) { return ''; }
+  if (tooltip) { return <WithTooltip tooltip={tooltip}>label</WithTooltip>; }
+  return label;
+}
+
 type IColumns = Array<ColumnProps<IModel>>;
 
 export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: IModel[] = []): IColumns {
@@ -233,7 +242,7 @@ export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: I
       dataIndex: fieldConfig.field,
       key: fieldConfig.field,
       render: (value: IValue, model: IModel) => fieldConfig.render(value, fieldConfig, model),
-      title: fieldConfig.showLabel ? fieldConfig.label : '',
+      title: renderLabel(fieldConfig),
       ...fieldConfig.tableColumnProps,
     }));
 }

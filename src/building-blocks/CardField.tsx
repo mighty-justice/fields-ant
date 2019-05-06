@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { computed } from 'mobx';
 
-import { fillInFieldConfig, filterInsertIf, renderValue } from '../utilities/common';
+import { fillInFieldConfig, filterInsertIf, renderLabel, renderValue } from '../utilities/common';
 import { IFieldConfigPartial } from '../interfaces';
 import { IModel } from '../props';
 
@@ -21,8 +21,9 @@ class CardField extends Component<ICardFieldProps> {
   public render () {
     const { model } = this.props
       , fieldConfig = this.fieldConfig
-      , { field, label, showLabel, writeOnly } = fieldConfig
-      , value = renderValue(fieldConfig, model);
+      , { field, showLabel, writeOnly } = fieldConfig
+      , renderWithoutStructure = !showLabel
+      ;
 
     if (writeOnly || filterInsertIf(fieldConfig, model)) {
       return null;
@@ -30,13 +31,14 @@ class CardField extends Component<ICardFieldProps> {
 
     return (
       <Info key={field}>
-        {!showLabel ? value
-        : (
-          <>
-            <Label>{label}</Label>
-            <Value>{value}</Value>
-          </>
-        )}
+        {renderWithoutStructure
+          ? renderValue(fieldConfig, model)
+          : (
+            <>
+              <Label>{renderLabel(fieldConfig)}</Label>
+              <Value>{renderValue(fieldConfig, model)}</Value>
+            </>
+          )}
       </Info>
     );
   }
