@@ -95,7 +95,11 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
           label={this.fieldConfig.label}
           search={this.search}
         />
-        <Antd.Button className={`${CX_PREFIX_SEARCH_CREATE}-btn-back`} size='small' onClick={this.onSearch}>
+        <Antd.Button
+          className={`${CX_PREFIX_SEARCH_CREATE}-btn-back`}
+          onClick={this.onSearch}
+          size='small'
+        >
           <Antd.Icon type='left' /> Back to search
         </Antd.Button>
       </>

@@ -45,6 +45,9 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   @observable private isLoading = new SmartBool();
   @observable private search = '';
 
+  @observable private previousEndpoint = '';
+  @observable private previousSearchFilters = '';
+
   public static defaultProps: Partial<IObjectSearchProps> = {
     debounceWait: DEFAULT_DEBOUNCE_WAIT,
   };
@@ -54,6 +57,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   public constructor (props: IObjectSearchProps) {
     super(props);
     this.debouncedHandleSearch = debounce(this.handleSearch, props.debounceWait);
+    this.updateValueCaches();
   }
 
   private get injected () {
@@ -70,6 +74,27 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   private get hasOptions () {
     return !!this.options.length;
+  }
+
+  private updateValueCaches () {
+    this.previousEndpoint = this.fieldConfig.endpoint;
+    this.previousSearchFilters = toKey(this.fieldConfig.searchFilters || {});
+  }
+
+  private get hasNewEndpoint () {
+    return this.previousEndpoint !== this.fieldConfig.endpoint;
+  }
+
+  private get hasNewSearchFilters () {
+    return this.previousSearchFilters !== toKey(this.fieldConfig.searchFilters || {});
+  }
+
+  private get hasNewProps () {
+    return this.hasNewEndpoint || this.hasNewSearchFilters;
+  }
+
+  private get isPristine () {
+    return !this.hasOptions && !this.hasSearch;
   }
 
   private get loadingIcon () {
@@ -104,6 +129,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
     this.search = value;
     this.isLoading.setTrue();
+    this.updateValueCaches();
     const response = await getEndpoint(`/${endpoint}/${toKey(params)}`);
     this.options = response.results;
     this.isLoading.setFalse();
@@ -193,8 +219,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   // istanbul ignore next
   private onFocus () {
-    const isPristine = !this.hasOptions && !this.hasSearch;
-    if (isPristine) {
+    if (this.isPristine || this.hasNewProps) {
       // Trigger empty search
       this.handleSearch(this.search);
     }

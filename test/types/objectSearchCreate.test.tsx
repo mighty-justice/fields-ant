@@ -5,6 +5,8 @@ import { Tester } from '@mighty-justice/tester';
 import { FormCard } from '../../src';
 import { fakeTextShort } from '../factories';
 
+import { objectSearchFor } from './objectSearch.test';
+
 function getDefaults (overrides?: any) {
   const fakeLawFirm = () => ({
       id: faker.random.uuid(),
@@ -45,17 +47,6 @@ async function getTester (props: any) {
   return (await new Tester(FormCard, { props }).mount());
 }
 
-async function searchFor (tester: any, field: string, result: any, searchTerm: string) {
-  tester.endpoints['/legal-organizations/'] = { results: [result] };
-
-  // Change input without blurring
-  const component = tester.find(`input#${field}`).first();
-  component.simulate('focus');
-  component.simulate('change', { target: { value: searchTerm } });
-
-  await tester.refresh();
-}
-
 async function selectAddNew (tester: any) {
   tester.click('.ant-input-search-create-item-add div');
 }
@@ -69,7 +60,7 @@ describe('objectSearchCreate', () => {
     const { field, props, onSave, searchTerm, result } = getDefaults({})
       , tester = await getTester(props);
 
-    await searchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, result, searchTerm);
 
     selectFirst(tester);
     tester.submit();
@@ -84,7 +75,7 @@ describe('objectSearchCreate', () => {
     expect(onSave).toHaveBeenCalledWith(props.model);
     onSave.mockClear();
 
-    await searchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, result, searchTerm);
     await selectAddNew(tester);
 
     expect(tester.text()).toContain('Name');
@@ -121,7 +112,7 @@ describe('objectSearchCreate', () => {
       })
       , tester = await getTester(props);
 
-    await searchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, result, searchTerm);
     await selectAddNew(tester);
 
     expect(tester.find('input[id="law_firm.name"]').html()).toContain(searchTerm);
@@ -141,7 +132,7 @@ describe('objectSearchCreate', () => {
       , { field, onSave, result, props } = getDefaults({ createFields })
       , tester = await getTester(props);
 
-    await searchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, result, searchTerm);
     await selectAddNew(tester);
 
     expect(tester.find('input[id="law_firm.first_name"]').html()).toContain(firstName);
@@ -164,7 +155,7 @@ describe('objectSearchCreate', () => {
       })
       , tester = await getTester(props);
 
-    await searchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, result, searchTerm);
     await selectAddNew(tester);
     tester.submit();
 
@@ -179,7 +170,7 @@ describe('objectSearchCreate', () => {
       })
       , tester = await getTester(props);
 
-    await searchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, result, searchTerm);
     await selectAddNew(tester);
     await tester.refresh();
 
@@ -208,7 +199,7 @@ describe('objectSearchCreate', () => {
       })
       , tester = await getTester(props);
 
-    await searchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, result, searchTerm);
 
     expect(tester.find('li').first().text()).toContain('FFF');
     selectFirst(tester);
