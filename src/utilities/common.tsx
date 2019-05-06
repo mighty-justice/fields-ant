@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   flatten as flattenArray,
   get,
@@ -28,12 +29,12 @@ import {
   IOption,
 } from '../interfaces';
 
+import { ID_ATTR } from '../consts';
 import { IModel, IValue } from '../props';
 import { isTypeObjectSearchCreate } from '../inputs/ObjectSearchCreate';
-import { ID_ATTR } from '../consts';
+import WithTooltip from '../building-blocks/WithTooltip';
 
 import { TYPES } from './types';
-import { renderWithTooltip } from './renderWithTooltip';
 
 // istanbul ignore next
 export async function asyncNoop () { return; }
@@ -227,7 +228,7 @@ export function renderValue (fieldConfigPartial: IFieldConfigPartial, model?: IM
 export function renderLabel (fieldConfig: IFieldConfig): React.ReactNode {
   const { label, showLabel, tooltip } = fieldConfig;
   if (!showLabel) { return ''; }
-  if (tooltip) { return renderWithTooltip(label, tooltip); }
+  if (tooltip) { return <WithTooltip tooltip={tooltip}>label</WithTooltip>; }
   return label;
 }
 

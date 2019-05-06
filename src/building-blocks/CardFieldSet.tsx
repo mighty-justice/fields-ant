@@ -14,7 +14,7 @@ import {
 import CardField from '../building-blocks/CardField';
 import { IFieldSetPartial } from '../interfaces';
 import { IModel } from '../props';
-import { renderWithTooltip } from '../utilities/renderWithTooltip';
+import WithTooltip from './WithTooltip';
 
 export interface ICardFieldSetProps {
   fieldSet: IFieldSetPartial;
@@ -39,10 +39,7 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
 
     return (
       <h3>
-        {tooltip
-          ? renderWithTooltip(legend, tooltip)
-          : legend
-        }
+        <WithTooltip tooltip={tooltip}>{legend}</WithTooltip>
       </h3>
     );
   }

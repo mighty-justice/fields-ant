@@ -14,9 +14,9 @@ import {
 
 import FormManager from '../utilities/FormManager';
 import { IFieldSetPartial } from '../interfaces';
-import { renderWithTooltip } from '../utilities/renderWithTooltip';
 
 import FormField from './FormField';
+import WithTooltip from './WithTooltip';
 
 export interface IFormFieldSetProps {
   fieldSet: IFieldSetPartial;
@@ -53,7 +53,7 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
     return (
       <h3>
         {tooltip
-          ? renderWithTooltip(legend, tooltip)
+          ? <WithTooltip tooltip={tooltip}>{legend}</WithTooltip>
           : legend
         }
       </h3>
