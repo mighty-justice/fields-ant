@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
@@ -17,6 +17,7 @@ import { IFieldSetPartial } from '../interfaces';
 
 import FormField from './FormField';
 import WithTooltip from './WithTooltip';
+import Legend from './Legend';
 
 export interface IFormFieldSetProps {
   fieldSet: IFieldSetPartial;
@@ -42,24 +43,6 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
     return fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, formModel));
   }
 
-  private renderLegend () {
-    const fieldSet = this.fieldSet;
-
-    if (isFieldSetSimple(fieldSet)) { return null; }
-    const { legend, tooltip } = fieldSet;
-
-    if (!legend) { return null; }
-
-    return (
-      <h3>
-        {tooltip
-          ? <WithTooltip tooltip={tooltip}>{legend}</WithTooltip>
-          : legend
-        }
-      </h3>
-    );
-  }
-
   public render () {
     const filteredFieldConfigs = this.filteredFieldConfigs
       , rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps
@@ -71,7 +54,7 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
 
     return (
       <>
-        {this.renderLegend()}
+        <Legend fieldSet={this.fieldSet} />
 
         <Antd.Row {...rowProps}>
           {filteredFieldConfigs.map((fieldConfig, idx) => (

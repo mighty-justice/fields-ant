@@ -154,6 +154,7 @@ export interface IFieldSetComplexPartial {
   fields: IFieldSetSimplePartial;
   legend: string;
   rowProps?: RowProps;
+  tooltip?: string;
 }
 
 export type IGetOptions = (optionType: string) => IOption[];
