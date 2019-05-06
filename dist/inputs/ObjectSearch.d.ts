@@ -7,11 +7,11 @@ export interface IObjectSearchProps {
     fieldConfig: IFieldConfigObjectSearchCreate;
     loadingIcon?: React.ReactNode;
     noSearchContent?: React.ReactNode;
-    onAddNew: (search: string) => void;
+    onAddNew?: (search: string) => void;
     searchIcon?: React.ReactNode;
     selectProps: SelectProps;
 }
-declare class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps> {
+declare class ObjectSearch extends Component<IObjectSearchProps> {
     private options;
     private isLoading;
     private search;
@@ -33,6 +33,7 @@ declare class ObjectSearchCreateSearchInput extends Component<IObjectSearchProps
     private onChange;
     private onBlur;
     private onFocus;
+    private readonly valueProp;
     render(): JSX.Element;
 }
-export default ObjectSearchCreateSearchInput;
+export default ObjectSearch;

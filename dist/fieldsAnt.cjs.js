@@ -34144,31 +34144,22 @@ function () {
 })), _class2)) || _class$2;
 
 var _dec, _class$3, _class2$1, _descriptor$1, _descriptor2, _descriptor3, _class3, _temp$2;
-
-/*
-This component performs the 'search' action of ObjectSearchCreate.
-It must be a separate component so that Ant Design / rc-form can
-inject their own props, do validation, and correctly show help:
-
-{formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
-  <ObjectSearchCreateSearchInput
-*/
 var ITEM_KEYS = {
   ADD: 'add',
   EMPTY: 'empty',
   NO_SEARCH: 'no-search'
 };
-var ObjectSearchCreateSearchInput = (_dec = mobxReact.inject('getEndpoint'), _dec(_class$3 = autoBindMethods(_class$3 = mobxReact.observer(_class$3 = (_class2$1 = (_temp$2 = _class3 =
+var ObjectSearch = (_dec = mobxReact.inject('getEndpoint'), _dec(_class$3 = autoBindMethods(_class$3 = mobxReact.observer(_class$3 = (_class2$1 = (_temp$2 = _class3 =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(ObjectSearchCreateSearchInput, _Component);
+  _inherits(ObjectSearch, _Component);
 
-  function ObjectSearchCreateSearchInput(props) {
+  function ObjectSearch(props) {
     var _this;
 
-    _classCallCheck(this, ObjectSearchCreateSearchInput);
+    _classCallCheck(this, ObjectSearch);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ObjectSearchCreateSearchInput).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ObjectSearch).call(this, props));
 
     _initializerDefineProperty(_this, "options", _descriptor$1, _assertThisInitialized(_this));
 
@@ -34181,7 +34172,7 @@ function (_Component) {
     return _this;
   }
 
-  _createClass(ObjectSearchCreateSearchInput, [{
+  _createClass(ObjectSearch, [{
     key: "handleSearch",
     value: function () {
       var _handleSearch = _asyncToGenerator(
@@ -34225,6 +34216,17 @@ function (_Component) {
     value: function renderOptionAdd() {
       var addNewContent = this.props.addNewContent,
           className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.ADD);
+
+      if (!this.hasSearch) {
+        return React__default.createElement(Antd.Select.Option, {
+          className: className,
+          key: ITEM_KEYS.ADD,
+          disabled: true
+        }, React__default.createElement("div", null, React__default.createElement(Antd.Icon, {
+          type: "plus"
+        }), " Search to add new"));
+      }
+
       return React__default.createElement(Antd.Select.Option, {
         className: className,
         key: ITEM_KEYS.ADD
@@ -34281,7 +34283,7 @@ function (_Component) {
       } // Add new
 
 
-      if (selectedOption.key === ITEM_KEYS.ADD) {
+      if (onAddNew && selectedOption.key === ITEM_KEYS.ADD) {
         onAddNew(this.search);
         return;
       } // Select from search
@@ -34314,15 +34316,14 @@ function (_Component) {
     value: function render() {
       var _this$injected2 = this.injected,
           id = _this$injected2.id,
-          value = _this$injected2.value,
-          renderSelected = this.fieldConfig.renderSelected,
+          onAddNew = _this$injected2.onAddNew,
           showEmpty = this.hasSearch && !this.hasOptions,
           showNoSearch = !this.hasSearch && !this.hasOptions,
-          showAdd = this.hasSearch,
-          valueProp = value && {
-        key: value.id,
-        label: renderSelected(value)
-      };
+          _this$fieldConfig3 = this.fieldConfig,
+          label = _this$fieldConfig3.label,
+          showLabel = _this$fieldConfig3.showLabel,
+          placeholderLabel = showLabel && label ? " ".concat(label) : '',
+          placeholder = "Search".concat(placeholderLabel, "...");
       return React__default.createElement(Antd.Select, _extends({
         allowClear: true,
         defaultActiveFirstOption: false,
@@ -34335,11 +34336,10 @@ function (_Component) {
         onFocus: this.onFocus,
         onSearch: this.debouncedHandleSearch,
         optionLabelProp: "title",
-        placeholder: "Search...",
+        placeholder: placeholder,
         showSearch: true,
-        suffixIcon: this.isLoading.isTrue ? this.loadingIcon : this.searchIcon,
-        value: valueProp
-      }, this.selectProps), this.options.map(this.renderOption), showEmpty && this.renderOptionEmpty(), showNoSearch && this.renderOptionNoSearch(), showAdd && this.renderOptionAdd());
+        suffixIcon: this.isLoading.isTrue ? this.loadingIcon : this.searchIcon
+      }, this.valueProp, this.selectProps), this.options.map(this.renderOption), showEmpty && this.renderOptionEmpty(), showNoSearch && this.renderOptionNoSearch(), onAddNew && this.renderOptionAdd());
     }
   }, {
     key: "injected",
@@ -34381,9 +34381,27 @@ function (_Component) {
       // Omitting specific props to avoid unintentional behaviors
       return lodash.omit(this.props.selectProps, ['id', 'loading', 'onBlur', 'onChange', 'onFocus', 'onSearch', 'showSearch']);
     }
+  }, {
+    key: "valueProp",
+    get: function get() {
+      var value = this.injected.value,
+          valueId = lodash.get(value, 'id'),
+          renderSelected = this.fieldConfig.renderSelected;
+
+      if (!valueId) {
+        return {};
+      }
+
+      return {
+        value: {
+          key: valueId,
+          label: renderSelected(value)
+        }
+      };
+    }
   }]);
 
-  return ObjectSearchCreateSearchInput;
+  return ObjectSearch;
 }(React.Component), _class3.defaultProps = {
   debounceWait: DEFAULT_DEBOUNCE_WAIT
 }, _temp$2), (_descriptor$1 = _applyDecoratedDescriptor(_class2$1.prototype, "options", [mobx.observable], {
@@ -34535,7 +34553,7 @@ function (_Component) {
           decoratorOptions = _this$injected4.decoratorOptions,
           fieldConfig = _this$injected4.fieldConfig,
           formManager = _this$injected4.formManager;
-      return React__default.createElement(Antd.Form.Item, null, formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(React__default.createElement(ObjectSearchCreateSearchInput, _extends({
+      return React__default.createElement(Antd.Form.Item, null, formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(React__default.createElement(ObjectSearch, _extends({
         onAddNew: this.onAddNew
       }, this.objectSearchProps))));
     }
@@ -34935,6 +34953,14 @@ var TYPES = {
     nullify: true,
     render: formatCommaSeparatedNumber
   },
+  objectSearch: {
+    editComponent: ObjectSearch,
+    fieldConfigProp: true,
+    nullify: true,
+    render: passRenderOnlyValue(getNameOrDefault),
+    renderOption: passRenderOnlyValue(getNameOrDefault),
+    renderSelected: passRenderOnlyValue(getNameOrDefault)
+  },
   objectSearchCreate: {
     editComponent: ObjectSearchCreate,
     fieldConfigProp: true,
@@ -35225,7 +35251,17 @@ function getUnsortedOptions(fieldConfig, injected) {
   } // istanbul ignore next
 
 
-  throw new Error('options and getOptions are missing in FieldConfig and getOptions is not injected');
+  if (!optionType) {
+    throw new Error("optionType missing in config for ".concat(fieldConfig.field));
+  } // istanbul ignore next
+
+
+  if (!injected.getOptions) {
+    throw new Error("getOptions not injected for ".concat(fieldConfig.field));
+  } // istanbul ignore next
+
+
+  throw new Error('Unknown error in getUnsortedOptions');
 }
 function getOptions(fieldConfig, injected) {
   var unsortedOptions = getUnsortedOptions(fieldConfig, injected);
@@ -36201,7 +36237,8 @@ function () {
       onSuccess: lodash.noop,
       processErrors: function processErrors(errors) {
         return errors;
-      }
+      },
+      successText: 'Success'
     }, lodash.pickBy(args, function (value) {
       return value !== undefined;
     }));
@@ -36245,12 +36282,18 @@ function () {
   }, {
     key: "onSuccess",
     value: function onSuccess() {
-      var onSuccess = this.args.onSuccess;
-      Antd.notification.success({
-        description: '',
-        duration: 3,
-        message: 'Success'
-      });
+      var _this$args2 = this.args,
+          onSuccess = _this$args2.onSuccess,
+          successText = _this$args2.successText;
+
+      if (successText) {
+        Antd.notification.success({
+          description: '',
+          duration: 3,
+          message: successText
+        });
+      }
+
       onSuccess();
     }
   }, {
@@ -36519,13 +36562,15 @@ function (_Component) {
         model = props.model,
         onSave = props.onSave,
         processErrors = props.processErrors,
-        setRefFormManager = props.setRefFormManager;
+        setRefFormManager = props.setRefFormManager,
+        successText = props.successText;
     _this.formManager = new FormManager(_assertThisInitialized(_this), _this.fieldSets, {
       defaults: defaults,
       model: model,
       onSave: onSave,
       onSuccess: _this.onSuccess,
-      processErrors: processErrors
+      processErrors: processErrors,
+      successText: successText
     });
 
     if (setRefFormManager) {
