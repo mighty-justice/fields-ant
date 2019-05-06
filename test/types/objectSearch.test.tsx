@@ -31,7 +31,7 @@ function getDefaults (overrides?: any) {
   };
 }
 
-async function searchFor (tester: any, field: string, result: any, searchTerm: string) {
+export async function objectSearchFor (tester: any, field: string, result: any, searchTerm: string) {
   tester.endpoints['/legal-organizations/'] = { results: [result] };
 
   // Change input without blurring
@@ -45,13 +45,16 @@ async function searchFor (tester: any, field: string, result: any, searchTerm: s
 describe('objectSearch', () => {
   it('Properly caches and displays options', async () => {
     const { field, searchTerm, result, props, endpoint } = getDefaults({})
-      , tester = (await new Tester(ObjectSearch, { props }).mount() as any);
+      , tester = (await new Tester(ObjectSearch, { props }).mount() as any)
+      , newEndpoint = `${endpoint}-2`
+      ;
+
+    tester.endpoints[`/${newEndpoint}/`] = { results: [result] };
 
     expect(tester.getEndpoint.mock.calls.length).toBe(0);
 
     // First search
-    tester.endpoints['/legal-organizations/'] = { results: [result] };
-    await searchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, result, searchTerm);
     expect(tester.getEndpoint.mock.calls.length).toBe(1);
 
     // Re-focus but no new props
@@ -59,8 +62,6 @@ describe('objectSearch', () => {
     expect(tester.getEndpoint.mock.calls.length).toBe(1);
 
     // Re-focus but with new props
-    const newEndpoint = `${endpoint}-2`;
-    tester.endpoints[newEndpoint] = { results: [result] };
     props.fieldConfig.endpoint = newEndpoint;
     tester.instance.onFocus();
     expect(tester.getEndpoint.mock.calls.length).toBe(2);
