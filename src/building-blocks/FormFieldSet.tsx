@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
@@ -16,7 +16,6 @@ import FormManager from '../utilities/FormManager';
 import { IFieldSetPartial } from '../interfaces';
 
 import FormField from './FormField';
-import WithTooltip from './WithTooltip';
 import Legend from './Legend';
 
 export interface IFormFieldSetProps {

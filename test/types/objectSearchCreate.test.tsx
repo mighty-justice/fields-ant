@@ -7,12 +7,15 @@ import { fakeTextShort } from '../factories';
 
 import { objectSearchFor } from './objectSearch.test';
 
-function getDefaults (overrides?: any) {
-  const fakeLawFirm = () => ({
-      id: faker.random.uuid(),
+function fakeLawFirm () {
+  return {
+    id: faker.random.uuid(),
       name: faker.company.companyName(),
-    })
-    , field = overrides.field || 'law_firm'
+  };
+}
+
+function getDefaults (overrides?: any) {
+  const field = overrides.field || 'law_firm'
     , editProps = { debounceWait: 0 }
     , endpoint = overrides.endpoint || 'legal-organizations'
     , type = overrides.type || 'objectSearchCreate'
@@ -97,6 +100,32 @@ describe('objectSearchCreate', () => {
     tester.changeInput('input[id="law_firm.name"]', searchTerm);
     tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed }});
+
+    tester.click('.ant-input-search-create-btn-back');
+    tester.submit();
+    expect(onSave).toHaveBeenCalledWith(props.model);
+  });
+
+  it('Clears existing record on add new', async () => {
+    const { field, onSave, searchTerm, result, props } = getDefaults({
+        model: { law_firm: fakeLawFirm() },
+      })
+      , tester = await getTester(props)
+      ;
+
+    await objectSearchFor(tester, field, result, searchTerm);
+    await selectAddNew(tester);
+
+    // Will not submit until required sub-form filled out
+    await tester.refresh();
+    tester.submit();
+    expect(onSave).not.toHaveBeenCalled();
+    expect(tester.text()).toContain('Required');
+
+    // Will clear errors when fixing invalid field
+    tester.changeInput('input[id="law_firm.name"]', searchTerm);
+    tester.submit();
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: null }});
 
     tester.click('.ant-input-search-create-btn-back');
     tester.submit();
