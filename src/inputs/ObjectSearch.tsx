@@ -197,7 +197,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
     // Clear
     if (!selectedOption) {
-      onChange(selectedOption);
+      onChange(null);
       return;
     }
 
@@ -231,7 +231,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       , { renderSelected } = this.fieldConfig
       ;
 
-    if (!valueId) { return {}; }
+    if (!valueId) { return { value: undefined }; }
 
     return {
       value: {

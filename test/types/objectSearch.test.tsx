@@ -2,16 +2,52 @@ import faker from 'faker';
 
 import { Tester } from '@mighty-justice/tester';
 
-import { fillInFieldConfig } from '../../src';
+import { fillInFieldConfig, FormCard } from '../../src';
 import ObjectSearch from '../../src/inputs/ObjectSearch';
 
-function getDefaults (overrides?: any) {
-  const fakeLawFirm = () => ({
-      id: faker.random.uuid(),
+function fakeLawFirm () {
+  return {
+    id: faker.random.uuid(),
       name: faker.company.companyName(),
+  };
+}
+
+function getFormDefaults (overrides?: any) {
+  const field = overrides.field || 'law_firm'
+    , endpoint = 'legal-organizations'
+    , type = overrides.type || 'objectSearch'
+    , fieldConfig = fillInFieldConfig({
+      editProps: { debounceWait: 0 },
+      endpoint,
+      field,
+      type,
+      ...overrides.fieldConfig,
     })
-    , field = overrides.field || 'law_firm'
-    , endpoint = overrides.endpoint || 'legal-organizations'
+    , fieldSets = overrides.fieldSets || [[fieldConfig]]
+    , onSave = jest.fn()
+    , model = overrides.model || { law_firm: null }
+    , props = { fieldSets, model, onSave }
+    ;
+
+  return {
+    result: fakeLawFirm(),
+    searchTerm: faker.lorem.sentence(),
+
+    endpoint,
+    field,
+    model,
+    props,
+    type,
+
+    ...overrides,
+
+    fieldConfig,
+  };
+}
+
+function getComponentDefaults (overrides?: any) {
+  const field = overrides.field || 'law_firm'
+    , endpoint = 'legal-organizations'
     , type = overrides.type || 'objectSearch'
     , fieldConfig = fillInFieldConfig({ field, type, endpoint, ...overrides.fieldConfig })
     , props = { id: field, fieldConfig, debounceWait: 0 }
@@ -23,11 +59,12 @@ function getDefaults (overrides?: any) {
 
     endpoint,
     field,
-    fieldConfig,
     props,
     type,
 
     ...overrides,
+
+    fieldConfig,
   };
 }
 
@@ -43,8 +80,23 @@ export async function objectSearchFor (tester: any, field: string, result: any, 
 }
 
 describe('objectSearch', () => {
+  it('Clears existing', async () => {
+    const model = { law_firm: fakeLawFirm() }
+      , { props } = getFormDefaults({ model })
+      , tester = (await new Tester(FormCard, { props }).mount())
+      , CLEAR_BUTTON = '.ant-select-selection__clear'
+      ;
+
+    expect(tester.html()).toContain(model.law_firm.name);
+    expect(tester.find(CLEAR_BUTTON).length).toBe(1);
+
+    tester.click(CLEAR_BUTTON);
+    expect(tester.html()).not.toContain(model.law_firm.name);
+    expect(tester.find(CLEAR_BUTTON).length).toBe(0);
+  });
+
   it('Properly caches and displays options', async () => {
-    const { field, searchTerm, result, props, endpoint } = getDefaults({})
+    const { field, searchTerm, result, props, endpoint } = getComponentDefaults({})
       , tester = (await new Tester(ObjectSearch, { props }).mount() as any)
       , newEndpoint = `${endpoint}-2`
       ;
