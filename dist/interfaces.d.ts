@@ -16,6 +16,7 @@ interface IFieldConfigBase {
     nullify: boolean;
     render: (value: IValue, fieldConfig: IFieldConfig, model: IModel) => React.ReactNode;
     showLabel: boolean;
+    tooltip?: string;
     value?: string | number;
     insertIf?: (model: any) => boolean;
     readOnly: boolean;
@@ -74,6 +75,7 @@ export interface IFieldSetComplex {
     fields: IFieldSetSimple;
     legend: string;
     rowProps?: RowProps;
+    tooltip?: string;
 }
 export declare type IFieldSet = IFieldSetSimple | IFieldSetComplex;
 export declare type IFieldConfigPartial = Partial<IFieldConfig> & {
@@ -85,6 +87,7 @@ export interface IFieldSetComplexPartial {
     fields: IFieldSetSimplePartial;
     legend: string;
     rowProps?: RowProps;
+    tooltip?: string;
 }
 export declare type IGetOptions = (optionType: string) => IOption[];
 export interface IInjected {

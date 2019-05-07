@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Form as Form$1, Input, Select, Icon, Button, Radio, Rate as Rate$1, DatePicker, Row, Col, Popconfirm, Divider, Card as Card$1, notification, Drawer, Modal, List, Table as Table$1 } from 'antd';
+import { Form as Form$1, Select, Icon, Button, Tooltip, Input, Radio, Rate as Rate$1, DatePicker, Row, Col, Popconfirm, Divider, Card as Card$1, notification, Drawer, Modal, List, Table as Table$1 } from 'antd';
 import { computed, observable, toJS } from 'mobx';
 import { has, result, get, isString, isNumber, times as times$2, isBoolean, escape, startCase, sortBy, map as map$1, reject, debounce, omit, pick, isArray, flatten as flatten$1, isObject as isObject$2, set, values, isEmpty, isPlainObject, extend, mapValues, noop, pickBy, kebabCase } from 'lodash';
 import { observer, inject } from 'mobx-react';
@@ -27730,6 +27730,1083 @@ function isValidBirthdate(value) {
   ;
 }
 
+var DEFAULT_DEBOUNCE_WAIT = 300;
+var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
+var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
+var ID_ATTR = 'id';
+
+function asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator$1(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+function _classCallCheck$2(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties$2(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass$2(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties$2(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties$2(Constructor, staticProps);
+  return Constructor;
+}
+
+function _initializerDefineProperty$1(target, property, descriptor, context) {
+  if (!descriptor) return;
+  Object.defineProperty(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _applyDecoratedDescriptor$2(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object.keys(descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object.defineProperty(target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+var commonjsGlobal$2 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function unwrapExports$2 (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
+
+function createCommonjsModule$2(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var ReactComponentSpecMethods$1 = createCommonjsModule$2(function (module, exports) {
+(function (global, factory) {
+    {
+        factory(exports);
+    }
+})(commonjsGlobal$2, function (exports) {
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = ['getDefaultProps', 'getInitialState', 'componentWillMount', 'componentDidMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'componentDidUpdate', 'componentWillUnmount', 'componentDidCatch', 'render'];
+});
+});
+
+unwrapExports$2(ReactComponentSpecMethods$1);
+
+var isObject$1 = createCommonjsModule$2(function (module, exports) {
+(function (global, factory) {
+    {
+        factory(exports);
+    }
+})(commonjsGlobal$2, function (exports) {
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = isObject;
+    var toString = Object.prototype.toString;
+
+
+    // This check is "good enough" for purposes here.
+    function isObject(candidate) {
+        return toString.call(candidate) === '[object Object]';
+    }
+});
+});
+
+unwrapExports$2(isObject$1);
+
+var uniqueConcatArrays$1 = createCommonjsModule$2(function (module, exports) {
+(function (global, factory) {
+    {
+        factory(exports);
+    }
+})(commonjsGlobal$2, function (exports) {
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = uniqueConcatArrays;
+    // Helper methods.
+    var flattenArraysReducer = function flattenArraysReducer(array, nextArray) {
+        return array.concat(nextArray);
+    };
+    var getRemoveDupesReducer = function getRemoveDupesReducer(keyHash) {
+        return function (resultArray, item) {
+            if (!keyHash[item]) {
+                keyHash[item] = true;
+                resultArray.push(item); // mutation ok here (sort of), since a new array is expected when reduction begins
+            }
+
+            return resultArray;
+        };
+    };
+
+    /**
+     * Concatenates arrays, removing duplicate entries.
+     * 
+     * NOTE: This only works reliably for arrays consisting entirely of items that
+     * produce distinct `toString()` values whenever they are altered (e.g.,
+     * strings, numbers, etc.). That's good enough for the use case here, since
+     * this utility is only used to uniqueConcat arrays of strings, but it won't
+     * always work elsewhere.
+     */
+    function uniqueConcatArrays() {
+        for (var _len = arguments.length, arrays = Array(_len), _key = 0; _key < _len; _key++) {
+            arrays[_key] = arguments[_key];
+        }
+
+        if (arrays.length < 2) {
+            return arrays.length === 1 ? arrays[0].reduce(getRemoveDupesReducer({}), []) : undefined;
+        }
+
+        var flattenedArray = arrays.reduce(flattenArraysReducer);
+        return flattenedArray.reduce(getRemoveDupesReducer({}), []);
+    }
+});
+});
+
+unwrapExports$2(uniqueConcatArrays$1);
+
+var build$1 = createCommonjsModule$2(function (module, exports) {
+(function (global, factory) {
+    {
+        factory(exports, ReactComponentSpecMethods$1, isObject$1, uniqueConcatArrays$1);
+    }
+})(commonjsGlobal$2, function (exports, _ReactComponentSpecMethods, _isObject, _uniqueConcatArrays) {
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.autoBindMethods = undefined;
+    exports.default = autoBindMethods;
+    exports.autoBindMethodsForReact = autoBindMethodsForReact;
+
+    var _ReactComponentSpecMethods2 = _interopRequireDefault(_ReactComponentSpecMethods);
+
+    var _isObject2 = _interopRequireDefault(_isObject);
+
+    var _uniqueConcatArrays2 = _interopRequireDefault(_uniqueConcatArrays);
+
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+
+    var _extends = Object.assign || function (target) {
+        for (var i = 1; i < arguments.length; i++) {
+            var source = arguments[i];
+
+            for (var key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                    target[key] = source[key];
+                }
+            }
+        }
+
+        return target;
+    };
+
+    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+        return typeof obj;
+    } : function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+
+    /**
+     * Overloaded function for auto-binding the methods of a class to the class's relevant instance. If
+     * the first argument is a function, as it will be when this is used as a "bare" or "unconfigured"
+     * decorator -- as in `@autoBindMethods class SomeClass {}` -- it does the auto-bind decorating by
+     * delegating to `autoBindMethodsDecorator`. If the first argument is *not* a function, as happens
+     * when this is used as a "configured" decorator -- as in `@autoBindMethods(options) class SomeClass
+     * {}` -- it returns a function that *itself* accepts a function (the class constructor) as its
+     * first argument, and that does the auto-bind decorating by delegating to
+     * `autoBindMethodsDecorator`.
+     *
+     * The delegate method `autoBindMethodsDecorator` is `call`ed in order to avoid changing the context
+     * from whatever it would ordinarily be in the case of a non-overloaded decorator, while still
+     * allowing us to pass on any received `options`.
+     *
+     * @param {Object|Function|undefined} [input] - optional options or the function/class to decorate
+     * @param {String[]} [input.methodsToIgnore] - names of methods to skip auto-binding; applicable
+     *  only if `input` is not a function
+     * @param {boolean} [options.dontOptimize] - if truthy, turns off the decorator's default
+     *  optimization behavior, which is to define the bound method directly on the class instance
+     *  when first accessed, in order to prevent re-binding on every access and traversing the
+     *  prototype chain; applicable only if `input` is not a function
+     * @returns {Function|undefined}
+     */
+    function autoBindMethods(input) {
+        if (typeof input !== 'function') {
+            return function (target) {
+                autoBindMethodsDecorator.call(this, target, input);
+            };
+        }
+
+        autoBindMethodsDecorator.call(this, input);
+    }
+
+    exports.autoBindMethods = autoBindMethods;
+
+
+    /**
+     * Convenience decorator that operates the same as above, but that automatically skips all
+     * methods in the React Component Spec, since they do not need auto-binding on React/Preact
+     * components. Useful to those using this decorator with React, as there is no need to list
+     * all of the React Component Spec methods as `methodsToIgnore`.
+     *
+     * @param {Object|Function|undefined} [input] - optional options or the function/class to decorate
+     * @param {String[]} [input.methodsToIgnore] - names of methods to skip auto-binding; applicable
+     *  only if `input` is not a function
+     * @param {boolean} [options.dontOptimize] - if truthy, turns off the decorator's default
+     *  optimization behavior, which is to define the bound method directly on the class instance
+     *  when first accessed, in order to prevent re-binding on every access and traversing the
+     *  prototype chain; applicable only if `input` is not a function
+     * @returns {Function|undefined}
+     */
+    function autoBindMethodsForReact(input) {
+        if (typeof input === 'undefined') {
+            return autoBindMethods({ methodsToIgnore: _ReactComponentSpecMethods2.default });
+        }
+
+        if (typeof input !== 'function') {
+            if (!(0, _isObject2.default)(input)) {
+                throw new TypeError('autoBindMethodsForReact was passed an input of type ' + (typeof input === 'undefined' ? 'undefined' : _typeof(input)) + '. The input ' + 'argument must be either a function, a plain JS object, or undefined.');
+            }
+
+            return autoBindMethods(_extends({}, input, {
+                methodsToIgnore: (0, _uniqueConcatArrays2.default)(input.methodsToIgnore || [], _ReactComponentSpecMethods2.default)
+            }));
+        }
+
+        return autoBindMethods({ methodsToIgnore: _ReactComponentSpecMethods2.default })(input);
+    }
+    /**
+     * A "legacy"-style "class" decorator function for auto-binding the methods of the "class."
+     *
+     * @param {Function} target - an ES2015 "class" or -- what is effectively the same thing -- a
+     *  constructor function.
+     * @param {Object} [options] - optional options
+     * @param {string[]} [options.methodsToIgnore] - names of methods to skip auto-binding
+     * @param {boolean} [options.dontOptimize] - if truthy, turns off the decorator's default
+     *  optimization behavior, which is to define the bound method directly on the class instance
+     *  in order to prevent lookups and re-binding on every access
+     */
+    function autoBindMethodsDecorator(target) {
+        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+        if (typeof target !== 'function') {
+            throw new TypeError('The autoBindMethods decorator must be passed a function as the first argument. ' + ('It received an argument of type ' + (typeof target === 'undefined' ? 'undefined' : _typeof(target)) + '.'));
+        }
+
+        var prototype = target.prototype;
+        var _options$methodsToIgn = options.methodsToIgnore,
+            methodsToIgnore = _options$methodsToIgn === undefined ? [] : _options$methodsToIgn,
+            _options$dontOptimize = options.dontOptimize,
+            dontOptimize = _options$dontOptimize === undefined ? false : _options$dontOptimize;
+
+
+        var ownProps = typeof Object.getOwnPropertySymbols === 'function' ? Object.getOwnPropertyNames(prototype).concat(Object.getOwnPropertySymbols(prototype)) : Object.getOwnPropertyNames(prototype);
+
+        if (methodsToIgnore.length > 0) {
+            ownProps = ownProps.filter(function (prop) {
+                return methodsToIgnore.indexOf(prop) === -1;
+            });
+        }
+
+        ownProps.forEach(function (ownPropIdentifier) {
+            if (ownPropIdentifier === 'constructor') {
+                // This decorator should not muck around with constructors, for fear of introducing
+                // unexpected side effects.
+                return;
+            }
+
+            var propDescriptor = Object.getOwnPropertyDescriptor(prototype, ownPropIdentifier);
+            var value = propDescriptor.value,
+                configurable = propDescriptor.configurable,
+                enumerable = propDescriptor.enumerable;
+
+
+            if (typeof value !== 'function' || !configurable) {
+                // We can only do our work with configurable functions, so bail early here.
+                return;
+            }
+
+            Object.defineProperty(prototype, ownPropIdentifier, {
+                // Keep the same enumerability/configurability settings.
+                enumerable: enumerable,
+                configurable: configurable,
+                get: function get() {
+                    if (this.hasOwnProperty(ownPropIdentifier)) {
+                        // Don't bind the prototype's method to the prototype, or we can't re-bind it to instances.
+                        return value;
+                    }
+
+                    var boundMethod = value.bind(this);
+
+                    if (!dontOptimize) {
+                        // `defineProperty` must be used here rather than a standard assignment because
+                        // assignments will first check for getters/setters up the prototype chain and
+                        // thus reject the assignment (since the property on the prototype has a getter
+                        // but no setter (see: http://www.2ality.com/2012/08/property-definition-assignment.html))
+                        Object.defineProperty(this, ownPropIdentifier, {
+                            enumerable: enumerable,
+                            configurable: configurable,
+                            value: boundMethod,
+                            writable: propDescriptor.writable !== false ? true : false
+                        });
+                    }
+
+                    return boundMethod;
+                },
+                set: function set(newValue) {
+                    if (propDescriptor.writable === false) {
+                        // If the original property wasn't writable, don't change that.
+                        return;
+                    }
+
+                    // Re-assigning a property on the prototype *after* the property has been bound by
+                    // the decorator should simply overwrite that property entirely; it is weird (IMO)
+                    // for it to magically be auto-bound to instances when assigned.
+                    Object.defineProperty(prototype, ownPropIdentifier, {
+                        value: newValue,
+                        configurable: true,
+                        enumerable: true,
+                        writable: true
+                    });
+                }
+            });
+        });
+    }
+});
+});
+
+var autoBindMethods$1 = unwrapExports$2(build$1);
+
+var _class$1, _class2, _descriptor, _temp;
+/*
+  Name: SmartBool
+  Description: Simple class for controlling a boolean, eliminating repetitive single-line setter functions.
+*/
+
+var SmartBool = autoBindMethods$1(_class$1 = (_class2 = (_temp =
+/*#__PURE__*/
+function () {
+  function SmartBool() {
+    var initial = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    _classCallCheck$2(this, SmartBool);
+
+    _initializerDefineProperty$1(this, "isTrue", _descriptor, this);
+
+    this.isTrue = initial;
+  }
+
+  _createClass$2(SmartBool, [{
+    key: "set",
+    value: function set(value) {
+      this.isTrue = value;
+      return this.isTrue;
+    }
+  }, {
+    key: "setTrue",
+    value: function setTrue() {
+      return this.set(true);
+    }
+  }, {
+    key: "setFalse",
+    value: function setFalse() {
+      return this.set(false);
+    }
+  }, {
+    key: "toggle",
+    value: function toggle() {
+      this.isTrue = !this.isTrue;
+      return this.isTrue;
+    } // Will set boolean to true until request completes.
+    // Usage:
+    // const request = client.retrieve(id);
+    // await this.isLoading.until(request);
+
+  }, {
+    key: "until",
+    value: function () {
+      var _until = _asyncToGenerator$1(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(request) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.set(true);
+                _context.prev = 1;
+                _context.next = 4;
+                return request;
+
+              case 4:
+                return _context.abrupt("return", _context.sent);
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](1);
+                throw _context.t0;
+
+              case 10:
+                _context.prev = 10;
+                this.set(false);
+                return _context.finish(10);
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[1, 7, 10, 13]]);
+      }));
+
+      function until(_x) {
+        return _until.apply(this, arguments);
+      }
+
+      return until;
+    }()
+  }, {
+    key: "_stringIfTrueElse",
+    value: function _stringIfTrueElse(ifTrue, ifFalse) {
+      return this.isTrue ? ifTrue : ifFalse;
+    } // Usage:
+    // <Button>{this.isSubmitting.saving()}</Button>
+    // <Button>{this.isSubmitting.saving('Update')}</Button>
+
+  }, {
+    key: "saving",
+    value: function saving() {
+      var label = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Save';
+      return this._stringIfTrueElse('Saving...', label);
+    }
+  }, {
+    key: "isFalse",
+    get: function get() {
+      return !this.isTrue;
+    }
+  }]);
+
+  return SmartBool;
+}(), _temp), (_descriptor = _applyDecoratedDescriptor$2(_class2.prototype, "isTrue", [observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return false;
+  }
+})), _class2)) || _class$1;
+
+var _dec, _class$2, _class2$1, _descriptor$1, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _class3, _temp$1;
+var ITEM_KEYS = {
+  ADD: 'add',
+  EMPTY: 'empty',
+  NO_SEARCH: 'no-search'
+};
+var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$2 = autoBindMethods(_class$2 = observer(_class$2 = (_class2$1 = (_temp$1 = _class3 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ObjectSearch, _Component);
+
+  function ObjectSearch(props) {
+    var _this;
+
+    _classCallCheck(this, ObjectSearch);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ObjectSearch).call(this, props));
+
+    _initializerDefineProperty(_this, "options", _descriptor$1, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "isLoading", _descriptor2, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "search", _descriptor3, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "previousEndpoint", _descriptor4, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "previousSearchFilters", _descriptor5, _assertThisInitialized(_this));
+
+    _this.debouncedHandleSearch = void 0;
+    _this.debouncedHandleSearch = debounce(_this.handleSearch, props.debounceWait);
+
+    _this.updateValueCaches();
+
+    return _this;
+  }
+
+  _createClass(ObjectSearch, [{
+    key: "updateValueCaches",
+    value: function updateValueCaches() {
+      this.previousEndpoint = this.fieldConfig.endpoint;
+      this.previousSearchFilters = toKey(this.fieldConfig.searchFilters || {});
+    }
+  }, {
+    key: "handleSearch",
+    value: function () {
+      var _handleSearch = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(value) {
+        var getEndpoint, _this$fieldConfig, endpoint, searchFilters, params, response;
+
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                getEndpoint = this.injected.getEndpoint, _this$fieldConfig = this.fieldConfig, endpoint = _this$fieldConfig.endpoint, searchFilters = _this$fieldConfig.searchFilters, params = _objectSpread({
+                  search: value
+                }, searchFilters);
+                this.search = value;
+                this.isLoading.setTrue();
+                this.updateValueCaches();
+                _context.next = 6;
+                return getEndpoint("/".concat(endpoint, "/").concat(toKey(params)));
+
+              case 6:
+                response = _context.sent;
+                this.options = response.results;
+                this.isLoading.setFalse();
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function handleSearch(_x) {
+        return _handleSearch.apply(this, arguments);
+      }
+
+      return handleSearch;
+    }()
+  }, {
+    key: "renderOptionAdd",
+    value: function renderOptionAdd() {
+      var addNewContent = this.props.addNewContent,
+          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.ADD);
+
+      if (!this.hasSearch) {
+        return React.createElement(Select.Option, {
+          className: className,
+          key: ITEM_KEYS.ADD,
+          disabled: true
+        }, React.createElement("div", null, React.createElement(Icon, {
+          type: "plus"
+        }), " Search to add new"));
+      }
+
+      return React.createElement(Select.Option, {
+        className: className,
+        key: ITEM_KEYS.ADD
+      }, React.createElement("div", null, addNewContent || React.createElement(React.Fragment, null, React.createElement(Icon, {
+        type: "plus"
+      }), " Add new")));
+    }
+  }, {
+    key: "renderOptionEmpty",
+    value: function renderOptionEmpty() {
+      var selectProps = this.props.selectProps,
+          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.EMPTY);
+      return React.createElement(Select.Option, {
+        className: className,
+        disabled: true,
+        key: ITEM_KEYS.EMPTY
+      }, React.createElement("div", null, get(selectProps, 'notFoundContent') || 'No results'));
+    }
+  }, {
+    key: "renderOptionNoSearch",
+    value: function renderOptionNoSearch() {
+      var noSearchContent = this.props.noSearchContent,
+          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.NO_SEARCH);
+      return React.createElement(Select.Option, {
+        className: className,
+        disabled: true,
+        key: ITEM_KEYS.NO_SEARCH
+      }, React.createElement("div", null, noSearchContent || 'Type in search text'));
+    }
+  }, {
+    key: "renderOption",
+    value: function renderOption(option) {
+      var _this$fieldConfig2 = this.fieldConfig,
+          renderOption = _this$fieldConfig2.renderOption,
+          renderSelected = _this$fieldConfig2.renderSelected,
+          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item");
+      return React.createElement(Select.Option, {
+        className: className,
+        key: option.id,
+        title: renderSelected(option),
+        value: option.id
+      }, renderOption(option));
+    }
+  }, {
+    key: "onChange",
+    value: function onChange(selectedOption) {
+      var _this$injected = this.injected,
+          onChange = _this$injected.onChange,
+          onAddNew = _this$injected.onAddNew; // Clear
+
+      if (!selectedOption) {
+        onChange(null);
+        return;
+      } // Add new
+
+
+      if (onAddNew && selectedOption.key === ITEM_KEYS.ADD) {
+        onAddNew(this.search);
+        return;
+      } // Select from search
+
+
+      var foundOption = this.options.find(function (option) {
+        return option.id === selectedOption.key;
+      });
+      onChange(toJS(foundOption));
+    } // istanbul ignore next
+
+  }, {
+    key: "onBlur",
+    value: function onBlur() {
+      this.search = '';
+    } // istanbul ignore next
+
+  }, {
+    key: "onFocus",
+    value: function onFocus() {
+      if (this.isPristine || this.hasNewProps) {
+        // Trigger empty search
+        this.handleSearch(this.search);
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$injected2 = this.injected,
+          id = _this$injected2.id,
+          onAddNew = _this$injected2.onAddNew,
+          showEmpty = this.hasSearch && !this.hasOptions,
+          showNoSearch = !this.hasSearch && !this.hasOptions,
+          _this$fieldConfig3 = this.fieldConfig,
+          label = _this$fieldConfig3.label,
+          showLabel = _this$fieldConfig3.showLabel,
+          placeholderLabel = showLabel && label ? " ".concat(label) : '',
+          placeholder = "Search".concat(placeholderLabel, "...");
+      return React.createElement(Select, _extends({
+        allowClear: true,
+        defaultActiveFirstOption: false,
+        filterOption: false,
+        id: id,
+        labelInValue: true,
+        loading: this.isLoading.isTrue,
+        onBlur: this.onBlur,
+        onChange: this.onChange,
+        onFocus: this.onFocus,
+        onSearch: this.debouncedHandleSearch,
+        optionLabelProp: "title",
+        placeholder: placeholder,
+        showSearch: true,
+        suffixIcon: this.isLoading.isTrue ? this.loadingIcon : this.searchIcon
+      }, this.valueProp, this.selectProps), this.options.map(this.renderOption), showEmpty && this.renderOptionEmpty(), showNoSearch && this.renderOptionNoSearch(), onAddNew && this.renderOptionAdd());
+    }
+  }, {
+    key: "injected",
+    get: function get() {
+      return this.props;
+    }
+  }, {
+    key: "fieldConfig",
+    get: function get() {
+      return this.props.fieldConfig;
+    }
+  }, {
+    key: "hasSearch",
+    get: function get() {
+      return this.search !== '';
+    }
+  }, {
+    key: "hasOptions",
+    get: function get() {
+      return !!this.options.length;
+    }
+  }, {
+    key: "hasNewEndpoint",
+    get: function get() {
+      return this.previousEndpoint !== this.fieldConfig.endpoint;
+    }
+  }, {
+    key: "hasNewSearchFilters",
+    get: function get() {
+      return this.previousSearchFilters !== toKey(this.fieldConfig.searchFilters || {});
+    }
+  }, {
+    key: "hasNewProps",
+    get: function get() {
+      return this.hasNewEndpoint || this.hasNewSearchFilters;
+    }
+  }, {
+    key: "isPristine",
+    get: function get() {
+      return !this.hasOptions && !this.hasSearch;
+    }
+  }, {
+    key: "loadingIcon",
+    get: function get() {
+      return this.props.loadingIcon || React.createElement(Icon, {
+        type: "loading"
+      });
+    }
+  }, {
+    key: "searchIcon",
+    get: function get() {
+      return this.props.searchIcon || React.createElement(Icon, {
+        type: "search"
+      });
+    }
+  }, {
+    key: "selectProps",
+    get: function get() {
+      // Omitting specific props to avoid unintentional behaviors
+      return omit(this.props.selectProps, ['id', 'loading', 'onBlur', 'onChange', 'onFocus', 'onSearch', 'showSearch']);
+    }
+  }, {
+    key: "valueProp",
+    get: function get$1() {
+      var value = this.injected.value,
+          valueId = get(value, 'id'),
+          renderSelected = this.fieldConfig.renderSelected;
+
+      if (!valueId) {
+        return {
+          value: undefined
+        };
+      }
+
+      return {
+        value: {
+          key: valueId,
+          label: renderSelected(value)
+        }
+      };
+    }
+  }]);
+
+  return ObjectSearch;
+}(Component), _class3.defaultProps = {
+  debounceWait: DEFAULT_DEBOUNCE_WAIT
+}, _temp$1), (_descriptor$1 = _applyDecoratedDescriptor(_class2$1.prototype, "options", [observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return [];
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2$1.prototype, "isLoading", [observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return new SmartBool();
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2$1.prototype, "search", [observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return '';
+  }
+}), _descriptor4 = _applyDecoratedDescriptor(_class2$1.prototype, "previousEndpoint", [observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return '';
+  }
+}), _descriptor5 = _applyDecoratedDescriptor(_class2$1.prototype, "previousSearchFilters", [observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return '';
+  }
+})), _class2$1)) || _class$2) || _class$2) || _class$2);
+
+var _class$3, _class2$2, _descriptor$2, _descriptor2$1, _temp$2;
+function isTypeObjectSearchCreate(fieldConfig) {
+  return fieldConfig.type === 'objectSearchCreate';
+}
+
+var ObjectSearchCreate = autoBindMethods(_class$3 = observer(_class$3 = (_class2$2 = (_temp$2 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ObjectSearchCreate, _Component);
+
+  function ObjectSearchCreate() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    _classCallCheck(this, ObjectSearchCreate);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ObjectSearchCreate)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _initializerDefineProperty(_this, "isAddingNew", _descriptor$2, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "search", _descriptor2$1, _assertThisInitialized(_this));
+
+    return _this;
+  }
+
+  _createClass(ObjectSearchCreate, [{
+    key: "onAddNew",
+    value: function () {
+      var _onAddNew = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(search) {
+        var _this2 = this;
+
+        var _this$injected, onAddNewToggle, formManager, fieldConfig;
+
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this$injected = this.injected, onAddNewToggle = _this$injected.onAddNewToggle, formManager = _this$injected.formManager, fieldConfig = _this$injected.fieldConfig;
+                this.search = search;
+                formManager.form.setFieldsValue(_defineProperty({}, fieldConfig.field, {}), function () {
+                  _this2.isAddingNew.setTrue();
+
+                  if (onAddNewToggle) {
+                    onAddNewToggle(true);
+                  }
+                });
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function onAddNew(_x) {
+        return _onAddNew.apply(this, arguments);
+      }
+
+      return onAddNew;
+    }()
+  }, {
+    key: "onSearch",
+    value: function () {
+      var _onSearch = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
+        var _this$injected2, onAddNewToggle, formManager, id, fieldConfig;
+
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this$injected2 = this.injected, onAddNewToggle = _this$injected2.onAddNewToggle, formManager = _this$injected2.formManager, id = _this$injected2.id, fieldConfig = _this$injected2.fieldConfig;
+                formManager.form.setFieldsValue(_defineProperty({}, id, formManager.getDefaultValue(fieldConfig)));
+                this.isAddingNew.setFalse();
+
+                if (onAddNewToggle) {
+                  onAddNewToggle(false);
+                }
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function onSearch() {
+        return _onSearch.apply(this, arguments);
+      }
+
+      return onSearch;
+    }()
+  }, {
+    key: "renderAddNew",
+    value: function renderAddNew() {
+      var _this$injected3 = this.injected,
+          fieldConfig = _this$injected3.fieldConfig,
+          formManager = _this$injected3.formManager;
+      return React.createElement(React.Fragment, null, React.createElement(NestedFieldSet, {
+        fieldSet: this.fieldConfig.createFields,
+        formManager: formManager,
+        id: fieldConfig.field,
+        label: renderLabel(this.fieldConfig),
+        search: this.search
+      }), React.createElement(Button, {
+        className: "".concat(CX_PREFIX_SEARCH_CREATE, "-btn-back"),
+        onClick: this.onSearch,
+        size: "small"
+      }, React.createElement(Icon, {
+        type: "left"
+      }), " Back to search"));
+    }
+  }, {
+    key: "renderSearch",
+    value: function renderSearch() {
+      var _this$injected4 = this.injected,
+          decoratorOptions = _this$injected4.decoratorOptions,
+          fieldConfig = _this$injected4.fieldConfig,
+          formManager = _this$injected4.formManager;
+      return React.createElement(Form$1.Item, null, formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(React.createElement(ObjectSearch, _extends({
+        onAddNew: this.onAddNew
+      }, this.objectSearchProps))));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var className = classnames(CX_PREFIX_SEARCH_CREATE, _defineProperty({}, "".concat(CX_PREFIX_SEARCH_CREATE, "-create"), this.isAddingNew.isTrue), this.props.className);
+      return React.createElement("div", {
+        className: className
+      }, this.isAddingNew.isTrue ? this.renderAddNew() : this.renderSearch(), this.props.children);
+    }
+  }, {
+    key: "injected",
+    get: function get() {
+      return this.props;
+    }
+  }, {
+    key: "fieldConfig",
+    get: function get() {
+      return this.props.fieldConfig;
+    }
+  }, {
+    key: "objectSearchProps",
+    get: function get() {
+      return pick(this.props, ['addNewContent', 'debounceWait', 'fieldConfig', 'loadingIcon', 'noSearchContent', 'searchIcon', 'selectProps']);
+    }
+  }]);
+
+  return ObjectSearchCreate;
+}(Component), _temp$2), (_descriptor$2 = _applyDecoratedDescriptor(_class2$2.prototype, "isAddingNew", [observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return new SmartBool();
+  }
+}), _descriptor2$1 = _applyDecoratedDescriptor(_class2$2.prototype, "search", [observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return '';
+  }
+})), _class2$2)) || _class$3) || _class$3;
+
+var WithTooltip =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(WithTooltip, _Component);
+
+  function WithTooltip() {
+    _classCallCheck(this, WithTooltip);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(WithTooltip).apply(this, arguments));
+  }
+
+  _createClass(WithTooltip, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          tooltip = _this$props.tooltip,
+          children = _this$props.children;
+
+      if (!tooltip) {
+        return children;
+      }
+
+      return React.createElement("span", null, children, "\xA0", React.createElement(Tooltip, {
+        title: tooltip
+      }, React.createElement(Icon, {
+        type: "question-circle-o"
+      })));
+    }
+  }]);
+
+  return WithTooltip;
+}(Component);
+
 var MILLISECONDS_IN_MINUTE$7 = 60000;
 
 /**
@@ -33458,7 +34535,7 @@ var lib_2$1 = lib$1.parse;
 var lib_3$1 = lib$1.end;
 var lib_4$1 = lib$1.toSeconds;
 
-var _class$1, _temp;
+var _class$4, _temp$3;
 var inputConfig = {
   day: {
     placeholder: 'DD',
@@ -33483,7 +34560,7 @@ var inputConfig = {
 },
     INPUT_ORDER = ['month', 'day', 'year'];
 
-var Date$1 = autoBindMethods(_class$1 = observer(_class$1 = (_temp =
+var Date$1 = autoBindMethods(_class$4 = observer(_class$4 = (_temp$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Date, _Component);
@@ -33602,995 +34679,7 @@ function (_Component) {
   }]);
 
   return Date;
-}(Component), _temp)) || _class$1) || _class$1;
-
-function asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator$1(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-function _classCallCheck$2(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties$2(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass$2(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties$2(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties$2(Constructor, staticProps);
-  return Constructor;
-}
-
-function _initializerDefineProperty$1(target, property, descriptor, context) {
-  if (!descriptor) return;
-  Object.defineProperty(target, property, {
-    enumerable: descriptor.enumerable,
-    configurable: descriptor.configurable,
-    writable: descriptor.writable,
-    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-  });
-}
-
-function _applyDecoratedDescriptor$2(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object.keys(descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
-
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
-
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
-
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
-
-  if (desc.initializer === void 0) {
-    Object.defineProperty(target, property, desc);
-    desc = null;
-  }
-
-  return desc;
-}
-
-var commonjsGlobal$2 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-function unwrapExports$2 (x) {
-	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
-}
-
-function createCommonjsModule$2(fn, module) {
-	return module = { exports: {} }, fn(module, module.exports), module.exports;
-}
-
-var ReactComponentSpecMethods$1 = createCommonjsModule$2(function (module, exports) {
-(function (global, factory) {
-    {
-        factory(exports);
-    }
-})(commonjsGlobal$2, function (exports) {
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.default = ['getDefaultProps', 'getInitialState', 'componentWillMount', 'componentDidMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'componentDidUpdate', 'componentWillUnmount', 'componentDidCatch', 'render'];
-});
-});
-
-unwrapExports$2(ReactComponentSpecMethods$1);
-
-var isObject$1 = createCommonjsModule$2(function (module, exports) {
-(function (global, factory) {
-    {
-        factory(exports);
-    }
-})(commonjsGlobal$2, function (exports) {
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.default = isObject;
-    var toString = Object.prototype.toString;
-
-
-    // This check is "good enough" for purposes here.
-    function isObject(candidate) {
-        return toString.call(candidate) === '[object Object]';
-    }
-});
-});
-
-unwrapExports$2(isObject$1);
-
-var uniqueConcatArrays$1 = createCommonjsModule$2(function (module, exports) {
-(function (global, factory) {
-    {
-        factory(exports);
-    }
-})(commonjsGlobal$2, function (exports) {
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.default = uniqueConcatArrays;
-    // Helper methods.
-    var flattenArraysReducer = function flattenArraysReducer(array, nextArray) {
-        return array.concat(nextArray);
-    };
-    var getRemoveDupesReducer = function getRemoveDupesReducer(keyHash) {
-        return function (resultArray, item) {
-            if (!keyHash[item]) {
-                keyHash[item] = true;
-                resultArray.push(item); // mutation ok here (sort of), since a new array is expected when reduction begins
-            }
-
-            return resultArray;
-        };
-    };
-
-    /**
-     * Concatenates arrays, removing duplicate entries.
-     * 
-     * NOTE: This only works reliably for arrays consisting entirely of items that
-     * produce distinct `toString()` values whenever they are altered (e.g.,
-     * strings, numbers, etc.). That's good enough for the use case here, since
-     * this utility is only used to uniqueConcat arrays of strings, but it won't
-     * always work elsewhere.
-     */
-    function uniqueConcatArrays() {
-        for (var _len = arguments.length, arrays = Array(_len), _key = 0; _key < _len; _key++) {
-            arrays[_key] = arguments[_key];
-        }
-
-        if (arrays.length < 2) {
-            return arrays.length === 1 ? arrays[0].reduce(getRemoveDupesReducer({}), []) : undefined;
-        }
-
-        var flattenedArray = arrays.reduce(flattenArraysReducer);
-        return flattenedArray.reduce(getRemoveDupesReducer({}), []);
-    }
-});
-});
-
-unwrapExports$2(uniqueConcatArrays$1);
-
-var build$1 = createCommonjsModule$2(function (module, exports) {
-(function (global, factory) {
-    {
-        factory(exports, ReactComponentSpecMethods$1, isObject$1, uniqueConcatArrays$1);
-    }
-})(commonjsGlobal$2, function (exports, _ReactComponentSpecMethods, _isObject, _uniqueConcatArrays) {
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.autoBindMethods = undefined;
-    exports.default = autoBindMethods;
-    exports.autoBindMethodsForReact = autoBindMethodsForReact;
-
-    var _ReactComponentSpecMethods2 = _interopRequireDefault(_ReactComponentSpecMethods);
-
-    var _isObject2 = _interopRequireDefault(_isObject);
-
-    var _uniqueConcatArrays2 = _interopRequireDefault(_uniqueConcatArrays);
-
-    function _interopRequireDefault(obj) {
-        return obj && obj.__esModule ? obj : {
-            default: obj
-        };
-    }
-
-    var _extends = Object.assign || function (target) {
-        for (var i = 1; i < arguments.length; i++) {
-            var source = arguments[i];
-
-            for (var key in source) {
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-
-        return target;
-    };
-
-    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-        return typeof obj;
-    } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-
-    /**
-     * Overloaded function for auto-binding the methods of a class to the class's relevant instance. If
-     * the first argument is a function, as it will be when this is used as a "bare" or "unconfigured"
-     * decorator -- as in `@autoBindMethods class SomeClass {}` -- it does the auto-bind decorating by
-     * delegating to `autoBindMethodsDecorator`. If the first argument is *not* a function, as happens
-     * when this is used as a "configured" decorator -- as in `@autoBindMethods(options) class SomeClass
-     * {}` -- it returns a function that *itself* accepts a function (the class constructor) as its
-     * first argument, and that does the auto-bind decorating by delegating to
-     * `autoBindMethodsDecorator`.
-     *
-     * The delegate method `autoBindMethodsDecorator` is `call`ed in order to avoid changing the context
-     * from whatever it would ordinarily be in the case of a non-overloaded decorator, while still
-     * allowing us to pass on any received `options`.
-     *
-     * @param {Object|Function|undefined} [input] - optional options or the function/class to decorate
-     * @param {String[]} [input.methodsToIgnore] - names of methods to skip auto-binding; applicable
-     *  only if `input` is not a function
-     * @param {boolean} [options.dontOptimize] - if truthy, turns off the decorator's default
-     *  optimization behavior, which is to define the bound method directly on the class instance
-     *  when first accessed, in order to prevent re-binding on every access and traversing the
-     *  prototype chain; applicable only if `input` is not a function
-     * @returns {Function|undefined}
-     */
-    function autoBindMethods(input) {
-        if (typeof input !== 'function') {
-            return function (target) {
-                autoBindMethodsDecorator.call(this, target, input);
-            };
-        }
-
-        autoBindMethodsDecorator.call(this, input);
-    }
-
-    exports.autoBindMethods = autoBindMethods;
-
-
-    /**
-     * Convenience decorator that operates the same as above, but that automatically skips all
-     * methods in the React Component Spec, since they do not need auto-binding on React/Preact
-     * components. Useful to those using this decorator with React, as there is no need to list
-     * all of the React Component Spec methods as `methodsToIgnore`.
-     *
-     * @param {Object|Function|undefined} [input] - optional options or the function/class to decorate
-     * @param {String[]} [input.methodsToIgnore] - names of methods to skip auto-binding; applicable
-     *  only if `input` is not a function
-     * @param {boolean} [options.dontOptimize] - if truthy, turns off the decorator's default
-     *  optimization behavior, which is to define the bound method directly on the class instance
-     *  when first accessed, in order to prevent re-binding on every access and traversing the
-     *  prototype chain; applicable only if `input` is not a function
-     * @returns {Function|undefined}
-     */
-    function autoBindMethodsForReact(input) {
-        if (typeof input === 'undefined') {
-            return autoBindMethods({ methodsToIgnore: _ReactComponentSpecMethods2.default });
-        }
-
-        if (typeof input !== 'function') {
-            if (!(0, _isObject2.default)(input)) {
-                throw new TypeError('autoBindMethodsForReact was passed an input of type ' + (typeof input === 'undefined' ? 'undefined' : _typeof(input)) + '. The input ' + 'argument must be either a function, a plain JS object, or undefined.');
-            }
-
-            return autoBindMethods(_extends({}, input, {
-                methodsToIgnore: (0, _uniqueConcatArrays2.default)(input.methodsToIgnore || [], _ReactComponentSpecMethods2.default)
-            }));
-        }
-
-        return autoBindMethods({ methodsToIgnore: _ReactComponentSpecMethods2.default })(input);
-    }
-    /**
-     * A "legacy"-style "class" decorator function for auto-binding the methods of the "class."
-     *
-     * @param {Function} target - an ES2015 "class" or -- what is effectively the same thing -- a
-     *  constructor function.
-     * @param {Object} [options] - optional options
-     * @param {string[]} [options.methodsToIgnore] - names of methods to skip auto-binding
-     * @param {boolean} [options.dontOptimize] - if truthy, turns off the decorator's default
-     *  optimization behavior, which is to define the bound method directly on the class instance
-     *  in order to prevent lookups and re-binding on every access
-     */
-    function autoBindMethodsDecorator(target) {
-        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-        if (typeof target !== 'function') {
-            throw new TypeError('The autoBindMethods decorator must be passed a function as the first argument. ' + ('It received an argument of type ' + (typeof target === 'undefined' ? 'undefined' : _typeof(target)) + '.'));
-        }
-
-        var prototype = target.prototype;
-        var _options$methodsToIgn = options.methodsToIgnore,
-            methodsToIgnore = _options$methodsToIgn === undefined ? [] : _options$methodsToIgn,
-            _options$dontOptimize = options.dontOptimize,
-            dontOptimize = _options$dontOptimize === undefined ? false : _options$dontOptimize;
-
-
-        var ownProps = typeof Object.getOwnPropertySymbols === 'function' ? Object.getOwnPropertyNames(prototype).concat(Object.getOwnPropertySymbols(prototype)) : Object.getOwnPropertyNames(prototype);
-
-        if (methodsToIgnore.length > 0) {
-            ownProps = ownProps.filter(function (prop) {
-                return methodsToIgnore.indexOf(prop) === -1;
-            });
-        }
-
-        ownProps.forEach(function (ownPropIdentifier) {
-            if (ownPropIdentifier === 'constructor') {
-                // This decorator should not muck around with constructors, for fear of introducing
-                // unexpected side effects.
-                return;
-            }
-
-            var propDescriptor = Object.getOwnPropertyDescriptor(prototype, ownPropIdentifier);
-            var value = propDescriptor.value,
-                configurable = propDescriptor.configurable,
-                enumerable = propDescriptor.enumerable;
-
-
-            if (typeof value !== 'function' || !configurable) {
-                // We can only do our work with configurable functions, so bail early here.
-                return;
-            }
-
-            Object.defineProperty(prototype, ownPropIdentifier, {
-                // Keep the same enumerability/configurability settings.
-                enumerable: enumerable,
-                configurable: configurable,
-                get: function get() {
-                    if (this.hasOwnProperty(ownPropIdentifier)) {
-                        // Don't bind the prototype's method to the prototype, or we can't re-bind it to instances.
-                        return value;
-                    }
-
-                    var boundMethod = value.bind(this);
-
-                    if (!dontOptimize) {
-                        // `defineProperty` must be used here rather than a standard assignment because
-                        // assignments will first check for getters/setters up the prototype chain and
-                        // thus reject the assignment (since the property on the prototype has a getter
-                        // but no setter (see: http://www.2ality.com/2012/08/property-definition-assignment.html))
-                        Object.defineProperty(this, ownPropIdentifier, {
-                            enumerable: enumerable,
-                            configurable: configurable,
-                            value: boundMethod,
-                            writable: propDescriptor.writable !== false ? true : false
-                        });
-                    }
-
-                    return boundMethod;
-                },
-                set: function set(newValue) {
-                    if (propDescriptor.writable === false) {
-                        // If the original property wasn't writable, don't change that.
-                        return;
-                    }
-
-                    // Re-assigning a property on the prototype *after* the property has been bound by
-                    // the decorator should simply overwrite that property entirely; it is weird (IMO)
-                    // for it to magically be auto-bound to instances when assigned.
-                    Object.defineProperty(prototype, ownPropIdentifier, {
-                        value: newValue,
-                        configurable: true,
-                        enumerable: true,
-                        writable: true
-                    });
-                }
-            });
-        });
-    }
-});
-});
-
-var autoBindMethods$1 = unwrapExports$2(build$1);
-
-var _class$2, _class2, _descriptor, _temp$1;
-/*
-  Name: SmartBool
-  Description: Simple class for controlling a boolean, eliminating repetitive single-line setter functions.
-*/
-
-var SmartBool = autoBindMethods$1(_class$2 = (_class2 = (_temp$1 =
-/*#__PURE__*/
-function () {
-  function SmartBool() {
-    var initial = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-    _classCallCheck$2(this, SmartBool);
-
-    _initializerDefineProperty$1(this, "isTrue", _descriptor, this);
-
-    this.isTrue = initial;
-  }
-
-  _createClass$2(SmartBool, [{
-    key: "set",
-    value: function set(value) {
-      this.isTrue = value;
-      return this.isTrue;
-    }
-  }, {
-    key: "setTrue",
-    value: function setTrue() {
-      return this.set(true);
-    }
-  }, {
-    key: "setFalse",
-    value: function setFalse() {
-      return this.set(false);
-    }
-  }, {
-    key: "toggle",
-    value: function toggle() {
-      this.isTrue = !this.isTrue;
-      return this.isTrue;
-    } // Will set boolean to true until request completes.
-    // Usage:
-    // const request = client.retrieve(id);
-    // await this.isLoading.until(request);
-
-  }, {
-    key: "until",
-    value: function () {
-      var _until = _asyncToGenerator$1(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(request) {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                this.set(true);
-                _context.prev = 1;
-                _context.next = 4;
-                return request;
-
-              case 4:
-                return _context.abrupt("return", _context.sent);
-
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](1);
-                throw _context.t0;
-
-              case 10:
-                _context.prev = 10;
-                this.set(false);
-                return _context.finish(10);
-
-              case 13:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this, [[1, 7, 10, 13]]);
-      }));
-
-      function until(_x) {
-        return _until.apply(this, arguments);
-      }
-
-      return until;
-    }()
-  }, {
-    key: "_stringIfTrueElse",
-    value: function _stringIfTrueElse(ifTrue, ifFalse) {
-      return this.isTrue ? ifTrue : ifFalse;
-    } // Usage:
-    // <Button>{this.isSubmitting.saving()}</Button>
-    // <Button>{this.isSubmitting.saving('Update')}</Button>
-
-  }, {
-    key: "saving",
-    value: function saving() {
-      var label = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Save';
-      return this._stringIfTrueElse('Saving...', label);
-    }
-  }, {
-    key: "isFalse",
-    get: function get() {
-      return !this.isTrue;
-    }
-  }]);
-
-  return SmartBool;
-}(), _temp$1), (_descriptor = _applyDecoratedDescriptor$2(_class2.prototype, "isTrue", [observable], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return false;
-  }
-})), _class2)) || _class$2;
-
-var _dec, _class$3, _class2$1, _descriptor$1, _descriptor2, _descriptor3, _class3, _temp$2;
-var ITEM_KEYS = {
-  ADD: 'add',
-  EMPTY: 'empty',
-  NO_SEARCH: 'no-search'
-};
-var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$3 = autoBindMethods(_class$3 = observer(_class$3 = (_class2$1 = (_temp$2 = _class3 =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(ObjectSearch, _Component);
-
-  function ObjectSearch(props) {
-    var _this;
-
-    _classCallCheck(this, ObjectSearch);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ObjectSearch).call(this, props));
-
-    _initializerDefineProperty(_this, "options", _descriptor$1, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "isLoading", _descriptor2, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "search", _descriptor3, _assertThisInitialized(_this));
-
-    _this.debouncedHandleSearch = void 0;
-    _this.debouncedHandleSearch = debounce(_this.handleSearch, props.debounceWait);
-    return _this;
-  }
-
-  _createClass(ObjectSearch, [{
-    key: "handleSearch",
-    value: function () {
-      var _handleSearch = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(value) {
-        var getEndpoint, _this$fieldConfig, endpoint, searchFilters, params, response;
-
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                getEndpoint = this.injected.getEndpoint, _this$fieldConfig = this.fieldConfig, endpoint = _this$fieldConfig.endpoint, searchFilters = _this$fieldConfig.searchFilters, params = _objectSpread({
-                  search: value
-                }, searchFilters);
-                this.search = value;
-                this.isLoading.setTrue();
-                _context.next = 5;
-                return getEndpoint("/".concat(endpoint, "/").concat(toKey(params)));
-
-              case 5:
-                response = _context.sent;
-                this.options = response.results;
-                this.isLoading.setFalse();
-
-              case 8:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function handleSearch(_x) {
-        return _handleSearch.apply(this, arguments);
-      }
-
-      return handleSearch;
-    }()
-  }, {
-    key: "renderOptionAdd",
-    value: function renderOptionAdd() {
-      var addNewContent = this.props.addNewContent,
-          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.ADD);
-
-      if (!this.hasSearch) {
-        return React.createElement(Select.Option, {
-          className: className,
-          key: ITEM_KEYS.ADD,
-          disabled: true
-        }, React.createElement("div", null, React.createElement(Icon, {
-          type: "plus"
-        }), " Search to add new"));
-      }
-
-      return React.createElement(Select.Option, {
-        className: className,
-        key: ITEM_KEYS.ADD
-      }, React.createElement("div", null, addNewContent || React.createElement(React.Fragment, null, React.createElement(Icon, {
-        type: "plus"
-      }), " Add new")));
-    }
-  }, {
-    key: "renderOptionEmpty",
-    value: function renderOptionEmpty() {
-      var selectProps = this.props.selectProps,
-          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.EMPTY);
-      return React.createElement(Select.Option, {
-        className: className,
-        disabled: true,
-        key: ITEM_KEYS.EMPTY
-      }, React.createElement("div", null, get(selectProps, 'notFoundContent') || 'No results'));
-    }
-  }, {
-    key: "renderOptionNoSearch",
-    value: function renderOptionNoSearch() {
-      var noSearchContent = this.props.noSearchContent,
-          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.NO_SEARCH);
-      return React.createElement(Select.Option, {
-        className: className,
-        disabled: true,
-        key: ITEM_KEYS.NO_SEARCH
-      }, React.createElement("div", null, noSearchContent || 'Type in search text'));
-    }
-  }, {
-    key: "renderOption",
-    value: function renderOption(option) {
-      var _this$fieldConfig2 = this.fieldConfig,
-          renderOption = _this$fieldConfig2.renderOption,
-          renderSelected = _this$fieldConfig2.renderSelected,
-          className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item");
-      return React.createElement(Select.Option, {
-        className: className,
-        key: option.id,
-        title: renderSelected(option),
-        value: option.id
-      }, renderOption(option));
-    }
-  }, {
-    key: "onChange",
-    value: function onChange(selectedOption) {
-      var _this$injected = this.injected,
-          onChange = _this$injected.onChange,
-          onAddNew = _this$injected.onAddNew; // Clear
-
-      if (!selectedOption) {
-        onChange(selectedOption);
-        return;
-      } // Add new
-
-
-      if (onAddNew && selectedOption.key === ITEM_KEYS.ADD) {
-        onAddNew(this.search);
-        return;
-      } // Select from search
-
-
-      var foundOption = this.options.find(function (option) {
-        return option.id === selectedOption.key;
-      });
-      onChange(toJS(foundOption));
-    } // istanbul ignore next
-
-  }, {
-    key: "onBlur",
-    value: function onBlur() {
-      this.search = '';
-    } // istanbul ignore next
-
-  }, {
-    key: "onFocus",
-    value: function onFocus() {
-      var isPristine = !this.hasOptions && !this.hasSearch;
-
-      if (isPristine) {
-        // Trigger empty search
-        this.handleSearch(this.search);
-      }
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$injected2 = this.injected,
-          id = _this$injected2.id,
-          onAddNew = _this$injected2.onAddNew,
-          showEmpty = this.hasSearch && !this.hasOptions,
-          showNoSearch = !this.hasSearch && !this.hasOptions,
-          _this$fieldConfig3 = this.fieldConfig,
-          label = _this$fieldConfig3.label,
-          showLabel = _this$fieldConfig3.showLabel,
-          placeholderLabel = showLabel && label ? " ".concat(label) : '',
-          placeholder = "Search".concat(placeholderLabel, "...");
-      return React.createElement(Select, _extends({
-        allowClear: true,
-        defaultActiveFirstOption: false,
-        filterOption: false,
-        id: id,
-        labelInValue: true,
-        loading: this.isLoading.isTrue,
-        onBlur: this.onBlur,
-        onChange: this.onChange,
-        onFocus: this.onFocus,
-        onSearch: this.debouncedHandleSearch,
-        optionLabelProp: "title",
-        placeholder: placeholder,
-        showSearch: true,
-        suffixIcon: this.isLoading.isTrue ? this.loadingIcon : this.searchIcon
-      }, this.valueProp, this.selectProps), this.options.map(this.renderOption), showEmpty && this.renderOptionEmpty(), showNoSearch && this.renderOptionNoSearch(), onAddNew && this.renderOptionAdd());
-    }
-  }, {
-    key: "injected",
-    get: function get() {
-      return this.props;
-    }
-  }, {
-    key: "fieldConfig",
-    get: function get() {
-      return this.props.fieldConfig;
-    }
-  }, {
-    key: "hasSearch",
-    get: function get() {
-      return this.search !== '';
-    }
-  }, {
-    key: "hasOptions",
-    get: function get() {
-      return !!this.options.length;
-    }
-  }, {
-    key: "loadingIcon",
-    get: function get() {
-      return this.props.loadingIcon || React.createElement(Icon, {
-        type: "loading"
-      });
-    }
-  }, {
-    key: "searchIcon",
-    get: function get() {
-      return this.props.searchIcon || React.createElement(Icon, {
-        type: "search"
-      });
-    }
-  }, {
-    key: "selectProps",
-    get: function get() {
-      // Omitting specific props to avoid unintentional behaviors
-      return omit(this.props.selectProps, ['id', 'loading', 'onBlur', 'onChange', 'onFocus', 'onSearch', 'showSearch']);
-    }
-  }, {
-    key: "valueProp",
-    get: function get$1() {
-      var value = this.injected.value,
-          valueId = get(value, 'id'),
-          renderSelected = this.fieldConfig.renderSelected;
-
-      if (!valueId) {
-        return {};
-      }
-
-      return {
-        value: {
-          key: valueId,
-          label: renderSelected(value)
-        }
-      };
-    }
-  }]);
-
-  return ObjectSearch;
-}(Component), _class3.defaultProps = {
-  debounceWait: DEFAULT_DEBOUNCE_WAIT
-}, _temp$2), (_descriptor$1 = _applyDecoratedDescriptor(_class2$1.prototype, "options", [observable], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return [];
-  }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2$1.prototype, "isLoading", [observable], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return new SmartBool();
-  }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2$1.prototype, "search", [observable], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return '';
-  }
-})), _class2$1)) || _class$3) || _class$3) || _class$3);
-
-var _class$4, _class2$2, _descriptor$2, _descriptor2$1, _temp$3;
-function isTypeObjectSearchCreate(fieldConfig) {
-  return fieldConfig.type === 'objectSearchCreate';
-}
-
-var ObjectSearchCreate = autoBindMethods(_class$4 = observer(_class$4 = (_class2$2 = (_temp$3 =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(ObjectSearchCreate, _Component);
-
-  function ObjectSearchCreate() {
-    var _getPrototypeOf2;
-
-    var _this;
-
-    _classCallCheck(this, ObjectSearchCreate);
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ObjectSearchCreate)).call.apply(_getPrototypeOf2, [this].concat(args)));
-
-    _initializerDefineProperty(_this, "isAddingNew", _descriptor$2, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "search", _descriptor2$1, _assertThisInitialized(_this));
-
-    return _this;
-  }
-
-  _createClass(ObjectSearchCreate, [{
-    key: "onAddNew",
-    value: function () {
-      var _onAddNew = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(search) {
-        var _this$injected, onAddNewToggle, formManager, id;
-
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _this$injected = this.injected, onAddNewToggle = _this$injected.onAddNewToggle, formManager = _this$injected.formManager, id = _this$injected.id;
-                this.search = search;
-                formManager.form.setFieldsValue(_defineProperty({}, id, {}));
-                this.isAddingNew.setTrue();
-
-                if (onAddNewToggle) {
-                  onAddNewToggle(true);
-                }
-
-              case 5:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function onAddNew(_x) {
-        return _onAddNew.apply(this, arguments);
-      }
-
-      return onAddNew;
-    }()
-  }, {
-    key: "onSearch",
-    value: function () {
-      var _onSearch = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
-        var _this$injected2, onAddNewToggle, formManager, id, fieldConfig;
-
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _this$injected2 = this.injected, onAddNewToggle = _this$injected2.onAddNewToggle, formManager = _this$injected2.formManager, id = _this$injected2.id, fieldConfig = _this$injected2.fieldConfig;
-                formManager.form.setFieldsValue(_defineProperty({}, id, formManager.getDefaultValue(fieldConfig)));
-                this.isAddingNew.setFalse();
-
-                if (onAddNewToggle) {
-                  onAddNewToggle(false);
-                }
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function onSearch() {
-        return _onSearch.apply(this, arguments);
-      }
-
-      return onSearch;
-    }()
-  }, {
-    key: "renderAddNew",
-    value: function renderAddNew() {
-      var _this$injected3 = this.injected,
-          fieldConfig = _this$injected3.fieldConfig,
-          formManager = _this$injected3.formManager;
-      return React.createElement(React.Fragment, null, React.createElement(NestedFieldSet, {
-        fieldSet: this.fieldConfig.createFields,
-        formManager: formManager,
-        id: fieldConfig.field,
-        label: this.fieldConfig.label,
-        search: this.search
-      }), React.createElement(Button, {
-        className: "".concat(CX_PREFIX_SEARCH_CREATE, "-btn-back"),
-        size: "small",
-        onClick: this.onSearch
-      }, React.createElement(Icon, {
-        type: "left"
-      }), " Back to search"));
-    }
-  }, {
-    key: "renderSearch",
-    value: function renderSearch() {
-      var _this$injected4 = this.injected,
-          decoratorOptions = _this$injected4.decoratorOptions,
-          fieldConfig = _this$injected4.fieldConfig,
-          formManager = _this$injected4.formManager;
-      return React.createElement(Form$1.Item, null, formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(React.createElement(ObjectSearch, _extends({
-        onAddNew: this.onAddNew
-      }, this.objectSearchProps))));
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var className = classnames(CX_PREFIX_SEARCH_CREATE, _defineProperty({}, "".concat(CX_PREFIX_SEARCH_CREATE, "-create"), this.isAddingNew.isTrue), this.props.className);
-      return React.createElement("div", {
-        className: className
-      }, this.isAddingNew.isTrue ? this.renderAddNew() : this.renderSearch(), this.props.children);
-    }
-  }, {
-    key: "injected",
-    get: function get() {
-      return this.props;
-    }
-  }, {
-    key: "fieldConfig",
-    get: function get() {
-      return this.props.fieldConfig;
-    }
-  }, {
-    key: "objectSearchProps",
-    get: function get() {
-      return pick(this.props, ['addNewContent', 'debounceWait', 'fieldConfig', 'loadingIcon', 'noSearchContent', 'searchIcon', 'selectProps']);
-    }
-  }]);
-
-  return ObjectSearchCreate;
-}(Component), _temp$3), (_descriptor$2 = _applyDecoratedDescriptor(_class2$2.prototype, "isAddingNew", [observable], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return new SmartBool();
-  }
-}), _descriptor2$1 = _applyDecoratedDescriptor(_class2$2.prototype, "search", [observable], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return '';
-  }
-})), _class2$2)) || _class$4) || _class$4;
+}(Component), _temp$3)) || _class$4) || _class$4;
 
 var _dec$1, _class$5, _class2$3;
 // 8 is the most number of options you can show with no scroll
@@ -34790,11 +34879,6 @@ function formatOptionSelect(value, fieldConfig) {
     fieldConfig: fieldConfig
   });
 }
-
-var DEFAULT_DEBOUNCE_WAIT = 300;
-var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
-var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
-var ID_ATTR = 'id';
 
 function getDateFormatList() {
   var months = ['MM', 'M'],
@@ -35167,10 +35251,10 @@ function filterInsertIf(fieldConfig, model) {
 }
 function fillInFieldConfig(fieldConfig) {
   var type = inferType(fieldConfig),
-      label = varToLabel(getFieldSuffix(fieldConfig.field));
+      label = fieldConfig.label || varToLabel(getFieldSuffix(fieldConfig.field));
   var requiredValidationRule = fieldConfig.required ? {
     required: {
-      message: 'Field required',
+      message: "Required - Please input a valid ".concat(label || 'value'),
       required: true
     }
   } : undefined;
@@ -35267,6 +35351,23 @@ function renderValue(fieldConfigPartial, model) {
       value = has(fieldConfig, 'value') ? fieldConfig.value : get(model, field);
   return render(value, fieldConfig, model || {});
 }
+function renderLabel(fieldConfig) {
+  var label = fieldConfig.label,
+      showLabel = fieldConfig.showLabel,
+      tooltip = fieldConfig.tooltip;
+
+  if (!showLabel) {
+    return '';
+  }
+
+  if (tooltip) {
+    return React.createElement(WithTooltip, {
+      tooltip: tooltip
+    }, "label");
+  }
+
+  return label;
+}
 function fieldSetsToColumns(fieldSets) {
   var tableModel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   return getFieldSetsFields(fillInFieldSets(fieldSets)).filter(function (fieldConfig) {
@@ -35280,7 +35381,7 @@ function fieldSetsToColumns(fieldSets) {
       render: function render(value, model) {
         return fieldConfig.render(value, fieldConfig, model);
       },
-      title: fieldConfig.showLabel ? fieldConfig.label : ''
+      title: renderLabel(fieldConfig)
     }, fieldConfig.tableColumnProps);
   });
 }
@@ -35357,10 +35458,9 @@ function (_Component) {
       var model = this.props.model,
           fieldConfig = this.fieldConfig,
           field = fieldConfig.field,
-          label = fieldConfig.label,
           showLabel = fieldConfig.showLabel,
           writeOnly = fieldConfig.writeOnly,
-          value = renderValue(fieldConfig, model);
+          renderWithoutStructure = !showLabel;
 
       if (writeOnly || filterInsertIf(fieldConfig, model)) {
         return null;
@@ -35368,7 +35468,7 @@ function (_Component) {
 
       return React.createElement(Info, {
         key: field
-      }, !showLabel ? value : React.createElement(React.Fragment, null, React.createElement(Label, null, label), React.createElement(Value, null, value)));
+      }, renderWithoutStructure ? renderValue(fieldConfig, model) : React.createElement(React.Fragment, null, React.createElement(Label, null, renderLabel(fieldConfig)), React.createElement(Value, null, renderValue(fieldConfig, model))));
     }
   }, {
     key: "fieldConfig",
@@ -35436,7 +35536,7 @@ function (_Component) {
           FormItemComponent = React.createElement(Form$1.Item, _extends({
         className: className
       }, formItemProps, {
-        label: this.label
+        label: renderLabel(fieldConfig)
       }), wrappedComponent);
 
       if (colProps) {
@@ -35451,14 +35551,6 @@ function (_Component) {
     key: "fieldConfig",
     get: function get() {
       return fillInFieldConfig(this.props.fieldConfig);
-    }
-  }, {
-    key: "label",
-    get: function get() {
-      var _this$fieldConfig = this.fieldConfig,
-          label = _this$fieldConfig.label,
-          showLabel = _this$fieldConfig.showLabel;
-      return showLabel ? label : '';
     }
   }, {
     key: "initialValue",
@@ -35530,6 +35622,42 @@ function (_Component) {
   return FormField;
 }(Component), (_applyDecoratedDescriptor(_class2$6.prototype, "fieldConfig", [computed], Object.getOwnPropertyDescriptor(_class2$6.prototype, "fieldConfig"), _class2$6.prototype)), _class2$6)) || _class$9) || _class$9;
 
+var Legend =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Legend, _Component);
+
+  function Legend() {
+    _classCallCheck(this, Legend);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Legend).apply(this, arguments));
+  }
+
+  _createClass(Legend, [{
+    key: "render",
+    value: function render() {
+      var fieldSet = this.props.fieldSet;
+
+      if (isPartialFieldSetSimple(fieldSet)) {
+        return null;
+      }
+
+      var legend = fieldSet.legend,
+          tooltip = fieldSet.tooltip;
+
+      if (!legend) {
+        return null;
+      }
+
+      return React.createElement("h3", null, React.createElement(WithTooltip, {
+        tooltip: tooltip
+      }, legend));
+    }
+  }]);
+
+  return Legend;
+}(Component);
+
 var _class$a, _class2$7;
 
 var FormFieldSet = autoBindMethods(_class$a = observer(_class$a = (_class2$7 =
@@ -35549,14 +35677,15 @@ function (_Component) {
       var _this = this;
 
       var filteredFieldConfigs = this.filteredFieldConfigs,
-          legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend,
           rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps;
 
       if (!filteredFieldConfigs.length) {
         return null;
       }
 
-      return React.createElement(React.Fragment, null, legend && React.createElement("h3", null, legend), React.createElement(Row, rowProps, filteredFieldConfigs.map(function (fieldConfig, idx) {
+      return React.createElement(React.Fragment, null, React.createElement(Legend, {
+        fieldSet: this.fieldSet
+      }), React.createElement(Row, rowProps, filteredFieldConfigs.map(function (fieldConfig, idx) {
         return React.createElement(FormField, _extends({}, _this.props, {
           fieldConfig: fieldConfig,
           key: "field-config-".concat(fieldConfig.field, "-").concat(idx)
@@ -35691,9 +35820,12 @@ function (_Component) {
         return {
           value: lastName
         };
-      }
+      } // Keep add new form from populating with model data
 
-      return {};
+
+      return {
+        value: ''
+      };
     }
   }, {
     key: "render",
@@ -35730,15 +35862,16 @@ function (_Component) {
   _createClass(CardFieldSet, [{
     key: "render",
     value: function render() {
-      var model = this.props.model,
+      var _this$props = this.props,
+          model = _this$props.model,
+          fieldSet = _this$props.fieldSet,
           idx = this.props.idx || 0,
-          legend = !isFieldSetSimple(this.fieldSet) && this.fieldSet.legend,
           fieldConfigs = getFieldSetFields(this.fieldSet),
-          unfilteredFieldConfigs = fieldConfigs.filter(function (fieldConfig) {
+          filteredFieldConfigs = fieldConfigs.filter(function (fieldConfig) {
         return !filterInsertIf(fieldConfig, model);
       });
 
-      if (!unfilteredFieldConfigs.length) {
+      if (!filteredFieldConfigs.length) {
         return null;
       }
 
@@ -35746,7 +35879,9 @@ function (_Component) {
         key: idx
       }, idx > 0 && React.createElement(Divider, {
         key: "divider-".concat(idx)
-      }), legend && React.createElement("h3", null, legend), unfilteredFieldConfigs.map(function (fieldConfig) {
+      }), React.createElement(Legend, {
+        fieldSet: fieldSet
+      }), filteredFieldConfigs.map(function (fieldConfig) {
         return React.createElement(CardField, {
           fieldConfig: fieldConfig,
           key: fieldConfig.field,
@@ -37267,4 +37402,4 @@ function (_Component) {
 
 // Lower-level building blocks and helper components
 
-export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormManager, FormModal, GuardedButton, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, asyncNoop, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterInsertIf, formPropsDefaults, formatOptionSelect, formatRating, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, renderValue };
+export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormManager, FormModal, GuardedButton, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, asyncNoop, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterInsertIf, formPropsDefaults, formatOptionSelect, formatRating, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, renderLabel, renderValue };

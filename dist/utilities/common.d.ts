@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from 'react';
 import { ColumnProps } from 'antd/es/table';
 import { IFieldConfig, IFieldConfigOptionSelect, IFieldConfigPartial, IFieldSet, IFieldSetPartial, IFieldSetSimple, IFieldSetSimplePartial, IInjected, IOption } from '../interfaces';
 import { IModel, IValue } from '../props';
@@ -17,6 +17,7 @@ export declare function getFieldSetsFields(fieldSets: IFieldSet[]): IFieldConfig
 export declare function getUnsortedOptions(fieldConfig: IFieldConfigOptionSelect, injected: IInjected): IOption[];
 export declare function getOptions(fieldConfig: IFieldConfigOptionSelect, injected: IInjected): IOption[];
 export declare function renderValue(fieldConfigPartial: IFieldConfigPartial, model?: IModel): React.ReactNode;
+export declare function renderLabel(fieldConfig: IFieldConfig): React.ReactNode;
 declare type IColumns = Array<ColumnProps<IModel>>;
 export declare function fieldSetsToColumns(fieldSets: IFieldSetPartial[], tableModel?: IModel[]): IColumns;
 export declare function modelFromFieldConfigs(fieldConfigs: IFieldConfig[], data: IModel): IModel;

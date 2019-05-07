@@ -1,11 +1,11 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { IFieldSetPartial } from '../';
 import FormManager from '../utilities/FormManager';
 export interface INestedFieldSetProps {
     fieldSet: IFieldSetPartial;
     formManager: FormManager;
     id: string;
-    label: string | null;
+    label: React.ReactNode;
     search?: string;
 }
 declare class NestedFieldSet extends Component<INestedFieldSetProps> {

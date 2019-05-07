@@ -15,6 +15,8 @@ declare class ObjectSearch extends Component<IObjectSearchProps> {
     private options;
     private isLoading;
     private search;
+    private previousEndpoint;
+    private previousSearchFilters;
     static defaultProps: Partial<IObjectSearchProps>;
     private debouncedHandleSearch;
     constructor(props: IObjectSearchProps);
@@ -22,6 +24,11 @@ declare class ObjectSearch extends Component<IObjectSearchProps> {
     private readonly fieldConfig;
     private readonly hasSearch;
     private readonly hasOptions;
+    private updateValueCaches;
+    private readonly hasNewEndpoint;
+    private readonly hasNewSearchFilters;
+    private readonly hasNewProps;
+    private readonly isPristine;
     private readonly loadingIcon;
     private readonly searchIcon;
     private readonly selectProps;
