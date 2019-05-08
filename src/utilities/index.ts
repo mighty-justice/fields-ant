@@ -1,5 +1,6 @@
 export * from './common';
 export * from './fillIn';
+export * from './filters';
 export * from './getDateFormatList';
 export * from './types';
 export { default as FormManager } from './FormManager';

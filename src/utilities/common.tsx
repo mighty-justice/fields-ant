@@ -29,6 +29,7 @@ import { isTypeObjectSearchCreate } from '../inputs/ObjectSearchCreate';
 import WithTooltip from '../building-blocks/WithTooltip';
 
 import { fillInFieldConfig, fillInFieldSets } from './fillIn';
+import { filterFieldConfig } from './filters';
 
 // istanbul ignore next
 export async function asyncNoop () { return; }
@@ -41,10 +42,6 @@ export function isPartialFieldSetSimple (fieldSet: IFieldSetPartial): fieldSet i
 
 export function isFieldSetSimple (fieldSet: IFieldSet): fieldSet is IFieldSetSimple {
   return isArray(fieldSet);
-}
-
-export function filterInsertIf (fieldConfig: IFieldConfig, model?: IModel | IModel[]): boolean {
-  return !!fieldConfig.insertIf && !fieldConfig.insertIf(model);
 }
 
 type IMapper = (fields: IFieldConfigPartial) => IFieldConfigPartial;
@@ -118,7 +115,7 @@ type IColumns = Array<ColumnProps<IModel>>;
 export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: IModel[] = []): IColumns {
   return getFieldSetsFields(fillInFieldSets(fieldSets))
     .filter(fieldConfig => !fieldConfig.writeOnly)
-    .filter(fieldConfig => !filterInsertIf(fieldConfig, tableModel))
+    .filter(fieldConfig => !filterFieldConfig(fieldConfig, { model: tableModel }))
     .map(fieldConfig => ({
       dataIndex: fieldConfig.field,
       key: fieldConfig.field,
@@ -138,7 +135,7 @@ export function modelFromFieldConfigs (fieldConfigs: IFieldConfig[], data: IMode
     const returnValues: IModel = {};
 
     fieldConfigs
-      .filter(fieldConfig => !filterInsertIf(fieldConfig, data))
+      .filter(fieldConfig => !filterFieldConfig(fieldConfig, { model: data }))
       .filter(fieldConfig => !fieldConfig.readOnly)
       .forEach(fieldConfig => {
         const { field, nullify } = fieldConfig
