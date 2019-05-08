@@ -8,7 +8,7 @@ import {
   fillInFieldSet,
   filterInsertIf,
   getFieldSetFields,
-} from '../utilities/common';
+} from '../utilities';
 
 import CardField from '../building-blocks/CardField';
 import { IFieldSetPartial } from '../interfaces';

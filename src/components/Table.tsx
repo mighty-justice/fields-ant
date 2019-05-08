@@ -7,7 +7,7 @@ import { omit } from 'lodash';
 import * as Antd from 'antd';
 import { ColumnProps } from 'antd/lib/table/interface';
 
-import { fieldSetsToColumns } from '../utilities/common';
+import { fieldSetsToColumns } from '../utilities';
 import { IModel, ISharedComponentProps } from '../props';
 
 export interface ITableProps extends ISharedComponentProps {

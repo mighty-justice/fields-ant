@@ -8,11 +8,11 @@ import * as Antd from 'antd';
 import {
   fillInFieldSet,
   filterInsertIf,
+  FormManager,
   getFieldSetFields,
   isFieldSetSimple,
-} from '../utilities/common';
+} from '../utilities';
 
-import FormManager from '../utilities/FormManager';
 import { IFieldSetPartial } from '../interfaces';
 
 import FormField from './FormField';

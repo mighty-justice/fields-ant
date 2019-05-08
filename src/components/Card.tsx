@@ -5,7 +5,7 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
-import { fillInFieldSets } from '../utilities/common';
+import { fillInFieldSets } from '../utilities';
 import CardFieldSet from '../building-blocks/CardFieldSet';
 import { ISharedComponentProps } from '../props';
 

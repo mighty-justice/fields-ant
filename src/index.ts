@@ -27,9 +27,7 @@ export { default as RadioGroup } from './inputs/RadioGroup';
 export { default as Rate, formatRating } from './inputs/Rate';
 
 // Utility classes and functions
-export { default as FormManager } from './utilities/FormManager';
 export * from './consts';
 export * from './interfaces';
 export * from './propsDefaults';
-export * from './utilities/common';
-export * from './utilities/types';
+export * from './utilities';

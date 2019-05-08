@@ -1,7 +1,7 @@
 import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
-import FormManager from '../../src/utilities/FormManager';
+import { FormManager } from '../../src/utilities';
 import { EditableCard, CardField, FormField, Table } from '../../src';
 import { fakeTextShort } from '../factories';
 

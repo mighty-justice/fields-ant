@@ -1,7 +1,7 @@
 /* tslint:disable:no-magic-numbers object-literal-sort-keys */
 import { has } from 'lodash';
 import faker from 'faker';
-import backendValidation from '../../src/utilities/backendValidation';
+import { backendValidation } from '../../src/utilities';
 
 const TEST_STRINGS: { [key: number]: string } = {};
 
