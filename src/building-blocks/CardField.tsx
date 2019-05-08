@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { computed } from 'mobx';
 
-import { fillInFieldConfig, filterInsertIf, renderLabel, renderValue } from '../utilities';
+import { fillInFieldConfig, filterFieldConfig, renderLabel, renderValue } from '../utilities';
 import { IFieldConfigPartial } from '../interfaces';
 import { IModel } from '../props';
 
@@ -25,7 +25,7 @@ class CardField extends Component<ICardFieldProps> {
       , renderWithoutStructure = !showLabel
       ;
 
-    if (writeOnly || filterInsertIf(fieldConfig, model)) {
+    if (writeOnly || filterFieldConfig(fieldConfig, { model })) {
       return null;
     }
 

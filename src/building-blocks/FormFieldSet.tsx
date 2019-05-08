@@ -7,7 +7,7 @@ import * as Antd from 'antd';
 
 import {
   fillInFieldSet,
-  filterInsertIf,
+  filterFieldConfig,
   FormManager,
   getFieldSetFields,
   isFieldSetSimple,
@@ -39,7 +39,7 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
     }
 
     const formModel = this.props.formManager.formModel;
-    return fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, formModel));
+    return fieldConfigs.filter(fieldConfig => !filterFieldConfig(fieldConfig, { model: formModel }));
   }
 
   public render () {

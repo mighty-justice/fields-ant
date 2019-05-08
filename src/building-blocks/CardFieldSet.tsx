@@ -6,7 +6,7 @@ import * as Antd from 'antd';
 
 import {
   fillInFieldSet,
-  filterInsertIf,
+  filterFieldConfig,
   getFieldSetFields,
 } from '../utilities';
 
@@ -33,7 +33,7 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
     const { model , fieldSet} = this.props
       , idx = this.props.idx || 0
       , fieldConfigs = getFieldSetFields(this.fieldSet)
-      , filteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterInsertIf(fieldConfig, model))
+      , filteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterFieldConfig(fieldConfig, { model }))
       ;
 
     if (!filteredFieldConfigs.length) {

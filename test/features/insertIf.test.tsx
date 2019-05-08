@@ -136,7 +136,7 @@ describe('insertIf', () => {
     expect(none.html()).not.toBe(null);
   });
 
-  it('Works with individual CardFields', async () => {
+  it('Works with Table', async () => {
     const labelHidden = fakeTextShort()
       , labelShowing = fakeTextShort()
       , labelNone = fakeTextShort()

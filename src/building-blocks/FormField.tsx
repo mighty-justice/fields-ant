@@ -7,7 +7,7 @@ import { values, omit, get } from 'lodash';
 import * as Antd from 'antd';
 import { ValidationRule as AntValidationRule } from 'antd/lib/form';
 
-import { FormManager, fillInFieldConfig, filterInsertIf, renderLabel } from '../utilities';
+import { FormManager, fillInFieldConfig, renderLabel, filterFieldConfig } from '../utilities';
 import { IFieldConfigPartial, IFieldsValidator } from '../interfaces';
 
 export interface IFormFieldProps {
@@ -93,7 +93,7 @@ class FormField extends Component<IFormFieldProps> {
       ;
 
     if (readOnly) { return false; }
-    if (fieldConfig.insertIf) { return !filterInsertIf(fieldConfig, formManager.formModel); }
+    if (fieldConfig.insertIf) { return !filterFieldConfig(fieldConfig, { model: formManager.formModel }); }
     return true;
   }
 

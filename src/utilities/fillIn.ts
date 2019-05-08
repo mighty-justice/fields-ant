@@ -1,8 +1,11 @@
-import { IFieldConfig, IFieldConfigPartial, IFieldSet, IFieldSetPartial } from '../interfaces';
+import * as Antd from 'antd';
+
 import { getOrDefault, varToLabel } from '@mighty-justice/utils';
+
+import { IFieldConfig, IFieldConfigPartial, IFieldSet, IFieldSetPartial } from '../interfaces';
+
 import { TYPES } from './types';
 import { falseyToString, mapFieldSetFields } from './common';
-import * as Antd from 'antd';
 
 const typeDefaults = {
   editComponent: Antd.Input,
