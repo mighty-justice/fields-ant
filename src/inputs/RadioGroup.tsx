@@ -13,7 +13,7 @@ import {
   IOption,
 } from '../interfaces';
 
-import { getOptions } from '..';
+import { getOptions } from '../utilities';
 
 @inject('getOptions')
 @autoBindMethods
