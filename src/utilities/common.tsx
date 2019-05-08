@@ -228,7 +228,7 @@ export function renderValue (fieldConfigPartial: IFieldConfigPartial, model?: IM
 export function renderLabel (fieldConfig: IFieldConfig): React.ReactNode {
   const { label, showLabel, tooltip } = fieldConfig;
   if (!showLabel) { return ''; }
-  if (tooltip) { return <WithTooltip tooltip={tooltip}>label</WithTooltip>; }
+  if (tooltip) { return <WithTooltip tooltip={tooltip}>{label}</WithTooltip>; }
   return label;
 }
 
