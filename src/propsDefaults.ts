@@ -1,4 +1,4 @@
-import { asyncNoop } from './utilities/common';
+import { asyncNoop } from './utilities';
 
 export const formPropsDefaults = {
   onSave: asyncNoop,

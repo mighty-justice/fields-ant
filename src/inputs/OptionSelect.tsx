@@ -14,7 +14,7 @@ import {
   IOption,
 } from '../interfaces';
 
-import { getOptions } from '../';
+import { getOptions } from '../utilities';
 
 export interface IOptionSelectProps {
   fieldConfig: IFieldConfig;

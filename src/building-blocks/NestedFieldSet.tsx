@@ -13,7 +13,7 @@ import {
   mapFieldSetFields,
 } from '../';
 
-import FormManager from '../utilities/FormManager';
+import { FormManager } from '../utilities';
 
 export interface INestedFieldSetProps {
   fieldSet: IFieldSetPartial;

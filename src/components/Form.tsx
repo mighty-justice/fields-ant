@@ -9,8 +9,7 @@ import { ButtonProps } from 'antd/lib/button';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
-import FormManager from '../utilities/FormManager';
-import { fillInFieldSets } from '../utilities/common';
+import { fillInFieldSets, FormManager } from '../utilities';
 import { formPropsDefaults } from '../propsDefaults';
 import { IFieldSet } from '../interfaces';
 import { ISharedFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';

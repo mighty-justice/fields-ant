@@ -6,7 +6,7 @@ import { noop, omit } from 'lodash';
 
 import * as Antd from 'antd';
 
-import FormManager from '../utilities/FormManager';
+import { FormManager } from '../utilities';
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormProps, ISharedComponentProps } from '../props';
 

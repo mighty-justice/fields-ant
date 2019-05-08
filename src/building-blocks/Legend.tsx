@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { isPartialFieldSetSimple } from '..';
+import { isPartialFieldSetSimple } from '../utilities';
 
 import WithTooltip from './WithTooltip';
 import { IFieldSetPartial } from '../interfaces';

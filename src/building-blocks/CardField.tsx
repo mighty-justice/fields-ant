@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { computed } from 'mobx';
 
-import { fillInFieldConfig, filterInsertIf, renderLabel, renderValue } from '../utilities/common';
+import { fillInFieldConfig, filterInsertIf, renderLabel, renderValue } from '../utilities';
 import { IFieldConfigPartial } from '../interfaces';
 import { IModel } from '../props';
 

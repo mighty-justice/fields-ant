@@ -7,8 +7,7 @@ import { values, omit, get } from 'lodash';
 import * as Antd from 'antd';
 import { ValidationRule as AntValidationRule } from 'antd/lib/form';
 
-import FormManager from '../utilities/FormManager';
-import { fillInFieldConfig, filterInsertIf, renderLabel } from '../utilities/common';
+import { FormManager, fillInFieldConfig, filterInsertIf, renderLabel } from '../utilities';
 import { IFieldConfigPartial, IFieldsValidator } from '../interfaces';
 
 export interface IFormFieldProps {
