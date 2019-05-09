@@ -87,14 +87,11 @@ class FormField extends Component<IFormFieldProps> {
   }
 
   private get shouldRender (): boolean {
-    const { formManager } = this.props
-      , fieldConfig = this.fieldConfig
-      , { readOnly } = fieldConfig
-      ;
-
-    if (readOnly) { return false; }
-    if (fieldConfig.insertIf) { return !filterFieldConfig(fieldConfig, { model: formManager.formModel }); }
-    return true;
+    const { formManager } = this.props;
+    return !filterFieldConfig(this.fieldConfig, {
+      model: formManager.formModel,
+      readOnly: true,
+    });
   }
 
   public render () {
