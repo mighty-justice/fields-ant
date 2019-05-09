@@ -33,7 +33,8 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
     const { model , fieldSet} = this.props
       , idx = this.props.idx || 0
       , fieldConfigs = getFieldSetFields(this.fieldSet)
-      , filteredFieldConfigs = fieldConfigs.filter(fieldConfig => !filterFieldConfig(fieldConfig, { model }))
+      , filteredFieldConfigs = fieldConfigs.filter(
+        fieldConfig => !filterFieldConfig(fieldConfig, { model, writeOnly: true }))
       ;
 
     if (!filteredFieldConfigs.length) {

@@ -39,7 +39,8 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
     }
 
     const formModel = this.props.formManager.formModel;
-    return fieldConfigs.filter(fieldConfig => !filterFieldConfig(fieldConfig, { model: formModel }));
+    return fieldConfigs.filter(
+      fieldConfig => !filterFieldConfig(fieldConfig, { model: formModel, readOnly: true }));
   }
 
   public render () {

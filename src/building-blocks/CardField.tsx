@@ -21,11 +21,11 @@ class CardField extends Component<ICardFieldProps> {
   public render () {
     const { model } = this.props
       , fieldConfig = this.fieldConfig
-      , { field, showLabel, writeOnly } = fieldConfig
+      , { field, showLabel } = fieldConfig
       , renderWithoutStructure = !showLabel
       ;
 
-    if (writeOnly || filterFieldConfig(fieldConfig, { model })) {
+    if (filterFieldConfig(fieldConfig, { model, writeOnly: true })) {
       return null;
     }
 

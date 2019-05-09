@@ -114,8 +114,7 @@ type IColumns = Array<ColumnProps<IModel>>;
 
 export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: IModel[] = []): IColumns {
   return getFieldSetsFields(fillInFieldSets(fieldSets))
-    .filter(fieldConfig => !fieldConfig.writeOnly)
-    .filter(fieldConfig => !filterFieldConfig(fieldConfig, { model: tableModel }))
+    .filter(fieldConfig => !filterFieldConfig(fieldConfig, { model: tableModel, writeOnly: true }))
     .map(fieldConfig => ({
       dataIndex: fieldConfig.field,
       key: fieldConfig.field,
@@ -135,8 +134,7 @@ export function modelFromFieldConfigs (fieldConfigs: IFieldConfig[], data: IMode
     const returnValues: IModel = {};
 
     fieldConfigs
-      .filter(fieldConfig => !filterFieldConfig(fieldConfig, { model: data }))
-      .filter(fieldConfig => !fieldConfig.readOnly)
+      .filter(fieldConfig => !filterFieldConfig(fieldConfig, { model: data, readOnly: true }))
       .forEach(fieldConfig => {
         const { field, nullify } = fieldConfig
           , formValue = get(data, field)
