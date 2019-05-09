@@ -30,12 +30,6 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
     ...formPropsDefaults,
   };
 
-  private async handleSaveNew (model: any) {
-    const { onCreate, onSuccess } = this.props;
-    await onCreate(model);
-    await onSuccess();
-  }
-
   private renderAddNew () {
     const { title, isLoading, isGuarded } = this.props
       , classNameSuffix = this.props.classNameSuffix || kebabCase(title);
@@ -61,6 +55,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
       fieldSets,
       isLoading,
       model,
+      onCreate,
       onDelete,
       onSave,
       onSuccess,
@@ -74,7 +69,8 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
             defaults={defaults}
             fieldSets={fieldSets}
             onCancel={this.isAddingNew.setFalse}
-            onSave={this.handleSaveNew}
+            onSave={onCreate}
+            onSuccess={onSuccess}
             title={`New ${title}`}
           />
         )}
