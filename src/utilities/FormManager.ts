@@ -133,7 +133,7 @@ class FormManager {
       const isInForm = has(formValues, fieldConfig.field)
         , value = isInForm
           ? this.getFormValue(fieldConfig, formValues)
-          : this.getDefaultValue(fieldConfig)
+          : fieldConfig.fromForm(this.getDefaultValue(fieldConfig), fieldConfig)
         ;
 
       set(formModel, fieldConfig.field, value);

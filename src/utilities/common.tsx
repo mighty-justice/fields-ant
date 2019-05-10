@@ -34,8 +34,6 @@ import { filterFieldConfig } from './filters';
 // istanbul ignore next
 export async function asyncNoop () { return; }
 
-export function falseyToString (value: IValue) { return value || ''; }
-
 export function isPartialFieldSetSimple (fieldSet: IFieldSetPartial): fieldSet is IFieldSetSimplePartial {
   return isArray(fieldSet);
 }

@@ -70,10 +70,6 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
     return fillInFieldSets(this.props.fieldSets);
   }
 
-  private get filteredFieldSets (): IFieldSet[] {
-   return filterFieldSets(this.fieldSets, { model: this.formManager.formModel });
-  }
-
   private renderControls () {
     const {
         blockSubmit,
@@ -110,13 +106,15 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   }
 
   public render () {
-    const { showControls, title } = this.props;
+    const { showControls, title } = this.props
+      , formModel = this.formManager.formModel
+      , filteredFieldSets = filterFieldSets(this.fieldSets, { model: formModel });
 
     return (
       <Antd.Form layout='vertical' onSubmit={this.formManager.onSave} className='mfa-form'>
         {title && <h2>{title}</h2>}
 
-        {this.filteredFieldSets.map((fieldSet: IFieldSet, idx: number) => (
+        {filteredFieldSets.map((fieldSet: IFieldSet, idx: number) => (
           <Fragment key={idx}>
             {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
 
@@ -124,6 +122,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
               <FormFieldSet
                 fieldSet={fieldSet}
                 formManager={this.formManager}
+                formModel={formModel}
               />
             </div>
           </Fragment>

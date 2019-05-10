@@ -9,10 +9,12 @@ import { ValidationRule as AntValidationRule } from 'antd/lib/form';
 
 import { FormManager, fillInFieldConfig, renderLabel, filterFieldConfig } from '../utilities';
 import { IFieldConfigPartial, IFieldsValidator } from '../interfaces';
+import { IModel } from '../props';
 
 export interface IFormFieldProps {
   fieldConfig: IFieldConfigPartial;
   formManager: FormManager;
+  formModel: IModel;
 }
 
 @autoBindMethods
@@ -87,9 +89,9 @@ class FormField extends Component<IFormFieldProps> {
   }
 
   private get shouldRender (): boolean {
-    const { formManager } = this.props;
+    const { formModel } = this.props;
     return !filterFieldConfig(this.fieldConfig, {
-      model: formManager.formModel,
+      model: formModel,
       readOnly: true,
     });
   }

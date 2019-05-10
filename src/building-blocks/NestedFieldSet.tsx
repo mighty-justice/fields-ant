@@ -14,10 +14,12 @@ import {
 } from '../';
 
 import { FormManager } from '../utilities';
+import { IModel } from '../props';
 
 export interface INestedFieldSetProps {
   fieldSet: IFieldSetPartial;
   formManager: FormManager;
+  formModel: IModel;
   id: string;
   label: React.ReactNode;
   search?: string;
@@ -79,6 +81,7 @@ class NestedFieldSet extends Component<INestedFieldSetProps> {
       <FormFieldSet
         fieldSet={this.fieldSet}
         formManager={this.props.formManager}
+        formModel={this.props.formModel}
       />
     );
   }
