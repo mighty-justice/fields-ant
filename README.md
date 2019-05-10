@@ -2,29 +2,36 @@
 
 [![npm Version](https://img.shields.io/npm/v/@mighty-justice/fields-ant.svg)](https://www.npmjs.com/package/@mighty-justice/fields-ant) [![Build Status](https://travis-ci.org/mighty-justice/fields-ant.svg?branch=master)](https://travis-ci.org/mighty-justice/fields-ant) [![Coverage Status](https://coveralls.io/repos/github/mighty-justice/fields-ant/badge.svg?branch=master)](https://coveralls.io/github/mighty-justice/fields-ant?branch=master)
 
-A standard interface for Field Sets at [Mighty](https://www.mighty.com/)
-and a collection of utilities and components like forms and cards for 
-[Ant Design](https://ant.design/) which use that interface.
+A standard library / interface for building Forms and standard CRUD components 
+in [Ant Design](https://ant.design/).
+
+Open source, developed primarily at [Mighty](https://www.mighty.com/).
 
 | [Documentation](https://mighty-justice.github.io/fields-ant/) |
 | -------------------------------------------------------------- |
 
-## Installation
-#### dependencies
+# Introduction / Concepts
+
+
+
+# Installation
+
 ```
-"@mighty-justice/smart-bool": "0",
-"@mighty-justice/utils": "0",
-"antd": "3",
-"class-autobind-decorator": "3",
-"classnames": "2",
-"date-fns": "1",
-"flat": "4",
-"iso8601-duration": "1",
-"lodash": "4",
-"mobx": "5",
-"mobx-react": "5",
-"moment": "2",
-"react": "16"
+yarn add @mighty-justice/fields-ant
+```
+
+```
+npm install @mighty-justice/fields-ant
+```
+
+#### peer dependencies
+```
+"antd": "^3.0.0",
+"lodash": "^4.0.0",
+"mobx": "^4.0.0 || ^5.0.0",
+"mobx-react": "^5.0.0",
+"moment": "^2.0.0",
+"react": "^16.0.0"
 ```
 
 #### npm
@@ -33,7 +40,11 @@ and a collection of utilities and components like forms and cards for
 #### yarn
 `yarn add --dev @mighty-justice/fields-ant`
 
-### Releasing a new version
+# Contributing
+
+We accept new issues and pull requests from anyone!
+
+# Releasing a new version
 
 - Release: `npm run deploy`
 
@@ -44,8 +55,3 @@ Gotchas:
 
 - Make sure to `npm install` or `yarn install` first
 - The deploy command must currently be run with npm not yarn due to login bug
-
-### Contributing
-
-We accept new issues and pull requests from anyone!
-
