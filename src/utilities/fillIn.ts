@@ -5,7 +5,10 @@ import { getOrDefault, varToLabel } from '@mighty-justice/utils';
 import { IFieldConfig, IFieldConfigPartial, IFieldSet, IFieldSetPartial } from '../interfaces';
 
 import { TYPES } from './types';
-import { falseyToString, mapFieldSetFields } from './common';
+import { mapFieldSetFields } from './common';
+import { IValue } from '../props';
+
+export function falseyToString (value: IValue) { return value || ''; }
 
 const typeDefaults = {
   editComponent: Antd.Input,

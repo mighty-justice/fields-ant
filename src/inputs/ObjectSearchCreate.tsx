@@ -94,6 +94,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
         <NestedFieldSet
           fieldSet={this.fieldConfig.createFields}
           formManager={formManager}
+          formModel={formManager.formModel}
           id={fieldConfig.field}
           label={renderLabel(this.fieldConfig)}
           search={this.search}

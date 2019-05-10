@@ -14,6 +14,7 @@ import {
 } from '../utilities';
 
 import { IFieldSetPartial } from '../interfaces';
+import { IModel } from '../props';
 
 import FormField from './FormField';
 import Legend from './Legend';
@@ -21,6 +22,7 @@ import Legend from './Legend';
 export interface IFormFieldSetProps {
   fieldSet: IFieldSetPartial;
   formManager: FormManager;
+  formModel: IModel;
 }
 
 @autoBindMethods
@@ -31,22 +33,10 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
     return fillInFieldSet(this.props.fieldSet);
   }
 
-  private get filteredFieldConfigs () {
-    // Filter out read-only fieldConfigs
-    const fieldConfigs = getFieldSetFields(this.fieldSet);
-
-    // If no fieldConfigs have an insertIf, skip costly formModel calculation
-    if (!fieldConfigs.some(fieldConfig => !!fieldConfig.insertIf)) {
-      return filterFieldConfigs(fieldConfigs, { readOnly: true });
-    }
-
-    // One of them does, so get formModel and filter out insertIfs
-    const formModel = this.props.formManager.formModel;
-    return filterFieldConfigs(fieldConfigs, { model: formModel, readOnly: true });
-  }
-
   public render () {
-    const filteredFieldConfigs = this.filteredFieldConfigs
+    const { formModel } = this.props
+      , fieldConfigs = getFieldSetFields(this.fieldSet)
+      , filteredFieldConfigs = filterFieldConfigs(fieldConfigs, { model: formModel, readOnly: true })
       , rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps
       ;
 

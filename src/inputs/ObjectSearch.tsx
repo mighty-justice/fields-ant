@@ -118,6 +118,11 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     ]);
   }
 
+  private async onSearch (value: string) {
+    this.isLoading.setTrue();
+    this.debouncedHandleSearch(value);
+  }
+
   private async handleSearch (value: string) {
     const { getEndpoint } = this.injected
       , { endpoint, searchFilters } = this.fieldConfig
@@ -261,7 +266,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         onBlur={this.onBlur}
         onChange={this.onChange}
         onFocus={this.onFocus}
-        onSearch={this.debouncedHandleSearch}
+        onSearch={this.onSearch}
         optionLabelProp='title'
         placeholder={placeholder}
         showSearch
