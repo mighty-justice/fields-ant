@@ -12,7 +12,98 @@ Open source, developed primarily at [Mighty](https://www.mighty.com/).
 
 # Introduction / Concepts
 
+## FieldConfig
 
+The fieldConfig is the basic unit that fields-ant uses to define
+something that should be shown or edited. There is only one required
+attribute in a fieldConfig, the field. Field can be any string which 
+would be supported in lodash get, like 'name', 'lawfirm.name', or 
+'lawfirms[0].name'.
+
+
+For example: `{ field: 'phone_number' }` is a fieldConfig for displaying, 
+editing, or creating the field phone_number in an object.
+
+This is what we call a partial FieldConfig, which is what a user will always write.
+The components then fill it in to a complete fieldConfig, which for the example
+above, looks like this:
+
+```
+{
+  disabled: false,
+  key: "phone_number",
+  label: "Phone Number",
+  populateFromSearch: false,
+  populateNameFromSearch: false,
+  readOnly: false,
+  render: function (value, _fieldConfig, _model) { return func(value); },
+  required: false,
+  showLabel: true,
+  skipFieldDecorator: false,
+  type: "phone",
+  writeOnly: false,
+  editComponent: function Input(props) {,
+  fieldConfigProp: false,
+  formValidationRules: {},
+  fromForm: function falseyToString(value) { return value || ''; },
+  nullify: false,
+  toForm: function falseyToString(value) { return value || ''; },
+  field: "phone_number",
+  editProps: {},
+}
+```
+
+Two interesting things about this example:
+
+1. The type `phone` was inferred by the library because the field has `phone` in the name.
+2. After inferring the type, a number of defaults for that type were added, like a phone number formatter.
+3. A great user-readable label was generated from the field.
+
+You can play with `fillInFieldConfig` on the FieldConfig Preview page of this documentation.
+
+The second most important attribute of a fieldConfig is the 'type'. This is a way of applying a common
+set of 
+
+## FieldSet
+
+A fieldSet is just a collection of fieldConfigs. There are two types of fieldSet: Simple and Complex.
+A simple fieldSet is just an array of fieldConfigs, whereas a complex fieldSet is an object. The `fields`
+attribute of that object is an array of fieldConfigs, but the rest of the object can contain information
+about the fieldSet like the `legend`.
+
+Most components in fields-ant take a `fieldSets` prop which is an array of complex and/or simple fieldSets.
+
+## Practical Usage
+
+The two core components are the Card and the Form. Most of the other components are either a building block
+or a variant of these two. Here are to extremely simple examples:
+
+```ts
+<Card
+  fieldSets={[[
+    { field: 'phone_number', }
+  ]]}
+  model={{ phone_number: '5558605309' }}
+/>
+```
+
+This card will show the label and will format the phone number in the model. 
+
+```ts
+<Form
+  fieldSets={[[
+    { field: 'phone_number', }
+  ]]}
+/>
+```
+
+This form will allow the user to type in a phone number and will validate it.
+
+There are obviously a LOT more attributes that can be added to these fieldSets and props to
+be passed to these and other components. To read about other attributes, I recommend checking out
+the IFieldConfigBase definition in
+[interfaces.ts](https://github.com/mighty-justice/fields-ant/blob/master/src/interfaces.ts)
+and to see component props, see the components section of our online documentation.
 
 # Installation
 

@@ -11,7 +11,14 @@ import { IModel } from '../src/props';
 import { fillInFieldConfig } from '../src/utilities';
 import Form from '../src/components/Form';
 
-const render = (value: object) => JSON.stringify(value, undefined, 4)
+const render = (value: any) => {
+    let output = '{\n';
+    Object.keys(value).forEach(key => {
+      output += `  ${key}: ${JSON.stringify(value[key]) || value[key].toString().split('\n')[0]},\n`;
+    });
+    output += `}`;
+    return output;
+  }
   , defaultValue = { field: 'example_field' };
 
 @autoBindMethods

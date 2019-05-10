@@ -11,27 +11,8 @@ export interface IValidationRule extends AntValidationRule {
   fieldsValidator?: IFieldsValidator;
 }
 
-/*
-This defines the core common interface for Mighty fields
-
-This excludes all fields used only by a single type ( see below )
-It also will almost never be written out by a user, since it's
-much easier to call a function to fill in a partial definition
-than to fill all this in (see further below for partials).
-*/
 interface IFieldConfigBase {
-  /*
-  Field is the ONLY required value of a fieldConfig
-  All other attributes below are either optional or will be filled in
-  by the component through the fillIn* functions
-
-  Field can be any string which would be supported in lodash
-  get, like 'name', 'lawfirm.name', or 'lawfirms[0].name'
-  */
   field: string;
-
-  // Another way of keeping fieldConfigs short are 'types' which are just
-  // different sets of defaults that can be quickly applied.
   type: string;
 
   // Core attributes
