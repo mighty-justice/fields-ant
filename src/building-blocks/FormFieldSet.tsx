@@ -7,7 +7,7 @@ import * as Antd from 'antd';
 
 import {
   fillInFieldSet,
-  filterFieldConfig,
+  filterFieldConfigs,
   FormManager,
   getFieldSetFields,
   isFieldSetSimple,
@@ -32,15 +32,17 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
   }
 
   private get filteredFieldConfigs () {
+    // Filter out read-only fieldConfigs
     const fieldConfigs = getFieldSetFields(this.fieldSet);
 
+    // If no fieldConfigs have an insertIf, skip costly formModel calculation
     if (!fieldConfigs.some(fieldConfig => !!fieldConfig.insertIf)) {
-      return fieldConfigs;
+      return filterFieldConfigs(fieldConfigs, { readOnly: true });
     }
 
+    // One of them does, so get formModel and filter out insertIfs
     const formModel = this.props.formManager.formModel;
-    return fieldConfigs.filter(
-      fieldConfig => !filterFieldConfig(fieldConfig, { model: formModel, readOnly: true }));
+    return filterFieldConfigs(fieldConfigs, { model: formModel, readOnly: true });
   }
 
   public render () {
