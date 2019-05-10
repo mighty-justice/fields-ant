@@ -57,6 +57,17 @@ export function mapFieldSetFields (fieldSet: IFieldSetPartial, mapper: IMapper):
   };
 }
 
+export function setFieldSetFields (fieldSet: IFieldSet, fields: IFieldConfig[]) {
+  if (isFieldSetSimple(fieldSet)) {
+    return fieldSet;
+  }
+
+  return {
+    ...fieldSet,
+    fields,
+  };
+}
+
 export function getFieldSetFields (fieldSet: IFieldSet): IFieldConfig[] {
   if (isFieldSetSimple(fieldSet)) {
     return fieldSet;

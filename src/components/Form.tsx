@@ -9,7 +9,11 @@ import { ButtonProps } from 'antd/lib/button';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
-import { fillInFieldSets, FormManager } from '../utilities';
+import {
+  fillInFieldSets,
+  filterFieldSets,
+  FormManager,
+} from '../utilities';
 import { formPropsDefaults } from '../propsDefaults';
 import { IFieldSet } from '../interfaces';
 import { ISharedFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
@@ -66,6 +70,10 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
     return fillInFieldSets(this.props.fieldSets);
   }
 
+  private get filteredFieldSets (): IFieldSet[] {
+   return filterFieldSets(this.fieldSets, { model: this.formManager.formModel });
+  }
+
   private renderControls () {
     const {
         blockSubmit,
@@ -102,16 +110,13 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   }
 
   public render () {
-    const {
-      showControls,
-      title,
-    } = this.props;
+    const { showControls, title } = this.props;
 
     return (
       <Antd.Form layout='vertical' onSubmit={this.formManager.onSave} className='mfa-form'>
         {title && <h2>{title}</h2>}
 
-        {this.fieldSets.map((fieldSet: IFieldSet, idx: number) => (
+        {this.filteredFieldSets.map((fieldSet: IFieldSet, idx: number) => (
           <Fragment key={idx}>
             {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
 

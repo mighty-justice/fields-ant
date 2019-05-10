@@ -5,7 +5,7 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
-import { fillInFieldSets } from '../utilities';
+import { fillInFieldSets, filterFieldSets } from '../utilities';
 import CardFieldSet from '../building-blocks/CardFieldSet';
 import { ISharedComponentProps } from '../props';
 
@@ -22,11 +22,12 @@ class Card extends Component<ICardProps> {
   }
 
   public render () {
-    const { title, renderTopRight, isLoading, model } = this.props;
+    const { title, renderTopRight, isLoading, model } = this.props
+      , filteredFieldSets = filterFieldSets(this.fieldSets, { model, writeOnly: true });
 
     return (
       <Antd.Card title={title} extra={renderTopRight && renderTopRight()} loading={isLoading}>
-        {this.fieldSets.map((fieldSet, idx) => (
+        {filteredFieldSets.map((fieldSet, idx) => (
           <CardFieldSet
             fieldSet={fieldSet}
             idx={idx}
