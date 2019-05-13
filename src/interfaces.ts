@@ -12,55 +12,34 @@ export interface IValidationRule extends AntValidationRule {
 }
 
 interface IFieldConfigBase {
-  field: string;
-  type: string;
-
-  // Core attributes
-  className?: string; // Applied on the Antd.Form.Item
-  label: string | null;
-  nullify: boolean;
-  render: (value: IValue, fieldConfig: IFieldConfig, model: IModel) => React.ReactNode;
-  showLabel: boolean;
-  tooltip?: string;
-  value?: string | number;
-
-  // Attributes for filtering this field out, in read contexts,
-  // form contexts, or dynamically based on the model
-  insertIf?: (model: any) => boolean;
-  readOnly: boolean;
-  writeOnly: boolean;
-
-  // Attributes for controlling how fieldConfig works in form
+  className?: string;
+  colProps?: ColProps;
   disabled: boolean;
   editComponent: any;
   editProps: { [key: string]: any };
+  field: string;
+  fieldConfigProp: boolean;
   formItemProps?: { [key: string]: any };
+  formValidationRules: { [ruleName: string]: IValidationRule };
   fromForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
   icon?: string;
-  required: boolean;
-  toForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
-
-  /*
-  Validation rules are documented here:
-  https://ant.design/components/form/#Validation-Rules
-  Alternatively we support fieldsValidator defined by IFieldsValidator
-  above which is much nicer than the default validator attribute
-  */
-  formValidationRules: { [ruleName: string]: IValidationRule };
-
-  // Attributes for controlling how fieldConfig works in table
-  tableColumnProps?: Partial<ColumnProps<IModel>>;
-
-  // These enable features in objectSearchCreate
-  // explained in the documentation for that type
+  insertIf?: (model: any) => boolean;
+  key: string;
+  label: string | null;
+  nullify: boolean;
   populateFromSearch: boolean;
   populateNameFromSearch: boolean;
-
-  // These are technical and you can safely ignore them
-  colProps?: ColProps;
-  fieldConfigProp: boolean;
-  key: string;
+  readOnly: boolean;
+  render: (value: IValue, fieldConfig: IFieldConfig, model: IModel) => React.ReactNode;
+  required: boolean;
+  showLabel: boolean;
   skipFieldDecorator: boolean;
+  tableColumnProps?: Partial<ColumnProps<IModel>>;
+  toForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
+  tooltip?: string;
+  type: string;
+  value?: string | number;
+  writeOnly: boolean;
 }
 
 export interface IAntFormField {
