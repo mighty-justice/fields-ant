@@ -36,6 +36,7 @@ interface IArgs {
   onSave: (data: IModel) => void | Promise<void>;
   onSuccess: () => any | Promise<any>;
   processErrors: (errors: IBackendValidation) => IBackendValidation;
+  resetOnSuccess: boolean;
   successText: null | string;
 }
 
@@ -66,6 +67,7 @@ class FormManager {
       onSave: noop,
       onSuccess: noop,
       processErrors: (errors) => errors,
+      resetOnSuccess: true,
       successText: 'Success',
       ...pickBy(args, value => value !== undefined),
     };
@@ -246,7 +248,9 @@ class FormManager {
     try {
       await onSave(this.submitModel);
       this.onSuccess();
-      this.form.resetFields();
+      if (this.args.resetOnSuccess) {
+        this.form.resetFields();
+      }
     }
     catch (error) {
       this.handleRequestError(error);

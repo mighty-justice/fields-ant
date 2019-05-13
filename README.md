@@ -2,29 +2,194 @@
 
 [![npm Version](https://img.shields.io/npm/v/@mighty-justice/fields-ant.svg)](https://www.npmjs.com/package/@mighty-justice/fields-ant) [![Build Status](https://travis-ci.org/mighty-justice/fields-ant.svg?branch=master)](https://travis-ci.org/mighty-justice/fields-ant) [![Coverage Status](https://coveralls.io/repos/github/mighty-justice/fields-ant/badge.svg?branch=master)](https://coveralls.io/github/mighty-justice/fields-ant?branch=master)
 
-A standard interface for Field Sets at [Mighty](https://www.mighty.com/)
-and a collection of utilities and components like forms and cards for 
-[Ant Design](https://ant.design/) which use that interface.
+A standard library / interface for building Forms and standard CRUD components 
+in [Ant Design](https://ant.design/).
+
+Open source, developed primarily at [Mighty](https://www.mighty.com/).
 
 | [Documentation](https://mighty-justice.github.io/fields-ant/) |
 | -------------------------------------------------------------- |
 
-## Installation
-#### dependencies
+# Introduction / Concepts
+
+## FieldConfig
+
+The fieldConfig is the basic unit that fields-ant uses to define
+something that should be shown or edited. There is only one required
+attribute in a fieldConfig, the field.
+
+For example: `{ field: 'phone_number' }` is a fieldConfig for displaying, 
+editing, or creating the field phone_number in an object.
+
+This is what we call a partial FieldConfig, which is what a user will always write.
+The components then fill it into a complete fieldConfig, which for the example
+above, looks like this:
+
 ```
-"@mighty-justice/smart-bool": "0",
-"@mighty-justice/utils": "0",
-"antd": "3",
-"class-autobind-decorator": "3",
-"classnames": "2",
-"date-fns": "1",
-"flat": "4",
-"iso8601-duration": "1",
-"lodash": "4",
-"mobx": "5",
-"mobx-react": "5",
-"moment": "2",
-"react": "16"
+{
+  disabled: false,
+  key: "phone_number",
+  label: "Phone Number",
+  populateFromSearch: false,
+  populateNameFromSearch: false,
+  readOnly: false,
+  render: function (value, _fieldConfig, _model) { return func(value); },
+  required: false,
+  showLabel: true,
+  skipFieldDecorator: false,
+  type: "phone",
+  writeOnly: false,
+  editComponent: function Input(props) {,
+  fieldConfigProp: false,
+  formValidationRules: {},
+  fromForm: function falseyToString(value) { return value || ''; },
+  nullify: false,
+  toForm: function falseyToString(value) { return value || ''; },
+  field: "phone_number",
+  editProps: {},
+}
+```
+
+Two interesting things about this example:
+
+1. The type `phone` was inferred by the library because the field has `phone` in the name.
+2. After inferring the type, a number of defaults for that type were added, like a phone number formatter.
+3. A great user-readable label was generated from the field.
+
+You can play with `fillInFieldConfig` on the FieldConfig Preview page of this documentation.
+
+The second most important attribute of a fieldConfig is the 'type'. This is a way of applying a common
+set of 'preset' of attributes. For example, `type: 'money'` includes an appropriate render function,
+edit component, validator, and sets falsey values to null instead of an empty string.
+
+## FieldConfig Attributes
+
+- **field**: Field can be any string which would be supported in lodash get, like 'name', 'lawfirm.name',
+or 'lawfirms[0].name'.
+
+- **type**: This is a way of applying a common set of 'preset' of attributes. For example, `type: 'money'` includes 
+an appropriate render function, edit component, validator, and sets falsey values to null instead of empty string.
+
+#### Core attributes
+- **className**: string, applied on the `Antd.Form.Item`.
+- **label**: The label generated from `field` is usually very good, but sometimes you want something completely 
+different.
+- **nullify**: If true, empty values in the submit data will be null and not empty string.
+- **render**: Used for rendering the value for the user in read contexts. See interfaces.ts for call signature.
+- **showLabel**: If false, read contexts will show only the output of render.
+- **tooltip**: Optional tooltip to be displayed alongside the label.
+- **value**: Normally read from model or defaults props, this can be used as a value override in any component.
+
+#### Filtering
+Attributes for filtering this field out, in read contexts, form contexts, or dynamically based on the model.
+
+- **insertIf**: Function that takes the current model and returns if a fieldConfig should be displayed.
+- **readOnly**: Hides a fieldConfig in write contexts.
+- **writeOnly**: Hides a fieldConfig in read contexts.
+
+#### Forms
+Attributes for controlling how fieldConfig works in form.
+
+- **disabled**: Disables input in form.
+- **editComponent**: Used in a write context for data entry, this component must be an rc-form wrappable component.
+- **editProps**: This will be spread as the final prop on an edit component, overriding any defaults.
+- **formItemProps**: Spread into props for Antd.Form.Item.
+- **fromForm**: Takes a form value and fieldConfig, and returns a value to be used in a model.
+- **icon**: Icon to be displayed in the input edit component.
+- **required**: If the form input should be required.
+- **toForm**: Takes a model value and fieldConfig, and returns a value to be used in a form.
+
+Validation rules are documented here:
+https://ant.design/components/form/#Validation-Rules
+
+Alternatively, we support `fieldsValidator` much nicer than the default validator attribute,
+as defined by `IFieldsValidator` in `interfaces.ts`
+
+- **formValidationRules**: A dictionary of rule names to validation rules.
+
+#### Tables
+Attributes for controlling how fieldConfig works in table
+- **tableColumnProps**: Standard rc-table column props you wish to include alongside those generated by fields-ant;
+
+#### ObjectSearchCreate
+These enable features in objectSearchCreate explained in the documentation for that type.
+
+- **populateFromSearch**
+- **populateNameFromSearch**
+
+#### Technical
+These are technical and you can safely ignore them
+
+- **colProps**: Props passed into `Antd.Col`.
+- **fieldConfigProp**: If true, a `fieldConfig` prop will be passed into `editComponent`.
+- **key**: Unique string for rendering.
+- **skipFieldDecorator**: If true, the `editComponent` will be mounted with without an rc-form fieldDecorator.
+A `decoratorOptions` prop will be passed into the editComponent.
+
+## FieldSet
+
+A fieldSet is just a collection of fieldConfigs. There are two types of fieldSet: Simple and Complex.
+A simple fieldSet is just an array of fieldConfigs, whereas a complex fieldSet is an object. The `fields`
+attribute of that object is An array of fieldConfigs, but the rest of the object can contain information
+about the fieldSet:
+
+- **fields**: An array of fieldConfigs, just like a simple `FieldSet`
+- **legend**: A label to be displayed above the entire fieldset.
+- **rowProps**: Props passed into `Antd.Row`.
+- **tooltip**: Optional tooltip to be displayed alongside the legend.
+
+Most components in fields-ant take a `fieldSets` prop which is an array of complex and/or simple fieldSets.
+
+## Practical Usage
+
+The two core components are the Card and the Form. Most of the other components are either a building block
+or a variant of these two. Here are to extremely simple examples:
+
+```ts
+<Card
+  fieldSets={[[
+    { field: 'phone_number', }
+  ]]}
+  model={{ phone_number: '5558605309' }}
+/>
+```
+
+This card will show the label and will format the phone number in the model. 
+
+```ts
+<Form
+  fieldSets={[[
+    { field: 'phone_number', }
+  ]]}
+/>
+```
+
+This form will allow the user to type in a phone number and will validate it.
+
+There are obviously a LOT more attributes that can be added to these fieldSets and props to
+be passed to these and other components. To read about other attributes, I recommend checking out
+the IFieldConfigBase definition in
+[interfaces.ts](https://github.com/mighty-justice/fields-ant/blob/master/src/interfaces.ts)
+and to see component props, see the components section of our online documentation.
+
+# Installation
+
+```
+yarn add @mighty-justice/fields-ant
+```
+
+```
+npm install @mighty-justice/fields-ant
+```
+
+#### peer dependencies
+```
+"antd": "^3.0.0",
+"lodash": "^4.0.0",
+"mobx": "^4.0.0 || ^5.0.0",
+"mobx-react": "^5.0.0",
+"moment": "^2.0.0",
+"react": "^16.0.0"
 ```
 
 #### npm
@@ -33,7 +198,11 @@ and a collection of utilities and components like forms and cards for
 #### yarn
 `yarn add --dev @mighty-justice/fields-ant`
 
-### Releasing a new version
+# Contributing
+
+We accept new issues and pull requests from anyone!
+
+# Releasing a new version
 
 - Release: `npm run deploy`
 
@@ -44,8 +213,3 @@ Gotchas:
 
 - Make sure to `npm install` or `yarn install` first
 - The deploy command must currently be run with npm not yarn due to login bug
-
-### Contributing
-
-We accept new issues and pull requests from anyone!
-

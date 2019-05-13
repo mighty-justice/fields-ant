@@ -3,10 +3,10 @@ import * as Antd from 'antd';
 import { getOrDefault, varToLabel } from '@mighty-justice/utils';
 
 import { IFieldConfig, IFieldConfigPartial, IFieldSet, IFieldSetPartial } from '../interfaces';
+import { IValue } from '../props';
 
 import { TYPES } from './types';
 import { mapFieldSetFields } from './common';
-import { IValue } from '../props';
 
 export function falseyToString (value: IValue) { return value || ''; }
 

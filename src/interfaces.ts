@@ -11,75 +11,35 @@ export interface IValidationRule extends AntValidationRule {
   fieldsValidator?: IFieldsValidator;
 }
 
-/*
-This defines the core common interface for Mighty fields
-
-This excludes all fields used only by a single type ( see below )
-It also will almost never be written out by a user, since it's
-much easier to call a function to fill in a partial definition
-than to fill all this in (see further below for partials).
-*/
 interface IFieldConfigBase {
-  /*
-  Field is the ONLY required value of a fieldConfig
-  All other attributes below are either optional or will be filled in
-  by the component through the fillIn* functions
-
-  Field can be any string which would be supported in lodash
-  get, like 'name', 'lawfirm.name', or 'lawfirms[0].name'
-  */
-  field: string;
-
-  // Another way of keeping fieldConfigs short are 'types' which are just
-  // different sets of defaults that can be quickly applied.
-  type: string;
-
-  // Core attributes
-  className?: string; // Applied on the Antd.Form.Item
-  label: string | null;
-  nullify: boolean;
-  render: (value: IValue, fieldConfig: IFieldConfig, model: IModel) => React.ReactNode;
-  showLabel: boolean;
-  tooltip?: string;
-  value?: string | number;
-
-  // Attributes for filtering this field out, in read contexts,
-  // form contexts, or dynamically based on the model
-  insertIf?: (model: any) => boolean;
-  readOnly: boolean;
-  writeOnly: boolean;
-
-  // Attributes for controlling how fieldConfig works in form
+  className?: string;
+  colProps?: ColProps;
   disabled: boolean;
   editComponent: any;
   editProps: { [key: string]: any };
+  field: string;
+  fieldConfigProp: boolean;
   formItemProps?: { [key: string]: any };
+  formValidationRules: { [ruleName: string]: IValidationRule };
   fromForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
   icon?: string;
-  required: boolean;
-  toForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
-
-  /*
-  Validation rules are documented here:
-  https://ant.design/components/form/#Validation-Rules
-  Alternatively we support fieldsValidator defined by IFieldsValidator
-  above which is much nicer than the default validator attribute
-  */
-  formValidationRules: { [ruleName: string]: IValidationRule };
-
-  // Attributes for controlling how fieldConfig works in table
-  tableColumnProps?: Partial<ColumnProps<IModel>>;
-
-  // These enable features in objectSearchCreate
-  // explained in the documentation for that type
+  insertIf?: (model: any) => boolean;
+  key: string;
+  label: string | null;
+  nullify: boolean;
   populateFromSearch: boolean;
   populateNameFromSearch: boolean;
-
-  // These are technical and you can safely ignore them
-  colProps?: ColProps;
-  fieldConfigProp: boolean;
-  key: string;
+  readOnly: boolean;
+  render: (value: IValue, fieldConfig: IFieldConfig, model: IModel) => React.ReactNode;
+  required: boolean;
+  showLabel: boolean;
   skipFieldDecorator: boolean;
+  tableColumnProps?: Partial<ColumnProps<IModel>>;
+  toForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
+  tooltip?: string;
+  type: string;
+  value?: string | number;
+  writeOnly: boolean;
 }
 
 export interface IAntFormField {
