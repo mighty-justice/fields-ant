@@ -12,24 +12,37 @@ Open source, developed primarily at [Mighty](https://www.mighty.com/).
 
 # Introduction / Concepts
 
+The most common patterns in a piece of software are CRUD: Creating, reading, updating,
+and deleting a piece of data. Extremely common tasks like "Add a form for editing the
+phone number" require a lot of boiler-plate in libraries such as Ant Design.
+
+Fields Ant seeks to make these simple components extremely easy to add using a common
+configuration language based around the "FieldConfig."
+
 ## FieldConfig
 
 The fieldConfig is the basic unit that fields-ant uses to define
 something that should be shown or edited. There is only one required
 attribute in a fieldConfig, the field.
 
-For example: `{ field: 'phone_number' }` is a fieldConfig for displaying, 
-editing, or creating the field phone_number in an object.
+A simple example is wanting to display or edit the field `phone_number` on an object.
+The fieldConfig for this would be `{ field: 'phone_number' }`.
 
-This is what we call a partial FieldConfig, which is what a user will always write.
-The components then fill it into a complete fieldConfig, which for the example
-above, looks like this:
+The components in this library use this field config by fill it in. For the example
+above, the filled in version looks like this:
 
 ```
 {
   disabled: false,
+  editComponent: function Input(props) {,
+  editProps: {},
+  field: "phone_number",
+  fieldConfigProp: false,
+  formValidationRules: {},
+  fromForm: function falseyToString(value) { return value || ''; },
   key: "phone_number",
   label: "Phone Number",
+  nullify: false,
   populateFromSearch: false,
   populateNameFromSearch: false,
   readOnly: false,
@@ -37,16 +50,9 @@ above, looks like this:
   required: false,
   showLabel: true,
   skipFieldDecorator: false,
+  toForm: function falseyToString(value) { return value || ''; },
   type: "phone",
   writeOnly: false,
-  editComponent: function Input(props) {,
-  fieldConfigProp: false,
-  formValidationRules: {},
-  fromForm: function falseyToString(value) { return value || ''; },
-  nullify: false,
-  toForm: function falseyToString(value) { return value || ''; },
-  field: "phone_number",
-  editProps: {},
 }
 ```
 

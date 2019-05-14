@@ -5,7 +5,8 @@ import { storiesOf } from '@storybook/react';
 import Marked from 'storybook-readme/components/Marked';
 
 import docObjectSearchCreate from '../docs/ObjectSearchCreate.md';
-import { Card, FormCard, IFieldConfigObjectSearchCreate, IFieldConfigPartial } from '../src';
+
+import { FormCard, IFieldConfigObjectSearchCreate, IFieldConfigPartial } from '../src';
 
 import {
   fakeField,
@@ -25,7 +26,7 @@ const props = {
     title: 'Working Title',
   };
 
-storiesOf('Types', module)
+storiesOf('Misc.', module)
   .add('Form Stress Test (all)', () => (
     <FormCard
       {...formCardPropsFactory.build()}
@@ -54,10 +55,58 @@ storiesOf('Types', module)
           .map(() => ({ field: fakeField(), type: 'text' }))]}
     />
   ))
-  .add('Creating', () => <FormCard {...formCardPropsFactory.build()} {...omit(props, 'model')} />)
-  .add('Editing', () => <FormCard {...formCardPropsFactory.build()} {...props} />)
-  .add('Displaying', () => <Card {...props} />)
-  .add('objectSearchCreate', () => (
+  .add('objectSearchCreate 1', () => (
+    <>
+      <Marked md={`# { type: 'objectSearchCreate' }`} />
+      <FormCard
+        {...formCardPropsFactory.build()}
+        fieldSets={[{
+          fields: [
+            {
+              ...objectSearchCreateFactory.build() as IFieldConfigObjectSearchCreate,
+              colProps: { sm: 24, lg: 12 },
+              createFields: [
+                { field: 'first_name', populateNameFromSearch: true },
+                { field: 'last_name', populateNameFromSearch: true },
+                { field: 'lawfirm', populateFromSearch: true },
+                {
+                  createFields: [{ field: 'name' }],
+                  field: 'organization',
+                  type: 'objectSearchCreate',
+                },
+              ],
+              editProps: {
+                addNewContent: <>Can't find it ? <a>Add new lawfirm</a></>,
+                noSearchContent: `Type in lawfirm's name`,
+                searchIcon: <span>O</span>,
+                selectProps: { placeholder: 'Search lawfirm...' },
+              },
+            },
+            {
+              ...objectSearchCreateFactory.build() as IFieldConfigObjectSearchCreate,
+              colProps: { sm: 24, lg: 12 },
+              createFields: [
+                { field: 'first_name', required: true },
+                { field: 'last_name', required: true },
+                { field: 'lawfirm', populateFromSearch: true },
+                {
+                  createFields: [{ field: 'name' }],
+                  field: 'organization',
+                  type: 'objectSearchCreate',
+                },
+              ],
+              renderOption: (option: any) => <p><strong>FFF</strong><br />{option && option.name}</p>,
+              renderSelected: (option: any) => `ZZZ ${option && option.name}`,
+            },
+          ],
+          legend: 'Legend Text',
+          rowProps: { gutter: 16 },
+        }]}
+      />
+      <Marked md={docObjectSearchCreate} />
+    </>
+  ))
+  .add('objectSearchCreate 2', () => (
     <>
       <Marked md={`# { type: 'objectSearchCreate' }`} />
       <FormCard

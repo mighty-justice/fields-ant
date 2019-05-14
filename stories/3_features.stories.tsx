@@ -50,16 +50,4 @@ storiesOf('Features', module)
       ]]}
     />
   ))
-  .add('Login page', () => (
-    <FormCard
-      {...formCardPropsFactory.build()}
-      blockSubmit
-      fieldSets={[[
-        { field: 'username', required: true },
-        { field: 'password', required: true },
-      ]]}
-      saveText='Submit'
-      title='Log in'
-    />
-  ))
   ;
