@@ -18,6 +18,7 @@ interface IArgs {
     onSave: (data: IModel) => void | Promise<void>;
     onSuccess: () => any | Promise<any>;
     processErrors: (errors: IBackendValidation) => IBackendValidation;
+    resetOnSuccess: boolean;
     successText: null | string;
 }
 interface IFormWrappedInstance {

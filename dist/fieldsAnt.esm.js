@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { Form as Form$1, Select, Icon, Button, Tooltip, Input, Radio, Rate as Rate$1, DatePicker, Row, Col, Popconfirm, Divider, Card as Card$1, notification, Drawer, Modal, List, Table as Table$1 } from 'antd';
-import { computed, observable, toJS } from 'mobx';
-import { has, result, get, isString, isNumber, times as times$2, isBoolean, escape, startCase, sortBy, map as map$1, reject, debounce, omit, pick, isArray, flatten as flatten$1, isObject as isObject$2, set, values, isEmpty, isPlainObject, extend, mapValues, noop, pickBy, kebabCase } from 'lodash';
+import { Form as Form$1, Select, Icon, Button, Tooltip, Input, Radio, Rate as Rate$1, DatePicker, notification, Row, Col, Popconfirm, Divider, Card as Card$1, Drawer, Modal, List, Table as Table$1 } from 'antd';
+import { observable, computed, toJS } from 'mobx';
+import { has, result, get, isString, isNumber, times as times$2, isBoolean, escape, startCase, sortBy, map as map$1, reject, debounce, omit, pick, isArray, flatten as flatten$1, isObject as isObject$2, set, isPlainObject, extend, mapValues, noop, pickBy, values, isEmpty, kebabCase } from 'lodash';
 import { observer, inject } from 'mobx-react';
 import util from 'util';
 import events from 'events';
@@ -654,6 +654,543 @@ function (_Component) {
 
   return ButtonToolbar;
 }(Component)) || _class;
+
+var DEFAULT_DEBOUNCE_WAIT = 300;
+var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
+var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
+var ID_ATTR = 'id';
+
+function asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator$1(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+function _classCallCheck$1(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties$1(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass$1(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties$1(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties$1(Constructor, staticProps);
+  return Constructor;
+}
+
+function _initializerDefineProperty$1(target, property, descriptor, context) {
+  if (!descriptor) return;
+  Object.defineProperty(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _applyDecoratedDescriptor$1(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object.keys(descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object.defineProperty(target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+var commonjsGlobal$1 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function unwrapExports$1 (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
+
+function createCommonjsModule$1(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var ReactComponentSpecMethods$1 = createCommonjsModule$1(function (module, exports) {
+(function (global, factory) {
+    {
+        factory(exports);
+    }
+})(commonjsGlobal$1, function (exports) {
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = ['getDefaultProps', 'getInitialState', 'componentWillMount', 'componentDidMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'componentDidUpdate', 'componentWillUnmount', 'componentDidCatch', 'render'];
+});
+});
+
+unwrapExports$1(ReactComponentSpecMethods$1);
+
+var isObject$1 = createCommonjsModule$1(function (module, exports) {
+(function (global, factory) {
+    {
+        factory(exports);
+    }
+})(commonjsGlobal$1, function (exports) {
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = isObject;
+    var toString = Object.prototype.toString;
+
+
+    // This check is "good enough" for purposes here.
+    function isObject(candidate) {
+        return toString.call(candidate) === '[object Object]';
+    }
+});
+});
+
+unwrapExports$1(isObject$1);
+
+var uniqueConcatArrays$1 = createCommonjsModule$1(function (module, exports) {
+(function (global, factory) {
+    {
+        factory(exports);
+    }
+})(commonjsGlobal$1, function (exports) {
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = uniqueConcatArrays;
+    // Helper methods.
+    var flattenArraysReducer = function flattenArraysReducer(array, nextArray) {
+        return array.concat(nextArray);
+    };
+    var getRemoveDupesReducer = function getRemoveDupesReducer(keyHash) {
+        return function (resultArray, item) {
+            if (!keyHash[item]) {
+                keyHash[item] = true;
+                resultArray.push(item); // mutation ok here (sort of), since a new array is expected when reduction begins
+            }
+
+            return resultArray;
+        };
+    };
+
+    /**
+     * Concatenates arrays, removing duplicate entries.
+     * 
+     * NOTE: This only works reliably for arrays consisting entirely of items that
+     * produce distinct `toString()` values whenever they are altered (e.g.,
+     * strings, numbers, etc.). That's good enough for the use case here, since
+     * this utility is only used to uniqueConcat arrays of strings, but it won't
+     * always work elsewhere.
+     */
+    function uniqueConcatArrays() {
+        for (var _len = arguments.length, arrays = Array(_len), _key = 0; _key < _len; _key++) {
+            arrays[_key] = arguments[_key];
+        }
+
+        if (arrays.length < 2) {
+            return arrays.length === 1 ? arrays[0].reduce(getRemoveDupesReducer({}), []) : undefined;
+        }
+
+        var flattenedArray = arrays.reduce(flattenArraysReducer);
+        return flattenedArray.reduce(getRemoveDupesReducer({}), []);
+    }
+});
+});
+
+unwrapExports$1(uniqueConcatArrays$1);
+
+var build$1 = createCommonjsModule$1(function (module, exports) {
+(function (global, factory) {
+    {
+        factory(exports, ReactComponentSpecMethods$1, isObject$1, uniqueConcatArrays$1);
+    }
+})(commonjsGlobal$1, function (exports, _ReactComponentSpecMethods, _isObject, _uniqueConcatArrays) {
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.autoBindMethods = undefined;
+    exports.default = autoBindMethods;
+    exports.autoBindMethodsForReact = autoBindMethodsForReact;
+
+    var _ReactComponentSpecMethods2 = _interopRequireDefault(_ReactComponentSpecMethods);
+
+    var _isObject2 = _interopRequireDefault(_isObject);
+
+    var _uniqueConcatArrays2 = _interopRequireDefault(_uniqueConcatArrays);
+
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+
+    var _extends = Object.assign || function (target) {
+        for (var i = 1; i < arguments.length; i++) {
+            var source = arguments[i];
+
+            for (var key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                    target[key] = source[key];
+                }
+            }
+        }
+
+        return target;
+    };
+
+    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+        return typeof obj;
+    } : function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+
+    /**
+     * Overloaded function for auto-binding the methods of a class to the class's relevant instance. If
+     * the first argument is a function, as it will be when this is used as a "bare" or "unconfigured"
+     * decorator -- as in `@autoBindMethods class SomeClass {}` -- it does the auto-bind decorating by
+     * delegating to `autoBindMethodsDecorator`. If the first argument is *not* a function, as happens
+     * when this is used as a "configured" decorator -- as in `@autoBindMethods(options) class SomeClass
+     * {}` -- it returns a function that *itself* accepts a function (the class constructor) as its
+     * first argument, and that does the auto-bind decorating by delegating to
+     * `autoBindMethodsDecorator`.
+     *
+     * The delegate method `autoBindMethodsDecorator` is `call`ed in order to avoid changing the context
+     * from whatever it would ordinarily be in the case of a non-overloaded decorator, while still
+     * allowing us to pass on any received `options`.
+     *
+     * @param {Object|Function|undefined} [input] - optional options or the function/class to decorate
+     * @param {String[]} [input.methodsToIgnore] - names of methods to skip auto-binding; applicable
+     *  only if `input` is not a function
+     * @param {boolean} [options.dontOptimize] - if truthy, turns off the decorator's default
+     *  optimization behavior, which is to define the bound method directly on the class instance
+     *  when first accessed, in order to prevent re-binding on every access and traversing the
+     *  prototype chain; applicable only if `input` is not a function
+     * @returns {Function|undefined}
+     */
+    function autoBindMethods(input) {
+        if (typeof input !== 'function') {
+            return function (target) {
+                autoBindMethodsDecorator.call(this, target, input);
+            };
+        }
+
+        autoBindMethodsDecorator.call(this, input);
+    }
+
+    exports.autoBindMethods = autoBindMethods;
+
+
+    /**
+     * Convenience decorator that operates the same as above, but that automatically skips all
+     * methods in the React Component Spec, since they do not need auto-binding on React/Preact
+     * components. Useful to those using this decorator with React, as there is no need to list
+     * all of the React Component Spec methods as `methodsToIgnore`.
+     *
+     * @param {Object|Function|undefined} [input] - optional options or the function/class to decorate
+     * @param {String[]} [input.methodsToIgnore] - names of methods to skip auto-binding; applicable
+     *  only if `input` is not a function
+     * @param {boolean} [options.dontOptimize] - if truthy, turns off the decorator's default
+     *  optimization behavior, which is to define the bound method directly on the class instance
+     *  when first accessed, in order to prevent re-binding on every access and traversing the
+     *  prototype chain; applicable only if `input` is not a function
+     * @returns {Function|undefined}
+     */
+    function autoBindMethodsForReact(input) {
+        if (typeof input === 'undefined') {
+            return autoBindMethods({ methodsToIgnore: _ReactComponentSpecMethods2.default });
+        }
+
+        if (typeof input !== 'function') {
+            if (!(0, _isObject2.default)(input)) {
+                throw new TypeError('autoBindMethodsForReact was passed an input of type ' + (typeof input === 'undefined' ? 'undefined' : _typeof(input)) + '. The input ' + 'argument must be either a function, a plain JS object, or undefined.');
+            }
+
+            return autoBindMethods(_extends({}, input, {
+                methodsToIgnore: (0, _uniqueConcatArrays2.default)(input.methodsToIgnore || [], _ReactComponentSpecMethods2.default)
+            }));
+        }
+
+        return autoBindMethods({ methodsToIgnore: _ReactComponentSpecMethods2.default })(input);
+    }
+    /**
+     * A "legacy"-style "class" decorator function for auto-binding the methods of the "class."
+     *
+     * @param {Function} target - an ES2015 "class" or -- what is effectively the same thing -- a
+     *  constructor function.
+     * @param {Object} [options] - optional options
+     * @param {string[]} [options.methodsToIgnore] - names of methods to skip auto-binding
+     * @param {boolean} [options.dontOptimize] - if truthy, turns off the decorator's default
+     *  optimization behavior, which is to define the bound method directly on the class instance
+     *  in order to prevent lookups and re-binding on every access
+     */
+    function autoBindMethodsDecorator(target) {
+        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+        if (typeof target !== 'function') {
+            throw new TypeError('The autoBindMethods decorator must be passed a function as the first argument. ' + ('It received an argument of type ' + (typeof target === 'undefined' ? 'undefined' : _typeof(target)) + '.'));
+        }
+
+        var prototype = target.prototype;
+        var _options$methodsToIgn = options.methodsToIgnore,
+            methodsToIgnore = _options$methodsToIgn === undefined ? [] : _options$methodsToIgn,
+            _options$dontOptimize = options.dontOptimize,
+            dontOptimize = _options$dontOptimize === undefined ? false : _options$dontOptimize;
+
+
+        var ownProps = typeof Object.getOwnPropertySymbols === 'function' ? Object.getOwnPropertyNames(prototype).concat(Object.getOwnPropertySymbols(prototype)) : Object.getOwnPropertyNames(prototype);
+
+        if (methodsToIgnore.length > 0) {
+            ownProps = ownProps.filter(function (prop) {
+                return methodsToIgnore.indexOf(prop) === -1;
+            });
+        }
+
+        ownProps.forEach(function (ownPropIdentifier) {
+            if (ownPropIdentifier === 'constructor') {
+                // This decorator should not muck around with constructors, for fear of introducing
+                // unexpected side effects.
+                return;
+            }
+
+            var propDescriptor = Object.getOwnPropertyDescriptor(prototype, ownPropIdentifier);
+            var value = propDescriptor.value,
+                configurable = propDescriptor.configurable,
+                enumerable = propDescriptor.enumerable;
+
+
+            if (typeof value !== 'function' || !configurable) {
+                // We can only do our work with configurable functions, so bail early here.
+                return;
+            }
+
+            Object.defineProperty(prototype, ownPropIdentifier, {
+                // Keep the same enumerability/configurability settings.
+                enumerable: enumerable,
+                configurable: configurable,
+                get: function get() {
+                    if (this.hasOwnProperty(ownPropIdentifier)) {
+                        // Don't bind the prototype's method to the prototype, or we can't re-bind it to instances.
+                        return value;
+                    }
+
+                    var boundMethod = value.bind(this);
+
+                    if (!dontOptimize) {
+                        // `defineProperty` must be used here rather than a standard assignment because
+                        // assignments will first check for getters/setters up the prototype chain and
+                        // thus reject the assignment (since the property on the prototype has a getter
+                        // but no setter (see: http://www.2ality.com/2012/08/property-definition-assignment.html))
+                        Object.defineProperty(this, ownPropIdentifier, {
+                            enumerable: enumerable,
+                            configurable: configurable,
+                            value: boundMethod,
+                            writable: propDescriptor.writable !== false ? true : false
+                        });
+                    }
+
+                    return boundMethod;
+                },
+                set: function set(newValue) {
+                    if (propDescriptor.writable === false) {
+                        // If the original property wasn't writable, don't change that.
+                        return;
+                    }
+
+                    // Re-assigning a property on the prototype *after* the property has been bound by
+                    // the decorator should simply overwrite that property entirely; it is weird (IMO)
+                    // for it to magically be auto-bound to instances when assigned.
+                    Object.defineProperty(prototype, ownPropIdentifier, {
+                        value: newValue,
+                        configurable: true,
+                        enumerable: true,
+                        writable: true
+                    });
+                }
+            });
+        });
+    }
+});
+});
+
+var autoBindMethods$1 = unwrapExports$1(build$1);
+
+var _class$1, _class2, _descriptor, _temp;
+/*
+  Name: SmartBool
+  Description: Simple class for controlling a boolean, eliminating repetitive single-line setter functions.
+*/
+
+var SmartBool = autoBindMethods$1(_class$1 = (_class2 = (_temp =
+/*#__PURE__*/
+function () {
+  function SmartBool() {
+    var initial = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    _classCallCheck$1(this, SmartBool);
+
+    _initializerDefineProperty$1(this, "isTrue", _descriptor, this);
+
+    this.isTrue = initial;
+  }
+
+  _createClass$1(SmartBool, [{
+    key: "set",
+    value: function set(value) {
+      this.isTrue = value;
+      return this.isTrue;
+    }
+  }, {
+    key: "setTrue",
+    value: function setTrue() {
+      return this.set(true);
+    }
+  }, {
+    key: "setFalse",
+    value: function setFalse() {
+      return this.set(false);
+    }
+  }, {
+    key: "toggle",
+    value: function toggle() {
+      this.isTrue = !this.isTrue;
+      return this.isTrue;
+    } // Will set boolean to true until request completes.
+    // Usage:
+    // const request = client.retrieve(id);
+    // await this.isLoading.until(request);
+
+  }, {
+    key: "until",
+    value: function () {
+      var _until = _asyncToGenerator$1(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(request) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.set(true);
+                _context.prev = 1;
+                _context.next = 4;
+                return request;
+
+              case 4:
+                return _context.abrupt("return", _context.sent);
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](1);
+                throw _context.t0;
+
+              case 10:
+                _context.prev = 10;
+                this.set(false);
+                return _context.finish(10);
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[1, 7, 10, 13]]);
+      }));
+
+      function until(_x) {
+        return _until.apply(this, arguments);
+      }
+
+      return until;
+    }()
+  }, {
+    key: "_stringIfTrueElse",
+    value: function _stringIfTrueElse(ifTrue, ifFalse) {
+      return this.isTrue ? ifTrue : ifFalse;
+    } // Usage:
+    // <Button>{this.isSubmitting.saving()}</Button>
+    // <Button>{this.isSubmitting.saving('Update')}</Button>
+
+  }, {
+    key: "saving",
+    value: function saving() {
+      var label = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Save';
+      return this._stringIfTrueElse('Saving...', label);
+    }
+  }, {
+    key: "isFalse",
+    get: function get() {
+      return !this.isTrue;
+    }
+  }]);
+
+  return SmartBool;
+}(), _temp), (_descriptor = _applyDecoratedDescriptor$1(_class2.prototype, "isTrue", [observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return false;
+  }
+})), _class2)) || _class$1;
 
 /*
  *  decimal.js v10.1.1
@@ -5488,13 +6025,13 @@ var DATE_FORMATS = {
 };
 var CENT_DECIMAL = new Decimal('100');
 
-function _classCallCheck$1(instance, Constructor) {
+function _classCallCheck$2(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
   }
 }
 
-function _defineProperties$1(target, props) {
+function _defineProperties$2(target, props) {
   for (var i = 0; i < props.length; i++) {
     var descriptor = props[i];
     descriptor.enumerable = descriptor.enumerable || false;
@@ -5504,9 +6041,9 @@ function _defineProperties$1(target, props) {
   }
 }
 
-function _createClass$1(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties$1(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties$1(Constructor, staticProps);
+function _createClass$2(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties$2(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties$2(Constructor, staticProps);
   return Constructor;
 }
 
@@ -5621,7 +6158,7 @@ function _nonIterableRest$1() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance");
 }
 
-function _applyDecoratedDescriptor$1(target, property, decorators, descriptor, context) {
+function _applyDecoratedDescriptor$2(target, property, decorators, descriptor, context) {
   var desc = {};
   Object['ke' + 'ys'](descriptor).forEach(function (key) {
     desc[key] = descriptor[key];
@@ -5650,17 +6187,17 @@ function _applyDecoratedDescriptor$1(target, property, decorators, descriptor, c
   return desc;
 }
 
-var commonjsGlobal$1 = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+var commonjsGlobal$2 = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function commonjsRequire () {
 	throw new Error('Dynamic requires are not currently supported by rollup-plugin-commonjs');
 }
 
-function unwrapExports$1 (x) {
+function unwrapExports$2 (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
 }
 
-function createCommonjsModule$1(fn, module) {
+function createCommonjsModule$2(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
 
@@ -5668,7 +6205,7 @@ function getCjsExportFromNamespace (n) {
 	return n && n.default || n;
 }
 
-var classnames$1 = createCommonjsModule$1(function (module) {
+var classnames$1 = createCommonjsModule$2(function (module) {
 /*!
   Copyright (c) 2017 Jed Watson.
   Licensed under the MIT License (MIT), see
@@ -5717,7 +6254,7 @@ var classnames$1 = createCommonjsModule$1(function (module) {
 }());
 });
 
-var lib = createCommonjsModule$1(function (module, exports) {
+var lib = createCommonjsModule$2(function (module, exports) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -5806,7 +6343,7 @@ exports.default = {
 };
 });
 
-unwrapExports$1(lib);
+unwrapExports$2(lib);
 var lib_1 = lib.pattern;
 var lib_2 = lib.parse;
 var lib_3 = lib.end;
@@ -11445,7 +11982,7 @@ var dateFns = {
 };
 var dateFns_50 = dateFns.format;
 
-var numeral = createCommonjsModule$1(function (module) {
+var numeral = createCommonjsModule$2(function (module) {
 /*! @preserve
  * numeral.js
  * version : 2.0.6
@@ -11460,7 +11997,7 @@ var numeral = createCommonjsModule$1(function (module) {
     } else {
         global.numeral = factory();
     }
-}(commonjsGlobal$1, function () {
+}(commonjsGlobal$2, function () {
     /************************************
         Variables
     ************************************/
@@ -21924,7 +22461,7 @@ Tokenizer.prototype._emitPartial = function(value){
 	}
 };
 
-var inherits_browser = createCommonjsModule$1(function (module) {
+var inherits_browser = createCommonjsModule$2(function (module) {
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -21950,7 +22487,7 @@ if (typeof Object.create === 'function') {
 }
 });
 
-var inherits = createCommonjsModule$1(function (module) {
+var inherits = createCommonjsModule$2(function (module) {
 try {
   var util$1 = util;
   if (typeof util$1.inherits !== 'function') throw '';
@@ -22330,7 +22867,7 @@ var domelementtype = {
 	}
 };
 
-var node = createCommonjsModule$1(function (module) {
+var node = createCommonjsModule$2(function (module) {
 // This object will be used as the prototype for Nodes when creating a
 // DOM-Level-1-compliant structure.
 var NodePrototype = module.exports = {
@@ -22380,7 +22917,7 @@ var node_1 = node.firstChild;
 var node_2 = node.lastChild;
 var node_3 = node.nodeType;
 
-var element = createCommonjsModule$1(function (module) {
+var element = createCommonjsModule$2(function (module) {
 // DOM-Level-1-compliant structure
 
 var ElementPrototype = module.exports = Object.create(node);
@@ -23019,12 +23556,12 @@ function createDisabledContainer(WrappedComponent) {
     _inherits$1(DisabledContainer, _Component);
 
     function DisabledContainer() {
-      _classCallCheck$1(this, DisabledContainer);
+      _classCallCheck$2(this, DisabledContainer);
 
       return _possibleConstructorReturn$1(this, _getPrototypeOf$1(DisabledContainer).apply(this, arguments));
     }
 
-    _createClass$1(DisabledContainer, [{
+    _createClass$2(DisabledContainer, [{
       key: "render",
       value: function render() {
         var classNames = classnames$1(this.props.className, 'disabled');
@@ -23060,7 +23597,7 @@ function createGuardedContainer(_ref) {
     function GuardedContainer(props) {
       var _this;
 
-      _classCallCheck$1(this, GuardedContainer);
+      _classCallCheck$2(this, GuardedContainer);
 
       _this = _possibleConstructorReturn$1(this, _getPrototypeOf$1(GuardedContainer).call(this, props));
       _this.GuardedComponent = void 0;
@@ -23068,7 +23605,7 @@ function createGuardedContainer(_ref) {
       return _this;
     }
 
-    _createClass$1(GuardedContainer, [{
+    _createClass$2(GuardedContainer, [{
       key: "render",
       value: function render() {
         return React.createElement(this.GuardedComponent, this.props);
@@ -23081,15 +23618,15 @@ function createGuardedContainer(_ref) {
     }]);
 
     return GuardedContainer;
-  }(Component), _class5.displayName = "GuardedContainer(".concat(getDisplayName(enabledComponent), ")"), _temp2), (_applyDecoratedDescriptor$1(_class4.prototype, "userHasPermission", [computed], Object.getOwnPropertyDescriptor(_class4.prototype, "userHasPermission"), _class4.prototype)), _class4)) || _class3;
+  }(Component), _class5.displayName = "GuardedContainer(".concat(getDisplayName(enabledComponent), ")"), _temp2), (_applyDecoratedDescriptor$2(_class4.prototype, "userHasPermission", [computed], Object.getOwnPropertyDescriptor(_class4.prototype, "userHasPermission"), _class4.prototype)), _class4)) || _class3;
 
   return GuardedContainer;
 }
 
-var moment = createCommonjsModule$1(function (module, exports) {
+var moment = createCommonjsModule$2(function (module, exports) {
 (function (global, factory) {
     module.exports = factory();
-}(commonjsGlobal$1, (function () {
+}(commonjsGlobal$2, (function () {
     var hookCallback;
 
     function hooks () {
@@ -27730,543 +28267,6 @@ function isValidBirthdate(value) {
   ;
 }
 
-var DEFAULT_DEBOUNCE_WAIT = 300;
-var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
-var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
-var ID_ATTR = 'id';
-
-function asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator$1(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-function _classCallCheck$2(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties$2(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass$2(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties$2(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties$2(Constructor, staticProps);
-  return Constructor;
-}
-
-function _initializerDefineProperty$1(target, property, descriptor, context) {
-  if (!descriptor) return;
-  Object.defineProperty(target, property, {
-    enumerable: descriptor.enumerable,
-    configurable: descriptor.configurable,
-    writable: descriptor.writable,
-    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-  });
-}
-
-function _applyDecoratedDescriptor$2(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object.keys(descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
-
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
-
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
-
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
-
-  if (desc.initializer === void 0) {
-    Object.defineProperty(target, property, desc);
-    desc = null;
-  }
-
-  return desc;
-}
-
-var commonjsGlobal$2 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-function unwrapExports$2 (x) {
-	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
-}
-
-function createCommonjsModule$2(fn, module) {
-	return module = { exports: {} }, fn(module, module.exports), module.exports;
-}
-
-var ReactComponentSpecMethods$1 = createCommonjsModule$2(function (module, exports) {
-(function (global, factory) {
-    {
-        factory(exports);
-    }
-})(commonjsGlobal$2, function (exports) {
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.default = ['getDefaultProps', 'getInitialState', 'componentWillMount', 'componentDidMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'componentDidUpdate', 'componentWillUnmount', 'componentDidCatch', 'render'];
-});
-});
-
-unwrapExports$2(ReactComponentSpecMethods$1);
-
-var isObject$1 = createCommonjsModule$2(function (module, exports) {
-(function (global, factory) {
-    {
-        factory(exports);
-    }
-})(commonjsGlobal$2, function (exports) {
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.default = isObject;
-    var toString = Object.prototype.toString;
-
-
-    // This check is "good enough" for purposes here.
-    function isObject(candidate) {
-        return toString.call(candidate) === '[object Object]';
-    }
-});
-});
-
-unwrapExports$2(isObject$1);
-
-var uniqueConcatArrays$1 = createCommonjsModule$2(function (module, exports) {
-(function (global, factory) {
-    {
-        factory(exports);
-    }
-})(commonjsGlobal$2, function (exports) {
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.default = uniqueConcatArrays;
-    // Helper methods.
-    var flattenArraysReducer = function flattenArraysReducer(array, nextArray) {
-        return array.concat(nextArray);
-    };
-    var getRemoveDupesReducer = function getRemoveDupesReducer(keyHash) {
-        return function (resultArray, item) {
-            if (!keyHash[item]) {
-                keyHash[item] = true;
-                resultArray.push(item); // mutation ok here (sort of), since a new array is expected when reduction begins
-            }
-
-            return resultArray;
-        };
-    };
-
-    /**
-     * Concatenates arrays, removing duplicate entries.
-     * 
-     * NOTE: This only works reliably for arrays consisting entirely of items that
-     * produce distinct `toString()` values whenever they are altered (e.g.,
-     * strings, numbers, etc.). That's good enough for the use case here, since
-     * this utility is only used to uniqueConcat arrays of strings, but it won't
-     * always work elsewhere.
-     */
-    function uniqueConcatArrays() {
-        for (var _len = arguments.length, arrays = Array(_len), _key = 0; _key < _len; _key++) {
-            arrays[_key] = arguments[_key];
-        }
-
-        if (arrays.length < 2) {
-            return arrays.length === 1 ? arrays[0].reduce(getRemoveDupesReducer({}), []) : undefined;
-        }
-
-        var flattenedArray = arrays.reduce(flattenArraysReducer);
-        return flattenedArray.reduce(getRemoveDupesReducer({}), []);
-    }
-});
-});
-
-unwrapExports$2(uniqueConcatArrays$1);
-
-var build$1 = createCommonjsModule$2(function (module, exports) {
-(function (global, factory) {
-    {
-        factory(exports, ReactComponentSpecMethods$1, isObject$1, uniqueConcatArrays$1);
-    }
-})(commonjsGlobal$2, function (exports, _ReactComponentSpecMethods, _isObject, _uniqueConcatArrays) {
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.autoBindMethods = undefined;
-    exports.default = autoBindMethods;
-    exports.autoBindMethodsForReact = autoBindMethodsForReact;
-
-    var _ReactComponentSpecMethods2 = _interopRequireDefault(_ReactComponentSpecMethods);
-
-    var _isObject2 = _interopRequireDefault(_isObject);
-
-    var _uniqueConcatArrays2 = _interopRequireDefault(_uniqueConcatArrays);
-
-    function _interopRequireDefault(obj) {
-        return obj && obj.__esModule ? obj : {
-            default: obj
-        };
-    }
-
-    var _extends = Object.assign || function (target) {
-        for (var i = 1; i < arguments.length; i++) {
-            var source = arguments[i];
-
-            for (var key in source) {
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-
-        return target;
-    };
-
-    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-        return typeof obj;
-    } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-
-    /**
-     * Overloaded function for auto-binding the methods of a class to the class's relevant instance. If
-     * the first argument is a function, as it will be when this is used as a "bare" or "unconfigured"
-     * decorator -- as in `@autoBindMethods class SomeClass {}` -- it does the auto-bind decorating by
-     * delegating to `autoBindMethodsDecorator`. If the first argument is *not* a function, as happens
-     * when this is used as a "configured" decorator -- as in `@autoBindMethods(options) class SomeClass
-     * {}` -- it returns a function that *itself* accepts a function (the class constructor) as its
-     * first argument, and that does the auto-bind decorating by delegating to
-     * `autoBindMethodsDecorator`.
-     *
-     * The delegate method `autoBindMethodsDecorator` is `call`ed in order to avoid changing the context
-     * from whatever it would ordinarily be in the case of a non-overloaded decorator, while still
-     * allowing us to pass on any received `options`.
-     *
-     * @param {Object|Function|undefined} [input] - optional options or the function/class to decorate
-     * @param {String[]} [input.methodsToIgnore] - names of methods to skip auto-binding; applicable
-     *  only if `input` is not a function
-     * @param {boolean} [options.dontOptimize] - if truthy, turns off the decorator's default
-     *  optimization behavior, which is to define the bound method directly on the class instance
-     *  when first accessed, in order to prevent re-binding on every access and traversing the
-     *  prototype chain; applicable only if `input` is not a function
-     * @returns {Function|undefined}
-     */
-    function autoBindMethods(input) {
-        if (typeof input !== 'function') {
-            return function (target) {
-                autoBindMethodsDecorator.call(this, target, input);
-            };
-        }
-
-        autoBindMethodsDecorator.call(this, input);
-    }
-
-    exports.autoBindMethods = autoBindMethods;
-
-
-    /**
-     * Convenience decorator that operates the same as above, but that automatically skips all
-     * methods in the React Component Spec, since they do not need auto-binding on React/Preact
-     * components. Useful to those using this decorator with React, as there is no need to list
-     * all of the React Component Spec methods as `methodsToIgnore`.
-     *
-     * @param {Object|Function|undefined} [input] - optional options or the function/class to decorate
-     * @param {String[]} [input.methodsToIgnore] - names of methods to skip auto-binding; applicable
-     *  only if `input` is not a function
-     * @param {boolean} [options.dontOptimize] - if truthy, turns off the decorator's default
-     *  optimization behavior, which is to define the bound method directly on the class instance
-     *  when first accessed, in order to prevent re-binding on every access and traversing the
-     *  prototype chain; applicable only if `input` is not a function
-     * @returns {Function|undefined}
-     */
-    function autoBindMethodsForReact(input) {
-        if (typeof input === 'undefined') {
-            return autoBindMethods({ methodsToIgnore: _ReactComponentSpecMethods2.default });
-        }
-
-        if (typeof input !== 'function') {
-            if (!(0, _isObject2.default)(input)) {
-                throw new TypeError('autoBindMethodsForReact was passed an input of type ' + (typeof input === 'undefined' ? 'undefined' : _typeof(input)) + '. The input ' + 'argument must be either a function, a plain JS object, or undefined.');
-            }
-
-            return autoBindMethods(_extends({}, input, {
-                methodsToIgnore: (0, _uniqueConcatArrays2.default)(input.methodsToIgnore || [], _ReactComponentSpecMethods2.default)
-            }));
-        }
-
-        return autoBindMethods({ methodsToIgnore: _ReactComponentSpecMethods2.default })(input);
-    }
-    /**
-     * A "legacy"-style "class" decorator function for auto-binding the methods of the "class."
-     *
-     * @param {Function} target - an ES2015 "class" or -- what is effectively the same thing -- a
-     *  constructor function.
-     * @param {Object} [options] - optional options
-     * @param {string[]} [options.methodsToIgnore] - names of methods to skip auto-binding
-     * @param {boolean} [options.dontOptimize] - if truthy, turns off the decorator's default
-     *  optimization behavior, which is to define the bound method directly on the class instance
-     *  in order to prevent lookups and re-binding on every access
-     */
-    function autoBindMethodsDecorator(target) {
-        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-        if (typeof target !== 'function') {
-            throw new TypeError('The autoBindMethods decorator must be passed a function as the first argument. ' + ('It received an argument of type ' + (typeof target === 'undefined' ? 'undefined' : _typeof(target)) + '.'));
-        }
-
-        var prototype = target.prototype;
-        var _options$methodsToIgn = options.methodsToIgnore,
-            methodsToIgnore = _options$methodsToIgn === undefined ? [] : _options$methodsToIgn,
-            _options$dontOptimize = options.dontOptimize,
-            dontOptimize = _options$dontOptimize === undefined ? false : _options$dontOptimize;
-
-
-        var ownProps = typeof Object.getOwnPropertySymbols === 'function' ? Object.getOwnPropertyNames(prototype).concat(Object.getOwnPropertySymbols(prototype)) : Object.getOwnPropertyNames(prototype);
-
-        if (methodsToIgnore.length > 0) {
-            ownProps = ownProps.filter(function (prop) {
-                return methodsToIgnore.indexOf(prop) === -1;
-            });
-        }
-
-        ownProps.forEach(function (ownPropIdentifier) {
-            if (ownPropIdentifier === 'constructor') {
-                // This decorator should not muck around with constructors, for fear of introducing
-                // unexpected side effects.
-                return;
-            }
-
-            var propDescriptor = Object.getOwnPropertyDescriptor(prototype, ownPropIdentifier);
-            var value = propDescriptor.value,
-                configurable = propDescriptor.configurable,
-                enumerable = propDescriptor.enumerable;
-
-
-            if (typeof value !== 'function' || !configurable) {
-                // We can only do our work with configurable functions, so bail early here.
-                return;
-            }
-
-            Object.defineProperty(prototype, ownPropIdentifier, {
-                // Keep the same enumerability/configurability settings.
-                enumerable: enumerable,
-                configurable: configurable,
-                get: function get() {
-                    if (this.hasOwnProperty(ownPropIdentifier)) {
-                        // Don't bind the prototype's method to the prototype, or we can't re-bind it to instances.
-                        return value;
-                    }
-
-                    var boundMethod = value.bind(this);
-
-                    if (!dontOptimize) {
-                        // `defineProperty` must be used here rather than a standard assignment because
-                        // assignments will first check for getters/setters up the prototype chain and
-                        // thus reject the assignment (since the property on the prototype has a getter
-                        // but no setter (see: http://www.2ality.com/2012/08/property-definition-assignment.html))
-                        Object.defineProperty(this, ownPropIdentifier, {
-                            enumerable: enumerable,
-                            configurable: configurable,
-                            value: boundMethod,
-                            writable: propDescriptor.writable !== false ? true : false
-                        });
-                    }
-
-                    return boundMethod;
-                },
-                set: function set(newValue) {
-                    if (propDescriptor.writable === false) {
-                        // If the original property wasn't writable, don't change that.
-                        return;
-                    }
-
-                    // Re-assigning a property on the prototype *after* the property has been bound by
-                    // the decorator should simply overwrite that property entirely; it is weird (IMO)
-                    // for it to magically be auto-bound to instances when assigned.
-                    Object.defineProperty(prototype, ownPropIdentifier, {
-                        value: newValue,
-                        configurable: true,
-                        enumerable: true,
-                        writable: true
-                    });
-                }
-            });
-        });
-    }
-});
-});
-
-var autoBindMethods$1 = unwrapExports$2(build$1);
-
-var _class$1, _class2, _descriptor, _temp;
-/*
-  Name: SmartBool
-  Description: Simple class for controlling a boolean, eliminating repetitive single-line setter functions.
-*/
-
-var SmartBool = autoBindMethods$1(_class$1 = (_class2 = (_temp =
-/*#__PURE__*/
-function () {
-  function SmartBool() {
-    var initial = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-    _classCallCheck$2(this, SmartBool);
-
-    _initializerDefineProperty$1(this, "isTrue", _descriptor, this);
-
-    this.isTrue = initial;
-  }
-
-  _createClass$2(SmartBool, [{
-    key: "set",
-    value: function set(value) {
-      this.isTrue = value;
-      return this.isTrue;
-    }
-  }, {
-    key: "setTrue",
-    value: function setTrue() {
-      return this.set(true);
-    }
-  }, {
-    key: "setFalse",
-    value: function setFalse() {
-      return this.set(false);
-    }
-  }, {
-    key: "toggle",
-    value: function toggle() {
-      this.isTrue = !this.isTrue;
-      return this.isTrue;
-    } // Will set boolean to true until request completes.
-    // Usage:
-    // const request = client.retrieve(id);
-    // await this.isLoading.until(request);
-
-  }, {
-    key: "until",
-    value: function () {
-      var _until = _asyncToGenerator$1(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(request) {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                this.set(true);
-                _context.prev = 1;
-                _context.next = 4;
-                return request;
-
-              case 4:
-                return _context.abrupt("return", _context.sent);
-
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](1);
-                throw _context.t0;
-
-              case 10:
-                _context.prev = 10;
-                this.set(false);
-                return _context.finish(10);
-
-              case 13:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this, [[1, 7, 10, 13]]);
-      }));
-
-      function until(_x) {
-        return _until.apply(this, arguments);
-      }
-
-      return until;
-    }()
-  }, {
-    key: "_stringIfTrueElse",
-    value: function _stringIfTrueElse(ifTrue, ifFalse) {
-      return this.isTrue ? ifTrue : ifFalse;
-    } // Usage:
-    // <Button>{this.isSubmitting.saving()}</Button>
-    // <Button>{this.isSubmitting.saving('Update')}</Button>
-
-  }, {
-    key: "saving",
-    value: function saving() {
-      var label = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Save';
-      return this._stringIfTrueElse('Saving...', label);
-    }
-  }, {
-    key: "isFalse",
-    get: function get() {
-      return !this.isTrue;
-    }
-  }]);
-
-  return SmartBool;
-}(), _temp), (_descriptor = _applyDecoratedDescriptor$2(_class2.prototype, "isTrue", [observable], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return false;
-  }
-})), _class2)) || _class$1;
-
 var _dec, _class$2, _class2$1, _descriptor$1, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _class3, _temp$1;
 var ITEM_KEYS = {
   ADD: 'add',
@@ -28710,6 +28710,7 @@ function (_Component) {
       return React.createElement(React.Fragment, null, React.createElement(NestedFieldSet, {
         fieldSet: this.fieldConfig.createFields,
         formManager: formManager,
+        formModel: formManager.formModel,
         id: fieldConfig.field,
         label: renderLabel(this.fieldConfig),
         search: this.search
@@ -35131,30 +35132,6 @@ var TYPES = {
   }
 };
 
-function asyncNoop() {
-  return _asyncNoop.apply(this, arguments);
-}
-
-function _asyncNoop() {
-  _asyncNoop = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            return _context.abrupt("return");
-
-          case 1:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _asyncNoop.apply(this, arguments);
-}
-
 function falseyToString(value) {
   return value || '';
 }
@@ -35240,15 +35217,6 @@ function inferType(fieldConfig) {
   return 'string';
 }
 
-function isPartialFieldSetSimple(fieldSet) {
-  return isArray(fieldSet);
-}
-function isFieldSetSimple(fieldSet) {
-  return isArray(fieldSet);
-}
-function filterInsertIf(fieldConfig, model) {
-  return !!fieldConfig.insertIf && !fieldConfig.insertIf(model);
-}
 function fillInFieldConfig(fieldConfig) {
   var type = inferType(fieldConfig),
       label = fieldConfig.label || varToLabel(getFieldSuffix(fieldConfig.field));
@@ -35285,6 +35253,75 @@ function fillInFieldConfig(fieldConfig) {
     formValidationRules: _objectSpread({}, fieldConfig.formValidationRules, TYPES[type].formValidationRules, requiredValidationRule)
   });
 }
+function fillInFieldSet(fieldSet) {
+  // Fills in the defaults from common so we can keep configurations light
+  return mapFieldSetFields(fieldSet, fillInFieldConfig);
+}
+function fillInFieldSets(fieldSets) {
+  return fieldSets.map(fillInFieldSet);
+}
+
+// filterFieldConfig => True means don't show
+function filterFieldConfig(fieldConfig, filterConditions) {
+  var model = filterConditions.model,
+      readOnly = filterConditions.readOnly,
+      writeOnly = filterConditions.writeOnly,
+      filterInsertIf = !!(fieldConfig.insertIf && !fieldConfig.insertIf(model)),
+      filterReadOnly = !!(isBoolean(readOnly) && readOnly === fieldConfig.readOnly),
+      filterWriteOnly = !!(isBoolean(writeOnly) && writeOnly === fieldConfig.writeOnly);
+  return [filterInsertIf, filterReadOnly, filterWriteOnly].some(function (value) {
+    return value;
+  });
+}
+function filterFieldConfigs(fieldConfigs, filterConditions) {
+  return fieldConfigs.filter(function (fieldConfig) {
+    return !filterFieldConfig(fieldConfig, filterConditions);
+  });
+}
+function filterFieldSet(fieldSet, filterConditions) {
+  var fieldConfigs = getFieldSetFields(fieldSet).filter(function (fieldConfig) {
+    return !filterFieldConfig(fieldConfig, filterConditions);
+  });
+  return setFieldSetFields(fieldSet, fieldConfigs);
+}
+function filterFieldSets(fieldSets, filterConditions) {
+  return fieldSets.map(function (fieldSet) {
+    return filterFieldSet(fieldSet, filterConditions);
+  }).filter(function (fieldSet) {
+    return !!getFieldSetFields(fieldSet).length;
+  });
+}
+
+function asyncNoop() {
+  return _asyncNoop.apply(this, arguments);
+}
+
+function _asyncNoop() {
+  _asyncNoop = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee() {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            return _context.abrupt("return");
+
+          case 1:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _asyncNoop.apply(this, arguments);
+}
+
+function isPartialFieldSetSimple(fieldSet) {
+  return isArray(fieldSet);
+}
+function isFieldSetSimple(fieldSet) {
+  return isArray(fieldSet);
+}
 function mapFieldSetFields(fieldSet, mapper) {
   if (isPartialFieldSetSimple(fieldSet)) {
     return fieldSet.map(mapper);
@@ -35294,12 +35331,14 @@ function mapFieldSetFields(fieldSet, mapper) {
     fields: fieldSet.fields.map(mapper)
   });
 }
-function fillInFieldSet(fieldSet) {
-  // Fills in the defaults from common so we can keep configurations light
-  return mapFieldSetFields(fieldSet, fillInFieldConfig);
-}
-function fillInFieldSets(fieldSets) {
-  return fieldSets.map(fillInFieldSet);
+function setFieldSetFields(fieldSet, fields) {
+  if (isFieldSetSimple(fieldSet)) {
+    return fieldSet;
+  }
+
+  return _objectSpread({}, fieldSet, {
+    fields: fields
+  });
 }
 function getFieldSetFields(fieldSet) {
   if (isFieldSetSimple(fieldSet)) {
@@ -35363,7 +35402,7 @@ function renderLabel(fieldConfig) {
   if (tooltip) {
     return React.createElement(WithTooltip, {
       tooltip: tooltip
-    }, "label");
+    }, label);
   }
 
   return label;
@@ -35371,9 +35410,10 @@ function renderLabel(fieldConfig) {
 function fieldSetsToColumns(fieldSets) {
   var tableModel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   return getFieldSetsFields(fillInFieldSets(fieldSets)).filter(function (fieldConfig) {
-    return !fieldConfig.writeOnly;
-  }).filter(function (fieldConfig) {
-    return !filterInsertIf(fieldConfig, tableModel);
+    return !filterFieldConfig(fieldConfig, {
+      model: tableModel,
+      writeOnly: true
+    });
   }).map(function (fieldConfig) {
     return _objectSpread({
       dataIndex: fieldConfig.field,
@@ -35394,9 +35434,10 @@ function modelFromFieldConfigs(fieldConfigs, data) {
   */
   var returnValues = {};
   fieldConfigs.filter(function (fieldConfig) {
-    return !filterInsertIf(fieldConfig, data);
-  }).filter(function (fieldConfig) {
-    return !fieldConfig.readOnly;
+    return !filterFieldConfig(fieldConfig, {
+      model: data,
+      readOnly: true
+    });
   }).forEach(function (fieldConfig) {
     var field = fieldConfig.field,
         nullify = fieldConfig.nullify,
@@ -35416,582 +35457,6 @@ function modelFromFieldConfigs(fieldConfigs, data) {
 
   return returnValues;
 }
-
-var CARD_COL_LABEL = 8;
-var CARD_COL_VALUE = 16;
-
-var Info = function Info(props) {
-  return React.createElement(Row, _extends({}, props, {
-    className: classnames(props.className, 'info')
-  }), props.children);
-};
-
-var Label = function Label(props) {
-  return React.createElement(Col, {
-    span: CARD_COL_LABEL,
-    className: classnames(props.className, 'col-label')
-  }, props.children);
-};
-
-var Value = function Value(props) {
-  return React.createElement(Col, {
-    span: CARD_COL_VALUE,
-    className: classnames(props.className, 'col-value')
-  }, props.children);
-};
-
-var _class$8;
-var CardField = (_class$8 =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(CardField, _Component);
-
-  function CardField() {
-    _classCallCheck(this, CardField);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(CardField).apply(this, arguments));
-  }
-
-  _createClass(CardField, [{
-    key: "render",
-    value: function render() {
-      var model = this.props.model,
-          fieldConfig = this.fieldConfig,
-          field = fieldConfig.field,
-          showLabel = fieldConfig.showLabel,
-          writeOnly = fieldConfig.writeOnly,
-          renderWithoutStructure = !showLabel;
-
-      if (writeOnly || filterInsertIf(fieldConfig, model)) {
-        return null;
-      }
-
-      return React.createElement(Info, {
-        key: field
-      }, renderWithoutStructure ? renderValue(fieldConfig, model) : React.createElement(React.Fragment, null, React.createElement(Label, null, renderLabel(fieldConfig)), React.createElement(Value, null, renderValue(fieldConfig, model))));
-    }
-  }, {
-    key: "fieldConfig",
-    get: function get() {
-      return fillInFieldConfig(this.props.fieldConfig);
-    }
-  }]);
-
-  return CardField;
-}(Component), (_applyDecoratedDescriptor(_class$8.prototype, "fieldConfig", [computed], Object.getOwnPropertyDescriptor(_class$8.prototype, "fieldConfig"), _class$8.prototype)), _class$8);
-
-var _class$9, _class2$6;
-
-var FormField = autoBindMethods(_class$9 = observer(_class$9 = (_class2$6 =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(FormField, _Component);
-
-  function FormField() {
-    _classCallCheck(this, FormField);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(FormField).apply(this, arguments));
-  }
-
-  _createClass(FormField, [{
-    key: "fieldsValidatorToValidator",
-    value: function fieldsValidatorToValidator(fieldsValidator, message) {
-      var _this = this;
-
-      // This returns a valid rc-form validator.
-      // It would be enforced by typing, but their validation interface is basically just anys
-      return function (_rule, _value, callback) {
-        var formManager = _this.props.formManager,
-            model = formManager.formModel,
-            value = get(model, _this.fieldConfig.field),
-            valid = fieldsValidator(value, _this.fieldConfig, model);
-
-        if (valid) {
-          callback();
-        } else {
-          callback(message || 'Validation error');
-        }
-      };
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (!this.shouldRender) {
-        return null;
-      }
-
-      var formManager = this.props.formManager,
-          fieldConfig = this.fieldConfig,
-          className = fieldConfig.className,
-          colProps = fieldConfig.colProps,
-          formItemProps = fieldConfig.formItemProps,
-          field = fieldConfig.field,
-          skipFieldDecorator = fieldConfig.skipFieldDecorator,
-          getFieldDecorator = formManager.form.getFieldDecorator;
-      var decoratorOptionsProp = skipFieldDecorator ? {
-        decoratorOptions: this.decoratorOptions
-      } : {},
-          editComponent = React.createElement(fieldConfig.editComponent, _extends({}, this.editProps, decoratorOptionsProp)),
-          wrappedComponent = skipFieldDecorator ? editComponent : getFieldDecorator(field, this.decoratorOptions)(editComponent),
-          FormItemComponent = React.createElement(Form$1.Item, _extends({
-        className: className
-      }, formItemProps, {
-        label: renderLabel(fieldConfig)
-      }), wrappedComponent);
-
-      if (colProps) {
-        return React.createElement(Col, _extends({}, colProps, {
-          children: FormItemComponent
-        }));
-      }
-
-      return FormItemComponent;
-    }
-  }, {
-    key: "fieldConfig",
-    get: function get() {
-      return fillInFieldConfig(this.props.fieldConfig);
-    }
-  }, {
-    key: "initialValue",
-    get: function get() {
-      var formManager = this.props.formManager;
-      return formManager.getDefaultValue(this.fieldConfig);
-    }
-  }, {
-    key: "editProps",
-    get: function get() {
-      var formManager = this.props.formManager,
-          fieldConfig = this.fieldConfig,
-          fieldConfigProp = fieldConfig.fieldConfigProp ? {
-        fieldConfig: fieldConfig,
-        formManager: formManager
-      } : {};
-      return _objectSpread({}, fieldConfig.editProps, fieldConfigProp, {
-        form: formManager.form
-      });
-    }
-  }, {
-    key: "rules",
-    get: function get() {
-      var _this2 = this;
-
-      // Here we take the { [key: string]: formValidationRules } object
-      // found in fieldConfig.formValidationRules and return a valid list
-      // of rules for rc-form
-      return values(this.fieldConfig.formValidationRules).map(function (validationRule) {
-        // Our own proprietary ( much more sane and powerful ) validation attribute
-        // is converted here to the rc-form style validator
-        if (validationRule.fieldsValidator) {
-          return _objectSpread({
-            validator: _this2.fieldsValidatorToValidator(validationRule.fieldsValidator, validationRule.message)
-          }, omit(validationRule, 'fieldsValidator'));
-        } // However, all default rc-form validators will still work as expected
-
-
-        return validationRule;
-      });
-    }
-  }, {
-    key: "decoratorOptions",
-    get: function get() {
-      return {
-        initialValue: this.initialValue,
-        rules: this.rules
-      };
-    }
-  }, {
-    key: "shouldRender",
-    get: function get() {
-      var formManager = this.props.formManager,
-          fieldConfig = this.fieldConfig,
-          readOnly = fieldConfig.readOnly;
-
-      if (readOnly) {
-        return false;
-      }
-
-      if (fieldConfig.insertIf) {
-        return !filterInsertIf(fieldConfig, formManager.formModel);
-      }
-
-      return true;
-    }
-  }]);
-
-  return FormField;
-}(Component), (_applyDecoratedDescriptor(_class2$6.prototype, "fieldConfig", [computed], Object.getOwnPropertyDescriptor(_class2$6.prototype, "fieldConfig"), _class2$6.prototype)), _class2$6)) || _class$9) || _class$9;
-
-var Legend =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(Legend, _Component);
-
-  function Legend() {
-    _classCallCheck(this, Legend);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(Legend).apply(this, arguments));
-  }
-
-  _createClass(Legend, [{
-    key: "render",
-    value: function render() {
-      var fieldSet = this.props.fieldSet;
-
-      if (isPartialFieldSetSimple(fieldSet)) {
-        return null;
-      }
-
-      var legend = fieldSet.legend,
-          tooltip = fieldSet.tooltip;
-
-      if (!legend) {
-        return null;
-      }
-
-      return React.createElement("h3", null, React.createElement(WithTooltip, {
-        tooltip: tooltip
-      }, legend));
-    }
-  }]);
-
-  return Legend;
-}(Component);
-
-var _class$a, _class2$7;
-
-var FormFieldSet = autoBindMethods(_class$a = observer(_class$a = (_class2$7 =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(FormFieldSet, _Component);
-
-  function FormFieldSet() {
-    _classCallCheck(this, FormFieldSet);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(FormFieldSet).apply(this, arguments));
-  }
-
-  _createClass(FormFieldSet, [{
-    key: "render",
-    value: function render() {
-      var _this = this;
-
-      var filteredFieldConfigs = this.filteredFieldConfigs,
-          rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps;
-
-      if (!filteredFieldConfigs.length) {
-        return null;
-      }
-
-      return React.createElement(React.Fragment, null, React.createElement(Legend, {
-        fieldSet: this.fieldSet
-      }), React.createElement(Row, rowProps, filteredFieldConfigs.map(function (fieldConfig, idx) {
-        return React.createElement(FormField, _extends({}, _this.props, {
-          fieldConfig: fieldConfig,
-          key: "field-config-".concat(fieldConfig.field, "-").concat(idx)
-        }));
-      })));
-    }
-  }, {
-    key: "fieldSet",
-    get: function get() {
-      return fillInFieldSet(this.props.fieldSet);
-    }
-  }, {
-    key: "filteredFieldConfigs",
-    get: function get() {
-      var fieldConfigs = getFieldSetFields(this.fieldSet);
-
-      if (!fieldConfigs.some(function (fieldConfig) {
-        return !!fieldConfig.insertIf;
-      })) {
-        return fieldConfigs;
-      }
-
-      var formModel = this.props.formManager.formModel;
-      return fieldConfigs.filter(function (fieldConfig) {
-        return !filterInsertIf(fieldConfig, formModel);
-      });
-    }
-  }]);
-
-  return FormFieldSet;
-}(Component), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldSet"), _class2$7.prototype)), _class2$7)) || _class$a) || _class$a;
-
-var GuardedButton =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(GuardedButton, _Component);
-
-  function GuardedButton(props) {
-    var _this;
-
-    _classCallCheck(this, GuardedButton);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(GuardedButton).call(this, props));
-    _this.guardedContainer = void 0;
-    var isGuarded = _this.props.isGuarded,
-        disabledComponent = createDisabledContainer(Button);
-    _this.guardedContainer = createGuardedContainer({
-      disabledComponent: disabledComponent,
-      enabledComponent: Button,
-      isGuarded: isGuarded
-    });
-    return _this;
-  }
-
-  _createClass(GuardedButton, [{
-    key: "render",
-    value: function render() {
-      var GuardedContainer = this.guardedContainer,
-          omitProps = ['isGuarded'];
-
-      if (this.props.confirm) {
-        omitProps.push('confirm');
-        omitProps.push('onClick');
-        return React.createElement(Popconfirm, {
-          title: "Are you sure?",
-          onConfirm: this.props.onClick
-        }, React.createElement(GuardedContainer, omit(this.props, omitProps)));
-      }
-
-      return React.createElement(GuardedContainer, omit(this.props, omitProps));
-    }
-  }]);
-
-  return GuardedButton;
-}(Component);
-
-var _class$b, _class2$8;
-
-var NestedFieldSet = autoBindMethods(_class$b = observer(_class$b = (_class2$8 =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(NestedFieldSet, _Component);
-
-  function NestedFieldSet() {
-    _classCallCheck(this, NestedFieldSet);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(NestedFieldSet).apply(this, arguments));
-  }
-
-  _createClass(NestedFieldSet, [{
-    key: "fieldValueMapper",
-    value: function fieldValueMapper(fieldConfig) {
-      var id = this.props.id;
-      return _objectSpread({}, fieldConfig, {
-        field: "".concat(id, ".").concat(fieldConfig.field)
-      }, this.getDefaultValue(fieldConfig));
-    }
-  }, {
-    key: "getDefaultValue",
-    value: function getDefaultValue(fieldConfig) {
-      /*
-      This function implements the fieldConfig features
-      populateFromSearch and populateNameFromSearch
-      */
-      var search = this.props.search,
-          _splitName = splitName(search),
-          _splitName2 = _slicedToArray(_splitName, 2),
-          firstName = _splitName2[0],
-          lastName = _splitName2[1];
-
-      if (!search) {
-        return {};
-      }
-
-      var field = fieldConfig.field,
-          populateFromSearch = fieldConfig.populateFromSearch,
-          populateNameFromSearch = fieldConfig.populateNameFromSearch;
-
-      if (populateFromSearch) {
-        return {
-          value: search
-        };
-      }
-
-      if (populateNameFromSearch && field.endsWith('first_name')) {
-        return {
-          value: firstName
-        };
-      }
-
-      if (populateNameFromSearch && field.endsWith('last_name')) {
-        return {
-          value: lastName
-        };
-      } // Keep add new form from populating with model data
-
-
-      return {
-        value: ''
-      };
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return React.createElement(FormFieldSet, {
-        fieldSet: this.fieldSet,
-        formManager: this.props.formManager
-      });
-    }
-  }, {
-    key: "fieldSet",
-    get: function get() {
-      var fieldSet = this.props.fieldSet;
-      return mapFieldSetFields(fillInFieldSet(fieldSet), this.fieldValueMapper);
-    }
-  }]);
-
-  return NestedFieldSet;
-}(Component), (_applyDecoratedDescriptor(_class2$8.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$8.prototype, "fieldSet"), _class2$8.prototype)), _class2$8)) || _class$b) || _class$b;
-
-var _class$c, _class2$9;
-
-var CardFieldSet = observer(_class$c = (_class2$9 =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(CardFieldSet, _Component);
-
-  function CardFieldSet() {
-    _classCallCheck(this, CardFieldSet);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(CardFieldSet).apply(this, arguments));
-  }
-
-  _createClass(CardFieldSet, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          model = _this$props.model,
-          fieldSet = _this$props.fieldSet,
-          idx = this.props.idx || 0,
-          fieldConfigs = getFieldSetFields(this.fieldSet),
-          filteredFieldConfigs = fieldConfigs.filter(function (fieldConfig) {
-        return !filterInsertIf(fieldConfig, model);
-      });
-
-      if (!filteredFieldConfigs.length) {
-        return null;
-      }
-
-      return React.createElement(Fragment, {
-        key: idx
-      }, idx > 0 && React.createElement(Divider, {
-        key: "divider-".concat(idx)
-      }), React.createElement(Legend, {
-        fieldSet: fieldSet
-      }), filteredFieldConfigs.map(function (fieldConfig) {
-        return React.createElement(CardField, {
-          fieldConfig: fieldConfig,
-          key: fieldConfig.field,
-          model: model
-        });
-      }));
-    }
-  }, {
-    key: "fieldSet",
-    get: function get() {
-      return fillInFieldSet(this.props.fieldSet);
-    }
-  }]);
-
-  return CardFieldSet;
-}(Component), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldSet"), _class2$9.prototype)), _class2$9)) || _class$c;
-
-var _class$d, _class2$a;
-
-var Card = autoBindMethods(_class$d = observer(_class$d = (_class2$a =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(Card, _Component);
-
-  function Card() {
-    _classCallCheck(this, Card);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(Card).apply(this, arguments));
-  }
-
-  _createClass(Card, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          title = _this$props.title,
-          renderTopRight = _this$props.renderTopRight,
-          isLoading = _this$props.isLoading,
-          model = _this$props.model;
-      return React.createElement(Card$1, {
-        title: title,
-        extra: renderTopRight && renderTopRight(),
-        loading: isLoading
-      }, this.fieldSets.map(function (fieldSet, idx) {
-        return React.createElement(CardFieldSet, {
-          fieldSet: fieldSet,
-          idx: idx,
-          key: idx,
-          model: model
-        });
-      }), this.props.children);
-    }
-  }, {
-    key: "fieldSets",
-    get: function get() {
-      return fillInFieldSets(this.props.fieldSets);
-    }
-  }]);
-
-  return Card;
-}(Component), (_applyDecoratedDescriptor(_class2$a.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$a.prototype, "fieldSets"), _class2$a.prototype)), _class2$a)) || _class$d) || _class$d;
-
-var _class$e;
-
-var ArrayCard = autoBindMethods(_class$e = observer(_class$e =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(ArrayCard, _Component);
-
-  function ArrayCard() {
-    _classCallCheck(this, ArrayCard);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(ArrayCard).apply(this, arguments));
-  }
-
-  _createClass(ArrayCard, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          title = _this$props.title,
-          renderTopRight = _this$props.renderTopRight,
-          isLoading = _this$props.isLoading,
-          model = _this$props.model,
-          fieldSets = _this$props.fieldSets,
-          classNameSuffix = _this$props.classNameSuffix;
-      return React.createElement(Card$1, {
-        title: title,
-        extra: renderTopRight && renderTopRight(),
-        loading: isLoading
-      }, isEmpty(model) && React.createElement("p", {
-        className: "empty-message"
-      }, "No records"), model.map(function (modelItem) {
-        return React.createElement(Card, {
-          classNameSuffix: classNameSuffix,
-          fieldSets: fieldSets,
-          key: modelItem.id,
-          model: modelItem,
-          title: ""
-        });
-      }));
-    }
-  }]);
-
-  return ArrayCard;
-}(Component)) || _class$e) || _class$e;
-
-var formPropsDefaults = {
-  onSave: asyncNoop,
-  onSuccess: asyncNoop,
-  saveText: 'Save'
-};
 
 /*!
  * Determine if an object is a Buffer
@@ -36339,14 +35804,14 @@ function backendValidation(fieldNames, response) {
   };
 }
 
-var _class$f, _class2$b, _descriptor$3, _temp$4;
+var _class$8, _class2$6, _descriptor$3, _temp$4;
 var toastError = {
   description: '',
   duration: null,
   message: 'Error submitting form'
 };
 
-var FormManager = autoBindMethods(_class$f = (_class2$b = (_temp$4 =
+var FormManager = autoBindMethods(_class$8 = (_class2$6 = (_temp$4 =
 /*#__PURE__*/
 function () {
   function FormManager(formWrappedInstance, fieldSets, args) {
@@ -36366,6 +35831,7 @@ function () {
       processErrors: function processErrors(errors) {
         return errors;
       },
+      resetOnSuccess: true,
       successText: 'Success'
     }, pickBy(args, function (value) {
       return value !== undefined;
@@ -36541,7 +36007,11 @@ function () {
 
               case 8:
                 this.onSuccess();
-                this.form.resetFields();
+
+                if (this.args.resetOnSuccess) {
+                  this.form.resetFields();
+                }
+
                 _context.next = 15;
                 break;
 
@@ -36632,7 +36102,7 @@ function () {
           formValues = this.formValues;
       this.fieldConfigs.forEach(function (fieldConfig) {
         var isInForm = has(formValues, fieldConfig.field),
-            value = isInForm ? _this.getFormValue(fieldConfig, formValues) : _this.getDefaultValue(fieldConfig);
+            value = isInForm ? _this.getFormValue(fieldConfig, formValues) : fieldConfig.fromForm(_this.getDefaultValue(fieldConfig), fieldConfig);
         set(formModel, fieldConfig.field, value);
       }); // We always include ids of models on submit
 
@@ -36664,14 +36134,579 @@ function () {
   }]);
 
   return FormManager;
-}(), _temp$4), (_descriptor$3 = _applyDecoratedDescriptor(_class2$b.prototype, "saving", [observable], {
+}(), _temp$4), (_descriptor$3 = _applyDecoratedDescriptor(_class2$6.prototype, "saving", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return false;
   }
-})), _class2$b)) || _class$f;
+})), _class2$6)) || _class$8;
+
+var CARD_COL_LABEL = 8;
+var CARD_COL_VALUE = 16;
+
+var Info = function Info(props) {
+  return React.createElement(Row, _extends({}, props, {
+    className: classnames(props.className, 'info')
+  }), props.children);
+};
+
+var Label = function Label(props) {
+  return React.createElement(Col, {
+    span: CARD_COL_LABEL,
+    className: classnames(props.className, 'col-label')
+  }, props.children);
+};
+
+var Value = function Value(props) {
+  return React.createElement(Col, {
+    span: CARD_COL_VALUE,
+    className: classnames(props.className, 'col-value')
+  }, props.children);
+};
+
+var _class$9;
+var CardField = (_class$9 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(CardField, _Component);
+
+  function CardField() {
+    _classCallCheck(this, CardField);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(CardField).apply(this, arguments));
+  }
+
+  _createClass(CardField, [{
+    key: "render",
+    value: function render() {
+      var model = this.props.model,
+          fieldConfig = this.fieldConfig,
+          field = fieldConfig.field,
+          showLabel = fieldConfig.showLabel,
+          renderWithoutStructure = !showLabel;
+
+      if (filterFieldConfig(fieldConfig, {
+        model: model,
+        writeOnly: true
+      })) {
+        return null;
+      }
+
+      return React.createElement(Info, {
+        key: field
+      }, renderWithoutStructure ? renderValue(fieldConfig, model) : React.createElement(React.Fragment, null, React.createElement(Label, null, renderLabel(fieldConfig)), React.createElement(Value, null, renderValue(fieldConfig, model))));
+    }
+  }, {
+    key: "fieldConfig",
+    get: function get() {
+      return fillInFieldConfig(this.props.fieldConfig);
+    }
+  }]);
+
+  return CardField;
+}(Component), (_applyDecoratedDescriptor(_class$9.prototype, "fieldConfig", [computed], Object.getOwnPropertyDescriptor(_class$9.prototype, "fieldConfig"), _class$9.prototype)), _class$9);
+
+var _class$a, _class2$7;
+
+var FormField = autoBindMethods(_class$a = observer(_class$a = (_class2$7 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(FormField, _Component);
+
+  function FormField() {
+    _classCallCheck(this, FormField);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(FormField).apply(this, arguments));
+  }
+
+  _createClass(FormField, [{
+    key: "fieldsValidatorToValidator",
+    value: function fieldsValidatorToValidator(fieldsValidator, message) {
+      var _this = this;
+
+      // This returns a valid rc-form validator.
+      // It would be enforced by typing, but their validation interface is basically just anys
+      return function (_rule, _value, callback) {
+        var formManager = _this.props.formManager,
+            model = formManager.formModel,
+            value = get(model, _this.fieldConfig.field),
+            valid = fieldsValidator(value, _this.fieldConfig, model);
+
+        if (valid) {
+          callback();
+        } else {
+          callback(message || 'Validation error');
+        }
+      };
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (!this.shouldRender) {
+        return null;
+      }
+
+      var formManager = this.props.formManager,
+          fieldConfig = this.fieldConfig,
+          className = fieldConfig.className,
+          colProps = fieldConfig.colProps,
+          formItemProps = fieldConfig.formItemProps,
+          field = fieldConfig.field,
+          skipFieldDecorator = fieldConfig.skipFieldDecorator,
+          getFieldDecorator = formManager.form.getFieldDecorator;
+      var decoratorOptionsProp = skipFieldDecorator ? {
+        decoratorOptions: this.decoratorOptions
+      } : {},
+          editComponent = React.createElement(fieldConfig.editComponent, _extends({}, this.editProps, decoratorOptionsProp)),
+          wrappedComponent = skipFieldDecorator ? editComponent : getFieldDecorator(field, this.decoratorOptions)(editComponent),
+          FormItemComponent = React.createElement(Form$1.Item, _extends({
+        className: className
+      }, formItemProps, {
+        label: renderLabel(fieldConfig)
+      }), wrappedComponent);
+
+      if (colProps) {
+        return React.createElement(Col, _extends({}, colProps, {
+          children: FormItemComponent
+        }));
+      }
+
+      return FormItemComponent;
+    }
+  }, {
+    key: "fieldConfig",
+    get: function get() {
+      return fillInFieldConfig(this.props.fieldConfig);
+    }
+  }, {
+    key: "initialValue",
+    get: function get() {
+      var formManager = this.props.formManager;
+      return formManager.getDefaultValue(this.fieldConfig);
+    }
+  }, {
+    key: "editProps",
+    get: function get() {
+      var formManager = this.props.formManager,
+          fieldConfig = this.fieldConfig,
+          fieldConfigProp = fieldConfig.fieldConfigProp ? {
+        fieldConfig: fieldConfig,
+        formManager: formManager
+      } : {};
+      return _objectSpread({}, fieldConfig.editProps, fieldConfigProp, {
+        form: formManager.form
+      });
+    }
+  }, {
+    key: "rules",
+    get: function get() {
+      var _this2 = this;
+
+      // Here we take the { [key: string]: formValidationRules } object
+      // found in fieldConfig.formValidationRules and return a valid list
+      // of rules for rc-form
+      return values(this.fieldConfig.formValidationRules).map(function (validationRule) {
+        // Our own proprietary ( much more sane and powerful ) validation attribute
+        // is converted here to the rc-form style validator
+        if (validationRule.fieldsValidator) {
+          return _objectSpread({
+            validator: _this2.fieldsValidatorToValidator(validationRule.fieldsValidator, validationRule.message)
+          }, omit(validationRule, 'fieldsValidator'));
+        } // However, all default rc-form validators will still work as expected
+
+
+        return validationRule;
+      });
+    }
+  }, {
+    key: "decoratorOptions",
+    get: function get() {
+      return {
+        initialValue: this.initialValue,
+        rules: this.rules
+      };
+    }
+  }, {
+    key: "shouldRender",
+    get: function get() {
+      var formModel = this.props.formModel;
+      return !filterFieldConfig(this.fieldConfig, {
+        model: formModel,
+        readOnly: true
+      });
+    }
+  }]);
+
+  return FormField;
+}(Component), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldConfig", [computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldConfig"), _class2$7.prototype)), _class2$7)) || _class$a) || _class$a;
+
+var Legend =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Legend, _Component);
+
+  function Legend() {
+    _classCallCheck(this, Legend);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Legend).apply(this, arguments));
+  }
+
+  _createClass(Legend, [{
+    key: "render",
+    value: function render() {
+      var fieldSet = this.props.fieldSet;
+
+      if (isPartialFieldSetSimple(fieldSet)) {
+        return null;
+      }
+
+      var legend = fieldSet.legend,
+          tooltip = fieldSet.tooltip;
+
+      if (!legend) {
+        return null;
+      }
+
+      return React.createElement("h3", null, React.createElement(WithTooltip, {
+        tooltip: tooltip
+      }, legend));
+    }
+  }]);
+
+  return Legend;
+}(Component);
+
+var _class$b, _class2$8;
+
+var FormFieldSet = autoBindMethods(_class$b = observer(_class$b = (_class2$8 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(FormFieldSet, _Component);
+
+  function FormFieldSet() {
+    _classCallCheck(this, FormFieldSet);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(FormFieldSet).apply(this, arguments));
+  }
+
+  _createClass(FormFieldSet, [{
+    key: "render",
+    value: function render() {
+      var _this = this;
+
+      var formModel = this.props.formModel,
+          fieldConfigs = getFieldSetFields(this.fieldSet),
+          filteredFieldConfigs = filterFieldConfigs(fieldConfigs, {
+        model: formModel,
+        readOnly: true
+      }),
+          rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps;
+
+      if (!filteredFieldConfigs.length) {
+        return null;
+      }
+
+      return React.createElement(React.Fragment, null, React.createElement(Legend, {
+        fieldSet: this.fieldSet
+      }), React.createElement(Row, rowProps, filteredFieldConfigs.map(function (fieldConfig, idx) {
+        return React.createElement(FormField, _extends({}, _this.props, {
+          fieldConfig: fieldConfig,
+          key: "field-config-".concat(fieldConfig.field, "-").concat(idx)
+        }));
+      })));
+    }
+  }, {
+    key: "fieldSet",
+    get: function get() {
+      return fillInFieldSet(this.props.fieldSet);
+    }
+  }]);
+
+  return FormFieldSet;
+}(Component), (_applyDecoratedDescriptor(_class2$8.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$8.prototype, "fieldSet"), _class2$8.prototype)), _class2$8)) || _class$b) || _class$b;
+
+var GuardedButton =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(GuardedButton, _Component);
+
+  function GuardedButton(props) {
+    var _this;
+
+    _classCallCheck(this, GuardedButton);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(GuardedButton).call(this, props));
+    _this.guardedContainer = void 0;
+    var isGuarded = _this.props.isGuarded,
+        disabledComponent = createDisabledContainer(Button);
+    _this.guardedContainer = createGuardedContainer({
+      disabledComponent: disabledComponent,
+      enabledComponent: Button,
+      isGuarded: isGuarded
+    });
+    return _this;
+  }
+
+  _createClass(GuardedButton, [{
+    key: "render",
+    value: function render() {
+      var GuardedContainer = this.guardedContainer,
+          omitProps = ['isGuarded'];
+
+      if (this.props.confirm) {
+        omitProps.push('confirm');
+        omitProps.push('onClick');
+        return React.createElement(Popconfirm, {
+          title: "Are you sure?",
+          onConfirm: this.props.onClick
+        }, React.createElement(GuardedContainer, omit(this.props, omitProps)));
+      }
+
+      return React.createElement(GuardedContainer, omit(this.props, omitProps));
+    }
+  }]);
+
+  return GuardedButton;
+}(Component);
+
+var _class$c, _class2$9;
+
+var NestedFieldSet = autoBindMethods(_class$c = observer(_class$c = (_class2$9 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(NestedFieldSet, _Component);
+
+  function NestedFieldSet() {
+    _classCallCheck(this, NestedFieldSet);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(NestedFieldSet).apply(this, arguments));
+  }
+
+  _createClass(NestedFieldSet, [{
+    key: "fieldValueMapper",
+    value: function fieldValueMapper(fieldConfig) {
+      var id = this.props.id;
+      return _objectSpread({}, fieldConfig, {
+        field: "".concat(id, ".").concat(fieldConfig.field)
+      }, this.getDefaultValue(fieldConfig));
+    }
+  }, {
+    key: "getDefaultValue",
+    value: function getDefaultValue(fieldConfig) {
+      /*
+      This function implements the fieldConfig features
+      populateFromSearch and populateNameFromSearch
+      */
+      var search = this.props.search,
+          _splitName = splitName(search),
+          _splitName2 = _slicedToArray(_splitName, 2),
+          firstName = _splitName2[0],
+          lastName = _splitName2[1];
+
+      if (!search) {
+        return {};
+      }
+
+      var field = fieldConfig.field,
+          populateFromSearch = fieldConfig.populateFromSearch,
+          populateNameFromSearch = fieldConfig.populateNameFromSearch;
+
+      if (populateFromSearch) {
+        return {
+          value: search
+        };
+      }
+
+      if (populateNameFromSearch && field.endsWith('first_name')) {
+        return {
+          value: firstName
+        };
+      }
+
+      if (populateNameFromSearch && field.endsWith('last_name')) {
+        return {
+          value: lastName
+        };
+      } // Keep add new form from populating with model data
+
+
+      return {
+        value: ''
+      };
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return React.createElement(FormFieldSet, {
+        fieldSet: this.fieldSet,
+        formManager: this.props.formManager,
+        formModel: this.props.formModel
+      });
+    }
+  }, {
+    key: "fieldSet",
+    get: function get() {
+      var fieldSet = this.props.fieldSet;
+      return mapFieldSetFields(fillInFieldSet(fieldSet), this.fieldValueMapper);
+    }
+  }]);
+
+  return NestedFieldSet;
+}(Component), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldSet"), _class2$9.prototype)), _class2$9)) || _class$c) || _class$c;
+
+var _class$d, _class2$a;
+
+var CardFieldSet = observer(_class$d = (_class2$a =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(CardFieldSet, _Component);
+
+  function CardFieldSet() {
+    _classCallCheck(this, CardFieldSet);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(CardFieldSet).apply(this, arguments));
+  }
+
+  _createClass(CardFieldSet, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          model = _this$props.model,
+          fieldSet = _this$props.fieldSet,
+          idx = this.props.idx || 0,
+          fieldConfigs = getFieldSetFields(this.fieldSet),
+          filteredFieldConfigs = filterFieldConfigs(fieldConfigs, {
+        model: model,
+        writeOnly: true
+      });
+
+      if (!filteredFieldConfigs.length) {
+        return null;
+      }
+
+      return React.createElement(Fragment, {
+        key: idx
+      }, idx > 0 && React.createElement(Divider, {
+        key: "divider-".concat(idx)
+      }), React.createElement(Legend, {
+        fieldSet: fieldSet
+      }), filteredFieldConfigs.map(function (fieldConfig) {
+        return React.createElement(CardField, {
+          fieldConfig: fieldConfig,
+          key: fieldConfig.field,
+          model: model
+        });
+      }));
+    }
+  }, {
+    key: "fieldSet",
+    get: function get() {
+      return fillInFieldSet(this.props.fieldSet);
+    }
+  }]);
+
+  return CardFieldSet;
+}(Component), (_applyDecoratedDescriptor(_class2$a.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$a.prototype, "fieldSet"), _class2$a.prototype)), _class2$a)) || _class$d;
+
+var _class$e, _class2$b;
+
+var Card = autoBindMethods(_class$e = observer(_class$e = (_class2$b =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Card, _Component);
+
+  function Card() {
+    _classCallCheck(this, Card);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Card).apply(this, arguments));
+  }
+
+  _createClass(Card, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          title = _this$props.title,
+          renderTopRight = _this$props.renderTopRight,
+          isLoading = _this$props.isLoading,
+          model = _this$props.model,
+          filteredFieldSets = filterFieldSets(this.fieldSets, {
+        model: model,
+        writeOnly: true
+      });
+      return React.createElement(Card$1, {
+        title: title,
+        extra: renderTopRight && renderTopRight(),
+        loading: isLoading
+      }, filteredFieldSets.map(function (fieldSet, idx) {
+        return React.createElement(CardFieldSet, {
+          fieldSet: fieldSet,
+          idx: idx,
+          key: idx,
+          model: model
+        });
+      }), this.props.children);
+    }
+  }, {
+    key: "fieldSets",
+    get: function get() {
+      return fillInFieldSets(this.props.fieldSets);
+    }
+  }]);
+
+  return Card;
+}(Component), (_applyDecoratedDescriptor(_class2$b.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$b.prototype, "fieldSets"), _class2$b.prototype)), _class2$b)) || _class$e) || _class$e;
+
+var _class$f;
+
+var ArrayCard = autoBindMethods(_class$f = observer(_class$f =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ArrayCard, _Component);
+
+  function ArrayCard() {
+    _classCallCheck(this, ArrayCard);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ArrayCard).apply(this, arguments));
+  }
+
+  _createClass(ArrayCard, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          title = _this$props.title,
+          renderTopRight = _this$props.renderTopRight,
+          isLoading = _this$props.isLoading,
+          model = _this$props.model,
+          fieldSets = _this$props.fieldSets,
+          classNameSuffix = _this$props.classNameSuffix;
+      return React.createElement(Card$1, {
+        title: title,
+        extra: renderTopRight && renderTopRight(),
+        loading: isLoading
+      }, isEmpty(model) && React.createElement("p", {
+        className: "empty-message"
+      }, "No records"), model.map(function (modelItem) {
+        return React.createElement(Card, {
+          classNameSuffix: classNameSuffix,
+          fieldSets: fieldSets,
+          key: modelItem.id,
+          model: modelItem,
+          title: ""
+        });
+      }));
+    }
+  }]);
+
+  return ArrayCard;
+}(Component)) || _class$f) || _class$f;
+
+var formPropsDefaults = {
+  onSave: asyncNoop,
+  onSuccess: asyncNoop,
+  saveText: 'Save'
+};
 
 var _class$g, _class2$c, _temp$5, _class4, _class5, _temp2;
 var UnwrappedForm = autoBindMethods(_class$g = observer(_class$g = (_class2$c = (_temp$5 =
@@ -36690,6 +36725,7 @@ function (_Component) {
         model = props.model,
         onSave = props.onSave,
         processErrors = props.processErrors,
+        resetOnSuccess = props.resetOnSuccess,
         setRefFormManager = props.setRefFormManager,
         successText = props.successText;
     _this.formManager = new FormManager(_assertThisInitialized(_this), _this.fieldSets, {
@@ -36698,6 +36734,7 @@ function (_Component) {
       onSave: onSave,
       onSuccess: _this.onSuccess,
       processErrors: processErrors,
+      resetOnSuccess: resetOnSuccess,
       successText: successText
     });
 
@@ -36760,19 +36797,24 @@ function (_Component) {
 
       var _this$props3 = this.props,
           showControls = _this$props3.showControls,
-          title = _this$props3.title;
+          title = _this$props3.title,
+          formModel = this.formManager.formModel,
+          filteredFieldSets = filterFieldSets(this.fieldSets, {
+        model: formModel
+      });
       return React.createElement(Form$1, {
         layout: "vertical",
         onSubmit: this.formManager.onSave,
         className: "mfa-form"
-      }, title && React.createElement("h2", null, title), this.fieldSets.map(function (fieldSet, idx) {
+      }, title && React.createElement("h2", null, title), filteredFieldSets.map(function (fieldSet, idx) {
         return React.createElement(Fragment, {
           key: idx
         }, idx > 0 && React.createElement(Divider, {
           key: "divider-".concat(idx)
         }), React.createElement("div", null, React.createElement(FormFieldSet, {
           fieldSet: fieldSet,
-          formManager: _this2.formManager
+          formManager: _this2.formManager,
+          formModel: formModel
         })));
       }), this.props.children, showControls && this.renderControls());
     }
@@ -37402,4 +37444,4 @@ function (_Component) {
 
 // Lower-level building blocks and helper components
 
-export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormManager, FormModal, GuardedButton, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, asyncNoop, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterInsertIf, formPropsDefaults, formatOptionSelect, formatRating, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, renderLabel, renderValue };
+export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormManager, FormModal, GuardedButton, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, asyncNoop, backendValidation, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatOptionSelect, formatRating, getDateFormatList, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, renderLabel, renderValue, setFieldSetFields };

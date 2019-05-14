@@ -9,40 +9,40 @@ export interface IValidationRule extends AntValidationRule {
     fieldsValidator?: IFieldsValidator;
 }
 interface IFieldConfigBase {
-    field: string;
-    type: string;
     className?: string;
-    label: string | null;
-    nullify: boolean;
-    render: (value: IValue, fieldConfig: IFieldConfig, model: IModel) => React.ReactNode;
-    showLabel: boolean;
-    tooltip?: string;
-    value?: string | number;
-    insertIf?: (model: any) => boolean;
-    readOnly: boolean;
-    writeOnly: boolean;
+    colProps?: ColProps;
     disabled: boolean;
     editComponent: any;
     editProps: {
         [key: string]: any;
     };
+    field: string;
+    fieldConfigProp: boolean;
     formItemProps?: {
         [key: string]: any;
     };
-    fromForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
-    icon?: string;
-    required: boolean;
-    toForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
     formValidationRules: {
         [ruleName: string]: IValidationRule;
     };
-    tableColumnProps?: Partial<ColumnProps<IModel>>;
+    fromForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
+    icon?: string;
+    insertIf?: (model: any) => boolean;
+    key: string;
+    label: string | null;
+    nullify: boolean;
     populateFromSearch: boolean;
     populateNameFromSearch: boolean;
-    colProps?: ColProps;
-    fieldConfigProp: boolean;
-    key: string;
+    readOnly: boolean;
+    render: (value: IValue, fieldConfig: IFieldConfig, model: IModel) => React.ReactNode;
+    required: boolean;
+    showLabel: boolean;
     skipFieldDecorator: boolean;
+    tableColumnProps?: Partial<ColumnProps<IModel>>;
+    toForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
+    tooltip?: string;
+    type: string;
+    value?: string | number;
+    writeOnly: boolean;
 }
 export interface IAntFormField {
     id: string;

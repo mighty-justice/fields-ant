@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import FormManager from '../utilities/FormManager';
+import { FormManager } from '../utilities';
 import { ISharedFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
 export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
     setRefFormManager?: (formManager: FormManager) => void;
