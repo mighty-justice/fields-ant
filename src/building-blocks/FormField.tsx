@@ -39,7 +39,6 @@ class FormField extends Component<IFormFieldProps> {
     return {
       ...fieldConfig.editProps,
       ...fieldConfigProp,
-      form: formManager.form,
     };
   }
 
