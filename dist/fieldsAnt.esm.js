@@ -36295,9 +36295,7 @@ function (_Component) {
         fieldConfig: fieldConfig,
         formManager: formManager
       } : {};
-      return _objectSpread({}, fieldConfig.editProps, fieldConfigProp, {
-        form: formManager.form
-      });
+      return _objectSpread({}, fieldConfig.editProps, fieldConfigProp);
     }
   }, {
     key: "rules",
