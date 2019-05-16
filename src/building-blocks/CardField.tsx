@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { computed } from 'mobx';
+import { observer } from 'mobx-react';
+import autoBindMethods from 'class-autobind-decorator';
 
 import { fillInFieldConfig, filterFieldConfig, renderLabel, renderValue } from '../utilities';
 import { IFieldConfigPartial } from '../interfaces';
@@ -12,6 +14,8 @@ export interface ICardFieldProps {
   model?: IModel;
 }
 
+@autoBindMethods
+@observer
 class CardField extends Component<ICardFieldProps> {
   @computed
   private get fieldConfig () {

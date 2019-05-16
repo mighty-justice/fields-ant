@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
+import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 
 import * as Antd from 'antd';
@@ -8,6 +10,8 @@ import {
   createGuardedContainer,
 } from '@mighty-justice/utils';
 
+@autoBindMethods
+@observer
 class GuardedButton extends Component<any> {
   public guardedContainer: React.ComponentClass;
 

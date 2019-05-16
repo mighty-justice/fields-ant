@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
@@ -12,6 +13,7 @@ export interface IButtonToolbarProps {
 }
 
 @autoBindMethods
+@observer
 class ButtonToolbar extends Component<IButtonToolbarProps> {
   public render () {
     const className = cx(
