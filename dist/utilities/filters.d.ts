@@ -9,13 +9,13 @@ export declare function filterFieldConfig(fieldConfig: IFieldConfig, filterCondi
 export declare function filterFieldConfigs(fieldConfigs: IFieldConfig[], filterConditions: IFilterConditions): IFieldConfig[];
 export declare function filterFieldSet(fieldSet: IFieldSet, filterConditions: IFilterConditions): IFieldConfig[] | {
     fields: IFieldConfig[];
-    legend: string;
+    legend?: string | undefined;
     rowProps?: import("antd/lib/grid").RowProps | undefined;
     tooltip?: string | undefined;
 };
 export declare function filterFieldSets(fieldSets: IFieldSet[], filterConditions: IFilterConditions): (IFieldConfig[] | {
     fields: IFieldConfig[];
-    legend: string;
+    legend?: string | undefined;
     rowProps?: import("antd/lib/grid").RowProps | undefined;
     tooltip?: string | undefined;
 })[];

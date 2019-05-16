@@ -73,7 +73,7 @@ export declare type IFieldConfig = IFieldConfigBase | IFieldConfigObjectSearchCr
 export declare type IFieldSetSimple = IFieldConfig[];
 export interface IFieldSetComplex {
     fields: IFieldSetSimple;
-    legend: string;
+    legend?: string;
     rowProps?: RowProps;
     tooltip?: string;
 }
@@ -85,7 +85,7 @@ export declare type IFieldSetSimplePartial = IFieldConfigPartial[];
 export declare type IFieldSetPartial = IFieldSetSimplePartial | IFieldSetComplexPartial;
 export interface IFieldSetComplexPartial {
     fields: IFieldSetSimplePartial;
-    legend: string;
+    legend?: string;
     rowProps?: RowProps;
     tooltip?: string;
 }

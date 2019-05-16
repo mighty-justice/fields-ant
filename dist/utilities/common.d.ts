@@ -9,7 +9,7 @@ declare type IMapper = (fields: IFieldConfigPartial) => IFieldConfigPartial;
 export declare function mapFieldSetFields(fieldSet: IFieldSetPartial, mapper: IMapper): IFieldSetPartial;
 export declare function setFieldSetFields(fieldSet: IFieldSet, fields: IFieldConfig[]): IFieldConfig[] | {
     fields: IFieldConfig[];
-    legend: string;
+    legend?: string | undefined;
     rowProps?: import("antd/lib/grid").RowProps | undefined;
     tooltip?: string | undefined;
 };

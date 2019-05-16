@@ -6,10 +6,10 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var React = require('react');
 var React__default = _interopDefault(React);
+var mobxReact = require('mobx-react');
 var Antd = require('antd');
 var mobx = require('mobx');
 var lodash = require('lodash');
-var mobxReact = require('mobx-react');
 var util = _interopDefault(require('util'));
 var events = _interopDefault(require('events'));
 var moment$1 = _interopDefault(require('moment'));
@@ -636,7 +636,7 @@ var classnames = createCommonjsModule(function (module) {
 
 var _class;
 
-var ButtonToolbar = autoBindMethods(_class =
+var ButtonToolbar = autoBindMethods(_class = mobxReact.observer(_class =
 /*#__PURE__*/
 function (_Component) {
   _inherits(ButtonToolbar, _Component);
@@ -660,7 +660,7 @@ function (_Component) {
   }]);
 
   return ButtonToolbar;
-}(React.Component)) || _class;
+}(React.Component)) || _class) || _class;
 
 var DEFAULT_DEBOUNCE_WAIT = 300;
 var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
@@ -28782,7 +28782,9 @@ function (_Component) {
   }
 })), _class2$2)) || _class$3) || _class$3;
 
-var WithTooltip =
+var _class$4;
+
+var WithTooltip = autoBindMethods(_class$4 = mobxReact.observer(_class$4 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(WithTooltip, _Component);
@@ -28813,7 +28815,7 @@ function (_Component) {
   }]);
 
   return WithTooltip;
-}(React.Component);
+}(React.Component)) || _class$4) || _class$4;
 
 var MILLISECONDS_IN_MINUTE$7 = 60000;
 
@@ -34543,7 +34545,7 @@ var lib_2$1 = lib$1.parse;
 var lib_3$1 = lib$1.end;
 var lib_4$1 = lib$1.toSeconds;
 
-var _class$4, _temp$3;
+var _class$5, _temp$3;
 var inputConfig = {
   day: {
     placeholder: 'DD',
@@ -34568,7 +34570,7 @@ var inputConfig = {
 },
     INPUT_ORDER = ['month', 'day', 'year'];
 
-var Date$1 = autoBindMethods(_class$4 = mobxReact.observer(_class$4 = (_temp$3 =
+var Date$1 = autoBindMethods(_class$5 = mobxReact.observer(_class$5 = (_temp$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Date, _Component);
@@ -34687,12 +34689,12 @@ function (_Component) {
   }]);
 
   return Date;
-}(React.Component), _temp$3)) || _class$4) || _class$4;
+}(React.Component), _temp$3)) || _class$5) || _class$5;
 
-var _dec$1, _class$5, _class2$3;
+var _dec$1, _class$6, _class2$3;
 // 8 is the most number of options you can show with no scroll
 var SHOW_OPTION_SEARCH_IF_OVER = 8;
-var OptionSelect = (_dec$1 = mobxReact.inject('getOptions'), _dec$1(_class$5 = (_class2$3 =
+var OptionSelect = (_dec$1 = mobxReact.inject('getOptions'), _dec$1(_class$6 = autoBindMethods(_class$6 = mobxReact.observer(_class$6 = (_class2$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(OptionSelect, _Component);
@@ -34746,10 +34748,10 @@ function (_Component) {
   }]);
 
   return OptionSelect;
-}(React.Component), (_applyDecoratedDescriptor(_class2$3.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$3.prototype, "options"), _class2$3.prototype)), _class2$3)) || _class$5);
+}(React.Component), (_applyDecoratedDescriptor(_class2$3.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$3.prototype, "options"), _class2$3.prototype)), _class2$3)) || _class$6) || _class$6) || _class$6);
 
-var _dec$2, _class$6, _class2$4;
-var RadioGroup = (_dec$2 = mobxReact.inject('getOptions'), _dec$2(_class$6 = autoBindMethods(_class$6 = mobxReact.observer(_class$6 = (_class2$4 =
+var _dec$2, _class$7, _class2$4;
+var RadioGroup = (_dec$2 = mobxReact.inject('getOptions'), _dec$2(_class$7 = autoBindMethods(_class$7 = mobxReact.observer(_class$7 = (_class2$4 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(RadioGroup, _Component);
@@ -34788,8 +34790,9 @@ function (_Component) {
   }]);
 
   return RadioGroup;
-}(React.Component), (_applyDecoratedDescriptor(_class2$4.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$4.prototype, "options"), _class2$4.prototype)), _class2$4)) || _class$6) || _class$6) || _class$6);
+}(React.Component), (_applyDecoratedDescriptor(_class2$4.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$4.prototype, "options"), _class2$4.prototype)), _class2$4)) || _class$7) || _class$7) || _class$7);
 
+var _class$8;
 function formatRating(value) {
   return value ? React__default.createElement(Antd.Rate, {
     disabled: true,
@@ -34797,7 +34800,7 @@ function formatRating(value) {
   }) : EMPTY_FIELD;
 }
 
-var Rate =
+var Rate = autoBindMethods(_class$8 = mobxReact.observer(_class$8 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Rate, _Component);
@@ -34823,10 +34826,10 @@ function (_Component) {
   }]);
 
   return Rate;
-}(React.Component);
+}(React.Component)) || _class$8) || _class$8;
 
-var _dec$3, _class$7, _class2$5;
-var OptionSelectDisplay = (_dec$3 = mobxReact.inject('getOptions'), _dec$3(_class$7 = autoBindMethods(_class$7 = mobxReact.observer(_class$7 = (_class2$5 =
+var _dec$3, _class$9, _class2$5;
+var OptionSelectDisplay = (_dec$3 = mobxReact.inject('getOptions'), _dec$3(_class$9 = autoBindMethods(_class$9 = mobxReact.observer(_class$9 = (_class2$5 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(OptionSelectDisplay, _Component);
@@ -34869,7 +34872,7 @@ function (_Component) {
   }]);
 
   return OptionSelectDisplay;
-}(React.Component), (_applyDecoratedDescriptor(_class2$5.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "options"), _class2$5.prototype)), _class2$5)) || _class$7) || _class$7) || _class$7);
+}(React.Component), (_applyDecoratedDescriptor(_class2$5.prototype, "options", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "options"), _class2$5.prototype)), _class2$5)) || _class$9) || _class$9) || _class$9);
 function formatOptionSelect(value, fieldConfig) {
   if (lodash.isArray(value)) {
     if (value.length > 1) {
@@ -35811,14 +35814,14 @@ function backendValidation(fieldNames, response) {
   };
 }
 
-var _class$8, _class2$6, _descriptor$3, _temp$4;
+var _class$a, _class2$6, _descriptor$3, _temp$4;
 var toastError = {
   description: '',
   duration: null,
   message: 'Error submitting form'
 };
 
-var FormManager = autoBindMethods(_class$8 = (_class2$6 = (_temp$4 =
+var FormManager = autoBindMethods(_class$a = (_class2$6 = (_temp$4 =
 /*#__PURE__*/
 function () {
   function FormManager(formWrappedInstance, fieldSets, args) {
@@ -36148,33 +36151,86 @@ function () {
   initializer: function initializer() {
     return false;
   }
-})), _class2$6)) || _class$8;
+})), _class2$6)) || _class$a;
 
+var _class$b, _class2$7, _class3$1;
 var CARD_COL_LABEL = 8;
 var CARD_COL_VALUE = 16;
 
-var Info = function Info(props) {
-  return React__default.createElement(Antd.Row, _extends({}, props, {
-    className: classnames(props.className, 'info')
-  }), props.children);
-};
+var Info = autoBindMethods(_class$b = mobxReact.observer(_class$b =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Info, _Component);
 
-var Label = function Label(props) {
-  return React__default.createElement(Antd.Col, {
-    span: CARD_COL_LABEL,
-    className: classnames(props.className, 'col-label')
-  }, props.children);
-};
+  function Info() {
+    _classCallCheck(this, Info);
 
-var Value = function Value(props) {
-  return React__default.createElement(Antd.Col, {
-    span: CARD_COL_VALUE,
-    className: classnames(props.className, 'col-value')
-  }, props.children);
-};
+    return _possibleConstructorReturn(this, _getPrototypeOf(Info).apply(this, arguments));
+  }
 
-var _class$9;
-var CardField = (_class$9 =
+  _createClass(Info, [{
+    key: "render",
+    value: function render() {
+      return React__default.createElement(Antd.Row, _extends({}, this.props, {
+        className: classnames(this.props.className, 'info')
+      }), this.props.children);
+    }
+  }]);
+
+  return Info;
+}(React.Component)) || _class$b) || _class$b;
+
+var Label = autoBindMethods(_class2$7 = mobxReact.observer(_class2$7 =
+/*#__PURE__*/
+function (_Component2) {
+  _inherits(Label, _Component2);
+
+  function Label() {
+    _classCallCheck(this, Label);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Label).apply(this, arguments));
+  }
+
+  _createClass(Label, [{
+    key: "render",
+    value: function render() {
+      return React__default.createElement(Antd.Col, {
+        className: classnames(this.props.className, 'col-label'),
+        span: CARD_COL_LABEL
+      }, this.props.children);
+    }
+  }]);
+
+  return Label;
+}(React.Component)) || _class2$7) || _class2$7;
+
+var Value = autoBindMethods(_class3$1 = mobxReact.observer(_class3$1 =
+/*#__PURE__*/
+function (_Component3) {
+  _inherits(Value, _Component3);
+
+  function Value() {
+    _classCallCheck(this, Value);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Value).apply(this, arguments));
+  }
+
+  _createClass(Value, [{
+    key: "render",
+    value: function render() {
+      return React__default.createElement(Antd.Col, {
+        className: classnames(this.props.className, 'col-value'),
+        span: CARD_COL_VALUE
+      }, this.props.children);
+    }
+  }]);
+
+  return Value;
+}(React.Component)) || _class3$1) || _class3$1;
+
+var _class$c, _class2$8;
+
+var CardField = autoBindMethods(_class$c = mobxReact.observer(_class$c = (_class2$8 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(CardField, _Component);
@@ -36213,11 +36269,11 @@ function (_Component) {
   }]);
 
   return CardField;
-}(React.Component), (_applyDecoratedDescriptor(_class$9.prototype, "fieldConfig", [mobx.computed], Object.getOwnPropertyDescriptor(_class$9.prototype, "fieldConfig"), _class$9.prototype)), _class$9);
+}(React.Component), (_applyDecoratedDescriptor(_class2$8.prototype, "fieldConfig", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$8.prototype, "fieldConfig"), _class2$8.prototype)), _class2$8)) || _class$c) || _class$c;
 
-var _class$a, _class2$7;
+var _class$d, _class2$9;
 
-var FormField = autoBindMethods(_class$a = mobxReact.observer(_class$a = (_class2$7 =
+var FormField = autoBindMethods(_class$d = mobxReact.observer(_class$d = (_class2$9 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormField, _Component);
@@ -36345,9 +36401,11 @@ function (_Component) {
   }]);
 
   return FormField;
-}(React.Component), (_applyDecoratedDescriptor(_class2$7.prototype, "fieldConfig", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$7.prototype, "fieldConfig"), _class2$7.prototype)), _class2$7)) || _class$a) || _class$a;
+}(React.Component), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldConfig", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldConfig"), _class2$9.prototype)), _class2$9)) || _class$d) || _class$d;
 
-var Legend =
+var _class$e;
+
+var Legend = autoBindMethods(_class$e = mobxReact.observer(_class$e =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Legend, _Component);
@@ -36381,11 +36439,11 @@ function (_Component) {
   }]);
 
   return Legend;
-}(React.Component);
+}(React.Component)) || _class$e) || _class$e;
 
-var _class$b, _class2$8;
+var _class$f, _class2$a;
 
-var FormFieldSet = autoBindMethods(_class$b = mobxReact.observer(_class$b = (_class2$8 =
+var FormFieldSet = autoBindMethods(_class$f = mobxReact.observer(_class$f = (_class2$a =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormFieldSet, _Component);
@@ -36430,9 +36488,11 @@ function (_Component) {
   }]);
 
   return FormFieldSet;
-}(React.Component), (_applyDecoratedDescriptor(_class2$8.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$8.prototype, "fieldSet"), _class2$8.prototype)), _class2$8)) || _class$b) || _class$b;
+}(React.Component), (_applyDecoratedDescriptor(_class2$a.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$a.prototype, "fieldSet"), _class2$a.prototype)), _class2$a)) || _class$f) || _class$f;
 
-var GuardedButton =
+var _class$g, _temp$5;
+
+var GuardedButton = autoBindMethods(_class$g = mobxReact.observer(_class$g = (_temp$5 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(GuardedButton, _Component);
@@ -36474,11 +36534,11 @@ function (_Component) {
   }]);
 
   return GuardedButton;
-}(React.Component);
+}(React.Component), _temp$5)) || _class$g) || _class$g;
 
-var _class$c, _class2$9;
+var _class$h, _class2$b;
 
-var NestedFieldSet = autoBindMethods(_class$c = mobxReact.observer(_class$c = (_class2$9 =
+var NestedFieldSet = autoBindMethods(_class$h = mobxReact.observer(_class$h = (_class2$b =
 /*#__PURE__*/
 function (_Component) {
   _inherits(NestedFieldSet, _Component);
@@ -36559,11 +36619,11 @@ function (_Component) {
   }]);
 
   return NestedFieldSet;
-}(React.Component), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldSet"), _class2$9.prototype)), _class2$9)) || _class$c) || _class$c;
+}(React.Component), (_applyDecoratedDescriptor(_class2$b.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$b.prototype, "fieldSet"), _class2$b.prototype)), _class2$b)) || _class$h) || _class$h;
 
-var _class$d, _class2$a;
+var _class$i, _class2$c;
 
-var CardFieldSet = mobxReact.observer(_class$d = (_class2$a =
+var CardFieldSet = autoBindMethods(_class$i = mobxReact.observer(_class$i = (_class2$c =
 /*#__PURE__*/
 function (_Component) {
   _inherits(CardFieldSet, _Component);
@@ -36613,11 +36673,11 @@ function (_Component) {
   }]);
 
   return CardFieldSet;
-}(React.Component), (_applyDecoratedDescriptor(_class2$a.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$a.prototype, "fieldSet"), _class2$a.prototype)), _class2$a)) || _class$d;
+}(React.Component), (_applyDecoratedDescriptor(_class2$c.prototype, "fieldSet", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$c.prototype, "fieldSet"), _class2$c.prototype)), _class2$c)) || _class$i) || _class$i;
 
-var _class$e, _class2$b;
+var _class$j, _class2$d;
 
-var Card = autoBindMethods(_class$e = mobxReact.observer(_class$e = (_class2$b =
+var Card = autoBindMethods(_class$j = mobxReact.observer(_class$j = (_class2$d =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Card, _Component);
@@ -36661,11 +36721,11 @@ function (_Component) {
   }]);
 
   return Card;
-}(React.Component), (_applyDecoratedDescriptor(_class2$b.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$b.prototype, "fieldSets"), _class2$b.prototype)), _class2$b)) || _class$e) || _class$e;
+}(React.Component), (_applyDecoratedDescriptor(_class2$d.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$d.prototype, "fieldSets"), _class2$d.prototype)), _class2$d)) || _class$j) || _class$j;
 
-var _class$f;
+var _class$k;
 
-var ArrayCard = autoBindMethods(_class$f = mobxReact.observer(_class$f =
+var ArrayCard = autoBindMethods(_class$k = mobxReact.observer(_class$k =
 /*#__PURE__*/
 function (_Component) {
   _inherits(ArrayCard, _Component);
@@ -36705,7 +36765,7 @@ function (_Component) {
   }]);
 
   return ArrayCard;
-}(React.Component)) || _class$f) || _class$f;
+}(React.Component)) || _class$k) || _class$k;
 
 var formPropsDefaults = {
   onSave: asyncNoop,
@@ -36713,8 +36773,8 @@ var formPropsDefaults = {
   saveText: 'Save'
 };
 
-var _class$g, _class2$c, _temp$5, _class4, _class5, _temp2;
-var UnwrappedForm = autoBindMethods(_class$g = mobxReact.observer(_class$g = (_class2$c = (_temp$5 =
+var _class$l, _class2$e, _temp$6, _class4, _class5, _temp2;
+var UnwrappedForm = autoBindMethods(_class$l = mobxReact.observer(_class$l = (_class2$e = (_temp$6 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(UnwrappedForm, _Component);
@@ -36831,7 +36891,7 @@ function (_Component) {
   }]);
 
   return UnwrappedForm;
-}(React.Component), _temp$5), (_applyDecoratedDescriptor(_class2$c.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$c.prototype, "fieldSets"), _class2$c.prototype)), _class2$c)) || _class$g) || _class$g; // istanbul ignore next
+}(React.Component), _temp$6), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$l) || _class$l; // istanbul ignore next
 
 var WrappedForm = Antd.Form.create()(UnwrappedForm);
 var Form = autoBindMethods(_class4 = mobxReact.observer(_class4 = (_temp2 = _class5 =
@@ -36857,8 +36917,8 @@ function (_Component2) {
   showControls: true
 }), _temp2)) || _class4) || _class4;
 
-var _class$h, _class2$d, _temp$6;
-var FormCard = autoBindMethods(_class$h = mobxReact.observer(_class$h = (_temp$6 = _class2$d =
+var _class$m, _class2$f, _temp$7;
+var FormCard = autoBindMethods(_class$m = mobxReact.observer(_class$m = (_temp$7 = _class2$f =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormCard, _Component);
@@ -36886,11 +36946,11 @@ function (_Component) {
   }]);
 
   return FormCard;
-}(React.Component), _class2$d.defaultProps = _objectSpread({}, formPropsDefaults), _temp$6)) || _class$h) || _class$h;
+}(React.Component), _class2$f.defaultProps = _objectSpread({}, formPropsDefaults), _temp$7)) || _class$m) || _class$m;
 
-var _class$i, _class2$e, _descriptor$4, _descriptor2$2, _class3$1, _temp$7;
+var _class$n, _class2$g, _descriptor$4, _descriptor2$2, _class3$2, _temp$8;
 
-var EditableCard = autoBindMethods(_class$i = mobxReact.observer(_class$i = (_class2$e = (_temp$7 = _class3$1 =
+var EditableCard = autoBindMethods(_class$n = mobxReact.observer(_class$n = (_class2$g = (_temp$8 = _class3$2 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableCard, _Component);
@@ -37064,25 +37124,25 @@ function (_Component) {
   }]);
 
   return EditableCard;
-}(React.Component), _class3$1.defaultProps = _objectSpread({}, formPropsDefaults), _temp$7), (_descriptor$4 = _applyDecoratedDescriptor(_class2$e.prototype, "isDeleting", [mobx.observable], {
+}(React.Component), _class3$2.defaultProps = _objectSpread({}, formPropsDefaults), _temp$8), (_descriptor$4 = _applyDecoratedDescriptor(_class2$g.prototype, "isDeleting", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return new SmartBool();
   }
-}), _descriptor2$2 = _applyDecoratedDescriptor(_class2$e.prototype, "isEditing", [mobx.observable], {
+}), _descriptor2$2 = _applyDecoratedDescriptor(_class2$g.prototype, "isEditing", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return new SmartBool();
   }
-})), _class2$e)) || _class$i) || _class$i;
+})), _class2$g)) || _class$n) || _class$n;
 
-var _class$j, _class2$f, _descriptor$5, _class3$2, _temp$8;
+var _class$o, _class2$h, _descriptor$5, _class3$3, _temp$9;
 
-var EditableArrayCard = autoBindMethods(_class$j = mobxReact.observer(_class$j = (_class2$f = (_temp$8 = _class3$2 =
+var EditableArrayCard = autoBindMethods(_class$o = mobxReact.observer(_class$o = (_class2$h = (_temp$9 = _class3$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableArrayCard, _Component);
@@ -37197,18 +37257,18 @@ function (_Component) {
   }]);
 
   return EditableArrayCard;
-}(React.Component), _class3$2.defaultProps = _objectSpread({}, formPropsDefaults), _temp$8), (_descriptor$5 = _applyDecoratedDescriptor(_class2$f.prototype, "isAddingNew", [mobx.observable], {
+}(React.Component), _class3$3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$9), (_descriptor$5 = _applyDecoratedDescriptor(_class2$h.prototype, "isAddingNew", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return new SmartBool();
   }
-})), _class2$f)) || _class$j) || _class$j;
+})), _class2$h)) || _class$o) || _class$o;
 
-var _class$k, _class2$g, _temp$9;
+var _class$p, _class2$i, _temp$a;
 
-var FormDrawer = autoBindMethods(_class$k = mobxReact.observer(_class$k = (_temp$9 = _class2$g =
+var FormDrawer = autoBindMethods(_class$p = mobxReact.observer(_class$p = (_temp$a = _class2$i =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormDrawer, _Component);
@@ -37255,11 +37315,11 @@ function (_Component) {
   }]);
 
   return FormDrawer;
-}(React.Component), _class2$g.defaultProps = _objectSpread({}, formPropsDefaults), _temp$9)) || _class$k) || _class$k;
+}(React.Component), _class2$i.defaultProps = _objectSpread({}, formPropsDefaults), _temp$a)) || _class$p) || _class$p;
 
-var _class$l, _class2$h, _descriptor$6, _class3$3, _temp$a;
+var _class$q, _class2$j, _descriptor$6, _class3$4, _temp$b;
 
-var FormModal = autoBindMethods(_class$l = mobxReact.observer(_class$l = (_class2$h = (_temp$a = _class3$3 =
+var FormModal = autoBindMethods(_class$q = mobxReact.observer(_class$q = (_class2$j = (_temp$b = _class3$4 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormModal, _Component);
@@ -37325,16 +37385,16 @@ function (_Component) {
   }]);
 
   return FormModal;
-}(React.Component), _class3$3.defaultProps = _objectSpread({}, formPropsDefaults), _temp$a), (_descriptor$6 = _applyDecoratedDescriptor(_class2$h.prototype, "formManager", [mobx.observable], {
+}(React.Component), _class3$4.defaultProps = _objectSpread({}, formPropsDefaults), _temp$b), (_descriptor$6 = _applyDecoratedDescriptor(_class2$j.prototype, "formManager", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: null
-})), _class2$h)) || _class$l) || _class$l;
+})), _class2$j)) || _class$q) || _class$q;
 
-var _class$m, _class2$i, _class3$4, _temp$b;
+var _class$r, _class2$k, _class3$5, _temp$c;
 
-var SummaryCard = autoBindMethods(_class$m = mobxReact.observer(_class$m = (_class2$i = (_temp$b = _class3$4 =
+var SummaryCard = autoBindMethods(_class$r = mobxReact.observer(_class$r = (_class2$k = (_temp$c = _class3$5 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(SummaryCard, _Component);
@@ -37393,13 +37453,13 @@ function (_Component) {
   }]);
 
   return SummaryCard;
-}(React.Component), _class3$4.defaultProps = {
+}(React.Component), _class3$5.defaultProps = {
   column: 4
-}, _temp$b), (_applyDecoratedDescriptor(_class2$i.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$i.prototype, "fieldSets"), _class2$i.prototype)), _class2$i)) || _class$m) || _class$m;
+}, _temp$c), (_applyDecoratedDescriptor(_class2$k.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$k.prototype, "fieldSets"), _class2$k.prototype)), _class2$k)) || _class$r) || _class$r;
 
-var _class$n, _class2$j;
+var _class$s, _class2$l;
 
-var Table = autoBindMethods(_class$n = mobxReact.observer(_class$n = (_class2$j =
+var Table = autoBindMethods(_class$s = mobxReact.observer(_class$s = (_class2$l =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Table, _Component);
@@ -37445,7 +37505,7 @@ function (_Component) {
   }]);
 
   return Table;
-}(React.Component), (_applyDecoratedDescriptor(_class2$j.prototype, "columns", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$j.prototype, "columns"), _class2$j.prototype), _applyDecoratedDescriptor(_class2$j.prototype, "dataSource", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$j.prototype, "dataSource"), _class2$j.prototype)), _class2$j)) || _class$n) || _class$n;
+}(React.Component), (_applyDecoratedDescriptor(_class2$l.prototype, "columns", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "columns"), _class2$l.prototype), _applyDecoratedDescriptor(_class2$l.prototype, "dataSource", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "dataSource"), _class2$l.prototype)), _class2$l)) || _class$s) || _class$s;
 
 // Lower-level building blocks and helper components
 
