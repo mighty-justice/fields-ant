@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { computed } from 'mobx';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { isBoolean } from 'lodash';
+import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
@@ -25,6 +26,8 @@ export interface IOptionSelectProps {
 export const SHOW_OPTION_SEARCH_IF_OVER = 8;
 
 @inject('getOptions')
+@autoBindMethods
+@observer
 class OptionSelect extends Component<IOptionSelectProps> {
   private get injected () {
     return this.props as IOptionSelectProps & IInjected & IInputProps & IAntFormField;

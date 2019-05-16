@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
+import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
@@ -22,6 +23,7 @@ export interface ICardFieldSetProps {
   model?: IModel;
 }
 
+@autoBindMethods
 @observer
 class CardFieldSet extends Component<ICardFieldSetProps> {
   @computed

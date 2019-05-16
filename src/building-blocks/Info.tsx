@@ -1,23 +1,58 @@
-import React from 'react';
+// tslint:disable max-classes-per-file
+import React, { Component } from 'react';
+import { observer } from 'mobx-react';
+import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
 import * as Antd from 'antd';
 
 const CARD_COL_LABEL = 8;
-
 const CARD_COL_VALUE = 16;
 
-const Info = (props: any) => (
-  <Antd.Row {...props} className={cx(props.className, 'info')}>{props.children}</Antd.Row>
-);
+@autoBindMethods
+@observer
+class Info extends Component<any> {
+  public render () {
+    return (
+      <Antd.Row
+        {...this.props}
+        className={cx(this.props.className, 'info')}
+      >
+        {this.props.children}
+      </Antd.Row>
+    );
+  }
+}
 
-const Label = (props: any) => (
-  <Antd.Col span={CARD_COL_LABEL} className={cx(props.className, 'col-label')}>{props.children}</Antd.Col>
-);
+@autoBindMethods
+@observer
+class Label extends Component<any> {
+  public render () {
+    return (
+      <Antd.Col
+        className={cx(this.props.className, 'col-label')}
+        span={CARD_COL_LABEL}
+      >
+        {this.props.children}
+      </Antd.Col>
+    );
+  }
+}
 
-const Value = (props: any) => (
-  <Antd.Col span={CARD_COL_VALUE} className={cx(props.className, 'col-value')}>{props.children}</Antd.Col>
-);
+@autoBindMethods
+@observer
+class Value extends Component<any> {
+  public render () {
+    return (
+      <Antd.Col
+        className={cx(this.props.className, 'col-value')}
+        span={CARD_COL_VALUE}
+      >
+        {this.props.children}
+      </Antd.Col>
+    );
+  }
+}
 
 export default Info;
 
