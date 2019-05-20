@@ -38,5 +38,6 @@ describe('EditableCard', () => {
     tester.click(`button.btn-delete`);
     tester.click('.btn-delete .ant-popover-inner .ant-btn-primary');
     expect(onDelete).toHaveBeenCalled();
+    await tester.refresh();
   });
 });

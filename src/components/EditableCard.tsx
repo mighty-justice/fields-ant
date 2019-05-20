@@ -34,16 +34,20 @@ class EditableCard extends Component<IEditableCardProps> {
     if (!onDelete) { return; }
 
     this.isDeleting.set(true);
-    await onDelete(model);
-    await onSuccess();
-    this.isDeleting.set(false);
+    try {
+      await onDelete(model);
+      if (onSuccess) { onSuccess(); }
+    }
+    finally {
+      this.isDeleting.set(false);
+    }
   }
 
   private async handleSave (model: any) {
     const { onSuccess, onSave } = this.props;
 
     await onSave(model);
-    await onSuccess();
+    if (onSuccess) { onSuccess(); }
   }
 
   private get deleteButton () {

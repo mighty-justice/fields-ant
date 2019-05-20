@@ -33,7 +33,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
   private async handleSaveNew (model: any) {
     const { onCreate, onSuccess } = this.props;
     await onCreate(model);
-    await onSuccess();
+    if (onSuccess) { onSuccess(); }
   }
 
   private renderAddNew () {

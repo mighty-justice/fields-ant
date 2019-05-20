@@ -64,7 +64,7 @@ export interface ISharedFormProps {
   isGuarded?: boolean;
   onCancel?: () => void;
   onSave: (data: object) => any | Promise<any>;
-  onSuccess: () => any | Promise<any>;
+  onSuccess?: () => any | Promise<any>;
   processErrors?: (errors: IBackendValidation) => IBackendValidation;
   resetOnSuccess?: boolean;
   saveText: string;
