@@ -8,22 +8,30 @@ import * as Antd from 'antd';
 
 import { FormManager } from '../utilities';
 import { formPropsDefaults } from '../propsDefaults';
-import { ISharedFormProps, ISharedComponentProps } from '../props';
+import { ISharedFormModalProps } from '../props';
 
 import Form from './Form';
 
-export interface IFormModalProps extends ISharedComponentProps, ISharedFormProps {
-  childrenBefore?: React.ReactNode;
-}
-
 @autoBindMethods
 @observer
-class FormModal extends Component<IFormModalProps> {
+class FormModal extends Component<ISharedFormModalProps> {
   @observable private formManager?: FormManager;
 
-  public static defaultProps: Partial<IFormModalProps> = {
+  public static defaultProps: Partial<ISharedFormModalProps> = {
     ...formPropsDefaults,
   };
+
+  private onCancel () {
+    const { onCancel, isVisible } = this.props;
+    if (onCancel) { onCancel(); }
+    if (isVisible && !onCancel) { isVisible.setFalse(); }
+  }
+
+  private onSuccess () {
+    const { onSuccess, isVisible } = this.props;
+    if (onSuccess) { onSuccess(); }
+    if (isVisible && !onSuccess) { isVisible.setFalse(); }
+  }
 
   private get modalProps () {
     const { saveText } = this.props;
@@ -48,20 +56,23 @@ class FormModal extends Component<IFormModalProps> {
   }
 
   public render () {
-    const { title, onCancel } = this.props
-      , HANDLED_PROPS = ['title', 'children', 'childrenBefore'];
+    const { isVisible, title, width } = this.props
+      , HANDLED_PROPS = ['title', 'isVisible', 'children', 'childrenBefore'];
 
     return (
       <Antd.Modal
-        onCancel={onCancel}
+        onCancel={this.onCancel}
         title={title}
-        visible
+        visible={isVisible ? isVisible.isTrue : true}
+        width={width}
         {...this.modalProps}
       >
         {this.props.childrenBefore}
 
         <Form
           {...omit(this.props, HANDLED_PROPS)}
+          onCancel={this.onCancel}
+          onSuccess={this.onSuccess}
           setRefFormManager={this.setRefFormManager}
           showControls={false}
         />
