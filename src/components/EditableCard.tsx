@@ -36,7 +36,7 @@ class EditableCard extends Component<IEditableCardProps> {
     this.isDeleting.set(true);
     try {
       await onDelete(model);
-      if (onSuccess) { onSuccess(); }
+      if (onSuccess) { await onSuccess(); }
     }
     finally {
       this.isDeleting.set(false);
@@ -47,7 +47,7 @@ class EditableCard extends Component<IEditableCardProps> {
     const { onSuccess, onSave } = this.props;
 
     await onSave(model);
-    if (onSuccess) { onSuccess(); }
+    if (onSuccess) { await onSuccess(); }
   }
 
   private get deleteButton () {
