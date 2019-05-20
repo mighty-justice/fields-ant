@@ -27,9 +27,9 @@ class FormModal extends Component<ISharedFormModalProps> {
     if (isVisible && !onCancel) { isVisible.setFalse(); }
   }
 
-  private onSuccess () {
+  private async onSuccess () {
     const { onSuccess, isVisible } = this.props;
-    if (onSuccess) { onSuccess(); }
+    if (onSuccess) { await onSuccess(); }
     if (isVisible && !onSuccess) { isVisible.setFalse(); }
   }
 

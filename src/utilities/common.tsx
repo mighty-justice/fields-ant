@@ -31,9 +31,6 @@ import WithTooltip from '../building-blocks/WithTooltip';
 import { fillInFieldConfig, fillInFieldSets } from './fillIn';
 import { filterFieldConfig } from './filters';
 
-// istanbul ignore next
-export async function asyncNoop () { return; }
-
 export function isPartialFieldSetSimple (fieldSet: IFieldSetPartial): fieldSet is IFieldSetSimplePartial {
   return isArray(fieldSet);
 }

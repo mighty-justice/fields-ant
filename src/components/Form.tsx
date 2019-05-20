@@ -61,9 +61,9 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
     }
   }
 
-  private onSuccess () {
+  private async onSuccess () {
     const { onSuccess } = this.props;
-    if (onSuccess) { onSuccess(); }
+    if (onSuccess) { await onSuccess(); }
   }
 
   @computed
