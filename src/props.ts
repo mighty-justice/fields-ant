@@ -20,8 +20,6 @@ export { ICardProps } from './components/Card';
 export { IEditableArrayCardProps } from './components/EditableArrayCard';
 export { IEditableCardProps } from './components/EditableCard';
 export { IFormCardProps } from './components/FormCard';
-export { IFormDrawerProps } from './components/FormDrawer';
-export { IFormModalProps } from './components/FormModal';
 export { IFormProps } from './components/Form';
 export { ISummaryCardProps } from './components/SummaryCard';
 
@@ -34,6 +32,8 @@ export { IOptionSelectProps } from './inputs/OptionSelect';
 // This allows us to keep the library consistent and uniform
 
 import { IFieldSet, IFieldSetPartial } from './interfaces';
+import SmartBool from '@mighty-justice/smart-bool';
+import React from 'react';
 
 export type IClassName = any;
 export type IForm = any;
@@ -69,4 +69,10 @@ export interface ISharedFormProps {
   resetOnSuccess?: boolean;
   saveText: string;
   successText?: null | string;
+}
+
+export interface ISharedFormModalProps extends ISharedComponentProps, ISharedFormProps {
+  childrenBefore?: React.ReactNode;
+  isVisible?: SmartBool;
+  width?: number | string;
 }

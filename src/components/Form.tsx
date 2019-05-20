@@ -62,9 +62,8 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   }
 
   private onSuccess () {
-    const { onSuccess, onCancel } = this.props;
+    const { onSuccess } = this.props;
     if (onSuccess) { onSuccess(); }
-    if (onCancel) { onCancel(); }
   }
 
   @computed
