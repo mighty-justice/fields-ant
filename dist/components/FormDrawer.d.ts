@@ -1,14 +1,9 @@
 import { Component } from 'react';
-import SmartBool from '@mighty-justice/smart-bool';
-import { ISharedFormProps, ISharedComponentProps } from '../props';
-export interface IFormDrawerProps extends ISharedComponentProps, ISharedFormProps {
-    isVisible: SmartBool;
-    onCancel: () => void;
-    width?: number | string;
-}
-declare class FormDrawer extends Component<IFormDrawerProps> {
-    static defaultProps: Partial<IFormDrawerProps>;
+import { ISharedFormModalProps } from '../props';
+declare class FormDrawer extends Component<ISharedFormModalProps> {
+    static defaultProps: Partial<ISharedFormModalProps>;
     private onCancel;
+    private onSuccess;
     render(): JSX.Element;
 }
 export default FormDrawer;

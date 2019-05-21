@@ -1,7 +1,10 @@
 import { Component } from 'react';
-import { ISharedFormProps } from '../props';
+import { ISharedFormModalProps, ISharedFormProps } from '../props';
 import { ICardProps } from './Card';
+import FormDrawer from './FormDrawer';
+import FormModal from './FormModal';
 export interface IEditableCardProps extends ICardProps, ISharedFormProps {
+    ModalComponent: new (props: ISharedFormModalProps) => FormModal | FormDrawer;
     onDelete?: (model: unknown) => Promise<any>;
 }
 declare class EditableCard extends Component<IEditableCardProps> {

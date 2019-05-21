@@ -1,6 +1,6 @@
-import { asyncNoop } from './utilities';
+declare function asyncNoop(): Promise<void>;
 export declare const formPropsDefaults: {
     onSave: typeof asyncNoop;
-    onSuccess: typeof asyncNoop;
     saveText: string;
 };
+export {};

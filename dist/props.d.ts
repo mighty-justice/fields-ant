@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { IBackendValidation } from './utilities/FormManager';
 export { IButtonToolbarProps } from './building-blocks/ButtonToolbar';
 export { ICardFieldProps } from './building-blocks/CardField';
@@ -11,14 +10,14 @@ export { ICardProps } from './components/Card';
 export { IEditableArrayCardProps } from './components/EditableArrayCard';
 export { IEditableCardProps } from './components/EditableCard';
 export { IFormCardProps } from './components/FormCard';
-export { IFormDrawerProps } from './components/FormDrawer';
-export { IFormModalProps } from './components/FormModal';
 export { IFormProps } from './components/Form';
 export { ISummaryCardProps } from './components/SummaryCard';
 export { IObjectSearchCreateProps } from './inputs/ObjectSearchCreate';
 export { IOptionSelectDisplayProps } from './inputs/OptionSelectDisplay';
 export { IOptionSelectProps } from './inputs/OptionSelect';
 import { IFieldSet, IFieldSetPartial } from './interfaces';
+import SmartBool from '@mighty-justice/smart-bool';
+import React from 'react';
 export declare type IClassName = any;
 export declare type IForm = any;
 export declare type IValue = any;
@@ -44,9 +43,14 @@ export interface ISharedFormProps {
     isGuarded?: boolean;
     onCancel?: () => void;
     onSave: (data: object) => any | Promise<any>;
-    onSuccess: () => any | Promise<any>;
+    onSuccess?: () => any | Promise<any>;
     processErrors?: (errors: IBackendValidation) => IBackendValidation;
     resetOnSuccess?: boolean;
     saveText: string;
     successText?: null | string;
+}
+export interface ISharedFormModalProps extends ISharedComponentProps, ISharedFormProps {
+    childrenBefore?: React.ReactNode;
+    isVisible?: SmartBool;
+    width?: number | string;
 }
