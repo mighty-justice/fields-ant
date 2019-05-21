@@ -9,12 +9,15 @@ import SmartBool from '@mighty-justice/smart-bool';
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import GuardedButton from '../building-blocks/GuardedButton';
 import { formPropsDefaults } from '../propsDefaults';
-import { ISharedFormProps } from '../props';
+import { ISharedFormModalProps, ISharedFormProps } from '../props';
 
 import Card, { ICardProps } from './Card';
 import FormCard from './FormCard';
+import FormDrawer from './FormDrawer';
+import FormModal from './FormModal';
 
 export interface IEditableCardProps extends ICardProps, ISharedFormProps {
+  ModalComponent: new (props: ISharedFormModalProps) => FormModal | FormDrawer;
   onDelete?: (model: unknown) => Promise<any>;
 }
 
@@ -101,7 +104,9 @@ class EditableCard extends Component<IEditableCardProps> {
   }
 
   public render () {
-    if (this.isEditing.isTrue) {
+    const { ModalComponent } = this.props;
+
+    if (this.isEditing.isTrue && !ModalComponent) {
       return (
         <FormCard
           {...this.props}
@@ -112,7 +117,18 @@ class EditableCard extends Component<IEditableCardProps> {
       );
     }
 
-    return <Card {...this.props} renderTopRight={this.buttons} />;
+    return (
+      <>
+        {ModalComponent && (
+          <ModalComponent
+            {...this.props}
+            isVisible={this.isEditing}
+            onSave={this.handleSave}
+          />
+        )}
+        <Card {...this.props} renderTopRight={this.buttons} />
+      </>
+    );
   }
 }
 
