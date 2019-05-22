@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { observer, inject } from 'mobx-react';
-import { Form as Form$1, Select, Icon, Button, Tooltip, Input, Radio, Rate as Rate$1, DatePicker, notification, Row, Col, Popconfirm, Divider, Card as Card$1, Drawer, Modal, List, Table as Table$1 } from 'antd';
+import { Form as Form$1, Select, Icon, Button, Tooltip, Input, Radio, Rate as Rate$1, DatePicker, notification, Row, Col, Popconfirm, Divider, Card as Card$1, Modal, Drawer, List, Table as Table$1 } from 'antd';
 import { observable, computed, toJS } from 'mobx';
 import { has, result, get, isString, isNumber, times as times$2, isBoolean, escape, startCase, sortBy, map as map$1, reject, debounce, omit, pick, isArray, flatten as flatten$1, isObject as isObject$2, set, isPlainObject, extend, mapValues, noop, pickBy, values, isEmpty, kebabCase } from 'lodash';
 import util from 'util';
@@ -37302,108 +37302,9 @@ function (_Component) {
   }
 })), _class2$h)) || _class$o) || _class$o;
 
-var _class$p, _class2$i, _temp$a;
+var _class$p, _class2$i, _descriptor$6, _class3$4, _temp$a;
 
-var FormDrawer = autoBindMethods(_class$p = observer(_class$p = (_temp$a = _class2$i =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(FormDrawer, _Component);
-
-  function FormDrawer() {
-    _classCallCheck(this, FormDrawer);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(FormDrawer).apply(this, arguments));
-  }
-
-  _createClass(FormDrawer, [{
-    key: "onCancel",
-    value: function onCancel() {
-      var _this$props = this.props,
-          onCancel = _this$props.onCancel,
-          isVisible = _this$props.isVisible;
-
-      if (onCancel) {
-        onCancel();
-      }
-
-      if (isVisible && !onCancel) {
-        isVisible.setFalse();
-      }
-    }
-  }, {
-    key: "onSuccess",
-    value: function () {
-      var _onSuccess = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        var _this$props2, onSuccess, isVisible;
-
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _this$props2 = this.props, onSuccess = _this$props2.onSuccess, isVisible = _this$props2.isVisible;
-
-                if (!onSuccess) {
-                  _context.next = 4;
-                  break;
-                }
-
-                _context.next = 4;
-                return onSuccess();
-
-              case 4:
-                if (isVisible && !onSuccess) {
-                  isVisible.setFalse();
-                }
-
-              case 5:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function onSuccess() {
-        return _onSuccess.apply(this, arguments);
-      }
-
-      return onSuccess;
-    }()
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$props3 = this.props,
-          className = _this$props3.className,
-          isVisible = _this$props3.isVisible,
-          title = _this$props3.title,
-          width = _this$props3.width,
-          drawerClassName = classnames('mfa-form-drawer', className || null),
-          HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
-      return React.createElement(Drawer, {
-        className: drawerClassName,
-        closable: true,
-        destroyOnClose: true,
-        maskClosable: false,
-        onClose: this.onCancel,
-        placement: "right",
-        title: title,
-        visible: isVisible ? isVisible.isTrue : true,
-        width: width || '600px'
-      }, this.props.childrenBefore, React.createElement(Form, _extends({}, omit(this.props, HANDLED_PROPS), {
-        onCancel: this.onCancel,
-        onSuccess: this.onSuccess
-      })));
-    }
-  }]);
-
-  return FormDrawer;
-}(Component), _class2$i.defaultProps = _objectSpread({}, formPropsDefaults), _temp$a)) || _class$p) || _class$p;
-
-var _class$q, _class2$j, _descriptor$6, _class3$4, _temp$b;
-
-var FormModal = autoBindMethods(_class$q = observer(_class$q = (_class2$j = (_temp$b = _class3$4 =
+var FormModal = autoBindMethods(_class$p = observer(_class$p = (_class2$i = (_temp$a = _class3$4 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormModal, _Component);
@@ -37491,21 +37392,36 @@ function (_Component) {
     key: "render",
     value: function render() {
       var _this$props3 = this.props,
-          isVisible = _this$props3.isVisible,
           title = _this$props3.title,
-          width = _this$props3.width,
-          HANDLED_PROPS = ['title', 'isVisible', 'children', 'childrenBefore'];
+          width = _this$props3.width;
+
+      if (!this.isVisible) {
+        return null;
+      }
+
       return React.createElement(Modal, _extends({
         onCancel: this.onCancel,
         title: title,
-        visible: isVisible ? isVisible.isTrue : true,
+        visible: true,
         width: width
-      }, this.modalProps), this.props.childrenBefore, React.createElement(Form, _extends({}, omit(this.props, HANDLED_PROPS), {
+      }, this.modalProps), this.props.childrenBefore, React.createElement(Form, _extends({}, this.formProps, {
         onCancel: this.onCancel,
         onSuccess: this.onSuccess,
         setRefFormManager: this.setRefFormManager,
         showControls: false
-      })), this.props.children);
+      })));
+    }
+  }, {
+    key: "isVisible",
+    get: function get() {
+      var isVisible = this.props.isVisible;
+      return isVisible ? isVisible.isTrue : true;
+    }
+  }, {
+    key: "formProps",
+    get: function get() {
+      var HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
+      return omit(this.props, HANDLED_PROPS);
     }
   }, {
     key: "modalProps",
@@ -37529,16 +37445,62 @@ function (_Component) {
   }]);
 
   return FormModal;
-}(Component), _class3$4.defaultProps = _objectSpread({}, formPropsDefaults), _temp$b), (_descriptor$6 = _applyDecoratedDescriptor(_class2$j.prototype, "formManager", [observable], {
+}(Component), _class3$4.defaultProps = _objectSpread({}, formPropsDefaults), _temp$a), (_descriptor$6 = _applyDecoratedDescriptor(_class2$i.prototype, "formManager", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: null
-})), _class2$j)) || _class$q) || _class$q;
+})), _class2$i)) || _class$p) || _class$p;
 
-var _class$r, _class2$k, _class3$5, _temp$c;
+var _class$q;
 
-var SummaryCard = autoBindMethods(_class$r = observer(_class$r = (_class2$k = (_temp$c = _class3$5 =
+var FormDrawer = autoBindMethods(_class$q = observer(_class$q =
+/*#__PURE__*/
+function (_FormModal) {
+  _inherits(FormDrawer, _FormModal);
+
+  function FormDrawer() {
+    _classCallCheck(this, FormDrawer);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(FormDrawer).apply(this, arguments));
+  }
+
+  _createClass(FormDrawer, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          className = _this$props.className,
+          title = _this$props.title,
+          width = _this$props.width,
+          drawerClassName = classnames('mfa-form-drawer', className || null);
+
+      if (!this.isVisible) {
+        return null;
+      }
+
+      return React.createElement(Drawer, {
+        className: drawerClassName,
+        closable: true,
+        destroyOnClose: true,
+        maskClosable: false,
+        onClose: this.onCancel,
+        placement: "right",
+        title: title,
+        visible: true,
+        width: width || '600px'
+      }, this.props.childrenBefore, React.createElement(Form, _extends({}, this.formProps, {
+        onCancel: this.onCancel,
+        onSuccess: this.onSuccess
+      })));
+    }
+  }]);
+
+  return FormDrawer;
+}(FormModal)) || _class$q) || _class$q;
+
+var _class$r, _class2$j, _class3$5, _temp$b;
+
+var SummaryCard = autoBindMethods(_class$r = observer(_class$r = (_class2$j = (_temp$b = _class3$5 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(SummaryCard, _Component);
@@ -37599,11 +37561,11 @@ function (_Component) {
   return SummaryCard;
 }(Component), _class3$5.defaultProps = {
   column: 4
-}, _temp$c), (_applyDecoratedDescriptor(_class2$k.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$k.prototype, "fieldSets"), _class2$k.prototype)), _class2$k)) || _class$r) || _class$r;
+}, _temp$b), (_applyDecoratedDescriptor(_class2$j.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$j.prototype, "fieldSets"), _class2$j.prototype)), _class2$j)) || _class$r) || _class$r;
 
-var _class$s, _class2$l;
+var _class$s, _class2$k;
 
-var Table = autoBindMethods(_class$s = observer(_class$s = (_class2$l =
+var Table = autoBindMethods(_class$s = observer(_class$s = (_class2$k =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Table, _Component);
@@ -37649,7 +37611,7 @@ function (_Component) {
   }]);
 
   return Table;
-}(Component), (_applyDecoratedDescriptor(_class2$l.prototype, "columns", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "columns"), _class2$l.prototype), _applyDecoratedDescriptor(_class2$l.prototype, "dataSource", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "dataSource"), _class2$l.prototype)), _class2$l)) || _class$s) || _class$s;
+}(Component), (_applyDecoratedDescriptor(_class2$k.prototype, "columns", [computed], Object.getOwnPropertyDescriptor(_class2$k.prototype, "columns"), _class2$k.prototype), _applyDecoratedDescriptor(_class2$k.prototype, "dataSource", [computed], Object.getOwnPropertyDescriptor(_class2$k.prototype, "dataSource"), _class2$k.prototype)), _class2$k)) || _class$s) || _class$s;
 
 // Lower-level building blocks and helper components
 

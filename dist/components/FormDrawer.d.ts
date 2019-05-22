@@ -1,9 +1,6 @@
-import { Component } from 'react';
-import { ISharedFormModalProps } from '../props';
-declare class FormDrawer extends Component<ISharedFormModalProps> {
-    static defaultProps: Partial<ISharedFormModalProps>;
-    private onCancel;
-    private onSuccess;
-    render(): JSX.Element;
+/// <reference types="react" />
+import FormModal from './FormModal';
+declare class FormDrawer extends FormModal {
+    render(): JSX.Element | null;
 }
 export default FormDrawer;
