@@ -70,6 +70,7 @@ import SmartBool from '@mighty-justice/smart-bool';
 
       // Re-open and test cancel button
       isVisible.setTrue();
+      await tester.refresh();
       tester.click('button > span[children="Cancel"]');
       expect(isVisible.isTrue).toBe(false);
     });
