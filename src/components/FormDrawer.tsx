@@ -1,39 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { omit } from 'lodash';
 import cx from 'classnames';
 
 import * as Antd from 'antd';
 
-import { formPropsDefaults } from '../propsDefaults';
-import { ISharedFormModalProps } from '../props';
-
 import Form from './Form';
+import FormModal from './FormModal';
 
 @autoBindMethods
 @observer
-class FormDrawer extends Component<ISharedFormModalProps> {
-  public static defaultProps: Partial<ISharedFormModalProps> = {
-    ...formPropsDefaults,
-  };
-
-  private onCancel () {
-    const { onCancel, isVisible } = this.props;
-    if (onCancel) { onCancel(); }
-    if (isVisible && !onCancel) { isVisible.setFalse(); }
-  }
-
-  private async onSuccess () {
-    const { onSuccess, isVisible } = this.props;
-    if (onSuccess) { await onSuccess(); }
-    if (isVisible && !onSuccess) { isVisible.setFalse(); }
-  }
-
+class FormDrawer extends FormModal {
   public render () {
-    const { className, isVisible, title, width } = this.props
-      , drawerClassName = cx('mfa-form-drawer', className || null)
-      , HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
+    const { className, title, width } = this.props
+      , drawerClassName = cx('mfa-form-drawer', className || null);
+
+    if (!this.isVisible) { return null; }
 
     return (
       <Antd.Drawer
@@ -44,13 +26,13 @@ class FormDrawer extends Component<ISharedFormModalProps> {
         onClose={this.onCancel}
         placement='right'
         title={title}
-        visible={isVisible ? isVisible.isTrue : true}
+        visible={true}
         width={width || '600px'}
       >
         {this.props.childrenBefore}
 
         <Form
-          {...omit(this.props, HANDLED_PROPS)}
+          {...this.formProps}
           onCancel={this.onCancel}
           onSuccess={this.onSuccess}
         />

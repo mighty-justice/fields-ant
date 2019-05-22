@@ -21,13 +21,23 @@ class FormModal extends Component<ISharedFormModalProps> {
     ...formPropsDefaults,
   };
 
-  private onCancel () {
+  public get isVisible () {
+    const { isVisible } = this.props;
+    return isVisible ? isVisible.isTrue : true;
+  }
+
+  public get formProps () {
+    const HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
+    return omit(this.props, HANDLED_PROPS);
+  }
+
+  public onCancel () {
     const { onCancel, isVisible } = this.props;
     if (onCancel) { onCancel(); }
     if (isVisible && !onCancel) { isVisible.setFalse(); }
   }
 
-  private async onSuccess () {
+  public async onSuccess () {
     const { onSuccess, isVisible } = this.props;
     if (onSuccess) { await onSuccess(); }
     if (isVisible && !onSuccess) { isVisible.setFalse(); }
@@ -56,28 +66,27 @@ class FormModal extends Component<ISharedFormModalProps> {
   }
 
   public render () {
-    const { isVisible, title, width } = this.props
-      , HANDLED_PROPS = ['title', 'isVisible', 'children', 'childrenBefore'];
+    const { title, width } = this.props;
+
+    if (!this.isVisible) { return null; }
 
     return (
       <Antd.Modal
         onCancel={this.onCancel}
         title={title}
-        visible={isVisible ? isVisible.isTrue : true}
+        visible={true}
         width={width}
         {...this.modalProps}
       >
         {this.props.childrenBefore}
 
         <Form
-          {...omit(this.props, HANDLED_PROPS)}
+          {...this.formProps}
           onCancel={this.onCancel}
           onSuccess={this.onSuccess}
           setRefFormManager={this.setRefFormManager}
           showControls={false}
         />
-
-        {this.props.children}
       </Antd.Modal>
     );
   }
