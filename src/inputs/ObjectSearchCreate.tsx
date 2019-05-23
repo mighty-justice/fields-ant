@@ -19,8 +19,11 @@ import {
   IInjected,
   IInputProps,
   NestedFieldSet,
-  renderLabel,
 } from '../';
+
+import {
+  renderLabel,
+} from '../utilities';
 
 import ObjectSearch from './ObjectSearch';
 
@@ -114,7 +117,11 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     const { decoratorOptions, fieldConfig, formManager } = this.injected;
 
     return (
-      <Antd.Form.Item>
+      <Antd.Form.Item
+        className={fieldConfig.className}
+        {...fieldConfig.formItemProps}
+        label={renderLabel(fieldConfig)}
+      >
         {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
           <ObjectSearch
             onAddNew={this.onAddNew}

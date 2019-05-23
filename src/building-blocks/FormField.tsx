@@ -109,7 +109,7 @@ class FormField extends Component<IFormFieldProps> {
       , wrappedComponent = skipFieldDecorator
         ? editComponent
         : getFieldDecorator(field, this.decoratorOptions)(editComponent)
-      , FormItemComponent = (
+      , FormItemComponent = skipFieldDecorator ? wrappedComponent : (
         <Antd.Form.Item
           className={className}
           {...formItemProps}
