@@ -46,13 +46,11 @@ class FormField extends Component<IFormFieldProps> {
     if (!this.shouldRender) { return null; }
 
     const { formManager, formModel } = this.props
-      , fieldConfig = this.fieldConfig
-      , { skipFieldDecorator } = fieldConfig
-      , editComponent = <fieldConfig.editComponent {...this.editProps} />
+      , { skipFieldDecorator, editComponent: EditComponent } = this.fieldConfig
       ;
 
     if (skipFieldDecorator) {
-      return editComponent;
+      return <EditComponent {...this.editProps} />;
     }
 
     return (
@@ -61,7 +59,7 @@ class FormField extends Component<IFormFieldProps> {
         formManager={formManager}
         formModel={formModel}
       >
-        {editComponent}
+        <EditComponent {...this.editProps} />
       </FormItem>
     );
   }
