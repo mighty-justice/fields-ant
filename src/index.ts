@@ -3,6 +3,7 @@ export { default as ButtonToolbar } from './building-blocks/ButtonToolbar';
 export { default as CardField } from './building-blocks/CardField';
 export { default as FormField } from './building-blocks/FormField';
 export { default as FormFieldSet } from './building-blocks/FormFieldSet';
+export { default as FormItem } from './building-blocks/FormItem';
 export { default as GuardedButton } from './building-blocks/GuardedButton';
 export { default as Info, Label, Value, CARD_COL_LABEL, CARD_COL_VALUE } from './building-blocks/Info';
 export { default as NestedFieldSet } from './building-blocks/NestedFieldSet';

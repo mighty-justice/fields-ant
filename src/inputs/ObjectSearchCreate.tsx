@@ -19,8 +19,14 @@ import {
   IInjected,
   IInputProps,
   NestedFieldSet,
-  renderLabel,
 } from '../';
+
+import {
+  renderLabel,
+} from '../utilities';
+
+import FormItem from '../building-blocks/FormItem';
+import { IModel } from '../props';
 
 import ObjectSearch from './ObjectSearch';
 
@@ -32,10 +38,10 @@ export interface IObjectSearchCreateProps {
   addNewContent?: React.ReactNode;
   className?: string;
   debounceWait?: number;
-  decoratorOptions: { [key: string]: any };
   fieldConfig: IFieldConfigObjectSearchCreate;
   fieldDecorator: <T>(component: T) => T;
   formManager: FormManager;
+  formModel: IModel;
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
   onAddNewToggle?: (isAddingNew: boolean) => void;
@@ -111,17 +117,19 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
   }
 
   private renderSearch () {
-    const { decoratorOptions, fieldConfig, formManager } = this.injected;
+    const { fieldConfig, formManager, formModel } = this.injected;
 
     return (
-      <Antd.Form.Item>
-        {formManager.form.getFieldDecorator(fieldConfig.field, decoratorOptions)(
-          <ObjectSearch
-            onAddNew={this.onAddNew}
-            {...this.objectSearchProps}
-          />,
-        )}
-      </Antd.Form.Item>
+      <FormItem
+        fieldConfig={fieldConfig}
+        formManager={formManager}
+        formModel={formModel}
+      >
+        <ObjectSearch
+          onAddNew={this.onAddNew}
+          {...this.objectSearchProps}
+        />
+      </FormItem>
     );
   }
 
