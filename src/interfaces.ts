@@ -4,6 +4,7 @@ import { RowProps } from 'antd/lib/row';
 
 import { IForm, IModel, IValue } from './props';
 import { ValidationRule as AntValidationRule } from 'antd/lib/form';
+import { FormManager } from './utilities';
 
 export type IFieldsValidator = (value: IValue, fieldConfig: IFieldConfig, model: IModel) => boolean;
 
@@ -127,6 +128,7 @@ export interface IInjected {
 export interface IInputProps {
   fieldConfig: IFieldConfig;
   form: IForm;
+  formManager: FormManager;
 }
 
 export interface IEndpointOption {

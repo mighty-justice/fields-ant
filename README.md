@@ -134,7 +134,7 @@ These are technical and you can safely ignore them
 - **colProps**: Props passed into `Antd.Col`.
 - **fieldConfigProp**: If true, a `fieldConfig` prop will be passed into `editComponent`.
 - **key**: Unique string for rendering.
-- **skipFieldDecorator**: If true, the `editComponent` will be mounted with without an Ant Design Table fieldDecorator.
+- **skipFieldDecorator**: If true, the `editComponent` will be mounted without an Ant Design Table fieldDecorator.
 A `formManager` and `formModel` prop will be passed into the editComponent and you will be responsible for using
 `FormItem` yourself.
 

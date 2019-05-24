@@ -36,6 +36,7 @@ import { IModel, IValue } from '../props';
 import { REGEXP_SSN } from '../consts';
 import { getDateFormatList } from './getDateFormatList';
 import ObjectSearch from '../inputs/ObjectSearch';
+import Hidden from '../inputs/Hidden';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -113,10 +114,11 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     },
   },
   hidden: {
-    editComponent: Antd.Input,
-    editProps: { type: 'hidden' },
+    editComponent: Hidden,
+    fieldConfigProp: true,
     render: () => null,
     showLabel: false,
+    skipFieldDecorator: true,
     writeOnly: true,
   },
   money: {
