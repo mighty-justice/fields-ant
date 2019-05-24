@@ -27,7 +27,7 @@ export async function sleep (ms: number = 0) {
 
 function actionFunctionFor (name: string) {
   return () => async (data: any) => {
-    await sleep(1000);
+    await sleep();
     action(name)(data);
   };
 }
