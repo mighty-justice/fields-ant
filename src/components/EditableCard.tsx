@@ -51,6 +51,7 @@ class EditableCard extends Component<IEditableCardProps> {
 
     await onSave(model);
     if (onSuccess) { await onSuccess(); }
+    this.isEditing.setFalse();
   }
 
   private get deleteButton () {

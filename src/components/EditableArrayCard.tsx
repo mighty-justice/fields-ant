@@ -34,6 +34,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
     const { onCreate, onSuccess } = this.props;
     await onCreate(model);
     if (onSuccess) { await onSuccess(); }
+    this.isAddingNew.setFalse();
   }
 
   private renderAddNew () {

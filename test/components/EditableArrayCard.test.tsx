@@ -2,36 +2,61 @@ import faker from 'faker';
 
 import { EditableArrayCard } from '../../src';
 import { Tester } from '@mighty-justice/tester';
+import { fakeTextShort } from '../factories';
 
-const name1 = faker.lorem.sentence()
-  , name2 = faker.lorem.sentence()
-  , name3 = faker.lorem.sentence()
-  , title = faker.lorem.sentence()
+const title = faker.lorem.sentence()
+  , model = Array(10).fill(null).map(_ => ({
+    id: faker.random.uuid(),
+    name: fakeTextShort(),
+  }))
+  , onCreate = jest.fn()
+  , onSave = jest.fn()
   , props = {
     fieldSets: [[{ field: 'name' }]],
-    model: [{ id: 1, name: name1 }, { id: 2, name: name2 }],
+    model,
+    onCreate,
+    onSave,
     title,
   };
 
 describe('EditableArrayCard', () => {
+  beforeEach(() => {
+    onCreate.mockClear();
+    onSave.mockClear();
+  });
+
   it('Renders', async () => {
     const tester = await new Tester(EditableArrayCard, { props }).mount();
     expect(tester.text()).toContain(title);
     expect(tester.text()).toContain('Name');
-    expect(tester.html()).toContain(name1);
-    expect(tester.html()).toContain(name2);
+
+    model.forEach(item => {
+      expect(tester.html()).toContain(item.name);
+    });
   });
 
-  it('Handles add new', async () => {
-    const onCreate = jest.fn()
-      , tester = await new Tester(EditableArrayCard, { props: { ...props, onCreate } }).mount();
-    expect(tester.find('input#name').length).toBe(0);
-    tester.click('button.btn-new');
-    expect(tester.find('input#name').length).toBe(1);
+  [
+    { action: 'new', prop: onCreate },
+    { action: 'edit', prop: onSave },
+  ].forEach(({ action, prop }) => {
+    it(`Handles ${action}`, async () => {
+      const newValue = fakeTextShort()
+        , tester = await new Tester(EditableArrayCard, { props }).mount();
 
-    expect(onCreate).not.toHaveBeenCalled();
-    tester.changeInput('input#name', name3);
-    tester.submit();
-    expect(onCreate).toHaveBeenCalledWith({ name: name3 });
+      expect(tester.find('input#name').length).toBe(0);
+      tester.click(`button.btn-${action}`);
+      expect(tester.find('input#name').length).toBe(1);
+
+      expect(prop).not.toHaveBeenCalled();
+      tester.changeInput('input#name', newValue);
+      tester.submit();
+      expect(prop).toHaveBeenCalledWith({
+        ...(action === 'edit' ? model[0] : {}),
+        name: newValue,
+      });
+
+      await tester.refresh();
+      expect(tester.find('input#name').length).toBe(0);
+    });
   });
 });

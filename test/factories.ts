@@ -2,7 +2,7 @@ import { Factory } from 'rosie';
 import faker from 'faker';
 import { format } from 'date-fns';
 import { action } from '@storybook/addon-actions';
-import { noop, sample, fromPairs } from 'lodash';
+import { sample, fromPairs } from 'lodash';
 
 import SmartBool from '@mighty-justice/smart-bool';
 
@@ -21,7 +21,20 @@ import {
 import { IValue } from '../src/props';
 import Table from '../src/components/Table';
 
-export const onSave = () => (data: any) => action('onSave')(data);
+export async function sleep (ms: number = 0) {
+  return new Promise<void>(resolve => setTimeout(resolve, ms));
+}
+
+function actionFunctionFor (name: string) {
+  return () => async (data: any) => {
+    await sleep();
+    action(name)(data);
+  };
+}
+
+export const onSave = actionFunctionFor('onSave');
+export const onCreate = actionFunctionFor('onCreate');
+export const onDelete = actionFunctionFor('onDelete');
 
 // fake* functions take no arguments and return values when called
 // These are used, uncalled, in factory attr lists
@@ -138,7 +151,7 @@ export const formCardPropsFactory = new Factory()
 export const editableCardPropsFactory = new Factory()
   .extend(cardPropsFactory)
   .attrs({
-    onDelete: noop,
+    onDelete,
     onSave,
   });
 
@@ -155,7 +168,8 @@ export const tablePropsFactory = new Factory()
 export const editableArrayCardPropsFactory = new Factory()
   .extend(arrayCardPropsFactory)
   .attrs({
-    onDelete: noop,
+    onCreate,
+    onDelete,
     onSave,
   });
 
