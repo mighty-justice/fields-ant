@@ -6115,6 +6115,8 @@ PI = new Decimal(PI);
 var EMPTY_FIELD = '--';
 var DATE_FORMATS = {
   date: 'MM/DD/YY',
+  date_at_time: 'MM/DD/YY @ h:mmA',
+  // ex. 07/14/16 @ 2:24PM
   date_value: 'YYYY-MM-DD'
 };
 var CENT_DECIMAL = new Decimal('100');
@@ -23606,11 +23608,15 @@ function _varToLabel(str) {
       suffix = str.split('.').pop() || '',
       formatted = startCase(suffix);
   return formatted.replace(/[A-Za-z0-9\u00C0-\u00FF]+[^\s-]*/g, function (match, index, title) {
-    if (index > 0 && index + match.length !== title.length && match.search(smallWords) > -1 && title.charAt(index - 2) !== ':' && (title.charAt(index + match.length) !== '-' || title.charAt(index - 1) === '-') && title.charAt(index - 1).search(/[^\s-]/) < 0) {
+    var notFirstWord = index > 0,
+        notOnlyWord = index + match.length !== title.length,
+        hasSmallWords = match.search(smallWords) > -1;
+
+    if (notFirstWord && notOnlyWord && hasSmallWords) {
       return match.toLowerCase();
     }
 
-    return match.charAt(0).toUpperCase() + match.substr(1);
+    return match.charAt(0).toUpperCase() + match.substr(1).toLowerCase();
   });
 }
 
@@ -28354,10 +28360,9 @@ function getPercentDisplay(value) {
   return new Decimal(value).times(CENT_DECIMAL).toString();
 }
 
-function isValidBirthdate(value) {
+function isValidDate(value) {
   return !value || value.length === '####-##-##'.length // ISO date
   && moment(value).isValid() // Real day
-  && moment(value).isBefore(moment()) // In the past
   ;
 }
 
@@ -35108,7 +35113,7 @@ var TYPES = {
     editComponent: Date$1,
     formValidationRules: {
       isValidDate: {
-        fieldsValidator: isValidBirthdate,
+        fieldsValidator: isValidDate,
         message: 'Must be a valid date'
       }
     },
