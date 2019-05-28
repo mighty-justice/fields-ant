@@ -61,9 +61,6 @@ describe('date', () => {
     expect(await isInputsValid('01', '01', '0998')).toBe(true);
     expect(await isInputsValid('1', '1', '1998')).toBe(true);
 
-    // Future
-    expect(await isInputsValid('01', '01', '2020')).toBe(false);
-
     // Check for impossible 0 dates
     expect(await isInputsValid('00', '00', '0000')).toBe(false);
     expect(await isInputsValid('00', '01', '0000')).toBe(false);
