@@ -21,7 +21,7 @@ import {
   getNameOrDefault,
   getPercentDisplay,
   getPercentValue,
-  isValidBirthdate,
+  isValidDate,
   mapBooleanToText,
   parseAndPreserveNewlines,
 } from '@mighty-justice/utils';
@@ -82,7 +82,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     editComponent: Date,
     formValidationRules: {
       isValidDate: {
-        fieldsValidator: isValidBirthdate,
+        fieldsValidator: isValidDate,
         message: 'Must be a valid date',
       },
     },
