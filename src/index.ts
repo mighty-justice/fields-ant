@@ -21,6 +21,7 @@ export { default as SummaryCard } from './components/SummaryCard';
 export { default as Table } from './components/Table';
 
 // Form inputs
+export { default as Hidden } from './inputs/Hidden';
 export { default as ObjectSearchCreate } from './inputs/ObjectSearchCreate';
 export { default as OptionSelect } from './inputs/OptionSelect';
 export { default as OptionSelectDisplay, formatOptionSelect } from './inputs/OptionSelectDisplay';
