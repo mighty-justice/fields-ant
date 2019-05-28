@@ -1473,10 +1473,10 @@
     tslint-eslint-rules "^5.4"
     tslint-react "^3.6"
 
-"@mighty-justice/utils@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@mighty-justice/utils/-/utils-1.2.3.tgz#f210c6900a89ffe24facfe84ad4ee55a5c153760"
-  integrity sha512-u0v1JuP1GeUqvXaCxdxRV2CF4SLrMDSAMmP6QgSfKTkohucZ1anV9TzI72cmx1c42l0X+lFlRyKFMHjc1v4DPQ==
+"@mighty-justice/utils@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@mighty-justice/utils/-/utils-1.3.3.tgz#da9ab9ab9ea873a4fc04e1b5780ca7f80917472b"
+  integrity sha512-iOBLR5czhIbmiK4OcpVtiA86N/KcAXxgK9owuCic1VKGpZuX+UkX2/5xd5LEbIPKqgBZulZWCXJqXXwlqZWCMQ==
   dependencies:
     classnames "^2.2.6"
     date-fns "^1.30.1"
