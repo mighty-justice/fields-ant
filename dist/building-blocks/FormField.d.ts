@@ -9,11 +9,7 @@ export interface IFormFieldProps {
 }
 declare class FormField extends Component<IFormFieldProps> {
     private readonly fieldConfig;
-    private readonly initialValue;
     private readonly editProps;
-    private fieldsValidatorToValidator;
-    private readonly rules;
-    private readonly decoratorOptions;
     private readonly shouldRender;
     render(): JSX.Element | null;
 }

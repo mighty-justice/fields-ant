@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { SelectProps } from 'antd/lib/select';
 import { FormManager, IFieldConfig, IFieldConfigObjectSearchCreate } from '../';
+import { IModel } from '../props';
 export declare function isTypeObjectSearchCreate(fieldConfig: IFieldConfig): fieldConfig is IFieldConfigObjectSearchCreate;
 export interface IObjectSearchCreateProps {
     addNewContent?: React.ReactNode;
     className?: string;
     debounceWait?: number;
-    decoratorOptions: {
-        [key: string]: any;
-    };
     fieldConfig: IFieldConfigObjectSearchCreate;
     fieldDecorator: <T>(component: T) => T;
     formManager: FormManager;
+    formModel: IModel;
     loadingIcon?: React.ReactNode;
     noSearchContent?: React.ReactNode;
     onAddNewToggle?: (isAddingNew: boolean) => void;
