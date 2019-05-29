@@ -63,5 +63,9 @@ describe('FormCard', () => {
     expect(Antd.notification.error).toHaveBeenCalled();
     const antErrorCall = (Antd.notification.error as any).calls.mostRecent();
     expect(JSON.stringify(antErrorCall)).toContain(otherError);
+
+    //expect(tester.find('button[type="submit"]')).toHaveProperty('disabled', false);
+    //expect(disabled).toBe(true);
+    expect(tester.find('.ant-btn-primary[disabled]').length).toBe(1);
   });
 });
