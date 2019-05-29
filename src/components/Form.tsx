@@ -88,6 +88,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
         loading: this.formManager.saving,
         size: 'large',
         type: 'primary',
+        disabled: this.hasErrors(this.formManager.form.getFieldsError()),
       };
 
     if (blockSubmit) {
