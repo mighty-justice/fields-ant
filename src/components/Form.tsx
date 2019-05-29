@@ -71,9 +71,8 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
     return fillInFieldSets(this.props.fieldSets);
   }
 
-  private hasErrors = (fieldsError: any) => 
-    Object.keys(fieldsError).some((field) => fieldsError[field]);
-  
+  private hasErrors = (fieldsError: any) =>
+    Object.keys(fieldsError).some((field) => fieldsError[field])
 
   private renderControls () {
     const {
