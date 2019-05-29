@@ -5,16 +5,11 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import { splitName } from '@mighty-justice/utils';
 
-import {
-  fillInFieldSet,
-  FormFieldSet,
-  IFieldConfigPartial,
-  IFieldSetPartial,
-  mapFieldSetFields,
-} from '../';
-
-import { FormManager } from '../utilities';
+import { fillInFieldSet, FormManager, mapFieldSetFields } from '../utilities';
+import { IFieldConfigPartial, IFieldSetPartial } from '../interfaces';
 import { IModel } from '../props';
+
+import FormFieldSet from './FormFieldSet';
 
 export interface INestedFieldSetProps {
   fieldSet: IFieldSetPartial;

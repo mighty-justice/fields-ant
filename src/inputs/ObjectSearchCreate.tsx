@@ -96,23 +96,25 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     const { fieldConfig, formManager } = this.injected;
 
     return (
-      <>
-        <NestedFieldSet
-          fieldSet={this.fieldConfig.createFields}
-          formManager={formManager}
-          formModel={formManager.formModel}
-          id={fieldConfig.field}
-          label={renderLabel(this.fieldConfig)}
-          search={this.search}
-        />
-        <Antd.Button
-          className={`${CX_PREFIX_SEARCH_CREATE}-btn-back`}
-          onClick={this.onSearch}
-          size='small'
-        >
-          <Antd.Icon type='left' /> Back to search
-        </Antd.Button>
-      </>
+      <Antd.Col>
+        <Antd.Form.Item>
+          <NestedFieldSet
+            fieldSet={this.fieldConfig.createFields}
+            formManager={formManager}
+            formModel={formManager.formModel}
+            id={fieldConfig.field}
+            label={renderLabel(this.fieldConfig)}
+            search={this.search}
+          />
+          <Antd.Button
+            className={`${CX_PREFIX_SEARCH_CREATE}-btn-back`}
+            onClick={this.onSearch}
+            size='small'
+          >
+            <Antd.Icon type='left' /> Back to search
+          </Antd.Button>
+        </Antd.Form.Item>
+      </Antd.Col>
     );
   }
 
