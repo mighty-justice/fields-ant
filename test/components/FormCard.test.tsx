@@ -28,6 +28,7 @@ describe('FormCard', () => {
     tester.submit();
     await tester.sleep();
     expect(onSave).toHaveBeenCalledWith({ text: newText });
+    expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(0);
   });
 
   it('Maps backend errors to fields on form', async () => {
@@ -64,8 +65,30 @@ describe('FormCard', () => {
     const antErrorCall = (Antd.notification.error as any).calls.mostRecent();
     expect(JSON.stringify(antErrorCall)).toContain(otherError);
 
-    //expect(tester.find('button[type="submit"]')).toHaveProperty('disabled', false);
-    //expect(disabled).toBe(true);
-    expect(tester.find('.ant-btn-primary[disabled]').length).toBe(1);
+    // Expect submit button to be disabled due to error.
+    expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(1);
+  });
+
+  // Tests whether submit button correctly enables and disables.
+  it('Submit button disables after error raised', async () => {
+    const name = faker.lorem.sentence()
+    , onSave = jest.fn()
+    , props = {
+      fieldSets: [[{ field: 'name', required: true }]],
+      model: { name },
+      onSave,
+      title: 'Information',
+    };
+
+    const tester = await new Tester(FormCard, { props }).mount();
+    expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(0);
+
+    tester.changeInput('input', null);
+    tester.click(tester.find('.ant-btn-primary'));
+    expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(1);
+
+    tester.changeInput('input', name);
+    tester.click(tester.find('.ant-btn-primary'));
+    expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(0);
   });
 });
