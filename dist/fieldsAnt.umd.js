@@ -28808,7 +28808,7 @@
         var _this$injected3 = this.injected,
             fieldConfig = _this$injected3.fieldConfig,
             formManager = _this$injected3.formManager;
-        return React__default.createElement(React__default.Fragment, null, React__default.createElement(NestedFieldSet, {
+        return React__default.createElement(Antd.Col, null, React__default.createElement(Antd.Form.Item, null, React__default.createElement(NestedFieldSet, {
           fieldSet: this.fieldConfig.createFields,
           formManager: formManager,
           formModel: formManager.formModel,
@@ -28821,7 +28821,7 @@
           size: "small"
         }, React__default.createElement(Antd.Icon, {
           type: "left"
-        }), " Back to search"));
+        }), " Back to search")));
       }
     }, {
       key: "renderSearch",

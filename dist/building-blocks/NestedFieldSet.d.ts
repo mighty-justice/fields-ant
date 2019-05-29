@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { IFieldSetPartial } from '../';
 import { FormManager } from '../utilities';
+import { IFieldSetPartial } from '../interfaces';
 import { IModel } from '../props';
 export interface INestedFieldSetProps {
     fieldSet: IFieldSetPartial;

@@ -28806,7 +28806,7 @@ function (_Component) {
       var _this$injected3 = this.injected,
           fieldConfig = _this$injected3.fieldConfig,
           formManager = _this$injected3.formManager;
-      return React.createElement(React.Fragment, null, React.createElement(NestedFieldSet, {
+      return React.createElement(Col, null, React.createElement(Form$1.Item, null, React.createElement(NestedFieldSet, {
         fieldSet: this.fieldConfig.createFields,
         formManager: formManager,
         formModel: formManager.formModel,
@@ -28819,7 +28819,7 @@ function (_Component) {
         size: "small"
       }, React.createElement(Icon, {
         type: "left"
-      }), " Back to search"));
+      }), " Back to search")));
     }
   }, {
     key: "renderSearch",
