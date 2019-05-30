@@ -5,8 +5,9 @@ import cx from 'classnames';
 
 import * as Antd from 'antd';
 
-import { ISharedFormModalProps } from '../props';
 import FormModalUtils from '../utilities/FormModalUtils';
+import { formPropsDefaults } from '../propsDefaults';
+import { ISharedFormModalProps } from '../props';
 
 import Form from './Form';
 
@@ -19,6 +20,10 @@ class FormDrawer extends Component<ISharedFormModalProps> {
     super(props);
     this.formModalUtils = new FormModalUtils(props);
   }
+
+  public static defaultProps: Partial<ISharedFormModalProps> = {
+    ...formPropsDefaults,
+  };
 
   public render () {
     const { className, title, width } = this.props
