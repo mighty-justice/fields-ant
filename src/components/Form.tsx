@@ -83,7 +83,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       } = this.props
       , submitProps: ButtonProps = {
         children: saveText,
-        disabled: this.hasErrors(this.formManager.form.getFieldsError()),
+        disabled: this.formManager.submitButtonDisabled,
         htmlType: 'submit',
         loading: this.formManager.saving,
         size: 'large',

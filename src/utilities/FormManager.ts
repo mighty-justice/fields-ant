@@ -82,6 +82,10 @@ class FormManager {
     return getFieldSetsFields(this.args.fieldSets);
   }
 
+  public get submitButtonDisabled () {
+    return this.hasErrors(this.form.getFieldsError());
+  }
+
   public getDefaultValue (fieldConfig: IFieldConfig) {
     const { model, defaults } = this.args
       , modelToValue = (from: IModel) => get(from, fieldConfig.field)
@@ -191,6 +195,10 @@ class FormManager {
       const description = [field, message].filter(s => !!s).join(' - ');
       Antd.notification.error({ ...toastError, description });
     });
+  }
+
+  private hasErrors (fieldsError: any) {
+    return Object.keys(fieldsError).some((field) => fieldsError[field]);
   }
 
   private handleRequestError (error: Error & { response?: any }) {
