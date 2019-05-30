@@ -38,6 +38,7 @@ declare class FormManager {
     constructor(formWrappedInstance: IFormWrappedInstance, fieldSets: IFieldSet[], args: Partial<IArgs>);
     readonly form: any;
     readonly fieldConfigs: IFieldConfig[];
+    readonly submitButtonDisabled: boolean;
     getDefaultValue(fieldConfig: IFieldConfig): any;
     getFormValue(fieldConfig: IFieldConfig, formValues: IModel): any;
     private readonly formValues;
@@ -47,6 +48,7 @@ declare class FormManager {
     private onSuccess;
     private setErrorsOnFormFields;
     private notifyUserAboutErrors;
+    private hasErrors;
     private handleRequestError;
     private validateThenSaveCallback;
     onSave(event: any): Promise<void>;
