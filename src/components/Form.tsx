@@ -71,10 +71,6 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
     return fillInFieldSets(this.props.fieldSets);
   }
 
-  private hasErrors (fieldsError: any) {
-    return Object.keys(fieldsError).some((field) => fieldsError[field]);
-  }
-
   private renderControls () {
     const {
         blockSubmit,
@@ -83,7 +79,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       } = this.props
       , submitProps: ButtonProps = {
         children: saveText,
-        disabled: this.hasErrors(this.formManager.form.getFieldsError()),
+        disabled: this.formManager.submitButtonDisabled,
         htmlType: 'submit',
         loading: this.formManager.saving,
         size: 'large',

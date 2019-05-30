@@ -34,6 +34,7 @@ class FormModal extends Component<ISharedFormModalProps> {
     if (!this.formManager) {
       return {
         confirmLoading: true,
+        okButtonProps: { disabled: true },
         okText: saveText,
         onOk: noop,
       };
@@ -41,6 +42,7 @@ class FormModal extends Component<ISharedFormModalProps> {
 
     return {
       confirmLoading: this.formManager.saving,
+      okButtonProps: { disabled: this.formManager.submitButtonDisabled },
       okText: this.formManager.saving ? 'Saving...' : saveText,
       onOk: this.formManager.onSave,
     };
