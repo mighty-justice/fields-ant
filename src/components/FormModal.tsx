@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { noop, omit } from 'lodash';
+import { noop } from 'lodash';
 
 import * as Antd from 'antd';
 
+import FormModalUtils from '../utilities/FormModalUtils';
 import { FormManager } from '../utilities';
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormModalProps } from '../props';
@@ -16,32 +17,16 @@ import Form from './Form';
 @observer
 class FormModal extends Component<ISharedFormModalProps> {
   @observable private formManager?: FormManager;
+  private formModalUtils: FormModalUtils;
+
+  public constructor (props: ISharedFormModalProps) {
+    super(props);
+    this.formModalUtils = new FormModalUtils(props);
+  }
 
   public static defaultProps: Partial<ISharedFormModalProps> = {
     ...formPropsDefaults,
   };
-
-  public get isVisible () {
-    const { isVisible } = this.props;
-    return isVisible ? isVisible.isTrue : true;
-  }
-
-  public get formProps () {
-    const HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
-    return omit(this.props, HANDLED_PROPS);
-  }
-
-  public onCancel () {
-    const { onCancel, isVisible } = this.props;
-    if (onCancel) { onCancel(); }
-    if (isVisible && !onCancel) { isVisible.setFalse(); }
-  }
-
-  public async onSuccess () {
-    const { onSuccess, isVisible } = this.props;
-    if (onSuccess) { await onSuccess(); }
-    if (isVisible && !onSuccess) { isVisible.setFalse(); }
-  }
 
   private get modalProps () {
     const { saveText } = this.props;
@@ -66,13 +51,15 @@ class FormModal extends Component<ISharedFormModalProps> {
   }
 
   public render () {
-    const { title, width } = this.props;
+    const { title, width } = this.props
+      , { isVisible, onCancel, onSuccess, formProps } = this.formModalUtils
+      ;
 
-    if (!this.isVisible) { return null; }
+    if (!isVisible) { return null; }
 
     return (
       <Antd.Modal
-        onCancel={this.onCancel}
+        onCancel={onCancel}
         title={title}
         visible={true}
         width={width}
@@ -81,9 +68,9 @@ class FormModal extends Component<ISharedFormModalProps> {
         {this.props.childrenBefore}
 
         <Form
-          {...this.formProps}
-          onCancel={this.onCancel}
-          onSuccess={this.onSuccess}
+          {...formProps}
+          onCancel={onCancel}
+          onSuccess={onSuccess}
           setRefFormManager={this.setRefFormManager}
           showControls={false}
         />
