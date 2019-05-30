@@ -37496,9 +37496,9 @@ function () {
   return FormModalUtils;
 }(), _temp$a)) || _class$r;
 
-var _class$s, _temp$b;
+var _class$s, _class2$i, _temp$b;
 
-var FormDrawer = autoBindMethods(_class$s = observer(_class$s = (_temp$b =
+var FormDrawer = autoBindMethods(_class$s = observer(_class$s = (_temp$b = _class2$i =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormDrawer, _Component);
@@ -37550,11 +37550,11 @@ function (_Component) {
   }]);
 
   return FormDrawer;
-}(Component), _temp$b)) || _class$s) || _class$s;
+}(Component), _class2$i.defaultProps = _objectSpread({}, formPropsDefaults), _temp$b)) || _class$s) || _class$s;
 
-var _class$t, _class2$i, _descriptor$6, _class3$4, _temp$c;
+var _class$t, _class2$j, _descriptor$6, _class3$4, _temp$c;
 
-var FormModal = autoBindMethods(_class$t = observer(_class$t = (_class2$i = (_temp$c = _class3$4 =
+var FormModal = autoBindMethods(_class$t = observer(_class$t = (_class2$j = (_temp$c = _class3$4 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormModal, _Component);
@@ -37634,16 +37634,16 @@ function (_Component) {
   }]);
 
   return FormModal;
-}(Component), _class3$4.defaultProps = _objectSpread({}, formPropsDefaults), _temp$c), (_descriptor$6 = _applyDecoratedDescriptor(_class2$i.prototype, "formManager", [observable], {
+}(Component), _class3$4.defaultProps = _objectSpread({}, formPropsDefaults), _temp$c), (_descriptor$6 = _applyDecoratedDescriptor(_class2$j.prototype, "formManager", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: null
-})), _class2$i)) || _class$t) || _class$t;
+})), _class2$j)) || _class$t) || _class$t;
 
-var _class$u, _class2$j, _class3$5, _temp$d;
+var _class$u, _class2$k, _class3$5, _temp$d;
 
-var SummaryCard = autoBindMethods(_class$u = observer(_class$u = (_class2$j = (_temp$d = _class3$5 =
+var SummaryCard = autoBindMethods(_class$u = observer(_class$u = (_class2$k = (_temp$d = _class3$5 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(SummaryCard, _Component);
@@ -37704,11 +37704,11 @@ function (_Component) {
   return SummaryCard;
 }(Component), _class3$5.defaultProps = {
   column: 4
-}, _temp$d), (_applyDecoratedDescriptor(_class2$j.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$j.prototype, "fieldSets"), _class2$j.prototype)), _class2$j)) || _class$u) || _class$u;
+}, _temp$d), (_applyDecoratedDescriptor(_class2$k.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$k.prototype, "fieldSets"), _class2$k.prototype)), _class2$k)) || _class$u) || _class$u;
 
-var _class$v, _class2$k;
+var _class$v, _class2$l;
 
-var Table = autoBindMethods(_class$v = observer(_class$v = (_class2$k =
+var Table = autoBindMethods(_class$v = observer(_class$v = (_class2$l =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Table, _Component);
@@ -37754,7 +37754,7 @@ function (_Component) {
   }]);
 
   return Table;
-}(Component), (_applyDecoratedDescriptor(_class2$k.prototype, "columns", [computed], Object.getOwnPropertyDescriptor(_class2$k.prototype, "columns"), _class2$k.prototype), _applyDecoratedDescriptor(_class2$k.prototype, "dataSource", [computed], Object.getOwnPropertyDescriptor(_class2$k.prototype, "dataSource"), _class2$k.prototype)), _class2$k)) || _class$v) || _class$v;
+}(Component), (_applyDecoratedDescriptor(_class2$l.prototype, "columns", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "columns"), _class2$l.prototype), _applyDecoratedDescriptor(_class2$l.prototype, "dataSource", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "dataSource"), _class2$l.prototype)), _class2$l)) || _class$v) || _class$v;
 
 // Lower-level building blocks and helper components
 
