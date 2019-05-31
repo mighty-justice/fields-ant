@@ -21,7 +21,7 @@ class FormModal extends Component<ISharedFormModalProps> {
 
   public constructor (props: ISharedFormModalProps) {
     super(props);
-    this.formModalUtils = new FormModalUtils(props);
+    this.formModalUtils = new FormModalUtils(this);
   }
 
   public static defaultProps: Partial<ISharedFormModalProps> = {

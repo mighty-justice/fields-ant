@@ -1,5 +1,4 @@
 import faker from 'faker';
-import { toJS } from 'mobx';
 import { Tester } from '@mighty-justice/tester';
 
 import { COMPONENT_GENERATORS } from '../factories';
@@ -28,11 +27,10 @@ describe('respondToFieldsetsChange', () => {
         });
 
       const tester = await new Tester(ComponentClass, { props }).mount({async: true});
-      expect(tester.find('input[id="originalName"]').length).toBe(1);
 
+      expect(tester.find('input[id="originalName"]').length).toBe(1);
       tester.wrapper.setProps({ children: React.cloneElement(tester.wrapper.props().children, newProps)});
       await tester.refresh();
-
       expect(tester.find('input[id="updatedName"]').length).toBe(1);
     });
   });
