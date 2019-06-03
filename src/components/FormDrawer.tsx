@@ -5,32 +5,51 @@ import cx from 'classnames';
 
 import * as Antd from 'antd';
 
-import FormModalUtils from '../utilities/FormModalUtils';
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormModalProps } from '../props';
 
 import Form from './Form';
+import { omit } from 'lodash';
 
 @autoBindMethods
 @observer
 class FormDrawer extends Component<ISharedFormModalProps> {
-  private formModalUtils: FormModalUtils;
 
   public constructor (props: ISharedFormModalProps) {
     super(props);
-    this.formModalUtils = new FormModalUtils(props);
   }
 
   public static defaultProps: Partial<ISharedFormModalProps> = {
     ...formPropsDefaults,
   };
 
+  public get isVisible () {
+    const { isVisible } = this.props;
+    return isVisible ? isVisible.isTrue : true;
+  }
+
+  public get formProps () {
+    const HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
+    return omit(this.props, HANDLED_PROPS);
+  }
+
+  public onCancel () {
+    const { onCancel, isVisible } = this.props;
+    if (onCancel) { onCancel(); }
+    if (isVisible && !onCancel) { isVisible.setFalse(); }
+  }
+
+  public async onSuccess () {
+    const { onSuccess, isVisible } = this.props;
+    if (onSuccess) { await onSuccess(); }
+    if (isVisible && !onSuccess) { isVisible.setFalse(); }
+  }
+
   public render () {
     const { className, title, width } = this.props
-      , { isVisible, onCancel, onSuccess, formProps } = this.formModalUtils
       , drawerClassName = cx('mfa-form-drawer', className || null);
 
-    if (!isVisible) { return null; }
+    if (!this.isVisible) { return null; }
 
     return (
       <Antd.Drawer
@@ -38,7 +57,7 @@ class FormDrawer extends Component<ISharedFormModalProps> {
         closable
         destroyOnClose
         maskClosable={false}
-        onClose={onCancel}
+        onClose={this.onCancel}
         placement='right'
         title={title}
         visible={true}
@@ -47,9 +66,9 @@ class FormDrawer extends Component<ISharedFormModalProps> {
         {this.props.childrenBefore}
 
         <Form
-          {...formProps}
-          onCancel={onCancel}
-          onSuccess={onSuccess}
+          {...this.formProps}
+          onCancel={this.onCancel}
+          onSuccess={this.onSuccess}
         />
       </Antd.Drawer>
     );
