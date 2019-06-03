@@ -37413,19 +37413,20 @@
     }
   })), _class2$h)) || _class$q) || _class$q;
 
-  var _class$r, _temp$a;
+  var _class$r, _class2$i, _temp$a;
 
-  var FormModalUtils = autoBindMethods(_class$r = (_temp$a =
+  var FormDrawer = autoBindMethods(_class$r = mobxReact.observer(_class$r = (_temp$a = _class2$i =
   /*#__PURE__*/
-  function () {
-    function FormModalUtils(props) {
-      _classCallCheck(this, FormModalUtils);
+  function (_Component) {
+    _inherits(FormDrawer, _Component);
 
-      this.props = void 0;
-      this.props = props;
+    function FormDrawer(props) {
+      _classCallCheck(this, FormDrawer);
+
+      return _possibleConstructorReturn(this, _getPrototypeOf(FormDrawer).call(this, props));
     }
 
-    _createClass(FormModalUtils, [{
+    _createClass(FormDrawer, [{
       key: "onCancel",
       value: function onCancel() {
         var _this$props = this.props,
@@ -37482,6 +37483,34 @@
         return onSuccess;
       }()
     }, {
+      key: "render",
+      value: function render() {
+        var _this$props3 = this.props,
+            className = _this$props3.className,
+            title = _this$props3.title,
+            width = _this$props3.width,
+            drawerClassName = classnames('mfa-form-drawer', className || null);
+
+        if (!this.isVisible) {
+          return null;
+        }
+
+        return React__default.createElement(Antd.Drawer, {
+          className: drawerClassName,
+          closable: true,
+          destroyOnClose: true,
+          maskClosable: false,
+          onClose: this.onCancel,
+          placement: "right",
+          title: title,
+          visible: true,
+          width: width || '600px'
+        }, this.props.childrenBefore, React__default.createElement(Form, _extends({}, this.formProps, {
+          onCancel: this.onCancel,
+          onSuccess: this.onSuccess
+        })));
+      }
+    }, {
       key: "isVisible",
       get: function get() {
         var isVisible = this.props.isVisible;
@@ -37495,68 +37524,12 @@
       }
     }]);
 
-    return FormModalUtils;
-  }(), _temp$a)) || _class$r;
-
-  var _class$s, _class2$i, _temp$b;
-
-  var FormDrawer = autoBindMethods(_class$s = mobxReact.observer(_class$s = (_temp$b = _class2$i =
-  /*#__PURE__*/
-  function (_Component) {
-    _inherits(FormDrawer, _Component);
-
-    function FormDrawer(props) {
-      var _this;
-
-      _classCallCheck(this, FormDrawer);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(FormDrawer).call(this, props));
-      _this.formModalUtils = void 0;
-      _this.formModalUtils = new FormModalUtils(props);
-      return _this;
-    }
-
-    _createClass(FormDrawer, [{
-      key: "render",
-      value: function render() {
-        var _this$props = this.props,
-            className = _this$props.className,
-            title = _this$props.title,
-            width = _this$props.width,
-            _this$formModalUtils = this.formModalUtils,
-            isVisible = _this$formModalUtils.isVisible,
-            onCancel = _this$formModalUtils.onCancel,
-            onSuccess = _this$formModalUtils.onSuccess,
-            formProps = _this$formModalUtils.formProps,
-            drawerClassName = classnames('mfa-form-drawer', className || null);
-
-        if (!isVisible) {
-          return null;
-        }
-
-        return React__default.createElement(Antd.Drawer, {
-          className: drawerClassName,
-          closable: true,
-          destroyOnClose: true,
-          maskClosable: false,
-          onClose: onCancel,
-          placement: "right",
-          title: title,
-          visible: true,
-          width: width || '600px'
-        }, this.props.childrenBefore, React__default.createElement(Form, _extends({}, formProps, {
-          onCancel: onCancel,
-          onSuccess: onSuccess
-        })));
-      }
-    }]);
-
     return FormDrawer;
-  }(React.Component), _class2$i.defaultProps = _objectSpread({}, formPropsDefaults), _temp$b)) || _class$s) || _class$s;
+  }(React.Component), _class2$i.defaultProps = _objectSpread({}, formPropsDefaults), _temp$a)) || _class$r) || _class$r;
 
-  var _class$t, _class2$j, _descriptor$6, _class3$4, _temp$c;
+  var _class$s, _class2$j, _descriptor$6, _class3$4, _temp$b;
 
-  var FormModal = autoBindMethods(_class$t = mobxReact.observer(_class$t = (_class2$j = (_temp$c = _class3$4 =
+  var FormModal = autoBindMethods(_class$s = mobxReact.observer(_class$s = (_class2$j = (_temp$b = _class3$4 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(FormModal, _Component);
@@ -37570,12 +37543,66 @@
 
       _initializerDefineProperty(_this, "formManager", _descriptor$6, _assertThisInitialized(_this));
 
-      _this.formModalUtils = void 0;
-      _this.formModalUtils = new FormModalUtils(props);
       return _this;
     }
 
     _createClass(FormModal, [{
+      key: "onCancel",
+      value: function onCancel() {
+        var _this$props = this.props,
+            onCancel = _this$props.onCancel,
+            isVisible = _this$props.isVisible;
+
+        if (onCancel) {
+          onCancel();
+        }
+
+        if (isVisible && !onCancel) {
+          isVisible.setFalse();
+        }
+      }
+    }, {
+      key: "onSuccess",
+      value: function () {
+        var _onSuccess = _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee() {
+          var _this$props2, onSuccess, isVisible;
+
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _this$props2 = this.props, onSuccess = _this$props2.onSuccess, isVisible = _this$props2.isVisible;
+
+                  if (!onSuccess) {
+                    _context.next = 4;
+                    break;
+                  }
+
+                  _context.next = 4;
+                  return onSuccess();
+
+                case 4:
+                  if (isVisible && !onSuccess) {
+                    isVisible.setFalse();
+                  }
+
+                case 5:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, this);
+        }));
+
+        function onSuccess() {
+          return _onSuccess.apply(this, arguments);
+        }
+
+        return onSuccess;
+      }()
+    }, {
       key: "setRefFormManager",
       value: function setRefFormManager(formManager) {
         this.formManager = formManager;
@@ -37583,30 +37610,37 @@
     }, {
       key: "render",
       value: function render() {
-        var _this$props = this.props,
-            title = _this$props.title,
-            width = _this$props.width,
-            _this$formModalUtils = this.formModalUtils,
-            isVisible = _this$formModalUtils.isVisible,
-            onCancel = _this$formModalUtils.onCancel,
-            onSuccess = _this$formModalUtils.onSuccess,
-            formProps = _this$formModalUtils.formProps;
+        var _this$props3 = this.props,
+            title = _this$props3.title,
+            width = _this$props3.width;
 
-        if (!isVisible) {
+        if (!this.isVisible) {
           return null;
         }
 
         return React__default.createElement(Antd.Modal, _extends({
-          onCancel: onCancel,
+          onCancel: this.onCancel,
           title: title,
           visible: true,
           width: width
-        }, this.modalProps), this.props.childrenBefore, React__default.createElement(Form, _extends({}, formProps, {
-          onCancel: onCancel,
-          onSuccess: onSuccess,
+        }, this.modalProps), this.props.childrenBefore, React__default.createElement(Form, _extends({}, this.formProps, {
+          onCancel: this.onCancel,
+          onSuccess: this.onSuccess,
           setRefFormManager: this.setRefFormManager,
           showControls: false
         })));
+      }
+    }, {
+      key: "isVisible",
+      get: function get() {
+        var isVisible = this.props.isVisible;
+        return isVisible ? isVisible.isTrue : true;
+      }
+    }, {
+      key: "formProps",
+      get: function get() {
+        var HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
+        return lodash.omit(this.props, HANDLED_PROPS);
       }
     }, {
       key: "modalProps",
@@ -37636,16 +37670,16 @@
     }]);
 
     return FormModal;
-  }(React.Component), _class3$4.defaultProps = _objectSpread({}, formPropsDefaults), _temp$c), (_descriptor$6 = _applyDecoratedDescriptor(_class2$j.prototype, "formManager", [mobx.observable], {
+  }(React.Component), _class3$4.defaultProps = _objectSpread({}, formPropsDefaults), _temp$b), (_descriptor$6 = _applyDecoratedDescriptor(_class2$j.prototype, "formManager", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  })), _class2$j)) || _class$t) || _class$t;
+  })), _class2$j)) || _class$s) || _class$s;
 
-  var _class$u, _class2$k, _class3$5, _temp$d;
+  var _class$t, _class2$k, _class3$5, _temp$c;
 
-  var SummaryCard = autoBindMethods(_class$u = mobxReact.observer(_class$u = (_class2$k = (_temp$d = _class3$5 =
+  var SummaryCard = autoBindMethods(_class$t = mobxReact.observer(_class$t = (_class2$k = (_temp$c = _class3$5 =
   /*#__PURE__*/
   function (_Component) {
     _inherits(SummaryCard, _Component);
@@ -37706,11 +37740,11 @@
     return SummaryCard;
   }(React.Component), _class3$5.defaultProps = {
     column: 4
-  }, _temp$d), (_applyDecoratedDescriptor(_class2$k.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$k.prototype, "fieldSets"), _class2$k.prototype)), _class2$k)) || _class$u) || _class$u;
+  }, _temp$c), (_applyDecoratedDescriptor(_class2$k.prototype, "fieldSets", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$k.prototype, "fieldSets"), _class2$k.prototype)), _class2$k)) || _class$t) || _class$t;
 
-  var _class$v, _class2$l;
+  var _class$u, _class2$l;
 
-  var Table = autoBindMethods(_class$v = mobxReact.observer(_class$v = (_class2$l =
+  var Table = autoBindMethods(_class$u = mobxReact.observer(_class$u = (_class2$l =
   /*#__PURE__*/
   function (_Component) {
     _inherits(Table, _Component);
@@ -37756,7 +37790,7 @@
     }]);
 
     return Table;
-  }(React.Component), (_applyDecoratedDescriptor(_class2$l.prototype, "columns", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "columns"), _class2$l.prototype), _applyDecoratedDescriptor(_class2$l.prototype, "dataSource", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "dataSource"), _class2$l.prototype)), _class2$l)) || _class$v) || _class$v;
+  }(React.Component), (_applyDecoratedDescriptor(_class2$l.prototype, "columns", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "columns"), _class2$l.prototype), _applyDecoratedDescriptor(_class2$l.prototype, "dataSource", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "dataSource"), _class2$l.prototype)), _class2$l)) || _class$u) || _class$u;
 
   // Lower-level building blocks and helper components
 
