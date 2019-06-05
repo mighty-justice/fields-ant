@@ -1,15 +1,10 @@
 import faker from 'faker';
-import httpStatus from 'http-status-codes';
 import * as Antd from 'antd';
 
+import { ERROR_WITH_DESCRIPTION } from '../../src/utilities/FormManager';
 import { Tester } from '@mighty-justice/tester';
 
 import { Form, FormCard, IFieldSetPartial } from '../../src';
-
-const ERROR_TYPES = [
-  httpStatus.BAD_REQUEST,
-  httpStatus.FORBIDDEN,
-];
 
 async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
   const props = {
@@ -87,7 +82,7 @@ describe('FormManager', () => {
     });
   });
 
-  ERROR_TYPES.forEach(errorType => {
+  ERROR_WITH_DESCRIPTION.forEach(errorType => {
     it(`Shows descriptive error messages for error type ${errorType.toString()}`, async () => {
       const fieldSets = [[
           { field: 'field_1' },
