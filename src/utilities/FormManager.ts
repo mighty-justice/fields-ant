@@ -208,7 +208,8 @@ class FormManager {
     response. If so, we will try to assign those validation errors to fields, and if that fails
     we will display them in toast notifications.
     */
-    const status = get(error, 'response.status') as undefined | number;
+    const status = get(error, 'response.status') as undefined | number
+      , describeErrors = (status === httpStatus.BAD_REQUEST || status === httpStatus.FORBIDDEN);
     let backendErrors: IBackendValidation = { foundOnForm: {}, errorMessages: [] };
 
     function logError () {
@@ -224,14 +225,14 @@ class FormManager {
     }
 
     // Errors like 500 and 403 Forbidden should be as descriptive as possible
-    if (status && status !== httpStatus.BAD_REQUEST) {
+    if (status && !describeErrors) {
       const statusMessage = httpStatus.getStatusText(status);
       backendErrors.errorMessages.push({ field: status.toString(), message: statusMessage });
       logError();
     }
 
     // Bad request errors are mapped to fields when possible
-    if (status === httpStatus.BAD_REQUEST) {
+    if (describeErrors) {
       const { foundOnForm, errorMessages } = backendValidation(this.formFieldNames, error.response.data);
       backendErrors.errorMessages = [...backendErrors.errorMessages, ...errorMessages];
       backendErrors.foundOnForm = {...backendErrors.foundOnForm, ...foundOnForm };

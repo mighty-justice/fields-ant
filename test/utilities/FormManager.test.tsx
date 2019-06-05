@@ -1,9 +1,15 @@
 import faker from 'faker';
+import httpStatus from 'http-status-codes';
 import * as Antd from 'antd';
 
 import { Tester } from '@mighty-justice/tester';
 
-import { FormCard, IFieldSetPartial } from '../../src';
+import { Form, FormCard, IFieldSetPartial } from '../../src';
+
+const ERROR_TYPES = [
+  httpStatus.BAD_REQUEST,
+  httpStatus.FORBIDDEN,
+];
 
 async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
   const props = {
@@ -78,6 +84,39 @@ describe('FormManager', () => {
        description: '500 - Server Error',
        duration: null,
        message: 'Error submitting form',
+    });
+  });
+
+  ERROR_TYPES.forEach(errorType => {
+    it(`Shows descriptive error messages for error type ${errorType.toString()}`, async () => {
+      const fieldSets = [[
+          { field: 'field_1' },
+          { field: 'field_2' },
+        ]]
+        , field1Error = faker.random.words()
+        , nonFieldError = faker.random.words()
+        , err = {
+          response: {
+            data: {
+              field_1: [field1Error],
+              non_field_errors: [nonFieldError],
+            },
+            status: errorType,
+          },
+        }
+        , onSave = jest.fn(() => { throw err; })
+        , props = { fieldSets, onSave }
+        , tester = await new Tester(Form, { props }).mount()
+        ;
+
+      spyOn(Antd.notification, 'error');
+      await tester.submit();
+
+      expect(Antd.notification.error).toHaveBeenCalledWith({
+        description: `Non Field Errors - ${nonFieldError}`,
+        duration: null,
+        message: 'Error submitting form',
+      });
     });
   });
 });
