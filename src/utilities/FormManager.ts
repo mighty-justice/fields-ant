@@ -46,6 +46,11 @@ interface IFormWrappedInstance {
   };
 }
 
+export const ERROR_WITH_DESCRIPTION = [
+  httpStatus.BAD_REQUEST,
+  httpStatus.FORBIDDEN,
+];
+
 export const toastError = {
   description: '',
   duration: null,
@@ -224,14 +229,14 @@ class FormManager {
     }
 
     // Errors like 500 and 403 Forbidden should be as descriptive as possible
-    if (status && status !== httpStatus.BAD_REQUEST) {
+    if (status && !ERROR_WITH_DESCRIPTION.includes(status)) {
       const statusMessage = httpStatus.getStatusText(status);
       backendErrors.errorMessages.push({ field: status.toString(), message: statusMessage });
       logError();
     }
 
     // Bad request errors are mapped to fields when possible
-    if (status === httpStatus.BAD_REQUEST) {
+    if (status && ERROR_WITH_DESCRIPTION.includes(status)) {
       const { foundOnForm, errorMessages } = backendValidation(this.formFieldNames, error.response.data);
       backendErrors.errorMessages = [...backendErrors.errorMessages, ...errorMessages];
       backendErrors.foundOnForm = {...backendErrors.foundOnForm, ...foundOnForm };
