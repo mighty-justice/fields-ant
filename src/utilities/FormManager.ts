@@ -199,7 +199,7 @@ class FormManager {
 
   private hasErrors () {
     const fieldsError = flattenObject<{ [key: string]: any }, { [key: string]: any }>(this.form.getFieldsError());
-    return Object.keys((fieldsError)).some((field) => fieldsError[field]);
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
 
   private handleRequestError (error: Error & { response?: any }) {
