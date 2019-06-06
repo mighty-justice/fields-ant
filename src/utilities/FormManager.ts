@@ -88,7 +88,7 @@ class FormManager {
   }
 
   public get submitButtonDisabled () {
-    return this.hasErrors(this.form.getFieldsError());
+    return this.hasErrors();
   }
 
   public getDefaultValue (fieldConfig: IFieldConfig) {
@@ -202,8 +202,9 @@ class FormManager {
     });
   }
 
-  private hasErrors (fieldsError: any) {
-    return Object.keys(fieldsError).some((field) => fieldsError[field]);
+  private hasErrors () {
+    const fieldsError = flattenObject<{ [key: string]: any }, { [key: string]: any }>(this.form.getFieldsError());
+    return Object.keys((fieldsError)).some((field) => fieldsError[field]);
   }
 
   private handleRequestError (error: Error & { response?: any }) {
