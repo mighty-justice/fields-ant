@@ -37,6 +37,7 @@ import { REGEXP_SSN } from '../consts';
 import { getDateFormatList } from './getDateFormatList';
 import ObjectSearch from '../inputs/ObjectSearch';
 import Hidden from '../inputs/Hidden';
+import Checkbox from '../inputs/Checkbox';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -77,6 +78,10 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     options: [{ value: 'false', name: 'No' }, { value: 'true', name: 'Yes' }],
     render: passRenderOnlyValue(mapBooleanToText),
     toForm: passToFormOnlyValue(booleanToForm),
+  },
+  checkbox: {
+    editComponent: Checkbox,
+    fromForm: (value) => !!value,
   },
   date: {
     editComponent: Date,
