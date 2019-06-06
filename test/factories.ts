@@ -71,6 +71,7 @@ export function fieldFactoryForType (type: string) {
 }
 
 export const booleanFactory = fieldFactoryForType('boolean');
+export const checkboxFactory = fieldFactoryForType('checkbox');
 export const dateFactory = fieldFactoryForType('date');
 export const datepickerFactory = fieldFactoryForType('datepicker');
 export const durationFactory = fieldFactoryForType('duration');
@@ -198,6 +199,7 @@ interface ITypeGenerators {
 
 export const TYPE_GENERATORS: ITypeGenerators = {
   boolean: { valueFunction: fakeBoolean, fieldConfigFactory: booleanFactory },
+  checkbox: { valueFunction: fakeBoolean, fieldConfigFactory: checkboxFactory },
   date: { valueFunction: fakeDatePast, fieldConfigFactory: dateFactory },
   datepicker: { valueFunction: fakeDateRecent, fieldConfigFactory: datepickerFactory },
   duration: { valueFunction: fakeDuration, fieldConfigFactory: durationFactory },
@@ -229,6 +231,7 @@ export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
   })),
 
   boolean: sample([[true, 'Yes'], [false, 'No']]) as [boolean, string],
+  checkbox: sample([[true, 'Yes'], [false, 'No']]) as [boolean, string],
   date: ['2017-11-22', '11/22/17'],
   datepicker: ['2017-11-22', '11/22/17'],
   hidden: [TYPE_GENERATORS.hidden.valueFunction(), SKIP],

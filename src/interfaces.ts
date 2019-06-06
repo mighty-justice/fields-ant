@@ -131,6 +131,12 @@ export interface IInputProps {
   formManager: FormManager;
 }
 
+export interface ICheckboxProps extends IInputProps {
+  description?: string;
+  disabled?: boolean;
+  disabledText?: string;
+}
+
 export interface IEndpointOption {
   id: string;
 }
