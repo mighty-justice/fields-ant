@@ -231,6 +231,7 @@ export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
   })),
 
   boolean: sample([[true, 'Yes'], [false, 'No']]) as [boolean, string],
+  checkbox: sample([[true, 'Yes'], [false, 'No']]) as [boolean, string],
   date: ['2017-11-22', '11/22/17'],
   datepicker: ['2017-11-22', '11/22/17'],
   hidden: [TYPE_GENERATORS.hidden.valueFunction(), SKIP],

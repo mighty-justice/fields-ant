@@ -82,6 +82,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   checkbox: {
     editComponent: Checkbox,
     fromForm: (value) => !!value,
+    render: passRenderOnlyValue(mapBooleanToText),
   },
   date: {
     editComponent: Date,
