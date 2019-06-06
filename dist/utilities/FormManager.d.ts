@@ -26,6 +26,7 @@ interface IFormWrappedInstance {
         form: IForm;
     };
 }
+export declare const ERROR_WITH_DESCRIPTION: number[];
 export declare const toastError: {
     description: string;
     duration: null;
