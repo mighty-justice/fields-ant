@@ -33,5 +33,19 @@ describe('submitButtonDisabled', () => {
       tester.click(tester.find('.ant-btn-primary'));
       expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(0);
     });
+
+    it(`Submit button correctly disables in nested forms on ${componentName}`, async () => {
+      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName]
+        , props = propsFactory.build({
+            fieldSets: [[{ field: 'plaintiff.name'}]],
+        });
+
+      const tester = await new Tester(ComponentClass, { props }).mount();
+      expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(0);
+
+      tester.changeInput('input', 'Name');
+      tester.click(tester.find('.ant-btn-primary'));
+      expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(0);
+    });
   });
 });
