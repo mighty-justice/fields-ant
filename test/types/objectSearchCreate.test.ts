@@ -17,7 +17,7 @@ function fakeLawFirm () {
 function getDefaults (overrides?: any) {
   const field = overrides.field || 'law_firm'
     , editProps = { debounceWait: 0 }
-    , endpoint = overrides.endpoint || 'legal-organizations'
+    , endpoint = overrides.endpoint || '/legal-organizations/'
     , type = overrides.type || 'objectSearchCreate'
     , createFields = overrides.createFields || [{ field: 'name', required: true }, { field: 'amount_owed' }]
     , fieldConfig = { editProps, field, type, endpoint, createFields, ...overrides.fieldConfig }

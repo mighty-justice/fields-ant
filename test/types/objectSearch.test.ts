@@ -14,7 +14,7 @@ function fakeLawFirm () {
 
 function getFormDefaults (overrides?: any) {
   const field = overrides.field || 'law_firm'
-    , endpoint = 'legal-organizations'
+    , endpoint = '/legal-organizations/'
     , type = overrides.type || 'objectSearch'
     , fieldConfig = fillInFieldConfig({
       editProps: { debounceWait: 0 },
@@ -47,7 +47,7 @@ function getFormDefaults (overrides?: any) {
 
 function getComponentDefaults (overrides?: any) {
   const field = overrides.field || 'law_firm'
-    , endpoint = 'legal-organizations'
+    , endpoint = '/legal-organizations/'
     , type = overrides.type || 'objectSearch'
     , fieldConfig = fillInFieldConfig({ field, type, endpoint, ...overrides.fieldConfig })
     , props = { id: field, fieldConfig, debounceWait: 0 }
@@ -98,10 +98,10 @@ describe('objectSearch', () => {
   it('Properly caches and displays options', async () => {
     const { field, searchTerm, result, props, endpoint } = getComponentDefaults({})
       , tester = (await new Tester(ObjectSearch, { props }).mount() as any)
-      , newEndpoint = `${endpoint}-2`
+      , newEndpoint = `${endpoint}2/`
       ;
 
-    tester.endpoints[`/${newEndpoint}/`] = { results: [result] };
+    tester.endpoints[newEndpoint] = { results: [result] };
 
     expect(tester.getEndpoint.mock.calls.length).toBe(0);
 
