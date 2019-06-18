@@ -69,6 +69,21 @@ class FormItem extends Component<IFormFieldProps> {
     };
   }
 
+  private get formItemProps () {
+    const { fieldConfig, formModel } = this.props
+      , { field, formItemRenderExtra } = fieldConfig
+      , extraValue = get(formModel, field)
+      ;
+
+    if (extraValue && formItemRenderExtra) {
+      return {
+        extra: formItemRenderExtra(extraValue),
+      };
+    }
+
+    return {};
+  }
+
   public render () {
     const { formManager, fieldConfig } = this.props
       , { className, colProps, formItemProps, field } = fieldConfig
@@ -79,6 +94,7 @@ class FormItem extends Component<IFormFieldProps> {
       <Antd.Col {...colProps}>
         <Antd.Form.Item
           className={className}
+          {...this.formItemProps}
           {...formItemProps}
           label={renderLabel(fieldConfig)}
         >

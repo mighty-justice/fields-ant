@@ -78,6 +78,7 @@ an appropriate render function, edit component, validator, and sets falsey value
 
 #### Core attributes
 - **className**: string, applied on the `Antd.Form.Item`.
+- **formItemRenderExtra**: Optional function for rendering an extra under a form item. See interfaces.ts for call signature.
 - **label**: The label generated from `field` is usually very good, but sometimes you want something completely 
 different.
 - **nullify**: If true, empty values in the submit data will be null and not empty string.
