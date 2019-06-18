@@ -69,27 +69,37 @@ class FormItem extends Component<IFormFieldProps> {
     };
   }
 
-  private get formItemExtra () {
-    const { fieldConfig } = this.props
-      , { formItemProps } = fieldConfig;
-    return (
-      <span>
-        { formItemProps && formItemProps.extraFieldConfig && renderLabel(formItemProps.extraFieldConfig) }
-      </span>
-    );
+  private get getFieldConfig () {
+    const { fieldConfig, formModel } = this.props
+      , { field, formItemRenderExtra } = fieldConfig
+      , extraValue = get(formModel, field)
+      ;
+
+    if (!extraValue) { return fieldConfig; }
+
+    if (formItemRenderExtra) {
+      return {
+        ...fieldConfig,
+        formItemProps: {
+          ...fieldConfig.formItemProps,
+          extra: formItemRenderExtra(extraValue),
+        },
+      };
+    }
+
+    return fieldConfig;
   }
 
   public render () {
-    const { formManager, fieldConfig } = this.props
-      , { className, colProps, formItemProps, field } = fieldConfig
+    const { formManager } = this.props
+      , { className, colProps, formItemProps, field } = this.getFieldConfig
       , { getFieldDecorator } = formManager.form;
     return (
       <Antd.Col {...colProps}>
         <Antd.Form.Item
           className={className}
           {...formItemProps}
-          label={renderLabel(fieldConfig)}
-          extra={this.formItemExtra}
+          label={renderLabel(this.getFieldConfig)}
         >
           {getFieldDecorator(field, this.decoratorOptions)(this.props.children)}
         </Antd.Form.Item>
