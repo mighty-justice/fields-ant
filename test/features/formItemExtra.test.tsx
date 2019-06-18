@@ -14,10 +14,7 @@ const SUPPORTING_COMPONENTS = [
 ];
 
 function extraRenderer (value: IValue) {
-    if (value) {
-      return <span id='test'>Hello</span>
-    }
-    return null;
+  return value ? <span id='test'>Hello</span> : null;
 }
 
 // Tests that users can pass in optional formItemRenderExtra to render an extra under form item.
