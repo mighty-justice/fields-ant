@@ -21,7 +21,7 @@ interface IFieldConfigBase {
   field: string;
   fieldConfigProp: boolean;
   formItemProps?: Partial<FormItemProps>;
-  formItemRenderExtra?: (value: IValue) => IValue;
+  formItemRenderExtra?: (value: IValue) => React.ReactNode;
   formValidationRules: { [ruleName: string]: IValidationRule };
   fromForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
   icon?: string;
