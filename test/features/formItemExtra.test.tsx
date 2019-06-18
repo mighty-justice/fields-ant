@@ -15,7 +15,7 @@ const SUPPORTING_COMPONENTS = [
 
 function extraRenderer (value: IValue) {
     if (value) {
-      return <span id="test">Hello</span>
+      return <span id='test'>Hello</span>
     }
     return null;
 }
@@ -27,19 +27,19 @@ describe('formItemExtra', () => {
       const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName]
         , name = faker.lorem.sentence()
         , props = propsFactory.build({
-            fieldSets: [[{ field: 'name', formItemRenderExtra: extraRenderer }]],
-            model: { name }
+            fieldSets: [[{ field: 'name', formItemRenderExtra: extraRenderer }]]
+            , model: { name }
         })
         , tester = await new Tester(ComponentClass, { props }).mount({ async: true });
 
       expect(tester.find('.ant-form-extra').length).toBe(1);
-      expect(tester.find('.ant-form-extra #test').text()).toEqual("Hello");
+      expect(tester.find('.ant-form-extra #test').text()).toEqual('Hello');
     });
 
     it(`No form items extras render if no props passed in`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName]
           , props = propsFactory.build()
-          , tester = await new Tester(ComponentClass, { props }).mount();
+          , tester = await new Tester(ComponentClass, { props }).mount({ async: true });
 
         expect(tester.find('.ant-form-extra').length).toBe(0);
     });

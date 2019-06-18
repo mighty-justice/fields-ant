@@ -75,13 +75,7 @@ class FormItem extends Component<IFormFieldProps> {
       , extraValue = get(formModel, field)
       ;
 
-    if (extraValue && formItemRenderExtra) {
-      return {
-        extra: formItemRenderExtra(extraValue),
-      };
-    }
-
-    return {};
+    return extraValue && formItemRenderExtra ? { extra: formItemRenderExtra(extraValue) } : {};
   }
 
   public render () {
