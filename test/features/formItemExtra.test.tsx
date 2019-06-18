@@ -13,38 +13,34 @@ const SUPPORTING_COMPONENTS = [
   'FormModal',
 ];
 
-function testFormat (value: IValue) {
+function extraRenderer (value: IValue) {
     if (value) {
       return <span id="test">Hello</span>
     }
     return null;
 }
 
-// Tests that users can pass in optional extraFieldConfig props to render an extra under form item.
+// Tests that users can pass in optional formItemRenderExtra to render an extra under form item.
 describe('formItemExtra', () => {
   SUPPORTING_COMPONENTS.forEach(componentName => {
     it(`Form item extras correctly renders in ${componentName}`, async () => {
       const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName]
         , name = faker.lorem.sentence()
         , props = propsFactory.build({
-            fieldSets: [[{ field: 'name'
-            , formItemRenderExtra: testFormat }]],
-            model: { name },
-        });
+            fieldSets: [[{ field: 'name', formItemRenderExtra: extraRenderer }]],
+            model: { name }
+        })
+        , tester = await new Tester(ComponentClass, { props }).mount({ async: true });
 
-      const tester = await new Tester(ComponentClass, { props }).mount();
       expect(tester.find('.ant-form-extra').length).toBe(1);
       expect(tester.find('.ant-form-extra #test').text()).toEqual("Hello");
     });
 
     it(`No form items extras render if no props passed in`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName]
-          , name = faker.lorem.sentence()
-          , props = propsFactory.build({
-              fieldSets: [[{ field: 'name', model: { name} } ]],
-          });
+          , props = propsFactory.build()
+          , tester = await new Tester(ComponentClass, { props }).mount();
 
-        const tester = await new Tester(ComponentClass, { props }).mount();
         expect(tester.find('.ant-form-extra').length).toBe(0);
     });
   });

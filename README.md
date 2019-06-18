@@ -82,6 +82,7 @@ an appropriate render function, edit component, validator, and sets falsey value
 different.
 - **nullify**: If true, empty values in the submit data will be null and not empty string.
 - **render**: Used for rendering the value for the user in read contexts. See interfaces.ts for call signature.
+- **formItemRenderExtra**: Optional function for rendering an extra under a form item. See interfaces.ts for call signature.
 - **showLabel**: If false, read contexts will show only the output of render.
 - **tooltip**: Optional tooltip to be displayed alongside the label.
 - **value**: Normally read from model or defaults props, this can be used as a value override in any component.
