@@ -78,6 +78,7 @@ class FormItem extends Component<IFormFieldProps> {
     if (!extraValue) { return fieldConfig; }
 
     if (formItemRenderExtra) {
+
       return {
         ...fieldConfig,
         formItemProps: {
@@ -93,7 +94,9 @@ class FormItem extends Component<IFormFieldProps> {
   public render () {
     const { formManager } = this.props
       , { className, colProps, formItemProps, field } = this.getFieldConfig
-      , { getFieldDecorator } = formManager.form;
+      , { getFieldDecorator } = formManager.form
+      ;
+
     return (
       <Antd.Col {...colProps}>
         <Antd.Form.Item
