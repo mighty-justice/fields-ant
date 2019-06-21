@@ -1247,7 +1247,7 @@ function (_Component) {
           getFieldDecorator = formManager.form.getFieldDecorator;
       return React__default.createElement(Antd.Col, colProps, React__default.createElement(Antd.Form.Item, _extends({
         className: className
-      }, formItemProps, {
+      }, this.formItemProps, formItemProps, {
         label: renderLabel(fieldConfig)
       }), getFieldDecorator(field, this.decoratorOptions)(this.props.children)));
     }
@@ -1287,6 +1287,24 @@ function (_Component) {
         initialValue: this.initialValue,
         rules: this.rules
       };
+    }
+  }, {
+    key: "formItemProps",
+    get: function get() {
+      var _this$props4 = this.props,
+          fieldConfig = _this$props4.fieldConfig,
+          formModel = _this$props4.formModel,
+          field = fieldConfig.field,
+          formItemRenderExtra = fieldConfig.formItemRenderExtra,
+          extraValue = lodash.get(formModel, field);
+
+      if (extraValue && formItemRenderExtra) {
+        return {
+          extra: formItemRenderExtra(extraValue)
+        };
+      }
+
+      return {};
     }
   }]);
 

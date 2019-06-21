@@ -1240,7 +1240,7 @@ function (_Component) {
           getFieldDecorator = formManager.form.getFieldDecorator;
       return React.createElement(Col, colProps, React.createElement(Form$1.Item, _extends({
         className: className
-      }, formItemProps, {
+      }, this.formItemProps, formItemProps, {
         label: renderLabel(fieldConfig)
       }), getFieldDecorator(field, this.decoratorOptions)(this.props.children)));
     }
@@ -1280,6 +1280,24 @@ function (_Component) {
         initialValue: this.initialValue,
         rules: this.rules
       };
+    }
+  }, {
+    key: "formItemProps",
+    get: function get$1() {
+      var _this$props4 = this.props,
+          fieldConfig = _this$props4.fieldConfig,
+          formModel = _this$props4.formModel,
+          field = fieldConfig.field,
+          formItemRenderExtra = fieldConfig.formItemRenderExtra,
+          extraValue = get(formModel, field);
+
+      if (extraValue && formItemRenderExtra) {
+        return {
+          extra: formItemRenderExtra(extraValue)
+        };
+      }
+
+      return {};
     }
   }]);
 

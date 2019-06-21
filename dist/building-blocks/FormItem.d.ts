@@ -12,6 +12,7 @@ declare class FormItem extends Component<IFormFieldProps> {
     private fieldsValidatorToValidator;
     private readonly rules;
     private readonly decoratorOptions;
+    private readonly formItemProps;
     render(): JSX.Element;
 }
 export default FormItem;
