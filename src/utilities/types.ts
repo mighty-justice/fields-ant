@@ -13,6 +13,7 @@ import {
   EMPTY_FIELD,
   formatCommaSeparatedNumber,
   formatDate,
+  formatEmployerIdNumber,
   formatMoney,
   formatPercentage,
   formatPhoneNumber,
@@ -33,7 +34,7 @@ import RadioGroup from '../inputs/RadioGroup';
 import Rate, { formatRating } from '../inputs/Rate';
 import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
 import { IModel, IValue } from '../props';
-import { REGEXP_SSN } from '../consts';
+import { REGEXP_EIN, REGEXP_SSN } from '../consts';
 import { getDateFormatList } from './getDateFormatList';
 import ObjectSearch from '../inputs/ObjectSearch';
 import Hidden from '../inputs/Hidden';
@@ -110,6 +111,16 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
       },
     },
     nullify: true,
+  },
+  ein: {
+    editComponent: Antd.Input,
+    formValidationRules: {
+      ssn: {
+        message: 'Must be a valid employer ID number',
+        pattern: REGEXP_EIN,
+      },
+    },
+    render: passRenderOnlyValue(formatEmployerIdNumber),
   },
   email: {
     formValidationRules: {
