@@ -44,6 +44,7 @@ export const fakeBoolean = () => sample([true, false]);
 export const fakeDateRecent = () => format(faker.date.recent(), 'YYYY-MM-DD');
 export const fakeDatePast = () => format(faker.date.past(100), 'YYYY-MM-DD');
 export const fakeDuration = () => faker.helpers.replaceSymbolWithNumber('P#Y');
+export const fakeEin = () => faker.helpers.replaceSymbolWithNumber('##-#######');
 export const fakeField = () => faker.random.words(3).replace(/[^A-Za-z ]/g, '').replace(/ /g, '_').toLowerCase();
 export const fakeObjectSearch = () => ({ name: fakeTextShort(), id: faker.random.uuid() });
 export const fakerPercentage = () => sample(['1', Number(faker.helpers.replaceSymbolWithNumber('0.###')).toString()]);
@@ -75,6 +76,7 @@ export const checkboxFactory = fieldFactoryForType('checkbox');
 export const dateFactory = fieldFactoryForType('date');
 export const datepickerFactory = fieldFactoryForType('datepicker');
 export const durationFactory = fieldFactoryForType('duration');
+export const einFactory = fieldFactoryForType('ein');
 export const emailFactory = fieldFactoryForType('email');
 export const hiddenFactory = fieldFactoryForType('hidden');
 export const moneyFactory = fieldFactoryForType('money');
@@ -203,6 +205,7 @@ export const TYPE_GENERATORS: ITypeGenerators = {
   date: { valueFunction: fakeDatePast, fieldConfigFactory: dateFactory },
   datepicker: { valueFunction: fakeDateRecent, fieldConfigFactory: datepickerFactory },
   duration: { valueFunction: fakeDuration, fieldConfigFactory: durationFactory },
+  ein: { valueFunction: fakeEin, fieldConfigFactory: einFactory },
   email: { valueFunction: faker.internet.email, fieldConfigFactory: emailFactory },
   hidden: { valueFunction: faker.random.uuid, fieldConfigFactory: hiddenFactory },
   money: { valueFunction: faker.finance.amount, fieldConfigFactory: moneyFactory },
