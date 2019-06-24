@@ -658,6 +658,7 @@ function (_Component) {
 var DEFAULT_DEBOUNCE_WAIT = 300;
 var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
 var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
+var REGEXP_EIN = /^\d{2}[-\s]?\d{7}$/;
 var ID_ATTR = 'id';
 
 function asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, key, arg) {
@@ -23534,19 +23535,26 @@ function getOrDefault(value) {
 
   return value;
 }
-function formatSocialSecurityNumber(value) {
+
+function formatNumberFromTemplate(template, value) {
   if (!hasStringContent(value)) {
     return EMPTY_FIELD;
   }
 
-  var ssnNums = value && value.match(/\d/g) || [],
-      template = '###-##-####';
+  var numberValues = value && value.match(/\d/g) || [];
 
-  if (canReplaceSymbols(template, ssnNums)) {
-    return replaceSymbolsWithChars(template, ssnNums);
+  if (canReplaceSymbols(template, numberValues)) {
+    return replaceSymbolsWithChars(template, numberValues);
   }
 
   return EMPTY_FIELD;
+}
+
+function formatSocialSecurityNumber(value) {
+  return formatNumberFromTemplate('###-##-####', value);
+}
+function formatEmployerIdNumber(value) {
+  return formatNumberFromTemplate('##-#######', value);
 }
 function formatPercentage(value) {
   var decimalPoints = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
@@ -35195,6 +35203,16 @@ var TYPES = {
     },
     nullify: true
   },
+  ein: {
+    editComponent: Input,
+    formValidationRules: {
+      ssn: {
+        message: 'Must be a valid employer ID number',
+        pattern: REGEXP_EIN
+      }
+    },
+    render: passRenderOnlyValue(formatEmployerIdNumber)
+  },
   email: {
     formValidationRules: {
       email: {
@@ -37847,4 +37865,4 @@ function (_Component) {
 
 // Lower-level building blocks and helper components
 
-export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, backendValidation, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatOptionSelect, formatRating, getDateFormatList, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, renderLabel, renderValue, setFieldSetFields };
+export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, backendValidation, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatOptionSelect, formatRating, getDateFormatList, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, renderLabel, renderValue, setFieldSetFields };

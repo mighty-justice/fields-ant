@@ -660,6 +660,7 @@
   var DEFAULT_DEBOUNCE_WAIT = 300;
   var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
   var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
+  var REGEXP_EIN = /^\d{2}[-\s]?\d{7}$/;
   var ID_ATTR = 'id';
 
   function asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, key, arg) {
@@ -23536,19 +23537,26 @@
 
     return value;
   }
-  function formatSocialSecurityNumber(value) {
+
+  function formatNumberFromTemplate(template, value) {
     if (!hasStringContent(value)) {
       return EMPTY_FIELD;
     }
 
-    var ssnNums = value && value.match(/\d/g) || [],
-        template = '###-##-####';
+    var numberValues = value && value.match(/\d/g) || [];
 
-    if (canReplaceSymbols(template, ssnNums)) {
-      return replaceSymbolsWithChars(template, ssnNums);
+    if (canReplaceSymbols(template, numberValues)) {
+      return replaceSymbolsWithChars(template, numberValues);
     }
 
     return EMPTY_FIELD;
+  }
+
+  function formatSocialSecurityNumber(value) {
+    return formatNumberFromTemplate('###-##-####', value);
+  }
+  function formatEmployerIdNumber(value) {
+    return formatNumberFromTemplate('##-#######', value);
   }
   function formatPercentage(value) {
     var decimalPoints = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
@@ -35197,6 +35205,16 @@
       },
       nullify: true
     },
+    ein: {
+      editComponent: Antd.Input,
+      formValidationRules: {
+        ssn: {
+          message: 'Must be a valid employer ID number',
+          pattern: REGEXP_EIN
+        }
+      },
+      render: passRenderOnlyValue(formatEmployerIdNumber)
+    },
     email: {
       formValidationRules: {
         email: {
@@ -37876,6 +37894,7 @@
   exports.ObjectSearchCreate = ObjectSearchCreate;
   exports.OptionSelect = OptionSelect;
   exports.OptionSelectDisplay = OptionSelectDisplay;
+  exports.REGEXP_EIN = REGEXP_EIN;
   exports.REGEXP_SSN = REGEXP_SSN;
   exports.RadioGroup = RadioGroup;
   exports.Rate = Rate;
