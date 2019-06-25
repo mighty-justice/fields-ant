@@ -39,6 +39,7 @@ import { getDateFormatList } from './getDateFormatList';
 import ObjectSearch from '../inputs/ObjectSearch';
 import Hidden from '../inputs/Hidden';
 import Checkbox from '../inputs/Checkbox';
+import Address from '../inputs/Address';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -71,6 +72,13 @@ function booleanFromForm (value: IValue) {
 const dateFormatList = getDateFormatList();
 
 export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
+  address: {
+    editComponent: Address,
+    fieldConfigProp: true,
+    nullify: true,
+    // render: passRenderOnlyValue(getNameOrDefault),
+    skipFieldDecorator: true,
+  },
   boolean: {
     editComponent: OptionSelect,
     fieldConfigProp: true,

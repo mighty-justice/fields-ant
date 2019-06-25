@@ -40,6 +40,13 @@ export const onDelete = actionFunctionFor('onDelete');
 // These are used, uncalled, in factory attr lists
 export const fakeTextShort = () => faker.random.words(3);
 
+export const fakeAddress = () => ({
+  address1: fakeTextShort(),
+  address2: fakeTextShort(),
+  city: faker.address.zipCode(),
+  state: { name: faker.address.state(), id: faker.address.stateAbbr() },
+  zip_code: faker.address.zipCode(),
+});
 export const fakeBoolean = () => sample([true, false]);
 export const fakeDateRecent = () => format(faker.date.recent(), 'YYYY-MM-DD');
 export const fakeDatePast = () => format(faker.date.past(100), 'YYYY-MM-DD');
@@ -71,6 +78,7 @@ export function fieldFactoryForType (type: string) {
     .attrs({ type });
 }
 
+export const addressFactory = fieldFactoryForType('address');
 export const booleanFactory = fieldFactoryForType('boolean');
 export const checkboxFactory = fieldFactoryForType('checkbox');
 export const dateFactory = fieldFactoryForType('date');
@@ -200,6 +208,7 @@ interface ITypeGenerators {
 }
 
 export const TYPE_GENERATORS: ITypeGenerators = {
+  address: { valueFunction: fakeAddress, fieldConfigFactory: addressFactory },
   boolean: { valueFunction: fakeBoolean, fieldConfigFactory: booleanFactory },
   checkbox: { valueFunction: fakeBoolean, fieldConfigFactory: checkboxFactory },
   date: { valueFunction: fakeDatePast, fieldConfigFactory: dateFactory },
