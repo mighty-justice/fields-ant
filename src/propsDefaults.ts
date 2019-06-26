@@ -5,6 +5,7 @@ async function asyncNoop () {
 }
 
 export const formPropsDefaults = {
+  cancelText: 'Cancel',
   onSave: asyncNoop,
   saveText: 'Save',
 };
