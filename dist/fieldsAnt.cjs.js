@@ -36944,6 +36944,7 @@ function _asyncNoop() {
 }
 
 var formPropsDefaults = {
+  cancelText: 'Cancel',
   onSave: asyncNoop,
   saveText: 'Save'
 };
@@ -37025,6 +37026,7 @@ function (_Component) {
     value: function renderControls() {
       var _this$props = this.props,
           blockSubmit = _this$props.blockSubmit,
+          cancelText = _this$props.cancelText,
           onCancel = _this$props.onCancel,
           saveText = _this$props.saveText,
           submitProps = {
@@ -37049,7 +37051,7 @@ function (_Component) {
         disabled: this.formManager.saving,
         onClick: onCancel,
         size: "large"
-      }, "Cancel"), React__default.createElement(Antd.Button, submitProps));
+      }, cancelText), React__default.createElement(Antd.Button, submitProps));
     }
   }, {
     key: "render",
