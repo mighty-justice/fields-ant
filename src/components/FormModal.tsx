@@ -48,10 +48,11 @@ class FormModal extends Component<ISharedFormModalProps> {
   }
 
   private get modalProps () {
-    const { saveText } = this.props;
+    const { cancelText, saveText } = this.props;
 
     if (!this.formManager) {
       return {
+        cancelText,
         confirmLoading: true,
         okButtonProps: { disabled: true },
         okText: saveText,
@@ -60,6 +61,7 @@ class FormModal extends Component<ISharedFormModalProps> {
     }
 
     return {
+      cancelText,
       confirmLoading: this.formManager.saving,
       okButtonProps: { disabled: this.formManager.submitButtonDisabled },
       okText: this.formManager.saving ? 'Saving...' : saveText,
