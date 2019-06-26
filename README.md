@@ -230,11 +230,11 @@ Gotchas:
 # All other commands
 
 - **yarn build** - Build the project
-- **yarn dev** -  Build the project and watch for changes
-- **yarn docs:build** -  Build storybook documentation
-- **yarn docs:deploy** -  Deploy storybook documentation to Github pages
-- **yarn docs:watch** -  Run auto-reloading storybook
-- **yarn lint** -  Run lint
-- **yarn test** -  Run tests
-- **yarn test:watch** -  Run tests and watch for changes
-- **yarn view-source-map** -  Opens HTML representation of source map
+- **yarn dev** - Build the project and watch for changes
+- **yarn docs:build** - Build storybook documentation
+- **yarn docs:deploy** - Deploy storybook documentation to Github pages
+- **yarn docs:watch** - Run auto-reloading storybook
+- **yarn lint** - Run lint
+- **yarn test** - Run tests
+- **yarn test:watch** - Run tests and watch for changes
+- **yarn view-source-map** - Opens HTML representation of source map
