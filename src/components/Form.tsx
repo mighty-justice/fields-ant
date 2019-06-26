@@ -74,6 +74,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   private renderControls () {
     const {
         blockSubmit,
+        cancelText,
         onCancel,
         saveText,
       } = this.props
@@ -98,7 +99,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
             onClick={onCancel}
             size='large'
           >
-            Cancel
+            {cancelText}
           </Antd.Button>
         )}
 
