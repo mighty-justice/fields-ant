@@ -37725,10 +37725,13 @@ function (_Component) {
   }, {
     key: "modalProps",
     get: function get() {
-      var saveText = this.props.saveText;
+      var _this$props4 = this.props,
+          cancelText = _this$props4.cancelText,
+          saveText = _this$props4.saveText;
 
       if (!this.formManager) {
         return {
+          cancelText: cancelText,
           confirmLoading: true,
           okButtonProps: {
             disabled: true
@@ -37739,6 +37742,7 @@ function (_Component) {
       }
 
       return {
+        cancelText: cancelText,
         confirmLoading: this.formManager.saving,
         okButtonProps: {
           disabled: this.formManager.submitButtonDisabled
