@@ -2,7 +2,7 @@ import { Factory } from 'rosie';
 import faker from 'faker';
 import { format } from 'date-fns';
 import { action } from '@storybook/addon-actions';
-import { sample, fromPairs } from 'lodash';
+import { fromPairs, sample, zipWith } from 'lodash';
 
 import SmartBool from '@mighty-justice/smart-bool';
 
@@ -103,9 +103,15 @@ export const attrOptions = [
   { value: 'third', name: 'Third Item' },
 ];
 
-// TODO - use states
+const addressDefinitions = (faker as any).definitions.address;
+export const stateOptions = zipWith(
+  addressDefinitions.state,
+  addressDefinitions.state_abbr,
+  function (state, stateAbbr) { return { name: state, value: stateAbbr }; },
+);
+
 export const addressFactory = fieldFactoryForType('address')
-  .attrs({ stateProps: { options: attrOptions }});
+  .attrs({ stateProps: { options: stateOptions }});
 
 export const radioFactory = fieldFactoryForType('radio')
   .attrs({ options: attrOptions });
@@ -236,9 +242,9 @@ export const TYPE_GENERATORS: ITypeGenerators = {
   url: { valueFunction: faker.internet.url, fieldConfigFactory: urlFactory },
 };
 
+const addressValue = fakeAddress();
 const SKIP = null;
 
-// TODO - add to here
 export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
   // value: [valueFunction(), valueFunction()]
   ...fromPairs(Object.keys(TYPE_GENERATORS).map(type => {
@@ -246,6 +252,7 @@ export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
     return [type, [value, value]];
   })),
 
+  address: [addressValue, addressValue.address1],
   boolean: sample([[true, 'Yes'], [false, 'No']]) as [boolean, string],
   checkbox: sample([[true, 'Yes'], [false, 'No']]) as [boolean, string],
   date: ['2017-11-22', '11/22/17'],

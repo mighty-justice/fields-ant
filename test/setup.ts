@@ -10,7 +10,6 @@ enzyme.configure({ adapter: new Adapter() });
 
 addons.setChannel(mockChannel());
 
-// TODO - configure to take state option name
 TesterConfig.configure(enzyme, {
   hooks: [
     {

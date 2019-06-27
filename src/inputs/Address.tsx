@@ -15,6 +15,10 @@ import {
   NestedFieldSet,
 } from '../';
 
+import {
+  renderLabel,
+} from '../utilities';
+
 import { IModel } from '../props';
 
 export interface IAddressProps {
@@ -36,21 +40,22 @@ class Address extends Component<IAddressProps> {
   }
 
   private get fieldSet () {
-    const { fieldConfig: { stateProps } } = this.injected
+    const { fieldConfig: { required, stateProps } } = this.injected
       , defaultStateProps = { optionType: DEFAULT_STATE_OPTION_TYPE }
       , passedStateProps = {...defaultStateProps, ...stateProps };
 
     return [
-      { field: 'address1', label: 'Address 1', type: 'string' },
+      { field: 'address1', label: 'Address 1', type: 'string', required },
       { field: 'address2', label: 'Address 2', type: 'string' },
-      { field: 'city' },
+      { field: 'city', required },
       {
         field: 'state',
+        required,
         showSearch: true,
         type: 'optionSelect',
         ...passedStateProps,
       },
-      { field: 'zip_code' },
+      { field: 'zip_code', required },
     ];
   }
 
@@ -65,7 +70,7 @@ class Address extends Component<IAddressProps> {
             formManager={formManager}
             formModel={formManager.formModel}
             id={fieldConfig.field}
-            label={fieldConfig}
+            label={renderLabel(fieldConfig)}
           />
         </Antd.Form.Item>
       </Antd.Col>
