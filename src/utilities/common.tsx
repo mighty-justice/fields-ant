@@ -6,6 +6,7 @@ import {
   isArray,
   isObject,
   set,
+  some,
   sortBy,
 } from 'lodash';
 
@@ -25,6 +26,7 @@ import {
 
 import { ID_ATTR } from '../consts';
 import { IModel, IValue } from '../props';
+import { isTypeAddress } from '../inputs/Address';
 import { isTypeObjectSearchCreate } from '../inputs/ObjectSearchCreate';
 import WithTooltip from '../building-blocks/WithTooltip';
 
@@ -130,6 +132,28 @@ export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: I
     }));
 }
 
+function nullifyValue (fieldConfig: IFieldConfig, data: IModel) {
+  const { field, nullify } = fieldConfig
+    , formValue = get(data, field)
+    , shouldNullify = nullify && !formValue && formValue !== false
+    , nullifiedValue = shouldNullify ? null : formValue
+    , isAddingNew = isObject(formValue) && !has(formValue, ID_ATTR)
+  ;
+
+  // When using the add new feature of objectSearchCreate, we should
+  // make sure to nullify the appropriate fields in the new model
+  if (isTypeObjectSearchCreate(fieldConfig) && isAddingNew) {
+    return modelFromFieldConfigs(getFieldSetFields(fieldConfig.createFields).map(fillInFieldConfig), formValue);
+  }
+
+  // When saving an address, nullify if no attributes
+  if (isTypeAddress(fieldConfig) && !some(formValue)) {
+    return null;
+  }
+
+  return nullifiedValue;
+}
+
 export function modelFromFieldConfigs (fieldConfigs: IFieldConfig[], data: IModel) {
     /*
     This function takes in a model with ALL form values, including those that should be hidden like
@@ -142,18 +166,8 @@ export function modelFromFieldConfigs (fieldConfigs: IFieldConfig[], data: IMode
     fieldConfigs
       .filter(fieldConfig => !filterFieldConfig(fieldConfig, { model: data, readOnly: true }))
       .forEach(fieldConfig => {
-        const { field, nullify } = fieldConfig
-          , formValue = get(data, field)
-          , shouldNullify = nullify && !formValue && formValue !== false
-          , nullifiedValue = shouldNullify ? null : formValue
-
-          // When using the add new feature of objectSearchCreate, we should
-          // make sure to nullify the appropriate fields in the new model
-          , isAddingNew = isObject(formValue) && !has(formValue, ID_ATTR)
-          , value = (isTypeObjectSearchCreate(fieldConfig) && isAddingNew)
-            ? modelFromFieldConfigs(getFieldSetFields(fieldConfig.createFields).map(fillInFieldConfig), formValue)
-            : nullifiedValue
-            ;
+        const { field } = fieldConfig
+          , value = nullifyValue(fieldConfig, data);
 
         set(returnValues, field, value);
       });

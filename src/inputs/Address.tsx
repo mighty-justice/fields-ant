@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
 import {
+  DEFAULT_STATE_OPTION_TYPE,
   FormManager,
   IAntFormField,
-  IFieldConfigObjectSearchCreate,
+  IFieldConfig,
+  IFieldConfigAddress,
   IInjected,
   IInputProps,
   NestedFieldSet,
@@ -17,19 +18,40 @@ import {
 import { IModel } from '../props';
 
 export interface IAddressProps {
-  fieldConfig: IFieldConfigObjectSearchCreate;
+  fieldConfig: IFieldConfigAddress;
   fieldDecorator: <T>(component: T) => T;
   formManager: FormManager;
   formModel: IModel;
 }
 
+export function isTypeAddress (fieldConfig: IFieldConfig): fieldConfig is IFieldConfigAddress {
+  return fieldConfig.type === 'address';
+}
+
 @autoBindMethods
 @observer
 class Address extends Component<IAddressProps> {
-  @observable private search = '';
-
   private get injected () {
     return this.props as IAddressProps & IInjected & IInputProps & IAntFormField;
+  }
+
+  private get fieldSet () {
+    const { fieldConfig: { stateProps } } = this.injected
+      , defaultStateProps = { optionType: DEFAULT_STATE_OPTION_TYPE }
+      , passedStateProps = {...defaultStateProps, ...stateProps };
+
+    return [
+      { field: 'address1', label: 'Address 1', type: 'string' },
+      { field: 'address2', label: 'Address 2', type: 'string' },
+      { field: 'city' },
+      {
+        field: 'state',
+        showSearch: true,
+        type: 'optionSelect',
+        ...passedStateProps,
+      },
+      { field: 'zip_code' },
+    ];
   }
 
   public render () {
@@ -39,12 +61,11 @@ class Address extends Component<IAddressProps> {
       <Antd.Col>
         <Antd.Form.Item>
           <NestedFieldSet
-            fieldSet={fieldConfig.createFields}
+            fieldSet={this.fieldSet}
             formManager={formManager}
             formModel={formManager.formModel}
             id={fieldConfig.field}
             label={fieldConfig}
-            search={this.search}
           />
         </Antd.Form.Item>
       </Antd.Col>

@@ -57,6 +57,7 @@ const PropsTable = (props: any) => {
   );
 };
 
+// TODO - potentially change options here
 const providers = {
   getEndpoint: async (endpoint: string) => {
     if (endpoint.includes('empty')) {

@@ -43,8 +43,8 @@ export const fakeTextShort = () => faker.random.words(3);
 export const fakeAddress = () => ({
   address1: fakeTextShort(),
   address2: fakeTextShort(),
-  city: faker.address.zipCode(),
-  state: { name: faker.address.state(), id: faker.address.stateAbbr() },
+  city: faker.address.city(),
+  state: faker.address.stateAbbr(),
   zip_code: faker.address.zipCode(),
 });
 export const fakeBoolean = () => sample([true, false]);
@@ -78,7 +78,6 @@ export function fieldFactoryForType (type: string) {
     .attrs({ type });
 }
 
-export const addressFactory = fieldFactoryForType('address');
 export const booleanFactory = fieldFactoryForType('boolean');
 export const checkboxFactory = fieldFactoryForType('checkbox');
 export const dateFactory = fieldFactoryForType('date');
@@ -103,6 +102,10 @@ export const attrOptions = [
   { value: 'second', name: 'Second Item' },
   { value: 'third', name: 'Third Item' },
 ];
+
+// TODO - use states
+export const addressFactory = fieldFactoryForType('address')
+  .attrs({ stateProps: { options: attrOptions }});
 
 export const radioFactory = fieldFactoryForType('radio')
   .attrs({ options: attrOptions });
@@ -235,6 +238,7 @@ export const TYPE_GENERATORS: ITypeGenerators = {
 
 const SKIP = null;
 
+// TODO - add to here
 export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
   // value: [valueFunction(), valueFunction()]
   ...fromPairs(Object.keys(TYPE_GENERATORS).map(type => {

@@ -11,6 +11,7 @@ import {
 
 import {
   EMPTY_FIELD,
+  formatAddressMultiline,
   formatCommaSeparatedNumber,
   formatDate,
   formatEmployerIdNumber,
@@ -76,7 +77,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     editComponent: Address,
     fieldConfigProp: true,
     nullify: true,
-    // render: passRenderOnlyValue(getNameOrDefault),
+    render: passRenderOnlyValue(formatAddressMultiline),
     skipFieldDecorator: true,
   },
   boolean: {

@@ -66,6 +66,10 @@ export interface IFieldConfigOptionSelect extends IFieldConfigBase {
   sorted?: boolean;
 }
 
+export interface IFieldConfigAddress extends IFieldConfigBase {
+  stateProps: IFieldConfigOptionSelect;
+}
+
 export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
   createFields: IFieldConfigBase[];
   endpoint: string;
@@ -80,6 +84,7 @@ export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
 
 // These combine to form the core building block, the fieldConfig:
 export type IFieldConfig = IFieldConfigBase
+  | IFieldConfigAddress
   | IFieldConfigObjectSearchCreate
   | IFieldConfigOptionSelect
   ;
