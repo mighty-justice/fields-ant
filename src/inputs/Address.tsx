@@ -7,9 +7,9 @@ import * as Antd from 'antd';
 import {
   DEFAULT_STATE_OPTION_TYPE,
   FormManager,
-  IAntFormField,
   IFieldConfig,
   IFieldConfigAddress,
+  IFieldConfigPartial,
   IInjected,
   IInputProps,
   NestedFieldSet,
@@ -36,15 +36,15 @@ export function isTypeAddress (fieldConfig: IFieldConfig): fieldConfig is IField
 @observer
 class Address extends Component<IAddressProps> {
   private get injected () {
-    return this.props as IAddressProps & IInjected & IInputProps & IAntFormField;
+    return this.props as IAddressProps & IInjected & IInputProps;
   }
 
   private get fieldSet () {
-    const { fieldConfig: { required, stateProps } } = this.injected
+    const { fieldConfig: { colProps, required, stateProps } } = this.injected
       , defaultStateProps = { optionType: DEFAULT_STATE_OPTION_TYPE }
-      , passedStateProps = {...defaultStateProps, ...stateProps };
+      , passedStateProps = { ...defaultStateProps, ...stateProps };
 
-    return [
+    const fieldSet = [
       { field: 'address1', label: 'Address 1', type: 'string', required },
       { field: 'address2', label: 'Address 2', type: 'string' },
       { field: 'city', required },
@@ -57,13 +57,15 @@ class Address extends Component<IAddressProps> {
       },
       { field: 'zip_code', required },
     ];
+
+    return fieldSet.map((addressConfig: IFieldConfigPartial) => ({ ...addressConfig, colProps }));
   }
 
   public render () {
     const { fieldConfig, formManager } = this.injected;
 
     return (
-      <Antd.Col>
+      <Antd.Col className={fieldConfig.className}>
         <Antd.Form.Item>
           <NestedFieldSet
             fieldSet={this.fieldSet}
