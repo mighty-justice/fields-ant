@@ -130,12 +130,16 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     this.search = value;
     this.isLoading.setTrue();
     this.updateValueCaches();
+
     try {
       const response = await getEndpoint(`${endpoint}${toKey(params)}`);
       this.options = get(response, 'results', []);
+
+    // istanbul ignore next
     } catch (error) {
       // tslint:disable-next-line no-console
       console.error(error);
+
     } finally {
       this.isLoading.setFalse();
     }
