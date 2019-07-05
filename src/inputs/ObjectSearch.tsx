@@ -137,8 +137,10 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
     // istanbul ignore next
     } catch (error) {
-      // tslint:disable-next-line no-console
-      console.error(error); // istanbul ignore
+      // tslint:disable no-console
+      // istanbul ignore next
+      console.error(error);
+      // tslint:enable no-console
 
     } finally {
       this.isLoading.setFalse();
