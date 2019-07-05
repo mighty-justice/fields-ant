@@ -133,6 +133,9 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     try {
       const response = await getEndpoint(`${endpoint}${toKey(params)}`);
       this.options = get(response, 'results', []);
+    } catch (error) {
+      // tslint:disable-next-line no-console
+      console.error(error);
     } finally {
       this.isLoading.setFalse();
     }
