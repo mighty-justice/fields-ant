@@ -23,7 +23,6 @@ import { IModel } from '../props';
 
 export interface IAddressProps {
   fieldConfig: IFieldConfigAddress;
-  fieldDecorator: <T>(component: T) => T;
   formManager: FormManager;
   formModel: IModel;
 }
@@ -62,7 +61,7 @@ class Address extends Component<IAddressProps> {
   }
 
   public render () {
-    const { fieldConfig, formManager } = this.injected;
+    const { fieldConfig, formManager, formModel } = this.injected;
 
     return (
       <Antd.Col>
@@ -70,7 +69,7 @@ class Address extends Component<IAddressProps> {
           <NestedFieldSet
             fieldSet={this.fieldSet}
             formManager={formManager}
-            formModel={formManager.formModel}
+            formModel={formModel}
             id={fieldConfig.field}
             label={renderLabel(fieldConfig)}
           />
