@@ -67,7 +67,7 @@ export interface IFieldConfigOptionSelect extends IFieldConfigBase {
 }
 
 export interface IFieldConfigAddress extends IFieldConfigBase {
-  stateProps: IFieldConfigOptionSelect;
+  stateProps?: Partial<IFieldConfigOptionSelect>;
 }
 
 export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
