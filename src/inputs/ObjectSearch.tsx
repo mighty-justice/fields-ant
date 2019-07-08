@@ -149,6 +149,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   private renderOptionAdd () {
     const { addNewContent } = this.props
+      , { label } = this.fieldConfig
       , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.ADD}`;
 
     if (!this.hasSearch) {
@@ -161,7 +162,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
     return (
       <Antd.Select.Option className={className} key={ITEM_KEYS.ADD}>
-        <div>{addNewContent || <><Antd.Icon type='plus' /> Add new</>}</div>
+        <div>{addNewContent || <>Can't find it? <a>Add new {label}</a></>}</div>
       </Antd.Select.Option>
     );
   }
