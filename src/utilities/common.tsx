@@ -147,7 +147,7 @@ function nullifyValue (fieldConfig: IFieldConfig, data: IModel) {
   }
 
   // When saving an address, nullify if no attributes
-  if (isTypeAddress(fieldConfig) && !some(formValue)) {
+  if (nullify && isTypeAddress(fieldConfig) && !some(formValue)) {
     return null;
   }
 
