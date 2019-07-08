@@ -65,8 +65,8 @@ class Address extends Component<IAddressProps> {
     const { fieldConfig, formManager } = this.injected;
 
     return (
-      <Antd.Col className={fieldConfig.className}>
-        <Antd.Form.Item>
+      <Antd.Col>
+        <Antd.Form.Item className={fieldConfig.className}>
           <NestedFieldSet
             fieldSet={this.fieldSet}
             formManager={formManager}
