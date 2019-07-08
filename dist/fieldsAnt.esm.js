@@ -28452,20 +28452,35 @@ function (_Component) {
                 this.search = value;
                 this.isLoading.setTrue();
                 this.updateValueCaches();
-                _context.next = 6;
-                return getEndpoint("/".concat(endpoint, "/").concat(toKey(params)));
+                _context.prev = 4;
+                _context.next = 7;
+                return getEndpoint("".concat(endpoint).concat(toKey(params)));
 
-              case 6:
+              case 7:
                 response = _context.sent;
-                this.options = response.results;
-                this.isLoading.setFalse();
+                this.options = get(response, 'results', []); // istanbul ignore next
 
-              case 9:
+                _context.next = 14;
+                break;
+
+              case 11:
+                _context.prev = 11;
+                _context.t0 = _context["catch"](4);
+                // tslint:disable no-console
+                // istanbul ignore next
+                console.error(_context.t0); // tslint:enable no-console
+
+              case 14:
+                _context.prev = 14;
+                this.isLoading.setFalse();
+                return _context.finish(14);
+
+              case 17:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee, this, [[4, 11, 14, 17]]);
       }));
 
       function handleSearch(_x) {
@@ -28478,6 +28493,7 @@ function (_Component) {
     key: "renderOptionAdd",
     value: function renderOptionAdd() {
       var addNewContent = this.props.addNewContent,
+          label = this.fieldConfig.label,
           className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.ADD);
 
       if (!this.hasSearch) {
@@ -28493,9 +28509,7 @@ function (_Component) {
       return React.createElement(Select.Option, {
         className: className,
         key: ITEM_KEYS.ADD
-      }, React.createElement("div", null, addNewContent || React.createElement(React.Fragment, null, React.createElement(Icon, {
-        type: "plus"
-      }), " Add new")));
+      }, React.createElement("div", null, addNewContent || React.createElement(React.Fragment, null, "Can't find it? ", React.createElement("a", null, "Add new ", label))));
     }
   }, {
     key: "renderOptionEmpty",
