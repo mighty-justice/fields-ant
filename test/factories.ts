@@ -2,7 +2,7 @@ import { Factory } from 'rosie';
 import faker from 'faker';
 import { format } from 'date-fns';
 import { action } from '@storybook/addon-actions';
-import { sample, fromPairs } from 'lodash';
+import { fromPairs, sample, zipWith } from 'lodash';
 
 import SmartBool from '@mighty-justice/smart-bool';
 
@@ -40,6 +40,13 @@ export const onDelete = actionFunctionFor('onDelete');
 // These are used, uncalled, in factory attr lists
 export const fakeTextShort = () => faker.random.words(3);
 
+export const fakeAddress = () => ({
+  address1: fakeTextShort(),
+  address2: fakeTextShort(),
+  city: faker.address.city(),
+  state: faker.address.stateAbbr(),
+  zip_code: faker.address.zipCode(),
+});
 export const fakeBoolean = () => sample([true, false]);
 export const fakeDateRecent = () => format(faker.date.recent(), 'YYYY-MM-DD');
 export const fakeDatePast = () => format(faker.date.past(100), 'YYYY-MM-DD');
@@ -95,6 +102,16 @@ export const attrOptions = [
   { value: 'second', name: 'Second Item' },
   { value: 'third', name: 'Third Item' },
 ];
+
+const addressDefinitions = (faker as any).definitions.address;
+export const stateOptions = zipWith(
+  addressDefinitions.state,
+  addressDefinitions.state_abbr,
+  function (state, stateAbbr) { return { name: state, value: stateAbbr }; },
+);
+
+export const addressFactory = fieldFactoryForType('address')
+  .attrs({ stateProps: { options: stateOptions }});
 
 export const radioFactory = fieldFactoryForType('radio')
   .attrs({ options: attrOptions });
@@ -200,6 +217,7 @@ interface ITypeGenerators {
 }
 
 export const TYPE_GENERATORS: ITypeGenerators = {
+  address: { valueFunction: fakeAddress, fieldConfigFactory: addressFactory },
   boolean: { valueFunction: fakeBoolean, fieldConfigFactory: booleanFactory },
   checkbox: { valueFunction: fakeBoolean, fieldConfigFactory: checkboxFactory },
   date: { valueFunction: fakeDatePast, fieldConfigFactory: dateFactory },
@@ -224,6 +242,7 @@ export const TYPE_GENERATORS: ITypeGenerators = {
   url: { valueFunction: faker.internet.url, fieldConfigFactory: urlFactory },
 };
 
+const addressValue = fakeAddress();
 const SKIP = null;
 
 export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
@@ -233,6 +252,7 @@ export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
     return [type, [value, value]];
   })),
 
+  address: [addressValue, addressValue.address1],
   boolean: sample([[true, 'Yes'], [false, 'No']]) as [boolean, string],
   checkbox: sample([[true, 'Yes'], [false, 'No']]) as [boolean, string],
   date: ['2017-11-22', '11/22/17'],
