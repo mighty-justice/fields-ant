@@ -60,6 +60,9 @@ export interface IFieldConfigOptionSelect extends IFieldConfigBase {
     showSearch?: boolean;
     sorted?: boolean;
 }
+export interface IFieldConfigAddress extends IFieldConfigBase {
+    stateProps?: Partial<IFieldConfigOptionSelect>;
+}
 export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
     createFields: IFieldConfigBase[];
     endpoint: string;
@@ -69,7 +72,7 @@ export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
         [key: string]: any;
     };
 }
-export declare type IFieldConfig = IFieldConfigBase | IFieldConfigObjectSearchCreate | IFieldConfigOptionSelect;
+export declare type IFieldConfig = IFieldConfigBase | IFieldConfigAddress | IFieldConfigObjectSearchCreate | IFieldConfigOptionSelect;
 export declare type IFieldSetSimple = IFieldConfig[];
 export interface IFieldSetComplex {
     fields: IFieldSetSimple;

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { observer, inject } from 'mobx-react';
 import { Form as Form$1, Col, Select, Icon, Button, Tooltip, Input, Radio, Rate as Rate$1, Checkbox as Checkbox$1, DatePicker, notification, Row, Popconfirm, Divider, Card as Card$1, Drawer, Modal, List, Table as Table$1 } from 'antd';
 import { observable, computed, toJS } from 'mobx';
-import { get, values, omit, has, result, isString, isNumber, times as times$2, isBoolean, escape, startCase, sortBy, map as map$1, reject, debounce, pick, isArray, flatten as flatten$1, isObject as isObject$2, set, isPlainObject, extend, mapValues, noop, pickBy, isEmpty, kebabCase } from 'lodash';
+import { get, values, omit, has, result, isString, isNumber, times as times$2, isBoolean, escape, startCase, sortBy, map as map$1, reject, mapValues, debounce, pick, isArray, flatten as flatten$1, set, isObject as isObject$2, some, isPlainObject, extend, noop, pickBy, isEmpty, kebabCase } from 'lodash';
 import util from 'util';
 import events from 'events';
 import moment$1 from 'moment';
@@ -660,6 +660,89 @@ var CX_PREFIX_SEARCH_CREATE = 'ant-input-search-create';
 var REGEXP_SSN = /^[0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{4}$/;
 var REGEXP_EIN = /^\d{2}[-\s]?\d{7}$/;
 var ID_ATTR = 'id';
+var DEFAULT_STATE_OPTION_TYPE = 'us_states';
+
+var _class$1;
+function isTypeAddress(fieldConfig) {
+  return fieldConfig.type === 'address';
+}
+
+var Address = autoBindMethods(_class$1 = observer(_class$1 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Address, _Component);
+
+  function Address() {
+    _classCallCheck(this, Address);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Address).apply(this, arguments));
+  }
+
+  _createClass(Address, [{
+    key: "render",
+    value: function render() {
+      var _this$injected = this.injected,
+          fieldConfig = _this$injected.fieldConfig,
+          formManager = _this$injected.formManager,
+          formModel = _this$injected.formModel;
+      return React.createElement(Col, null, React.createElement(Form$1.Item, {
+        className: fieldConfig.className
+      }, React.createElement(NestedFieldSet, {
+        fieldSet: this.fieldSet,
+        formManager: formManager,
+        formModel: formModel,
+        id: fieldConfig.field,
+        label: renderLabel(fieldConfig)
+      })));
+    }
+  }, {
+    key: "injected",
+    get: function get() {
+      return this.props;
+    }
+  }, {
+    key: "fieldSet",
+    get: function get() {
+      var _this$injected$fieldC = this.injected.fieldConfig,
+          colProps = _this$injected$fieldC.colProps,
+          required = _this$injected$fieldC.required,
+          stateProps = _this$injected$fieldC.stateProps,
+          defaultStateProps = {
+        optionType: DEFAULT_STATE_OPTION_TYPE
+      },
+          passedStateProps = _objectSpread({}, defaultStateProps, stateProps);
+
+      var fieldSet = [{
+        field: 'address1',
+        label: 'Address 1',
+        type: 'string',
+        required: required
+      }, {
+        field: 'address2',
+        label: 'Address 2',
+        type: 'string'
+      }, {
+        field: 'city',
+        required: required
+      }, _objectSpread({
+        field: 'state',
+        required: required,
+        showSearch: true,
+        type: 'optionSelect'
+      }, passedStateProps), {
+        field: 'zip_code',
+        required: required
+      }];
+      return fieldSet.map(function (addressConfig) {
+        return _objectSpread({}, addressConfig, {
+          colProps: colProps
+        });
+      });
+    }
+  }]);
+
+  return Address;
+}(Component)) || _class$1) || _class$1;
 
 function asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, key, arg) {
   try {
@@ -1075,13 +1158,13 @@ var build$1 = createCommonjsModule$1(function (module, exports) {
 
 var autoBindMethods$1 = unwrapExports$1(build$1);
 
-var _class$1, _class2, _descriptor, _temp;
+var _class$2, _class2, _descriptor, _temp;
 /*
   Name: SmartBool
   Description: Simple class for controlling a boolean, eliminating repetitive single-line setter functions.
 */
 
-var SmartBool = autoBindMethods$1(_class$1 = (_class2 = (_temp =
+var SmartBool = autoBindMethods$1(_class$2 = (_class2 = (_temp =
 /*#__PURE__*/
 function () {
   function SmartBool() {
@@ -1191,11 +1274,11 @@ function () {
   initializer: function initializer() {
     return false;
   }
-})), _class2)) || _class$1;
+})), _class2)) || _class$2;
 
-var _class$2;
+var _class$3;
 
-var FormItem = autoBindMethods(_class$2 = observer(_class$2 =
+var FormItem = autoBindMethods(_class$3 = observer(_class$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormItem, _Component);
@@ -1303,7 +1386,7 @@ function (_Component) {
   }]);
 
   return FormItem;
-}(Component)) || _class$2) || _class$2;
+}(Component)) || _class$3) || _class$3;
 
 /*
  *  decimal.js v10.1.1
@@ -23672,6 +23755,25 @@ function toKey(dict) {
   }).join('&');
   return "?".concat(dictString);
 }
+function formatAddress(address) {
+  if (!address) {
+    return '--, --, -- --';
+  }
+
+  var filledInAddress = mapValues(address, function (s) {
+    return s || EMPTY_FIELD;
+  }),
+      address1 = filledInAddress.address1,
+      city = filledInAddress.city,
+      state = filledInAddress.state,
+      zip_code = filledInAddress.zip_code,
+      address2 = address.address2,
+      joinedAddress = [address1, address2].join(' ').trim();
+  return "".concat(joinedAddress, ", ").concat(city, ", ").concat(state, " ").concat(zip_code);
+}
+function formatAddressMultiline(address) {
+  return htmlReactParser(formatAddress(address).replace(', ', '<br/>'));
+}
 
 function createDisabledContainer(WrappedComponent) {
   var _class, _class2, _temp;
@@ -28392,13 +28494,13 @@ function isValidDate(value) {
   ;
 }
 
-var _dec, _class$3, _class2$1, _descriptor$1, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _class3, _temp$1;
+var _dec, _class$4, _class2$1, _descriptor$1, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _class3, _temp$1;
 var ITEM_KEYS = {
   ADD: 'add',
   EMPTY: 'empty',
   NO_SEARCH: 'no-search'
 };
-var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$3 = autoBindMethods(_class$3 = observer(_class$3 = (_class2$1 = (_temp$1 = _class3 =
+var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$4 = autoBindMethods(_class$4 = observer(_class$4 = (_class2$1 = (_temp$1 = _class3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(ObjectSearch, _Component);
@@ -28736,14 +28838,14 @@ function (_Component) {
   initializer: function initializer() {
     return '';
   }
-})), _class2$1)) || _class$3) || _class$3) || _class$3);
+})), _class2$1)) || _class$4) || _class$4) || _class$4);
 
-var _class$4, _class2$2, _descriptor$2, _descriptor2$1, _temp$2;
+var _class$5, _class2$2, _descriptor$2, _descriptor2$1, _temp$2;
 function isTypeObjectSearchCreate(fieldConfig) {
   return fieldConfig.type === 'objectSearchCreate';
 }
 
-var ObjectSearchCreate = autoBindMethods(_class$4 = observer(_class$4 = (_class2$2 = (_temp$2 =
+var ObjectSearchCreate = autoBindMethods(_class$5 = observer(_class$5 = (_class2$2 = (_temp$2 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(ObjectSearchCreate, _Component);
@@ -28916,11 +29018,11 @@ function (_Component) {
   initializer: function initializer() {
     return '';
   }
-})), _class2$2)) || _class$4) || _class$4;
+})), _class2$2)) || _class$5) || _class$5;
 
-var _class$5;
+var _class$6;
 
-var WithTooltip = autoBindMethods(_class$5 = observer(_class$5 =
+var WithTooltip = autoBindMethods(_class$6 = observer(_class$6 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(WithTooltip, _Component);
@@ -28951,7 +29053,7 @@ function (_Component) {
   }]);
 
   return WithTooltip;
-}(Component)) || _class$5) || _class$5;
+}(Component)) || _class$6) || _class$6;
 
 var MILLISECONDS_IN_MINUTE$7 = 60000;
 
@@ -34681,7 +34783,7 @@ var lib_2$1 = lib$1.parse;
 var lib_3$1 = lib$1.end;
 var lib_4$1 = lib$1.toSeconds;
 
-var _class$6, _temp$3;
+var _class$7, _temp$3;
 var inputConfig = {
   day: {
     placeholder: 'DD',
@@ -34706,7 +34808,7 @@ var inputConfig = {
 },
     INPUT_ORDER = ['month', 'day', 'year'];
 
-var Date$1 = autoBindMethods(_class$6 = observer(_class$6 = (_temp$3 =
+var Date$1 = autoBindMethods(_class$7 = observer(_class$7 = (_temp$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Date, _Component);
@@ -34825,12 +34927,12 @@ function (_Component) {
   }]);
 
   return Date;
-}(Component), _temp$3)) || _class$6) || _class$6;
+}(Component), _temp$3)) || _class$7) || _class$7;
 
-var _dec$1, _class$7, _class2$3;
+var _dec$1, _class$8, _class2$3;
 // 8 is the most number of options you can show with no scroll
 var SHOW_OPTION_SEARCH_IF_OVER = 8;
-var OptionSelect = (_dec$1 = inject('getOptions'), _dec$1(_class$7 = autoBindMethods(_class$7 = observer(_class$7 = (_class2$3 =
+var OptionSelect = (_dec$1 = inject('getOptions'), _dec$1(_class$8 = autoBindMethods(_class$8 = observer(_class$8 = (_class2$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(OptionSelect, _Component);
@@ -34884,10 +34986,10 @@ function (_Component) {
   }]);
 
   return OptionSelect;
-}(Component), (_applyDecoratedDescriptor(_class2$3.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$3.prototype, "options"), _class2$3.prototype)), _class2$3)) || _class$7) || _class$7) || _class$7);
+}(Component), (_applyDecoratedDescriptor(_class2$3.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$3.prototype, "options"), _class2$3.prototype)), _class2$3)) || _class$8) || _class$8) || _class$8);
 
-var _dec$2, _class$8, _class2$4;
-var RadioGroup = (_dec$2 = inject('getOptions'), _dec$2(_class$8 = autoBindMethods(_class$8 = observer(_class$8 = (_class2$4 =
+var _dec$2, _class$9, _class2$4;
+var RadioGroup = (_dec$2 = inject('getOptions'), _dec$2(_class$9 = autoBindMethods(_class$9 = observer(_class$9 = (_class2$4 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(RadioGroup, _Component);
@@ -34926,9 +35028,9 @@ function (_Component) {
   }]);
 
   return RadioGroup;
-}(Component), (_applyDecoratedDescriptor(_class2$4.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$4.prototype, "options"), _class2$4.prototype)), _class2$4)) || _class$8) || _class$8) || _class$8);
+}(Component), (_applyDecoratedDescriptor(_class2$4.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$4.prototype, "options"), _class2$4.prototype)), _class2$4)) || _class$9) || _class$9) || _class$9);
 
-var _class$9;
+var _class$a;
 function formatRating(value) {
   return value ? React.createElement(Rate$1, {
     disabled: true,
@@ -34936,7 +35038,7 @@ function formatRating(value) {
   }) : EMPTY_FIELD;
 }
 
-var Rate = autoBindMethods(_class$9 = observer(_class$9 =
+var Rate = autoBindMethods(_class$a = observer(_class$a =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Rate, _Component);
@@ -34962,10 +35064,10 @@ function (_Component) {
   }]);
 
   return Rate;
-}(Component)) || _class$9) || _class$9;
+}(Component)) || _class$a) || _class$a;
 
-var _dec$3, _class$a, _class2$5;
-var OptionSelectDisplay = (_dec$3 = inject('getOptions'), _dec$3(_class$a = autoBindMethods(_class$a = observer(_class$a = (_class2$5 =
+var _dec$3, _class$b, _class2$5;
+var OptionSelectDisplay = (_dec$3 = inject('getOptions'), _dec$3(_class$b = autoBindMethods(_class$b = observer(_class$b = (_class2$5 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(OptionSelectDisplay, _Component);
@@ -35008,7 +35110,7 @@ function (_Component) {
   }]);
 
   return OptionSelectDisplay;
-}(Component), (_applyDecoratedDescriptor(_class2$5.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "options"), _class2$5.prototype)), _class2$5)) || _class$a) || _class$a) || _class$a);
+}(Component), (_applyDecoratedDescriptor(_class2$5.prototype, "options", [computed], Object.getOwnPropertyDescriptor(_class2$5.prototype, "options"), _class2$5.prototype)), _class2$5)) || _class$b) || _class$b) || _class$b);
 function formatOptionSelect(value, fieldConfig) {
   if (isArray(value)) {
     if (value.length > 1) {
@@ -35045,7 +35147,7 @@ function getDateFormatList() {
   return dateFormatList;
 }
 
-var _class$b;
+var _class$c;
 
 /*
 Most components are automatically wrapped with a lot of boiler-plate form code
@@ -35056,7 +35158,7 @@ To do this, we use skipFieldDecorator to opt out of boiler-plate then
 fieldConfigProp to get some advanced props ( like fieldConfig ) so that we can
 do some of what FormItem does for ourselves below:
 */
-var Hidden = autoBindMethods(_class$b = observer(_class$b =
+var Hidden = autoBindMethods(_class$c = observer(_class$c =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Hidden, _Component);
@@ -35093,10 +35195,10 @@ function (_Component) {
   }]);
 
   return Hidden;
-}(Component)) || _class$b) || _class$b;
+}(Component)) || _class$c) || _class$c;
 
-var _dec$4, _class$c;
-var Checkbox = (_dec$4 = autoBindMethods(), _dec$4(_class$c = observer(_class$c =
+var _dec$4, _class$d;
+var Checkbox = (_dec$4 = autoBindMethods(), _dec$4(_class$d = observer(_class$d =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Checkbox, _Component);
@@ -35121,7 +35223,7 @@ function (_Component) {
   }]);
 
   return Checkbox;
-}(Component)) || _class$c) || _class$c);
+}(Component)) || _class$d) || _class$d);
 
 function passRenderOnlyValue(func) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -35162,6 +35264,13 @@ function booleanFromForm(value) {
 
 var dateFormatList = getDateFormatList();
 var TYPES = {
+  address: {
+    editComponent: Address,
+    fieldConfigProp: true,
+    nullify: true,
+    render: passRenderOnlyValue(formatAddressMultiline),
+    skipFieldDecorator: true
+  },
   "boolean": {
     editComponent: OptionSelect,
     fieldConfigProp: true,
@@ -35641,6 +35750,28 @@ function fieldSetsToColumns(fieldSets) {
     }, fieldConfig.tableColumnProps);
   });
 }
+
+function nullifyValue(fieldConfig, data) {
+  var field = fieldConfig.field,
+      nullify = fieldConfig.nullify,
+      formValue = get(data, field),
+      shouldNullify = nullify && !formValue && formValue !== false,
+      nullifiedValue = shouldNullify ? null : formValue,
+      isAddingNew = isObject$2(formValue) && !has(formValue, ID_ATTR); // When using the add new feature of objectSearchCreate, we should
+  // make sure to nullify the appropriate fields in the new model
+
+  if (isTypeObjectSearchCreate(fieldConfig) && isAddingNew) {
+    return modelFromFieldConfigs(getFieldSetFields(fieldConfig.createFields).map(fillInFieldConfig), formValue);
+  } // When saving an address, nullify if no attributes
+
+
+  if (nullify && isTypeAddress(fieldConfig) && !some(formValue)) {
+    return null;
+  }
+
+  return nullifiedValue;
+}
+
 function modelFromFieldConfigs(fieldConfigs, data) {
   /*
   This function takes in a model with ALL form values, including those that should be hidden like
@@ -35656,12 +35787,7 @@ function modelFromFieldConfigs(fieldConfigs, data) {
     });
   }).forEach(function (fieldConfig) {
     var field = fieldConfig.field,
-        nullify = fieldConfig.nullify,
-        formValue = get(data, field),
-        shouldNullify = nullify && !formValue && formValue !== false,
-        nullifiedValue = shouldNullify ? null : formValue,
-        isAddingNew = isObject$2(formValue) && !has(formValue, ID_ATTR),
-        value = isTypeObjectSearchCreate(fieldConfig) && isAddingNew ? modelFromFieldConfigs(getFieldSetFields(fieldConfig.createFields).map(fillInFieldConfig), formValue) : nullifiedValue;
+        value = nullifyValue(fieldConfig, data);
     set(returnValues, field, value);
   }); // We always include ids of models on submit
 
@@ -36020,7 +36146,7 @@ function backendValidation(fieldNames, response) {
   };
 }
 
-var _class$d, _class2$6, _descriptor$3, _temp$4;
+var _class$e, _class2$6, _descriptor$3, _temp$4;
 var ERROR_WITH_DESCRIPTION = [httpStatusCodes.BAD_REQUEST, httpStatusCodes.FORBIDDEN];
 var toastError = {
   description: '',
@@ -36028,7 +36154,7 @@ var toastError = {
   message: 'Error submitting form'
 };
 
-var FormManager = autoBindMethods(_class$d = (_class2$6 = (_temp$4 =
+var FormManager = autoBindMethods(_class$e = (_class2$6 = (_temp$4 =
 /*#__PURE__*/
 function () {
   function FormManager(formWrappedInstance, fieldSets, args) {
@@ -36371,13 +36497,13 @@ function () {
   initializer: function initializer() {
     return false;
   }
-})), _class2$6)) || _class$d;
+})), _class2$6)) || _class$e;
 
-var _class$e, _class2$7, _class3$1;
+var _class$f, _class2$7, _class3$1;
 var CARD_COL_LABEL = 8;
 var CARD_COL_VALUE = 16;
 
-var Info = autoBindMethods(_class$e = observer(_class$e =
+var Info = autoBindMethods(_class$f = observer(_class$f =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Info, _Component);
@@ -36398,7 +36524,7 @@ function (_Component) {
   }]);
 
   return Info;
-}(Component)) || _class$e) || _class$e;
+}(Component)) || _class$f) || _class$f;
 
 var Label = autoBindMethods(_class2$7 = observer(_class2$7 =
 /*#__PURE__*/
@@ -36448,9 +36574,9 @@ function (_Component3) {
   return Value;
 }(Component)) || _class3$1) || _class3$1;
 
-var _class$f, _class2$8;
+var _class$g, _class2$8;
 
-var CardField = autoBindMethods(_class$f = observer(_class$f = (_class2$8 =
+var CardField = autoBindMethods(_class$g = observer(_class$g = (_class2$8 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(CardField, _Component);
@@ -36489,11 +36615,11 @@ function (_Component) {
   }]);
 
   return CardField;
-}(Component), (_applyDecoratedDescriptor(_class2$8.prototype, "fieldConfig", [computed], Object.getOwnPropertyDescriptor(_class2$8.prototype, "fieldConfig"), _class2$8.prototype)), _class2$8)) || _class$f) || _class$f;
+}(Component), (_applyDecoratedDescriptor(_class2$8.prototype, "fieldConfig", [computed], Object.getOwnPropertyDescriptor(_class2$8.prototype, "fieldConfig"), _class2$8.prototype)), _class2$8)) || _class$g) || _class$g;
 
-var _class$g, _class2$9;
+var _class$h, _class2$9;
 
-var FormField = autoBindMethods(_class$g = observer(_class$g = (_class2$9 =
+var FormField = autoBindMethods(_class$h = observer(_class$h = (_class2$9 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormField, _Component);
@@ -36559,11 +36685,11 @@ function (_Component) {
   }]);
 
   return FormField;
-}(Component), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldConfig", [computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldConfig"), _class2$9.prototype)), _class2$9)) || _class$g) || _class$g;
+}(Component), (_applyDecoratedDescriptor(_class2$9.prototype, "fieldConfig", [computed], Object.getOwnPropertyDescriptor(_class2$9.prototype, "fieldConfig"), _class2$9.prototype)), _class2$9)) || _class$h) || _class$h;
 
-var _class$h;
+var _class$i;
 
-var Legend = autoBindMethods(_class$h = observer(_class$h =
+var Legend = autoBindMethods(_class$i = observer(_class$i =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Legend, _Component);
@@ -36597,11 +36723,11 @@ function (_Component) {
   }]);
 
   return Legend;
-}(Component)) || _class$h) || _class$h;
+}(Component)) || _class$i) || _class$i;
 
-var _class$i, _class2$a;
+var _class$j, _class2$a;
 
-var FormFieldSet = autoBindMethods(_class$i = observer(_class$i = (_class2$a =
+var FormFieldSet = autoBindMethods(_class$j = observer(_class$j = (_class2$a =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormFieldSet, _Component);
@@ -36646,11 +36772,11 @@ function (_Component) {
   }]);
 
   return FormFieldSet;
-}(Component), (_applyDecoratedDescriptor(_class2$a.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$a.prototype, "fieldSet"), _class2$a.prototype)), _class2$a)) || _class$i) || _class$i;
+}(Component), (_applyDecoratedDescriptor(_class2$a.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$a.prototype, "fieldSet"), _class2$a.prototype)), _class2$a)) || _class$j) || _class$j;
 
-var _class$j, _temp$5;
+var _class$k, _temp$5;
 
-var GuardedButton = autoBindMethods(_class$j = observer(_class$j = (_temp$5 =
+var GuardedButton = autoBindMethods(_class$k = observer(_class$k = (_temp$5 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(GuardedButton, _Component);
@@ -36692,11 +36818,11 @@ function (_Component) {
   }]);
 
   return GuardedButton;
-}(Component), _temp$5)) || _class$j) || _class$j;
+}(Component), _temp$5)) || _class$k) || _class$k;
 
-var _class$k, _class2$b;
+var _class$l, _class2$b;
 
-var NestedFieldSet = autoBindMethods(_class$k = observer(_class$k = (_class2$b =
+var NestedFieldSet = autoBindMethods(_class$l = observer(_class$l = (_class2$b =
 /*#__PURE__*/
 function (_Component) {
   _inherits(NestedFieldSet, _Component);
@@ -36777,11 +36903,11 @@ function (_Component) {
   }]);
 
   return NestedFieldSet;
-}(Component), (_applyDecoratedDescriptor(_class2$b.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$b.prototype, "fieldSet"), _class2$b.prototype)), _class2$b)) || _class$k) || _class$k;
+}(Component), (_applyDecoratedDescriptor(_class2$b.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$b.prototype, "fieldSet"), _class2$b.prototype)), _class2$b)) || _class$l) || _class$l;
 
-var _class$l, _class2$c;
+var _class$m, _class2$c;
 
-var CardFieldSet = autoBindMethods(_class$l = observer(_class$l = (_class2$c =
+var CardFieldSet = autoBindMethods(_class$m = observer(_class$m = (_class2$c =
 /*#__PURE__*/
 function (_Component) {
   _inherits(CardFieldSet, _Component);
@@ -36831,11 +36957,11 @@ function (_Component) {
   }]);
 
   return CardFieldSet;
-}(Component), (_applyDecoratedDescriptor(_class2$c.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$c.prototype, "fieldSet"), _class2$c.prototype)), _class2$c)) || _class$l) || _class$l;
+}(Component), (_applyDecoratedDescriptor(_class2$c.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$c.prototype, "fieldSet"), _class2$c.prototype)), _class2$c)) || _class$m) || _class$m;
 
-var _class$m, _class2$d;
+var _class$n, _class2$d;
 
-var Card = autoBindMethods(_class$m = observer(_class$m = (_class2$d =
+var Card = autoBindMethods(_class$n = observer(_class$n = (_class2$d =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Card, _Component);
@@ -36879,11 +37005,11 @@ function (_Component) {
   }]);
 
   return Card;
-}(Component), (_applyDecoratedDescriptor(_class2$d.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$d.prototype, "fieldSets"), _class2$d.prototype)), _class2$d)) || _class$m) || _class$m;
+}(Component), (_applyDecoratedDescriptor(_class2$d.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$d.prototype, "fieldSets"), _class2$d.prototype)), _class2$d)) || _class$n) || _class$n;
 
-var _class$n;
+var _class$o;
 
-var ArrayCard = autoBindMethods(_class$n = observer(_class$n =
+var ArrayCard = autoBindMethods(_class$o = observer(_class$o =
 /*#__PURE__*/
 function (_Component) {
   _inherits(ArrayCard, _Component);
@@ -36923,7 +37049,7 @@ function (_Component) {
   }]);
 
   return ArrayCard;
-}(Component)) || _class$n) || _class$n;
+}(Component)) || _class$o) || _class$o;
 
 // istanbul ignore next
 function asyncNoop() {
@@ -36956,8 +37082,8 @@ var formPropsDefaults = {
   saveText: 'Save'
 };
 
-var _class$o, _class2$e, _temp$6, _class4, _class5, _temp2;
-var UnwrappedForm = autoBindMethods(_class$o = observer(_class$o = (_class2$e = (_temp$6 =
+var _class$p, _class2$e, _temp$6, _class4, _class5, _temp2;
+var UnwrappedForm = autoBindMethods(_class$p = observer(_class$p = (_class2$e = (_temp$6 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(UnwrappedForm, _Component);
@@ -37096,7 +37222,7 @@ function (_Component) {
   }]);
 
   return UnwrappedForm;
-}(Component), _temp$6), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$o) || _class$o; // istanbul ignore next
+}(Component), _temp$6), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSets"), _class2$e.prototype)), _class2$e)) || _class$p) || _class$p; // istanbul ignore next
 
 var WrappedForm = Form$1.create()(UnwrappedForm);
 var Form = autoBindMethods(_class4 = observer(_class4 = (_temp2 = _class5 =
@@ -37122,8 +37248,8 @@ function (_Component2) {
   showControls: true
 }), _temp2)) || _class4) || _class4;
 
-var _class$p, _class2$f, _temp$7;
-var FormCard = autoBindMethods(_class$p = observer(_class$p = (_temp$7 = _class2$f =
+var _class$q, _class2$f, _temp$7;
+var FormCard = autoBindMethods(_class$q = observer(_class$q = (_temp$7 = _class2$f =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormCard, _Component);
@@ -37151,11 +37277,11 @@ function (_Component) {
   }]);
 
   return FormCard;
-}(Component), _class2$f.defaultProps = _objectSpread({}, formPropsDefaults), _temp$7)) || _class$p) || _class$p;
+}(Component), _class2$f.defaultProps = _objectSpread({}, formPropsDefaults), _temp$7)) || _class$q) || _class$q;
 
-var _class$q, _class2$g, _descriptor$4, _descriptor2$2, _class3$2, _temp$8;
+var _class$r, _class2$g, _descriptor$4, _descriptor2$2, _class3$2, _temp$8;
 
-var EditableCard = autoBindMethods(_class$q = observer(_class$q = (_class2$g = (_temp$8 = _class3$2 =
+var EditableCard = autoBindMethods(_class$r = observer(_class$r = (_class2$g = (_temp$8 = _class3$2 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableCard, _Component);
@@ -37364,11 +37490,11 @@ function (_Component) {
   initializer: function initializer() {
     return new SmartBool();
   }
-})), _class2$g)) || _class$q) || _class$q;
+})), _class2$g)) || _class$r) || _class$r;
 
-var _class$r, _class2$h, _descriptor$5, _class3$3, _temp$9;
+var _class$s, _class2$h, _descriptor$5, _class3$3, _temp$9;
 
-var EditableArrayCard = autoBindMethods(_class$r = observer(_class$r = (_class2$h = (_temp$9 = _class3$3 =
+var EditableArrayCard = autoBindMethods(_class$s = observer(_class$s = (_class2$h = (_temp$9 = _class3$3 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(EditableArrayCard, _Component);
@@ -37498,11 +37624,11 @@ function (_Component) {
   initializer: function initializer() {
     return new SmartBool();
   }
-})), _class2$h)) || _class$r) || _class$r;
+})), _class2$h)) || _class$s) || _class$s;
 
-var _class$s, _class2$i, _temp$a;
+var _class$t, _class2$i, _temp$a;
 
-var FormDrawer = autoBindMethods(_class$s = observer(_class$s = (_temp$a = _class2$i =
+var FormDrawer = autoBindMethods(_class$t = observer(_class$t = (_temp$a = _class2$i =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormDrawer, _Component);
@@ -37612,11 +37738,11 @@ function (_Component) {
   }]);
 
   return FormDrawer;
-}(Component), _class2$i.defaultProps = _objectSpread({}, formPropsDefaults), _temp$a)) || _class$s) || _class$s;
+}(Component), _class2$i.defaultProps = _objectSpread({}, formPropsDefaults), _temp$a)) || _class$t) || _class$t;
 
-var _class$t, _class2$j, _descriptor$6, _class3$4, _temp$b;
+var _class$u, _class2$j, _descriptor$6, _class3$4, _temp$b;
 
-var FormModal = autoBindMethods(_class$t = observer(_class$t = (_class2$j = (_temp$b = _class3$4 =
+var FormModal = autoBindMethods(_class$u = observer(_class$u = (_class2$j = (_temp$b = _class3$4 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(FormModal, _Component);
@@ -37766,11 +37892,11 @@ function (_Component) {
   enumerable: true,
   writable: true,
   initializer: null
-})), _class2$j)) || _class$t) || _class$t;
+})), _class2$j)) || _class$u) || _class$u;
 
-var _class$u, _class2$k, _class3$5, _temp$c;
+var _class$v, _class2$k, _class3$5, _temp$c;
 
-var SummaryCard = autoBindMethods(_class$u = observer(_class$u = (_class2$k = (_temp$c = _class3$5 =
+var SummaryCard = autoBindMethods(_class$v = observer(_class$v = (_class2$k = (_temp$c = _class3$5 =
 /*#__PURE__*/
 function (_Component) {
   _inherits(SummaryCard, _Component);
@@ -37831,11 +37957,11 @@ function (_Component) {
   return SummaryCard;
 }(Component), _class3$5.defaultProps = {
   column: 4
-}, _temp$c), (_applyDecoratedDescriptor(_class2$k.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$k.prototype, "fieldSets"), _class2$k.prototype)), _class2$k)) || _class$u) || _class$u;
+}, _temp$c), (_applyDecoratedDescriptor(_class2$k.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$k.prototype, "fieldSets"), _class2$k.prototype)), _class2$k)) || _class$v) || _class$v;
 
-var _class$v, _class2$l;
+var _class$w, _class2$l;
 
-var Table = autoBindMethods(_class$v = observer(_class$v = (_class2$l =
+var Table = autoBindMethods(_class$w = observer(_class$w = (_class2$l =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Table, _Component);
@@ -37881,8 +38007,8 @@ function (_Component) {
   }]);
 
   return Table;
-}(Component), (_applyDecoratedDescriptor(_class2$l.prototype, "columns", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "columns"), _class2$l.prototype), _applyDecoratedDescriptor(_class2$l.prototype, "dataSource", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "dataSource"), _class2$l.prototype)), _class2$l)) || _class$v) || _class$v;
+}(Component), (_applyDecoratedDescriptor(_class2$l.prototype, "columns", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "columns"), _class2$l.prototype), _applyDecoratedDescriptor(_class2$l.prototype, "dataSource", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "dataSource"), _class2$l.prototype)), _class2$l)) || _class$w) || _class$w;
 
 // Lower-level building blocks and helper components
 
-export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, backendValidation, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatOptionSelect, formatRating, getDateFormatList, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, renderLabel, renderValue, setFieldSetFields };
+export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, backendValidation, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatOptionSelect, formatRating, getDateFormatList, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, renderLabel, renderValue, setFieldSetFields };
