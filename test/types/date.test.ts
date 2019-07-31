@@ -76,7 +76,7 @@ describe('date', () => {
     expect(await isInputsValid('11', '22', '1989a')).toBe(false);
     expect(await isInputsValid('11', '22', '----')).toBe(false);
     expect(await isInputsValid('11', '22', '1989-')).toBe(false);
-    expect(await isInputsValid('', '', '')).toBe(false);
+    expect(await isInputsValid('', '', '')).toBe(true);
     expect(await isInputsValid('D', 'o', 'g')).toBe(false);
   });
 
@@ -107,5 +107,5 @@ describe('date', () => {
     await tester.submit();
 
     expect(!!onSave.mock.calls.length).toBe(true);
-    });
+  });
 });

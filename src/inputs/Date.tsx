@@ -73,13 +73,13 @@ class Date extends Component<IInputProps> {
   private onChange (field: IField, inputValue: string) {
     const regexNumbers = /[^0-9]+/
       , trimmedValue = inputValue.trim()
-      , cleanedValue = regexNumbers.test(trimmedValue) ? '' : trimmedValue
+      , cleanedValue = regexNumbers.test(trimmedValue) ? 'invalid' : trimmedValue
       , filledInValue = (field === 'year')
         ? inferCentury(cleanedValue)
         : cleanedValue ? cleanedValue.padStart(2, '0') : ''
       , valueObject = { ...this.valueObject, [field]: filledInValue }
       , { year, day, month } = valueObject
-      , value = (year && month && day) ? [year, month, day].join('-') : ''
+      , value = (year || month || day) ? [year, month, day].join('-') : ''
       ;
 
     this.injected.onChange(value);
