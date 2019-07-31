@@ -76,7 +76,7 @@ describe('date', () => {
     expect(await isInputsValid('11', '22', '1989a')).toBe(false);
     expect(await isInputsValid('11', '22', '----')).toBe(false);
     expect(await isInputsValid('11', '22', '1989-')).toBe(false);
-    expect(await isInputsValid('', '', '')).toBe(false);
+    expect(await isInputsValid('', '', '')).toBe(true);
     expect(await isInputsValid('D', 'o', 'g')).toBe(false);
   });
 
@@ -85,5 +85,27 @@ describe('date', () => {
     expect(await checkInferYear('19')).toBe('2019');
     expect(await checkInferYear('50')).toBe('1950');
     expect(await checkInferYear('98')).toBe('1998');
+  });
+
+  it('Changes input before submission', async () => {
+    const { fieldConfigFactory } = TYPE_GENERATORS.date
+      , fieldConfig = fieldConfigFactory.build()
+      , fieldSets = [[fieldConfig]]
+      , onSave = jest.fn()
+      , props = { fieldSets, onSave, required: false }
+      ;
+
+    const tester = await new Tester(FormCard, { props }).mount();
+
+    tester.changeInput(`input[id="${fieldConfig.field}.month"]`, '01');
+    tester.changeInput(`input[id="${fieldConfig.field}.day"]`, '01');
+    tester.changeInput(`input[id="${fieldConfig.field}.year"]`, '2019');
+
+    tester.changeInput(`input[id="${fieldConfig.field}.month"]`, '');
+    tester.changeInput(`input[id="${fieldConfig.field}.day"]`, '');
+    tester.changeInput(`input[id="${fieldConfig.field}.year"]`, '');
+    await tester.submit();
+
+    expect(!!onSave.mock.calls.length).toBe(true);
   });
 });
