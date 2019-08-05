@@ -250,12 +250,6 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   url: {
     editComponent: Antd.Input,
     editProps: { type: 'url' },
-    formValidationRules: {
-      url: {
-        message: 'Not a valid website (URLs should start with http:// or https://)',
-        type: 'url',
-      },
-    },
     render: passRenderOnlyValue(formatWebsite),
   },
 };
