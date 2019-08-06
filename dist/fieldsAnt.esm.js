@@ -34848,13 +34848,13 @@ function (_Component) {
     value: function onChange(field, inputValue) {
       var regexNumbers = /[^0-9]+/,
           trimmedValue = inputValue.trim(),
-          cleanedValue = regexNumbers.test(trimmedValue) ? '' : trimmedValue,
-          filledInValue = field === 'year' ? inferCentury(cleanedValue) : cleanedValue.padStart(2, '0'),
+          cleanedValue = regexNumbers.test(trimmedValue) ? 'invalid' : trimmedValue,
+          filledInValue = field === 'year' ? inferCentury(cleanedValue) : cleanedValue ? cleanedValue.padStart(2, '0') : '',
           valueObject = _objectSpread({}, this.valueObject, _defineProperty({}, field, filledInValue)),
           year = valueObject.year,
           day = valueObject.day,
           month = valueObject.month,
-          value = [year, month, day].join('-');
+          value = year || month || day ? [year, month, day].join('-') : '';
 
       this.injected.onChange(value); // Auto-increment to next input if input length 2 and in one of the first 2 boxes
 
@@ -35470,12 +35470,6 @@ var TYPES = {
     editComponent: Input,
     editProps: {
       type: 'url'
-    },
-    formValidationRules: {
-      url: {
-        message: 'Not a valid website (URLs should start with http:// or https://)',
-        type: 'url'
-      }
     },
     render: passRenderOnlyValue(formatWebsite)
   }
