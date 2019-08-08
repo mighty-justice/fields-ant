@@ -28,7 +28,7 @@ describe('address', () => {
       , onSave = jest.fn()
       , props = { fieldSets: [[fieldConfig]], model: emptyValue, onSave }
     ;
-    
+
     const tester = await new Tester(FormCard, {props}).mount();
     tester.submit();
     expect(onSave).toHaveBeenCalledWith({[fieldConfig.field]: emptyValue});

@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { get, set } from 'lodash';
 import { lookup } from 'zipcodes';
-// import flattenObject from 'flat';
 
 import * as Antd from 'antd';
 
@@ -63,7 +62,7 @@ class Address extends Component<IAddressProps> {
     return fieldSet.map((addressConfig: IFieldConfigPartial) => ({ ...addressConfig, colProps }));
   }
 
-  private get model() {
+  private get model () {
     const { fieldConfig: { field, smart }, formModel } = this.injected
       , zip = get(formModel[field], 'zip_code');
 
@@ -79,7 +78,6 @@ class Address extends Component<IAddressProps> {
 
   public render () {
     const { fieldConfig, formManager } = this.injected;
-    
     return (
       <Antd.Col>
         <Antd.Form.Item className={fieldConfig.className}>
