@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import { get, set } from 'lodash';
+import { lookup } from 'zipcodes';
 
 import * as Antd from 'antd';
 
@@ -60,16 +62,30 @@ class Address extends Component<IAddressProps> {
     return fieldSet.map((addressConfig: IFieldConfigPartial) => ({ ...addressConfig, colProps }));
   }
 
-  public render () {
-    const { fieldConfig, formManager, formModel } = this.injected;
+  private get model () {
+    const { fieldConfig: { field, smart }, formModel } = this.injected
+      , state = get(formModel[field], 'state')
+      , zip = get(formModel[field], 'zip_code');
 
+    if (!state && zip && smart) {
+      const data = lookup(zip);
+      if (data && data.state) {
+        set(formModel[field], 'state', data.state);
+      }
+    }
+
+    return formModel;
+  }
+
+  public render () {
+    const { fieldConfig, formManager } = this.injected;
     return (
       <Antd.Col>
         <Antd.Form.Item className={fieldConfig.className}>
           <NestedFieldSet
             fieldSet={this.fieldSet}
             formManager={formManager}
-            formModel={formModel}
+            formModel={this.model}
             id={fieldConfig.field}
             label={renderLabel(fieldConfig)}
           />
