@@ -38,13 +38,21 @@ describe('address', () => {
     const { fieldConfigFactory, valueFunction } = TYPE_GENERATORS.address
       , value = valueFunction()
       , addressValues = mapValues(value, () => '')
-      , fieldConfig = { ...fieldConfigFactory.build(), smart: true }
+      , fieldConfig = { ...fieldConfigFactory.build(), nullify: false, smart: true }
+      , onSave = jest.fn()
     ;
 
     addressValues['zip_code'] = '02912';
 
-    const props = { fieldSets: [[fieldConfig]], model: { [fieldConfig.field]: addressValues } }
-      , tester = await new Tester(FormCard, {props}).mount();
+    const props = {
+        fieldSets: [[fieldConfig]],
+        model: { [fieldConfig.field]: addressValues },
+        onSave,
+      }, tester = await new Tester(FormCard, {props}).mount();
     expect(tester.html()).toContain('Rhode Island');
+    tester.submit();
+
+    addressValues['state'] = 'RI';
+    expect(onSave).toHaveBeenCalledWith({[fieldConfig.field]: addressValues});
   });
 });
