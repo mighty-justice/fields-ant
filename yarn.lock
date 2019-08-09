@@ -2199,6 +2199,11 @@
   resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-12.0.10.tgz#17a8ec65cd8e88f51b418ceb271af18d3137df67"
   integrity sha512-WsVzTPshvCSbHThUduGGxbmnwcpkgSctHGHTqzWyFg4lYAuV5qXlyFPOsP3OWqCINfmg/8VXP+zJaa4OxEsBQQ==
 
+"@types/zipcodes@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@types/zipcodes/-/zipcodes-6.1.0.tgz#ff75e53cd1c05c6abfecb5f9a37d2b3529cfc6bc"
+  integrity sha512-dwb4m2qrE87R13X64IN4A9oxJg8d54CzxvjAugAI+wKbXYKdsRP5NXpXIDDrz9pkINHwaIjTI5LO7DJjW44sig==
+
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.8.5.tgz#51b1c5fe6576a34953bf4b253df9f0d490d9e359"

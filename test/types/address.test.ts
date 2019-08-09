@@ -37,12 +37,14 @@ describe('address', () => {
   it('Automatically fills in state if smart mode is on', async () => {
     const { fieldConfigFactory, valueFunction } = TYPE_GENERATORS.address
       , value = valueFunction()
-      , addressValues = mapValues(value, () => '02912')
+      , addressValues = mapValues(value, () => '')
       , fieldConfig = { ...fieldConfigFactory.build(), smart: true }
-      , props = { fieldSets: [[fieldConfig]], model: { [fieldConfig.field]: addressValues } }
     ;
 
-    const tester = await new Tester(FormCard, {props}).mount();
+    addressValues['zip_code'] = '02912';
+
+    const props = { fieldSets: [[fieldConfig]], model: { [fieldConfig.field]: addressValues } }
+      , tester = await new Tester(FormCard, {props}).mount();
     expect(tester.html()).toContain('Rhode Island');
   });
 });
