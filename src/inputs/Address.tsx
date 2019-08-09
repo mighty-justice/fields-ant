@@ -64,11 +64,12 @@ class Address extends Component<IAddressProps> {
 
   private get model () {
     const { fieldConfig: { field, smart }, formModel } = this.injected
+      , state = get(formModel[field], 'state')
       , zip = get(formModel[field], 'zip_code');
 
-    if (zip && smart) {
+    if (!state && zip && smart) {
       const data = lookup(zip);
-      if (data.state) {
+      if (data && data.state) {
         set(formModel[field], 'state', data.state);
       }
     }
