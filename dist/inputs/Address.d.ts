@@ -10,6 +10,7 @@ export declare function isTypeAddress(fieldConfig: IFieldConfig): fieldConfig is
 declare class Address extends Component<IAddressProps> {
     private readonly injected;
     private readonly fieldSet;
+    private readonly model;
     render(): JSX.Element;
 }
 export default Address;

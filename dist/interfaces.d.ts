@@ -61,6 +61,7 @@ export interface IFieldConfigOptionSelect extends IFieldConfigBase {
     sorted?: boolean;
 }
 export interface IFieldConfigAddress extends IFieldConfigBase {
+    smart?: boolean;
     stateProps?: Partial<IFieldConfigOptionSelect>;
 }
 export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
