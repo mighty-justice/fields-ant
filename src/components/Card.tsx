@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import cx from 'classnames';
 
 import * as Antd from 'antd';
 
@@ -22,11 +23,16 @@ class Card extends Component<ICardProps> {
   }
 
   public render () {
-    const { title, renderTopRight, isLoading, model } = this.props
+    const { className, title, renderTopRight, isLoading, model } = this.props
       , filteredFieldSets = filterFieldSets(this.fieldSets, { model, writeOnly: true });
 
     return (
-      <Antd.Card title={title} extra={renderTopRight && renderTopRight()} loading={isLoading}>
+      <Antd.Card
+        className={cx('mfa-card', className)}
+        extra={renderTopRight && renderTopRight()}
+        loading={isLoading}
+        title={title}
+      >
         {filteredFieldSets.map((fieldSet, idx) => (
           <CardFieldSet
             fieldSet={fieldSet}
