@@ -58,6 +58,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
 
   public render () {
     const {
+      className,
       defaults,
       fieldSets,
       isLoading,
@@ -69,7 +70,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
     } = this.props;
 
     return (
-      <Antd.Card title={title} extra={this.renderAddNew()} loading={isLoading}>
+      <Antd.Card className={className} title={title} extra={this.renderAddNew()} loading={isLoading}>
         {this.isAddingNew.isTrue && (
           <FormCard
             defaults={defaults}

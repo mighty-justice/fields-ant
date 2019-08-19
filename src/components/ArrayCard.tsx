@@ -17,10 +17,10 @@ export interface IArrayCardProps extends ICardProps {
 @observer
 class ArrayCard extends Component<IArrayCardProps> {
   public render () {
-    const { title, renderTopRight, isLoading, model, fieldSets, classNameSuffix } = this.props;
+    const { className, title, renderTopRight, isLoading, model, fieldSets, classNameSuffix } = this.props;
 
     return (
-      <Antd.Card title={title} extra={renderTopRight && renderTopRight()} loading={isLoading}>
+      <Antd.Card className={className} title={title} extra={renderTopRight && renderTopRight()} loading={isLoading}>
         {isEmpty(model) && (
           <p className='empty-message'>No records</p>
         )}
