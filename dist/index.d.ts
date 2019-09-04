@@ -22,6 +22,7 @@ export { default as OptionSelect } from './inputs/OptionSelect';
 export { default as OptionSelectDisplay, formatOptionSelect } from './inputs/OptionSelectDisplay';
 export { default as RadioGroup } from './inputs/RadioGroup';
 export { default as Rate, formatRating } from './inputs/Rate';
+export { default as Date } from './inputs/Date';
 export * from './consts';
 export * from './interfaces';
 export * from './propsDefaults';
