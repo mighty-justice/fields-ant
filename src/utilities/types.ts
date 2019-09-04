@@ -249,7 +249,6 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   },
   url: {
     editComponent: Antd.Input,
-    editProps: { type: 'url' },
     render: passRenderOnlyValue(formatWebsite),
   },
 };
