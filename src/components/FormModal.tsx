@@ -53,6 +53,7 @@ class FormModal extends Component<ISharedFormModalProps> {
     if (!this.formManager) {
       return {
         cancelText,
+        className,
         confirmLoading: true,
         okButtonProps: { disabled: true },
         okText: saveText,
@@ -62,6 +63,7 @@ class FormModal extends Component<ISharedFormModalProps> {
 
     return {
       cancelText,
+      className,
       confirmLoading: this.formManager.saving,
       okButtonProps: { disabled: this.formManager.submitButtonDisabled },
       okText: this.formManager.saving ? 'Saving...' : saveText,
