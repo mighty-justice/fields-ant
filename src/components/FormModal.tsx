@@ -48,7 +48,7 @@ class FormModal extends Component<ISharedFormModalProps> {
   }
 
   private get modalProps () {
-    const { cancelText, saveText } = this.props;
+    const { cancelText, saveText, className } = this.props;
 
     if (!this.formManager) {
       return {
