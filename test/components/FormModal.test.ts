@@ -59,8 +59,9 @@ import SmartBool from '@mighty-justice/smart-bool';
       const tester = await new Tester(ComponentClass, { props }).mount({});
 
       // Open modal using isVisible
-      expect(tester.text()).toBe(null);
+      expect(tester.text()).toBe('');
       isVisible.setTrue();
+      await tester.refresh();
       expect(tester.text()).toContain(title);
 
       // Check that it auto-closes on successful submit

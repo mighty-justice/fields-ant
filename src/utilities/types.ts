@@ -44,7 +44,7 @@ import Address from '../inputs/Address';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
-  return (value: IValue, _fieldConfig: IFieldConfig, _model: IModel) => func(value);
+  return (value: IValue, _fieldConfig?: IFieldConfig, _model?: IModel) => func(value);
 }
 
 function passRenderOnlyValueAndFieldConfig (func: (value: IValue, fieldConfig: IFieldConfig) => React.ReactNode) {
@@ -175,7 +175,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     nullify: true,
     render: passRenderOnlyValue(getNameOrDefault),
     renderOption: passRenderOnlyValue(getNameOrDefault),
-    renderSelected: passRenderOnlyValue(getNameOrDefault),
+    renderSelected: passRenderOnlyValue(getNameOrDefault) as (value: IValue) => string,
   },
   objectSearchCreate: {
     editComponent: ObjectSearchCreate,
@@ -183,7 +183,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     nullify: true,
     render: passRenderOnlyValue(getNameOrDefault),
     renderOption: passRenderOnlyValue(getNameOrDefault),
-    renderSelected: passRenderOnlyValue(getNameOrDefault),
+    renderSelected: passRenderOnlyValue(getNameOrDefault) as (value: IValue) => string,
     skipFieldDecorator: true,
   },
   optionSelect: {

@@ -111,7 +111,7 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
       ...TYPES[type].formValidationRules,
       ...requiredValidationRule,
     },
-  };
+  } as IFieldConfig;
 }
 
 export function fillInFieldSet (fieldSet: IFieldSetPartial): IFieldSet {
