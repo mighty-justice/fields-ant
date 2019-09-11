@@ -15,7 +15,9 @@ const name = 'fields-ant'
     extensions,
   }
   , plugins = [
-    peerDepsExternal(),
+    peerDepsExternal({
+      includeDependencies: true,
+    }),
     resolve({ extensions }),
     babel(babelConfig),
     commonjs(),
