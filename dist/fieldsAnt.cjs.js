@@ -4093,6 +4093,7 @@ exports.ID_ATTR = ID_ATTR;
 exports.Info = Info;
 exports.Label = Label;
 exports.NestedFieldSet = NestedFieldSet;
+exports.ObjectSearch = ObjectSearch;
 exports.ObjectSearchCreate = ObjectSearchCreate;
 exports.OptionSelect = OptionSelect;
 exports.OptionSelectDisplay = OptionSelectDisplay;
