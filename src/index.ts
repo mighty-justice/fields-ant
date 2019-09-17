@@ -22,6 +22,7 @@ export { default as Table } from './components/Table';
 
 // Form inputs
 export { default as Hidden } from './inputs/Hidden';
+export { default as ObjectSearch } from './inputs/ObjectSearch';
 export { default as ObjectSearchCreate } from './inputs/ObjectSearchCreate';
 export { default as OptionSelect } from './inputs/OptionSelect';
 export { default as OptionSelectDisplay, formatOptionSelect } from './inputs/OptionSelectDisplay';
