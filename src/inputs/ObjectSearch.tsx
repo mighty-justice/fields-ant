@@ -190,12 +190,13 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   private renderOption (option: IEndpointOption) {
-    const { renderOption, renderSelected } = this.fieldConfig
+    const { isDisabled, renderOption, renderSelected } = this.fieldConfig
        , className = `${CX_PREFIX_SEARCH_CREATE}-item`;
 
     return (
       <Antd.Select.Option
         className={className}
+        disabled={isDisabled ? isDisabled(option): false}
         key={option.id}
         title={renderSelected(option)}
         value={option.id}
