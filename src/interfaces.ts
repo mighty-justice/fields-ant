@@ -74,7 +74,6 @@ export interface IFieldConfigAddress extends IFieldConfigBase {
 export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
   createFields: IFieldConfigBase[];
   endpoint: string;
-  isDisabled?: (option: IEndpointOption) => boolean;
   renderOption: (option: IEndpointOption) => React.ReactNode;
   renderSelected: (option: IEndpointOption) => string;
   searchFilters?: { [key: string]: any };
