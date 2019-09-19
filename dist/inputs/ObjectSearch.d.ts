@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { SelectProps } from 'antd/lib/select';
-import { IFieldConfigObjectSearchCreate } from '../';
+import { IEndpointOption, IFieldConfigObjectSearchCreate } from '../';
 export interface IObjectSearchProps {
     addNewContent?: React.ReactNode;
     debounceWait: number;
     fieldConfig: IFieldConfigObjectSearchCreate;
+    isOptionDisabled?: (option: IEndpointOption) => boolean;
     loadingIcon?: React.ReactNode;
     noSearchContent?: React.ReactNode;
     onAddNew?: (search: string) => void;

@@ -677,9 +677,11 @@
         var _this$fieldConfig2 = this.fieldConfig,
             renderOption = _this$fieldConfig2.renderOption,
             renderSelected = _this$fieldConfig2.renderSelected,
+            isOptionDisabled = this.props.isOptionDisabled,
             className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item");
         return React__default.createElement(Antd.Select.Option, {
           className: className,
+          disabled: isOptionDisabled ? isOptionDisabled(option) : false,
           key: option.id,
           title: renderSelected(option),
           value: option.id
