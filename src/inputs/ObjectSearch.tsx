@@ -229,9 +229,9 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
     // Select from search
     if (this.isMultiSelect) {
-      const foundOptions = this.options.filter(option =>
-        selectedOption.map((selectedOption: any) => selectedOption.key).includes(option.id)
-      );
+      const foundOptions = this.options.filter(option => (
+        selectedOption.map((_selectedOption: any) => _selectedOption.key).includes(option.id)
+      ));
       onChange(toJS(foundOptions));
     } else {
       const foundOption = this.options.find(option => option.id === selectedOption.key);
@@ -260,22 +260,22 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       if (!value) { return { value: undefined }; }
 
       return {
-        value: value.map((value: any) => ({
-          key: value.id,
-          label: renderSelected(value)
-        }))
-      };
-    } else {
-      const valueId = get(value, 'id');
-      if (!valueId) { return { value: undefined }; }
-
-      return {
-        value: {
-          key: valueId,
-          label: renderSelected(value),
-        },
+        value: value.map((_value: any) => ({
+          key: _value.id,
+          label: renderSelected(_value),
+        })),
       };
     }
+
+    const valueId = get(value, 'id');
+    if (!valueId) { return { value: undefined }; }
+
+    return {
+      value: {
+        key: valueId,
+        label: renderSelected(value),
+      },
+    };
   }
 
   public render () {
