@@ -24,6 +24,7 @@ export interface IObjectSearchProps {
   addNewContent?: React.ReactNode;
   debounceWait: number;
   fieldConfig: IFieldConfigObjectSearchCreate;
+  isOptionDisabled?: (option: IEndpointOption) => boolean;
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
   onAddNew?: (search: string) => void;
@@ -190,11 +191,8 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   private renderOption (option: IEndpointOption) {
-    const {
-        editProps : { isOptionDisabled },
-        renderOption,
-        renderSelected,
-      } = this.fieldConfig
+    const { renderOption, renderSelected } = this.fieldConfig
+      , { isOptionDisabled } = this.props
       , className = `${CX_PREFIX_SEARCH_CREATE}-item`;
 
     return (
