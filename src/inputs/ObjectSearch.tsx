@@ -19,6 +19,7 @@ import {
   IInjected,
   IInputProps,
 } from '../';
+import { IValue } from '../props';
 
 export interface IObjectSearchProps {
   addNewContent?: React.ReactNode;
@@ -27,6 +28,7 @@ export interface IObjectSearchProps {
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
   onAddNew?: (search: string) => void;
+  onChange: (value: IValue) => void;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }
