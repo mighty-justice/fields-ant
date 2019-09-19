@@ -97,6 +97,11 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     return !this.hasOptions && !this.hasSearch;
   }
 
+  private get isMultiSelect () {
+    const { mode } = this.selectProps;
+    return mode && ['multiple', 'tags'].includes(mode);
+  }
+
   private get loadingIcon () {
     return this.props.loadingIcon || <Antd.Icon type='loading' />;
   }
@@ -221,8 +226,15 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     }
 
     // Select from search
-    const foundOption = this.options.find(option => option.id === selectedOption.key);
-    onChange(toJS(foundOption));
+    if (this.isMultiSelect) {
+      const foundOptions = this.options.filter(option =>
+        selectedOption.map((selectedOption: any) => selectedOption.key).includes(option.id)
+      );
+      onChange(toJS(foundOptions));
+    } else {
+      const foundOption = this.options.find(option => option.id === selectedOption.key);
+      onChange(toJS(foundOption));
+    }
   }
 
   // istanbul ignore next
@@ -240,18 +252,28 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   private get valueProp (): { value?: { key: string, label: string } } {
     const { value } = this.injected
-      , valueId = get(value, 'id')
-      , { renderSelected } = this.fieldConfig
-      ;
+      , { renderSelected } = this.fieldConfig;
 
-    if (!valueId) { return { value: undefined }; }
+    if (this.isMultiSelect) {
+      if (!value) { return { value: undefined }; }
 
-    return {
-      value: {
-        key: valueId,
-        label: renderSelected(value),
-      },
-    };
+      return {
+        value: value.map((value: any) => ({
+          key: value.id,
+          label: renderSelected(value)
+        }))
+      };
+    } else {
+      const valueId = get(value, 'id');
+      if (!valueId) { return { value: undefined }; }
+
+      return {
+        value: {
+          key: valueId,
+          label: renderSelected(value),
+        },
+      };
+    }
   }
 
   public render () {
