@@ -8,7 +8,7 @@ import ObjectSearch from '../../src/inputs/ObjectSearch';
 function fakeLawFirm () {
   return {
     id: faker.random.uuid(),
-      name: faker.company.companyName(),
+    name: faker.company.companyName(),
   };
 }
 
@@ -30,7 +30,7 @@ function getFormDefaults (overrides?: any) {
     ;
 
   return {
-    result: fakeLawFirm(),
+    results: Array(3).fill(null).map(() => fakeLawFirm()),
     searchTerm: faker.lorem.sentence(),
 
     endpoint,
@@ -54,7 +54,7 @@ function getComponentDefaults (overrides?: any) {
     ;
 
   return {
-    result: fakeLawFirm(),
+    results: Array(3).fill(null).map(() => fakeLawFirm()),
     searchTerm: faker.lorem.sentence(),
 
     endpoint,
@@ -68,8 +68,8 @@ function getComponentDefaults (overrides?: any) {
   };
 }
 
-export async function objectSearchFor (tester: any, field: string, result: any, searchTerm: string) {
-  tester.endpoints['/legal-organizations/'] = { results: [result] };
+export async function objectSearchFor (tester: any, field: string, results: any, searchTerm: string) {
+  tester.endpoints['/legal-organizations/'] = { results };
 
   // Change input without blurring
   const component = tester.find(`input#${field}`).first();
@@ -96,17 +96,17 @@ describe('objectSearch', () => {
   });
 
   it('Properly caches and displays options', async () => {
-    const { field, searchTerm, result, props, endpoint } = getComponentDefaults({})
+    const { field, searchTerm, results, props, endpoint } = getComponentDefaults({})
       , tester = (await new Tester(ObjectSearch, { props }).mount() as any)
       , newEndpoint = `${endpoint}2/`
       ;
 
-    tester.endpoints[newEndpoint] = { results: [result] };
+    tester.endpoints[newEndpoint] = { results };
 
     expect(tester.getEndpoint.mock.calls.length).toBe(0);
 
     // First search
-    await objectSearchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, results, searchTerm);
     expect(tester.getEndpoint.mock.calls.length).toBe(1);
 
     // Re-focus but no new props
@@ -117,5 +117,20 @@ describe('objectSearch', () => {
     props.fieldConfig.endpoint = newEndpoint;
     tester.instance.onFocus();
     expect(tester.getEndpoint.mock.calls.length).toBe(2);
+  });
+
+  it('Can select multiple options', async () => {
+    const overrides = { fieldConfig: { editProps: { selectProps: { mode: 'multiple' } } } }
+      , { field, searchTerm, results, props } = getFormDefaults(overrides)
+      , tester = (await new Tester(FormCard, { props }).mount())
+      ;
+
+    await objectSearchFor(tester, field, results, searchTerm);
+    tester.click(tester.find('.ant-select-dropdown-menu-item').first());
+    tester.click(tester.find('.ant-select-dropdown-menu-item').last());
+
+    expect(tester.text()).toContain(results[0].name);
+    expect(tester.text()).not.toContain(results[1].name);
+    expect(tester.text()).toContain(results[2].name);
   });
 });
