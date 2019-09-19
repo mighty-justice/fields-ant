@@ -10,7 +10,7 @@ import { objectSearchFor } from './objectSearch.test';
 function fakeLawFirm () {
   return {
     id: faker.random.uuid(),
-      name: faker.company.companyName(),
+    name: faker.company.companyName(),
   };
 }
 
@@ -30,7 +30,7 @@ function getDefaults (overrides?: any) {
   return {
     expectedLabel: 'Law Firm',
     fakeOwed: faker.finance.amount(),
-    result: fakeLawFirm(),
+    results: Array(3).fill(null).map(() => fakeLawFirm()),
     searchTerm: faker.lorem.sentence(),
 
     createFields,
@@ -59,26 +59,26 @@ async function selectFirst (tester: any) {
 }
 
 describe('objectSearchCreate', () => {
-  it('Selects existing', async () => {
-    const { field, props, onSave, searchTerm, result } = getDefaults({})
+  it.only('Selects existing', async () => {
+    const { field, props, onSave, searchTerm, results } = getDefaults({})
       , tester = await getTester(props);
 
-    await objectSearchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, results, searchTerm);
 
     selectFirst(tester);
     tester.submit();
-    expect(onSave).toHaveBeenCalledWith({ law_firm: result });
+    expect(onSave).toHaveBeenCalledWith({ law_firm: results[0] });
   });
 
   it('Adds new', async () => {
-    const { field, onSave, searchTerm, result, props, fakeOwed } = getDefaults({})
+    const { field, onSave, searchTerm, results, props, fakeOwed } = getDefaults({})
       , tester = await getTester(props) ;
 
     tester.submit();
     expect(onSave).toHaveBeenCalledWith(props.model);
     onSave.mockClear();
 
-    await objectSearchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, results, searchTerm);
     await selectAddNew(tester);
 
     expect(tester.text()).toContain('Name');
@@ -107,13 +107,13 @@ describe('objectSearchCreate', () => {
   });
 
   it('Clears existing record on add new', async () => {
-    const { field, onSave, searchTerm, result, props } = getDefaults({
+    const { field, onSave, searchTerm, results, props } = getDefaults({
         model: { law_firm: fakeLawFirm() },
       })
       , tester = await getTester(props)
       ;
 
-    await objectSearchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, results, searchTerm);
     await selectAddNew(tester);
 
     // Will not submit until required sub-form filled out
@@ -133,7 +133,7 @@ describe('objectSearchCreate', () => {
   });
 
   it('Populates from search', async () => {
-    const { field, onSave, searchTerm, result, props } = getDefaults({
+    const { field, onSave, searchTerm, results, props } = getDefaults({
         createFields: [
           { field: 'name', required: true, populateFromSearch: true },
           { field: 'amount_owed' },
@@ -141,7 +141,7 @@ describe('objectSearchCreate', () => {
       })
       , tester = await getTester(props);
 
-    await objectSearchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, results, searchTerm);
     await selectAddNew(tester);
 
     expect(tester.find('input[id="law_firm.name"]').html()).toContain(searchTerm);
@@ -158,10 +158,10 @@ describe('objectSearchCreate', () => {
         { field: 'last_name', required: true, populateNameFromSearch: true },
         { field: 'amount_owed' },
       ]
-      , { field, onSave, result, props } = getDefaults({ createFields })
+      , { field, onSave, results, props } = getDefaults({ createFields })
       , tester = await getTester(props);
 
-    await objectSearchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, results, searchTerm);
     await selectAddNew(tester);
 
     expect(tester.find('input[id="law_firm.first_name"]').html()).toContain(firstName);
@@ -176,7 +176,7 @@ describe('objectSearchCreate', () => {
   });
 
   it('Nullifies nullable create fields', async () => {
-    const { field, onSave, searchTerm, result, props } = getDefaults({
+    const { field, onSave, searchTerm, results, props } = getDefaults({
         createFields: [
           { field: 'non_nullable' },
           { field: 'nullable', nullify: true },
@@ -184,7 +184,7 @@ describe('objectSearchCreate', () => {
       })
       , tester = await getTester(props);
 
-    await objectSearchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, results, searchTerm);
     await selectAddNew(tester);
     tester.submit();
 
@@ -194,12 +194,12 @@ describe('objectSearchCreate', () => {
   it('Renders and saves complex nested field sets', async () => {
     const legend = fakeTextShort()
       , submitValue = fakeTextShort()
-      , { field, onSave, searchTerm, result, props } = getDefaults({
+      , { field, onSave, searchTerm, results, props } = getDefaults({
         createFields: { fields: [{ field: 'complex'}], legend },
       })
       , tester = await getTester(props);
 
-    await objectSearchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, results, searchTerm);
     await selectAddNew(tester);
     await tester.refresh();
 
@@ -211,7 +211,7 @@ describe('objectSearchCreate', () => {
   });
 
   it('Renders non-standard objects', async () => {
-    const { field, onSave, searchTerm, result, props } = getDefaults({
+    const { field, onSave, searchTerm, results, props } = getDefaults({
         createFields: [
           { field: 'non_nullable' },
           { field: 'nullable', nullify: true },
@@ -220,21 +220,21 @@ describe('objectSearchCreate', () => {
           renderOption: (option: any) => `${option.first_name} FFF ${option.last_name}`,
           renderSelected: (option: any) => `${option.last_name} ZZZ ${option.first_name}`,
         },
-        result: {
+        results: [{
           first_name: faker.name.firstName(),
           id: faker.random.uuid(),
           last_name: faker.name.lastName(),
-        },
+        }],
       })
       , tester = await getTester(props);
 
-    await objectSearchFor(tester, field, result, searchTerm);
+    await objectSearchFor(tester, field, results, searchTerm);
 
     expect(tester.find('li').first().text()).toContain('FFF');
     selectFirst(tester);
     expect(tester.text()).toContain('ZZZ');
     tester.submit();
 
-    expect(onSave).toHaveBeenCalledWith({ law_firm: result });
+    expect(onSave).toHaveBeenCalledWith({ law_firm: results[0] });
   });
 });
