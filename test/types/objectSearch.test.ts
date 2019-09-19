@@ -3,14 +3,8 @@ import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
 import { fillInFieldConfig, FormCard } from '../../src';
+import { organizationResultFactory } from '../factories';
 import ObjectSearch from '../../src/inputs/ObjectSearch';
-
-function fakeLawFirm () {
-  return {
-    id: faker.random.uuid(),
-    name: faker.company.companyName(),
-  };
-}
 
 function getFormDefaults (overrides?: any) {
   const field = overrides.field || 'law_firm'
@@ -30,7 +24,7 @@ function getFormDefaults (overrides?: any) {
     ;
 
   return {
-    results: Array(3).fill(null).map(() => fakeLawFirm()),
+    results: organizationResultFactory.buildList(3),
     searchTerm: faker.lorem.sentence(),
 
     endpoint,
@@ -54,7 +48,7 @@ function getComponentDefaults (overrides?: any) {
     ;
 
   return {
-    results: Array(3).fill(null).map(() => fakeLawFirm()),
+    results: organizationResultFactory.buildList(3),
     searchTerm: faker.lorem.sentence(),
 
     endpoint,
@@ -81,7 +75,7 @@ export async function objectSearchFor (tester: any, field: string, results: any,
 
 describe('objectSearch', () => {
   it('Clears existing', async () => {
-    const model = { law_firm: fakeLawFirm() }
+    const model = { law_firm: organizationResultFactory.build() }
       , { props } = getFormDefaults({ model })
       , tester = (await new Tester(FormCard, { props }).mount())
       , CLEAR_BUTTON = '.ant-select-selection__clear'

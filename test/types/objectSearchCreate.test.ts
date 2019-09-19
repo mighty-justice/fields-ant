@@ -3,16 +3,9 @@ import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
 import { FormCard } from '../../src';
-import { fakeTextShort } from '../factories';
+import { fakeTextShort, organizationResultFactory } from '../factories';
 
 import { objectSearchFor } from './objectSearch.test';
-
-function fakeLawFirm () {
-  return {
-    id: faker.random.uuid(),
-    name: faker.company.companyName(),
-  };
-}
 
 function getDefaults (overrides?: any) {
   const field = overrides.field || 'law_firm'
@@ -30,7 +23,7 @@ function getDefaults (overrides?: any) {
   return {
     expectedLabel: 'Law Firm',
     fakeOwed: faker.finance.amount(),
-    results: Array(3).fill(null).map(() => fakeLawFirm()),
+    results: organizationResultFactory.buildList(3),
     searchTerm: faker.lorem.sentence(),
 
     createFields,
@@ -108,7 +101,7 @@ describe('objectSearchCreate', () => {
 
   it('Clears existing record on add new', async () => {
     const { field, onSave, searchTerm, results, props } = getDefaults({
-        model: { law_firm: fakeLawFirm() },
+        model: { law_firm: organizationResultFactory.build() },
       })
       , tester = await getTester(props)
       ;

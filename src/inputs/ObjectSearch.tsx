@@ -229,9 +229,8 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
     // Select from search
     if (this.isMultiSelect) {
-      const foundOptions = this.options.filter(option => (
-        selectedOption.map((_selectedOption: any) => _selectedOption.key).includes(option.id)
-      ));
+      const selectedOptionIds = selectedOption.map((_selectedOption: any) => _selectedOption.key)
+        , foundOptions = this.options.filter(option => selectedOptionIds.includes(option.id));
       onChange(toJS(foundOptions));
     } else {
       const foundOption = this.options.find(option => option.id === selectedOption.key);
