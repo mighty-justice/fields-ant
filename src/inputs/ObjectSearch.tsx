@@ -19,6 +19,7 @@ import {
   IInjected,
   IInputProps,
 } from '../';
+import { IValue } from '../props';
 
 export interface IObjectSearchProps {
   addNewContent?: React.ReactNode;
@@ -28,6 +29,7 @@ export interface IObjectSearchProps {
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
   onAddNew?: (search: string) => void;
+  onChange: (value: IValue) => void;
   searchIcon?: React.ReactNode;
   selectProps: SelectProps;
 }
@@ -96,6 +98,11 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   private get isPristine () {
     return !this.hasOptions && !this.hasSearch;
+  }
+
+  private get isMultiSelect () {
+    const { mode } = this.selectProps;
+    return mode && ['multiple', 'tags'].includes(mode);
   }
 
   private get loadingIcon () {
@@ -224,8 +231,14 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     }
 
     // Select from search
-    const foundOption = this.options.find(option => option.id === selectedOption.key);
-    onChange(toJS(foundOption));
+    if (this.isMultiSelect) {
+      const selectedOptionIds = selectedOption.map((_selectedOption: any) => _selectedOption.key)
+        , foundOptions = this.options.filter(option => selectedOptionIds.includes(option.id));
+      onChange(toJS(foundOptions));
+    } else {
+      const foundOption = this.options.find(option => option.id === selectedOption.key);
+      onChange(toJS(foundOption));
+    }
   }
 
   // istanbul ignore next
@@ -243,10 +256,20 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   private get valueProp (): { value?: { key: string, label: string } } {
     const { value } = this.injected
-      , valueId = get(value, 'id')
-      , { renderSelected } = this.fieldConfig
-      ;
+      , { renderSelected } = this.fieldConfig;
 
+    if (this.isMultiSelect) {
+      if (!value) { return { value: undefined }; }
+
+      return {
+        value: value.map((_value: any) => ({
+          key: _value.id,
+          label: renderSelected(_value),
+        })),
+      };
+    }
+
+    const valueId = get(value, 'id');
     if (!valueId) { return { value: undefined }; }
 
     return {

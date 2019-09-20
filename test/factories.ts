@@ -130,6 +130,12 @@ export const objectSearchCreateFactory = fieldFactoryForType('objectSearchCreate
     endpoint: '/endpoint/',
   });
 
+export const organizationResultFactory = new Factory()
+  .attrs({
+    id: faker.random.uuid,
+    name: faker.company.companyName,
+  })
+
 /*
  *   FIELD SET FACTORY
  * = = = = = = = = = = = = = =

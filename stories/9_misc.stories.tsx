@@ -11,6 +11,7 @@ import { FormCard, IFieldConfigObjectSearchCreate, IFieldConfigPartial } from '.
 import {
   fakeField,
   formCardPropsFactory,
+  objectSearchFactory,
   objectSearchCreateFactory,
   TYPE_GENERATORS,
 } from '../test/factories';
@@ -155,6 +156,27 @@ storiesOf('Misc.', module)
         }]}
       />
       <Marked md={docObjectSearchCreate} />
+    </>
+  ))
+  .add('objectSearch Multiselect', () => (
+    <>
+      <Marked md={`# { type: 'objectSearch' }`} />
+      <FormCard
+        {...formCardPropsFactory.build()}
+        fieldSets={[{
+          fields: [
+            {
+              ...objectSearchFactory.build() as IFieldConfigObjectSearchCreate,
+              colProps: { sm: 24, lg: 12 },
+              editProps: {
+                selectProps: { mode: 'multiple' },
+              },
+            },
+          ],
+          legend: 'Legend Text',
+          rowProps: { gutter: 16 },
+        }]}
+      />
     </>
   ))
   ;
