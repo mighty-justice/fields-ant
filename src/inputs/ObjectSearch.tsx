@@ -50,6 +50,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   @observable private previousEndpoint = '';
   @observable private previousSearchFilters = '';
+  @observable private previousSelectedOptions: IEndpointOption[] = [];
 
   public static defaultProps: Partial<IObjectSearchProps> = {
     debounceWait: DEFAULT_DEBOUNCE_WAIT,
@@ -233,7 +234,9 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     // Select from search
     if (this.isMultiSelect) {
       const selectedOptionIds = selectedOption.map((_selectedOption: any) => _selectedOption.key)
-        , foundOptions = this.options.filter(option => selectedOptionIds.includes(option.id));
+        , optionsToSearch = Array.from(new Set([...this.previousSelectedOptions, ...this.options]))
+        , foundOptions = optionsToSearch.filter((option: any) => selectedOptionIds.includes(option.id));
+      this.previousSelectedOptions = foundOptions;
       onChange(toJS(foundOptions));
     } else {
       const foundOption = this.options.find(option => option.id === selectedOption.key);
