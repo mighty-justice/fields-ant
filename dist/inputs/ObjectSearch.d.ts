@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { SelectProps } from 'antd/lib/select';
 import { IEndpointOption, IFieldConfigObjectSearchCreate } from '../';
+import { IValue } from '../props';
 export interface IObjectSearchProps {
     addNewContent?: React.ReactNode;
     debounceWait: number;
@@ -9,6 +10,7 @@ export interface IObjectSearchProps {
     loadingIcon?: React.ReactNode;
     noSearchContent?: React.ReactNode;
     onAddNew?: (search: string) => void;
+    onChange: (value: IValue) => void;
     searchIcon?: React.ReactNode;
     selectProps: SelectProps;
 }
@@ -30,6 +32,7 @@ declare class ObjectSearch extends Component<IObjectSearchProps> {
     private readonly hasNewSearchFilters;
     private readonly hasNewProps;
     private readonly isPristine;
+    private readonly isMultiSelect;
     private readonly loadingIcon;
     private readonly searchIcon;
     private readonly selectProps;

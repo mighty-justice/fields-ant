@@ -715,10 +715,21 @@ function (_Component) {
       } // Select from search
 
 
-      var foundOption = this.options.find(function (option) {
-        return option.id === selectedOption.key;
-      });
-      onChange(mobx.toJS(foundOption));
+      if (this.isMultiSelect) {
+        var selectedOptionIds = selectedOption.map(function (_selectedOption) {
+          return _selectedOption.key;
+        }),
+            optionsToSearch = lodash.uniqBy([].concat(_toConsumableArray(this.injected.value), _toConsumableArray(this.options)), 'id'),
+            foundOptions = optionsToSearch.filter(function (option) {
+          return selectedOptionIds.includes(option.id);
+        });
+        onChange(mobx.toJS(foundOptions));
+      } else {
+        var foundOption = this.options.find(function (option) {
+          return option.id === selectedOption.key;
+        });
+        onChange(mobx.toJS(foundOption));
+      }
     } // istanbul ignore next
 
   }, {
@@ -806,6 +817,12 @@ function (_Component) {
       return !this.hasOptions && !this.hasSearch;
     }
   }, {
+    key: "isMultiSelect",
+    get: function get() {
+      var mode = this.selectProps.mode;
+      return mode && ['multiple', 'tags'].includes(mode);
+    }
+  }, {
     key: "loadingIcon",
     get: function get() {
       return this.props.loadingIcon || React__default.createElement(Antd.Icon, {
@@ -829,8 +846,26 @@ function (_Component) {
     key: "valueProp",
     get: function get() {
       var value = this.injected.value,
-          valueId = lodash.get(value, 'id'),
           renderSelected = this.fieldConfig.renderSelected;
+
+      if (this.isMultiSelect) {
+        if (!value) {
+          return {
+            value: undefined
+          };
+        }
+
+        return {
+          value: value.map(function (_value) {
+            return {
+              key: _value.id,
+              label: renderSelected(_value)
+            };
+          })
+        };
+      }
+
+      var valueId = lodash.get(value, 'id');
 
       if (!valueId) {
         return {

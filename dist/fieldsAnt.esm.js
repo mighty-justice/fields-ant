@@ -4,7 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form as Form$1, Col, Select, Icon, Button, Tooltip, Input, Radio, Rate as Rate$1, Checkbox as Checkbox$1, DatePicker, notification, Row, Popconfirm, Divider, Card as Card$1, Drawer, Modal, List, Table as Table$1 } from 'antd';
 import { toJS, observable, computed } from 'mobx';
-import { get, set, values, omit, debounce, pick, isBoolean, isArray, flatten, sortBy, has, isObject, some, isPlainObject, extend, mapValues, pickBy, noop, isEmpty, kebabCase } from 'lodash';
+import { get, set, values, omit, debounce, uniqBy, pick, isBoolean, isArray, flatten, sortBy, has, isObject, some, isPlainObject, extend, mapValues, pickBy, noop, isEmpty, kebabCase } from 'lodash';
 import { lookup } from 'zipcodes';
 import SmartBool from '@mighty-justice/smart-bool';
 import { toKey, inferCentury, EMPTY_FIELD, mapBooleanToText, isValidDate, formatDate, formatEmployerIdNumber, formatMoney, formatCommaSeparatedNumber, getNameOrDefault, getPercentValue, formatPercentage, getPercentDisplay, formatPhoneNumber, formatSocialSecurityNumber, parseAndPreserveNewlines, formatWebsite, formatAddressMultiline, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
@@ -708,10 +708,21 @@ function (_Component) {
       } // Select from search
 
 
-      var foundOption = this.options.find(function (option) {
-        return option.id === selectedOption.key;
-      });
-      onChange(toJS(foundOption));
+      if (this.isMultiSelect) {
+        var selectedOptionIds = selectedOption.map(function (_selectedOption) {
+          return _selectedOption.key;
+        }),
+            optionsToSearch = uniqBy([].concat(_toConsumableArray(this.injected.value), _toConsumableArray(this.options)), 'id'),
+            foundOptions = optionsToSearch.filter(function (option) {
+          return selectedOptionIds.includes(option.id);
+        });
+        onChange(toJS(foundOptions));
+      } else {
+        var foundOption = this.options.find(function (option) {
+          return option.id === selectedOption.key;
+        });
+        onChange(toJS(foundOption));
+      }
     } // istanbul ignore next
 
   }, {
@@ -799,6 +810,12 @@ function (_Component) {
       return !this.hasOptions && !this.hasSearch;
     }
   }, {
+    key: "isMultiSelect",
+    get: function get() {
+      var mode = this.selectProps.mode;
+      return mode && ['multiple', 'tags'].includes(mode);
+    }
+  }, {
     key: "loadingIcon",
     get: function get() {
       return this.props.loadingIcon || React.createElement(Icon, {
@@ -822,8 +839,26 @@ function (_Component) {
     key: "valueProp",
     get: function get$1() {
       var value = this.injected.value,
-          valueId = get(value, 'id'),
           renderSelected = this.fieldConfig.renderSelected;
+
+      if (this.isMultiSelect) {
+        if (!value) {
+          return {
+            value: undefined
+          };
+        }
+
+        return {
+          value: value.map(function (_value) {
+            return {
+              key: _value.id,
+              label: renderSelected(_value)
+            };
+          })
+        };
+      }
+
+      var valueId = get(value, 'id');
 
       if (!valueId) {
         return {
