@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { omit, debounce, get } from 'lodash';
+import { omit, debounce, get, uniqBy } from 'lodash';
 
 import * as Antd from 'antd';
 import { SelectProps } from 'antd/lib/select';
@@ -233,7 +233,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     // Select from search
     if (this.isMultiSelect) {
       const selectedOptionIds = selectedOption.map((_selectedOption: any) => _selectedOption.key)
-        , optionsToSearch = Array.from(new Set([...this.injected.value, ...this.options]))
+        , optionsToSearch = uniqBy([...this.injected.value, ...this.options], 'id')
         , foundOptions = optionsToSearch.filter((option: any) => selectedOptionIds.includes(option.id));
       onChange(toJS(foundOptions));
     } else {
