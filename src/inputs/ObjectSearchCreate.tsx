@@ -14,6 +14,7 @@ import {
   CX_PREFIX_SEARCH_CREATE,
   FormManager,
   IAntFormField,
+  IEndpointOption,
   IFieldConfig,
   IFieldConfigObjectSearchCreate,
   IInjected,
@@ -42,7 +43,7 @@ export interface IObjectSearchCreateProps {
   fieldDecorator: <T>(component: T) => T;
   formManager: FormManager;
   formModel: IModel;
-  isOptionDisabled?: (option: any) => boolean;
+  isOptionDisabled?: (option: IEndpointOption) => boolean;
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
   onAddNewToggle?: (isAddingNew: boolean) => void;
