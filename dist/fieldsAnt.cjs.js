@@ -1081,7 +1081,7 @@ function (_Component) {
   }, {
     key: "objectSearchProps",
     get: function get() {
-      return lodash.pick(this.props, ['addNewContent', 'debounceWait', 'fieldConfig', 'loadingIcon', 'noSearchContent', 'searchIcon', 'selectProps']);
+      return lodash.pick(this.props, ['addNewContent', 'debounceWait', 'fieldConfig', 'isOptionDisabled', 'loadingIcon', 'noSearchContent', 'searchIcon', 'selectProps']);
     }
   }]);
 
