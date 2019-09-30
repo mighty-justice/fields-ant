@@ -157,20 +157,11 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   private renderOptionAdd () {
     const { addNewContent } = this.props
-      , { label } = this.fieldConfig
       , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.ADD}`;
-
-    if (!this.hasSearch) {
-      return (
-        <Antd.Select.Option className={className} key={ITEM_KEYS.ADD} disabled={true}>
-          <div><Antd.Icon type='plus' /> Search to add new</div>
-        </Antd.Select.Option>
-      );
-    }
 
     return (
       <Antd.Select.Option className={className} key={ITEM_KEYS.ADD}>
-        <div>{addNewContent || <>Can't find it? <a>Add new {label}</a></>}</div>
+        <div>{addNewContent || (<><Antd.Icon type='plus' /> <b>{this.search}</b></>)}</div>
       </Antd.Select.Option>
     );
   }
@@ -298,6 +289,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         id={id}
         labelInValue
         loading={this.isLoading.isTrue}
+        notFoundContent={null}
         onBlur={this.onBlur}
         onChange={this.onChange}
         onFocus={this.onFocus}
@@ -309,10 +301,10 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         {...this.valueProp}
         {...this.selectProps}
       >
-        {this.options.map(this.renderOption)}
+        {this.hasSearch && onAddNew && this.renderOptionAdd()}
+        {this.hasSearch && this.options.map(this.renderOption)}
         {showEmpty && this.renderOptionEmpty()}
         {showNoSearch && this.renderOptionNoSearch()}
-        {onAddNew && this.renderOptionAdd()}
       </Antd.Select>
     );
   }

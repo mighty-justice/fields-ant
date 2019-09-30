@@ -48,11 +48,11 @@ async function selectAddNew (tester: any) {
 }
 
 async function selectFirst (tester: any) {
-  tester.click('li');
+  tester.find('li').at(1).simulate('click');
 }
 
 describe('objectSearchCreate', () => {
-  it.only('Selects existing', async () => {
+  it('Selects existing', async () => {
     const { field, props, onSave, searchTerm, results } = getDefaults({})
       , tester = await getTester(props);
 
@@ -223,7 +223,7 @@ describe('objectSearchCreate', () => {
 
     await objectSearchFor(tester, field, results, searchTerm);
 
-    expect(tester.find('li').first().text()).toContain('FFF');
+    expect(tester.find('li').at(1).text()).toContain('FFF');
     selectFirst(tester);
     expect(tester.text()).toContain('ZZZ');
     tester.submit();
