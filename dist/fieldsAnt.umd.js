@@ -631,23 +631,13 @@
       key: "renderOptionAdd",
       value: function renderOptionAdd() {
         var addNewContent = this.props.addNewContent,
-            label = this.fieldConfig.label,
             className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.ADD);
-
-        if (!this.hasSearch) {
-          return React__default.createElement(Antd.Select.Option, {
-            className: className,
-            key: ITEM_KEYS.ADD,
-            disabled: true
-          }, React__default.createElement("div", null, React__default.createElement(Antd.Icon, {
-            type: "plus"
-          }), " Search to add new"));
-        }
-
         return React__default.createElement(Antd.Select.Option, {
           className: className,
           key: ITEM_KEYS.ADD
-        }, React__default.createElement("div", null, addNewContent || React__default.createElement(React__default.Fragment, null, "Can't find it? ", React__default.createElement("a", null, "Add new ", label))));
+        }, React__default.createElement("div", null, addNewContent || React__default.createElement(React__default.Fragment, null, React__default.createElement(Antd.Icon, {
+          type: "plus"
+        }), " ", React__default.createElement("b", null, this.search))));
       }
     }, {
       key: "renderOptionEmpty",
@@ -757,6 +747,7 @@
           id: id,
           labelInValue: true,
           loading: this.isLoading.isTrue,
+          notFoundContent: null,
           onBlur: this.onBlur,
           onChange: this.onChange,
           onFocus: this.onFocus,
@@ -765,7 +756,7 @@
           placeholder: placeholder,
           showSearch: true,
           suffixIcon: this.isLoading.isTrue ? this.loadingIcon : this.searchIcon
-        }, this.valueProp, this.selectProps), this.options.map(this.renderOption), showEmpty && this.renderOptionEmpty(), showNoSearch && this.renderOptionNoSearch(), onAddNew && this.renderOptionAdd());
+        }, this.valueProp, this.selectProps), this.hasSearch && onAddNew && this.renderOptionAdd(), this.hasSearch && this.options.map(this.renderOption), showEmpty && this.renderOptionEmpty(), showNoSearch && this.renderOptionNoSearch());
       }
     }, {
       key: "injected",
