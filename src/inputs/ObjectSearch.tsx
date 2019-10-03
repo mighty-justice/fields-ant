@@ -285,6 +285,9 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       <Antd.Select
         allowClear
         defaultActiveFirstOption={false}
+        dropdownRender={menu => (
+          <div className={this.valueProp.className || null}>{menu}</div>
+        )}
         filterOption={false}
         id={id}
         labelInValue
