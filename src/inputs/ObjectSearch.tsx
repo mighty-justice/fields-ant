@@ -279,6 +279,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       , { label, showLabel } = this.fieldConfig
       , placeholderLabel = (showLabel && label) ? ` ${label}` : ''
       , placeholder = `Search${placeholderLabel}...`
+      , { className } = this.valueProp
       ;
 
     return (
@@ -286,7 +287,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         allowClear
         defaultActiveFirstOption={false}
         dropdownRender={menu => (
-          <div className={this.valueProp.className || null}>{menu}</div>
+          <div className={className}>{menu}</div>
         )}
         filterOption={false}
         id={id}
