@@ -279,7 +279,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       , { label, showLabel } = this.fieldConfig
       , placeholderLabel = (showLabel && label) ? ` ${label}` : ''
       , placeholder = `Search${placeholderLabel}...`
-      , { className } = this.valueProp
+      , { className } = this.selectProps
       ;
 
     return (
