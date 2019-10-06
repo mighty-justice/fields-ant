@@ -272,6 +272,11 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     };
   }
 
+  private renderDropdownWrapper = (menu: React.ReactNode) => {
+    const { className } = this.selectProps;
+    return <div className={className}>{menu}</div>;
+  }
+
   public render () {
     const { id, onAddNew } = this.injected
       , showEmpty = this.hasSearch && !this.hasOptions
@@ -279,16 +284,13 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       , { label, showLabel } = this.fieldConfig
       , placeholderLabel = (showLabel && label) ? ` ${label}` : ''
       , placeholder = `Search${placeholderLabel}...`
-      , { className } = this.selectProps
       ;
 
     return (
       <Antd.Select
         allowClear
         defaultActiveFirstOption={false}
-        dropdownRender={menu => (
-          <div className={className}>{menu}</div>
-        )}
+        dropdownRender={this.renderDropdownWrapper}
         filterOption={false}
         id={id}
         labelInValue

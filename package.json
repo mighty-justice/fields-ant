@@ -20,6 +20,7 @@
     "docs:deploy": "storybook-to-ghpages",
     "docs:watch": "start-storybook -p 6006",
     "lint": "tslint --project .",
+    "lint:fix": "tslint --fix --project .",
     "postpublish": "npm run docs:build && npm run docs:deploy",
     "preversion": "npm run lint",
     "test": "jest",
