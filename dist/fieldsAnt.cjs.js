@@ -568,6 +568,14 @@ function (_Component) {
     _initializerDefineProperty(_this, "previousSearchFilters", _descriptor5, _assertThisInitialized(_this));
 
     _this.debouncedHandleSearch = void 0;
+
+    _this.renderDropdownWrapper = function (menu) {
+      var className = _this.selectProps.className;
+      return React__default.createElement("div", {
+        className: className
+      }, menu);
+    };
+
     _this.debouncedHandleSearch = lodash.debounce(_this.handleSearch, props.debounceWait);
 
     _this.updateValueCaches();
@@ -752,6 +760,7 @@ function (_Component) {
       return React__default.createElement(Antd.Select, _extends({
         allowClear: true,
         defaultActiveFirstOption: false,
+        dropdownRender: this.renderDropdownWrapper,
         filterOption: false,
         id: id,
         labelInValue: true,

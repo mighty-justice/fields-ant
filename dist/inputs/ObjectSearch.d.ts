@@ -45,6 +45,7 @@ declare class ObjectSearch extends Component<IObjectSearchProps> {
     private onBlur;
     private onFocus;
     private readonly valueProp;
+    private renderDropdownWrapper;
     render(): JSX.Element;
 }
 export default ObjectSearch;
