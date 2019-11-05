@@ -41,6 +41,7 @@ import ObjectSearch from '../inputs/ObjectSearch';
 import Hidden from '../inputs/Hidden';
 import Checkbox from '../inputs/Checkbox';
 import Address from '../inputs/Address';
+import TrimWhitespaceInput from '../inputs/TrimWhitespaceInput';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -132,6 +133,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: passRenderOnlyValue(formatEmployerIdNumber),
   },
   email: {
+    editComponent: TrimWhitespaceInput,
     formValidationRules: {
       email: {
         message: 'Must be a valid email address',
@@ -248,7 +250,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: passRenderOnlyValue(parseAndPreserveNewlines),
   },
   url: {
-    editComponent: Antd.Input,
+    editComponent: TrimWhitespaceInput,
     render: passRenderOnlyValue(formatWebsite),
   },
 };
