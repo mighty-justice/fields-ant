@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Input } from 'antd';
-import autoBindMethods from 'class-autobind-decorator';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
+import autoBindMethods from 'class-autobind-decorator';
+
+import { Input } from 'antd';
+
 import { IAntFormField, IInjected, IInputProps } from '../interfaces';
 
 @autoBindMethods
