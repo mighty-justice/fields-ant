@@ -6,10 +6,10 @@ import { TYPE_GENERATORS, valueRenderPairs } from '../factories';
 
 import { FormCard } from '../../src';
 
-const { fieldConfigFactory } = TYPE_GENERATORS['email']
+const { fieldConfigFactory } = TYPE_GENERATORS.email
     , fieldConfig = fieldConfigFactory.build()
     , fieldSets = [[fieldConfig]]
-    , [value] = valueRenderPairs['email']
+    , [value] = valueRenderPairs.email
     , model = { [fieldConfig.field]: value }
     ;
 
