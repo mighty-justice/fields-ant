@@ -21,15 +21,17 @@ describe('TrimWhitespaceInput', () => {
       , emailWithSpace = `       ${fakeEmail}      `
       ;
 
-    // Renders formatted value
     const tester = await new Tester(FormCard, { props }).mount();
+
     expect(onSave).not.toHaveBeenCalled();
+
     tester.changeInput(`input#${fieldConfig.field}`, emailWithSpace);
 
     expect(tester.html()).not.toContain(emailWithSpace);
     expect(tester.html()).toContain(fakeEmail);
 
     tester.submit();
+
     expect(onSave).toHaveBeenCalledWith({ [fieldConfig.field]: fakeEmail });
   });
 });
