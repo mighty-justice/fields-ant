@@ -155,7 +155,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     }
   }
 
-  private renderOptionAdd () {
+  private renderAddOption () {
     const { addNewContent } = this.props
       , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.ADD}`;
 
@@ -166,7 +166,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     );
   }
 
-  private renderOptionEmpty () {
+  private renderNoResultsOption () {
     const { selectProps } = this.props
       , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.EMPTY}`;
 
@@ -177,7 +177,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     );
   }
 
-  private renderOptionNoSearch () {
+  private renderNoSearchOption () {
     const { noSearchContent } = this.props
       , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.NO_SEARCH}`;
 
@@ -272,14 +272,16 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     };
   }
 
-  private renderDropdownWrapper = (menu: React.ReactNode) => {
+  private renderDropdownWrapper (menu: React.ReactNode) {
     const { className } = this.selectProps;
     return <div className={className}>{menu}</div>;
   }
 
   public render () {
     const { id, onAddNew } = this.injected
-      , showEmpty = this.hasSearch && !this.hasOptions
+      , isLoading = this.isLoading.isTrue
+      , showNoResultsOption = this.hasSearch && !this.hasOptions
+      , showAddOption = this.hasSearch && onAddNew
       , showNoSearch = !this.hasSearch && !this.hasOptions
       , { label, showLabel } = this.fieldConfig
       , placeholderLabel = (showLabel && label) ? ` ${label}` : ''
@@ -294,7 +296,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         filterOption={false}
         id={id}
         labelInValue
-        loading={this.isLoading.isTrue}
+        loading={isLoading}
         notFoundContent={null}
         onBlur={this.onBlur}
         onChange={this.onChange}
@@ -303,14 +305,14 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         optionLabelProp='title'
         placeholder={placeholder}
         showSearch
-        suffixIcon={this.isLoading.isTrue ? this.loadingIcon : this.searchIcon}
+        suffixIcon={isLoading ? this.loadingIcon : this.searchIcon}
         {...this.valueProp}
         {...this.selectProps}
       >
-        {this.hasSearch && onAddNew && this.renderOptionAdd()}
+        {showAddOption && this.renderAddOption()}
         {this.hasSearch && this.options.map(this.renderOption)}
-        {showEmpty && this.renderOptionEmpty()}
-        {showNoSearch && this.renderOptionNoSearch()}
+        {showNoResultsOption && this.renderNoResultsOption()}
+        {showNoSearch && this.renderNoSearchOption()}
       </Antd.Select>
     );
   }
