@@ -155,7 +155,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     }
   }
 
-  private renderOptionAdd () {
+  private renderAddOption () {
     const { addNewContent } = this.props
       , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.ADD}`;
 
@@ -166,7 +166,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     );
   }
 
-  private renderOptionNoResults () {
+  private renderNoResultsOption () {
     const { selectProps } = this.props
       , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.EMPTY}`;
 
@@ -177,7 +177,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     );
   }
 
-  private renderOptionTypeToSearch () {
+  private renderNoSearchOption () {
     const { noSearchContent } = this.props
       , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.NO_SEARCH}`;
 
@@ -280,8 +280,8 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   public render () {
     const { id, onAddNew } = this.injected
       , isLoading = this.isLoading.isTrue
-      , showOptionNoResults = this.hasSearch && !this.hasOptions
-      , showOptionAdd = this.hasSearch && onAddNew
+      , showNoResultsOption = this.hasSearch && !this.hasOptions
+      , showAddOption = this.hasSearch && onAddNew
       , showNoSearch = !this.hasSearch && !this.hasOptions
       , { label, showLabel } = this.fieldConfig
       , placeholderLabel = (showLabel && label) ? ` ${label}` : ''
@@ -309,10 +309,10 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         {...this.valueProp}
         {...this.selectProps}
       >
-        {showOptionAdd && this.renderOptionAdd()}
+        {showAddOption && this.renderAddOption()}
         {this.hasSearch && this.options.map(this.renderOption)}
-        {showOptionNoResults && this.renderOptionNoResults()}
-        {showNoSearch && this.renderOptionTypeToSearch()}
+        {showNoResultsOption && this.renderNoResultsOption()}
+        {showNoSearch && this.renderNoSearchOption()}
       </Antd.Select>
     );
   }
