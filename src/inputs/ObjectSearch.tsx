@@ -137,7 +137,10 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       ;
 
     this.search = value;
-    if (!searchOnEmpty && !this.hasSearch) { return; }
+    if (!searchOnEmpty && !this.hasSearch) {
+      this.options = [];
+      return;
+    }
 
     this.isLoading.setTrue();
     this.updateValueCaches();
@@ -286,7 +289,8 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   public render () {
     const { id, onAddNew, searchOnEmpty } = this.injected
       , isLoading = this.isLoading.isTrue
-      , showNoResultsOption = (this.hasSearch || searchOnEmpty) && !isLoading && !this.hasOptions
+      , canSearch = this.hasSearch || searchOnEmpty
+      , showNoResultsOption = canSearch && !isLoading && !this.hasOptions
       , showAddOption = this.hasSearch && onAddNew
       , showNoSearch = !this.hasSearch
       , { label, showLabel } = this.fieldConfig
