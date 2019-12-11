@@ -127,4 +127,27 @@ describe('objectSearch', () => {
     expect(tester.text()).not.toContain(results[1].name);
     expect(tester.text()).toContain(results[2].name);
   });
+
+  [true, false].forEach((searchOnEmpty: boolean) => {
+    it(`Works for searchOnEmpty={${searchOnEmpty}} prop`, async () => {
+      const { field, searchTerm, results, props } = getComponentDefaults({})
+        , tester = (await new Tester(ObjectSearch, { props: { ...props, searchOnEmpty }}).mount() as any)
+        , callsOnFocus: number = searchOnEmpty ? 1 : 0
+        ;
+
+      expect(tester.getEndpoint.mock.calls.length).toBe(0);
+
+      // Only focus
+      tester.instance.onFocus();
+      expect(tester.getEndpoint.mock.calls.length).toBe(callsOnFocus);
+
+      // Search
+      await objectSearchFor(tester, field, results, searchTerm);
+      expect(tester.getEndpoint.mock.calls.length).toBe(callsOnFocus + 1);
+
+      // Re-focus
+      tester.instance.onFocus();
+      expect(tester.getEndpoint.mock.calls.length).toBe(callsOnFocus + 1);
+    });
+  });
 });
