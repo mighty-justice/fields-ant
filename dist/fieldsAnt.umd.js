@@ -559,14 +559,6 @@
       _initializerDefineProperty(_this, "previousSearchFilters", _descriptor5, _assertThisInitialized(_this));
 
       _this.debouncedHandleSearch = void 0;
-
-      _this.renderDropdownWrapper = function (menu) {
-        var className = _this.selectProps.className;
-        return React__default.createElement("div", {
-          className: className
-        }, menu);
-      };
-
       _this.debouncedHandleSearch = lodash.debounce(_this.handleSearch, props.debounceWait);
 
       _this.updateValueCaches();
@@ -586,47 +578,57 @@
         var _handleSearch = _asyncToGenerator(
         /*#__PURE__*/
         regeneratorRuntime.mark(function _callee(value) {
-          var getEndpoint, _this$fieldConfig, endpoint, searchFilters, params, response;
+          var _this$injected, getEndpoint, searchOnEmpty, _this$fieldConfig, endpoint, searchFilters, params, response;
 
           return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  getEndpoint = this.injected.getEndpoint, _this$fieldConfig = this.fieldConfig, endpoint = _this$fieldConfig.endpoint, searchFilters = _this$fieldConfig.searchFilters, params = _objectSpread2({
+                  _this$injected = this.injected, getEndpoint = _this$injected.getEndpoint, searchOnEmpty = _this$injected.searchOnEmpty, _this$fieldConfig = this.fieldConfig, endpoint = _this$fieldConfig.endpoint, searchFilters = _this$fieldConfig.searchFilters, params = _objectSpread2({
                     search: value
                   }, searchFilters);
                   this.search = value;
+
+                  if (!(!searchOnEmpty && !this.hasSearch)) {
+                    _context.next = 5;
+                    break;
+                  }
+
+                  this.options = [];
+                  return _context.abrupt("return");
+
+                case 5:
                   this.isLoading.setTrue();
                   this.updateValueCaches();
-                  _context.prev = 4;
-                  _context.next = 7;
+                  _context.prev = 7;
+                  _context.next = 10;
                   return getEndpoint("".concat(endpoint).concat(utils.toKey(params)));
 
-                case 7:
+                case 10:
                   response = _context.sent;
                   this.options = lodash.get(response, 'results', []); // istanbul ignore next
 
-                  _context.next = 14;
+                  _context.next = 17;
                   break;
 
-                case 11:
-                  _context.prev = 11;
-                  _context.t0 = _context["catch"](4);
+                case 14:
+                  _context.prev = 14;
+                  _context.t0 = _context["catch"](7);
                   // tslint:disable no-console
                   // istanbul ignore next
                   console.error(_context.t0); // tslint:enable no-console
 
-                case 14:
-                  _context.prev = 14;
-                  this.isLoading.setFalse();
-                  return _context.finish(14);
-
                 case 17:
+                  _context.prev = 17;
+                  this.isLoading.setFalse();
+                  return _context.finish(17);
+
+                case 20:
                 case "end":
                   return _context.stop();
               }
             }
-          }, _callee, this, [[4, 11, 14, 17]]);
+          }, _callee, this, [[7, 14, 17, 20]]);
         }));
 
         function handleSearch(_x) {
@@ -636,8 +638,8 @@
         return handleSearch;
       }()
     }, {
-      key: "renderOptionAdd",
-      value: function renderOptionAdd() {
+      key: "renderAddOption",
+      value: function renderAddOption() {
         var addNewContent = this.props.addNewContent,
             className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.ADD);
         return React__default.createElement(Antd.Select.Option, {
@@ -648,8 +650,8 @@
         }), " ", React__default.createElement("b", null, this.search))));
       }
     }, {
-      key: "renderOptionEmpty",
-      value: function renderOptionEmpty() {
+      key: "renderNoResultsOption",
+      value: function renderNoResultsOption() {
         var selectProps = this.props.selectProps,
             className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.EMPTY);
         return React__default.createElement(Antd.Select.Option, {
@@ -659,15 +661,15 @@
         }, React__default.createElement("div", null, lodash.get(selectProps, 'notFoundContent') || 'No results'));
       }
     }, {
-      key: "renderOptionNoSearch",
-      value: function renderOptionNoSearch() {
+      key: "renderNoSearchOption",
+      value: function renderNoSearchOption() {
         var noSearchContent = this.props.noSearchContent,
             className = "".concat(CX_PREFIX_SEARCH_CREATE, "-item-").concat(ITEM_KEYS.NO_SEARCH);
         return React__default.createElement(Antd.Select.Option, {
           className: className,
           disabled: true,
           key: ITEM_KEYS.NO_SEARCH
-        }, React__default.createElement("div", null, noSearchContent || 'Type in search text'));
+        }, this.isLoading.isTrue ? React__default.createElement("div", null, this.loadingIcon, " Loading...") : React__default.createElement("div", null, noSearchContent || 'Type to search or filter'));
       }
     }, {
       key: "renderOption",
@@ -688,9 +690,9 @@
     }, {
       key: "onChange",
       value: function onChange(selectedOption) {
-        var _this$injected = this.injected,
-            onChange = _this$injected.onChange,
-            onAddNew = _this$injected.onAddNew; // Clear
+        var _this$injected2 = this.injected,
+            onChange = _this$injected2.onChange,
+            onAddNew = _this$injected2.onAddNew; // Clear
 
         if (!selectedOption) {
           onChange(null);
@@ -736,26 +738,38 @@
         }
       }
     }, {
+      key: "renderDropdownWrapper",
+      value: function renderDropdownWrapper(menu) {
+        var className = this.selectProps.className;
+        return React__default.createElement("div", {
+          className: className
+        }, menu);
+      }
+    }, {
       key: "render",
       value: function render() {
-        var _this$injected2 = this.injected,
-            id = _this$injected2.id,
-            onAddNew = _this$injected2.onAddNew,
-            showEmpty = this.hasSearch && !this.hasOptions,
-            showNoSearch = !this.hasSearch && !this.hasOptions,
+        var _this$injected3 = this.injected,
+            id = _this$injected3.id,
+            onAddNew = _this$injected3.onAddNew,
+            searchOnEmpty = _this$injected3.searchOnEmpty,
+            isLoading = this.isLoading.isTrue,
+            canSearch = this.hasSearch || searchOnEmpty,
+            showNoResultsOption = canSearch && !isLoading && !this.hasOptions,
+            showAddOption = this.hasSearch && onAddNew,
+            showNoSearch = !this.hasSearch,
             _this$fieldConfig3 = this.fieldConfig,
             label = _this$fieldConfig3.label,
             showLabel = _this$fieldConfig3.showLabel,
             placeholderLabel = showLabel && label ? " ".concat(label) : '',
             placeholder = "Search".concat(placeholderLabel, "...");
         return React__default.createElement(Antd.Select, _extends({
-          allowClear: true,
+          allowClear: !isLoading,
           defaultActiveFirstOption: false,
           dropdownRender: this.renderDropdownWrapper,
           filterOption: false,
           id: id,
           labelInValue: true,
-          loading: this.isLoading.isTrue,
+          loading: isLoading,
           notFoundContent: null,
           onBlur: this.onBlur,
           onChange: this.onChange,
@@ -764,8 +778,8 @@
           optionLabelProp: "title",
           placeholder: placeholder,
           showSearch: true,
-          suffixIcon: this.isLoading.isTrue ? this.loadingIcon : this.searchIcon
-        }, this.valueProp, this.selectProps), this.hasSearch && onAddNew && this.renderOptionAdd(), this.hasSearch && this.options.map(this.renderOption), showEmpty && this.renderOptionEmpty(), showNoSearch && this.renderOptionNoSearch());
+          suffixIcon: isLoading ? this.loadingIcon : this.searchIcon
+        }, this.valueProp, this.selectProps), showNoSearch && this.renderNoSearchOption(), showAddOption && this.renderAddOption(), this.options.map(this.renderOption), showNoResultsOption && this.renderNoResultsOption());
       }
     }, {
       key: "injected",
@@ -1072,7 +1086,7 @@
     }, {
       key: "objectSearchProps",
       get: function get() {
-        return lodash.pick(this.props, ['addNewContent', 'debounceWait', 'fieldConfig', 'isOptionDisabled', 'loadingIcon', 'noSearchContent', 'searchIcon', 'selectProps']);
+        return lodash.pick(this.props, ['addNewContent', 'debounceWait', 'fieldConfig', 'isOptionDisabled', 'loadingIcon', 'noSearchContent', 'searchIcon', 'searchOnEmpty', 'selectProps']);
       }
     }]);
 

@@ -12,6 +12,7 @@ export interface IObjectSearchProps {
     onAddNew?: (search: string) => void;
     onChange: (value: IValue) => void;
     searchIcon?: React.ReactNode;
+    searchOnEmpty?: boolean;
     selectProps: SelectProps;
 }
 declare class ObjectSearch extends Component<IObjectSearchProps> {
@@ -37,9 +38,9 @@ declare class ObjectSearch extends Component<IObjectSearchProps> {
     private readonly searchIcon;
     private readonly selectProps;
     private handleSearch;
-    private renderOptionAdd;
-    private renderOptionEmpty;
-    private renderOptionNoSearch;
+    private renderAddOption;
+    private renderNoResultsOption;
+    private renderNoSearchOption;
     private renderOption;
     private onChange;
     private onBlur;

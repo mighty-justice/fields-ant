@@ -16,6 +16,7 @@ export interface IObjectSearchCreateProps {
     noSearchContent?: React.ReactNode;
     onAddNewToggle?: (isAddingNew: boolean) => void;
     searchIcon?: React.ReactNode;
+    searchOnEmpty?: boolean;
     selectProps: SelectProps;
 }
 declare class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
