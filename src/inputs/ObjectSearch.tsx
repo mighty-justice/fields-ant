@@ -31,6 +31,7 @@ export interface IObjectSearchProps {
   onAddNew?: (search: string) => void;
   onChange: (value: IValue) => void;
   searchIcon?: React.ReactNode;
+  searchOnEmpty?: boolean;
   selectProps: SelectProps;
 }
 
@@ -127,7 +128,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   private async handleSearch (value: string) {
-    const { getEndpoint } = this.injected
+    const { getEndpoint, searchOnEmpty } = this.injected
       , { endpoint, searchFilters } = this.fieldConfig
       , params = {
         search: value,
@@ -136,6 +137,11 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       ;
 
     this.search = value;
+    if (!searchOnEmpty && !this.hasSearch) {
+      this.options = [];
+      return;
+    }
+
     this.isLoading.setTrue();
     this.updateValueCaches();
 
@@ -183,7 +189,10 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
     return (
       <Antd.Select.Option className={className} disabled key={ITEM_KEYS.NO_SEARCH}>
-        <div>{noSearchContent || 'Type in search text'}</div>
+        {this.isLoading.isTrue
+          ? <div>{this.loadingIcon} Loading...</div>
+          : <div>{noSearchContent || 'Type to search or filter'}</div>
+        }
       </Antd.Select.Option>
     );
   }
@@ -278,11 +287,12 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   public render () {
-    const { id, onAddNew } = this.injected
+    const { id, onAddNew, searchOnEmpty } = this.injected
       , isLoading = this.isLoading.isTrue
-      , showNoResultsOption = this.hasSearch && !this.hasOptions
+      , canSearch = this.hasSearch || searchOnEmpty
+      , showNoResultsOption = canSearch && !isLoading && !this.hasOptions
       , showAddOption = this.hasSearch && onAddNew
-      , showNoSearch = !this.hasSearch && !this.hasOptions
+      , showNoSearch = !this.hasSearch
       , { label, showLabel } = this.fieldConfig
       , placeholderLabel = (showLabel && label) ? ` ${label}` : ''
       , placeholder = `Search${placeholderLabel}...`
@@ -290,7 +300,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
     return (
       <Antd.Select
-        allowClear
+        allowClear={!isLoading}
         defaultActiveFirstOption={false}
         dropdownRender={this.renderDropdownWrapper}
         filterOption={false}
@@ -309,10 +319,10 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         {...this.valueProp}
         {...this.selectProps}
       >
-        {showAddOption && this.renderAddOption()}
-        {this.hasSearch && this.options.map(this.renderOption)}
-        {showNoResultsOption && this.renderNoResultsOption()}
         {showNoSearch && this.renderNoSearchOption()}
+        {showAddOption && this.renderAddOption()}
+        {this.options.map(this.renderOption)}
+        {showNoResultsOption && this.renderNoResultsOption()}
       </Antd.Select>
     );
   }
