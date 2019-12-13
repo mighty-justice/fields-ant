@@ -15,7 +15,7 @@ export default class Checkbox extends Component <ICheckboxProps> {
   }
 
   public render () {
-    const { description, disabled, disabledText, value, id } = this.injected
+    const { description, disabled, disabledText, value } = this.injected
       , PROPS_TO_OMIT = ['description', 'value']
       , checkboxProps = {
         ...omit(this.props, PROPS_TO_OMIT),
