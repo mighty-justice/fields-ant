@@ -1,7 +1,7 @@
 import { Tester } from '@mighty-justice/tester';
 import { EMPTY_FIELD } from '@mighty-justice/utils';
 
-import { Card, fillInFieldConfig, FormCard, TYPES } from '../../src';
+import { Card, fillInFieldConfig, FormCard, IFieldConfig, TYPES } from '../../src';
 import { TYPE_GENERATORS, valueRenderPairs } from '../factories';
 
 describe('Types', () => {
@@ -12,7 +12,7 @@ describe('Types', () => {
 
 Object.keys(TYPE_GENERATORS).forEach(type => {
   const { fieldConfigFactory } = TYPE_GENERATORS[type]
-    , fieldConfig = fieldConfigFactory.build()
+    , fieldConfig: IFieldConfig = fillInFieldConfig(fieldConfigFactory.build())
     , fieldSets = [[fieldConfig]]
     , [value, rendered] = valueRenderPairs[type]
     , model = { [fieldConfig.field]: value }
@@ -37,7 +37,7 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
       expect(withData.text()).not.toContain(EMPTY_FIELD);
     });
 
-    it('Edits', async () => {
+    it('Preserves state', async () => {
       const onSave = jest.fn()
         , props = { fieldSets, model, onSave };
 
@@ -46,6 +46,19 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
       expect(onSave).not.toHaveBeenCalled();
       tester.submit();
       expect(onSave).toHaveBeenCalledWith(model);
+    });
+
+    it('Has correct empty values', async () => {
+      const onSave = jest.fn()
+        , props = { fieldSets, onSave }
+        , emptyValue = fieldConfig.nullify ? null : ''
+        , expectModel = { [fieldConfig.field]: emptyValue }
+        ;
+
+      const tester = await new Tester(FormCard, { props }).mount();
+      expect(onSave).not.toHaveBeenCalled();
+      tester.submit();
+      expect(onSave).toHaveBeenCalledWith(expectModel);
     });
 
     it('Shows required asterisk', async () => {

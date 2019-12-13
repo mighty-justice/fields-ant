@@ -138,7 +138,7 @@ function nullifyValue (fieldConfig: IFieldConfig, data: IModel) {
     , shouldNullify = nullify && !formValue && formValue !== false
     , nullifiedValue = shouldNullify ? null : formValue
     , isAddingNew = isObject(formValue) && !has(formValue, ID_ATTR)
-  ;
+    ;
 
   // When using the add new feature of objectSearchCreate, we should
   // make sure to nullify the appropriate fields in the new model
