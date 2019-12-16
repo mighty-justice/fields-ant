@@ -5,6 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { fromPairs, sample, zipWith } from 'lodash';
 
 import SmartBool from '@mighty-justice/smart-bool';
+import Tester from '@mighty-justice/tester/dist/tester';
 
 import {
   ArrayCard,
@@ -217,6 +218,66 @@ export const formModalPropsFactory = new Factory()
   });
 
 /*
+ *   FILL IN FUNCTIONS
+ * = = = = = = = = = = = = = =
+ */
+
+type IFillInFunction = (tester: Tester, fieldConfig: IFieldConfig, value: IValue) => void;
+
+export const fillInInputWithValue: IFillInFunction = async (tester, fieldConfig, value) => {
+  await tester.changeInput(`input[id="${fieldConfig.field}"]`, value);
+  await tester.refresh();
+};
+
+export const fillInTextWithValue: IFillInFunction = async (tester, fieldConfig, value) => {
+  await tester.changeInput(`TextArea[id="${fieldConfig.field}"]`, value);
+  await tester.refresh();
+};
+
+export const fillInRatingWithValue: IFillInFunction = async (tester, fieldConfig, value) => {
+  console.error('fillInRatingWithValue');
+  tester.debug();
+  throw new Error();
+  await tester.refresh();
+};
+
+export const fillInRadioWithValue: IFillInFunction = async (tester, fieldConfig, value) => {
+  console.error('fillInRadioWithValue');
+  tester.debug();
+  throw new Error();
+  await tester.refresh();
+};
+
+export const fillInPercentageWithValue: IFillInFunction = async (tester, fieldConfig, value) => {
+  console.error('fillInPercentageWithValue');
+  tester.debug();
+  throw new Error();
+  await tester.refresh();
+};
+
+export const fillInOptionSelectWithValue: IFillInFunction = async (tester, fieldConfig, value) => {
+  console.error('fillInOptionSelectWithValue');
+  tester.debug();
+  throw new Error();
+  await tester.refresh();
+};
+
+export const fillInDatePickerWithValue: IFillInFunction = async (tester, fieldConfig, value) => {
+  console.error('fillInDatePickerWithValue');
+  tester.debug();
+  throw new Error();
+  await tester.refresh();
+};
+
+export const fillInDateWithValue: IFillInFunction = async (tester, fieldConfig, value) => {
+  const [month, day, year] = value.split('-').concat(['', '', '']);
+  tester.changeInput(`input[id="${fieldConfig.field}.month"]`, month);
+  tester.changeInput(`input[id="${fieldConfig.field}.day"]`, day);
+  tester.changeInput(`input[id="${fieldConfig.field}.year"]`, year);
+  await tester.refresh();
+};
+
+/*
  *   COLLECTIONS
  * = = = = = = = = = = = = = =
  */
@@ -224,34 +285,127 @@ export const formModalPropsFactory = new Factory()
 interface ITypeGenerators {
   [key: string]: {
     fieldConfigFactory: any,
+    fillInWithValue: (tester: Tester, fieldConfig: IFieldConfig, value: IValue) => void,
     valueFunction: () => IValue,
   };
 }
 
 export const TYPE_GENERATORS: ITypeGenerators = {
-  address: { valueFunction: fakeAddress, fieldConfigFactory: addressFactory },
-  boolean: { valueFunction: fakeBoolean, fieldConfigFactory: booleanFactory },
-  checkbox: { valueFunction: fakeBoolean, fieldConfigFactory: checkboxFactory },
-  date: { valueFunction: fakeDatePast, fieldConfigFactory: dateFactory },
-  datepicker: { valueFunction: fakeDateRecent, fieldConfigFactory: datepickerFactory },
-  duration: { valueFunction: fakeDuration, fieldConfigFactory: durationFactory },
-  ein: { valueFunction: fakeEin, fieldConfigFactory: einFactory },
-  email: { valueFunction: faker.internet.email, fieldConfigFactory: emailFactory },
-  hidden: { valueFunction: faker.random.uuid, fieldConfigFactory: hiddenFactory },
-  money: { valueFunction: faker.finance.amount, fieldConfigFactory: moneyFactory },
-  number: { valueFunction: attrNumber(), fieldConfigFactory: numberFactory },
-  objectSearch: { valueFunction: fakeObjectSearch, fieldConfigFactory: objectSearchFactory },
-  objectSearchCreate: { valueFunction: fakeObjectSearch, fieldConfigFactory: objectSearchCreateFactory },
-  optionSelect: { valueFunction: () => 'first', fieldConfigFactory: optionSelectFactory },
-  password: { valueFunction: faker.internet.password, fieldConfigFactory: passwordFactory },
-  percentage: { valueFunction: fakerPercentage, fieldConfigFactory: percentageFactory },
-  phone: { valueFunction: faker.phone.phoneNumber, fieldConfigFactory: phoneFactory },
-  radio: { valueFunction: () => 'first', fieldConfigFactory: radioFactory },
-  rating: { valueFunction: fakeRate, fieldConfigFactory: ratingFactory },
-  ssn: { valueFunction: fakeSsn, fieldConfigFactory: ssnFactory },
-  string: { valueFunction: fakeTextShort, fieldConfigFactory: stringFactory },
-  text: { valueFunction: fakeTextLong, fieldConfigFactory: textFactory },
-  url: { valueFunction: faker.internet.url, fieldConfigFactory: urlFactory },
+  address: {
+    fieldConfigFactory: addressFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: fakeAddress,
+  },
+  boolean: {
+    fieldConfigFactory: booleanFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: fakeBoolean,
+  },
+  checkbox: {
+    fieldConfigFactory: checkboxFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: fakeBoolean,
+  },
+  date: {
+    fieldConfigFactory: dateFactory,
+    fillInWithValue: fillInDateWithValue,
+    valueFunction: fakeDatePast,
+  },
+  datepicker: {
+    fieldConfigFactory: datepickerFactory,
+    fillInWithValue: fillInDatePickerWithValue,
+    valueFunction: fakeDateRecent,
+  },
+  duration: {
+    fieldConfigFactory: durationFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: fakeDuration,
+  },
+  ein: {
+    fieldConfigFactory: einFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: fakeEin,
+  },
+  email: {
+    fieldConfigFactory: emailFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: faker.internet.email,
+  },
+  hidden: {
+    fieldConfigFactory: hiddenFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: faker.random.uuid,
+  },
+  money: {
+    fieldConfigFactory: moneyFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: faker.finance.amount,
+  },
+  number: {
+    fieldConfigFactory: numberFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: attrNumber(),
+  },
+  objectSearch: {
+    fieldConfigFactory: objectSearchFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: fakeObjectSearch,
+  },
+  objectSearchCreate: {
+    fieldConfigFactory: objectSearchCreateFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: fakeObjectSearch,
+  },
+  optionSelect: {
+    fieldConfigFactory: optionSelectFactory,
+    fillInWithValue: fillInOptionSelectWithValue,
+    valueFunction: () => 'first',
+  },
+  password: {
+    fieldConfigFactory: passwordFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: faker.internet.password,
+  },
+  percentage: {
+    fieldConfigFactory: percentageFactory,
+    fillInWithValue: fillInPercentageWithValue,
+    valueFunction: fakerPercentage,
+  },
+  phone: {
+    fieldConfigFactory: phoneFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: faker.phone.phoneNumber,
+  },
+  radio: {
+    fieldConfigFactory: radioFactory,
+    fillInWithValue: fillInRadioWithValue,
+    valueFunction: () => 'first',
+  },
+  rating: {
+    fieldConfigFactory: ratingFactory,
+    fillInWithValue: fillInRatingWithValue,
+    valueFunction: fakeRate,
+  },
+  ssn: {
+    fieldConfigFactory: ssnFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: fakeSsn,
+  },
+  string: {
+    fieldConfigFactory: stringFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: fakeTextShort,
+  },
+  text: {
+    fieldConfigFactory: textFactory,
+    fillInWithValue: fillInTextWithValue,
+    valueFunction: fakeTextLong,
+  },
+  url: {
+    fieldConfigFactory: urlFactory,
+    fillInWithValue: fillInInputWithValue,
+    valueFunction: faker.internet.url,
+  },
 };
 
 const addressValue = fakeAddress();
