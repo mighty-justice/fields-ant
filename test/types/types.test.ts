@@ -12,7 +12,7 @@ describe('Types', () => {
 });
 
 Object.keys(TYPE_GENERATORS).forEach(type => {
-  const { fieldConfigFactory } = TYPE_GENERATORS[type]
+  const { fieldConfigFactory, fillInWithValue } = TYPE_GENERATORS[type]
     , fieldConfig: IFieldConfig = fillInFieldConfig(fieldConfigFactory.build())
     , fieldSets = [[fieldConfig]]
     , [value, rendered] = valueRenderPairs[type]
@@ -62,9 +62,9 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
       expect(onSave).toHaveBeenCalledWith(expectModel);
     });
 
-    it('Edits', async () => {
+    it.only('Edits', async () => {
       const onSave = jest.fn()
-        , emptyValue = fieldConfig.nullify ? null : ''
+        , emptyValue = getEmptyValue(fieldConfig)
         , props: Partial<IFormCardProps> = { fieldSets, onSave, resetOnSuccess: true }
         , tester = await new Tester(FormCard, { props }).mount()
         ;
