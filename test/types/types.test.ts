@@ -3,6 +3,7 @@ import { EMPTY_FIELD } from '@mighty-justice/utils';
 
 import { Card, fillInFieldConfig, FormCard, IFieldConfig, TYPES } from '../../src';
 import { TYPE_GENERATORS, valueRenderPairs } from '../factories';
+import { IValue } from '../../src/props';
 
 describe('Types', () => {
   it('Tests all types', async () => {
@@ -49,9 +50,12 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
     });
 
     it('Has correct empty values', async () => {
-      const onSave = jest.fn()
+      const emptyValue = (() => {
+          if (fieldConfig.type === 'checkbox') { return false; }
+          return fieldConfig.nullify ? null : '';
+        })()
+        , onSave = jest.fn()
         , props = { fieldSets, onSave }
-        , emptyValue = fieldConfig.nullify ? null : ''
         , expectModel = { [fieldConfig.field]: emptyValue }
         ;
 
