@@ -3,6 +3,7 @@ import { EMPTY_FIELD } from '@mighty-justice/utils';
 
 import { Card, fillInFieldConfig, FormCard, IFieldConfig, TYPES } from '../../src';
 import { getEmptyValue, TYPE_GENERATORS, valueRenderPairs } from '../factories';
+import { IFormCardProps } from '../../src/components/FormCard';
 
 describe('Types', () => {
   it('Tests all types', async () => {
@@ -59,6 +60,33 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
       expect(onSave).not.toHaveBeenCalled();
       tester.submit();
       expect(onSave).toHaveBeenCalledWith(expectModel);
+    });
+
+    it('Edits', async () => {
+      const onSave = jest.fn()
+        , emptyValue = fieldConfig.nullify ? null : ''
+        , props: Partial<IFormCardProps> = { fieldSets, onSave, resetOnSuccess: true }
+        , tester = await new Tester(FormCard, { props }).mount()
+        ;
+
+      async function submitWith (submitEmpty: boolean) {
+        const expectModel = {
+          [fieldConfig.field]: submitEmpty ? emptyValue : value,
+        };
+
+        if (!submitEmpty) {
+          await fillInWithValue(tester, fieldConfig, value);
+        }
+
+        expect(onSave).not.toHaveBeenCalled();
+        await tester.submit();
+        expect(onSave).toHaveBeenCalledWith(expectModel);
+        onSave.mockClear();
+      }
+
+      await submitWith(true); // Empty save
+      await submitWith(false); // Edits and saves
+      await submitWith(true); // Resets and empty save
     });
 
     it('Shows required asterisk', async () => {
