@@ -3,7 +3,6 @@ import { EMPTY_FIELD } from '@mighty-justice/utils';
 
 import { Card, fillInFieldConfig, FormCard, IFieldConfig, TYPES } from '../../src';
 import { TYPE_GENERATORS, valueRenderPairs } from '../factories';
-import { IValue } from '../../src/props';
 
 describe('Types', () => {
   it('Tests all types', async () => {
