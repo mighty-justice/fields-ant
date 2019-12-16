@@ -21,7 +21,7 @@ describe('TrimWhitespaceInput', () => {
       , emailWithSpace = `       ${fakeEmail}      `
       ;
 
-    const tester = await new Tester(FormCard, { props }).mount();
+    const tester = await new Tester(FormCard, { props }).mount({ async: true });
 
     expect(onSave).not.toHaveBeenCalled();
 

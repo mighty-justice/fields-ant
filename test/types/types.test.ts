@@ -2,7 +2,7 @@ import { Tester } from '@mighty-justice/tester';
 import { EMPTY_FIELD } from '@mighty-justice/utils';
 
 import { Card, fillInFieldConfig, FormCard, IFieldConfig, TYPES } from '../../src';
-import { TYPE_GENERATORS, valueRenderPairs } from '../factories';
+import { getEmptyValue, TYPE_GENERATORS, valueRenderPairs } from '../factories';
 
 describe('Types', () => {
   it('Tests all types', async () => {
@@ -42,23 +42,20 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
         , props = { fieldSets, model, onSave };
 
       // Renders formatted value
-      const tester = await new Tester(FormCard, { props }).mount();
+      const tester = await new Tester(FormCard, { props }).mount({ async: true });
       expect(onSave).not.toHaveBeenCalled();
       tester.submit();
       expect(onSave).toHaveBeenCalledWith(model);
     });
 
     it('Has correct empty values', async () => {
-      const emptyValue = (() => {
-          if (fieldConfig.type === 'checkbox') { return false; }
-          return fieldConfig.nullify ? null : '';
-        })()
+      const emptyValue = getEmptyValue(fieldConfig)
         , onSave = jest.fn()
         , props = { fieldSets, onSave }
         , expectModel = { [fieldConfig.field]: emptyValue }
         ;
 
-      const tester = await new Tester(FormCard, { props }).mount();
+      const tester = await new Tester(FormCard, { props }).mount({ async: true });
       expect(onSave).not.toHaveBeenCalled();
       tester.submit();
       expect(onSave).toHaveBeenCalledWith(expectModel);
@@ -70,7 +67,7 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
         , props = { fieldSets: [[requiredFieldConfig]], model, onSave }
         , shouldShow = type !== 'hidden';
 
-      const tester = await new Tester(FormCard, { props }).mount();
+      const tester = await new Tester(FormCard, { props }).mount({ async: true });
       expect(tester.find('.ant-form-item-required').exists()).toBe(shouldShow);
     });
   });
