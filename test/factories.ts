@@ -15,11 +15,17 @@ import {
   FormCard,
   FormDrawer,
   FormModal,
+  IFieldConfig,
   SummaryCard,
 } from '../src';
 
 import { IValue } from '../src/props';
 import Table from '../src/components/Table';
+
+export function getEmptyValue (fieldConfig: IFieldConfig) {
+  if (fieldConfig.type === 'checkbox') { return false; }
+  return fieldConfig.nullify ? null : '';
+}
 
 export async function sleep (ms: number = 0) {
   return new Promise<void>(resolve => setTimeout(resolve, ms));
