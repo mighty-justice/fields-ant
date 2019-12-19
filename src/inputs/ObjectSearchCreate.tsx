@@ -46,6 +46,7 @@ export interface IObjectSearchCreateProps {
   isOptionDisabled?: (option: IEndpointOption) => boolean;
   loadingIcon?: React.ReactNode;
   noSearchContent?: React.ReactNode;
+  onAddNew?: (search: string) => void;
   onAddNewToggle?: (isAddingNew: boolean) => void;
   searchIcon?: React.ReactNode;
   searchOnEmpty?: boolean;
@@ -74,6 +75,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
       'isOptionDisabled',
       'loadingIcon',
       'noSearchContent',
+      'onAddNew',
       'searchIcon',
       'searchOnEmpty',
       'selectProps',
