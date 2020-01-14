@@ -1,6 +1,6 @@
-import { isArray, isPlainObject, extend } from 'lodash';
+import { isArray, isPlainObject, extend, isBoolean } from 'lodash';
 
-import { varToLabel } from '@mighty-justice/utils';
+import { mapBooleanToText, varToLabel } from '@mighty-justice/utils';
 
 import { IBackendValidation, IErrorMessage, IFoundOnForm } from './FormManager';
 
@@ -16,16 +16,20 @@ function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
       fieldErrors = fieldErrors[0];
     }
 
-    // If an object, recurse
-    if (isPlainObject(fieldErrors)) {
-      extend(messages, getFieldErrors(fieldErrors, fieldKey));
+    if (isBoolean(fieldErrors)) {
+      fieldErrors = mapBooleanToText(fieldErrors);
     }
 
-    // If a simple string, you have your error
+    if (isPlainObject(fieldErrors)) {
+      // If an object, recurse
+      extend(messages, getFieldErrors(fieldErrors, fieldKey));
+    }
     else {
+      // If a simple string, you have your error
       messages[fieldKey] = fieldErrors;
     }
   });
+
   return messages;
 }
 
