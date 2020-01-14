@@ -54,6 +54,11 @@ const TESTING_PAIRS = [
     FOUND_ON_FORM: {},
     ERROR_MESSAGES: [{ field: 'Medical Facility Branch', message: getString(5) }],
   },
+  {
+    RESPONSE: { is_account_created: false },
+    FOUND_ON_FORM: {},
+    ERROR_MESSAGES: [{ field: 'Is Account Created', message: 'No' }],
+  },
 ];
 
 describe('Backend Validation', () => {
