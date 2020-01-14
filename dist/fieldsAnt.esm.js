@@ -1558,8 +1558,9 @@ function (_Component) {
   return Hidden;
 }(Component)) || _class$b) || _class$b;
 
-var _dec$4, _class$c;
-var Checkbox = (_dec$4 = autoBindMethods(), _dec$4(_class$c = observer(_class$c =
+var _class$c;
+
+var Checkbox = autoBindMethods(_class$c = observer(_class$c =
 /*#__PURE__*/
 function (_Component) {
   _inherits(Checkbox, _Component);
@@ -1573,18 +1574,29 @@ function (_Component) {
   _createClass(Checkbox, [{
     key: "render",
     value: function render() {
-      var _this$props = this.props,
-          description = _this$props.description,
-          disabled = _this$props.disabled,
-          disabledText = _this$props.disabledText;
+      var _this$injected = this.injected,
+          description = _this$injected.description,
+          disabled = _this$injected.disabled,
+          disabledText = _this$injected.disabledText,
+          value = _this$injected.value,
+          PROPS_TO_OMIT = ['description', 'value'],
+          checkboxProps = _objectSpread2({}, omit(this.props, PROPS_TO_OMIT), {
+        checked: value
+      });
+
       return React.createElement(Tooltip, {
         title: disabled ? disabledText : ''
-      }, React.createElement("span", null, React.createElement(Checkbox$1, omit(this.props, 'description'), description || '')));
+      }, React.createElement("span", null, React.createElement(Checkbox$1, checkboxProps, description || '')));
+    }
+  }, {
+    key: "injected",
+    get: function get() {
+      return this.props;
     }
   }]);
 
   return Checkbox;
-}(Component)) || _class$c) || _class$c);
+}(Component)) || _class$c) || _class$c;
 
 var _class$d, _class2$5, _descriptor$2, _temp$3;
 
@@ -1728,7 +1740,7 @@ var TYPES = {
       format: dateFormatList
     },
     fromForm: function fromForm(value) {
-      return value && format(value, 'YYYY-MM-DD');
+      return value ? format(value, 'YYYY-MM-DD') : '';
     },
     render: passRenderOnlyValue(formatDate),
     toForm: function toForm(value) {
@@ -2222,15 +2234,19 @@ function getFieldErrors(errors) {
 
     if (isArray(fieldErrors)) {
       fieldErrors = fieldErrors[0];
-    } // If an object, recurse
+    }
 
+    if (isBoolean(fieldErrors)) {
+      fieldErrors = mapBooleanToText(fieldErrors);
+    }
 
     if (isPlainObject(fieldErrors)) {
+      // If an object, recurse
       extend(messages, getFieldErrors(fieldErrors, fieldKey));
-    } // If a simple string, you have your error
-    else {
-        messages[fieldKey] = fieldErrors;
-      }
+    } else {
+      // If a simple string, you have your error
+      messages[fieldKey] = fieldErrors;
+    }
   });
   return messages;
 }
