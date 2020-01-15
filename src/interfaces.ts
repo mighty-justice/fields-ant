@@ -54,7 +54,8 @@ export interface IAntFormField {
   FIELD CONFIG: SINGLE-TYPE DEFINITIONS
 */
 export interface IOption {
-  [key: string]: unknown;
+  name: string;
+  value: string;
 }
 
 export interface IFieldConfigOptionSelect extends IFieldConfigBase {

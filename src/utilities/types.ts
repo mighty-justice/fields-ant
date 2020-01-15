@@ -30,6 +30,7 @@ import {
 
 import Date from '../inputs/Date';
 import ObjectSearchCreate from '../inputs/ObjectSearchCreate';
+import OptionSelect from '../inputs/OptionSelect';
 import RadioGroup from '../inputs/RadioGroup';
 import Rate, { formatRating } from '../inputs/Rate';
 import { formatOptionSelect } from '../inputs/OptionSelectDisplay';
@@ -82,11 +83,11 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     skipFieldDecorator: true,
   },
   boolean: {
-    editComponent: ObjectSelect,
+    editComponent: OptionSelect,
     fieldConfigProp: true,
     fromForm: booleanFromForm,
     nullify: true,
-    options: [{ id: 'false', name: 'No' }, { id: 'true', name: 'Yes' }],
+    options: [{ value: 'false', name: 'No' }, { value: 'true', name: 'Yes' }],
     render: passRenderOnlyValue(mapBooleanToText),
     toForm: passToFormOnlyValue(booleanToForm),
   },
@@ -195,8 +196,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: passRenderOnlyValue(getNameOrDefault),
   },
   optionSelect: {
-    editComponent: ObjectSelect,
-    editProps: { keyBy: 'value' },
+    editComponent: OptionSelect,
     fieldConfigProp: true,
     nullify: true,
     render: passRenderOnlyValueAndFieldConfig(formatOptionSelect),
