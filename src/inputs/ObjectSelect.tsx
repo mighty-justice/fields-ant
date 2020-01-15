@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { computed, toJS } from 'mobx';
+import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { isBoolean, get, isObject } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
@@ -49,22 +49,6 @@ class ObjectSelect extends Component<IObjectSelectProps> {
     return getOptions(this.fieldConfig, this.injected);
   }
 
-  private onChange (selectedOption: string) {
-    const { onChange, keyBy } = this.injected;
-
-    // Clear
-    if (!selectedOption) {
-      onChange(null);
-      return;
-    }
-
-    // Select from search
-    const foundOption = this.options.find(option => (
-      get(option, keyBy) === selectedOption
-    ));
-    onChange(toJS(foundOption));
-  }
-
   private get showSearch (): boolean {
     // the showSearch fieldConfig option will override this
     if (isBoolean(this.fieldConfig.showSearch)) {
@@ -100,7 +84,6 @@ class ObjectSelect extends Component<IObjectSelectProps> {
         showSearch={this.showSearch}
         {...this.props}
         value={selectValue}
-        onChange={this.onChange}
       >
         {this.options.map(this.renderOption)}
       </Antd.Select>
