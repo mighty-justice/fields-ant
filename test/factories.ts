@@ -59,6 +59,7 @@ export const fakeDatePast = () => format(faker.date.past(100), 'YYYY-MM-DD');
 export const fakeDuration = () => faker.helpers.replaceSymbolWithNumber('P#Y');
 export const fakeEin = () => faker.helpers.replaceSymbolWithNumber('##-#######');
 export const fakeField = () => faker.random.words(3).replace(/[^A-Za-z ]/g, '').replace(/ /g, '_').toLowerCase();
+export const fakeObjectSelect = () => ({ name: fakeTextShort(), id: 'first' });
 export const fakeObjectSearch = () => ({ name: fakeTextShort(), id: faker.random.uuid() });
 export const fakerPercentage = () => sample(['1', Number(faker.helpers.replaceSymbolWithNumber('0.###')).toString()]);
 export const fakeTextLong = () => faker.random.words(12);
@@ -248,7 +249,7 @@ export const TYPE_GENERATORS: ITypeGenerators = {
   number: { valueFunction: attrNumber(), fieldConfigFactory: numberFactory },
   objectSearch: { valueFunction: fakeObjectSearch, fieldConfigFactory: objectSearchFactory },
   objectSearchCreate: { valueFunction: fakeObjectSearch, fieldConfigFactory: objectSearchCreateFactory },
-  objectSelect: { valueFunction: fakeObjectSearch, fieldConfigFactory: objectSelectFactory },
+  objectSelect: { valueFunction: fakeObjectSelect, fieldConfigFactory: objectSelectFactory },
   optionSelect: { valueFunction: () => 'first', fieldConfigFactory: optionSelectFactory },
   password: { valueFunction: faker.internet.password, fieldConfigFactory: passwordFactory },
   percentage: { valueFunction: fakerPercentage, fieldConfigFactory: percentageFactory },
@@ -264,6 +265,9 @@ export const TYPE_GENERATORS: ITypeGenerators = {
 const addressValue = fakeAddress();
 const SKIP = null;
 
+// tslint:disable-next-line no-magic-numbers
+const numberValueRenderPair: [number, string] = [1400, '1,400'];
+
 export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
   // value: [valueFunction(), valueFunction()]
   ...fromPairs(Object.keys(TYPE_GENERATORS).map(type => {
@@ -277,6 +281,7 @@ export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
   date: ['2017-11-22', '11/22/17'],
   datepicker: ['2017-11-22', '11/22/17'],
   hidden: [TYPE_GENERATORS.hidden.valueFunction(), SKIP],
+  number: numberValueRenderPair,
   objectSearch: [{ name: 'Example Co.', id: faker.random.uuid() }, 'Example Co.'],
   objectSearchCreate: [{ name: 'Example Co.', id: faker.random.uuid() }, 'Example Co.'],
   objectSelect: [{ name: 'Example Co.', id: faker.random.uuid() }, 'Example Co.'],
