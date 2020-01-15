@@ -21,14 +21,14 @@ export { default as SummaryCard } from './components/SummaryCard';
 export { default as Table } from './components/Table';
 
 // Form inputs
+export { default as Date } from './inputs/Date';
 export { default as Hidden } from './inputs/Hidden';
 export { default as ObjectSearch } from './inputs/ObjectSearch';
 export { default as ObjectSearchCreate } from './inputs/ObjectSearchCreate';
-export { default as OptionSelect } from './inputs/OptionSelect';
+export { default as ObjectSelect } from './inputs/ObjectSelect';
 export { default as OptionSelectDisplay, formatOptionSelect } from './inputs/OptionSelectDisplay';
 export { default as RadioGroup } from './inputs/RadioGroup';
 export { default as Rate, formatRating } from './inputs/Rate';
-export { default as Date } from './inputs/Date';
 
 // Utility classes and functions
 export * from './consts';
