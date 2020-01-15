@@ -6,6 +6,8 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
 
+import { getNameOrDefault } from '@mighty-justice/utils';
+
 import {
   IAntFormField,
   IFieldConfigOptionSelect,
@@ -15,7 +17,6 @@ import {
 
 import { getOptions } from '../utilities';
 import { IModel } from '../props';
-import { getNameOrDefault } from '@mighty-justice/utils';
 
 export interface IObjectSelectProps extends IInputProps {
   keyBy: string;
