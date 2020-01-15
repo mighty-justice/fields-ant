@@ -1,76 +1,32 @@
 import React, { Component } from 'react';
-import { computed } from 'mobx';
-import { inject, observer } from 'mobx-react';
-import { isBoolean } from 'lodash';
+import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
-import * as Antd from 'antd';
+import { IInputProps, IOption } from '../interfaces';
 
-import {
-  IAntFormField,
-  IFieldConfig,
-  IFieldConfigOptionSelect,
-  IInjected,
-  IInputProps,
-  IOption,
-} from '../interfaces';
+import ObjectSelect from './ObjectSelect';
+import { IAntFormField, IInjected } from '../index';
 
-import { getOptions } from '../utilities';
-
-export interface IOptionSelectProps {
-  fieldConfig: IFieldConfig;
-  renderOption?: (option: IOption) => React.ReactNode;
-}
-
-// 8 is the most number of options you can show with no scroll
-export const SHOW_OPTION_SEARCH_IF_OVER = 8;
-
-@inject('getOptions')
 @autoBindMethods
 @observer
-class OptionSelect extends Component<IOptionSelectProps> {
+class OptionSelect extends Component<IInputProps> {
   private get injected () {
-    return this.props as IOptionSelectProps & IInjected & IInputProps & IAntFormField;
+    return this.props as IInjected & IInputProps & IAntFormField;
   }
 
-  private get fieldConfig () {
-    return this.props.fieldConfig as IFieldConfigOptionSelect;
-  }
-
-  @computed
-  private get options (): IOption[] {
-    return getOptions(this.fieldConfig, this.injected);
-  }
-
-  private get showSearch (): boolean {
-    // the showSearch fieldConfig option will override this
-    if (isBoolean(this.fieldConfig.showSearch)) {
-      return this.fieldConfig.showSearch;
-    }
-
-    return this.options.length > SHOW_OPTION_SEARCH_IF_OVER;
+  private onChange (option?: null | IOption) {
+    const { onChange } = this.injected;
+    return onChange(option ? option.value : option);
   }
 
   public render () {
-    const { renderOption } = this.props;
+    const props = {
+      ...this.props,
+      keyBy: 'value',
+      onChange: this.onChange,
+    };
 
-    return (
-      <Antd.Select
-        allowClear
-        optionFilterProp='children'
-        showSearch={this.showSearch}
-        {...this.props}
-      >
-        {this.options.map(option => (
-          <Antd.Select.Option
-            key={option.value}
-            value={option.value}
-          >
-            {renderOption ? renderOption(option) : option.name}
-          </Antd.Select.Option>
-        ))}
-      </Antd.Select>
-    );
+    return <ObjectSelect {...props} />;
   }
 }
 

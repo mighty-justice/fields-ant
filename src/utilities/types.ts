@@ -42,6 +42,7 @@ import Hidden from '../inputs/Hidden';
 import Checkbox from '../inputs/Checkbox';
 import Address from '../inputs/Address';
 import TrimWhitespaceInput from '../inputs/TrimWhitespaceInput';
+import ObjectSelect from '../inputs/ObjectSelect';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -187,6 +188,12 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     renderOption: passRenderOnlyValue(getNameOrDefault),
     renderSelected: passRenderOnlyValue(getNameOrDefault) as (value: IValue) => string,
     skipFieldDecorator: true,
+  },
+  objectSelect: {
+    editComponent: ObjectSelect,
+    fieldConfigProp: true,
+    nullify: true,
+    render: passRenderOnlyValue(getNameOrDefault),
   },
   optionSelect: {
     editComponent: OptionSelect,

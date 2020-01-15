@@ -26,7 +26,6 @@ export { ISummaryCardProps } from './components/SummaryCard';
 // Form inputs
 export { IObjectSearchCreateProps } from './inputs/ObjectSearchCreate';
 export { IOptionSelectDisplayProps } from './inputs/OptionSelectDisplay';
-export { IOptionSelectProps } from './inputs/OptionSelect';
 
 // All below props are shared / inherited by components
 // This allows us to keep the library consistent and uniform

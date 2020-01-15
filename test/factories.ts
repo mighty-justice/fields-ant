@@ -109,6 +109,9 @@ export const attrOptions = [
   { value: 'third', name: 'Third Item' },
 ];
 
+export const attrObjects = attrOptions
+  .map(option => ({ name: option.name, id: option.value }));
+
 const addressDefinitions = (faker as any).definitions.address;
 export const stateOptions = zipWith(
   addressDefinitions.state,
@@ -124,6 +127,9 @@ export const radioFactory = fieldFactoryForType('radio')
 
 export const optionSelectFactory = fieldFactoryForType('optionSelect')
   .attrs({ options: attrOptions });
+
+export const objectSelectFactory = fieldFactoryForType('objectSelect')
+  .attrs({ options: attrObjects });
 
 export const objectSearchFactory = fieldFactoryForType('objectSearch')
   .attrs({
@@ -242,6 +248,7 @@ export const TYPE_GENERATORS: ITypeGenerators = {
   number: { valueFunction: attrNumber(), fieldConfigFactory: numberFactory },
   objectSearch: { valueFunction: fakeObjectSearch, fieldConfigFactory: objectSearchFactory },
   objectSearchCreate: { valueFunction: fakeObjectSearch, fieldConfigFactory: objectSearchCreateFactory },
+  objectSelect: { valueFunction: fakeObjectSearch, fieldConfigFactory: objectSelectFactory },
   optionSelect: { valueFunction: () => 'first', fieldConfigFactory: optionSelectFactory },
   password: { valueFunction: faker.internet.password, fieldConfigFactory: passwordFactory },
   percentage: { valueFunction: fakerPercentage, fieldConfigFactory: percentageFactory },
@@ -272,6 +279,7 @@ export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
   hidden: [TYPE_GENERATORS.hidden.valueFunction(), SKIP],
   objectSearch: [{ name: 'Example Co.', id: faker.random.uuid() }, 'Example Co.'],
   objectSearchCreate: [{ name: 'Example Co.', id: faker.random.uuid() }, 'Example Co.'],
+  objectSelect: [{ name: 'Example Co.', id: faker.random.uuid() }, 'Example Co.'],
   optionSelect: ['second', 'Second Item'],
   password: [TYPE_GENERATORS.password.valueFunction(), '********'],
   percentage: ['0.278', '27.80%'],
