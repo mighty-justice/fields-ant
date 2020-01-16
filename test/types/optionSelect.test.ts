@@ -4,7 +4,7 @@ import faker from 'faker';
 import { Card, FormCard, IFieldConfig } from '../../src';
 import { fakeTextShort } from '../factories';
 import Form from '../../src/components/Form';
-import { SHOW_OPTION_SEARCH_IF_OVER } from '../../src/inputs/OptionSelect';
+import { SHOW_OPTION_SEARCH_IF_OVER } from '../../src/inputs/ObjectSelect';
 
 const field = 'is_open'
   , optionType = 'yesNo'
