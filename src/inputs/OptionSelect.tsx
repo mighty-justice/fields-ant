@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
-import { IInputProps } from '../interfaces';
-
-import ObjectSelect from './ObjectSelect';
+import ObjectSelect, { IObjectSelectProps } from './ObjectSelect';
 
 @autoBindMethods
 @observer
-class OptionSelect extends Component<IInputProps> {
+class OptionSelect extends Component<IObjectSelectProps> {
   public render () {
     return <ObjectSelect {...this.props} keyBy='value' />;
   }
