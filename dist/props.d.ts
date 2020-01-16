@@ -14,7 +14,7 @@ export { IFormProps } from './components/Form';
 export { ISummaryCardProps } from './components/SummaryCard';
 export { IObjectSearchCreateProps } from './inputs/ObjectSearchCreate';
 export { IOptionSelectDisplayProps } from './inputs/OptionSelectDisplay';
-export { IOptionSelectProps } from './inputs/OptionSelect';
+export { IObjectSelectProps } from './inputs/ObjectSelect';
 import { IFieldSet, IFieldSetPartial } from './interfaces';
 import SmartBool from '@mighty-justice/smart-bool';
 import React from 'react';
