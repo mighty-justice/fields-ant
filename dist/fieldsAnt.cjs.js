@@ -2375,9 +2375,10 @@ function backendValidation(fieldNames, response) {
 
 var _class$f, _class2$6, _descriptor$3, _temp$5;
 var ERROR_WITH_DESCRIPTION = [httpStatus.BAD_REQUEST, httpStatus.FORBIDDEN];
+var TOAST_DURATION = 3;
 var toastError = {
   description: '',
-  duration: null,
+  duration: TOAST_DURATION,
   message: 'Error submitting form'
 };
 
@@ -2453,7 +2454,7 @@ function () {
       if (successText) {
         Antd.notification.success({
           description: '',
-          duration: 3,
+          duration: TOAST_DURATION,
           message: successText
         });
       }

@@ -29,7 +29,7 @@ interface IFormWrappedInstance {
 export declare const ERROR_WITH_DESCRIPTION: number[];
 export declare const toastError: {
     description: string;
-    duration: null;
+    duration: number;
     message: string;
 };
 declare class FormManager {
