@@ -51,9 +51,11 @@ export const ERROR_WITH_DESCRIPTION = [
   httpStatus.FORBIDDEN,
 ];
 
+const TOAST_DURATION = 3;
+
 export const toastError = {
   description: '',
-  duration: null,
+  duration: TOAST_DURATION,
   message: 'Error submitting form',
 };
 
@@ -180,7 +182,7 @@ class FormManager {
     if (successText) {
       Antd.notification.success({
         description: '',
-        duration: 3,
+        duration: TOAST_DURATION,
         message: successText,
       });
     }

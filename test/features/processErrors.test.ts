@@ -53,7 +53,7 @@ describe('processErrors', () => {
     // Modify existing errors
     expect(Antd.notification.error).toHaveBeenCalledWith({
       description: `Non Field Errors - ${newNonFieldError}`,
-      duration: null,
+      duration: 3,
       message: 'Error submitting form',
     });
   });

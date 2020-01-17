@@ -77,7 +77,7 @@ describe('FormManager', () => {
     formManager.handleRequestError(error);
     expect(Antd.notification.error).toHaveBeenCalledWith({
        description: '500 - Server Error',
-       duration: null,
+       duration: 3,
        message: 'Error submitting form',
     });
   });
@@ -109,7 +109,7 @@ describe('FormManager', () => {
 
       expect(Antd.notification.error).toHaveBeenCalledWith({
         description: `Non Field Errors - ${nonFieldError}`,
-        duration: null,
+        duration: 3,
         message: 'Error submitting form',
       });
     });
