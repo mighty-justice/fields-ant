@@ -109,7 +109,7 @@ describe('FormManager', () => {
 
       expect(Antd.notification.error).toHaveBeenCalledWith({
         description: `Non Field Errors - ${nonFieldError}`,
-        duration: null,
+        duration: 3,
         message: 'Error submitting form',
       });
     });
