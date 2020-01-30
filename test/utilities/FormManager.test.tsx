@@ -1,5 +1,6 @@
 import faker from 'faker';
 import httpStatus from 'http-status-codes';
+import { set } from 'lodash';
 
 import * as Antd from 'antd';
 
@@ -7,7 +8,6 @@ import { Tester } from '@mighty-justice/tester';
 
 import { ERROR_WITH_DESCRIPTION } from '../../src/utilities/FormManager';
 import { Form, FormCard, IFieldSetPartial } from '../../src';
-import { sleep } from '../factories';
 
 async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
   const props = {
@@ -119,33 +119,89 @@ describe('FormManager', () => {
   });
 
   it('Can submit after backend validation fails', async () => {
-    const fieldSets = [[
-        { field: 'field_1' },
-      ]]
+    const field = 'field_1'
+      , fieldSets = [[{ field }]]
       , THROW_BACKEND_ERROR = faker.random.words()
+      , model = set({}, field, THROW_BACKEND_ERROR)
       , err = {
         response: {
-          data: {
-            field_1: [faker.random.words()],
-          },
+          data: { [field]: [faker.random.words()] },
           status: httpStatus.BAD_REQUEST,
         },
       }
-      , onSave = jest.fn((model) => {
-        if (model.field_1 === THROW_BACKEND_ERROR) {
+      , onSuccess = jest.fn()
+      , onSave = jest.fn((submitModel) => {
+        if (submitModel[field] === THROW_BACKEND_ERROR) {
           throw err;
         }
       })
-      , props = { fieldSets, onSave, model: { field_1: THROW_BACKEND_ERROR } }
+      , props = { onSuccess, fieldSets, onSave, model }
       , tester = await new Tester(Form, { props }).mount({ async: true })
       , formManager = tester.find('UnwrappedForm').instance().formManager
       ;
 
+    // Submit button should initially be enabled
     expect(formManager.submitButtonDisabled).toBe(false);
+    expect(formManager.formModel[field]).toBe(THROW_BACKEND_ERROR);
+
     await tester.submit();
-    await sleep(3);
+    expect(onSave).toHaveBeenCalled();
+    expect(onSuccess).not.toHaveBeenCalled();
+
+    // Submit button should disable on backend validation error
     expect(formManager.submitButtonDisabled).toBe(true);
-    tester.changeInput('#field_1', '');
+    expect(formManager.formModel[field]).toBe(THROW_BACKEND_ERROR);
+
+    // Submit button should re-enable on field change
+    tester.changeInput(`input[id="${field}"]`, '');
     expect(formManager.submitButtonDisabled).toBe(false);
+    expect(formManager.formModel[field]).toBe('');
+
+    await tester.submit();
+    expect(onSuccess).toHaveBeenCalled();
   });
+
+  it('Can handle backend errors on nested fields', async () => {
+    const field = 'plaintiff.first_name'
+      , fieldSets = [[{ field }]]
+      , THROW_BACKEND_ERROR = faker.random.words()
+      , model = set({}, field, THROW_BACKEND_ERROR)
+      , err = {
+        response: {
+          data: { plaintiff: { first_name: [faker.random.words()] } },
+          status: httpStatus.BAD_REQUEST,
+        },
+      }
+      , onSuccess = jest.fn()
+      , onSave = jest.fn((submitModel) => {
+        if (submitModel.plaintiff.first_name === THROW_BACKEND_ERROR) {
+          throw err;
+        }
+      })
+      , props = { onSuccess, fieldSets, onSave, model }
+      , tester = await new Tester(Form, { props }).mount({ async: true })
+      , formManager = tester.find('UnwrappedForm').instance().formManager
+      ;
+
+    // Submit button should initially be enabled
+    expect(formManager.submitButtonDisabled).toBe(false);
+    expect(formManager.formModel.plaintiff.first_name).toBe(THROW_BACKEND_ERROR);
+
+    await tester.submit();
+    expect(onSave).toHaveBeenCalled();
+    expect(onSuccess).not.toHaveBeenCalled();
+
+    // Submit button should disable on backend validation error
+    expect(formManager.submitButtonDisabled).toBe(true);
+    expect(formManager.formModel.plaintiff.first_name).toBe(THROW_BACKEND_ERROR);
+
+    // Submit button should re-enable on field change
+    tester.changeInput(`input[id="${field}"]`, '');
+    expect(formManager.submitButtonDisabled).toBe(false);
+    expect(formManager.formModel.plaintiff.first_name).toBe('');
+
+    await tester.submit();
+    expect(onSuccess).toHaveBeenCalled();
+  });
+
 });
