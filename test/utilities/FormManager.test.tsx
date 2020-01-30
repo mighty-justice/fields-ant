@@ -1,11 +1,12 @@
 import faker from 'faker';
+import httpStatus from 'http-status-codes';
+
 import * as Antd from 'antd';
 
-import { ERROR_WITH_DESCRIPTION } from '../../src/utilities/FormManager';
 import { Tester } from '@mighty-justice/tester';
 
+import { ERROR_WITH_DESCRIPTION } from '../../src/utilities/FormManager';
 import { Form, FormCard, IFieldSetPartial } from '../../src';
-import httpStatus from 'http-status-codes';
 import { sleep } from '../factories';
 
 async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {

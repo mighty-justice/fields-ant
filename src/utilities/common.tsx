@@ -178,3 +178,8 @@ export function modelFromFieldConfigs (fieldConfigs: IFieldConfig[], data: IMode
 
     return returnValues;
   }
+
+export function noopValidator (_rule: any, _value: any, callback: (message?: string) => void) {
+  // Useful for clearing manually-set backend validation errors
+  callback();
+}
