@@ -203,5 +203,4 @@ describe('FormManager', () => {
     await tester.submit();
     expect(onSuccess).toHaveBeenCalled();
   });
-
 });
