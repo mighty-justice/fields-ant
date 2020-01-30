@@ -5,6 +5,8 @@ import { ERROR_WITH_DESCRIPTION } from '../../src/utilities/FormManager';
 import { Tester } from '@mighty-justice/tester';
 
 import { Form, FormCard, IFieldSetPartial } from '../../src';
+import httpStatus from 'http-status-codes';
+import { sleep } from '../factories';
 
 async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
   const props = {
@@ -113,5 +115,36 @@ describe('FormManager', () => {
         message: 'Error submitting form',
       });
     });
+  });
+
+  it('Can submit after backend validation fails', async () => {
+    const fieldSets = [[
+        { field: 'field_1' },
+      ]]
+      , THROW_BACKEND_ERROR = faker.random.words()
+      , err = {
+        response: {
+          data: {
+            field_1: [faker.random.words()],
+          },
+          status: httpStatus.BAD_REQUEST,
+        },
+      }
+      , onSave = jest.fn((model) => {
+        if (model.field_1 === THROW_BACKEND_ERROR) {
+          throw err;
+        }
+      })
+      , props = { fieldSets, onSave, model: { field_1: THROW_BACKEND_ERROR } }
+      , tester = await new Tester(Form, { props }).mount({ async: true })
+      , formManager = tester.find('UnwrappedForm').instance().formManager
+      ;
+
+    expect(formManager.submitButtonDisabled).toBe(false);
+    await tester.submit();
+    await sleep(3);
+    expect(formManager.submitButtonDisabled).toBe(true);
+    tester.changeInput('#field_1', '');
+    expect(formManager.submitButtonDisabled).toBe(false);
   });
 });
