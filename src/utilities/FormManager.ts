@@ -193,7 +193,7 @@ class FormManager {
     const formValues = this.formValues;
     this.form.setFields(mapValues(errors, (error, field) => ({
       errors: [new Error(error)],
-      value: get(formValues, field),
+      value: formValues[field],
     })));
   }
 
