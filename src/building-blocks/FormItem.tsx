@@ -6,7 +6,7 @@ import { values, omit, get } from 'lodash';
 import * as Antd from 'antd';
 import { ValidationRule as AntValidationRule } from 'antd/lib/form';
 
-import { FormManager, renderLabel } from '../utilities';
+import { FormManager, noopValidator, renderLabel } from '../utilities';
 import { IFieldConfig, IFieldsValidator } from '../interfaces';
 import { IModel } from '../props';
 
@@ -46,20 +46,27 @@ class FormItem extends Component<IFormFieldProps> {
     // Here we take the { [key: string]: formValidationRules } object
     // found in fieldConfig.formValidationRules and return a valid list
     // of rules for rc-form
-    return values(this.props.fieldConfig.formValidationRules)
-      .map(validationRule => {
-        // Our own proprietary ( much more sane and powerful ) validation attribute
-        // is converted here to the rc-form style validator
-        if (validationRule.fieldsValidator) {
-          return {
-            validator: this.fieldsValidatorToValidator(validationRule.fieldsValidator, validationRule.message),
-            ...omit(validationRule, 'fieldsValidator'),
-          };
-        }
 
-        // However, all default rc-form validators will still work as expected
-        return validationRule;
-      });
+    return [
+      // Empty validator to ensure backend errors are cleared when field is edited
+      { validator: noopValidator },
+
+      // Convert fields-ant fieldsValidator to rc-form validators
+      ...values(this.props.fieldConfig.formValidationRules)
+        .map(validationRule => {
+          // Our own proprietary ( much more sane and powerful ) validation attribute
+          // is converted here to the rc-form style validator
+          if (validationRule.fieldsValidator) {
+            return {
+              validator: this.fieldsValidatorToValidator(validationRule.fieldsValidator, validationRule.message),
+              ...omit(validationRule, 'fieldsValidator'),
+            };
+          }
+
+          // However, all default rc-form validators will still work as expected
+          return validationRule;
+        }),
+    ];
   }
 
   private get decoratorOptions () {

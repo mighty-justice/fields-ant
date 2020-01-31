@@ -1,9 +1,12 @@
 import faker from 'faker';
+import httpStatus from 'http-status-codes';
+import { set } from 'lodash';
+
 import * as Antd from 'antd';
 
-import { ERROR_WITH_DESCRIPTION } from '../../src/utilities/FormManager';
 import { Tester } from '@mighty-justice/tester';
 
+import { ERROR_WITH_DESCRIPTION } from '../../src/utilities/FormManager';
 import { Form, FormCard, IFieldSetPartial } from '../../src';
 
 async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
@@ -113,5 +116,48 @@ describe('FormManager', () => {
         message: 'Error submitting form',
       });
     });
+  });
+
+  it('Can submit after backend validation fails', async () => {
+    const field = 'field_1'
+      , fieldSets = [[{ field }]]
+      , THROW_BACKEND_ERROR = faker.random.words()
+      , model = set({}, field, THROW_BACKEND_ERROR)
+      , err = {
+        response: {
+          data: { [field]: [faker.random.words()] },
+          status: httpStatus.BAD_REQUEST,
+        },
+      }
+      , onSuccess = jest.fn()
+      , onSave = jest.fn((submitModel) => {
+        if (submitModel[field] === THROW_BACKEND_ERROR) {
+          throw err;
+        }
+      })
+      , props = { onSuccess, fieldSets, onSave, model }
+      , tester = await new Tester(Form, { props }).mount({ async: true })
+      , formManager = tester.find('UnwrappedForm').instance().formManager
+      ;
+
+    // Submit button should initially be enabled
+    expect(formManager.submitButtonDisabled).toBe(false);
+    expect(formManager.formModel[field]).toBe(THROW_BACKEND_ERROR);
+
+    await tester.submit();
+    expect(onSave).toHaveBeenCalled();
+    expect(onSuccess).not.toHaveBeenCalled();
+
+    // Submit button should disable on backend validation error
+    expect(formManager.submitButtonDisabled).toBe(true);
+    expect(formManager.formModel[field]).toBe(THROW_BACKEND_ERROR);
+
+    // Submit button should re-enable on field change
+    tester.changeInput(`input[id="${field}"]`, '');
+    expect(formManager.submitButtonDisabled).toBe(false);
+    expect(formManager.formModel[field]).toBe('');
+
+    await tester.submit();
+    expect(onSuccess).toHaveBeenCalled();
   });
 });
