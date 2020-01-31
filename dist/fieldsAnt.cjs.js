@@ -495,7 +495,10 @@ function (_Component) {
       // Here we take the { [key: string]: formValidationRules } object
       // found in fieldConfig.formValidationRules and return a valid list
       // of rules for rc-form
-      return lodash.values(this.props.fieldConfig.formValidationRules).map(function (validationRule) {
+      return [// Empty validator to ensure backend errors are cleared when field is edited
+      {
+        validator: noopValidator
+      }].concat(_toConsumableArray(lodash.values(this.props.fieldConfig.formValidationRules).map(function (validationRule) {
         // Our own proprietary ( much more sane and powerful ) validation attribute
         // is converted here to the rc-form style validator
         if (validationRule.fieldsValidator) {
@@ -506,7 +509,7 @@ function (_Component) {
 
 
         return validationRule;
-      });
+      })));
     }
   }, {
     key: "decoratorOptions",
@@ -2277,6 +2280,10 @@ function modelFromFieldConfigs(fieldConfigs, data) {
 
   return returnValues;
 }
+function noopValidator(_rule, _value, callback) {
+  // Useful for clearing manually-set backend validation errors
+  callback();
+}
 
 // Takes an API response and converts it to a string to string map
 function getFieldErrors(errors) {
@@ -2468,7 +2475,7 @@ function () {
       this.form.setFields(lodash.mapValues(errors, function (error, field) {
         return {
           errors: [new Error(error)],
-          value: formValues[field]
+          value: lodash.get(formValues, field)
         };
       }));
     }
@@ -4303,6 +4310,7 @@ exports.isFieldSetSimple = isFieldSetSimple;
 exports.isPartialFieldSetSimple = isPartialFieldSetSimple;
 exports.mapFieldSetFields = mapFieldSetFields;
 exports.modelFromFieldConfigs = modelFromFieldConfigs;
+exports.noopValidator = noopValidator;
 exports.renderLabel = renderLabel;
 exports.renderValue = renderValue;
 exports.setFieldSetFields = setFieldSetFields;

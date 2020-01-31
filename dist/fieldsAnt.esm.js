@@ -488,7 +488,10 @@ function (_Component) {
       // Here we take the { [key: string]: formValidationRules } object
       // found in fieldConfig.formValidationRules and return a valid list
       // of rules for rc-form
-      return values(this.props.fieldConfig.formValidationRules).map(function (validationRule) {
+      return [// Empty validator to ensure backend errors are cleared when field is edited
+      {
+        validator: noopValidator
+      }].concat(_toConsumableArray(values(this.props.fieldConfig.formValidationRules).map(function (validationRule) {
         // Our own proprietary ( much more sane and powerful ) validation attribute
         // is converted here to the rc-form style validator
         if (validationRule.fieldsValidator) {
@@ -499,7 +502,7 @@ function (_Component) {
 
 
         return validationRule;
-      });
+      })));
     }
   }, {
     key: "decoratorOptions",
@@ -2270,6 +2273,10 @@ function modelFromFieldConfigs(fieldConfigs, data) {
 
   return returnValues;
 }
+function noopValidator(_rule, _value, callback) {
+  // Useful for clearing manually-set backend validation errors
+  callback();
+}
 
 // Takes an API response and converts it to a string to string map
 function getFieldErrors(errors) {
@@ -2461,7 +2468,7 @@ function () {
       this.form.setFields(mapValues(errors, function (error, field) {
         return {
           errors: [new Error(error)],
-          value: formValues[field]
+          value: get(formValues, field)
         };
       }));
     }
@@ -4235,4 +4242,4 @@ function (_Component) {
   return Table;
 }(Component), (_applyDecoratedDescriptor(_class2$l.prototype, "columns", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "columns"), _class2$l.prototype), _applyDecoratedDescriptor(_class2$l.prototype, "dataSource", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "dataSource"), _class2$l.prototype)), _class2$l)) || _class$x) || _class$x;
 
-export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, Date, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearch, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, backendValidation, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatOptionSelect, formatRating, getDateFormatList, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, renderLabel, renderValue, setFieldSetFields };
+export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, Date, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearch, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, backendValidation, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatOptionSelect, formatRating, getDateFormatList, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, noopValidator, renderLabel, renderValue, setFieldSetFields };
