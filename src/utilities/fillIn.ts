@@ -50,12 +50,12 @@ function inferType (fieldConfig: Partial<IFieldConfig>) {
   if (field.includes('phone')) { return 'phone'; }
 
   // date => date etc.
-  for (const type in TYPES) {
+  for (const type of Object.keys(TYPES)) {
     if (field === type) { return type; }
   }
 
   // start_date => date etc.
-  for (const type in TYPES) {
+  for (const type of Object.keys(TYPES)) {
     if (field.includes(type)) { return type; }
   }
 

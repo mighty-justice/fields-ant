@@ -137,6 +137,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       ;
 
     this.search = value;
+    // istanbul ignore next
     if (!searchOnEmpty && !this.hasSearch) {
       this.options = [];
       return;

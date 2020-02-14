@@ -1,6 +1,6 @@
 import { isBoolean } from 'lodash';
-import moment from 'moment';
-import { format } from 'date-fns';
+import moment, { Moment } from 'moment';
+import { formatISO } from 'date-fns';
 import { pattern as iso8601pattern } from 'iso8601-duration';
 
 import * as Antd from 'antd';
@@ -110,10 +110,10 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   datepicker: {
     editComponent: Antd.DatePicker,
     editProps: { format: dateFormatList },
-    fromForm: (value: any) => value ? format(value, 'YYYY-MM-DD') : '',
+    fromForm: (value: Moment | null) => value ? formatISO(value.toDate(), { representation: 'date' }) : '',
     nullify: true,
     render: passRenderOnlyValue(formatDate),
-    toForm: (value: any) => (value || null) && moment(value),
+    toForm: (value: string | null) => !value ? null : moment(value),
   },
   duration: {
     formValidationRules: {
@@ -253,7 +253,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   text: {
     editComponent: Antd.Input.TextArea,
     editProps: {
-      autosize: { minRows: 4 },
+      autoSize: { minRows: 4 },
     },
     render: passRenderOnlyValue(parseAndPreserveNewlines),
   },

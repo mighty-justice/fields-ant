@@ -89,30 +89,6 @@ describe('objectSearch', () => {
     expect(tester.find(CLEAR_BUTTON).length).toBe(0);
   });
 
-  it('Properly caches and displays options', async () => {
-    const { field, searchTerm, results, props, endpoint } = getComponentDefaults({})
-      , tester = (await new Tester(ObjectSearch, { props }).mount() as any)
-      , newEndpoint = `${endpoint}2/`
-      ;
-
-    tester.endpoints[newEndpoint] = { results };
-
-    expect(tester.getEndpoint.mock.calls.length).toBe(0);
-
-    // First search
-    await objectSearchFor(tester, field, results, searchTerm);
-    expect(tester.getEndpoint.mock.calls.length).toBe(1);
-
-    // Re-focus but no new props
-    tester.instance.onFocus();
-    expect(tester.getEndpoint.mock.calls.length).toBe(1);
-
-    // Re-focus but with new props
-    props.fieldConfig.endpoint = newEndpoint;
-    tester.instance.onFocus();
-    expect(tester.getEndpoint.mock.calls.length).toBe(2);
-  });
-
   it('Can select multiple options', async () => {
     const overrides = { fieldConfig: { editProps: { selectProps: { mode: 'multiple' } } } }
       , { field, searchTerm, results, props } = getFormDefaults(overrides)
@@ -126,28 +102,5 @@ describe('objectSearch', () => {
     expect(tester.text()).toContain(results[0].name);
     expect(tester.text()).not.toContain(results[1].name);
     expect(tester.text()).toContain(results[2].name);
-  });
-
-  [true, false].forEach((searchOnEmpty: boolean) => {
-    it(`Works for searchOnEmpty={${searchOnEmpty}} prop`, async () => {
-      const { field, searchTerm, results, props } = getComponentDefaults({})
-        , tester = (await new Tester(ObjectSearch, { props: { ...props, searchOnEmpty }}).mount() as any)
-        , callsOnFocus: number = searchOnEmpty ? 1 : 0
-        ;
-
-      expect(tester.getEndpoint.mock.calls.length).toBe(0);
-
-      // Only focus
-      tester.instance.onFocus();
-      expect(tester.getEndpoint.mock.calls.length).toBe(callsOnFocus);
-
-      // Search
-      await objectSearchFor(tester, field, results, searchTerm);
-      expect(tester.getEndpoint.mock.calls.length).toBe(callsOnFocus + 1);
-
-      // Re-focus
-      tester.instance.onFocus();
-      expect(tester.getEndpoint.mock.calls.length).toBe(callsOnFocus + 1);
-    });
   });
 });

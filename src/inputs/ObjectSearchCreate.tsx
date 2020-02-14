@@ -80,7 +80,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     ]);
   }
 
-  private async onAddNew (search: string) {
+  private onAddNew (search: string) {
     const { onAddNewToggle, formManager, fieldConfig } = this.injected;
     this.search = search;
 
@@ -90,7 +90,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     });
   }
 
-  private async onSearch () {
+  private onSearch () {
     const { onAddNewToggle, formManager, id, fieldConfig } = this.injected;
     formManager.form.setFieldsValue({ [id]: formManager.getDefaultValue(fieldConfig) });
     this.isAddingNew.setFalse();

@@ -1,6 +1,6 @@
 import { Factory } from 'rosie';
 import faker from 'faker';
-import { format } from 'date-fns';
+import { formatISO } from 'date-fns';
 import { action } from '@storybook/addon-actions';
 import { fromPairs, sample, zipWith } from 'lodash';
 
@@ -53,9 +53,11 @@ export const fakeAddress = () => ({
   state: faker.address.stateAbbr(),
   zip_code: faker.address.zipCode(),
 });
+
+export const formatDateISO = (date: Date) => formatISO(date, { representation: 'date' });
 export const fakeBoolean = () => sample([true, false]);
-export const fakeDateRecent = () => format(faker.date.recent(), 'YYYY-MM-DD');
-export const fakeDatePast = () => format(faker.date.past(100), 'YYYY-MM-DD');
+export const fakeDateRecent = () => formatDateISO(faker.date.recent());
+export const fakeDatePast = () => formatDateISO(faker.date.past());
 export const fakeDuration = () => faker.helpers.replaceSymbolWithNumber('P#Y');
 export const fakeEin = () => faker.helpers.replaceSymbolWithNumber('##-#######');
 export const fakeField = () => faker.random.words(3).replace(/[^A-Za-z ]/g, '').replace(/ /g, '_').toLowerCase();

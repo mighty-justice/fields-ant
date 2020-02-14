@@ -276,7 +276,7 @@ class FormManager {
     }
   }
 
-  public async onSave (event: any) {
+  public onSave (event: any) {
     event.preventDefault();
 
     this.saving = true;

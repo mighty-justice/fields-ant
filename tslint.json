@@ -1,6 +1,7 @@
 {
   "extends": ["@mighty-justice/tslint-config"],
   "rules": {
-    "no-implicit-dependencies": [true, "dev"]
+    "no-implicit-dependencies": [true, "dev"],
+    "invalid-void": false // Remove after bugfix?
   }
 }

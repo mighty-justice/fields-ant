@@ -4,6 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 
 import * as Antd from 'antd';
+import { CheckboxProps } from 'antd/lib/checkbox/Checkbox';
 
 import { IAntFormField, ICheckboxProps, IInjected } from '../interfaces';
 
@@ -17,7 +18,7 @@ export default class Checkbox extends Component <ICheckboxProps> {
   public render () {
     const { description, disabled, disabledText, value } = this.injected
       , PROPS_TO_OMIT = ['description', 'value']
-      , checkboxProps = {
+      , checkboxProps: CheckboxProps = {
         ...omit(this.props, PROPS_TO_OMIT),
         checked: value,
       };
