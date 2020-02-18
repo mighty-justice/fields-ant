@@ -41,7 +41,7 @@ interface IFieldConfigBase {
     toForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
     tooltip?: string;
     type: string;
-    value?: string | number;
+    value?: string | number | boolean;
     writeOnly: boolean;
 }
 export interface IAntFormField {
@@ -61,7 +61,6 @@ export interface IFieldConfigOptionSelect extends IFieldConfigBase {
     sorted?: boolean;
 }
 export interface IFieldConfigAddress extends IFieldConfigBase {
-    smart?: boolean;
     stateProps?: Partial<IFieldConfigOptionSelect>;
 }
 export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {

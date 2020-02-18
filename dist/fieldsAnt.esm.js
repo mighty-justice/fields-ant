@@ -4,8 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form as Form$1, Col, Select, Icon, Button, Tooltip, Input, Radio, Rate as Rate$1, Checkbox as Checkbox$1, DatePicker, notification, Row, Popconfirm, Divider, Card as Card$1, Drawer, Modal, List, Table as Table$1 } from 'antd';
 import { toJS, observable, computed } from 'mobx';
-import { get, set, values, omit, debounce, uniqBy, pick, isObject, isBoolean, isArray, flatten, sortBy, has, some, isPlainObject, extend, mapValues, pickBy, noop, isEmpty, kebabCase } from 'lodash';
-import { lookup } from 'zipcodes';
+import { get, values, omit, debounce, uniqBy, pick, isObject, isBoolean, isArray, flatten, sortBy, has, set, some, isPlainObject, extend, mapValues, pickBy, noop, isEmpty, kebabCase } from 'lodash';
 import SmartBool from '@mighty-justice/smart-bool';
 import { toKey, inferCentury, getNameOrDefault, EMPTY_FIELD, mapBooleanToText, isValidDate, formatDate, formatEmployerIdNumber, formatMoney, formatCommaSeparatedNumber, getPercentValue, formatPercentage, getPercentDisplay, formatPhoneNumber, formatSocialSecurityNumber, parseAndPreserveNewlines, formatWebsite, formatAddressMultiline, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
 import moment from 'moment';
@@ -339,13 +338,14 @@ function (_Component) {
     value: function render() {
       var _this$injected = this.injected,
           fieldConfig = _this$injected.fieldConfig,
-          formManager = _this$injected.formManager;
+          formManager = _this$injected.formManager,
+          formModel = _this$injected.formModel;
       return React.createElement(Col, null, React.createElement(Form$1.Item, {
         className: fieldConfig.className
       }, React.createElement(NestedFieldSet, {
         fieldSet: this.fieldSet,
         formManager: formManager,
-        formModel: this.model,
+        formModel: formModel,
         id: fieldConfig.field,
         label: renderLabel(fieldConfig)
       })));
@@ -393,27 +393,6 @@ function (_Component) {
           colProps: colProps
         });
       });
-    }
-  }, {
-    key: "model",
-    get: function get$1() {
-      var _this$injected2 = this.injected,
-          _this$injected2$field = _this$injected2.fieldConfig,
-          field = _this$injected2$field.field,
-          smart = _this$injected2$field.smart,
-          formModel = _this$injected2.formModel,
-          state = get(formModel[field], 'state'),
-          zip = get(formModel[field], 'zip_code');
-
-      if (!state && zip && smart) {
-        var data = lookup(zip);
-
-        if (data && data.state) {
-          set(formModel[field], 'state', data.state);
-        }
-      }
-
-      return formModel;
     }
   }]);
 

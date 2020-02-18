@@ -12,7 +12,6 @@ var cx = _interopDefault(require('classnames'));
 var Antd = require('antd');
 var mobx = require('mobx');
 var lodash = require('lodash');
-var zipcodes = require('zipcodes');
 var SmartBool = _interopDefault(require('@mighty-justice/smart-bool'));
 var utils = require('@mighty-justice/utils');
 var moment = _interopDefault(require('moment'));
@@ -346,13 +345,14 @@ function (_Component) {
     value: function render() {
       var _this$injected = this.injected,
           fieldConfig = _this$injected.fieldConfig,
-          formManager = _this$injected.formManager;
+          formManager = _this$injected.formManager,
+          formModel = _this$injected.formModel;
       return React__default.createElement(Antd.Col, null, React__default.createElement(Antd.Form.Item, {
         className: fieldConfig.className
       }, React__default.createElement(NestedFieldSet, {
         fieldSet: this.fieldSet,
         formManager: formManager,
-        formModel: this.model,
+        formModel: formModel,
         id: fieldConfig.field,
         label: renderLabel(fieldConfig)
       })));
@@ -400,27 +400,6 @@ function (_Component) {
           colProps: colProps
         });
       });
-    }
-  }, {
-    key: "model",
-    get: function get() {
-      var _this$injected2 = this.injected,
-          _this$injected2$field = _this$injected2.fieldConfig,
-          field = _this$injected2$field.field,
-          smart = _this$injected2$field.smart,
-          formModel = _this$injected2.formModel,
-          state = lodash.get(formModel[field], 'state'),
-          zip = lodash.get(formModel[field], 'zip_code');
-
-      if (!state && zip && smart) {
-        var data = zipcodes.lookup(zip);
-
-        if (data && data.state) {
-          lodash.set(formModel[field], 'state', data.state);
-        }
-      }
-
-      return formModel;
     }
   }]);
 

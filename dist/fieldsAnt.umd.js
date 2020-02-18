@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('mobx-react'), require('class-autobind-decorator'), require('classnames'), require('antd'), require('mobx'), require('lodash'), require('zipcodes'), require('@mighty-justice/smart-bool'), require('@mighty-justice/utils'), require('moment'), require('date-fns'), require('iso8601-duration'), require('flat'), require('http-status-codes')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'react', 'mobx-react', 'class-autobind-decorator', 'classnames', 'antd', 'mobx', 'lodash', 'zipcodes', '@mighty-justice/smart-bool', '@mighty-justice/utils', 'moment', 'date-fns', 'iso8601-duration', 'flat', 'http-status-codes'], factory) :
-  (global = global || self, factory(global['fields-ant'] = {}, global.React, global.mobxReact, global.autoBindMethods, global.cx, global.Antd, global.mobx, global.lodash, global.zipcodes, global.SmartBool, global.utils, global.moment, global.dateFns, global.iso8601Duration, global.flattenObject, global.httpStatus));
-}(this, function (exports, React, mobxReact, autoBindMethods, cx, Antd, mobx, lodash, zipcodes, SmartBool, utils, moment, dateFns, iso8601Duration, flattenObject, httpStatus) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('mobx-react'), require('class-autobind-decorator'), require('classnames'), require('antd'), require('mobx'), require('lodash'), require('@mighty-justice/smart-bool'), require('@mighty-justice/utils'), require('moment'), require('date-fns'), require('iso8601-duration'), require('flat'), require('http-status-codes')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'react', 'mobx-react', 'class-autobind-decorator', 'classnames', 'antd', 'mobx', 'lodash', '@mighty-justice/smart-bool', '@mighty-justice/utils', 'moment', 'date-fns', 'iso8601-duration', 'flat', 'http-status-codes'], factory) :
+  (global = global || self, factory(global['fields-ant'] = {}, global.React, global.mobxReact, global.autoBindMethods, global.cx, global.Antd, global.mobx, global.lodash, global.SmartBool, global.utils, global.moment, global.dateFns, global.iso8601Duration, global.flattenObject, global.httpStatus));
+}(this, function (exports, React, mobxReact, autoBindMethods, cx, Antd, mobx, lodash, SmartBool, utils, moment, dateFns, iso8601Duration, flattenObject, httpStatus) { 'use strict';
 
   var React__default = 'default' in React ? React['default'] : React;
   autoBindMethods = autoBindMethods && autoBindMethods.hasOwnProperty('default') ? autoBindMethods['default'] : autoBindMethods;
@@ -337,13 +337,14 @@
       value: function render() {
         var _this$injected = this.injected,
             fieldConfig = _this$injected.fieldConfig,
-            formManager = _this$injected.formManager;
+            formManager = _this$injected.formManager,
+            formModel = _this$injected.formModel;
         return React__default.createElement(Antd.Col, null, React__default.createElement(Antd.Form.Item, {
           className: fieldConfig.className
         }, React__default.createElement(NestedFieldSet, {
           fieldSet: this.fieldSet,
           formManager: formManager,
-          formModel: this.model,
+          formModel: formModel,
           id: fieldConfig.field,
           label: renderLabel(fieldConfig)
         })));
@@ -391,27 +392,6 @@
             colProps: colProps
           });
         });
-      }
-    }, {
-      key: "model",
-      get: function get() {
-        var _this$injected2 = this.injected,
-            _this$injected2$field = _this$injected2.fieldConfig,
-            field = _this$injected2$field.field,
-            smart = _this$injected2$field.smart,
-            formModel = _this$injected2.formModel,
-            state = lodash.get(formModel[field], 'state'),
-            zip = lodash.get(formModel[field], 'zip_code');
-
-        if (!state && zip && smart) {
-          var data = zipcodes.lookup(zip);
-
-          if (data && data.state) {
-            lodash.set(formModel[field], 'state', data.state);
-          }
-        }
-
-        return formModel;
       }
     }]);
 
