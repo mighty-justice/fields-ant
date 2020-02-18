@@ -40,7 +40,7 @@ interface IFieldConfigBase {
   toForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
   tooltip?: string;
   type: string;
-  value?: string | number;
+  value?: string | number | boolean;
   writeOnly: boolean;
 }
 
