@@ -1774,6 +1774,7 @@ var TYPES = {
     fromForm: function fromForm(value) {
       return value ? dateFns.format(value, 'YYYY-MM-DD') : '';
     },
+    nullify: true,
     render: passRenderOnlyValue(utils.formatDate),
     toForm: function toForm(value) {
       return (value || null) && moment(value);

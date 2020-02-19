@@ -1767,6 +1767,7 @@ var TYPES = {
     fromForm: function fromForm(value) {
       return value ? format(value, 'YYYY-MM-DD') : '';
     },
+    nullify: true,
     render: passRenderOnlyValue(formatDate),
     toForm: function toForm(value) {
       return (value || null) && moment(value);
