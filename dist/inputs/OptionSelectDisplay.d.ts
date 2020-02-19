@@ -6,9 +6,9 @@ export interface IOptionSelectDisplayProps {
     value: IValue;
 }
 declare class OptionSelectDisplay extends Component<IOptionSelectDisplayProps> {
-    private readonly injected;
-    private readonly fieldConfig;
-    private readonly options;
+    private get injected();
+    private get fieldConfig();
+    private get options();
     render(): string;
 }
 export declare function formatOptionSelect(value: any, fieldConfig: IFieldConfigOptionSelect): string | JSX.Element;

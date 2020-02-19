@@ -8,11 +8,11 @@ export interface IObjectSelectProps extends IInputProps {
 }
 export declare const SHOW_OPTION_SEARCH_IF_OVER = 8;
 declare class ObjectSelect extends Component<IObjectSelectProps> {
-    private readonly injected;
+    private get injected();
     static defaultProps: Partial<IObjectSelectProps>;
-    private readonly fieldConfig;
-    private readonly options;
-    private readonly showSearch;
+    private get fieldConfig();
+    private get options();
+    private get showSearch();
     private renderOption;
     render(): JSX.Element;
 }

@@ -2,7 +2,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('mobx-react'), require('class-autobind-decorator'), require('classnames'), require('antd'), require('mobx'), require('lodash'), require('@mighty-justice/smart-bool'), require('@mighty-justice/utils'), require('moment'), require('date-fns'), require('iso8601-duration'), require('flat'), require('http-status-codes')) :
   typeof define === 'function' && define.amd ? define(['exports', 'react', 'mobx-react', 'class-autobind-decorator', 'classnames', 'antd', 'mobx', 'lodash', '@mighty-justice/smart-bool', '@mighty-justice/utils', 'moment', 'date-fns', 'iso8601-duration', 'flat', 'http-status-codes'], factory) :
   (global = global || self, factory(global['fields-ant'] = {}, global.React, global.mobxReact, global.autoBindMethods, global.cx, global.Antd, global.mobx, global.lodash, global.SmartBool, global.utils, global.moment, global.dateFns, global.iso8601Duration, global.flattenObject, global.httpStatus));
-}(this, function (exports, React, mobxReact, autoBindMethods, cx, Antd, mobx, lodash, SmartBool, utils, moment, dateFns, iso8601Duration, flattenObject, httpStatus) { 'use strict';
+}(this, (function (exports, React, mobxReact, autoBindMethods, cx, Antd, mobx, lodash, SmartBool, utils, moment, dateFns, iso8601Duration, flattenObject, httpStatus) { 'use strict';
 
   var React__default = 'default' in React ? React['default'] : React;
   autoBindMethods = autoBindMethods && autoBindMethods.hasOwnProperty('default') ? autoBindMethods['default'] : autoBindMethods;
@@ -122,13 +122,13 @@
       var source = arguments[i] != null ? arguments[i] : {};
 
       if (i % 2) {
-        ownKeys(source, true).forEach(function (key) {
+        ownKeys(Object(source), true).forEach(function (key) {
           _defineProperty(target, key, source[key]);
         });
       } else if (Object.getOwnPropertyDescriptors) {
         Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
       } else {
-        ownKeys(source).forEach(function (key) {
+        ownKeys(Object(source)).forEach(function (key) {
           Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
         });
       }
@@ -166,6 +166,42 @@
     };
 
     return _setPrototypeOf(o, p);
+  }
+
+  function _objectWithoutPropertiesLoose(source, excluded) {
+    if (source == null) return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+
+    for (i = 0; i < sourceKeys.length; i++) {
+      key = sourceKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      target[key] = source[key];
+    }
+
+    return target;
+  }
+
+  function _objectWithoutProperties(source, excluded) {
+    if (source == null) return {};
+
+    var target = _objectWithoutPropertiesLoose(source, excluded);
+
+    var key, i;
+
+    if (Object.getOwnPropertySymbols) {
+      var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+
+      for (i = 0; i < sourceSymbolKeys.length; i++) {
+        key = sourceSymbolKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+        target[key] = source[key];
+      }
+    }
+
+    return target;
   }
 
   function _assertThisInitialized(self) {
@@ -209,6 +245,10 @@
   }
 
   function _iterableToArrayLimit(arr, i) {
+    if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
+      return;
+    }
+
     var _arr = [];
     var _n = true;
     var _d = false;
@@ -297,11 +337,18 @@
     _createClass(ButtonToolbar, [{
       key: "render",
       value: function render() {
-        var className = cx('button-toolbar', this.props.align ? "align-".concat(this.props.align) : null, {
-          'no-spacing': this.props.noSpacing
-        }, _defineProperty({}, "position-fixed", this.props.fixed), this.props.className);
-        return React__default.createElement(Antd.Form.Item, _extends({}, this.props, {
-          className: className
+        var _this$props = this.props,
+            align = _this$props.align,
+            className = _this$props.className,
+            fixed = _this$props.fixed,
+            noSpacing = _this$props.noSpacing,
+            passDownProps = _objectWithoutProperties(_this$props, ["align", "className", "fixed", "noSpacing"]),
+            itemClassName = cx('button-toolbar', align ? "align-".concat(align) : null, {
+          'no-spacing': noSpacing
+        }, _defineProperty({}, "position-fixed", fixed), className);
+
+        return React__default.createElement(Antd.Form.Item, _extends({}, passDownProps, {
+          className: itemClassName
         }), this.props.children);
       }
     }]);
@@ -570,7 +617,7 @@
                   _this$injected = this.injected, getEndpoint = _this$injected.getEndpoint, searchOnEmpty = _this$injected.searchOnEmpty, _this$fieldConfig = this.fieldConfig, endpoint = _this$fieldConfig.endpoint, searchFilters = _this$fieldConfig.searchFilters, params = _objectSpread2({
                     search: value
                   }, searchFilters);
-                  this.search = value;
+                  this.search = value; // istanbul ignore next
 
                   if (!(!searchOnEmpty && !this.hasSearch)) {
                     _context.next = 5;
@@ -942,76 +989,37 @@
 
     _createClass(ObjectSearchCreate, [{
       key: "onAddNew",
-      value: function () {
-        var _onAddNew = _asyncToGenerator(
-        /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee(search) {
-          var _this2 = this;
+      value: function onAddNew(search) {
+        var _this2 = this;
 
-          var _this$injected, onAddNewToggle, formManager, fieldConfig;
+        var _this$injected = this.injected,
+            onAddNewToggle = _this$injected.onAddNewToggle,
+            formManager = _this$injected.formManager,
+            fieldConfig = _this$injected.fieldConfig;
+        this.search = search;
+        formManager.form.setFieldsValue(_defineProperty({}, fieldConfig.field, {}), function () {
+          _this2.isAddingNew.setTrue();
 
-          return regeneratorRuntime.wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  _this$injected = this.injected, onAddNewToggle = _this$injected.onAddNewToggle, formManager = _this$injected.formManager, fieldConfig = _this$injected.fieldConfig;
-                  this.search = search;
-                  formManager.form.setFieldsValue(_defineProperty({}, fieldConfig.field, {}), function () {
-                    _this2.isAddingNew.setTrue();
-
-                    if (onAddNewToggle) {
-                      onAddNewToggle(true);
-                    }
-                  });
-
-                case 3:
-                case "end":
-                  return _context.stop();
-              }
-            }
-          }, _callee, this);
-        }));
-
-        function onAddNew(_x) {
-          return _onAddNew.apply(this, arguments);
-        }
-
-        return onAddNew;
-      }()
+          if (onAddNewToggle) {
+            onAddNewToggle(true);
+          }
+        });
+      }
     }, {
       key: "onSearch",
-      value: function () {
-        var _onSearch = _asyncToGenerator(
-        /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee2() {
-          var _this$injected2, onAddNewToggle, formManager, id, fieldConfig;
+      value: function onSearch() {
+        var _this$injected2 = this.injected,
+            onAddNewToggle = _this$injected2.onAddNewToggle,
+            formManager = _this$injected2.formManager,
+            id = _this$injected2.id,
+            fieldConfig = _this$injected2.fieldConfig;
+        formManager.form.setFieldsValue(_defineProperty({}, id, formManager.getDefaultValue(fieldConfig)));
+        this.isAddingNew.setFalse();
 
-          return regeneratorRuntime.wrap(function _callee2$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  _this$injected2 = this.injected, onAddNewToggle = _this$injected2.onAddNewToggle, formManager = _this$injected2.formManager, id = _this$injected2.id, fieldConfig = _this$injected2.fieldConfig;
-                  formManager.form.setFieldsValue(_defineProperty({}, id, formManager.getDefaultValue(fieldConfig)));
-                  this.isAddingNew.setFalse();
-
-                  if (onAddNewToggle) {
-                    onAddNewToggle(false);
-                  }
-
-                case 4:
-                case "end":
-                  return _context2.stop();
-              }
-            }
-          }, _callee2, this);
-        }));
-
-        function onSearch() {
-          return _onSearch.apply(this, arguments);
+        if (onAddNewToggle) {
+          onAddNewToggle(false);
         }
-
-        return onSearch;
-      }()
+      }
     }, {
       key: "renderAddNew",
       value: function renderAddNew() {
@@ -1764,11 +1772,14 @@
         format: dateFormatList
       },
       fromForm: function fromForm(value) {
-        return value ? dateFns.format(value, 'YYYY-MM-DD') : '';
+        return value ? dateFns.formatISO(value.toDate(), {
+          representation: 'date'
+        }) : '';
       },
+      nullify: true,
       render: passRenderOnlyValue(utils.formatDate),
       toForm: function toForm(value) {
-        return (value || null) && moment(value);
+        return !value ? null : moment(value);
       }
     },
     duration: {
@@ -1921,7 +1932,7 @@
     text: {
       editComponent: Antd.Input.TextArea,
       editProps: {
-        autosize: {
+        autoSize: {
           minRows: 4
         }
       },
@@ -2002,14 +2013,18 @@
     } // date => date etc.
 
 
-    for (var type in TYPES) {
+    for (var _i = 0, _Object$keys = Object.keys(TYPES); _i < _Object$keys.length; _i++) {
+      var type = _Object$keys[_i];
+
       if (field === type) {
         return type;
       }
     } // start_date => date etc.
 
 
-    for (var _type in TYPES) {
+    for (var _i2 = 0, _Object$keys2 = Object.keys(TYPES); _i2 < _Object$keys2.length; _i2++) {
+      var _type = _Object$keys2[_i2];
+
       if (field.includes(_type)) {
         return _type;
       }
@@ -2598,32 +2613,11 @@
       }()
     }, {
       key: "onSave",
-      value: function () {
-        var _onSave = _asyncToGenerator(
-        /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee2(event) {
-          return regeneratorRuntime.wrap(function _callee2$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  event.preventDefault();
-                  this.saving = true;
-                  this.form.validateFields(this.validateThenSaveCallback);
-
-                case 3:
-                case "end":
-                  return _context2.stop();
-              }
-            }
-          }, _callee2, this);
-        }));
-
-        function onSave(_x3) {
-          return _onSave.apply(this, arguments);
-        }
-
-        return onSave;
-      }()
+      value: function onSave(event) {
+        event.preventDefault();
+        this.saving = true;
+        this.form.validateFields(this.validateThenSaveCallback);
+      }
     }, {
       key: "form",
       get: function get() {
@@ -4288,4 +4282,4 @@
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));

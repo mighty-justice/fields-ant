@@ -6,7 +6,7 @@ export interface ICardFieldProps {
     model?: IModel;
 }
 declare class CardField extends Component<ICardFieldProps> {
-    private readonly fieldConfig;
+    private get fieldConfig();
     render(): JSX.Element | null;
 }
 export default CardField;

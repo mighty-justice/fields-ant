@@ -4,13 +4,13 @@ declare class FormModal extends Component<ISharedFormModalProps> {
     private formManager?;
     constructor(props: ISharedFormModalProps);
     static defaultProps: Partial<ISharedFormModalProps>;
-    readonly isVisible: boolean;
-    readonly formProps: Partial<Readonly<ISharedFormModalProps> & Readonly<{
+    get isVisible(): boolean;
+    get formProps(): Partial<Readonly<ISharedFormModalProps> & Readonly<{
         children?: React.ReactNode;
     }>>;
     onCancel(): void;
     onSuccess(): Promise<void>;
-    private readonly modalProps;
+    private get modalProps();
     private setRefFormManager;
     render(): JSX.Element | null;
 }

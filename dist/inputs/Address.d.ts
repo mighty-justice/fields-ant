@@ -8,8 +8,8 @@ export interface IAddressProps {
 }
 export declare function isTypeAddress(fieldConfig: IFieldConfig): fieldConfig is IFieldConfigAddress;
 declare class Address extends Component<IAddressProps> {
-    private readonly injected;
-    private readonly fieldSet;
+    private get injected();
+    private get fieldSet();
     render(): JSX.Element;
 }
 export default Address;

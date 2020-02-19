@@ -6,7 +6,7 @@ export declare function isPartialFieldSetSimple(fieldSet: IFieldSetPartial): fie
 export declare function isFieldSetSimple(fieldSet: IFieldSet): fieldSet is IFieldSetSimple;
 declare type IMapper = (fields: IFieldConfigPartial) => IFieldConfigPartial;
 export declare function mapFieldSetFields(fieldSet: IFieldSetPartial, mapper: IMapper): IFieldSetPartial;
-export declare function setFieldSetFields(fieldSet: IFieldSet, fields: IFieldConfig[]): IFieldConfig[] | {
+export declare function setFieldSetFields(fieldSet: IFieldSet, fields: IFieldConfig[]): IFieldSetSimple | {
     fields: IFieldConfig[];
     legend?: string | undefined;
     rowProps?: import("antd/lib/grid").RowProps | undefined;

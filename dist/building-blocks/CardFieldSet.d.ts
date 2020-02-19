@@ -7,7 +7,7 @@ export interface ICardFieldSetProps {
     model?: IModel;
 }
 declare class CardFieldSet extends Component<ICardFieldSetProps> {
-    private readonly fieldSet;
+    private get fieldSet();
     render(): JSX.Element | null;
 }
 export default CardFieldSet;

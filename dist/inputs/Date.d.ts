@@ -2,9 +2,9 @@ import { Component } from 'react';
 import { IInputProps } from '../interfaces';
 declare class Date extends Component<IInputProps> {
     private inputRefs;
-    private readonly injected;
+    private get injected();
     private getRefSetter;
-    private readonly valueObject;
+    private get valueObject();
     private getValueField;
     private onChange;
     private renderFieldInput;

@@ -4,8 +4,8 @@ export interface ITableProps extends ISharedComponentProps {
     model: IModel[];
 }
 declare class Table extends Component<ITableProps> {
-    private readonly columns;
-    private readonly dataSource;
+    private get columns();
+    private get dataSource();
     private getTitle;
     render(): JSX.Element;
 }
