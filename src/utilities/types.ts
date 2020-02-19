@@ -111,6 +111,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     editComponent: Antd.DatePicker,
     editProps: { format: dateFormatList },
     fromForm: (value: any) => value ? format(value, 'YYYY-MM-DD') : '',
+    nullify: true,
     render: passRenderOnlyValue(formatDate),
     toForm: (value: any) => (value || null) && moment(value),
   },
