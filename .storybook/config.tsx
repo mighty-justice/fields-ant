@@ -84,10 +84,10 @@ const PageDecorator = (storyFn: () => React.ReactNode) => (
   </div>
 );
 
-export const withInfoConfigured = withInfo(
-  { inline: true, TableComponent: PropsTable } as any,
+export const withInfoConfigured: any = withInfo(
+  { inline: true, TableComponent: PropsTable },
 );
-addDecorator(PageDecorator as any);
+addDecorator(PageDecorator);
 
 // automatically import all files ending in *.stories.js
 const req = require.context('../stories', true, /.stories.[jt]sx?$/);
