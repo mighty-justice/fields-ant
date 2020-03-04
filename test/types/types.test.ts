@@ -1,7 +1,7 @@
 import { Tester } from '@mighty-justice/tester';
 import { EMPTY_FIELD } from '@mighty-justice/utils';
 
-import { Card, fillInFieldConfig, FormCard, IFieldConfig, TYPES } from '../../src';
+import { Card, fillInFieldConfig, Form, FormCard, IFieldConfig, TYPES } from '../../src';
 import { getEmptyValue, TYPE_GENERATORS, valueRenderPairs } from '../factories';
 
 describe('Types', () => {
@@ -16,6 +16,8 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
     , fieldSets = [[fieldConfig]]
     , [value, rendered] = valueRenderPairs[type]
     , model = { [fieldConfig.field]: value }
+    , disableUnsupportedTypes = ['address', 'objectSearch', 'objectSearchCreate']
+    , testDisabled = disableUnsupportedTypes.includes(type) ? it.skip : it
     ;
 
   describe(type, () => {
@@ -69,6 +71,17 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
 
       const tester = await new Tester(FormCard, { props }).mount({ async: true });
       expect(tester.find('.ant-form-item-required').exists()).toBe(shouldShow);
+    });
+
+    testDisabled('Handles disabled prop', async () => {
+      const onSave = jest.fn()
+        , requiredFieldConfig = { ...fieldConfig, editProps: { disabled: true } }
+        , props = { fieldSets: [[requiredFieldConfig]], model, onSave }
+        ;
+
+      const tester = await new Tester(Form, { props }).mount({ async: true });
+      // a simplistic way of testing if Ant Design puts a `-disabled` class on its component
+      expect(tester.html()).toContain('disabled');
     });
   });
 });
