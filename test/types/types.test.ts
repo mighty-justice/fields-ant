@@ -16,8 +16,8 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
     , fieldSets = [[fieldConfig]]
     , [value, rendered] = valueRenderPairs[type]
     , model = { [fieldConfig.field]: value }
-    , disableUnsupportedTypes = ['address', 'objectSearch', 'objectSearchCreate']
-    , testDisabled = disableUnsupportedTypes.includes(type) ? it.skip : it
+    , disabledPropUnsupportedTypes = ['address', 'objectSearch', 'objectSearchCreate']
+    , testDisabled = disabledPropUnsupportedTypes.includes(type) ? it.skip : it
     ;
 
   describe(type, () => {
