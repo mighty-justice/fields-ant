@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import { omit } from 'lodash';
 
 import * as Antd from 'antd';
-import { omit } from 'lodash';
 
 import { inferCentury } from '@mighty-justice/utils';
 
