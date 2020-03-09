@@ -361,6 +361,7 @@
             colProps = _this$injected$fieldC.colProps,
             required = _this$injected$fieldC.required,
             stateProps = _this$injected$fieldC.stateProps,
+            disabled = _this$injected$fieldC.disabled,
             defaultStateProps = {
           optionType: DEFAULT_STATE_OPTION_TYPE
         },
@@ -386,7 +387,11 @@
         }, passedStateProps), {
           field: 'zip_code',
           required: required
-        }];
+        }].map(function (fieldConfig) {
+          return _objectSpread2({}, fieldConfig, {
+            disabled: disabled
+          });
+        });
         return fieldSet.map(function (addressConfig) {
           return _objectSpread2({}, addressConfig, {
             colProps: colProps
@@ -743,11 +748,13 @@
             _this$fieldConfig3 = this.fieldConfig,
             label = _this$fieldConfig3.label,
             showLabel = _this$fieldConfig3.showLabel,
+            disabled = _this$fieldConfig3.disabled,
             placeholderLabel = showLabel && label ? " ".concat(label) : '',
             placeholder = "Search".concat(placeholderLabel, "...");
         return React__default.createElement(Antd.Select, _extends({
           allowClear: !isLoading,
           defaultActiveFirstOption: false,
+          disabled: disabled,
           dropdownRender: this.renderDropdownWrapper,
           filterOption: false,
           id: id,
@@ -1230,13 +1237,13 @@
           style: _objectSpread2({
             display: 'inline-block'
           }, style)
-        }, React__default.createElement(Antd.Input, {
+        }, React__default.createElement(Antd.Input, _extends({
           defaultValue: defaultValue,
           id: key,
           onChange: onChange,
           placeholder: placeholder,
           ref: this.getRefSetter(field)
-        }));
+        }, this.inputProps)));
       }
     }, {
       key: "render",
@@ -1249,6 +1256,11 @@
       key: "injected",
       get: function get() {
         return this.props;
+      }
+    }, {
+      key: "inputProps",
+      get: function get() {
+        return lodash.omit(this.props, ['id', 'onChange', 'value']);
       }
     }, {
       key: "valueObject",
@@ -2878,7 +2890,9 @@
           formManager: formManager,
           formModel: formModel
         } : {};
-        return _objectSpread2({}, fieldConfig.editProps, {}, fieldConfigProp);
+        return _objectSpread2({
+          disabled: fieldConfig.disabled
+        }, fieldConfig.editProps, {}, fieldConfigProp);
       }
     }, {
       key: "shouldRender",
