@@ -16,8 +16,6 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
     , fieldSets = [[fieldConfig]]
     , [value, rendered] = valueRenderPairs[type]
     , model = { [fieldConfig.field]: value }
-    , disabledPropUnsupportedTypes = ['address', 'objectSearch', 'objectSearchCreate']
-    , testDisabled = disabledPropUnsupportedTypes.includes(type) ? it.skip : it
     ;
 
   describe(type, () => {
@@ -73,9 +71,9 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
       expect(tester.find('.ant-form-item-required').exists()).toBe(shouldShow);
     });
 
-    testDisabled('Handles disabled prop', async () => {
+    it('Handles disabled prop', async () => {
       const onSave = jest.fn()
-        , requiredFieldConfig = { ...fieldConfig, editProps: { disabled: true } }
+        , requiredFieldConfig = { ...fieldConfig, disabled: true }
         , props = { fieldSets: [[requiredFieldConfig]], model, onSave }
         ;
 

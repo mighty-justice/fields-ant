@@ -39,7 +39,7 @@ class Address extends Component<IAddressProps> {
   }
 
   private get fieldSet () {
-    const { fieldConfig: { colProps, required, stateProps } } = this.injected
+    const { fieldConfig: { colProps, required, stateProps, disabled } } = this.injected
       , defaultStateProps = { optionType: DEFAULT_STATE_OPTION_TYPE }
       , passedStateProps = { ...defaultStateProps, ...stateProps };
 
@@ -55,7 +55,7 @@ class Address extends Component<IAddressProps> {
         ...passedStateProps,
       },
       { field: 'zip_code', required },
-    ];
+    ].map(fieldConfig => ({ ...fieldConfig, disabled }));
 
     return fieldSet.map((addressConfig: IFieldConfigPartial) => ({ ...addressConfig, colProps }));
   }
