@@ -29,6 +29,7 @@ class FormField extends Component<IFormFieldProps> {
       ;
 
     return {
+      disabled: fieldConfig.disabled,
       ...fieldConfig.editProps,
       ...fieldConfigProp,
     };

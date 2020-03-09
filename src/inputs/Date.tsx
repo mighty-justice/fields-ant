@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import { omit } from 'lodash';
 
 import * as Antd from 'antd';
 
@@ -53,6 +54,10 @@ class Date extends Component<IInputProps> {
 
   private get injected () {
     return this.props as IInjected & IInputProps & IAntFormField;
+  }
+
+  private get inputProps () {
+    return omit(this.props, ['id', 'onChange', 'value']);
   }
 
   private getRefSetter (field: IField) {
@@ -109,6 +114,7 @@ class Date extends Component<IInputProps> {
           onChange={onChange}
           placeholder={placeholder}
           ref={this.getRefSetter(field)}
+          {...this.inputProps}
         />
       </span>
     );

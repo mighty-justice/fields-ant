@@ -116,7 +116,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   private get selectProps () {
     // Omitting specific props to avoid unintentional behaviors
-    return omit(this.props.selectProps as SelectProps, [
+    return omit(this.props.selectProps, [
       'id',
       'loading',
       'onBlur',
@@ -293,7 +293,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       , showNoResultsOption = canSearch && !isLoading && !this.hasOptions
       , showAddOption = this.hasSearch && onAddNew
       , showNoSearch = !this.hasSearch
-      , { label, showLabel } = this.fieldConfig
+      , { label, showLabel, disabled } = this.fieldConfig
       , placeholderLabel = (showLabel && label) ? ` ${label}` : ''
       , placeholder = `Search${placeholderLabel}...`
       ;
@@ -302,6 +302,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       <Antd.Select
         allowClear={!isLoading}
         defaultActiveFirstOption={false}
+        disabled={disabled}
         dropdownRender={this.renderDropdownWrapper}
         filterOption={false}
         id={id}
