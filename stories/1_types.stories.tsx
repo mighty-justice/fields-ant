@@ -22,12 +22,11 @@ const getFieldSets = (args?: Partial<IFieldConfig>) => ({
     title: 'Working Title',
   })
   , props = getFieldSets()
-  , disabledProps = getFieldSets({ disabled: true })
   ;
 
 storiesOf('Types', module)
   .add('Creating', () => <FormCard {...formCardPropsFactory.build()} {...omit(props, 'model')} />)
   .add('Editing', () => <FormCard {...formCardPropsFactory.build()} {...props} />)
-  .add('Disabled', () => <FormCard {...formCardPropsFactory.build()} {...disabledProps} />)
+  .add('Disabled', () => <FormCard {...formCardPropsFactory.build()} {...props} disabled />)
   .add('Displaying', () => <Card {...props} />)
   ;

@@ -88,12 +88,17 @@ class FormManager {
     return getFieldSetsFields(this.args.fieldSets);
   }
 
+  public get isFormDisabled (): boolean {
+    // The disabled prop can be changed any time, so we can't just save it locally
+    return this.isSaving || !!this.formWrappedInstance.props.disabled;
+  }
+
   public get isSubmitButtonDisabled (): boolean {
-    return this.hasErrors();
+    return this.hasErrors() || this.isFormDisabled;
   }
 
   public get isCancelButtonDisabled (): boolean {
-    return this.isSaving;
+    return this.isFormDisabled;
   }
 
   public getDefaultValue (fieldConfig: IFieldConfig): IValue {

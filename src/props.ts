@@ -57,6 +57,7 @@ export interface ISharedFormProps {
   blockSubmit?: boolean;
   cancelText: string;
   defaults?: object;
+  disabled?: boolean;
   isGuarded?: boolean;
   onCancel?: () => void;
   onSave: (data: object) => any | Promise<any>;
