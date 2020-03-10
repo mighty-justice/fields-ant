@@ -8,7 +8,7 @@ import { pick } from 'lodash';
 import SmartBool from '@mighty-justice/smart-bool';
 
 import * as Antd from 'antd';
-import { SelectProps } from 'antd/lib/select';
+import { SelectProps } from 'antd/es/select';
 
 import {
   CX_PREFIX_SEARCH_CREATE,
@@ -70,6 +70,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     return pick(this.props, [
       'addNewContent',
       'debounceWait',
+      'disabled',
       'fieldConfig',
       'isOptionDisabled',
       'loadingIcon',

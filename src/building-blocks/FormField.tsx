@@ -26,10 +26,11 @@ class FormField extends Component<IFormFieldProps> {
     const { formManager, formModel } = this.props
       , fieldConfig = this.fieldConfig
       , fieldConfigProp = fieldConfig.fieldConfigProp ? { fieldConfig, formManager, formModel } : {}
+      , disabled = fieldConfig.disabled
       ;
 
     return {
-      disabled: fieldConfig.disabled,
+      disabled,
       ...fieldConfig.editProps,
       ...fieldConfigProp,
     };

@@ -5,7 +5,8 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
 import * as Antd from 'antd';
-import { ButtonProps } from 'antd/lib/button';
+import { ButtonProps } from 'antd/es/button';
+import { FormComponentProps } from 'antd/es/form';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
@@ -16,14 +17,14 @@ import {
 } from '../utilities';
 import { formPropsDefaults } from '../propsDefaults';
 import { IFieldSet } from '../interfaces';
-import { ISharedFormProps, ISharedComponentProps, IWrappedFormProps } from '../props';
+import { ISharedFormProps, ISharedComponentProps } from '../props';
 
 export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
   setRefFormManager?: (formManager: FormManager) => void;
   showControls: boolean;
 }
 
-export interface IFormWrappedProps extends IFormProps, IWrappedFormProps {}
+export interface IFormWrappedProps extends IFormProps, FormComponentProps {}
 
 @autoBindMethods
 @observer
@@ -80,7 +81,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       } = this.props
       , submitProps: ButtonProps = {
         children: saveText,
-        disabled: this.formManager.submitButtonDisabled,
+        disabled: this.formManager.isSubmitButtonDisabled,
         htmlType: 'submit',
         loading: this.formManager.saving,
         size: 'large',
@@ -95,7 +96,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       <ButtonToolbar align='right' noSpacing>
         {onCancel && (
           <Antd.Button
-            disabled={this.formManager.saving}
+            disabled={this.formManager.isCancelButtonDisabled}
             onClick={onCancel}
             size='large'
           >

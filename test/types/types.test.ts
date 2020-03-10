@@ -72,14 +72,19 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
     });
 
     it('Handles disabled prop', async () => {
-      const onSave = jest.fn()
-        , requiredFieldConfig = { ...fieldConfig, disabled: true }
-        , props = { fieldSets: [[requiredFieldConfig]], model, onSave }
-        ;
+      const getHTMLFor = async (disabled: boolean): Promise<string> => {
+        const onSave = jest.fn()
+          , requiredFieldConfig = { ...fieldConfig, disabled }
+          , props = { fieldSets: [[requiredFieldConfig]], model, onSave }
+          ;
 
-      const tester = await new Tester(Form, { props }).mount({ async: true });
+        const tester = await new Tester(Form, { props }).mount({ async: true });
+        return tester.html();
+      };
+
       // a simplistic way of testing if Ant Design puts a `-disabled` class on its component
-      expect(tester.html()).toContain('disabled');
+      expect((await getHTMLFor(true))).toContain('disabled');
+      expect((await getHTMLFor(false))).not.toContain('disabled');
     });
   });
 });

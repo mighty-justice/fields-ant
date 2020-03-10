@@ -118,17 +118,17 @@ export function renderLabel (fieldConfig: IFieldConfig): React.ReactNode {
   return label;
 }
 
-type IColumns = Array<ColumnProps<IModel>>;
+export type IColumns = Array<ColumnProps<IModel> & { key: string }>;
 
 export function fieldSetsToColumns (fieldSets: IFieldSetPartial[], tableModel: IModel[] = []): IColumns {
   return getFieldSetsFields(fillInFieldSets(fieldSets))
     .filter(fieldConfig => !filterFieldConfig(fieldConfig, { model: tableModel, writeOnly: true }))
     .map(fieldConfig => ({
       dataIndex: fieldConfig.field,
-      key: fieldConfig.field,
       render: (value: IValue, model: IModel) => fieldConfig.render(value, fieldConfig, model),
       title: renderLabel(fieldConfig),
       ...fieldConfig.tableColumnProps,
+      key: fieldConfig.field,
     }));
 }
 

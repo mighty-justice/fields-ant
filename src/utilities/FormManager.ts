@@ -1,3 +1,4 @@
+import { ComponentClass } from 'react';
 import { observable } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
 import flattenObject from 'flat';
@@ -13,13 +14,15 @@ import {
 } from 'lodash';
 
 import * as Antd from 'antd';
+import { WrappedFormUtils } from 'antd/es/form/Form';
 
+import { ID_ATTR } from '../consts';
 import { IFieldConfig, IFieldSet } from '../interfaces';
-import { IForm, IModel } from '../props';
+import { IFormWrappedProps } from '../components/Form';
+import { IModel, IValue } from '../props';
 
 import backendValidation from './backendValidation';
 import { getFieldSetsFields, modelFromFieldConfigs } from './common';
-import { ID_ATTR } from '../consts';
 
 export interface IFoundOnForm { [key: string]: string; }
 export interface IErrorMessage { field: string; message: string; }
@@ -40,11 +43,7 @@ interface IArgs {
   successText: null | string;
 }
 
-interface IFormWrappedInstance {
-  props: {
-    form: IForm,
-  };
-}
+type IFormWrappedInstance = InstanceType<ComponentClass<IFormWrappedProps>>;
 
 export const ERROR_WITH_DESCRIPTION = [
   httpStatus.BAD_REQUEST,
@@ -80,20 +79,24 @@ class FormManager {
     };
   }
 
-  public get form () {
+  public get form (): WrappedFormUtils {
     // The form prop continuously changes identity, so we can't just save it locally
     return this.formWrappedInstance.props.form;
   }
 
-  public get fieldConfigs () {
+  public get fieldConfigs (): IFieldConfig[] {
     return getFieldSetsFields(this.args.fieldSets);
   }
 
-  public get submitButtonDisabled () {
+  public get isSubmitButtonDisabled (): boolean {
     return this.hasErrors();
   }
 
-  public getDefaultValue (fieldConfig: IFieldConfig) {
+  public get isCancelButtonDisabled (): boolean {
+    return this.saving;
+  }
+
+  public getDefaultValue (fieldConfig: IFieldConfig): IValue {
     const { model, defaults } = this.args
       , modelToValue = (from: IModel) => get(from, fieldConfig.field)
       , modelToForm = (from: IModel) => fieldConfig.toForm(modelToValue(from), fieldConfig)
@@ -114,7 +117,7 @@ class FormManager {
     return modelToForm({ ...model, ...defaults });
   }
 
-  public getFormValue (fieldConfig: IFieldConfig, formValues: IModel) {
+  public getFormValue (fieldConfig: IFieldConfig, formValues: IModel): IValue {
     const formValue = get(formValues, fieldConfig.field)
       , convertedValue = fieldConfig.fromForm(formValue, fieldConfig)
       ;

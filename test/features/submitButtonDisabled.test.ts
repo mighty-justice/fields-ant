@@ -11,8 +11,31 @@ const SUPPORTING_COMPONENTS = [
   'FormModal',
 ];
 
+const isSubmitDisabled = (tester: any): boolean => (
+    !!tester.find('.ant-btn-primary[disabled=true]').length
+  )
+  , isSubmitLoading = (tester: any): boolean => (
+    !!tester.find('.ant-btn-loading').length
+  )
+  , isInvalid = (tester: any): boolean => (
+    isSubmitDisabled(tester) && !isSubmitLoading(tester)
+  )
+  , isNotSubmitting = (tester: any): boolean => (
+    // Not the same as !isSubmitting, since both have to be false
+    !isSubmitDisabled(tester) && !isSubmitLoading(tester)
+  )
+  , clickSubmit = async (tester: any): Promise<void> => {
+    // await tester.refresh();
+    expect(isSubmitDisabled(tester)).toBe(false);
+    tester.click(tester.find('.ant-btn-primary'));
+  }
+  , changeInput = async (tester: any, value: any): Promise<void> => {
+    tester.changeInput('input', value);
+  }
+  ;
+
 // Tests whether submit button correctly enables and disables.
-describe('submitButtonDisabled', () => {
+describe('isSubmitButtonDisabled', () => {
   SUPPORTING_COMPONENTS.forEach(componentName => {
     it(`Submit button correctly disables in ${componentName}`, async () => {
       const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName]
@@ -23,15 +46,15 @@ describe('submitButtonDisabled', () => {
         });
 
       const tester = await new Tester(ComponentClass, { props }).mount();
-      expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(0);
+      expect(isInvalid(tester)).toBe(false);
 
-      tester.changeInput('input', null);
-      tester.click(tester.find('.ant-btn-primary'));
-      expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(1);
+      await changeInput(tester, null);
+      await tester.refresh();
+      expect(isInvalid(tester)).toBe(true);
 
-      tester.changeInput('input', name);
-      tester.click(tester.find('.ant-btn-primary'));
-      expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(0);
+      await changeInput(tester, name);
+      clickSubmit(tester);
+      expect(isSubmitDisabled(tester)).toBe(false);
     });
 
     it(`Submit button correctly disables in nested forms on ${componentName}`, async () => {
@@ -41,11 +64,11 @@ describe('submitButtonDisabled', () => {
         });
 
       const tester = await new Tester(ComponentClass, { props }).mount();
-      expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(0);
+      expect(isNotSubmitting(tester)).toBe(true);
 
-      tester.changeInput('input', 'Name');
-      tester.click(tester.find('.ant-btn-primary'));
-      expect(tester.find('.ant-btn-primary[disabled=true]').length).toBe(0);
+      await changeInput(tester, 'Name');
+      clickSubmit(tester);
+      expect(isSubmitDisabled(tester)).toBe(false);
     });
   });
 });
