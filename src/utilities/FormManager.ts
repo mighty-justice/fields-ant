@@ -60,7 +60,7 @@ export const toastError = {
 
 @autoBindMethods
 class FormManager {
-  @observable public saving = false;
+  @observable public isSaving = false;
   private args: IArgs;
   public formWrappedInstance: IFormWrappedInstance;
 
@@ -93,7 +93,7 @@ class FormManager {
   }
 
   public get isCancelButtonDisabled (): boolean {
-    return this.saving;
+    return this.isSaving;
   }
 
   public getDefaultValue (fieldConfig: IFieldConfig): IValue {
@@ -261,8 +261,8 @@ class FormManager {
     sure we don't try to submit an un-validated form.
     */
     const { onSave } = this.args;
-    this.saving = true;
-    if (errors) { this.saving = false; return; }
+    this.isSaving = true;
+    if (errors) { this.isSaving = false; return; }
 
     try {
       await onSave(this.submitModel);
@@ -275,14 +275,14 @@ class FormManager {
       this.handleRequestError(error);
     }
     finally {
-      this.saving = false;
+      this.isSaving = false;
     }
   }
 
   public async onSave (event: any) {
     event.preventDefault();
 
-    this.saving = true;
+    this.isSaving = true;
     this.form.validateFields(this.validateThenSaveCallback);
   }
 }

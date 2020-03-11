@@ -83,7 +83,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
         children: saveText,
         disabled: this.formManager.isSubmitButtonDisabled,
         htmlType: 'submit',
-        loading: this.formManager.saving,
+        loading: this.formManager.isSaving,
         size: 'large',
         type: 'primary',
       };
