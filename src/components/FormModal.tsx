@@ -5,6 +5,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import { noop, omit } from 'lodash';
 
 import * as Antd from 'antd';
+import { ModalProps } from 'antd/es/modal';
 
 import { FormManager } from '../utilities';
 import { formPropsDefaults } from '../propsDefaults';
@@ -47,11 +48,12 @@ class FormModal extends Component<ISharedFormModalProps> {
     if (isVisible && !onSuccess) { isVisible.setFalse(); }
   }
 
-  private get modalProps () {
+  private get modalProps (): Partial<ModalProps> {
     const { cancelText, saveText, className } = this.props;
 
     if (!this.formManager) {
       return {
+        cancelButtonProps: { disabled: true },
         cancelText,
         className,
         confirmLoading: true,
@@ -61,13 +63,21 @@ class FormModal extends Component<ISharedFormModalProps> {
       };
     }
 
+    const {
+      isCancelButtonDisabled,
+      isSubmitButtonDisabled,
+      onSave,
+      isSaving,
+    } = this.formManager;
+
     return {
+      cancelButtonProps: { disabled: isCancelButtonDisabled },
       cancelText,
       className,
-      confirmLoading: this.formManager.saving,
-      okButtonProps: { disabled: this.formManager.submitButtonDisabled },
-      okText: this.formManager.saving ? 'Saving...' : saveText,
-      onOk: this.formManager.onSave,
+      confirmLoading: isSaving,
+      okButtonProps: { disabled: isSubmitButtonDisabled },
+      okText: isSaving ? 'Saving...' : saveText,
+      onOk: onSave,
     };
   }
 

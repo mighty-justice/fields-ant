@@ -5,7 +5,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import { omit, debounce, get, uniqBy } from 'lodash';
 
 import * as Antd from 'antd';
-import { SelectProps } from 'antd/lib/select';
+import { SelectProps } from 'antd/es/select';
 
 import { toKey } from '@mighty-justice/utils';
 import SmartBool from '@mighty-justice/smart-bool';
@@ -287,13 +287,13 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   public render () {
-    const { id, onAddNew, searchOnEmpty } = this.injected
+    const { id, onAddNew, searchOnEmpty, disabled } = this.injected
       , isLoading = this.isLoading.isTrue
       , canSearch = this.hasSearch || searchOnEmpty
       , showNoResultsOption = canSearch && !isLoading && !this.hasOptions
       , showAddOption = this.hasSearch && onAddNew
       , showNoSearch = !this.hasSearch
-      , { label, showLabel, disabled } = this.fieldConfig
+      , { label, showLabel } = this.fieldConfig
       , placeholderLabel = (showLabel && label) ? ` ${label}` : ''
       , placeholder = `Search${placeholderLabel}...`
       ;

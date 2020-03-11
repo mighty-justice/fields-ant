@@ -5,9 +5,8 @@ import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 
 import * as Antd from 'antd';
-import { ColumnProps } from 'antd/lib/table/interface';
 
-import { fieldSetsToColumns } from '../utilities';
+import { fieldSetsToColumns, IColumns } from '../utilities';
 import { IModel, ISharedComponentProps } from '../props';
 
 export interface ITableProps extends ISharedComponentProps {
@@ -18,7 +17,7 @@ export interface ITableProps extends ISharedComponentProps {
 @observer
 class Table extends Component<ITableProps> {
   @computed
-  private get columns (): Array<ColumnProps<IModel>> {
+  private get columns (): IColumns {
     return fieldSetsToColumns(this.props.fieldSets, this.props.model);
   }
 

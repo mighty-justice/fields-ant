@@ -36,7 +36,6 @@ import SmartBool from '@mighty-justice/smart-bool';
 import React from 'react';
 
 export type IClassName = any;
-export type IForm = any;
 export type IValue = any;
 
 export interface IModel {
@@ -52,10 +51,6 @@ export interface ISharedComponentProps {
   isLoading?: boolean;
   model?: IModel;
   title?: string;
-}
-
-export interface IWrappedFormProps {
-  form: IForm;
 }
 
 export interface ISharedFormProps {

@@ -1,3 +1,4 @@
+import { ComponentClass } from 'react';
 import { observable } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
 import flattenObject from 'flat';
@@ -13,13 +14,15 @@ import {
 } from 'lodash';
 
 import * as Antd from 'antd';
+import { WrappedFormUtils } from 'antd/es/form/Form';
 
+import { ID_ATTR } from '../consts';
 import { IFieldConfig, IFieldSet } from '../interfaces';
-import { IForm, IModel } from '../props';
+import { IFormWrappedProps } from '../components/Form';
+import { IModel, IValue } from '../props';
 
 import backendValidation from './backendValidation';
 import { getFieldSetsFields, modelFromFieldConfigs } from './common';
-import { ID_ATTR } from '../consts';
 
 export interface IFoundOnForm { [key: string]: string; }
 export interface IErrorMessage { field: string; message: string; }
@@ -40,11 +43,7 @@ interface IArgs {
   successText: null | string;
 }
 
-interface IFormWrappedInstance {
-  props: {
-    form: IForm,
-  };
-}
+type IFormWrappedInstance = InstanceType<ComponentClass<IFormWrappedProps>>;
 
 export const ERROR_WITH_DESCRIPTION = [
   httpStatus.BAD_REQUEST,
@@ -61,7 +60,7 @@ export const toastError = {
 
 @autoBindMethods
 class FormManager {
-  @observable public saving = false;
+  @observable public isSaving = false;
   private args: IArgs;
   public formWrappedInstance: IFormWrappedInstance;
 
@@ -80,20 +79,24 @@ class FormManager {
     };
   }
 
-  public get form () {
+  public get form (): WrappedFormUtils {
     // The form prop continuously changes identity, so we can't just save it locally
     return this.formWrappedInstance.props.form;
   }
 
-  public get fieldConfigs () {
+  public get fieldConfigs (): IFieldConfig[] {
     return getFieldSetsFields(this.args.fieldSets);
   }
 
-  public get submitButtonDisabled () {
+  public get isSubmitButtonDisabled (): boolean {
     return this.hasErrors();
   }
 
-  public getDefaultValue (fieldConfig: IFieldConfig) {
+  public get isCancelButtonDisabled (): boolean {
+    return this.isSaving;
+  }
+
+  public getDefaultValue (fieldConfig: IFieldConfig): IValue {
     const { model, defaults } = this.args
       , modelToValue = (from: IModel) => get(from, fieldConfig.field)
       , modelToForm = (from: IModel) => fieldConfig.toForm(modelToValue(from), fieldConfig)
@@ -114,7 +117,7 @@ class FormManager {
     return modelToForm({ ...model, ...defaults });
   }
 
-  public getFormValue (fieldConfig: IFieldConfig, formValues: IModel) {
+  public getFormValue (fieldConfig: IFieldConfig, formValues: IModel): IValue {
     const formValue = get(formValues, fieldConfig.field)
       , convertedValue = fieldConfig.fromForm(formValue, fieldConfig)
       ;
@@ -258,8 +261,8 @@ class FormManager {
     sure we don't try to submit an un-validated form.
     */
     const { onSave } = this.args;
-    this.saving = true;
-    if (errors) { this.saving = false; return; }
+    this.isSaving = true;
+    if (errors) { this.isSaving = false; return; }
 
     try {
       await onSave(this.submitModel);
@@ -272,14 +275,14 @@ class FormManager {
       this.handleRequestError(error);
     }
     finally {
-      this.saving = false;
+      this.isSaving = false;
     }
   }
 
   public async onSave (event: any) {
     event.preventDefault();
 
-    this.saving = true;
+    this.isSaving = true;
     this.form.validateFields(this.validateThenSaveCallback);
   }
 }

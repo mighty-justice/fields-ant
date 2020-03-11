@@ -4,7 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import { values, omit, get } from 'lodash';
 
 import * as Antd from 'antd';
-import { ValidationRule as AntValidationRule } from 'antd/lib/form';
+import { ValidationRule as AntValidationRule } from 'antd/es/form';
 
 import { FormManager, noopValidator, renderLabel } from '../utilities';
 import { IFieldConfig, IFieldsValidator } from '../interfaces';

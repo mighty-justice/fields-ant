@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react';
 import { FormCard, IFieldConfigObjectSearchCreate } from '../src';
 import { withInfoConfigured } from '../.storybook/config';
 import { objectSearchCreateFactory, formCardPropsFactory } from '../test/factories';
-import { ColProps } from 'antd/lib/grid';
+import { ColProps } from 'antd/es/grid';
 import { IModel } from '../src/props';
 
 storiesOf('Features', module)

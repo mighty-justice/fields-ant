@@ -141,7 +141,7 @@ describe('FormManager', () => {
       ;
 
     // Submit button should initially be enabled
-    expect(formManager.submitButtonDisabled).toBe(false);
+    expect(formManager.isSubmitButtonDisabled).toBe(false);
     expect(formManager.formModel[field]).toBe(THROW_BACKEND_ERROR);
 
     await tester.submit();
@@ -149,12 +149,12 @@ describe('FormManager', () => {
     expect(onSuccess).not.toHaveBeenCalled();
 
     // Submit button should disable on backend validation error
-    expect(formManager.submitButtonDisabled).toBe(true);
+    expect(formManager.isSubmitButtonDisabled).toBe(true);
     expect(formManager.formModel[field]).toBe(THROW_BACKEND_ERROR);
 
     // Submit button should re-enable on field change
     tester.changeInput(`input[id="${field}"]`, '');
-    expect(formManager.submitButtonDisabled).toBe(false);
+    expect(formManager.isSubmitButtonDisabled).toBe(false);
     expect(formManager.formModel[field]).toBe('');
 
     await tester.submit();
@@ -184,7 +184,7 @@ describe('FormManager', () => {
       ;
 
     // Submit button should initially be enabled
-    expect(formManager.submitButtonDisabled).toBe(false);
+    expect(formManager.isSubmitButtonDisabled).toBe(false);
     expect(formManager.formModel.plaintiff.first_name).toBe(THROW_BACKEND_ERROR);
 
     await tester.submit();
@@ -192,12 +192,12 @@ describe('FormManager', () => {
     expect(onSuccess).not.toHaveBeenCalled();
 
     // Submit button should disable on backend validation error
-    expect(formManager.submitButtonDisabled).toBe(true);
+    expect(formManager.isSubmitButtonDisabled).toBe(true);
     expect(formManager.formModel.plaintiff.first_name).toBe(THROW_BACKEND_ERROR);
 
     // Submit button should re-enable on field change
     tester.changeInput(`input[id="${field}"]`, '');
-    expect(formManager.submitButtonDisabled).toBe(false);
+    expect(formManager.isSubmitButtonDisabled).toBe(false);
     expect(formManager.formModel.plaintiff.first_name).toBe('');
 
     await tester.submit();
