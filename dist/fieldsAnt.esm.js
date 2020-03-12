@@ -741,6 +741,7 @@ function (_Component) {
           id = _this$injected3.id,
           onAddNew = _this$injected3.onAddNew,
           searchOnEmpty = _this$injected3.searchOnEmpty,
+          disabled = _this$injected3.disabled,
           isLoading = this.isLoading.isTrue,
           canSearch = this.hasSearch || searchOnEmpty,
           showNoResultsOption = canSearch && !isLoading && !this.hasOptions,
@@ -749,7 +750,6 @@ function (_Component) {
           _this$fieldConfig3 = this.fieldConfig,
           label = _this$fieldConfig3.label,
           showLabel = _this$fieldConfig3.showLabel,
-          disabled = _this$fieldConfig3.disabled,
           placeholderLabel = showLabel && label ? " ".concat(label) : '',
           placeholder = "Search".concat(placeholderLabel, "...");
       return React.createElement(Select, _extends({
@@ -1077,7 +1077,7 @@ function (_Component) {
   }, {
     key: "objectSearchProps",
     get: function get() {
-      return pick(this.props, ['addNewContent', 'debounceWait', 'fieldConfig', 'isOptionDisabled', 'loadingIcon', 'noSearchContent', 'searchIcon', 'searchOnEmpty', 'selectProps']);
+      return pick(this.props, ['addNewContent', 'debounceWait', 'disabled', 'fieldConfig', 'isOptionDisabled', 'loadingIcon', 'noSearchContent', 'searchIcon', 'searchOnEmpty', 'selectProps']);
     }
   }]);
 
@@ -2208,12 +2208,13 @@ function fieldSetsToColumns(fieldSets) {
   }).map(function (fieldConfig) {
     return _objectSpread2({
       dataIndex: fieldConfig.field,
-      key: fieldConfig.field,
       render: function render(value, model) {
         return fieldConfig.render(value, fieldConfig, model);
       },
       title: renderLabel(fieldConfig)
-    }, fieldConfig.tableColumnProps);
+    }, fieldConfig.tableColumnProps, {
+      key: fieldConfig.field
+    });
   });
 }
 
@@ -2380,7 +2381,7 @@ function () {
   function FormManager(formWrappedInstance, fieldSets, args) {
     _classCallCheck(this, FormManager);
 
-    _initializerDefineProperty(this, "saving", _descriptor$3, this);
+    _initializerDefineProperty(this, "isSaving", _descriptor$3, this);
 
     this.args = void 0;
     this.formWrappedInstance = void 0;
@@ -2561,14 +2562,14 @@ function () {
                 sure we don't try to submit an un-validated form.
                 */
                 onSave = this.args.onSave;
-                this.saving = true;
+                this.isSaving = true;
 
                 if (!errors) {
                   _context.next = 5;
                   break;
                 }
 
-                this.saving = false;
+                this.isSaving = false;
                 return _context.abrupt("return");
 
               case 5:
@@ -2593,7 +2594,7 @@ function () {
 
               case 15:
                 _context.prev = 15;
-                this.saving = false;
+                this.isSaving = false;
                 return _context.finish(15);
 
               case 18:
@@ -2621,7 +2622,7 @@ function () {
             switch (_context2.prev = _context2.next) {
               case 0:
                 event.preventDefault();
-                this.saving = true;
+                this.isSaving = true;
                 this.form.validateFields(this.validateThenSaveCallback);
 
               case 3:
@@ -2650,9 +2651,20 @@ function () {
       return getFieldSetsFields(this.args.fieldSets);
     }
   }, {
-    key: "submitButtonDisabled",
+    key: "isFormDisabled",
     get: function get() {
-      return this.hasErrors();
+      // The disabled prop can be changed any time, so we can't just save it locally
+      return this.isSaving || !!this.formWrappedInstance.props.disabled;
+    }
+  }, {
+    key: "isSubmitButtonDisabled",
+    get: function get() {
+      return this.hasErrors() || this.isFormDisabled;
+    }
+  }, {
+    key: "isCancelButtonDisabled",
+    get: function get() {
+      return this.isFormDisabled;
     }
   }, {
     key: "formValues",
@@ -2710,7 +2722,7 @@ function () {
   }]);
 
   return FormManager;
-}(), _temp$5), (_descriptor$3 = _applyDecoratedDescriptor(_class2$6.prototype, "saving", [observable], {
+}(), _temp$5), (_descriptor$3 = _applyDecoratedDescriptor(_class2$6.prototype, "isSaving", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -2890,9 +2902,10 @@ function (_Component) {
         fieldConfig: fieldConfig,
         formManager: formManager,
         formModel: formModel
-      } : {};
+      } : {},
+          disabled = fieldConfig.disabled || formManager.isFormDisabled;
       return _objectSpread2({
-        disabled: fieldConfig.disabled
+        disabled: disabled
       }, fieldConfig.editProps, {}, fieldConfigProp);
     }
   }, {
@@ -3386,11 +3399,14 @@ function (_Component) {
           cancelText = _this$props.cancelText,
           onCancel = _this$props.onCancel,
           saveText = _this$props.saveText,
+          _this$formManager = this.formManager,
+          isSaving = _this$formManager.isSaving,
+          isSubmitButtonDisabled = _this$formManager.isSubmitButtonDisabled,
           submitProps = {
-        children: saveText,
-        disabled: this.formManager.submitButtonDisabled,
+        children: isSaving ? 'Saving...' : saveText,
+        disabled: isSubmitButtonDisabled,
         htmlType: 'submit',
-        loading: this.formManager.saving,
+        loading: isSaving,
         size: 'large',
         type: 'primary'
       };
@@ -3405,7 +3421,7 @@ function (_Component) {
         align: "right",
         noSpacing: true
       }, onCancel && React.createElement(Button, {
-        disabled: this.formManager.saving,
+        disabled: this.formManager.isCancelButtonDisabled,
         onClick: onCancel,
         size: "large"
       }, cancelText), React.createElement(Button, submitProps));
@@ -4089,6 +4105,9 @@ function (_Component) {
 
       if (!this.formManager) {
         return {
+          cancelButtonProps: {
+            disabled: true
+          },
           cancelText: cancelText,
           className: className,
           confirmLoading: true,
@@ -4100,15 +4119,23 @@ function (_Component) {
         };
       }
 
+      var _this$formManager = this.formManager,
+          isCancelButtonDisabled = _this$formManager.isCancelButtonDisabled,
+          isSubmitButtonDisabled = _this$formManager.isSubmitButtonDisabled,
+          onSave = _this$formManager.onSave,
+          isSaving = _this$formManager.isSaving;
       return {
+        cancelButtonProps: {
+          disabled: isCancelButtonDisabled
+        },
         cancelText: cancelText,
         className: className,
-        confirmLoading: this.formManager.saving,
+        confirmLoading: isSaving,
         okButtonProps: {
-          disabled: this.formManager.submitButtonDisabled
+          disabled: isSubmitButtonDisabled
         },
-        okText: this.formManager.saving ? 'Saving...' : saveText,
-        onOk: this.formManager.onSave
+        okText: isSaving ? 'Saving...' : saveText,
+        onOk: onSave
       };
     }
   }]);

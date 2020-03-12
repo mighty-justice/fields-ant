@@ -19,7 +19,6 @@ import { IFieldSet, IFieldSetPartial } from './interfaces';
 import SmartBool from '@mighty-justice/smart-bool';
 import React from 'react';
 export declare type IClassName = any;
-export declare type IForm = any;
 export declare type IValue = any;
 export interface IModel {
     [key: string]: any;
@@ -34,13 +33,11 @@ export interface ISharedComponentProps {
     model?: IModel;
     title?: string;
 }
-export interface IWrappedFormProps {
-    form: IForm;
-}
 export interface ISharedFormProps {
     blockSubmit?: boolean;
     cancelText: string;
     defaults?: object;
+    disabled?: boolean;
     isGuarded?: boolean;
     onCancel?: () => void;
     onSave: (data: object) => any | Promise<any>;

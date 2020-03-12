@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SelectProps } from 'antd/lib/select';
+import { SelectProps } from 'antd/es/select';
 import { FormManager, IEndpointOption, IFieldConfig, IFieldConfigObjectSearchCreate } from '../';
 import { IModel } from '../props';
 export declare function isTypeObjectSearchCreate(fieldConfig: IFieldConfig): fieldConfig is IFieldConfigObjectSearchCreate;

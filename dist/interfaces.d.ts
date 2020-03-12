@@ -1,9 +1,9 @@
 /// <reference types="react" />
-import { ColProps } from 'antd/lib/col';
+import { ColProps } from 'antd/es/col';
 import { ColumnProps } from 'antd/es/table';
-import { RowProps } from 'antd/lib/row';
-import { IForm, IModel, IValue } from './props';
-import { ValidationRule as AntValidationRule, FormItemProps } from 'antd/lib/form';
+import { RowProps } from 'antd/es/row';
+import { ValidationRule as AntValidationRule, FormItemProps } from 'antd/es/form';
+import { IModel, IValue } from './props';
 import { FormManager } from './utilities';
 export declare type IFieldsValidator = (value: IValue, fieldConfig: IFieldConfig, model: IModel) => boolean;
 export interface IValidationRule extends AntValidationRule {
@@ -45,6 +45,7 @@ interface IFieldConfigBase {
     writeOnly: boolean;
 }
 export interface IAntFormField {
+    disabled: boolean;
     id: string;
     onChange: (value: IValue) => void;
     value: IValue;
@@ -99,12 +100,10 @@ export interface IInjected {
 }
 export interface IInputProps {
     fieldConfig: IFieldConfig;
-    form: IForm;
     formManager: FormManager;
 }
 export interface ICheckboxProps extends IInputProps {
     description?: string;
-    disabled?: boolean;
     disabledText?: string;
 }
 export interface IEndpointOption {

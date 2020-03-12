@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SelectProps } from 'antd/lib/select';
+import { SelectProps } from 'antd/es/select';
 import { IEndpointOption, IFieldConfigObjectSearchCreate } from '../';
 import { IValue } from '../props';
 export interface IObjectSearchProps {

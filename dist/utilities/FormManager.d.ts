@@ -1,5 +1,8 @@
+import { ComponentClass } from 'react';
+import { WrappedFormUtils } from 'antd/es/form/Form';
 import { IFieldConfig, IFieldSet } from '../interfaces';
-import { IForm, IModel } from '../props';
+import { IFormWrappedProps } from '../components/Form';
+import { IModel, IValue } from '../props';
 export interface IFoundOnForm {
     [key: string]: string;
 }
@@ -21,11 +24,7 @@ interface IArgs {
     resetOnSuccess: boolean;
     successText: null | string;
 }
-interface IFormWrappedInstance {
-    props: {
-        form: IForm;
-    };
-}
+declare type IFormWrappedInstance = InstanceType<ComponentClass<IFormWrappedProps>>;
 export declare const ERROR_WITH_DESCRIPTION: number[];
 export declare const toastError: {
     description: string;
@@ -33,15 +32,17 @@ export declare const toastError: {
     message: string;
 };
 declare class FormManager {
-    saving: boolean;
+    isSaving: boolean;
     private args;
     formWrappedInstance: IFormWrappedInstance;
     constructor(formWrappedInstance: IFormWrappedInstance, fieldSets: IFieldSet[], args: Partial<IArgs>);
-    readonly form: any;
+    readonly form: WrappedFormUtils;
     readonly fieldConfigs: IFieldConfig[];
-    readonly submitButtonDisabled: boolean;
-    getDefaultValue(fieldConfig: IFieldConfig): any;
-    getFormValue(fieldConfig: IFieldConfig, formValues: IModel): any;
+    readonly isFormDisabled: boolean;
+    readonly isSubmitButtonDisabled: boolean;
+    readonly isCancelButtonDisabled: boolean;
+    getDefaultValue(fieldConfig: IFieldConfig): IValue;
+    getFormValue(fieldConfig: IFieldConfig, formValues: IModel): IValue;
     private readonly formValues;
     readonly formModel: IModel;
     readonly submitModel: IModel;

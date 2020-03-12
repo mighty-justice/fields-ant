@@ -1,7 +1,7 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { IInputProps } from '../interfaces';
 declare class Hidden extends Component<IInputProps> {
     private readonly injected;
-    render(): any;
+    render(): React.ReactNode;
 }
 export default Hidden;
