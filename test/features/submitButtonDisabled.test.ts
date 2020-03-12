@@ -25,7 +25,7 @@ const isSubmitDisabled = (tester: any): boolean => (
     !isSubmitDisabled(tester) && !isSubmitLoading(tester)
   )
   , clickSubmit = async (tester: any): Promise<void> => {
-    // await tester.refresh();
+    await tester.refresh();
     expect(isSubmitDisabled(tester)).toBe(false);
     tester.click(tester.find('.ant-btn-primary'));
   }
