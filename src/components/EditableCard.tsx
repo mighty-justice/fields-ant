@@ -63,7 +63,7 @@ class EditableCard extends Component<IEditableCardProps> {
     return (
       <GuardedButton
         className={`btn-delete btn-delete-${classNameSuffix}`}
-        confirm={true}
+        confirm
         disabled={isLoading || this.isDeleting.isTrue}
         icon='delete'
         isGuarded={isGuarded}

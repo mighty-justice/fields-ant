@@ -96,7 +96,7 @@ class FormModal extends Component<ISharedFormModalProps> {
       <Antd.Modal
         onCancel={this.onCancel}
         title={title}
-        visible={true}
+        visible
         width={width}
         {...this.modalProps}
       >

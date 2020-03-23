@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import * as Antd from 'antd';
 
 import { fillInFieldConfig, filterFieldConfig, renderLabel, renderValue } from '../utilities';
 import { IFieldConfigPartial } from '../interfaces';
 import { IModel } from '../props';
-
-import Info, { Label, Value } from './Info';
 
 export interface ICardFieldProps {
   fieldConfig: IFieldConfigPartial;
@@ -26,7 +25,6 @@ class CardField extends Component<ICardFieldProps> {
     const { model } = this.props
       , fieldConfig = this.fieldConfig
       , { field, showLabel } = fieldConfig
-      , renderWithoutStructure = !showLabel
       ;
 
     if (filterFieldConfig(fieldConfig, { model, writeOnly: true })) {
@@ -34,16 +32,12 @@ class CardField extends Component<ICardFieldProps> {
     }
 
     return (
-      <Info key={field}>
-        {renderWithoutStructure
-          ? renderValue(fieldConfig, model)
-          : (
-            <>
-              <Label>{renderLabel(fieldConfig)}</Label>
-              <Value>{renderValue(fieldConfig, model)}</Value>
-            </>
-          )}
-      </Info>
+      <Antd.Descriptions.Item
+        label={showLabel && renderLabel(fieldConfig)}
+        key={field}
+      >
+        {renderValue(fieldConfig, model)}
+      </Antd.Descriptions.Item>
     );
   }
 }

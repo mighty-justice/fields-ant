@@ -22,11 +22,7 @@ class Legend extends Component<IProps> {
 
     if (!legend) { return null; }
 
-    return (
-      <h3>
-        <WithTooltip tooltip={tooltip}>{legend}</WithTooltip>
-      </h3>
-    );
+    return <WithTooltip tooltip={tooltip}>{legend}</WithTooltip>;
   }
 }
 

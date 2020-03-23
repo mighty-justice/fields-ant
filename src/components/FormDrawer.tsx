@@ -60,7 +60,7 @@ class FormDrawer extends Component<ISharedFormModalProps> {
         onClose={this.onCancel}
         placement='right'
         title={title}
-        visible={true}
+        visible
         width={width || '600px'}
       >
         {this.props.childrenBefore}

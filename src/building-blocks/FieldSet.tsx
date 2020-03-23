@@ -7,8 +7,8 @@ import * as Antd from 'antd';
 
 import { IFieldSetPartial } from '../interfaces';
 import { IClassName } from '../props';
-import { isPartialFieldSetSimple } from '../utilities';
 import { CLASS_PREFIX } from '../consts';
+// import { isPartialFieldSetSimple } from '../utilities';
 
 import Legend from './Legend';
 
@@ -24,16 +24,18 @@ const CLASS_NAME = `${CLASS_PREFIX}-field-set`;
 export default class FieldSet extends Component<IProps> {
   public render () {
     const { className, fieldSet } = this.props
-      , rowProps = !isPartialFieldSetSimple(fieldSet) && fieldSet.rowProps
+      // , rowProps = !isPartialFieldSetSimple(fieldSet) && fieldSet.rowProps
       ;
 
     return (
       <div className={cx(CLASS_NAME, className)}>
-        <Antd.Row {...rowProps}>
-          <Legend fieldSet={fieldSet} />
-
+        <Antd.Descriptions
+          colon={false}
+          layout='vertical'
+          title={<Legend fieldSet={fieldSet} />}
+        >
           {this.props.children}
-        </Antd.Row>
+        </Antd.Descriptions>
       </div>
     );
   }
