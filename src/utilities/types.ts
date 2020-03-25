@@ -253,7 +253,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   text: {
     editComponent: Antd.Input.TextArea,
     editProps: {
-      autosize: { minRows: 4 },
+      autoSize: { minRows: 4 },
     },
     render: passRenderOnlyValue(parseAndPreserveNewlines),
   },

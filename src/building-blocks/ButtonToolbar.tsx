@@ -16,14 +16,16 @@ export interface IButtonToolbarProps {
 @observer
 class ButtonToolbar extends Component<IButtonToolbarProps> {
   public render () {
-    const className = cx(
+    const { noSpacing, align, fixed, className, ...passDownProps } = this.props
+      , classNames = cx(
       'button-toolbar',
-      this.props.align ? `align-${this.props.align}` : null,
-      {'no-spacing': this.props.noSpacing},
-      {[`position-fixed`]: this.props.fixed},
-      this.props.className,
+      align && `align-${align}`,
+      {'no-spacing': noSpacing},
+      {[`position-fixed`]: fixed},
+      className,
     );
-    return <Form.Item {...this.props} className={className}>{this.props.children}</Form.Item>;
+
+    return <Form.Item {...passDownProps} className={classNames}>{this.props.children}</Form.Item>;
   }
 }
 
