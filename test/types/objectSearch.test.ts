@@ -66,9 +66,9 @@ export async function objectSearchFor (tester: any, field: string, results: any,
   tester.endpoints['/legal-organizations/'] = { results };
 
   // Change input without blurring
-  const component = tester.find(`input#${field}`).first();
-  component.simulate('focus');
-  component.simulate('change', { target: { value: searchTerm } });
+  const input = tester.find(`input#${field}`).first();
+  input.simulate('focus');
+  input.simulate('change', { target: { value: searchTerm } });
 
   await tester.refresh();
 }

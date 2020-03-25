@@ -288,13 +288,13 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   public render () {
     const { id, onAddNew, searchOnEmpty, disabled } = this.injected
-      , isLoading = this.isLoading.isTrue
-      , canSearch = this.hasSearch || searchOnEmpty
-      , showNoResultsOption = canSearch && !isLoading && !this.hasOptions
-      , showAddOption = this.hasSearch && onAddNew
-      , showNoSearch = !this.hasSearch
+      , isLoading: boolean = this.isLoading.isTrue
+      , canSearch: boolean = this.hasSearch || !!searchOnEmpty
+      , showNoResultsOption: boolean = canSearch && !isLoading && !this.hasOptions
+      , showAddOption: boolean = !!(this.hasSearch && onAddNew)
+      , showNoSearch: boolean = !this.hasSearch
       , { label, showLabel } = this.fieldConfig
-      , placeholderLabel = (showLabel && label) ? ` ${label}` : ''
+      , placeholderLabel: string = (showLabel && label) ? ` ${label}` : ''
       , placeholder = `Search${placeholderLabel}...`
       ;
 

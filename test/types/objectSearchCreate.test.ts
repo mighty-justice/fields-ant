@@ -67,7 +67,7 @@ describe('objectSearchCreate', () => {
     const { field, onSave, searchTerm, results, props, fakeOwed } = getDefaults({})
       , tester = await getTester(props) ;
 
-    tester.submit();
+    await tester.submit();
     expect(onSave).toHaveBeenCalledWith(props.model);
     onSave.mockClear();
 

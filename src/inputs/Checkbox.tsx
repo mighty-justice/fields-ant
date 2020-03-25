@@ -19,7 +19,7 @@ export default class Checkbox extends Component <ICheckboxProps> {
       , PROPS_TO_OMIT = ['description', 'value']
       , checkboxProps = {
         ...omit(this.props, PROPS_TO_OMIT),
-        checked: value,
+        checked: !!value,
       };
 
     return (
