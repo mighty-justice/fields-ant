@@ -8,13 +8,11 @@ import cx from 'classnames';
 import * as Antd from 'antd';
 
 import { fillInFieldSets, getFieldSetFields, renderValue } from '../utilities';
-import { IClassName } from '../props';
 import { IFieldConfig } from '../interfaces';
 
 import { ICardProps } from './Card';
 
 export interface ISummaryCardProps extends ICardProps {
-  className: IClassName;
   column: 3 | 4 | 6;
 }
 

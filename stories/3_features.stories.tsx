@@ -2,9 +2,9 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 
-import { FormCard, IFieldConfigObjectSearchCreate } from '../src';
+import { EditableCard, FormCard, IFieldConfigObjectSearchCreate } from '../src';
 import { withInfoConfigured } from '../.storybook/config';
-import { objectSearchCreateFactory, formCardPropsFactory } from '../test/factories';
+import { objectSearchCreateFactory, formCardPropsFactory, fieldFactory } from '../test/factories';
 import { ColProps } from 'antd/es/grid';
 import { IModel } from '../src/props';
 
@@ -48,6 +48,21 @@ storiesOf('Features', module)
           }},
         },
       ]]}
+    />
+  ))
+  .add('rowProps, colProps', () => (
+    <EditableCard
+      {...formCardPropsFactory.build()}
+      fieldSets={[{
+        fields: [
+          ...fieldFactory.buildList(6).map(fieldConfig => ({
+            ...fieldConfig,
+            colProps: { sm: 24, lg: 12 },
+          })),
+        ],
+        legend: 'Legend Text',
+        rowProps: { gutter: 16 },
+      }]}
     />
   ))
   ;

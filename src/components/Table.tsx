@@ -3,6 +3,7 @@ import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
+import cx from 'classnames';
 
 import * as Antd from 'antd';
 
@@ -34,11 +35,12 @@ class Table extends Component<ITableProps> {
   }
 
   public render () {
-    const { isLoading, title } = this.props;
+    const { isLoading, title, className } = this.props;
 
     return (
       <Antd.Table
         {...omit(this.props, 'title')}
+        className={cx(className)}
         columns={this.columns}
         dataSource={this.dataSource}
         loading={isLoading}

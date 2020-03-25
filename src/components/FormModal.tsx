@@ -3,6 +3,7 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { noop, omit } from 'lodash';
+import cx from 'classnames';
 
 import * as Antd from 'antd';
 import { ModalProps } from 'antd/es/modal';
@@ -49,7 +50,8 @@ class FormModal extends Component<ISharedFormModalProps> {
   }
 
   private get modalProps (): Partial<ModalProps> {
-    const { cancelText, saveText, className } = this.props;
+    const { cancelText, saveText } = this.props
+      , className = cx(this.props.className);
 
     if (!this.formManager) {
       return {

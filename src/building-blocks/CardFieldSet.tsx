@@ -1,9 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-
-import * as Antd from 'antd';
 
 import {
   fillInFieldSet,
@@ -15,11 +13,10 @@ import CardField from '../building-blocks/CardField';
 import { IFieldSetPartial } from '../interfaces';
 import { IModel } from '../props';
 
-import Legend from './Legend';
+import FieldSet from './FieldSet';
 
 export interface ICardFieldSetProps {
   fieldSet: IFieldSetPartial;
-  idx?: number;
   model?: IModel;
 }
 
@@ -33,7 +30,6 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
 
   public render () {
     const { model , fieldSet} = this.props
-      , idx = this.props.idx || 0
       , fieldConfigs = getFieldSetFields(this.fieldSet)
       , filteredFieldConfigs = filterFieldConfigs(fieldConfigs, { model, writeOnly: true })
       ;
@@ -43,11 +39,7 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
     }
 
     return (
-        <Fragment key={idx}>
-          {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
-
-          <Legend fieldSet={fieldSet} />
-
+        <FieldSet fieldSet={fieldSet}>
           {filteredFieldConfigs.map(fieldConfig => (
             <CardField
               fieldConfig={fieldConfig}
@@ -55,7 +47,7 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
               model={model}
             />
           ))}
-        </Fragment>
+        </FieldSet>
     );
   }
 }
