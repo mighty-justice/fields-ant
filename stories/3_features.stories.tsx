@@ -53,16 +53,38 @@ storiesOf('Features', module)
   .add('rowProps, colProps', () => (
     <EditableCard
       {...formCardPropsFactory.build()}
-      fieldSets={[{
-        fields: [
-          ...fieldFactory.buildList(6).map(fieldConfig => ({
-            ...fieldConfig,
-            colProps: { sm: 24, lg: 12 },
-          })),
-        ],
-        legend: 'Legend Text',
-        rowProps: { gutter: 16 },
-      }]}
+      fieldSets={[
+        {
+          fields: [
+            ...fieldFactory.buildList(6).map(fieldConfig => ({
+              ...fieldConfig,
+              colProps: { sm: 12, lg: 6 },
+            })),
+          ],
+          legend: 'Four across',
+          rowProps: { gutter: 16 },
+        },
+        {
+          fields: [
+            ...fieldFactory.buildList(6).map(fieldConfig => ({
+              ...fieldConfig,
+              colProps: { sm: 24, lg: 12 },
+            })),
+          ],
+          legend: 'Two across',
+          rowProps: { gutter: 16 },
+        },
+        {
+          fields: [
+            ...fieldFactory.buildList(6).map(fieldConfig => ({
+              ...fieldConfig,
+              colProps: { sm: 24, lg: 24 },
+            })),
+          ],
+          legend: 'One across',
+          rowProps: { gutter: 16 },
+        },
+      ]}
     />
   ))
   ;

@@ -8,6 +8,7 @@ import * as Antd from 'antd';
 import { IFieldSetPartial } from '../interfaces';
 import { IClassName } from '../props';
 import { isPartialFieldSetSimple } from '../utilities';
+import { CLASS_PREFIX } from '../consts';
 
 import Legend from './Legend';
 
@@ -15,6 +16,8 @@ interface IProps {
   fieldSet: IFieldSetPartial;
   className?: IClassName;
 }
+
+const CLASS_NAME = `${CLASS_PREFIX}-field-set`;
 
 @autoBindMethods
 @observer
@@ -25,11 +28,13 @@ export default class FieldSet extends Component<IProps> {
       ;
 
     return (
-      <Antd.Row {...rowProps} className={cx(className)}>
-        <Legend fieldSet={fieldSet} />
+      <div className={cx(CLASS_NAME, className)}>
+        <Antd.Row {...rowProps}>
+          <Legend fieldSet={fieldSet} />
 
-        {this.props.children}
-      </Antd.Row>
+          {this.props.children}
+        </Antd.Row>
+      </div>
     );
   }
 }

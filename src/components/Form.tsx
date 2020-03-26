@@ -1,5 +1,5 @@
 // tslint:disable max-classes-per-file
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
@@ -16,7 +16,6 @@ import {
   FormManager,
 } from '../utilities';
 import { formPropsDefaults } from '../propsDefaults';
-import { IFieldSet } from '../interfaces';
 import { ISharedFormProps, ISharedComponentProps } from '../props';
 
 export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
@@ -119,18 +118,13 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       <Antd.Form layout='vertical' onSubmit={this.formManager.onSave} className='mfa-form'>
         {title && <h2>{title}</h2>}
 
-        {filteredFieldSets.map((fieldSet: IFieldSet, idx: number) => (
-          <Fragment key={idx}>
-            {(idx > 0) && <Antd.Divider key={`divider-${idx}`} />}
-
-            <div>
-              <FormFieldSet
-                fieldSet={fieldSet}
-                formManager={this.formManager}
-                formModel={formModel}
-              />
-            </div>
-          </Fragment>
+        {filteredFieldSets.map((fieldSet, idx) => (
+          <FormFieldSet
+            fieldSet={fieldSet}
+            formManager={this.formManager}
+            formModel={formModel}
+            key={idx}
+          />
         ))}
 
         {this.props.children}

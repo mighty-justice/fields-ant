@@ -52,7 +52,6 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
         ))}
       </FieldSet>
     );
-
   }
 }
 

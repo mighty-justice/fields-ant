@@ -9,3 +9,5 @@ export const REGEXP_EIN = /^\d{2}[-\s]?\d{7}$/;
 export const ID_ATTR = 'id';
 
 export const DEFAULT_STATE_OPTION_TYPE = 'us_states';
+
+export const CLASS_PREFIX = 'fields-ant';
