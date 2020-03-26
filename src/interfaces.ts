@@ -3,7 +3,7 @@ import { ColumnProps } from 'antd/es/table';
 import { RowProps } from 'antd/es/row';
 import { ValidationRule as AntValidationRule, FormItemProps } from 'antd/es/form';
 
-import { IModel, IValue } from './props';
+import { IClassName, IModel, IValue } from './props';
 import { FormManager } from './utilities';
 
 export type IFieldsValidator = (value: IValue, fieldConfig: IFieldConfig, model: IModel) => boolean;
@@ -13,7 +13,7 @@ export interface IValidationRule extends AntValidationRule {
 }
 
 interface IFieldConfigBase {
-  className?: string;
+  className?: IClassName;
   colProps?: ColProps;
   disabled: boolean;
   editComponent: any;

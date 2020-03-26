@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
+import { omit } from 'lodash';
 
 import * as Antd from 'antd';
 
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormModalProps } from '../props';
+import { CLASS_PREFIX } from '../consts';
 
 import Form from './Form';
-import { omit } from 'lodash';
+
+const CLASS_NAME = `${CLASS_PREFIX}-form-drawer`;
 
 @autoBindMethods
 @observer
@@ -46,14 +49,14 @@ class FormDrawer extends Component<ISharedFormModalProps> {
   }
 
   public render () {
-    const { className, title, width } = this.props
-      , drawerClassName = cx('mfa-form-drawer', className || null);
+    const { title, width } = this.props
+      , className = cx(CLASS_NAME, this.props.className);
 
     if (!this.isVisible) { return null; }
 
     return (
       <Antd.Drawer
-        className={drawerClassName}
+        className={className}
         closable
         destroyOnClose
         maskClosable={false}
