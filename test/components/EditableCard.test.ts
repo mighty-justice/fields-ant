@@ -5,6 +5,10 @@ import { Tester } from '@mighty-justice/tester';
 import { EditableCard, FormDrawer, FormModal } from '../../src';
 import { editableCardPropsFactory } from '../factories';
 
+function isForm (tester: any) {
+  return !!tester.find('button[type="submit"]').length;
+}
+
 describe('EditableCard', () => {
   [
     { where: 'inline', whereProps: {} },
@@ -25,7 +29,7 @@ describe('EditableCard', () => {
 
       const tester = await new Tester(EditableCard, { props }).mount();
 
-      expect(tester.find('form').length).toBe(0);
+      expect(isForm(tester)).toBe(false);
       if (whereProps.ModalComponent) {
         expect(tester.find(whereProps.ModalComponent).length).toBe(1);
       }
@@ -33,14 +37,14 @@ describe('EditableCard', () => {
       tester.click(`button.btn-edit`);
       tester.changeInput('input', newText);
 
-      expect(tester.find('form').length).toBe(1);
+      expect(isForm(tester)).toBe(true);
 
       expect(onSave).not.toHaveBeenCalled();
       tester.submit();
       await tester.sleep();
       expect(onSave).toHaveBeenCalledWith({ text: newText });
 
-      expect(tester.find('form').length).toBe(0);
+      expect(isForm(tester)).toBe(false);
     });
   });
 

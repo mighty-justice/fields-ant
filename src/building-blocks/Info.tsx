@@ -6,33 +6,16 @@ import cx from 'classnames';
 
 import * as Antd from 'antd';
 
-const CARD_COL_LABEL = 8;
-const CARD_COL_VALUE = 16;
+import { CLASS_PREFIX } from '../consts';
+import { IClassName } from '../props';
+import { IFieldConfig } from '../interfaces';
 
 @autoBindMethods
 @observer
-class Info extends Component<any> {
+class Info extends Component<{ fieldConfig: IFieldConfig }> {
   public render () {
     return (
-      <Antd.Row
-        {...this.props}
-        className={cx(this.props.className, 'info')}
-      >
-        {this.props.children}
-      </Antd.Row>
-    );
-  }
-}
-
-@autoBindMethods
-@observer
-class Label extends Component<any> {
-  public render () {
-    return (
-      <Antd.Col
-        className={cx(this.props.className, 'col-label')}
-        span={CARD_COL_LABEL}
-      >
+      <Antd.Col {...this.props.fieldConfig.colProps} className={`${CLASS_PREFIX}-info`}>
         {this.props.children}
       </Antd.Col>
     );
@@ -41,15 +24,24 @@ class Label extends Component<any> {
 
 @autoBindMethods
 @observer
-class Value extends Component<any> {
+class Label extends Component<{ className?: IClassName }> {
   public render () {
     return (
-      <Antd.Col
-        className={cx(this.props.className, 'col-value')}
-        span={CARD_COL_VALUE}
-      >
+      <div className={cx(this.props.className, `${CLASS_PREFIX}-info-label`)}>
         {this.props.children}
-      </Antd.Col>
+      </div>
+    );
+  }
+}
+
+@autoBindMethods
+@observer
+class Value extends Component<{ className?: IClassName }> {
+  public render () {
+    return (
+      <div className={cx(this.props.className, `${CLASS_PREFIX}-info-value`)}>
+        {this.props.children}
+      </div>
     );
   }
 }
@@ -57,8 +49,6 @@ class Value extends Component<any> {
 export default Info;
 
 export {
-  CARD_COL_LABEL,
-  CARD_COL_VALUE,
   Label,
   Value,
 };

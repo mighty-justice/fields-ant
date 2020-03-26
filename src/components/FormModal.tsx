@@ -77,7 +77,7 @@ class FormModal extends Component<ISharedFormModalProps> {
       cancelText,
       className,
       confirmLoading: isSaving,
-      okButtonProps: { disabled: isSubmitButtonDisabled },
+      okButtonProps: { disabled: isSubmitButtonDisabled, htmlType: 'submit' },
       okText: isSaving ? 'Saving...' : saveText,
       onOk: onSave,
     };
