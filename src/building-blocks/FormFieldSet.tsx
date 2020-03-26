@@ -3,21 +3,18 @@ import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
-import * as Antd from 'antd';
-
 import {
   fillInFieldSet,
   filterFieldConfigs,
   FormManager,
   getFieldSetFields,
-  isFieldSetSimple,
 } from '../utilities';
 
 import { IFieldSetPartial } from '../interfaces';
 import { IModel } from '../props';
 
 import FormField from './FormField';
-import Legend from './Legend';
+import FieldSet from './FieldSet';
 
 export interface IFormFieldSetProps {
   fieldSet: IFieldSetPartial;
@@ -34,10 +31,9 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
   }
 
   public render () {
-    const { formModel } = this.props
+    const { formModel, fieldSet, formManager } = this.props
       , fieldConfigs = getFieldSetFields(this.fieldSet)
       , filteredFieldConfigs = filterFieldConfigs(fieldConfigs, { model: formModel, readOnly: true })
-      , rowProps = !isFieldSetSimple(this.fieldSet) && this.fieldSet.rowProps
       ;
 
     if (!filteredFieldConfigs.length) {
@@ -45,19 +41,16 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
     }
 
     return (
-      <>
-        <Legend fieldSet={this.fieldSet} />
-
-        <Antd.Row {...rowProps}>
-          {filteredFieldConfigs.map((fieldConfig, idx) => (
-            <FormField
-              {...this.props}
-              fieldConfig={fieldConfig}
-              key={`field-config-${fieldConfig.field}-${idx}`}
-            />
-          ))}
-        </Antd.Row>
-      </>
+      <FieldSet fieldSet={fieldSet}>
+        {filteredFieldConfigs.map(fieldConfig => (
+          <FormField
+            fieldConfig={fieldConfig}
+            formManager={formManager}
+            formModel={formModel}
+            key={fieldConfig.field}
+          />
+        ))}
+      </FieldSet>
     );
 
   }

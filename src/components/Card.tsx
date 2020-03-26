@@ -28,7 +28,7 @@ class Card extends Component<ICardProps> {
 
     return (
       <Antd.Card
-        className={cx('mfa-card', className)}
+        className={cx(className)}
         extra={renderTopRight && renderTopRight()}
         loading={isLoading}
         title={title}
@@ -36,7 +36,6 @@ class Card extends Component<ICardProps> {
         {filteredFieldSets.map((fieldSet, idx) => (
           <CardFieldSet
             fieldSet={fieldSet}
-            idx={idx}
             key={idx}
             model={model}
           />

@@ -1,3 +1,7 @@
+import React from 'react';
+import { ClassValue } from 'classnames/types';
+import SmartBool from '@mighty-justice/smart-bool';
+
 // Import and re-export component prop interfaces
 // This cannot be re-exported from index.ts or rollup will fail
 // These interfaces can be imported like so:
@@ -32,10 +36,8 @@ export { IObjectSelectProps } from './inputs/ObjectSelect';
 // This allows us to keep the library consistent and uniform
 
 import { IFieldSet, IFieldSetPartial } from './interfaces';
-import SmartBool from '@mighty-justice/smart-bool';
-import React from 'react';
 
-export type IClassName = any;
+export type IClassName = ClassValue[];
 export type IValue = any;
 
 export interface IModel {
@@ -45,7 +47,7 @@ export interface IModel {
 
 export interface ISharedComponentProps {
   children?: React.ReactNode;
-  className?: string;
+  className?: IClassName;
   classNameSuffix?: string;
   fieldSets: IFieldSet[] | IFieldSetPartial[];
   isLoading?: boolean;
