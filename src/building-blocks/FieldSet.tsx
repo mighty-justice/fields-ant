@@ -25,11 +25,13 @@ export default class FieldSet extends Component<IProps> {
       ;
 
     return (
-      <Antd.Row {...rowProps} className={cx(className)}>
-        <Legend fieldSet={fieldSet} />
+      <div className={cx('fields-ant-field-set', className)}>
+        <Antd.Row {...rowProps}>
+          <Legend fieldSet={fieldSet} />
 
-        {this.props.children}
-      </Antd.Row>
+          {this.props.children}
+        </Antd.Row>
+      </div>
     );
   }
 }
