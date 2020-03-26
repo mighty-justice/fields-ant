@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import cx from 'classnames';
 
 import * as Antd from 'antd';
 import { ButtonProps } from 'antd/es/button';
@@ -18,7 +17,6 @@ import {
 } from '../utilities';
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormProps, ISharedComponentProps } from '../props';
-import { CLASS_PREFIX } from '../consts';
 
 export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
   setRefFormManager?: (formManager: FormManager) => void;
@@ -26,8 +24,6 @@ export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
 }
 
 export interface IFormWrappedProps extends IFormProps, FormComponentProps {}
-
-const CLASS_NAME = `${CLASS_PREFIX}-form`;
 
 @autoBindMethods
 @observer
@@ -116,11 +112,10 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   public render () {
     const { showControls, title } = this.props
       , formModel = this.formManager.formModel
-      , filteredFieldSets = filterFieldSets(this.fieldSets, { model: formModel })
-      , className = cx(CLASS_NAME, this.props.className);
+      , filteredFieldSets = filterFieldSets(this.fieldSets, { model: formModel });
 
     return (
-      <Antd.Form layout='vertical' onSubmit={this.formManager.onSave} className={className}>
+      <Antd.Form layout='vertical' onSubmit={this.formManager.onSave} className='mfa-form'>
         {title && <h2>{title}</h2>}
 
         {filteredFieldSets.map((fieldSet, idx) => (

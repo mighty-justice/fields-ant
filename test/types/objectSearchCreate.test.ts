@@ -2,7 +2,7 @@ import faker from 'faker';
 
 import { Tester } from '@mighty-justice/tester';
 
-import { CX_PREFIX_SEARCH_CREATE, FormCard } from '../../src';
+import { FormCard } from '../../src';
 import { fakeTextShort, organizationResultFactory } from '../factories';
 
 import { objectSearchFor } from './objectSearch.test';
@@ -43,16 +43,12 @@ async function getTester (props: any) {
   return (await new Tester(FormCard, { props }).mount());
 }
 
-async function clickAddNew (tester: any) {
-  tester.click(`.${CX_PREFIX_SEARCH_CREATE}-item-add div`);
+async function selectAddNew (tester: any) {
+  tester.click('.ant-input-search-create-item-add div');
 }
 
-async function clickFirstResult (tester: any) {
+async function selectFirst (tester: any) {
   tester.find('li').at(1).simulate('click');
-}
-
-async function clickBack (tester: any) {
-  tester.click(`.${CX_PREFIX_SEARCH_CREATE}-btn-back`);
 }
 
 describe('objectSearchCreate', () => {
@@ -62,7 +58,7 @@ describe('objectSearchCreate', () => {
 
     await objectSearchFor(tester, field, results, searchTerm);
 
-    clickFirstResult(tester);
+    selectFirst(tester);
     tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: results[0] });
   });
@@ -76,7 +72,7 @@ describe('objectSearchCreate', () => {
     onSave.mockClear();
 
     await objectSearchFor(tester, field, results, searchTerm);
-    await clickAddNew(tester);
+    await selectAddNew(tester);
 
     expect(tester.text()).toContain('Name');
     expect(tester.text()).toContain('Amount Owed');
@@ -98,7 +94,7 @@ describe('objectSearchCreate', () => {
     tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed }});
 
-    clickBack(tester);
+    tester.click('.ant-input-search-create-btn-back');
     tester.submit();
     expect(onSave).toHaveBeenCalledWith(props.model);
   });
@@ -111,7 +107,7 @@ describe('objectSearchCreate', () => {
       ;
 
     await objectSearchFor(tester, field, results, searchTerm);
-    await clickAddNew(tester);
+    await selectAddNew(tester);
 
     // Will not submit until required sub-form filled out
     await tester.refresh();
@@ -124,7 +120,7 @@ describe('objectSearchCreate', () => {
     tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: null }});
 
-    clickBack(tester);
+    tester.click('.ant-input-search-create-btn-back');
     tester.submit();
     expect(onSave).toHaveBeenCalledWith(props.model);
   });
@@ -139,7 +135,7 @@ describe('objectSearchCreate', () => {
       , tester = await getTester(props);
 
     await objectSearchFor(tester, field, results, searchTerm);
-    await clickAddNew(tester);
+    await selectAddNew(tester);
 
     expect(tester.find('input[id="law_firm.name"]').html()).toContain(searchTerm);
     tester.submit();
@@ -159,7 +155,7 @@ describe('objectSearchCreate', () => {
       , tester = await getTester(props);
 
     await objectSearchFor(tester, field, results, searchTerm);
-    await clickAddNew(tester);
+    await selectAddNew(tester);
 
     expect(tester.find('input[id="law_firm.first_name"]').html()).toContain(firstName);
     expect(tester.find('input[id="law_firm.last_name"]').html()).toContain(lastName);
@@ -182,7 +178,7 @@ describe('objectSearchCreate', () => {
       , tester = await getTester(props);
 
     await objectSearchFor(tester, field, results, searchTerm);
-    await clickAddNew(tester);
+    await selectAddNew(tester);
     tester.submit();
 
     expect(onSave).toHaveBeenCalledWith({ law_firm: { non_nullable: '', nullable: null }});
@@ -197,7 +193,7 @@ describe('objectSearchCreate', () => {
       , tester = await getTester(props);
 
     await objectSearchFor(tester, field, results, searchTerm);
-    await clickAddNew(tester);
+    await selectAddNew(tester);
     await tester.refresh();
 
     expect(tester.text()).toContain(legend);
@@ -228,7 +224,7 @@ describe('objectSearchCreate', () => {
     await objectSearchFor(tester, field, results, searchTerm);
 
     expect(tester.find('li').at(1).text()).toContain('FFF');
-    clickFirstResult(tester);
+    selectFirst(tester);
     expect(tester.text()).toContain('ZZZ');
     tester.submit();
 

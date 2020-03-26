@@ -27,7 +27,7 @@ import {
 } from '../utilities';
 
 import FormItem from '../building-blocks/FormItem';
-import { IClassName, IModel } from '../props';
+import { IModel } from '../props';
 
 import ObjectSearch from './ObjectSearch';
 
@@ -37,7 +37,7 @@ export function isTypeObjectSearchCreate (fieldConfig: IFieldConfig): fieldConfi
 
 export interface IObjectSearchCreateProps {
   addNewContent?: React.ReactNode;
-  className?: IClassName;
+  className?: string;
   debounceWait?: number;
   fieldConfig: IFieldConfigObjectSearchCreate;
   fieldDecorator: <T>(component: T) => T;

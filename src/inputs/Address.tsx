@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import cx from 'classnames';
 
 import * as Antd from 'antd';
 
@@ -21,7 +20,6 @@ import {
 } from '../utilities';
 
 import { IModel } from '../props';
-import { FORM_ITEM_CLASS_NAME } from '../building-blocks/FormItem';
 
 export interface IAddressProps {
   fieldConfig: IFieldConfigAddress;
@@ -32,8 +30,6 @@ export interface IAddressProps {
 export function isTypeAddress (fieldConfig: IFieldConfig): fieldConfig is IFieldConfigAddress {
   return fieldConfig.type === 'address';
 }
-
-const CLASS_NAME = `${FORM_ITEM_CLASS_NAME}-input-address`;
 
 @autoBindMethods
 @observer
@@ -65,12 +61,11 @@ class Address extends Component<IAddressProps> {
   }
 
   public render () {
-    const { fieldConfig, formManager, formModel } = this.injected
-      , className = cx(FORM_ITEM_CLASS_NAME, CLASS_NAME, fieldConfig.className);
+    const { fieldConfig, formManager, formModel } = this.injected;
 
     return (
       <Antd.Col>
-        <Antd.Form.Item className={className}>
+        <Antd.Form.Item className={fieldConfig.className}>
           <NestedFieldSet
             fieldSet={this.fieldSet}
             formManager={formManager}

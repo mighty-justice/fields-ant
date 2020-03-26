@@ -11,11 +11,8 @@ import { ModalProps } from 'antd/es/modal';
 import { FormManager } from '../utilities';
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormModalProps } from '../props';
-import { CLASS_PREFIX } from '../consts';
 
 import Form from './Form';
-
-const CLASS_NAME = `${CLASS_PREFIX}-form-modal`;
 
 @autoBindMethods
 @observer
@@ -54,7 +51,7 @@ class FormModal extends Component<ISharedFormModalProps> {
 
   private get modalProps (): Partial<ModalProps> {
     const { cancelText, saveText } = this.props
-      , className = cx(CLASS_NAME, this.props.className);
+      , className = cx(this.props.className);
 
     if (!this.formManager) {
       return {

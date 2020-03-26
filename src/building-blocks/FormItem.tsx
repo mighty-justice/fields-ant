@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { values, omit, get } from 'lodash';
-import cx from 'classnames';
 
 import * as Antd from 'antd';
 import { ValidationRule as AntValidationRule } from 'antd/es/form';
@@ -10,15 +9,12 @@ import { ValidationRule as AntValidationRule } from 'antd/es/form';
 import { FormManager, noopValidator, renderLabel } from '../utilities';
 import { IFieldConfig, IFieldsValidator } from '../interfaces';
 import { IModel } from '../props';
-import { CLASS_PREFIX } from '../consts';
 
 export interface IFormFieldProps {
   fieldConfig: IFieldConfig;
   formManager: FormManager;
   formModel: IModel;
 }
-
-export const FORM_ITEM_CLASS_NAME = `${CLASS_PREFIX}-form-item`;
 
 @autoBindMethods
 @observer
@@ -104,7 +100,7 @@ class FormItem extends Component<IFormFieldProps> {
     return (
       <Antd.Col {...colProps}>
         <Antd.Form.Item
-          className={cx(className, FORM_ITEM_CLASS_NAME)}
+          className={className}
           {...this.formItemProps}
           {...formItemProps}
           label={renderLabel(fieldConfig)}

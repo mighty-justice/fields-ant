@@ -6,8 +6,6 @@ import cx from 'classnames';
 
 import * as Antd from 'antd';
 
-import { CLASS_PREFIX } from '../consts';
-
 const CARD_COL_LABEL = 8;
 const CARD_COL_VALUE = 16;
 
@@ -18,7 +16,7 @@ class Info extends Component<any> {
     return (
       <Antd.Row
         {...this.props}
-        className={cx(this.props.className, `${CLASS_PREFIX}-info`)}
+        className={cx(this.props.className, 'info')}
       >
         {this.props.children}
       </Antd.Row>
@@ -32,7 +30,7 @@ class Label extends Component<any> {
   public render () {
     return (
       <Antd.Col
-        className={cx(this.props.className, `${CLASS_PREFIX}-col-label`)}
+        className={cx(this.props.className, 'col-label')}
         span={CARD_COL_LABEL}
       >
         {this.props.children}
@@ -47,7 +45,7 @@ class Value extends Component<any> {
   public render () {
     return (
       <Antd.Col
-        className={cx(this.props.className, `${CLASS_PREFIX}-col-value`)}
+        className={cx(this.props.className, 'col-value')}
         span={CARD_COL_VALUE}
       >
         {this.props.children}
