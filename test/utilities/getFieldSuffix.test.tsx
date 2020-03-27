@@ -5,6 +5,8 @@ const TYPE_INFERENCES = [
   ['case.status[5].is_loading', 'is_loading'],
   ['status.is_loading', 'is_loading'],
   ['is_loading', 'is_loading'],
+  ['', ''],
+  [undefined, ''],
 ];
 
 describe('getSuffix', () => {

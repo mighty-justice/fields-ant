@@ -24,25 +24,16 @@ class CardField extends Component<ICardFieldProps> {
 
   public render () {
     const { model } = this.props
-      , fieldConfig = this.fieldConfig
-      , { field, showLabel } = fieldConfig
-      , renderWithoutStructure = !showLabel
-      ;
+      , fieldConfig = this.fieldConfig;
 
     if (filterFieldConfig(fieldConfig, { model, writeOnly: true })) {
       return null;
     }
 
     return (
-      <Info key={field}>
-        {renderWithoutStructure
-          ? renderValue(fieldConfig, model)
-          : (
-            <>
-              <Label>{renderLabel(fieldConfig)}</Label>
-              <Value>{renderValue(fieldConfig, model)}</Value>
-            </>
-          )}
+      <Info fieldConfig={fieldConfig}>
+        {fieldConfig.showLabel && <Label>{renderLabel(fieldConfig)}</Label>}
+        <Value>{renderValue(fieldConfig, model)}</Value>
       </Info>
     );
   }
