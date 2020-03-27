@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
+import { ClassValue } from 'classnames/types';
 
 import { Form } from 'antd';
 
 export interface IButtonToolbarProps {
   align?: 'between' | 'right';
-  className?: any;
+  className?: ClassValue;
   fixed?: boolean;
   noSpacing?: boolean;
 }
