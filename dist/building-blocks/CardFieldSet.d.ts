@@ -3,7 +3,6 @@ import { IFieldSetPartial } from '../interfaces';
 import { IModel } from '../props';
 export interface ICardFieldSetProps {
     fieldSet: IFieldSetPartial;
-    idx?: number;
     model?: IModel;
 }
 declare class CardFieldSet extends Component<ICardFieldSetProps> {

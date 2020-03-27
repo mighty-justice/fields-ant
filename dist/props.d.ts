@@ -1,3 +1,6 @@
+import React from 'react';
+import { ClassValue } from 'classnames/types';
+import SmartBool from '@mighty-justice/smart-bool';
 import { IBackendValidation } from './utilities/FormManager';
 export { IButtonToolbarProps } from './building-blocks/ButtonToolbar';
 export { ICardFieldProps } from './building-blocks/CardField';
@@ -16,9 +19,7 @@ export { IObjectSearchCreateProps } from './inputs/ObjectSearchCreate';
 export { IOptionSelectDisplayProps } from './inputs/OptionSelectDisplay';
 export { IObjectSelectProps } from './inputs/ObjectSelect';
 import { IFieldSet, IFieldSetPartial } from './interfaces';
-import SmartBool from '@mighty-justice/smart-bool';
-import React from 'react';
-export declare type IClassName = any;
+export declare type IClassName = ClassValue[];
 export declare type IValue = any;
 export interface IModel {
     [key: string]: any;
@@ -26,7 +27,7 @@ export interface IModel {
 }
 export interface ISharedComponentProps {
     children?: React.ReactNode;
-    className?: string;
+    className?: IClassName;
     classNameSuffix?: string;
     fieldSets: IFieldSet[] | IFieldSetPartial[];
     isLoading?: boolean;

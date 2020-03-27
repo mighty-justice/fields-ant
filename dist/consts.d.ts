@@ -4,3 +4,4 @@ export declare const REGEXP_SSN: RegExp;
 export declare const REGEXP_EIN: RegExp;
 export declare const ID_ATTR = "id";
 export declare const DEFAULT_STATE_OPTION_TYPE = "us_states";
+export declare const CLASS_PREFIX = "fields-ant";
