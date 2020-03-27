@@ -146,7 +146,6 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   hidden: {
     editComponent: Hidden,
     fieldConfigProp: true,
-    render: () => null,
     showLabel: false,
     skipFieldDecorator: true,
     writeOnly: true,

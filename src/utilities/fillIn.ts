@@ -24,7 +24,7 @@ function stripFieldConfig (func: (...args: any[]) => any) {
   return (value: any) => func(value);
 }
 
-function getFieldSuffix (field?: string) {
+export function getFieldSuffix (field?: string) {
   return (field || '').split('.').pop() || '';
 }
 
@@ -74,6 +74,7 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
       },
     } : undefined;
 
+  // istanbul ignore next
   if (!TYPES[type]) {
     // istanbul ignore next
     throw new Error(`Type '${type}' not in fields-ant TYPES`);
