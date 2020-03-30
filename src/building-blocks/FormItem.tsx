@@ -10,12 +10,15 @@ import { ValidationRule as AntValidationRule } from 'antd/es/form';
 import { FormManager, noopValidator, renderLabel } from '../utilities';
 import { IFieldConfig, IFieldsValidator } from '../interfaces';
 import { IModel } from '../props';
+import { CLASS_PREFIX } from '../consts';
 
 export interface IFormFieldProps {
   fieldConfig: IFieldConfig;
   formManager: FormManager;
   formModel: IModel;
 }
+
+export const FORM_ITEM_CLASS_NAME = `${CLASS_PREFIX}-form-item`;
 
 @autoBindMethods
 @observer
@@ -96,6 +99,7 @@ class FormItem extends Component<IFormFieldProps> {
     const { formManager, fieldConfig } = this.props
       , { colProps, formItemProps, field } = fieldConfig
       , className = cx(
+        FORM_ITEM_CLASS_NAME,
         fieldConfig.className,
         formItemProps && formItemProps.className,
       )

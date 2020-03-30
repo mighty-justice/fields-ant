@@ -9,12 +9,15 @@ import * as Antd from 'antd';
 
 import { fillInFieldSets, getFieldSetFields, renderValue } from '../utilities';
 import { IFieldConfig } from '../interfaces';
+import { CLASS_PREFIX } from '../consts';
 
 import { ICardProps } from './Card';
 
 export interface ISummaryCardProps extends ICardProps {
   column: 3 | 4 | 6;
 }
+
+const CLASS_NAME = `${CLASS_PREFIX}-summary-card`;
 
 @autoBindMethods
 @observer
@@ -45,7 +48,7 @@ class SummaryCard extends Component<ISummaryCardProps> {
 
     return (
       <Antd.Card
-        className={cx('summary-card', className)}
+        className={cx(CLASS_NAME, className)}
         extra={renderTopRight && renderTopRight()}
         loading={isLoading}
         title={title}

@@ -6,6 +6,8 @@ import { ClassValue } from 'classnames/types';
 
 import { Form } from 'antd';
 
+import { CLASS_PREFIX } from '../consts';
+
 export interface IButtonToolbarProps {
   align?: 'between' | 'right';
   className?: ClassValue;
@@ -13,20 +15,22 @@ export interface IButtonToolbarProps {
   noSpacing?: boolean;
 }
 
+const CLASS_NAME = `${CLASS_PREFIX}-button-toolbar`;
+
 @autoBindMethods
 @observer
 class ButtonToolbar extends Component<IButtonToolbarProps> {
   public render () {
-    const { noSpacing, align, fixed, className, ...passDownProps } = this.props
-      , classNames = cx(
-      'button-toolbar',
-      align && `align-${align}`,
-      {'no-spacing': noSpacing},
-      {[`position-fixed`]: fixed},
-      className,
-    );
+    const { noSpacing, align, fixed, ...passDownProps } = this.props
+      , className = cx(
+        align && `${CLASS_NAME}-align-${align}`,
+        CLASS_NAME,
+        this.props.className,
+        {[`${CLASS_NAME}-no-spacing`]: noSpacing},
+        {[`${CLASS_NAME}-position-fixed`]: fixed},
+      );
 
-    return <Form.Item {...passDownProps} className={classNames}>{this.props.children}</Form.Item>;
+    return <Form.Item {...passDownProps} className={className}>{this.props.children}</Form.Item>;
   }
 }
 
