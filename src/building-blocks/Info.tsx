@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
+import { ClassValue } from 'classnames/types';
 
 import * as Antd from 'antd';
 
 import { CLASS_PREFIX } from '../consts';
-import { IClassName } from '../props';
 import { IFieldConfig } from '../interfaces';
 
 @autoBindMethods
@@ -24,7 +24,7 @@ class Info extends Component<{ fieldConfig: IFieldConfig }> {
 
 @autoBindMethods
 @observer
-class Label extends Component<{ className?: IClassName }> {
+class Label extends Component<{ className?: ClassValue }> {
   public render () {
     return (
       <div className={cx(this.props.className, `${CLASS_PREFIX}-info-label`)}>
@@ -36,7 +36,7 @@ class Label extends Component<{ className?: IClassName }> {
 
 @autoBindMethods
 @observer
-class Value extends Component<{ className?: IClassName }> {
+class Value extends Component<{ className?: ClassValue }> {
   public render () {
     return (
       <div className={cx(this.props.className, `${CLASS_PREFIX}-info-value`)}>

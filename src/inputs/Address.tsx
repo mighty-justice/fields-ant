@@ -20,6 +20,7 @@ import {
 } from '../utilities';
 
 import { IModel } from '../props';
+import cx from 'classnames';
 
 export interface IAddressProps {
   fieldConfig: IFieldConfigAddress;
@@ -61,11 +62,17 @@ class Address extends Component<IAddressProps> {
   }
 
   public render () {
-    const { fieldConfig, formManager, formModel } = this.injected;
+    const { fieldConfig, formManager, formModel } = this.injected
+      , { colProps, formItemProps } = fieldConfig
+      , className = cx(
+        fieldConfig.className,
+        formItemProps && formItemProps.className,
+      )
+      ;
 
     return (
-      <Antd.Col>
-        <Antd.Form.Item className={fieldConfig.className}>
+      <Antd.Col {...colProps}>
+        <Antd.Form.Item className={className}>
           <NestedFieldSet
             fieldSet={this.fieldSet}
             formManager={formManager}

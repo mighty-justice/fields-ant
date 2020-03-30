@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { values, omit, get } from 'lodash';
+import cx from 'classnames';
 
 import * as Antd from 'antd';
 import { ValidationRule as AntValidationRule } from 'antd/es/form';
@@ -93,16 +94,20 @@ class FormItem extends Component<IFormFieldProps> {
 
   public render () {
     const { formManager, fieldConfig } = this.props
-      , { className, colProps, formItemProps, field } = fieldConfig
+      , { colProps, formItemProps, field } = fieldConfig
+      , className = cx(
+        fieldConfig.className,
+        formItemProps && formItemProps.className,
+      )
       , { getFieldDecorator } = formManager.form
       ;
 
     return (
       <Antd.Col {...colProps}>
         <Antd.Form.Item
-          className={className}
           {...this.formItemProps}
           {...formItemProps}
+          className={className}
           label={renderLabel(fieldConfig)}
         >
           {getFieldDecorator(field, this.decoratorOptions)(this.props.children)}

@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { pick } from 'lodash';
+import { ClassValue } from 'classnames/types';
 
 import SmartBool from '@mighty-justice/smart-bool';
 
@@ -37,7 +38,7 @@ export function isTypeObjectSearchCreate (fieldConfig: IFieldConfig): fieldConfi
 
 export interface IObjectSearchCreateProps {
   addNewContent?: React.ReactNode;
-  className?: string;
+  className?: ClassValue;
   debounceWait?: number;
   fieldConfig: IFieldConfigObjectSearchCreate;
   fieldDecorator: <T>(component: T) => T;

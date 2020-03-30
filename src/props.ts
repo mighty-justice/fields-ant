@@ -37,7 +37,6 @@ export { IObjectSelectProps } from './inputs/ObjectSelect';
 
 import { IFieldSet, IFieldSetPartial } from './interfaces';
 
-export type IClassName = ClassValue[];
 export type IValue = any;
 
 export interface IModel {
@@ -47,7 +46,7 @@ export interface IModel {
 
 export interface ISharedComponentProps {
   children?: React.ReactNode;
-  className?: IClassName;
+  className?: ClassValue;
   classNameSuffix?: string;
   fieldSets: IFieldSet[] | IFieldSetPartial[];
   isLoading?: boolean;

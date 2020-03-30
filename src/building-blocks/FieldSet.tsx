@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
+import { ClassValue } from 'classnames/types';
 
 import * as Antd from 'antd';
 
 import { IFieldSetPartial } from '../interfaces';
-import { IClassName } from '../props';
 import { isPartialFieldSetSimple } from '../utilities';
 import { CLASS_PREFIX } from '../consts';
 
 import Legend from './Legend';
 
 interface IProps {
+  className?: ClassValue;
   fieldSet: IFieldSetPartial;
-  className?: IClassName;
 }
 
 const CLASS_NAME = `${CLASS_PREFIX}-field-set`;
