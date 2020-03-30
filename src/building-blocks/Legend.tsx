@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
+import * as Antd from 'antd';
+
 import { isPartialFieldSetSimple } from '../utilities';
 
 import WithTooltip from './WithTooltip';
+import { ANT_FULL_COL_WIDTH } from '../consts';
 import { IFieldSetPartial } from '../interfaces';
 
 interface IProps {
@@ -23,9 +26,11 @@ class Legend extends Component<IProps> {
     if (!legend) { return null; }
 
     return (
-      <h3>
-        <WithTooltip tooltip={tooltip}>{legend}</WithTooltip>
-      </h3>
+      <Antd.Col span={ANT_FULL_COL_WIDTH}>
+        <h3>
+          <WithTooltip tooltip={tooltip}>{legend}</WithTooltip>
+        </h3>
+      </Antd.Col>
     );
   }
 }
