@@ -1,7 +1,8 @@
 import { Component } from 'react';
+import { ClassValue } from 'classnames/types';
 export interface IButtonToolbarProps {
     align?: 'between' | 'right';
-    className?: any;
+    className?: ClassValue;
     fixed?: boolean;
     noSpacing?: boolean;
 }

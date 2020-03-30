@@ -19,7 +19,6 @@ export { IObjectSearchCreateProps } from './inputs/ObjectSearchCreate';
 export { IOptionSelectDisplayProps } from './inputs/OptionSelectDisplay';
 export { IObjectSelectProps } from './inputs/ObjectSelect';
 import { IFieldSet, IFieldSetPartial } from './interfaces';
-export declare type IClassName = ClassValue[];
 export declare type IValue = any;
 export interface IModel {
     [key: string]: any;
@@ -27,7 +26,7 @@ export interface IModel {
 }
 export interface ISharedComponentProps {
     children?: React.ReactNode;
-    className?: IClassName;
+    className?: ClassValue;
     classNameSuffix?: string;
     fieldSets: IFieldSet[] | IFieldSetPartial[];
     isLoading?: boolean;

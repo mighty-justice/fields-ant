@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { IClassName } from '../props';
+import { ClassValue } from 'classnames/types';
 import { IFieldConfig } from '../interfaces';
 declare class Info extends Component<{
     fieldConfig: IFieldConfig;
@@ -7,12 +7,12 @@ declare class Info extends Component<{
     render(): JSX.Element;
 }
 declare class Label extends Component<{
-    className?: IClassName;
+    className?: ClassValue;
 }> {
     render(): JSX.Element;
 }
 declare class Value extends Component<{
-    className?: IClassName;
+    className?: ClassValue;
 }> {
     render(): JSX.Element;
 }

@@ -390,9 +390,12 @@ function (_Component) {
       var _this$injected = this.injected,
           fieldConfig = _this$injected.fieldConfig,
           formManager = _this$injected.formManager,
-          formModel = _this$injected.formModel;
-      return React__default.createElement(Antd.Col, null, React__default.createElement(Antd.Form.Item, {
-        className: fieldConfig.className
+          formModel = _this$injected.formModel,
+          colProps = fieldConfig.colProps,
+          formItemProps = fieldConfig.formItemProps,
+          className = cx(fieldConfig.className, formItemProps && formItemProps.className);
+      return React__default.createElement(Antd.Col, colProps, React__default.createElement(Antd.Form.Item, {
+        className: className
       }, React__default.createElement(NestedFieldSet, {
         fieldSet: this.fieldSet,
         formManager: formManager,
@@ -496,14 +499,13 @@ function (_Component) {
       var _this$props2 = this.props,
           formManager = _this$props2.formManager,
           fieldConfig = _this$props2.fieldConfig,
-          className = fieldConfig.className,
           colProps = fieldConfig.colProps,
           formItemProps = fieldConfig.formItemProps,
           field = fieldConfig.field,
+          className = cx(fieldConfig.className, formItemProps && formItemProps.className),
           getFieldDecorator = formManager.form.getFieldDecorator;
-      return React__default.createElement(Antd.Col, colProps, React__default.createElement(Antd.Form.Item, _extends({
-        className: className
-      }, this.formItemProps, formItemProps, {
+      return React__default.createElement(Antd.Col, colProps, React__default.createElement(Antd.Form.Item, _extends({}, this.formItemProps, formItemProps, {
+        className: className,
         label: renderLabel(fieldConfig)
       }), getFieldDecorator(field, this.decoratorOptions)(this.props.children)));
     }

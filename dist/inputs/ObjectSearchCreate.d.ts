@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import { ClassValue } from 'classnames/types';
 import { SelectProps } from 'antd/es/select';
 import { FormManager, IEndpointOption, IFieldConfig, IFieldConfigObjectSearchCreate } from '../';
 import { IModel } from '../props';
 export declare function isTypeObjectSearchCreate(fieldConfig: IFieldConfig): fieldConfig is IFieldConfigObjectSearchCreate;
 export interface IObjectSearchCreateProps {
     addNewContent?: React.ReactNode;
-    className?: string;
+    className?: ClassValue;
     debounceWait?: number;
     fieldConfig: IFieldConfigObjectSearchCreate;
     fieldDecorator: <T>(component: T) => T;

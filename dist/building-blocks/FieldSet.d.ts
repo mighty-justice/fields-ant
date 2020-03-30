@@ -1,9 +1,9 @@
 import { Component } from 'react';
+import { ClassValue } from 'classnames/types';
 import { IFieldSetPartial } from '../interfaces';
-import { IClassName } from '../props';
 interface IProps {
+    className?: ClassValue;
     fieldSet: IFieldSetPartial;
-    className?: IClassName;
 }
 export default class FieldSet extends Component<IProps> {
     render(): JSX.Element;
