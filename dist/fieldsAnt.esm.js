@@ -360,6 +360,7 @@ var REGEXP_EIN = /^\d{2}[-\s]?\d{7}$/;
 var ID_ATTR = 'id';
 var DEFAULT_STATE_OPTION_TYPE = 'us_states';
 var CLASS_PREFIX = 'fields-ant';
+var ANT_FULL_COL_WIDTH = 24;
 
 var _class$1;
 function isTypeAddress(fieldConfig) {
@@ -2986,9 +2987,11 @@ function (_Component) {
         return null;
       }
 
-      return React.createElement("h3", null, React.createElement(WithTooltip, {
+      return React.createElement(Col, {
+        span: ANT_FULL_COL_WIDTH
+      }, React.createElement("h3", null, React.createElement(WithTooltip, {
         tooltip: tooltip
-      }, legend));
+      }, legend)));
     }
   }]);
 
@@ -4326,4 +4329,4 @@ function (_Component) {
   return Table;
 }(Component), (_applyDecoratedDescriptor(_class2$l.prototype, "columns", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "columns"), _class2$l.prototype), _applyDecoratedDescriptor(_class2$l.prototype, "dataSource", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "dataSource"), _class2$l.prototype)), _class2$l)) || _class$y) || _class$y;
 
-export { ArrayCard, ButtonToolbar, CLASS_PREFIX, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, Date, EditableArrayCard, EditableCard, FieldSet, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearch, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, backendValidation, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatOptionSelect, formatRating, getDateFormatList, getFieldSetFields, getFieldSetsFields, getFieldSuffix, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, noopValidator, renderLabel, renderValue, setFieldSetFields };
+export { ANT_FULL_COL_WIDTH, ArrayCard, ButtonToolbar, CLASS_PREFIX, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, Date, EditableArrayCard, EditableCard, FieldSet, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearch, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, backendValidation, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatOptionSelect, formatRating, getDateFormatList, getFieldSetFields, getFieldSetsFields, getFieldSuffix, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, noopValidator, renderLabel, renderValue, setFieldSetFields };

@@ -367,6 +367,7 @@ var REGEXP_EIN = /^\d{2}[-\s]?\d{7}$/;
 var ID_ATTR = 'id';
 var DEFAULT_STATE_OPTION_TYPE = 'us_states';
 var CLASS_PREFIX = 'fields-ant';
+var ANT_FULL_COL_WIDTH = 24;
 
 var _class$1;
 function isTypeAddress(fieldConfig) {
@@ -2993,9 +2994,11 @@ function (_Component) {
         return null;
       }
 
-      return React__default.createElement("h3", null, React__default.createElement(WithTooltip, {
+      return React__default.createElement(Antd.Col, {
+        span: ANT_FULL_COL_WIDTH
+      }, React__default.createElement("h3", null, React__default.createElement(WithTooltip, {
         tooltip: tooltip
-      }, legend));
+      }, legend)));
     }
   }]);
 
@@ -4333,6 +4336,7 @@ function (_Component) {
   return Table;
 }(React.Component), (_applyDecoratedDescriptor(_class2$l.prototype, "columns", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "columns"), _class2$l.prototype), _applyDecoratedDescriptor(_class2$l.prototype, "dataSource", [mobx.computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "dataSource"), _class2$l.prototype)), _class2$l)) || _class$y) || _class$y;
 
+exports.ANT_FULL_COL_WIDTH = ANT_FULL_COL_WIDTH;
 exports.ArrayCard = ArrayCard;
 exports.ButtonToolbar = ButtonToolbar;
 exports.CLASS_PREFIX = CLASS_PREFIX;
