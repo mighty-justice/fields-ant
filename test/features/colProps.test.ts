@@ -45,10 +45,10 @@ describe('colProps', () => {
         ;
 
       const testerWithout = await new Tester(ComponentClass, { props: propsWithout }).mount();
-      expect(testerWithout.find('.ant-row div').first().hasClass('ant-col-12')).toBe(false);
+      expect(testerWithout.find('.ant-row div.ant-col-12').length).toBe(0);
 
       const testerWith = await new Tester(ComponentClass, { props: propsWith }).mount();
-      expect(testerWith.find('.ant-row div').first().hasClass('ant-col-12')).toBe(true);
+      expect(testerWith.find('.ant-row div.ant-col-12').length).toBe(4);
     });
   });
 });
