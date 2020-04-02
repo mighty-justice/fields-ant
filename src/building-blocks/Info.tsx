@@ -8,11 +8,11 @@ import { ClassValue } from 'classnames/types';
 import * as Antd from 'antd';
 
 import { CLASS_PREFIX } from '../consts';
-import { IFieldConfig } from '../interfaces';
+import { IFieldConfigPartial } from '../interfaces';
 
 @autoBindMethods
 @observer
-class Info extends Component<{ fieldConfig: IFieldConfig }> {
+class Info extends Component<{ fieldConfig: IFieldConfigPartial }> {
   public render () {
     return (
       <Antd.Col {...this.props.fieldConfig.colProps} className={`${CLASS_PREFIX}-info`}>
