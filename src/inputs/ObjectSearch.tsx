@@ -11,7 +11,7 @@ import { toKey } from '@mighty-justice/utils';
 import SmartBool from '@mighty-justice/smart-bool';
 
 import {
-  CX_PREFIX_SEARCH_CREATE,
+  CLASS_PREFIX,
   DEFAULT_DEBOUNCE_WAIT,
   IAntFormField,
   IEndpointOption,
@@ -35,10 +35,13 @@ export interface IObjectSearchProps {
   selectProps: SelectProps;
 }
 
-const ITEM_KEYS = {
-  ADD: 'add',
-  EMPTY: 'empty',
-  NO_SEARCH: 'no-search',
+export const CLASS_NAME = `${CLASS_PREFIX}-input-object-search`;
+
+export const OPTION_KEYS = {
+  ADD: `${CLASS_NAME}-add`,
+  EMPTY: `${CLASS_NAME}-empty`,
+  NO_SEARCH: `${CLASS_NAME}-no-search`,
+  OPTION:  `${CLASS_NAME}-option`,
 };
 
 @inject('getEndpoint')
@@ -162,33 +165,30 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   private renderAddOption () {
-    const { addNewContent } = this.props
-      , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.ADD}`;
+    const { addNewContent } = this.props;
 
     return (
-      <Antd.Select.Option className={className} key={ITEM_KEYS.ADD}>
+      <Antd.Select.Option className={OPTION_KEYS.ADD} key={OPTION_KEYS.ADD}>
         <div>{addNewContent || (<><Antd.Icon type='plus' /> <b>{this.search}</b></>)}</div>
       </Antd.Select.Option>
     );
   }
 
   private renderNoResultsOption () {
-    const { selectProps } = this.props
-      , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.EMPTY}`;
+    const { selectProps } = this.props;
 
     return (
-      <Antd.Select.Option className={className} disabled key={ITEM_KEYS.EMPTY}>
+      <Antd.Select.Option className={OPTION_KEYS.EMPTY} disabled key={OPTION_KEYS.EMPTY}>
         <div>{get(selectProps, 'notFoundContent') || 'No results'}</div>
       </Antd.Select.Option>
     );
   }
 
   private renderNoSearchOption () {
-    const { noSearchContent } = this.props
-      , className = `${CX_PREFIX_SEARCH_CREATE}-item-${ITEM_KEYS.NO_SEARCH}`;
+    const { noSearchContent } = this.props;
 
     return (
-      <Antd.Select.Option className={className} disabled key={ITEM_KEYS.NO_SEARCH}>
+      <Antd.Select.Option className={OPTION_KEYS.NO_SEARCH} disabled key={OPTION_KEYS.NO_SEARCH}>
         {this.isLoading.isTrue
           ? <div>{this.loadingIcon} Loading...</div>
           : <div>{noSearchContent || 'Type to search or filter'}</div>
@@ -199,12 +199,11 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   private renderOption (option: IEndpointOption) {
     const { renderOption, renderSelected } = this.fieldConfig
-      , { isOptionDisabled } = this.props
-      , className = `${CX_PREFIX_SEARCH_CREATE}-item`;
+      , { isOptionDisabled } = this.props;
 
     return (
       <Antd.Select.Option
-        className={className}
+        className={OPTION_KEYS.OPTION}
         disabled={isOptionDisabled ? isOptionDisabled(option) : false}
         key={option.id}
         title={renderSelected(option)}
@@ -225,7 +224,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     }
 
     // Add new
-    if (onAddNew && selectedOption.key === ITEM_KEYS.ADD) {
+    if (onAddNew && selectedOption.key === OPTION_KEYS.ADD) {
       onAddNew(this.search);
       return;
     }

@@ -12,7 +12,7 @@ import * as Antd from 'antd';
 import { SelectProps } from 'antd/es/select';
 
 import {
-  CX_PREFIX_SEARCH_CREATE,
+  CLASS_PREFIX,
   FormManager,
   IAntFormField,
   IEndpointOption,
@@ -52,6 +52,10 @@ export interface IObjectSearchCreateProps {
   searchOnEmpty?: boolean;
   selectProps: SelectProps;
 }
+
+export const CLASS_NAME = `${CLASS_PREFIX}-input-object-search-create`;
+export const CLASS_NAME_BTN_BACK = `${CLASS_NAME}-btn-back`;
+export const CLASS_NAME_CREATING = `${CLASS_NAME}-creating`;
 
 @autoBindMethods
 @observer
@@ -114,7 +118,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
             search={this.search}
           />
           <Antd.Button
-            className={`${CX_PREFIX_SEARCH_CREATE}-btn-back`}
+            className={CLASS_NAME_BTN_BACK}
             onClick={this.onSearch}
             size='small'
           >
@@ -144,8 +148,8 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
 
   public render () {
     const className = cx(
-      CX_PREFIX_SEARCH_CREATE,
-      {[`${CX_PREFIX_SEARCH_CREATE}-create`]: this.isAddingNew.isTrue },
+      CLASS_NAME,
+      {[CLASS_NAME_CREATING]: this.isAddingNew.isTrue },
       this.props.className,
     );
 

@@ -2,10 +2,12 @@ import faker from 'faker';
 
 import { Tester } from '@mighty-justice/tester';
 
-import { CX_PREFIX_SEARCH_CREATE, FormCard } from '../../src';
+import { FormCard } from '../../src';
 import { fakeTextShort, organizationResultFactory } from '../factories';
 
 import { objectSearchFor } from './objectSearch.test';
+import { OPTION_KEYS } from '../../src/inputs/ObjectSearch';
+import { CLASS_NAME_BTN_BACK } from '../../src/inputs/ObjectSearchCreate';
 
 function getDefaults (overrides?: any) {
   const field = overrides.field || 'law_firm'
@@ -44,7 +46,7 @@ async function getTester (props: any) {
 }
 
 async function clickAddNew (tester: any) {
-  tester.click(`.${CX_PREFIX_SEARCH_CREATE}-item-add div`);
+  tester.click(`.${OPTION_KEYS.ADD} div`);
 }
 
 async function clickFirstResult (tester: any) {
@@ -52,7 +54,7 @@ async function clickFirstResult (tester: any) {
 }
 
 async function clickBack (tester: any) {
-  tester.click(`.${CX_PREFIX_SEARCH_CREATE}-btn-back`);
+  tester.click(`.${CLASS_NAME_BTN_BACK}`);
 }
 
 describe('objectSearchCreate', () => {

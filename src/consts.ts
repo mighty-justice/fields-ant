@@ -11,5 +11,3 @@ export const DEFAULT_STATE_OPTION_TYPE = 'us_states';
 export const CLASS_PREFIX = 'fields-ant';
 
 export const ANT_FULL_COL_WIDTH = 24;
-
-export const CX_PREFIX_SEARCH_CREATE = `${CLASS_PREFIX}-input-search-create`;
