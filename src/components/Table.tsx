@@ -9,10 +9,13 @@ import * as Antd from 'antd';
 
 import { fieldSetsToColumns, IColumns } from '../utilities';
 import { IModel, ISharedComponentProps } from '../props';
+import { CLASS_PREFIX } from '../consts';
 
 export interface ITableProps extends ISharedComponentProps {
   model: IModel[];
 }
+
+const CLASS_NAME = `${CLASS_PREFIX}-table`;
 
 @autoBindMethods
 @observer
@@ -40,7 +43,7 @@ class Table extends Component<ITableProps> {
     return (
       <Antd.Table
         {...omit(this.props, 'title')}
-        className={cx(className)}
+        className={cx(CLASS_NAME, className)}
         columns={this.columns}
         dataSource={this.dataSource}
         loading={isLoading}

@@ -9,10 +9,13 @@ import * as Antd from 'antd';
 import { fillInFieldSets, filterFieldSets } from '../utilities';
 import CardFieldSet from '../building-blocks/CardFieldSet';
 import { ISharedComponentProps } from '../props';
+import { CLASS_PREFIX } from '../consts';
 
 export interface ICardProps extends ISharedComponentProps {
   renderTopRight?: () => any;
 }
+
+const CLASS_NAME = `${CLASS_PREFIX}-card`;
 
 @autoBindMethods
 @observer
@@ -28,7 +31,7 @@ class Card extends Component<ICardProps> {
 
     return (
       <Antd.Card
-        className={cx(className)}
+        className={cx(CLASS_NAME, className)}
         extra={renderTopRight && renderTopRight()}
         loading={isLoading}
         title={title}

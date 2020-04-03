@@ -135,6 +135,7 @@ describe('objectSearch', () => {
         , callsOnFocus: number = searchOnEmpty ? 1 : 0
         ;
 
+      tester.endpoints['/legal-organizations/'] = { results };
       expect(tester.getEndpoint.mock.calls.length).toBe(0);
 
       // Only focus
