@@ -7,6 +7,7 @@ export interface IFormFieldProps {
     formManager: FormManager;
     formModel: IModel;
 }
+export declare const FORM_ITEM_CLASS_NAME: string;
 declare class FormItem extends Component<IFormFieldProps> {
     private readonly initialValue;
     private fieldsValidatorToValidator;

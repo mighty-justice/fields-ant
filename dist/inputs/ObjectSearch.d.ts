@@ -15,6 +15,13 @@ export interface IObjectSearchProps {
     searchOnEmpty?: boolean;
     selectProps: SelectProps;
 }
+export declare const CLASS_NAME: string;
+export declare const OPTION_KEYS: {
+    ADD: string;
+    EMPTY: string;
+    NO_SEARCH: string;
+    OPTION: string;
+};
 declare class ObjectSearch extends Component<IObjectSearchProps> {
     private options;
     private isLoading;

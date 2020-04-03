@@ -20,6 +20,9 @@ export interface IObjectSearchCreateProps {
     searchOnEmpty?: boolean;
     selectProps: SelectProps;
 }
+export declare const CLASS_NAME: string;
+export declare const CLASS_NAME_BTN_BACK: string;
+export declare const CLASS_NAME_CREATING: string;
 declare class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     private isAddingNew;
     private search;

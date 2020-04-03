@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { ClassValue } from 'classnames/types';
-import { IFieldConfig } from '../interfaces';
+import { IFieldConfigPartial } from '../interfaces';
 declare class Info extends Component<{
-    fieldConfig: IFieldConfig;
+    fieldConfig: IFieldConfigPartial;
 }> {
     render(): JSX.Element;
 }
