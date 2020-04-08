@@ -4306,7 +4306,7 @@ function (_Component) {
   _createClass(Table, [{
     key: "getTitle",
     value: function getTitle() {
-      return this.props.title || '';
+      return this.props.title || undefined;
     }
   }, {
     key: "render",
@@ -4314,12 +4314,17 @@ function (_Component) {
       var _this$props = this.props,
           isLoading = _this$props.isLoading,
           title = _this$props.title,
-          className = _this$props.className;
-      return React__default.createElement(Antd.Table, _extends({}, lodash.omit(this.props, 'title'), {
+          className = _this$props.className,
+          passDownProps = _objectWithoutProperties(_this$props, ["isLoading", "title", "className"]);
+
+      return React__default.createElement(Antd.Table, _extends({}, passDownProps, {
         className: cx(CLASS_NAME$a, className),
         columns: this.columns,
         dataSource: this.dataSource,
         loading: isLoading,
+        pagination: _objectSpread2({
+          hideOnSinglePage: true
+        }, this.props.pagination),
         title: title ? this.getTitle : undefined
       }));
     }
