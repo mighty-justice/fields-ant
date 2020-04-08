@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { omit } from 'lodash';
 import cx from 'classnames';
 
 import * as Antd from 'antd';
+import { TableProps } from 'antd/lib/table/interface';
 
 import { fieldSetsToColumns, IColumns } from '../utilities';
 import { IModel, ISharedComponentProps } from '../props';
 import { CLASS_PREFIX } from '../consts';
 
-export interface ITableProps extends ISharedComponentProps {
+export type ITableModel = IModel & { key: string };
+export type ITablePassDownProps = Omit<TableProps<ITableModel>, 'className' | 'title'>;
+
+export interface ITableProps extends ISharedComponentProps, ITablePassDownProps {
   model: IModel[];
 }
 
@@ -26,27 +29,28 @@ class Table extends Component<ITableProps> {
   }
 
   @computed
-  private get dataSource (): Array<IModel & { key: string }> {
+  private get dataSource (): ITableModel[] {
     return this.props.model.map((item, idx) => ({
       key: item.id || idx.toString(),
       ...item,
     }));
   }
 
-  private getTitle () {
-    return this.props.title || '';
+  private getTitle (): string | undefined {
+    return this.props.title || undefined;
   }
 
   public render () {
-    const { isLoading, title, className } = this.props;
+    const { isLoading, title, className, ...passDownProps } = this.props;
 
     return (
       <Antd.Table
-        {...omit(this.props, 'title')}
+        {...passDownProps}
         className={cx(CLASS_NAME, className)}
         columns={this.columns}
         dataSource={this.dataSource}
         loading={isLoading}
+        pagination={{ hideOnSinglePage: true, ...this.props.pagination }}
         title={title ? this.getTitle : undefined}
       />
     );
