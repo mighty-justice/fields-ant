@@ -2312,6 +2312,10 @@
     // Useful for clearing manually-set backend validation errors
     callback();
   }
+  function getBtnClassName(action, classNameSuffix, title) {
+    var prefix = "btn-".concat(action);
+    return cx(prefix, lodash.isString(title) && "".concat(prefix, "-").concat(lodash.kebabCase(title)), _defineProperty({}, "".concat(prefix, "-").concat(classNameSuffix), !!classNameSuffix));
+  }
 
   // Takes an API response and converts it to a string to string map
   function getFieldErrors(errors) {
@@ -3740,17 +3744,18 @@
       get: function get() {
         var _this$props3 = this.props,
             isGuarded = _this$props3.isGuarded,
-            title = _this$props3.title,
+            classNameSuffix = _this$props3.classNameSuffix,
             onDelete = _this$props3.onDelete,
             isLoading = _this$props3.isLoading,
-            classNameSuffix = this.props.classNameSuffix || lodash.kebabCase(title);
+            title = _this$props3.title,
+            className = getBtnClassName('delete', classNameSuffix, title);
 
         if (!onDelete) {
           return;
         }
 
         return React__default.createElement(GuardedButton, {
-          className: "btn-delete btn-delete-".concat(classNameSuffix),
+          className: className,
           confirm: true,
           disabled: isLoading || this.isDeleting.isTrue,
           icon: "delete",
@@ -3765,11 +3770,12 @@
       get: function get() {
         var _this$props4 = this.props,
             isLoading = _this$props4.isLoading,
-            title = _this$props4.title,
             isGuarded = _this$props4.isGuarded,
-            classNameSuffix = this.props.classNameSuffix || lodash.kebabCase(title);
+            classNameSuffix = _this$props4.classNameSuffix,
+            title = _this$props4.title,
+            className = getBtnClassName('edit', classNameSuffix, title);
         return React__default.createElement(GuardedButton, {
-          className: "btn-edit btn-edit-".concat(classNameSuffix),
+          className: className,
           disabled: isLoading || this.isEditing.isTrue || this.isDeleting.isTrue,
           icon: "edit",
           isGuarded: isGuarded,
@@ -3868,12 +3874,13 @@
       key: "renderAddNew",
       value: function renderAddNew() {
         var _this$props2 = this.props,
-            title = _this$props2.title,
             isLoading = _this$props2.isLoading,
             isGuarded = _this$props2.isGuarded,
-            classNameSuffix = this.props.classNameSuffix || lodash.kebabCase(title);
+            classNameSuffix = _this$props2.classNameSuffix,
+            title = _this$props2.title,
+            className = getBtnClassName('new', classNameSuffix, title);
         return React__default.createElement(GuardedButton, {
-          className: "btn-new btn-new-".concat(classNameSuffix),
+          className: className,
           disabled: isLoading || this.isAddingNew.isTrue,
           icon: "plus",
           isGuarded: isGuarded,
@@ -3886,6 +3893,7 @@
       key: "render",
       value: function render() {
         var _this$props3 = this.props,
+            classNameSuffix = _this$props3.classNameSuffix,
             defaults = _this$props3.defaults,
             fieldSets = _this$props3.fieldSets,
             isLoading = _this$props3.isLoading,
@@ -3908,7 +3916,7 @@
           className: "empty-message"
         }, "No records"), model.map(function (modelItem) {
           return React__default.createElement(EditableCard, {
-            classNameSuffix: lodash.kebabCase(title),
+            classNameSuffix: classNameSuffix,
             fieldSets: fieldSets,
             key: modelItem.id,
             model: modelItem,
@@ -4391,6 +4399,7 @@
   exports.formPropsDefaults = formPropsDefaults;
   exports.formatOptionSelect = formatOptionSelect;
   exports.formatRating = formatRating;
+  exports.getBtnClassName = getBtnClassName;
   exports.getDateFormatList = getDateFormatList;
   exports.getFieldSetFields = getFieldSetFields;
   exports.getFieldSetsFields = getFieldSetsFields;

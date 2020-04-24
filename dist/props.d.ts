@@ -31,7 +31,7 @@ export interface ISharedComponentProps {
     fieldSets: IFieldSet[] | IFieldSetPartial[];
     isLoading?: boolean;
     model?: IModel;
-    title?: string;
+    title?: React.ReactNode;
 }
 export interface ISharedFormProps {
     blockSubmit?: boolean;

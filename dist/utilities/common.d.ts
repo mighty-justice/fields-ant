@@ -24,4 +24,5 @@ export declare type IColumns = Array<ColumnProps<IModel> & {
 export declare function fieldSetsToColumns(fieldSets: IFieldSetPartial[], tableModel?: IModel[]): IColumns;
 export declare function modelFromFieldConfigs(fieldConfigs: IFieldConfig[], data: IModel): IModel;
 export declare function noopValidator(_rule: any, _value: any, callback: (message?: string) => void): void;
+export declare function getBtnClassName(action: string, classNameSuffix?: string, title?: React.ReactNode): string;
 export {};
