@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
-import { kebabCase } from 'lodash';
 
 import SmartBool from '@mighty-justice/smart-bool';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import GuardedButton from '../building-blocks/GuardedButton';
 import { formPropsDefaults } from '../propsDefaults';
+import { getBtnClassName } from '../utilities';
 import { ISharedFormModalProps, ISharedFormProps } from '../props';
 
 import Card, { ICardProps } from './Card';
@@ -55,14 +55,14 @@ class EditableCard extends Component<IEditableCardProps> {
   }
 
   private get deleteButton () {
-    const { isGuarded, title, onDelete, isLoading } = this.props
-      , classNameSuffix = this.props.classNameSuffix || kebabCase(title);
+    const { isGuarded, classNameSuffix, onDelete, isLoading, title } = this.props
+      , className = getBtnClassName('delete', classNameSuffix, title);
 
     if (!onDelete) { return; }
 
     return (
       <GuardedButton
-        className={`btn-delete btn-delete-${classNameSuffix}`}
+        className={className}
         confirm={true}
         disabled={isLoading || this.isDeleting.isTrue}
         icon='delete'
@@ -77,12 +77,12 @@ class EditableCard extends Component<IEditableCardProps> {
   }
 
   private get editButton () {
-    const { isLoading, title, isGuarded } = this.props
-      , classNameSuffix = this.props.classNameSuffix || kebabCase(title);
+    const { isLoading, isGuarded, classNameSuffix, title } = this.props
+      , className = getBtnClassName('edit', classNameSuffix, title);
 
     return (
       <GuardedButton
-        className={`btn-edit btn-edit-${classNameSuffix}`}
+        className={className}
         disabled={isLoading || this.isEditing.isTrue || this.isDeleting.isTrue}
         icon='edit'
         isGuarded={isGuarded}

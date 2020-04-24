@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
-import { isEmpty, kebabCase } from 'lodash';
+import { isEmpty } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
 
@@ -9,6 +9,7 @@ import * as Antd from 'antd';
 
 import GuardedButton from '../building-blocks/GuardedButton';
 import { formPropsDefaults } from '../propsDefaults';
+import { getBtnClassName } from '../utilities';
 import { ISharedFormProps } from '../props';
 
 import EditableCard from './EditableCard';
@@ -38,12 +39,12 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
   }
 
   private renderAddNew () {
-    const { title, isLoading, isGuarded } = this.props
-      , classNameSuffix = this.props.classNameSuffix || kebabCase(title);
+    const { isLoading, isGuarded, classNameSuffix, title } = this.props
+      , className = getBtnClassName('new', classNameSuffix, title);
 
     return (
       <GuardedButton
-        className={`btn-new btn-new-${classNameSuffix}`}
+        className={className}
         disabled={isLoading || this.isAddingNew.isTrue}
         icon='plus'
         isGuarded={isGuarded}
@@ -58,6 +59,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
 
   public render () {
     const {
+      classNameSuffix,
       defaults,
       fieldSets,
       isLoading,
@@ -86,7 +88,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
 
         {model.map(modelItem => (
           <EditableCard
-            classNameSuffix={kebabCase(title)}
+            classNameSuffix={classNameSuffix}
             fieldSets={fieldSets}
             key={modelItem.id}
             model={modelItem}
