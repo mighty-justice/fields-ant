@@ -29,6 +29,7 @@ export { default as OptionSelect } from './inputs/OptionSelect';
 export { default as OptionSelectDisplay, formatOptionSelect } from './inputs/OptionSelectDisplay';
 export { default as RadioGroup } from './inputs/RadioGroup';
 export { default as Rate, formatRating } from './inputs/Rate';
+export { default as TextareaWithEmoji } from './inputs/TextAreaWithEmoji';
 export { default as Date } from './inputs/Date';
 
 // Utility classes and functions

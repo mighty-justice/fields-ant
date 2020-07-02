@@ -43,6 +43,7 @@ import Checkbox from '../inputs/Checkbox';
 import Address from '../inputs/Address';
 import TrimWhitespaceInput from '../inputs/TrimWhitespaceInput';
 import ObjectSelect from '../inputs/ObjectSelect';
+import TextAreaWithEmoji from '../inputs/TextAreaWithEmoji';
 
 function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
@@ -251,6 +252,13 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   string: {},
   text: {
     editComponent: Antd.Input.TextArea,
+    editProps: {
+      autoSize: { minRows: 4 },
+    },
+    render: passRenderOnlyValue(parseAndPreserveNewlines),
+  },
+  textWithEmoji: {
+    editComponent: TextAreaWithEmoji,
     editProps: {
       autoSize: { minRows: 4 },
     },

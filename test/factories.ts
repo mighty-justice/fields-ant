@@ -102,6 +102,7 @@ export const ratingFactory = fieldFactoryForType('rating');
 export const ssnFactory = fieldFactoryForType('ssn');
 export const stringFactory = fieldFactoryForType('string');
 export const textFactory = fieldFactoryForType('text');
+export const textWithEmojiFactory = fieldFactoryForType('textWithEmoji');
 export const urlFactory = fieldFactoryForType('url');
 
 export const attrOptions = [
@@ -147,7 +148,7 @@ export const organizationResultFactory = new Factory()
   .attrs({
     id: faker.random.uuid,
     name: faker.company.companyName,
-  })
+  });
 
 /*
  *   FIELD SET FACTORY
@@ -259,6 +260,7 @@ export const TYPE_GENERATORS: ITypeGenerators = {
   ssn: { valueFunction: fakeSsn, fieldConfigFactory: ssnFactory },
   string: { valueFunction: fakeTextShort, fieldConfigFactory: stringFactory },
   text: { valueFunction: fakeTextLong, fieldConfigFactory: textFactory },
+  textWithEmoji: { valueFunction: fakeTextLong, fieldConfigFactory: textWithEmojiFactory },
   url: { valueFunction: faker.internet.url, fieldConfigFactory: urlFactory },
 };
 
