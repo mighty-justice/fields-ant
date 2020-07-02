@@ -10,6 +10,7 @@ import { observable, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
+import { IAntFormField, IInjected, IInputProps } from '../interfaces';
 
 const { Option } = Mentions;
 
@@ -33,20 +34,30 @@ const { Option } = Mentions;
 //   }
 // }
 
+interface IProps {
+  icon?: any;
+}
+
 @autoBindMethods
 @observer
-class TextAreaWithEmoji extends Component {
+class TextAreaWithEmoji extends Component<IProps> {
   private ref: any;
   @observable private isPickerVisible = new SmartBool();
   @observable private value = '';
   @observable private options: any[] = [];
 
+  private get injected () {
+    return this.props as IInjected & IInputProps & IAntFormField;
+  }
+
   private onChange (value: string) {
     this.value = value;
+    this.injected.onChange(this.value);
   }
 
   private onEmojiSelect (emojiData: any) {
     this.value += emojiData.native;
+    this.injected.onChange(this.value);
     this.isPickerVisible.setFalse();
     this.ref.focus();
   }
@@ -61,6 +72,7 @@ class TextAreaWithEmoji extends Component {
 
   private onSelectEmojiFromDropdown (_option: any, prefix: string) {
     this.value = replace(this.value, prefix, '');
+    this.injected.onChange(this.value);
   }
 
   public render () {
@@ -71,6 +83,7 @@ class TextAreaWithEmoji extends Component {
           onChange={this.onChange}
           placeholder='Type a note...'
           filterOption={false}
+          notFoundContent={null}
           ref={(input: any) => { this.ref = input; }}
           onSearch={this.onSearch}
           onSelect={this.onSelectEmojiFromDropdown}
@@ -83,13 +96,17 @@ class TextAreaWithEmoji extends Component {
         </Mentions>
         <Popover
           content={
-            <Picker onSelect={this.onEmojiSelect} />
+            <Picker
+              onSelect={this.onEmojiSelect}
+              showPreview={false}
+              enableFrequentEmojiSort
+            />
           }
           onVisibleChange={this.handlePickerVisibleChange}
           visible={this.isPickerVisible.isTrue}
           trigger='click'
         >
-          <Button>Click here!</Button>
+          <Button>{this.props.icon || 'Click here!'}</Button>
         </Popover>
       </>
     );
