@@ -1,4 +1,4 @@
-import { getFieldSuffix } from '../../src/utilities';
+import { getFieldSuffix } from '../../src/utilities/fillIn';
 
 const TYPE_INFERENCES = [
   ['case.status.is_loading', 'is_loading'],

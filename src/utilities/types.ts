@@ -1,15 +1,14 @@
 import { isBoolean } from 'lodash';
 import moment from 'moment';
-import { format } from 'date-fns';
-import { pattern as iso8601pattern } from 'iso8601-duration';
 
-import * as Antd from 'antd';
+import { DatePicker, Input } from 'antd';
 
 import {
   IFieldConfig,
 } from '../interfaces';
 
 import {
+  DATE_FORMATS,
   EMPTY_FIELD,
   formatAddressMultiline,
   formatCommaSeparatedNumber,
@@ -74,6 +73,16 @@ function booleanFromForm (value: IValue) {
 
 const dateFormatList = getDateFormatList();
 
+const numbers = '\\d+(?:[\\.,]\\d+)?';
+const weekPattern = `(${numbers}W)`;
+const datePattern = `(${numbers}Y)?(${numbers}M)?(${numbers}D)?`;
+const timePattern = `T(${numbers}H)?(${numbers}M)?(${numbers}S)?`;
+const iso8601 = `P(?:${weekPattern}|${datePattern}(?:${timePattern})?)`;
+/**
+ * The ISO8601 regex for matching / testing durations
+ */
+export const iso8601Pattern = new RegExp(iso8601);
+
 export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   address: {
     editComponent: Address,
@@ -108,9 +117,9 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: passRenderOnlyValue(formatDate),
   },
   datepicker: {
-    editComponent: Antd.DatePicker,
+    editComponent: DatePicker,
     editProps: { format: dateFormatList },
-    fromForm: (value: any) => value ? format(value, 'YYYY-MM-DD') : '',
+    fromForm: (value: any) => value ? formatDate(value, DATE_FORMATS.date_value) : '',
     nullify: true,
     render: passRenderOnlyValue(formatDate),
     toForm: (value: any) => (value || null) && moment(value),
@@ -119,13 +128,13 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     formValidationRules: {
       iso8601: {
         message: 'Must be a valid iso8601 duration',
-        pattern: iso8601pattern,
+        pattern: iso8601Pattern,
       },
     },
     nullify: true,
   },
   ein: {
-    editComponent: Antd.Input,
+    editComponent: Input,
     formValidationRules: {
       ssn: {
         message: 'Must be a valid employer ID number',
@@ -167,7 +176,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: passRenderOnlyValue(formatMoney),
   },
   number: {
-    editComponent: Antd.Input,
+    editComponent: Input,
     editProps: { type: 'number' },
     nullify: true,
     render: formatCommaSeparatedNumber,
@@ -202,7 +211,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: passRenderOnlyValueAndFieldConfig(formatOptionSelect),
   },
   password: {
-    editComponent: Antd.Input.Password,
+    editComponent: Input.Password,
     render: (value) => value ? '********' : EMPTY_FIELD,
   },
   percentage: {
@@ -224,7 +233,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     toForm: passToFormOnlyValue(getPercentDisplay),
   },
   phone: {
-    editComponent: Antd.Input,
+    editComponent: Input,
     render: passRenderOnlyValue(formatPhoneNumber),
   },
   radio: {
@@ -239,7 +248,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: formatRating,
   },
   ssn: {
-    editComponent: Antd.Input,
+    editComponent: Input,
     formValidationRules: {
       ssn: {
         message: 'Must be a valid social security number',
@@ -250,7 +259,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   },
   string: {},
   text: {
-    editComponent: Antd.Input.TextArea,
+    editComponent: Input.TextArea,
     editProps: {
       autoSize: { minRows: 4 },
     },

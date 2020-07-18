@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 
-import * as Antd from 'antd';
+import { Input } from 'antd';
 
 import {
   IAntFormField,
@@ -37,7 +37,7 @@ class Hidden extends Component<IInputProps> {
       ;
 
     return (
-      getFieldDecorator(field, { initialValue })(<Antd.Input {...inputProps} />)
+      getFieldDecorator(field, { initialValue })(<Input {...inputProps} />)
     );
   }
 }

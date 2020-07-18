@@ -13,7 +13,7 @@ import {
   IOption,
 } from '../interfaces';
 
-import { getOptions } from '../utilities';
+import { getOptions } from '../utilities/common';
 import { IValue } from '../props';
 
 export interface IOptionSelectDisplayProps {

@@ -2,12 +2,23 @@ import { IFieldConfig, IFieldSet } from '../interfaces';
 import { IModel } from '../props';
 
 import { isBoolean } from 'lodash';
-import { getFieldSetFields, setFieldSetFields } from './common';
+import { getFieldSetFields, isFieldSetSimple } from './common';
 
 interface IFilterConditions {
   model?: IModel | IModel[];
   readOnly?: boolean;
   writeOnly?: boolean;
+}
+
+export function setFieldSetFields (fieldSet: IFieldSet, fields: IFieldConfig[]) {
+  if (isFieldSetSimple(fieldSet)) {
+    return fieldSet;
+  }
+
+  return {
+    ...fieldSet,
+    fields,
+  };
 }
 
 // filterFieldConfig => True means don't show

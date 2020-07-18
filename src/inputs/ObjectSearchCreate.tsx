@@ -8,33 +8,26 @@ import { ClassValue } from 'classnames/types';
 
 import SmartBool from '@mighty-justice/smart-bool';
 
-import * as Antd from 'antd';
+import { Button, Col, Form, Icon } from 'antd';
 import { SelectProps } from 'antd/es/select';
 
+import { CLASS_PREFIX } from '../consts';
+import FormManager from '../utilities/FormManager';
 import {
-  CLASS_PREFIX,
-  FormManager,
   IAntFormField,
   IEndpointOption,
-  IFieldConfig,
   IFieldConfigObjectSearchCreate,
   IInjected,
   IInputProps,
-  NestedFieldSet,
-} from '../';
+} from '../interfaces';
+import NestedFieldSet from '../building-blocks/NestedFieldSet';
 
-import {
-  renderLabel,
-} from '../utilities';
+import { renderLabel } from '../utilities/common';
 
 import FormItem from '../building-blocks/FormItem';
 import { IModel } from '../props';
 
 import ObjectSearch from './ObjectSearch';
-
-export function isTypeObjectSearchCreate (fieldConfig: IFieldConfig): fieldConfig is IFieldConfigObjectSearchCreate {
-  return fieldConfig.type === 'objectSearchCreate';
-}
 
 export interface IObjectSearchCreateProps {
   addNewContent?: React.ReactNode;
@@ -107,8 +100,8 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     const { fieldConfig, formManager } = this.injected;
 
     return (
-      <Antd.Col>
-        <Antd.Form.Item>
+      <Col>
+        <Form.Item>
           <NestedFieldSet
             fieldSet={this.fieldConfig.createFields}
             formManager={formManager}
@@ -117,15 +110,15 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
             label={renderLabel(this.fieldConfig)}
             search={this.search}
           />
-          <Antd.Button
+          <Button
             className={CLASS_NAME_BTN_BACK}
             onClick={this.onSearch}
             size='small'
           >
-            <Antd.Icon type='left' /> Back to search
-          </Antd.Button>
-        </Antd.Form.Item>
-      </Antd.Col>
+            <Icon type='left' /> Back to search
+          </Button>
+        </Form.Item>
+      </Col>
     );
   }
 

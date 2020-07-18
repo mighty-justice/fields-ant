@@ -1,4 +1,4 @@
-import { getDateFormatList } from '../../src/utilities';
+import { getDateFormatList } from '../../src/utilities/getDateFormatList';
 
 import { DATE_FORMATS } from '@mighty-justice/utils';
 

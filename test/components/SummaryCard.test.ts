@@ -1,6 +1,6 @@
 import faker from 'faker';
 
-import { SummaryCard } from '../../src';
+import SummaryCard from '../../src/components/SummaryCard';
 import { Tester } from '@mighty-justice/tester';
 
 describe('SummaryCard', () => {

@@ -5,7 +5,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { ClassValue } from 'classnames/types';
 
-import * as Antd from 'antd';
+import { Col } from 'antd';
 
 import { CLASS_PREFIX } from '../consts';
 import { IFieldConfigPartial } from '../interfaces';
@@ -15,9 +15,9 @@ import { IFieldConfigPartial } from '../interfaces';
 class Info extends Component<{ fieldConfig: IFieldConfigPartial }> {
   public render () {
     return (
-      <Antd.Col {...this.props.fieldConfig.colProps} className={`${CLASS_PREFIX}-info`}>
+      <Col {...this.props.fieldConfig.colProps} className={`${CLASS_PREFIX}-info`}>
         {this.props.children}
-      </Antd.Col>
+      </Col>
     );
   }
 }

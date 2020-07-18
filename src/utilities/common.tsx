@@ -16,7 +16,7 @@ import {
 import { ColumnProps } from 'antd/es/table';
 
 import {
-  IFieldConfig,
+  IFieldConfig, IFieldConfigAddress, IFieldConfigObjectSearchCreate,
   IFieldConfigOptionSelect,
   IFieldConfigPartial,
   IFieldSet,
@@ -29,8 +29,6 @@ import {
 
 import { ID_ATTR } from '../consts';
 import { IModel, IValue } from '../props';
-import { isTypeAddress } from '../inputs/Address';
-import { isTypeObjectSearchCreate } from '../inputs/ObjectSearchCreate';
 import WithTooltip from '../building-blocks/WithTooltip';
 
 import { fillInFieldConfig, fillInFieldSets } from './fillIn';
@@ -44,28 +42,12 @@ export function isFieldSetSimple (fieldSet: IFieldSet): fieldSet is IFieldSetSim
   return isArray(fieldSet);
 }
 
-type IMapper = (fields: IFieldConfigPartial) => IFieldConfigPartial;
-
-export function mapFieldSetFields (fieldSet: IFieldSetPartial, mapper: IMapper): IFieldSetPartial {
-  if (isPartialFieldSetSimple(fieldSet)) {
-    return fieldSet.map(mapper);
-  }
-
-  return {
-    ...fieldSet,
-    fields: fieldSet.fields.map(mapper),
-  };
+export function isTypeObjectSearchCreate (fieldConfig: IFieldConfig): fieldConfig is IFieldConfigObjectSearchCreate {
+  return fieldConfig.type === 'objectSearchCreate';
 }
 
-export function setFieldSetFields (fieldSet: IFieldSet, fields: IFieldConfig[]) {
-  if (isFieldSetSimple(fieldSet)) {
-    return fieldSet;
-  }
-
-  return {
-    ...fieldSet,
-    fields,
-  };
+export function isTypeAddress (fieldConfig: IFieldConfig): fieldConfig is IFieldConfigAddress {
+  return fieldConfig.type === 'address';
 }
 
 export function getFieldSetFields (fieldSet: IFieldSet): IFieldConfig[] {

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 
-import * as Antd from 'antd';
+import { Input } from 'antd';
 
 import { inferCentury } from '@mighty-justice/utils';
 
@@ -108,7 +108,7 @@ class Date extends Component<IInputProps> {
 
     return (
       <span key={key} style={{ display: 'inline-block', ...style }}>
-        <Antd.Input
+        <Input
           defaultValue={defaultValue}
           id={key}
           onChange={onChange}
@@ -122,9 +122,9 @@ class Date extends Component<IInputProps> {
 
   public render () {
     return (
-      <Antd.Input.Group compact>
+      <Input.Group compact>
         {INPUT_ORDER.map(this.renderFieldInput)}
-      </Antd.Input.Group>
+      </Input.Group>
     );
   }
 }

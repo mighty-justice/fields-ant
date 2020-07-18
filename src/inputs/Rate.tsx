@@ -4,7 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import { EMPTY_FIELD } from '@mighty-justice/utils';
 
-import * as Antd from 'antd';
+import { Rate as AntRate } from 'antd';
 
 import {
   IAntFormField,
@@ -13,7 +13,7 @@ import {
 } from '../interfaces';
 
 export function formatRating (value: string) {
-  return value ? <Antd.Rate disabled defaultValue={+value} /> : EMPTY_FIELD;
+  return value ? <AntRate disabled defaultValue={+value} /> : EMPTY_FIELD;
 }
 
 @autoBindMethods
@@ -25,7 +25,7 @@ class Rate extends Component<IInputProps> {
 
   public render () {
     return (
-      <Antd.Rate {...this.props} value={Number(this.injected.value)} />
+      <AntRate {...this.props} value={Number(this.injected.value)} />
     );
   }
 }

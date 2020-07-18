@@ -3,7 +3,9 @@ import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
-import { FormManager, fillInFieldConfig, filterFieldConfig } from '../utilities';
+import FormManager from '../utilities/FormManager';
+import { fillInFieldConfig } from '../utilities/fillIn';
+import { filterFieldConfig } from '../utilities/filters';
 import { IFieldConfigPartial } from '../interfaces';
 import { IModel } from '../props';
 import FormItem from './FormItem';

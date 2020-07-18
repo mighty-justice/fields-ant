@@ -3,11 +3,9 @@ import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
-import {
-  fillInFieldSet,
-  filterFieldConfigs,
-  getFieldSetFields,
-} from '../utilities';
+import { fillInFieldSet } from '../utilities/fillIn';
+import { filterFieldConfigs } from '../utilities/filters';
+import { getFieldSetFields } from '../utilities/common';
 
 import CardField from '../building-blocks/CardField';
 import { IFieldSetPartial } from '../interfaces';

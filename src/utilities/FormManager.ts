@@ -13,7 +13,7 @@ import {
   set,
 } from 'lodash';
 
-import * as Antd from 'antd';
+import { notification } from 'antd';
 import { WrappedFormUtils } from 'antd/es/form/Form';
 
 import { ID_ATTR } from '../consts';
@@ -188,7 +188,7 @@ class FormManager {
     const { onSuccess, successText } = this.args;
 
     if (successText) {
-      Antd.notification.success({
+      notification.success({
         description: '',
         duration: TOAST_DURATION,
         message: successText,
@@ -208,7 +208,7 @@ class FormManager {
   private notifyUserAboutErrors (errors: IErrorMessage[]) {
     errors.forEach(({ field, message }) => {
       const description = [field, message].filter(s => !!s).join(' - ');
-      Antd.notification.error({ ...toastError, description });
+      notification.error({ ...toastError, description });
     });
   }
 

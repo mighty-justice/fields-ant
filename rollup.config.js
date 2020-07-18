@@ -11,7 +11,7 @@ const name = 'fields-ant'
   , extensions = ['.js', '.jsx', '.ts', '.tsx']
   , babelConfig = {
     ...babelrc({ addExternalHelpersPlugin: false }),
-    exclude: 'node_modules/**',
+    include: 'src/**',
     extensions,
   }
   , plugins = [
@@ -36,10 +36,14 @@ export default [
   {
     input,
     output: [
-      { file: pkg.main, format: 'cjs' },
-      { file: pkg.module, format: 'es' },
+      { file: pkg.main, format: 'cjs', compact: true },
+      { file: pkg.module, format: 'es', compact: true },
     ],
-    external: ['ms'],
+    external: [
+      'ms',
+      ...Object.keys(pkg.dependencies || {}),
+      ...Object.keys(pkg.peerDependencies || {}),
+    ],
     plugins,
   },
 ];

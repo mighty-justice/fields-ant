@@ -5,11 +5,11 @@ import { isEmpty } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
 
-import * as Antd from 'antd';
+import { Card as AntCard } from 'antd';
 
 import GuardedButton from '../building-blocks/GuardedButton';
 import { formPropsDefaults } from '../propsDefaults';
-import { getBtnClassName } from '../utilities';
+import { getBtnClassName } from '../utilities/common';
 import { ISharedFormProps } from '../props';
 
 import EditableCard from './EditableCard';
@@ -71,7 +71,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
     } = this.props;
 
     return (
-      <Antd.Card title={title} extra={this.renderAddNew()} loading={isLoading}>
+      <AntCard title={title} extra={this.renderAddNew()} loading={isLoading}>
         {this.isAddingNew.isTrue && (
           <FormCard
             defaults={defaults}
@@ -98,7 +98,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
             title=''
           />
         ))}
-      </Antd.Card>
+      </AntCard>
     );
   }
 }

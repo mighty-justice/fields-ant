@@ -1,7 +1,7 @@
 import { Tester } from '@mighty-justice/tester';
 
 import { COMPONENT_GENERATORS, fakeTextShort } from '../factories';
-import * as Antd from 'antd';
+import { notification } from 'antd';
 
 describe('successText', () => {
   it('With no successText', async () => {
@@ -10,10 +10,10 @@ describe('successText', () => {
       , tester = await new Tester(ComponentClass, { props }).mount({ async: true })
       ;
 
-    spyOn(Antd.notification, 'success');
-    expect(Antd.notification.success).not.toHaveBeenCalled();
+    spyOn(notification, 'success');
+    expect(notification.success).not.toHaveBeenCalled();
     await tester.submit();
-    expect(Antd.notification.success).toHaveBeenCalledWith({
+    expect(notification.success).toHaveBeenCalledWith({
       description: '',
       duration: 3,
       message: 'Success',
@@ -27,10 +27,10 @@ describe('successText', () => {
       , tester = await new Tester(ComponentClass, { props }).mount({ async: true })
       ;
 
-    spyOn(Antd.notification, 'success');
-    expect(Antd.notification.success).not.toHaveBeenCalled();
+    spyOn(notification, 'success');
+    expect(notification.success).not.toHaveBeenCalled();
     await tester.submit();
-    expect(Antd.notification.success).toHaveBeenCalledWith({
+    expect(notification.success).toHaveBeenCalledWith({
       description: '',
       duration: 3,
       message: successText,
@@ -44,9 +44,9 @@ describe('successText', () => {
       , tester = await new Tester(ComponentClass, { props }).mount({ async: true })
       ;
 
-    spyOn(Antd.notification, 'success');
-    expect(Antd.notification.success).not.toHaveBeenCalled();
+    spyOn(notification, 'success');
+    expect(notification.success).not.toHaveBeenCalled();
     await tester.submit();
-    expect(Antd.notification.success).not.toHaveBeenCalled();
+    expect(notification.success).not.toHaveBeenCalled();
   });
 });

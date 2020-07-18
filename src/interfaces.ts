@@ -5,7 +5,7 @@ import { ValidationRule as AntValidationRule, FormItemProps } from 'antd/es/form
 import { ClassValue } from 'classnames/types';
 
 import { IModel, IValue } from './props';
-import { FormManager } from './utilities';
+import FormManager from './utilities/FormManager';
 
 export type IFieldsValidator = (value: IValue, fieldConfig: IFieldConfig, model: IModel) => boolean;
 

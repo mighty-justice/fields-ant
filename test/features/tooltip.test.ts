@@ -1,6 +1,6 @@
 import { Tester } from '@mighty-justice/tester';
 
-import { EditableCard } from '../../src';
+import EditableCard from '../../src/components/EditableCard';
 import { fakeField, fakeTextShort } from '../factories';
 
 describe('tooltip', () => {

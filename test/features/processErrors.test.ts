@@ -1,5 +1,5 @@
 import httpStatus from 'http-status-codes';
-import * as Antd from 'antd';
+import { notification } from 'antd';
 
 import { Tester } from '@mighty-justice/tester';
 
@@ -34,7 +34,7 @@ describe('processErrors', () => {
       , tester = await new Tester(Form, { props }).mount()
       ;
 
-    spyOn(Antd.notification, 'error');
+    spyOn(notification, 'error');
     await tester.submit();
     expect(processErrors).toHaveBeenCalledWith({
       errorMessages: [{
@@ -51,7 +51,7 @@ describe('processErrors', () => {
     expect(tester.text()).toContain(newField2Error);
 
     // Modify existing errors
-    expect(Antd.notification.error).toHaveBeenCalledWith({
+    expect(notification.error).toHaveBeenCalledWith({
       description: `Non Field Errors - ${newNonFieldError}`,
       duration: 3,
       message: 'Error submitting form',

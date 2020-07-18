@@ -2,7 +2,7 @@ import faker from 'faker';
 import httpStatus from 'http-status-codes';
 import { set } from 'lodash';
 
-import * as Antd from 'antd';
+import { notification } from 'antd';
 
 import { Tester } from '@mighty-justice/tester';
 
@@ -75,10 +75,10 @@ describe('FormManager', () => {
 
     error.response = badResponse;
 
-    spyOn(Antd.notification, 'error');
+    spyOn(notification, 'error');
     const formManager = await getFormManager(fieldSets, { id, name, notId });
     formManager.handleRequestError(error);
-    expect(Antd.notification.error).toHaveBeenCalledWith({
+    expect(notification.error).toHaveBeenCalledWith({
        description: '500 - Server Error',
        duration: 3,
        message: 'Error submitting form',
@@ -107,10 +107,10 @@ describe('FormManager', () => {
         , tester = await new Tester(Form, { props }).mount()
         ;
 
-      spyOn(Antd.notification, 'error');
+      spyOn(notification, 'error');
       await tester.submit();
 
-      expect(Antd.notification.error).toHaveBeenCalledWith({
+      expect(notification.error).toHaveBeenCalledWith({
         description: `Non Field Errors - ${nonFieldError}`,
         duration: 3,
         message: 'Error submitting form',

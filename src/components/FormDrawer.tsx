@@ -4,7 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { omit } from 'lodash';
 
-import * as Antd from 'antd';
+import { Drawer } from 'antd';
 
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormModalProps } from '../props';
@@ -55,7 +55,7 @@ class FormDrawer extends Component<ISharedFormModalProps> {
     if (!this.isVisible) { return null; }
 
     return (
-      <Antd.Drawer
+      <Drawer
         className={className}
         closable
         destroyOnClose
@@ -73,7 +73,7 @@ class FormDrawer extends Component<ISharedFormModalProps> {
           onCancel={this.onCancel}
           onSuccess={this.onSuccess}
         />
-      </Antd.Drawer>
+      </Drawer>
     );
   }
 }

@@ -8,7 +8,7 @@ import SmartBool from '@mighty-justice/smart-bool';
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import GuardedButton from '../building-blocks/GuardedButton';
 import { formPropsDefaults } from '../propsDefaults';
-import { getBtnClassName } from '../utilities';
+import { getBtnClassName } from '../utilities/common';
 import { ISharedFormModalProps, ISharedFormProps } from '../props';
 
 import Card, { ICardProps } from './Card';

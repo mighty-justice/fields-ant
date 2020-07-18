@@ -1,4 +1,4 @@
-import * as Antd from 'antd';
+import { Input } from 'antd';
 
 import { getOrDefault, varToLabel } from '@mighty-justice/utils';
 
@@ -6,12 +6,12 @@ import { IFieldConfig, IFieldConfigPartial, IFieldSet, IFieldSetPartial } from '
 import { IValue } from '../props';
 
 import { TYPES } from './types';
-import { mapFieldSetFields } from './common';
+import { isPartialFieldSetSimple } from './common';
 
 export function falseyToString (value: IValue) { return value || ''; }
 
 const typeDefaults = {
-  editComponent: Antd.Input,
+  editComponent: Input,
   fieldConfigProp: false,
   formValidationRules: {},
   fromForm: falseyToString,
@@ -113,6 +113,19 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
       ...requiredValidationRule,
     },
   } as IFieldConfig;
+}
+
+type IMapper = (fields: IFieldConfigPartial) => IFieldConfigPartial;
+
+export function mapFieldSetFields (fieldSet: IFieldSetPartial, mapper: IMapper): IFieldSetPartial {
+  if (isPartialFieldSetSimple(fieldSet)) {
+    return fieldSet.map(mapper);
+  }
+
+  return {
+    ...fieldSet,
+    fields: fieldSet.fields.map(mapper),
+  };
 }
 
 export function fillInFieldSet (fieldSet: IFieldSetPartial): IFieldSet {

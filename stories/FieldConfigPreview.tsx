@@ -3,12 +3,12 @@ import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
 
-import * as Antd from 'antd';
+import { Card, Col, Row } from 'antd';
 
 import { parseAndPreserveNewlines } from '@mighty-justice/utils';
 
 import { IModel } from '../src/props';
-import { fillInFieldConfig } from '../src/utilities';
+import { fillInFieldConfig } from '../src/utilities/fillIn';
 import Form from '../src/components/Form';
 
 const render = (value: any) => {
@@ -35,9 +35,9 @@ class FieldConfigPreview extends Component<{}> {
 
   public render () {
     return (
-      <Antd.Row type='flex' justify='center' align='top' gutter={16}>
-        <Antd.Col span={10}>
-          <Antd.Card>
+      <Row type='flex' justify='center' align='top' gutter={16}>
+        <Col span={10}>
+          <Card>
             <Form
               defaults={this.model}
               fieldSets={[[{
@@ -50,16 +50,16 @@ class FieldConfigPreview extends Component<{}> {
               resetOnSuccess={false}
               saveText='Fill in fieldConfig'
             />
-          </Antd.Card>
-        </Antd.Col>
-        <Antd.Col span={10}>
-          <Antd.Card>
+          </Card>
+        </Col>
+        <Col span={10}>
+          <Card>
             <pre>
               {parseAndPreserveNewlines(render(fillInFieldConfig(this.fieldConfigPartial)))}
             </pre>
-          </Antd.Card>
-        </Antd.Col>
-      </Antd.Row>
+          </Card>
+        </Col>
+      </Row>
     );
   }
 }

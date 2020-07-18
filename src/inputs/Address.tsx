@@ -3,22 +3,14 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
-import * as Antd from 'antd';
+import { Col, Form } from 'antd';
 
-import {
-  DEFAULT_STATE_OPTION_TYPE,
-  FormManager,
-  IFieldConfig,
-  IFieldConfigAddress,
-  IFieldConfigPartial,
-  IInjected,
-  IInputProps,
-  NestedFieldSet,
-} from '../';
+import { DEFAULT_STATE_OPTION_TYPE } from '../consts';
+import FormManager from '../utilities/FormManager';
+import { IFieldConfigAddress, IFieldConfigPartial, IInjected, IInputProps } from '../interfaces';
+import NestedFieldSet from '../building-blocks/NestedFieldSet';
 
-import {
-  renderLabel,
-} from '../utilities';
+import { renderLabel } from '../utilities/common';
 
 import { IModel } from '../props';
 import { FORM_ITEM_CLASS_NAME } from '../building-blocks/FormItem';
@@ -27,10 +19,6 @@ export interface IAddressProps {
   fieldConfig: IFieldConfigAddress;
   formManager: FormManager;
   formModel: IModel;
-}
-
-export function isTypeAddress (fieldConfig: IFieldConfig): fieldConfig is IFieldConfigAddress {
-  return fieldConfig.type === 'address';
 }
 
 const CLASS_NAME = `${FORM_ITEM_CLASS_NAME}-input-address`;
@@ -76,8 +64,8 @@ class Address extends Component<IAddressProps> {
       ;
 
     return (
-      <Antd.Col {...colProps}>
-        <Antd.Form.Item className={className}>
+      <Col {...colProps}>
+        <Form.Item className={className}>
           <NestedFieldSet
             fieldSet={this.fieldSet}
             formManager={formManager}
@@ -85,8 +73,8 @@ class Address extends Component<IAddressProps> {
             id={fieldConfig.field}
             label={renderLabel(fieldConfig)}
           />
-        </Antd.Form.Item>
-      </Antd.Col>
+        </Form.Item>
+      </Col>
     );
   }
 }

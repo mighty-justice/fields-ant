@@ -5,17 +5,15 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
-import * as Antd from 'antd';
+import { Button, Form as AntForm } from 'antd';
 import { ButtonProps } from 'antd/es/button';
 import { FormComponentProps } from 'antd/es/form';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
-import {
-  fillInFieldSets,
-  filterFieldSets,
-  FormManager,
-} from '../utilities';
+import FormManager from '../utilities/FormManager';
+import { filterFieldSets } from '../utilities/filters';
+import { fillInFieldSets } from '../utilities/fillIn';
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormProps, ISharedComponentProps } from '../props';
 import { CLASS_PREFIX } from '../consts';
@@ -93,22 +91,22 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       };
 
     if (blockSubmit) {
-      return <Antd.Button block {...submitProps}/>;
+      return <Button block {...submitProps}/>;
     }
 
     return (
       <ButtonToolbar align='right' noSpacing>
         {onCancel && (
-          <Antd.Button
+          <Button
             disabled={this.formManager.isCancelButtonDisabled}
             onClick={onCancel}
             size='large'
           >
             {cancelText}
-          </Antd.Button>
+          </Button>
         )}
 
-        <Antd.Button {...submitProps}/>
+        <Button {...submitProps}/>
       </ButtonToolbar>
     );
   }
@@ -120,7 +118,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       , className = cx(CLASS_NAME, this.props.className);
 
     return (
-      <Antd.Form layout='vertical' onSubmit={this.formManager.onSave} className={className}>
+      <AntForm layout='vertical' onSubmit={this.formManager.onSave} className={className}>
         {title && <h2>{title}</h2>}
 
         {filteredFieldSets.map((fieldSet, idx) => (
@@ -135,13 +133,13 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
         {this.props.children}
 
         {showControls && this.renderControls()}
-      </Antd.Form>
+      </AntForm>
     );
   }
 }
 
 // istanbul ignore next
-const WrappedForm = Antd.Form.create()(UnwrappedForm);
+const WrappedForm = AntForm.create()(UnwrappedForm);
 
 @autoBindMethods
 @observer

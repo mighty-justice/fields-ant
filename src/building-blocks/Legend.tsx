@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
-import * as Antd from 'antd';
+import { Col } from 'antd';
 
-import { isPartialFieldSetSimple } from '../utilities';
+import { isPartialFieldSetSimple } from '../utilities/common';
 
 import WithTooltip from './WithTooltip';
 import { ANT_FULL_COL_WIDTH } from '../consts';
@@ -26,11 +26,11 @@ class Legend extends Component<IProps> {
     if (!legend) { return null; }
 
     return (
-      <Antd.Col span={ANT_FULL_COL_WIDTH}>
+      <Col span={ANT_FULL_COL_WIDTH}>
         <h3>
           <WithTooltip tooltip={tooltip}>{legend}</WithTooltip>
         </h3>
-      </Antd.Col>
+      </Col>
     );
   }
 }

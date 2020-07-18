@@ -3,7 +3,7 @@ import { computed } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
 import { inject, observer } from 'mobx-react';
 
-import * as Antd from 'antd';
+import { Radio } from 'antd';
 
 import {
   IAntFormField,
@@ -13,7 +13,7 @@ import {
   IOption,
 } from '../interfaces';
 
-import { getOptions } from '../utilities';
+import { getOptions } from '../utilities/common';
 
 @inject('getOptions')
 @autoBindMethods
@@ -34,16 +34,16 @@ class RadioGroup extends Component<IInputProps> {
 
   public render () {
     return (
-      <Antd.Radio.Group {...this.props}>
+      <Radio.Group {...this.props}>
         {this.options.map(option => (
-          <Antd.Radio
+          <Radio
             key={option.value}
             value={option.value}
           >
             {option.name}
-          </Antd.Radio>
+          </Radio>
         ))}
-      </Antd.Radio.Group>
+      </Radio.Group>
     );
   }
 }

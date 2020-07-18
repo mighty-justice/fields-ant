@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 
-import * as Antd from 'antd';
+import { Card } from 'antd';
 
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormProps } from '../props';
@@ -25,9 +25,9 @@ export class FormCard extends Component<IFormCardProps> {
       , HANDLED_PROPS = ['title', 'renderTopRight'];
 
     return (
-      <Antd.Card loading={isLoading} title={title} extra={renderTopRight && renderTopRight()}>
+      <Card loading={isLoading} title={title} extra={renderTopRight && renderTopRight()}>
         <Form {...omit(this.props, HANDLED_PROPS)} />
-      </Antd.Card>
+      </Card>
     );
   }
 }

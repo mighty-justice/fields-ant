@@ -1,8 +1,11 @@
 import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
-import { FormManager } from '../../src/utilities';
-import { EditableCard, CardField, FormField, Table } from '../../src';
+import FormManager from '../../src/utilities/FormManager';
+import EditableCard from '../../src/components/EditableCard';
+import CardField from '../../src/building-blocks/CardField';
+import FormField from '../../src/building-blocks/FormField';
+import Table from '../../src/components/Table';
 import { fakeTextShort } from '../factories';
 
 const title = 'testing'

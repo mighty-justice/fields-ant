@@ -1,26 +1,24 @@
 import { Factory } from 'rosie';
 import faker from 'faker';
-import { format } from 'date-fns';
 import { action } from '@storybook/addon-actions';
 import { fromPairs, sample, zipWith } from 'lodash';
 
 import SmartBool from '@mighty-justice/smart-bool';
 
-import {
-  ArrayCard,
-  Card,
-  EditableArrayCard,
-  EditableCard,
-  Form,
-  FormCard,
-  FormDrawer,
-  FormModal,
-  IFieldConfig,
-  SummaryCard,
-} from '../src';
+import ArrayCard from '../src/components/ArrayCard';
+import Card from '../src/components/Card';
+import EditableArrayCard from '../src/components/EditableArrayCard';
+import EditableCard from '../src/components/EditableCard';
+import Form from '../src/components/Form';
+import FormCard from '../src/components/FormCard';
+import FormDrawer from '../src/components/FormDrawer';
+import FormModal from '../src/components/FormModal';
+import { IFieldConfig } from '../src/interfaces';
+import SummaryCard from '../src/components/SummaryCard';
 
 import { IValue } from '../src/props';
 import Table from '../src/components/Table';
+import { DATE_FORMATS, formatDate } from '@mighty-justice/utils';
 
 export function getEmptyValue (fieldConfig: IFieldConfig) {
   if (fieldConfig.type === 'checkbox') { return false; }
@@ -54,8 +52,8 @@ export const fakeAddress = () => ({
   zip_code: faker.address.zipCode(),
 });
 export const fakeBoolean = () => sample([true, false]);
-export const fakeDateRecent = () => format(faker.date.recent(), 'YYYY-MM-DD');
-export const fakeDatePast = () => format(faker.date.past(100), 'YYYY-MM-DD');
+export const fakeDateRecent = () => formatDate(faker.date.recent().toISOString(), DATE_FORMATS.date_value);
+export const fakeDatePast = () => formatDate(faker.date.past(100).toISOString(), DATE_FORMATS.date_value);
 export const fakeDuration = () => faker.helpers.replaceSymbolWithNumber('P#Y');
 export const fakeEin = () => faker.helpers.replaceSymbolWithNumber('##-#######');
 export const fakeField = () => faker.random.words(3).replace(/[^A-Za-z ]/g, '').replace(/ /g, '_').toLowerCase();
@@ -147,7 +145,7 @@ export const organizationResultFactory = new Factory()
   .attrs({
     id: faker.random.uuid,
     name: faker.company.companyName,
-  })
+  });
 
 /*
  *   FIELD SET FACTORY
