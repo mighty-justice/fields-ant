@@ -34,7 +34,8 @@ function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
 }
 
 function assignErrorFieldsToFormFields (
-    fieldNames: string[], fieldErrors: { [key: string]: string },
+    fieldNames: string[],
+    fieldErrors: { [key: string]: string },
   ): IBackendValidation {
   const foundOnForm: IFoundOnForm = {}
     , errorMessages: IErrorMessage[] = [];
@@ -97,7 +98,7 @@ export default function backendValidation (fieldNames: string[], response: any):
   }
 
   return {
-    errorMessages: [],
+    errorMessages: [{ field: '', message: 'Response was null.'}],
     foundOnForm: {},
   };
 }

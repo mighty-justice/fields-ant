@@ -72,7 +72,7 @@ const TESTING_PAIRS = [
   {
     RESPONSE: null,
     FOUND_ON_FORM: {},
-    ERROR_MESSAGES: [],
+    ERROR_MESSAGES: [{ field: '', message: 'Response was null.' }],
   },
 ];
 
