@@ -34,7 +34,7 @@ function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
 }
 
 function assignErrorFieldsToFormFields (
-    fieldNames: string[], fieldErrors: { [key: string]: string }
+    fieldNames: string[], fieldErrors: { [key: string]: string },
   ): IBackendValidation {
   const foundOnForm: IFoundOnForm = {}
     , errorMessages: IErrorMessage[] = [];
