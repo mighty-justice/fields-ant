@@ -77,7 +77,7 @@ function assignErrorFieldsToFormFields (
 }
 
 export default function backendValidation (fieldNames: string[], response: any): IBackendValidation {
-  if (isArray(response) || isString(response)) {
+  if (isArray(response)) {
     return {
       errorMessages: [{ field: '', message: response[0] }],
       foundOnForm: {},
@@ -87,6 +87,13 @@ export default function backendValidation (fieldNames: string[], response: any):
   if (isPlainObject(response)) {
     const fieldErrors = getFieldErrors(response);
     return assignErrorFieldsToFormFields(fieldNames, fieldErrors);
+  }
+
+  if (isString(response)) {
+    return {
+      errorMessages: [{ field: '', message: response }],
+      foundOnForm: {},
+    };
   }
 
   return {

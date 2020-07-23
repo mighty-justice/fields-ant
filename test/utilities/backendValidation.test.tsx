@@ -64,6 +64,11 @@ const TESTING_PAIRS = [
     FOUND_ON_FORM: {},
     ERROR_MESSAGES: [{ field: '', message: getString(6) }],
   },
+  {
+    RESPONSE: getString(7),
+    FOUND_ON_FORM: {},
+    ERROR_MESSAGES: [{ field: '', message: getString(7) }],
+  },
 ];
 
 describe('Backend Validation', () => {
