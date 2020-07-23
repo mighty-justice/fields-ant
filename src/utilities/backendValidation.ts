@@ -4,7 +4,6 @@ import { mapBooleanToText, varToLabel } from '@mighty-justice/utils';
 
 import { IBackendValidation, IErrorMessage, IFoundOnForm, toastError } from './FormManager';
 
-
 // Takes an API response and converts it to a string to string map
 function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
   const messages: { [key: string]: string } = {};
