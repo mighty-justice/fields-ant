@@ -2,7 +2,8 @@ import { isArray, isPlainObject, isString, extend, isBoolean } from 'lodash';
 
 import { mapBooleanToText, varToLabel } from '@mighty-justice/utils';
 
-import { IBackendValidation, IErrorMessage, IFoundOnForm } from './FormManager';
+import { IBackendValidation, IErrorMessage, IFoundOnForm, toastError } from './FormManager';
+
 
 // Takes an API response and converts it to a string to string map
 function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
@@ -42,7 +43,9 @@ function assignErrorFieldsToFormFields (
 
   // Try to assign error fields to form fields, falling back on generic array
   Object.keys(fieldErrors).forEach(errorField => {
-    const message = fieldErrors[errorField];
+    const message = fieldErrors[errorField]
+      , label = errorField === 'non_field_errors' ? '' : varToLabel(errorField)
+      ;
 
     // Check for an exact match
     if (fieldNames.includes(errorField)) {
@@ -71,7 +74,7 @@ function assignErrorFieldsToFormFields (
     }
 
     // With no form field found, add to generic array
-    errorMessages.push({ field: varToLabel(errorField), message });
+    errorMessages.push({ field: label, message });
   });
 
   return { errorMessages, foundOnForm };
@@ -98,7 +101,7 @@ export default function backendValidation (fieldNames: string[], response: any):
   }
 
   return {
-    errorMessages: [{ field: '', message: 'Response was null.'}],
+    errorMessages: [{ field: '', message: toastError['message'] }],
     foundOnForm: {},
   };
 }

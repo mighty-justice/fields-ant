@@ -32,7 +32,7 @@ const TESTING_PAIRS = [
   {
     RESPONSE: { non_field_errors: [getString(2)] },
     FOUND_ON_FORM: {},
-    ERROR_MESSAGES: [{ field: 'Non Field Errors', message: getString(2) }],
+    ERROR_MESSAGES: [{ field: '', message: getString(2) }],
   },
   {
     RESPONSE: { plaintiff: [{ name: [getString(3)] }] },
@@ -72,7 +72,7 @@ const TESTING_PAIRS = [
   {
     RESPONSE: null,
     FOUND_ON_FORM: {},
-    ERROR_MESSAGES: [{ field: '', message: 'Response was null.' }],
+    ERROR_MESSAGES: [{ field: '', message: 'Error submitting form' }],
   },
 ];
 
