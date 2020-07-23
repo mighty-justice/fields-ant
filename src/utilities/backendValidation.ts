@@ -44,8 +44,7 @@ function assignErrorFieldsToFormFields (
   // Try to assign error fields to form fields, falling back on generic array
   Object.keys(fieldErrors).forEach(errorField => {
     const message = fieldErrors[errorField]
-      , label = errorField === 'non_field_errors' ? '' : varToLabel(errorField)
-      ;
+      , label = errorField === 'non_field_errors' ? '' : varToLabel(errorField);
 
     // Check for an exact match
     if (fieldNames.includes(errorField)) {
