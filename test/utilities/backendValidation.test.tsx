@@ -59,6 +59,11 @@ const TESTING_PAIRS = [
     FOUND_ON_FORM: {},
     ERROR_MESSAGES: [{ field: 'Is Account Created', message: 'No' }],
   },
+  {
+    RESPONSE: [getString(6)],
+    FOUND_ON_FORM: {},
+    ERROR_MESSAGES: [{ field: '', message: getString(6) }],
+  },
 ];
 
 describe('Backend Validation', () => {

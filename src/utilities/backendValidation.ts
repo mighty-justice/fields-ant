@@ -1,4 +1,4 @@
-import { isArray, isPlainObject, extend, isBoolean } from 'lodash';
+import { isArray, isPlainObject, isString, extend, isBoolean } from 'lodash';
 
 import { mapBooleanToText, varToLabel } from '@mighty-justice/utils';
 
@@ -33,9 +33,8 @@ function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
   return messages;
 }
 
-export default function backendValidation (fieldNames: string[], response: object): IBackendValidation {
-  const fieldErrors = getFieldErrors(response)
-    , foundOnForm: IFoundOnForm = {}
+function assignErrorFieldsToFormFields (fieldNames: string[], fieldErrors: { [key: string]: string }): IBackendValidation {
+  const foundOnForm: IFoundOnForm = {}
     , errorMessages: IErrorMessage[] = [];
 
   // Try to assign error fields to form fields, falling back on generic array
@@ -73,4 +72,23 @@ export default function backendValidation (fieldNames: string[], response: objec
   });
 
   return { errorMessages, foundOnForm };
+}
+
+export default function backendValidation (fieldNames: string[], response: any): IBackendValidation {
+  if (isArray(response) || isString(response)) {
+    return {
+      errorMessages: [{ field: '', message: response[0] }],
+      foundOnForm: {},
+    };
+  }
+
+  if (isPlainObject(response)) {
+    const fieldErrors = getFieldErrors(response);
+    return assignErrorFieldsToFormFields(fieldNames, fieldErrors);
+  }
+
+  return {
+    errorMessages: [],
+    foundOnForm: {},
+  };
 }
