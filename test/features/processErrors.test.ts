@@ -27,7 +27,7 @@ describe('processErrors', () => {
       }
       , onSave = jest.fn(() => { throw error; })
       , processErrors = jest.fn(({ foundOnForm }) => ({
-        errorMessages: [{ field: 'Non Field Errors', message: newNonFieldError }],
+        errorMessages: [{ field: '', message: newNonFieldError }],
         foundOnForm: { ...foundOnForm, field_2: newField2Error },
       }))
       , props = { fieldSets, onSave, processErrors }
@@ -38,7 +38,7 @@ describe('processErrors', () => {
     await tester.submit();
     expect(processErrors).toHaveBeenCalledWith({
       errorMessages: [{
-        field: 'Non Field Errors',
+        field: '',
         message: nonFieldError,
       }],
       foundOnForm: { field_1: field1Error },
@@ -52,7 +52,7 @@ describe('processErrors', () => {
 
     // Modify existing errors
     expect(Antd.notification.error).toHaveBeenCalledWith({
-      description: `Non Field Errors - ${newNonFieldError}`,
+      description: `${newNonFieldError}`,
       duration: 3,
       message: 'Error submitting form',
     });

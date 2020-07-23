@@ -1,8 +1,8 @@
-import { isArray, isPlainObject, extend, isBoolean } from 'lodash';
+import { isArray, isPlainObject, isString, extend, isBoolean } from 'lodash';
 
 import { mapBooleanToText, varToLabel } from '@mighty-justice/utils';
 
-import { IBackendValidation, IErrorMessage, IFoundOnForm } from './FormManager';
+import { IBackendValidation, IErrorMessage, IFoundOnForm, toastError } from './FormManager';
 
 // Takes an API response and converts it to a string to string map
 function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
@@ -33,14 +33,17 @@ function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
   return messages;
 }
 
-export default function backendValidation (fieldNames: string[], response: object): IBackendValidation {
-  const fieldErrors = getFieldErrors(response)
-    , foundOnForm: IFoundOnForm = {}
+function assignErrorFieldsToFormFields (
+    fieldNames: string[],
+    fieldErrors: { [key: string]: string },
+  ): IBackendValidation {
+  const foundOnForm: IFoundOnForm = {}
     , errorMessages: IErrorMessage[] = [];
 
   // Try to assign error fields to form fields, falling back on generic array
   Object.keys(fieldErrors).forEach(errorField => {
-    const message = fieldErrors[errorField];
+    const message = fieldErrors[errorField]
+      , label = errorField === 'non_field_errors' ? '' : varToLabel(errorField);
 
     // Check for an exact match
     if (fieldNames.includes(errorField)) {
@@ -69,8 +72,34 @@ export default function backendValidation (fieldNames: string[], response: objec
     }
 
     // With no form field found, add to generic array
-    errorMessages.push({ field: varToLabel(errorField), message });
+    errorMessages.push({ field: label, message });
   });
 
   return { errorMessages, foundOnForm };
+}
+
+export default function backendValidation (fieldNames: string[], response: any): IBackendValidation {
+  if (isArray(response)) {
+    return {
+      errorMessages: [{ field: '', message: response[0] }],
+      foundOnForm: {},
+    };
+  }
+
+  if (isPlainObject(response)) {
+    const fieldErrors = getFieldErrors(response);
+    return assignErrorFieldsToFormFields(fieldNames, fieldErrors);
+  }
+
+  if (isString(response)) {
+    return {
+      errorMessages: [{ field: '', message: response }],
+      foundOnForm: {},
+    };
+  }
+
+  return {
+    errorMessages: [{ field: '', message: toastError['message'] }],
+    foundOnForm: {},
+  };
 }

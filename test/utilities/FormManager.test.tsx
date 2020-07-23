@@ -111,7 +111,7 @@ describe('FormManager', () => {
       await tester.submit();
 
       expect(Antd.notification.error).toHaveBeenCalledWith({
-        description: `Non Field Errors - ${nonFieldError}`,
+        description: `${nonFieldError}`,
         duration: 3,
         message: 'Error submitting form',
       });

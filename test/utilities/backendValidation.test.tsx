@@ -32,7 +32,7 @@ const TESTING_PAIRS = [
   {
     RESPONSE: { non_field_errors: [getString(2)] },
     FOUND_ON_FORM: {},
-    ERROR_MESSAGES: [{ field: 'Non Field Errors', message: getString(2) }],
+    ERROR_MESSAGES: [{ field: '', message: getString(2) }],
   },
   {
     RESPONSE: { plaintiff: [{ name: [getString(3)] }] },
@@ -58,6 +58,21 @@ const TESTING_PAIRS = [
     RESPONSE: { is_account_created: false },
     FOUND_ON_FORM: {},
     ERROR_MESSAGES: [{ field: 'Is Account Created', message: 'No' }],
+  },
+  {
+    RESPONSE: [getString(6)],
+    FOUND_ON_FORM: {},
+    ERROR_MESSAGES: [{ field: '', message: getString(6) }],
+  },
+  {
+    RESPONSE: getString(7),
+    FOUND_ON_FORM: {},
+    ERROR_MESSAGES: [{ field: '', message: getString(7) }],
+  },
+  {
+    RESPONSE: null,
+    FOUND_ON_FORM: {},
+    ERROR_MESSAGES: [{ field: '', message: 'Error submitting form' }],
   },
 ];
 
