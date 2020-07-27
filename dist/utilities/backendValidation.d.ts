@@ -1,2 +1,2 @@
 import { IBackendValidation } from './FormManager';
-export default function backendValidation(fieldNames: string[], response: object): IBackendValidation;
+export default function backendValidation(fieldNames: string[], response: any): IBackendValidation;

@@ -2317,7 +2317,6 @@
     return cx(prefix, lodash.isString(title) && "".concat(prefix, "-").concat(lodash.kebabCase(title)), _defineProperty({}, "".concat(prefix, "-").concat(classNameSuffix), !!classNameSuffix));
   }
 
-  // Takes an API response and converts it to a string to string map
   function getFieldErrors(errors) {
     var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
     var messages = {};
@@ -2346,13 +2345,13 @@
     return messages;
   }
 
-  function backendValidation(fieldNames, response) {
-    var fieldErrors = getFieldErrors(response),
-        foundOnForm = {},
+  function assignErrorFieldsToFormFields(fieldNames, fieldErrors) {
+    var foundOnForm = {},
         errorMessages = []; // Try to assign error fields to form fields, falling back on generic array
 
     Object.keys(fieldErrors).forEach(function (errorField) {
-      var message = fieldErrors[errorField]; // Check for an exact match
+      var message = fieldErrors[errorField],
+          label = errorField === 'non_field_errors' ? '' : utils.varToLabel(errorField); // Check for an exact match
 
       if (fieldNames.includes(errorField)) {
         foundOnForm[errorField] = message;
@@ -2402,13 +2401,48 @@
       }
 
       errorMessages.push({
-        field: utils.varToLabel(errorField),
+        field: label,
         message: message
       });
     });
     return {
       errorMessages: errorMessages,
       foundOnForm: foundOnForm
+    };
+  }
+
+  function backendValidation(fieldNames, response) {
+    if (lodash.isArray(response)) {
+      return {
+        errorMessages: [{
+          field: '',
+          message: response[0]
+        }],
+        foundOnForm: {}
+      };
+    }
+
+    if (lodash.isPlainObject(response)) {
+      var fieldErrors = getFieldErrors(response);
+      return assignErrorFieldsToFormFields(fieldNames, fieldErrors);
+    }
+
+    if (lodash.isString(response)) {
+      return {
+        errorMessages: [{
+          field: '',
+          message: response
+        }],
+        foundOnForm: {}
+      };
+    }
+
+    return {
+      errorMessages: [{
+        field: '',
+        message: toastError['message']
+      }],
+      foundOnForm: {}
     };
   }
 
