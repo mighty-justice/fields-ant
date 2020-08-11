@@ -7,9 +7,9 @@ describe('blockSubmit', () => {
     const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.Form
       , props = propsFactory.build({ fieldSets: [] })
       , withoutBlockSubmit = await new Tester(ComponentClass, { props })
-        .mount({ async: true })
+        .mount()
       , withBlockSubmit = await new Tester(ComponentClass, { props: { ...props, blockSubmit: true } })
-        .mount({ async: true })
+        .mount()
       ;
 
     expect(withoutBlockSubmit.find('button[type="submit"]').hasClass('ant-btn-block')).toBe(false);

@@ -15,7 +15,7 @@ describe('checkbox', () => {
     const onSave = jest.fn()
       , props: Partial<IFormCardProps> = { fieldSets, onSave, resetOnSuccess: true };
 
-    const tester = await new Tester(FormCard, { props }).mount({ async: true });
+    const tester = await new Tester(FormCard, { props }).mount();
 
     async function submitAndCheckFor (value: boolean) {
       expect(onSave).not.toHaveBeenCalled();

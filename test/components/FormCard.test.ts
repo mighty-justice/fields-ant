@@ -20,7 +20,7 @@ describe('FormCard', () => {
         title,
       };
 
-    const tester = await new Tester(FormCard, { props }).mount({ async: true });
+    const tester = await new Tester(FormCard, { props }).mount();
 
     tester.changeInput('input', newText);
 
@@ -52,7 +52,7 @@ describe('FormCard', () => {
       };
 
     spyOn(Antd.notification, 'error');
-    const tester = await new Tester(FormCard, { props }).mount({ async: true });
+    const tester = await new Tester(FormCard, { props }).mount();
 
     expect(Antd.notification.error).not.toHaveBeenCalled();
     expect(tester.text()).not.toContain(nameError);

@@ -27,7 +27,7 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
 
       if (ignoreTest) { return; }
 
-      const tester = await new Tester(FormCard, { props }).mount({ async: true });
+      const tester = await new Tester(FormCard, { props }).mount();
       expect(onSave).not.toHaveBeenCalled();
       tester.submit();
       expect(onSave).toHaveBeenCalledWith({ [fieldConfig.field]: value });

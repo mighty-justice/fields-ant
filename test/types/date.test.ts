@@ -13,7 +13,7 @@ async function checkInferYear (newYear: string) {
     , props = { fieldSets, model, onSave }
     ;
 
-  const tester = await new Tester(FormCard, { props }).mount({ async: true });
+  const tester = await new Tester(FormCard, { props }).mount();
   tester.changeInput(`input[id="${fieldConfig.field}.year"]`, newYear);
   tester.submit();
   return onSave.mock.calls[0][0][fieldConfig.field].slice(0, 4);
@@ -27,7 +27,7 @@ async function isInputsValid (month: string, day: string, year: string) {
     , props = { fieldSets, onSave }
     ;
 
-  const tester = await new Tester(FormCard, { props }).mount({ async: true });
+  const tester = await new Tester(FormCard, { props }).mount();
   tester.changeInput(`input[id="${fieldConfig.field}.month"]`, month);
   tester.changeInput(`input[id="${fieldConfig.field}.day"]`, day);
   tester.changeInput(`input[id="${fieldConfig.field}.year"]`, year);
@@ -49,7 +49,7 @@ describe('date', () => {
       , props = { fieldSets, model, onSave }
       ;
 
-    const tester = await new Tester(FormCard, { props }).mount({ async: true });
+    const tester = await new Tester(FormCard, { props }).mount();
     tester.changeInput(`input[id="${fieldConfig.field}.day"]`, newDay);
     tester.submit();
     expect(onSave).toHaveBeenCalledWith({ [fieldConfig.field]: newValue });
@@ -95,7 +95,7 @@ describe('date', () => {
       , props = { fieldSets, onSave, required: false }
       ;
 
-    const tester = await new Tester(FormCard, { props }).mount({ async: true });
+    const tester = await new Tester(FormCard, { props }).mount();
 
     tester.changeInput(`input[id="${fieldConfig.field}.month"]`, '01');
     tester.changeInput(`input[id="${fieldConfig.field}.day"]`, '01');
