@@ -23,6 +23,7 @@ import { IModel, IValue } from '../props';
 
 import backendValidation from './backendValidation';
 import { getFieldSetsFields, modelFromFieldConfigs } from './common';
+import { fillInFieldSets } from './fillIn';
 
 export interface IFoundOnForm { [key: string]: string; }
 export interface IErrorMessage { field: string; message: string; }
@@ -84,13 +85,19 @@ class FormManager {
     return this.formWrappedInstance.props.form;
   }
 
-  public get fieldConfigs (): IFieldConfig[] {
-    return getFieldSetsFields(this.args.fieldSets);
-  }
-
   public get isFormDisabled (): boolean {
     // The disabled prop can be changed any time, so we can't just save it locally
     return this.isSaving || !!this.formWrappedInstance.props.disabled;
+  }
+
+  public get fieldSets (): IFieldSet[] {
+    // The fieldSets prop can be changed any time, so try to get them dynamically if you can
+    const fieldSetsProp = this.formWrappedInstance.props.fieldSets;
+    return fieldSetsProp ? fillInFieldSets(fieldSetsProp) : this.args.fieldSets;
+  }
+
+  public get fieldConfigs (): IFieldConfig[] {
+    return getFieldSetsFields(this.fieldSets);
   }
 
   public get isSubmitButtonDisabled (): boolean {

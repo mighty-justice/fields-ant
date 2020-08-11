@@ -17,11 +17,6 @@ const CLASS_NAME = `${CLASS_PREFIX}-form-drawer`;
 @autoBindMethods
 @observer
 class FormDrawer extends Component<ISharedFormModalProps> {
-
-  public constructor (props: ISharedFormModalProps) {
-    super(props);
-  }
-
   public static defaultProps: Partial<ISharedFormModalProps> = {
     ...formPropsDefaults,
   };
