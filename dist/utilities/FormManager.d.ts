@@ -37,8 +37,9 @@ declare class FormManager {
     formWrappedInstance: IFormWrappedInstance;
     constructor(formWrappedInstance: IFormWrappedInstance, fieldSets: IFieldSet[], args: Partial<IArgs>);
     readonly form: WrappedFormUtils;
-    readonly fieldConfigs: IFieldConfig[];
     readonly isFormDisabled: boolean;
+    readonly fieldSets: IFieldSet[];
+    readonly fieldConfigs: IFieldConfig[];
     readonly isSubmitButtonDisabled: boolean;
     readonly isCancelButtonDisabled: boolean;
     getDefaultValue(fieldConfig: IFieldConfig): IValue;

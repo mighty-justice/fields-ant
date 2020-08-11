@@ -2726,15 +2726,22 @@
         return this.formWrappedInstance.props.form;
       }
     }, {
-      key: "fieldConfigs",
-      get: function get() {
-        return getFieldSetsFields(this.args.fieldSets);
-      }
-    }, {
       key: "isFormDisabled",
       get: function get() {
         // The disabled prop can be changed any time, so we can't just save it locally
         return this.isSaving || !!this.formWrappedInstance.props.disabled;
+      }
+    }, {
+      key: "fieldSets",
+      get: function get() {
+        // The fieldSets prop can be changed any time, so try to get them dynamically if you can
+        var fieldSetsProp = this.formWrappedInstance.props.fieldSets;
+        return fieldSetsProp ? fillInFieldSets(fieldSetsProp) : this.args.fieldSets;
+      }
+    }, {
+      key: "fieldConfigs",
+      get: function get() {
+        return getFieldSetsFields(this.fieldSets);
       }
     }, {
       key: "isSubmitButtonDisabled",
@@ -3981,10 +3988,10 @@
   function (_Component) {
     _inherits(FormDrawer, _Component);
 
-    function FormDrawer(props) {
+    function FormDrawer() {
       _classCallCheck(this, FormDrawer);
 
-      return _possibleConstructorReturn(this, _getPrototypeOf(FormDrawer).call(this, props));
+      return _possibleConstructorReturn(this, _getPrototypeOf(FormDrawer).apply(this, arguments));
     }
 
     _createClass(FormDrawer, [{
