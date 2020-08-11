@@ -34,7 +34,7 @@ describe('optionSelect', () => {
         onSave,
       };
 
-    const tester = await new Tester(FormCard, { props }).mount({ async: true });
+    const tester = await new Tester(FormCard, { props }).mount();
     expect(tester.text()).toContain(expectedLabel);
     expect(tester.text()).toContain('Yes');
   });

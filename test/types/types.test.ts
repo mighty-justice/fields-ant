@@ -42,7 +42,7 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
         , props = { fieldSets, model, onSave };
 
       // Renders formatted value
-      const tester = await new Tester(FormCard, { props }).mount({ async: true });
+      const tester = await new Tester(FormCard, { props }).mount();
       expect(onSave).not.toHaveBeenCalled();
       tester.submit();
       expect(onSave).toHaveBeenCalledWith(model);
@@ -55,7 +55,7 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
         , expectModel = { [fieldConfig.field]: emptyValue }
         ;
 
-      const tester = await new Tester(FormCard, { props }).mount({ async: true });
+      const tester = await new Tester(FormCard, { props }).mount();
       expect(onSave).not.toHaveBeenCalled();
       tester.submit();
       expect(onSave).toHaveBeenCalledWith(expectModel);
@@ -67,7 +67,7 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
         , props = { fieldSets: [[requiredFieldConfig]], model, onSave }
         , shouldShow = type !== 'hidden';
 
-      const tester = await new Tester(FormCard, { props }).mount({ async: true });
+      const tester = await new Tester(FormCard, { props }).mount();
       expect(tester.find('.ant-form-item-required').exists()).toBe(shouldShow);
     });
 
@@ -78,7 +78,7 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
           , props = { fieldSets: [[requiredFieldConfig]], model, onSave }
           ;
 
-        const tester = await new Tester(Form, { props }).mount({ async: true });
+        const tester = await new Tester(Form, { props }).mount();
         return tester.html();
       };
 

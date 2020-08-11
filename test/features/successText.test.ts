@@ -7,7 +7,7 @@ describe('successText', () => {
   it('With no successText', async () => {
     const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.Form
       , props = propsFactory.build({ fieldSets: [] })
-      , tester = await new Tester(ComponentClass, { props }).mount({ async: true })
+      , tester = await new Tester(ComponentClass, { props }).mount()
       ;
 
     spyOn(Antd.notification, 'success');
@@ -24,7 +24,7 @@ describe('successText', () => {
     const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.Form
       , successText = fakeTextShort()
       , props = propsFactory.build({ fieldSets: [], successText })
-      , tester = await new Tester(ComponentClass, { props }).mount({ async: true })
+      , tester = await new Tester(ComponentClass, { props }).mount()
       ;
 
     spyOn(Antd.notification, 'success');
@@ -41,7 +41,7 @@ describe('successText', () => {
     const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.Form
       , successText = null
       , props = propsFactory.build({ fieldSets: [], successText })
-      , tester = await new Tester(ComponentClass, { props }).mount({ async: true })
+      , tester = await new Tester(ComponentClass, { props }).mount()
       ;
 
     spyOn(Antd.notification, 'success');

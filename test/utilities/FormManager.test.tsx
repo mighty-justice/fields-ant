@@ -17,7 +17,7 @@ async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
     title: 'Title',
   };
 
-  const tester = await new Tester(FormCard, { props }).mount({ async: true });
+  const tester = await new Tester(FormCard, { props }).mount();
   return tester.find('UnwrappedForm').instance().formManager;
 }
 
@@ -136,7 +136,7 @@ describe('FormManager', () => {
         }
       })
       , props = { onSuccess, fieldSets, onSave, model }
-      , tester = await new Tester(Form, { props }).mount({ async: true })
+      , tester = await new Tester(Form, { props }).mount()
       , formManager = tester.find('UnwrappedForm').instance().formManager
       ;
 
@@ -179,7 +179,7 @@ describe('FormManager', () => {
         }
       })
       , props = { onSuccess, fieldSets, onSave, model }
-      , tester = await new Tester(Form, { props }).mount({ async: true })
+      , tester = await new Tester(Form, { props }).mount()
       , formManager = tester.find('UnwrappedForm').instance().formManager
       ;
 

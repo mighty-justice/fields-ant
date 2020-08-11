@@ -27,7 +27,7 @@ describe('formItemExtra', () => {
             fieldSets: [[{ field: 'name', formItemRenderExtra: extraRenderer }]]
             , model: { name }
         })
-        , tester = await new Tester(ComponentClass, { props }).mount({ async: true });
+        , tester = await new Tester(ComponentClass, { props }).mount();
 
       expect(tester.find('.ant-form-extra').length).toBe(1);
       expect(tester.find('.ant-form-extra #test').text()).toEqual('Hello');
@@ -36,7 +36,7 @@ describe('formItemExtra', () => {
     it(`No form items extras render if no props passed in`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName]
           , props = propsFactory.build()
-          , tester = await new Tester(ComponentClass, { props }).mount({ async: true });
+          , tester = await new Tester(ComponentClass, { props }).mount();
 
         expect(tester.find('.ant-form-extra').length).toBe(0);
     });

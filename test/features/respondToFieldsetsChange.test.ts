@@ -35,7 +35,7 @@ describe('respondToFieldsetsChange', () => {
         , newProps = {...props, fieldSets: [[{ field: 'updatedName', type: 'string' }]]}
         ;
 
-      const tester = await new Tester(ComponentClass, { props: oldProps }).mount({async: true});
+      const tester = await new Tester(ComponentClass, { props: oldProps }).mount();
 
       expect(tester.find('input[id="originalName"]').length).toBe(1);
       expect(tester.find('input[id="updatedName"]').length).toBe(0);
@@ -54,7 +54,7 @@ describe('respondToFieldsetsChange', () => {
       expect(props.onSave).toHaveBeenCalledWith({ updatedName: '' });
     });
 
-    it(`${componentName} successfully updates when number of fieldsets change`, async () => {
+    it(`${componentName} successfully updates when the number of FieldSets change`, async () => {
       const { ComponentClass } = COMPONENT_GENERATORS[componentName]
         , props = getProps(componentName)
         , oldProps = {...props, fieldSets: [[{ field: 'fieldName0', type: 'string' }]]}
@@ -63,7 +63,7 @@ describe('respondToFieldsetsChange', () => {
           [{ field: 'fieldName1', type: 'string' }],
         ]};
 
-      const tester = await new Tester(ComponentClass, { props: oldProps }).mount({async: true});
+      const tester = await new Tester(ComponentClass, { props: oldProps }).mount();
 
       expect(tester.find('input[id="fieldName0"]').length).toBe(1);
       expect(tester.find('input[id="fieldName1"]').length).toBe(0);
