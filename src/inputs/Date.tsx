@@ -49,7 +49,7 @@ const inputConfig: {
 
 @autoBindMethods
 @observer
-class Date extends Component<IInputProps> {
+class Date extends Component<IAntFormField> {
   private inputRefs: { [key: string]: any } = {};
 
   private get injected () {
