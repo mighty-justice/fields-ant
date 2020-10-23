@@ -64,7 +64,7 @@ class EditableCard extends Component<IEditableCardProps> {
       className = getBtnClassName('delete', classNameSuffix, title);
 
     if (!onDelete) {
-      return;
+      return null;
     }
 
     return (
