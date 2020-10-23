@@ -2,19 +2,15 @@
   "name": "@mighty-justice/fields-ant",
   "version": "1.8.0",
   "description": "Standard Ant design component interface for Field Sets",
-  "main": "dist/fieldsAnt.cjs.js",
+  "main": "dist/index.js",
   "module": "dist/fieldsAnt.esm.js",
-  "browser": "dist/fieldsAnt.umd.js",
   "types": "dist/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "analyze": "source-map-explorer --html dist/index.js dist/index.map > source.html && open source.html",
-    "build": "npm run build:clean && npm run build:types && npm run build:js",
-    "build:clean": "rm -r dist/* || true",
-    "build:js": "rollup -c",
-    "build:types": "tsc --emitDeclarationOnly",
+    "analyze": "source-map-explorer 'dist/*.js'",
+    "build": "tsdx build",
     "deploy": "np",
     "docs:build": "build-storybook",
     "docs:deploy": "storybook-to-ghpages",
@@ -22,10 +18,10 @@
     "format": "tsdx lint --fix",
     "lint": "tsdx lint",
     "postpublish": "npm run docs:build && npm run docs:deploy",
+    "prepublishOnly": "tsdx build",
     "preversion": "npm run lint",
-    "start": "rollup -c -w",
-    "test": "jest",
-    "test:watch": "npm run test/*.js -- -w",
+    "start": "tsdx watch",
+    "test": "tsdx test",
     "version": "npm run build && git add dist && auto-changelog -p && git add CHANGELOG.md"
   },
   "repository": {
@@ -52,25 +48,11 @@
     "trailingComma": "all"
   },
   "jest": {
-    "testPathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
-    },
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "ts",
-      "tsx"
-    ],
     "setupFilesAfterEnv": [
       "./test/setup.ts"
     ],
-    "testURL": "http://localhost/",
+    "collectCoverage": true,
     "collectCoverageFrom": [
-      "!src/index.ts",
-      "!src/props.ts",
       "src/**/*.tsx",
       "src/**/*.ts"
     ]
@@ -87,18 +69,7 @@
     "moment": "^2.0.0",
     "react": "^16.0.0"
   },
-  "resolutions": {
-    "babel-core": "7.0.0-bridge.0"
-  },
   "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/plugin-proposal-class-properties": "^7.4.0",
-    "@babel/plugin-proposal-decorators": "^7.4.0",
-    "@babel/plugin-proposal-export-default-from": "^7.2.0",
-    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
-    "@babel/preset-env": "^7.4.3",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/preset-typescript": "^7.3.3",
     "@mighty-justice/tester": "^2.0.1",
     "@storybook/addon-actions": "^6.3.12",
     "@storybook/addon-info": "^5.3.21",
@@ -118,11 +89,9 @@
     "@types/storybook__addon-info": "^5.2.4",
     "antd": "4.16.13",
     "auto-changelog": "^2.2.1",
-    "babel-loader": "^8.0.5",
-    "babelrc-rollup": "^3.0.0",
+    "babel-jest": "^26.6.3",
     "core-js": "^3.8.3",
     "coveralls": "^3.0.3",
-    "css-loader": "^2.1.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "faker": "^4.1.0",
@@ -135,23 +104,15 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "regenerator-runtime": "^0.13.7",
-    "rollup": "^1.9.0",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-commonjs": "^9.3.4",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-peer-deps-external": "^2.2.0",
     "rosie": "^2.0.1",
-    "source-map-explorer": "^2.5.2",
+    "source-map-explorer": "^2.5.0",
     "storybook-readme": "^5.0.9",
-    "style-loader": "^0.23.1",
     "tsdx": "^0.14.1",
     "typescript": "3.9.7"
   },
   "dependencies": {
     "@mighty-justice/smart-bool": "^2.0.2",
     "@mighty-justice/utils": "1.4.2",
-    "@types/cheerio": "^0.22.23",
-    "@types/react-dom": "^17.0.11",
     "class-autobind-decorator": "^3.0.1",
     "classnames": "^2.2.6",
     "date-fns": "^1.30.1",
