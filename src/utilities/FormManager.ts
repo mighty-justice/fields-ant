@@ -51,7 +51,7 @@ export const ERROR_WITH_DESCRIPTION = [
   httpStatus.FORBIDDEN,
 ];
 
-const TOAST_DURATION = 3;
+const TOAST_DURATION = 10;
 
 export const toastError = {
   description: '',
