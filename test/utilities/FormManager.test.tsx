@@ -7,7 +7,7 @@ import * as Antd from 'antd';
 import { Tester } from '@mighty-justice/tester';
 
 import { ERROR_WITH_DESCRIPTION } from '../../src/utilities/FormManager';
-import { Form, FormCard, IFieldSetPartial } from '../../src';
+import { Form, FormCard, IFieldSetPartial, TOAST_DURATION } from '../../src';
 
 async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
   const props = {
@@ -80,7 +80,7 @@ describe('FormManager', () => {
     formManager.handleRequestError(error);
     expect(Antd.notification.error).toHaveBeenCalledWith({
        description: '500 - Server Error',
-       duration: 3,
+       duration: TOAST_DURATION,
        message: 'Error submitting form',
     });
   });
@@ -112,7 +112,7 @@ describe('FormManager', () => {
 
       expect(Antd.notification.error).toHaveBeenCalledWith({
         description: `${nonFieldError}`,
-        duration: 3,
+        duration: TOAST_DURATION,
         message: 'Error submitting form',
       });
     });

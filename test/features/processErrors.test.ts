@@ -4,7 +4,7 @@ import * as Antd from 'antd';
 import { Tester } from '@mighty-justice/tester';
 
 import { fakeTextShort } from '../factories';
-import { Form } from '../../src';
+import { Form, TOAST_DURATION } from '../../src';
 
 describe('processErrors', () => {
   it('Can change, add, or omit error messages ', async () => {
@@ -53,7 +53,7 @@ describe('processErrors', () => {
     // Modify existing errors
     expect(Antd.notification.error).toHaveBeenCalledWith({
       description: `${newNonFieldError}`,
-      duration: 3,
+      duration: TOAST_DURATION,
       message: 'Error submitting form',
     });
   });

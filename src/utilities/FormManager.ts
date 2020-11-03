@@ -16,7 +16,7 @@ import {
 import * as Antd from 'antd';
 import { WrappedFormUtils } from 'antd/es/form/Form';
 
-import { ID_ATTR } from '../consts';
+import { ID_ATTR, TOAST_DURATION } from '../consts';
 import { IFieldConfig, IFieldSet } from '../interfaces';
 import { IFormWrappedProps } from '../components/Form';
 import { IModel, IValue } from '../props';
@@ -50,8 +50,6 @@ export const ERROR_WITH_DESCRIPTION = [
   httpStatus.BAD_REQUEST,
   httpStatus.FORBIDDEN,
 ];
-
-const TOAST_DURATION = 10;
 
 export const toastError = {
   description: '',
