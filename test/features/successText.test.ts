@@ -1,5 +1,6 @@
 import { Tester } from '@mighty-justice/tester';
 
+import { TOAST_DURATION } from '../../src';
 import { COMPONENT_GENERATORS, fakeTextShort } from '../factories';
 import * as Antd from 'antd';
 
@@ -15,7 +16,7 @@ describe('successText', () => {
     await tester.submit();
     expect(Antd.notification.success).toHaveBeenCalledWith({
       description: '',
-      duration: 3,
+      duration: TOAST_DURATION,
       message: 'Success',
     });
   });
@@ -32,7 +33,7 @@ describe('successText', () => {
     await tester.submit();
     expect(Antd.notification.success).toHaveBeenCalledWith({
       description: '',
-      duration: 3,
+      duration: TOAST_DURATION,
       message: successText,
     });
   });
