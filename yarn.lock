@@ -11321,9 +11321,9 @@ store2@^2.7.1:
   integrity sha512-JmK+95jLX2zAP75DVAJ1HAziQ6f+f495h4P9ez2qbmxazN6fE7doWlitqx9hj2YohH3kOi6RVksJe1UH0sJfPw==
 
 storybook-readme@^5.0.1:
-  version "5.0.8"
-  resolved "https://registry.yarnpkg.com/storybook-readme/-/storybook-readme-5.0.8.tgz#bc5bb9343191bb333cec2633555cec41f3ab6067"
-  integrity sha512-Ej3RotbnfFtk4yAFqJ/39RpaDO/1Yw81TzSHJIQDL7O4E/tKn51247zq3KvAC8b7JM5IY5GlNNjS4q8cBEeBAA==
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/storybook-readme/-/storybook-readme-5.0.9.tgz#a6670e43cf7d53383f6edffb0a534f52004f3945"
+  integrity sha512-rKMWyqXZ4HSMk2qTF0oog2tn94QxgkOMb+YQ6gs9ibcdJWmWEcsXhK/87HO4Lix6kTNNmTh3brnjOTu9w2bJEQ==
   dependencies:
     "@storybook/components" "^5.0.6"
     "@storybook/core-events" "^5.0.6"
