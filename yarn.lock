@@ -1317,13 +1317,13 @@
   resolved "https://registry.yarnpkg.com/@mighty-justice/tester/-/tester-1.4.0.tgz#54b621eddf6d249aee165122d455b974abe1ef04"
   integrity sha512-s8VjnOLsGfd1vYBEYtEdKnWREQGPzTDFgkaeuit8SNkOoXYjyvRlBZr2ejf9E7aLQMUCC1wjIBM1fbbypYUNew==
 
-"@mighty-justice/tslint-config@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@mighty-justice/tslint-config/-/tslint-config-0.3.0.tgz#586da4c3f8aa9484d3a017713cb6f1e113eef477"
-  integrity sha512-rvSvxtcjaPxdqvcq6i3p/aZvnOI5vAX6ggIXLr+37jtWalI/fkQ9UqgENb8Ba7Gh80hvynEKmxj16Ui4DEBH0w==
+"@mighty-justice/tslint-config@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@mighty-justice/tslint-config/-/tslint-config-1.0.2.tgz#ee8799ea5d95b06a8919fcb1846b94d115af9b1d"
+  integrity sha512-oGSMH3pvbLrzSOIm94usf8zGTpSO4uUCcWaPoITLIbpr30pV8bWl85fGNqVU6zMKUZvjBYiiHAX/t/liisbzNw==
   dependencies:
     tslint-eslint-rules "^5.4"
-    tslint-react "^3.6"
+    tslint-react "^4.2.0"
 
 "@mighty-justice/utils@1.4.0":
   version "1.4.0"
@@ -12084,12 +12084,12 @@ tslint-eslint-rules@^5.4:
     tslib "1.9.0"
     tsutils "^3.0.0"
 
-tslint-react@^3.6:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/tslint-react/-/tslint-react-3.6.0.tgz#7f462c95c4a0afaae82507f06517ff02942196a1"
-  integrity sha512-AIv1QcsSnj7e9pFir6cJ6vIncTqxfqeFF3Lzh8SuuBljueYzEAtByuB6zMaD27BL0xhMEqsZ9s5eHuCONydjBw==
+tslint-react@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/tslint-react/-/tslint-react-4.2.0.tgz#41b16e0438365f8d3ed4120501f02cabff9fd1e4"
+  integrity sha512-lO22+FKr9ZZGueGiuALzvZE/8ANoDoCHGCknX1Ge3ALrfcLQHQ1VGdyb1scZXQFdEQEfwBTIU40r5BUlJpn0JA==
   dependencies:
-    tsutils "^2.13.1"
+    tsutils "^3.9.1"
 
 tslint@5.14.0:
   version "5.14.0"
@@ -12110,7 +12110,7 @@ tslint@5.14.0:
     tslib "^1.8.0"
     tsutils "^2.29.0"
 
-tsutils@^2.13.1, tsutils@^2.29.0:
+tsutils@^2.29.0:
   version "2.29.0"
   resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.29.0.tgz#32b488501467acbedd4b85498673a0812aca0b99"
   integrity sha512-g5JVHCIJwzfISaXpXE1qvNalca5Jwob6FjI4AoPlqMusJ6ftFE7IkkFoMhVLRgK+4Kx3gkzb8UZK5t5yTTvEmA==
@@ -12121,6 +12121,13 @@ tsutils@^3.0.0:
   version "3.17.1"
   resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.17.1.tgz#ed719917f11ca0dee586272b2ac49e015a2dd759"
   integrity sha512-kzeQ5B8H3w60nFY2g8cJIuH7JDpsALXySGtwGJ0p2LSjLgay3NdIpqq5SoOBe46bKDW2iq25irHCr8wjomUS2g==
+  dependencies:
+    tslib "^1.8.1"
+
+tsutils@^3.9.1:
+  version "3.20.0"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.20.0.tgz#ea03ea45462e146b53d70ce0893de453ff24f698"
+  integrity sha512-RYbuQuvkhuqVeXweWT3tJLKOEJ/UUw9GjNEZGWdrLLlM+611o1gwLHBpxoFJKKl25fLprp2eVthtKs5JOrNeXg==
   dependencies:
     tslib "^1.8.1"
 
