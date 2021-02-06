@@ -94,7 +94,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@mighty-justice/tester": "^1.4.0",
-    "@mighty-justice/tslint-config": "^0.3.0",
+    "@mighty-justice/tslint-config": "^1.0.2",
     "@storybook/addon-actions": "^5.0.11",
     "@storybook/addon-info": "^5.0.11",
     "@storybook/addon-links": "^5.0.11",
