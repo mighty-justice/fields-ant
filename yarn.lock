@@ -1305,12 +1305,12 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@mighty-justice/smart-bool@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@mighty-justice/smart-bool/-/smart-bool-1.0.0.tgz#12e74e770d0f11b466b4bf1f0ce1cb1b6b8b5280"
-  integrity sha512-vWvB6vEvmPdFg4Qrv2lALFR0Bz/EG1X604xRVsyQ2oYUV7twwkmA24UQsfrhPXGrs0KWTJJo2GOlgCLONbk8kg==
+"@mighty-justice/smart-bool@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@mighty-justice/smart-bool/-/smart-bool-2.0.2.tgz#b081a644ffd42c6aba24c257fe350e01e90c3905"
+  integrity sha512-7yUB1fhrXShn0pF3XpSz/CqNzIEiBNWc0RChdwSRQ5hd40ksT0Lw7gn9TDZryy1+0/oJo6RWe9Dq9ZNCVRLPnw==
   dependencies:
-    class-autobind-decorator "^3.0.1"
+    class-autobind-decorator "^3"
 
 "@mighty-justice/tester@^1.4.0":
   version "1.4.0"
@@ -3684,7 +3684,7 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-class-autobind-decorator@^3.0.1:
+class-autobind-decorator@^3, class-autobind-decorator@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/class-autobind-decorator/-/class-autobind-decorator-3.0.1.tgz#e55912cd79eed3b9244b6df4835b3d6fedde9c69"
   integrity sha512-/5QCUe6KYGIMDDFEI/UrVc3egWVTVhuK00ppY/8sS/9f0KapY5Y2TirBbM1qICRq0p0WafuTaMfEGL2GKHcN0Q==
