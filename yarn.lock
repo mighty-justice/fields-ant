@@ -1828,10 +1828,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/rosie@^0.0.36":
-  version "0.0.36"
-  resolved "https://registry.yarnpkg.com/@types/rosie/-/rosie-0.0.36.tgz#b72ef533ee3aaf3a1cc0460ed397ad225f08240a"
-  integrity sha512-Laco637XkrSaVjvyT+gCeoKhyppAtZHq6bhA+i7Enn3aMCW1RojULHUfpiM4pRRCc1jrZ38hXyqGNq4OF9neiw==
+"@types/rosie@^0.0.38":
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/@types/rosie/-/rosie-0.0.38.tgz#bead6124c3ea11ee2b2e1b23b18a2688c289c028"
+  integrity sha512-9g0bcHxRXr5PkuS+hjdRX7wl7edV9M+eX9zAypcVGn69FUckVayEK4yMysKpwtY/CxKgvbx/XKIvCTau7anf9w==
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
