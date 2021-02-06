@@ -106,7 +106,7 @@
     "@types/enzyme": "^3.9.1",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/faker": "^4.1.5",
-    "@types/flat": "^0.0.28",
+    "@types/flat": "^5.0.1",
     "@types/jest": "^24.0.11",
     "@types/lodash": "^4.14.123",
     "@types/react": "16.9.23",
