@@ -116,7 +116,7 @@
     "@types/storybook__addon-info": "^4.1.1",
     "@types/storybook__react": "^4.0.1",
     "antd": "3.26.14",
-    "auto-changelog": "^1.12.0",
+    "auto-changelog": "^2.2.1",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.5",
     "babelrc-rollup": "^3.0.0",
