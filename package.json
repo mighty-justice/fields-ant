@@ -113,7 +113,7 @@
     "@types/rosie": "^0.0.38",
     "@types/storybook-readme": "^5.0.3",
     "@types/storybook__addon-actions": "^3.4.2",
-    "@types/storybook__addon-info": "^4.1.1",
+    "@types/storybook__addon-info": "^5.2.3",
     "@types/storybook__react": "^4.0.1",
     "antd": "3.26.14",
     "auto-changelog": "^2.2.1",
