@@ -27,13 +27,13 @@ class SummaryCard extends Component<ISummaryCardProps> {
   };
 
   @computed
-  private get fieldSets () {
+  private get fieldSets() {
     return fillInFieldSets(this.props.fieldSets);
   }
 
-  private renderItem (fieldConfig: IFieldConfig) {
-    const { model } = this.props
-      , className = `summary-${kebabCase(fieldConfig.field)}`;
+  private renderItem(fieldConfig: IFieldConfig) {
+    const { model } = this.props,
+      className = `summary-${kebabCase(fieldConfig.field)}`;
 
     return (
       <Antd.List.Item key={fieldConfig.field} className={className} extra={null}>
@@ -43,7 +43,7 @@ class SummaryCard extends Component<ISummaryCardProps> {
     );
   }
 
-  public render () {
+  public render() {
     const { title, column, isLoading, renderTopRight, className } = this.props;
 
     return (
@@ -55,7 +55,7 @@ class SummaryCard extends Component<ISummaryCardProps> {
       >
         {this.fieldSets.map((fieldSet, idx) => (
           <Antd.List
-            className='list-summary'
+            className="list-summary"
             dataSource={getFieldSetFields(fieldSet)}
             grid={{ gutter: 24, column }}
             key={idx}

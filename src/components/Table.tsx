@@ -23,23 +23,23 @@ const CLASS_NAME = `${CLASS_PREFIX}-table`;
 @observer
 class Table extends Component<ITableProps> {
   @computed
-  private get columns (): IColumns {
+  private get columns(): IColumns {
     return fieldSetsToColumns(this.props.fieldSets, this.dataSource);
   }
 
   @computed
-  private get dataSource (): ITableModel[] {
+  private get dataSource(): ITableModel[] {
     return this.props.model.map((item, idx) => ({
       key: item.id || idx.toString(),
       ...item,
     }));
   }
 
-  private getTitle (): React.ReactNode {
+  private getTitle(): React.ReactNode {
     return this.props.title || undefined;
   }
 
-  public render () {
+  public render() {
     const { isLoading, title, className, ...passDownProps } = this.props;
 
     return (

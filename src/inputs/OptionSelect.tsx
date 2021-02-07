@@ -7,8 +7,8 @@ import ObjectSelect, { IObjectSelectProps } from './ObjectSelect';
 @autoBindMethods
 @observer
 class OptionSelect extends Component<IObjectSelectProps> {
-  public render () {
-    return <ObjectSelect {...this.props} keyBy='value' />;
+  public render() {
+    return <ObjectSelect {...this.props} keyBy="value" />;
   }
 }
 

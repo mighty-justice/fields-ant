@@ -5,7 +5,7 @@ import { mapBooleanToText, varToLabel } from '@mighty-justice/utils';
 import { IBackendValidation, IErrorMessage, IFoundOnForm, toastError } from './FormManager';
 
 // Takes an API response and converts it to a string to string map
-function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
+function getFieldErrors(errors: { [key: string]: any }, prefix = '') {
   const messages: { [key: string]: string } = {};
   Object.keys(errors).forEach(fieldName => {
     const fieldKey = [prefix, fieldName].filter(s => !!s).join('-');
@@ -23,8 +23,7 @@ function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
     if (isPlainObject(fieldErrors)) {
       // If an object, recurse
       extend(messages, getFieldErrors(fieldErrors, fieldKey));
-    }
-    else {
+    } else {
       // If a simple string, you have your error
       messages[fieldKey] = fieldErrors;
     }
@@ -33,17 +32,17 @@ function getFieldErrors (errors: { [key: string]: any }, prefix = '') {
   return messages;
 }
 
-function assignErrorFieldsToFormFields (
-    fieldNames: string[],
-    fieldErrors: { [key: string]: string },
-  ): IBackendValidation {
-  const foundOnForm: IFoundOnForm = {}
-    , errorMessages: IErrorMessage[] = [];
+function assignErrorFieldsToFormFields(
+  fieldNames: string[],
+  fieldErrors: { [key: string]: string },
+): IBackendValidation {
+  const foundOnForm: IFoundOnForm = {},
+    errorMessages: IErrorMessage[] = [];
 
   // Try to assign error fields to form fields, falling back on generic array
   Object.keys(fieldErrors).forEach(errorField => {
-    const message = fieldErrors[errorField]
-      , label = errorField === 'non_field_errors' ? '' : varToLabel(errorField);
+    const message = fieldErrors[errorField],
+      label = errorField === 'non_field_errors' ? '' : varToLabel(errorField);
 
     // Check for an exact match
     if (fieldNames.includes(errorField)) {
@@ -62,8 +61,8 @@ function assignErrorFieldsToFormFields (
 
     // Check for a more fuzzy match of the entire string
     for (const fieldName of fieldNames) {
-      const fieldNameFlat = fieldName.toLowerCase().replace(/[^a-z]/gi, '')
-        , errorFieldFlat = errorField.toLowerCase().replace(/[^a-z]/gi, '');
+      const fieldNameFlat = fieldName.toLowerCase().replace(/[^a-z]/gi, ''),
+        errorFieldFlat = errorField.toLowerCase().replace(/[^a-z]/gi, '');
 
       if (errorFieldFlat === fieldNameFlat) {
         foundOnForm[fieldName] = message;
@@ -78,7 +77,7 @@ function assignErrorFieldsToFormFields (
   return { errorMessages, foundOnForm };
 }
 
-export default function backendValidation (fieldNames: string[], response: any): IBackendValidation {
+export default function backendValidation(fieldNames: string[], response: any): IBackendValidation {
   if (isArray(response)) {
     return {
       errorMessages: [{ field: '', message: response[0] }],

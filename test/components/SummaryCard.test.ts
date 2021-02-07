@@ -5,9 +5,9 @@ import { Tester } from '@mighty-justice/tester';
 
 describe('SummaryCard', () => {
   it('Renders', async () => {
-    const text = faker.lorem.sentence()
-      , title = faker.lorem.sentence()
-      , props = {
+    const text = faker.lorem.sentence(),
+      title = faker.lorem.sentence(),
+      props = {
         fieldSets: [[{ field: 'text' }]],
         model: { text },
         title,

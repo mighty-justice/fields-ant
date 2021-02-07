@@ -6,12 +6,7 @@ import { isArray } from 'lodash';
 
 import { EMPTY_FIELD } from '@mighty-justice/utils';
 
-import {
-  IFieldConfig,
-  IFieldConfigOptionSelect,
-  IInjected,
-  IOption,
-} from '../interfaces';
+import { IFieldConfig, IFieldConfigOptionSelect, IInjected, IOption } from '../interfaces';
 
 import { getOptions } from '../utilities';
 import { IValue } from '../props';
@@ -25,29 +20,31 @@ export interface IOptionSelectDisplayProps {
 @autoBindMethods
 @observer
 class OptionSelectDisplay extends Component<IOptionSelectDisplayProps> {
-  private get injected () {
+  private get injected() {
     return this.props as IInjected & IOptionSelectDisplayProps;
   }
 
-  private get fieldConfig () {
+  private get fieldConfig() {
     return this.props.fieldConfig as IFieldConfigOptionSelect;
   }
 
   @computed
-  private get options (): IOption[] {
+  private get options(): IOption[] {
     return getOptions(this.fieldConfig, this.injected);
   }
 
-  public render () {
-    const { value } = this.props
-      , option = this.options.find(o => o.value === value);
+  public render() {
+    const { value } = this.props,
+      option = this.options.find(o => o.value === value);
 
-    if (!option) { return EMPTY_FIELD; }
+    if (!option) {
+      return EMPTY_FIELD;
+    }
     return option.name;
   }
 }
 
-export function formatOptionSelect (value: any, fieldConfig: IFieldConfigOptionSelect) {
+export function formatOptionSelect(value: any, fieldConfig: IFieldConfigOptionSelect) {
   if (isArray(value)) {
     if (value.length > 1) {
       return `(${value.length} values)`;

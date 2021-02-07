@@ -15,10 +15,10 @@ import SmartBool from '@mighty-justice/smart-bool';
 ].forEach(({ name }) => {
   describe(name, () => {
     it('Renders', async () => {
-      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[name]
-        , exampleValue = faker.lorem.sentence()
-        , title = faker.lorem.sentence()
-        , props = {
+      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[name],
+        exampleValue = faker.lorem.sentence(),
+        title = faker.lorem.sentence(),
+        props = {
           ...propsFactory.build(),
           fieldSets: [[{ field: 'exampleField' }]],
           model: { exampleField: exampleValue },
@@ -32,10 +32,10 @@ import SmartBool from '@mighty-justice/smart-bool';
     });
 
     it('Renders children', async () => {
-      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[name]
-        , textChildren = faker.lorem.sentence()
-        , textChildrenBefore = faker.lorem.sentence()
-        , props = {
+      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[name],
+        textChildren = faker.lorem.sentence(),
+        textChildrenBefore = faker.lorem.sentence(),
+        props = {
           ...propsFactory.build(),
           children: textChildren,
           childrenBefore: textChildrenBefore,
@@ -47,10 +47,10 @@ import SmartBool from '@mighty-justice/smart-bool';
     });
 
     it('Works with isVisible', async () => {
-      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[name]
-        , title = faker.lorem.sentence()
-        , isVisible = new SmartBool(false)
-        , props = {
+      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[name],
+        title = faker.lorem.sentence(),
+        isVisible = new SmartBool(false),
+        props = {
           ...propsFactory.build(),
           isVisible,
           title,
@@ -77,12 +77,12 @@ import SmartBool from '@mighty-justice/smart-bool';
     });
 
     it('Works with onSuccess and onCancel', async () => {
-      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[name]
-        , title = faker.lorem.sentence()
-        , onCancel = jest.fn()
-        , onSuccess = jest.fn()
-        , isVisible = new SmartBool(true)
-        , props = {
+      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[name],
+        title = faker.lorem.sentence(),
+        onCancel = jest.fn(),
+        onSuccess = jest.fn(),
+        isVisible = new SmartBool(true),
+        props = {
           ...propsFactory.build(),
           isVisible,
           onCancel,

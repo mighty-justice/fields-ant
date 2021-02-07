@@ -31,71 +31,78 @@ class EditableCard extends Component<IEditableCardProps> {
     ...formPropsDefaults,
   };
 
-  private async handleDelete () {
+  private async handleDelete() {
     const { model, onDelete, onSuccess } = this.props;
     // istanbul ignore next
-    if (!onDelete) { return; }
+    if (!onDelete) {
+      return;
+    }
 
     this.isDeleting.set(true);
     try {
       await onDelete(model);
-      if (onSuccess) { await onSuccess(); }
-    }
-    finally {
+      if (onSuccess) {
+        await onSuccess();
+      }
+    } finally {
       this.isDeleting.set(false);
     }
   }
 
-  private async handleSave (model: any) {
+  private async handleSave(model: any) {
     const { onSuccess, onSave } = this.props;
 
     await onSave(model);
-    if (onSuccess) { await onSuccess(); }
+    if (onSuccess) {
+      await onSuccess();
+    }
     this.isEditing.setFalse();
   }
 
-  private get deleteButton () {
-    const { isGuarded, classNameSuffix, onDelete, isLoading, title } = this.props
-      , className = getBtnClassName('delete', classNameSuffix, title);
+  private get deleteButton() {
+    const { isGuarded, classNameSuffix, onDelete, isLoading, title } = this.props,
+      className = getBtnClassName('delete', classNameSuffix, title);
 
-    if (!onDelete) { return; }
+    if (!onDelete) {
+      return;
+    }
 
     return (
       <GuardedButton
         className={className}
         confirm={true}
         disabled={isLoading || this.isDeleting.isTrue}
-        icon='delete'
+        icon="delete"
         isGuarded={isGuarded}
         onClick={this.handleDelete}
-        size='small'
-        type='danger'
+        size="small"
+        type="danger"
       >
         Delete
       </GuardedButton>
     );
   }
 
-  private get editButton () {
-    const { isLoading, isGuarded, classNameSuffix, title } = this.props
-      , className = getBtnClassName('edit', classNameSuffix, title);
+  private get editButton() {
+    const { isLoading, isGuarded, classNameSuffix, title } = this.props,
+      className = getBtnClassName('edit', classNameSuffix, title);
 
     return (
       <GuardedButton
         className={className}
         disabled={isLoading || this.isEditing.isTrue || this.isDeleting.isTrue}
-        icon='edit'
+        icon="edit"
         isGuarded={isGuarded}
         onClick={this.isEditing.setTrue}
-        size='small'
-        type='primary'
+        size="small"
+        type="primary"
       >
         Edit
       </GuardedButton>
     );
   }
 
-  private buttons () {
+  private buttons() {
     return (
       <ButtonToolbar noSpacing>
         {this.deleteButton}
@@ -104,7 +111,7 @@ class EditableCard extends Component<IEditableCardProps> {
     );
   }
 
-  public render () {
+  public render() {
     const { ModalComponent } = this.props;
 
     if (this.isEditing.isTrue && !ModalComponent) {
@@ -120,13 +127,7 @@ class EditableCard extends Component<IEditableCardProps> {
 
     return (
       <>
-        {ModalComponent && (
-          <ModalComponent
-            {...this.props}
-            isVisible={this.isEditing}
-            onSave={this.handleSave}
-          />
-        )}
+        {ModalComponent && <ModalComponent {...this.props} isVisible={this.isEditing} onSave={this.handleSave} />}
         <Card {...this.props} renderTopRight={this.buttons} />
       </>
     );

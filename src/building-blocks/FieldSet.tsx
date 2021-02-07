@@ -22,10 +22,9 @@ const CLASS_NAME = `${CLASS_PREFIX}-field-set`;
 @autoBindMethods
 @observer
 export default class FieldSet extends Component<IProps> {
-  public render () {
-    const { className, fieldSet } = this.props
-      , rowProps = !isPartialFieldSetSimple(fieldSet) && fieldSet.rowProps
-      ;
+  public render() {
+    const { className, fieldSet } = this.props,
+      rowProps = !isPartialFieldSetSimple(fieldSet) && fieldSet.rowProps;
 
     return (
       <div className={cx(CLASS_NAME, className)}>

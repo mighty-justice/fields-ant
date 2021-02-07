@@ -5,17 +5,14 @@ import { omit } from 'lodash';
 
 import * as Antd from 'antd';
 
-import {
-  createDisabledContainer,
-  createGuardedContainer,
-} from '@mighty-justice/utils';
+import { createDisabledContainer, createGuardedContainer } from '@mighty-justice/utils';
 
 @autoBindMethods
 @observer
 class GuardedButton extends Component<any> {
   public guardedContainer: React.ComponentClass;
 
-  public constructor (props: any) {
+  public constructor(props: any) {
     super(props);
 
     const { isGuarded } = this.props,
@@ -28,27 +25,22 @@ class GuardedButton extends Component<any> {
     });
   }
 
-  public render () {
-    const GuardedContainer = this.guardedContainer
-      , omitProps = ['isGuarded'];
+  public render() {
+    const GuardedContainer = this.guardedContainer,
+      omitProps = ['isGuarded'];
 
     if (this.props.confirm) {
       omitProps.push('confirm');
       omitProps.push('onClick');
 
       return (
-        <Antd.Popconfirm
-          title='Are you sure?'
-          onConfirm={this.props.onClick}
-        >
+        <Antd.Popconfirm title="Are you sure?" onConfirm={this.props.onClick}>
           <GuardedContainer {...omit(this.props, omitProps)} />
         </Antd.Popconfirm>
       );
     }
 
-    return (
-      <GuardedContainer {...omit(this.props, omitProps)} />
-    );
+    return <GuardedContainer {...omit(this.props, omitProps)} />;
   }
 }
 

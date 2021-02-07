@@ -17,13 +17,17 @@ interface IProps {
 @autoBindMethods
 @observer
 class Legend extends Component<IProps> {
-  public render () {
+  public render() {
     const { fieldSet } = this.props;
 
-    if (isPartialFieldSetSimple(fieldSet)) { return null; }
+    if (isPartialFieldSetSimple(fieldSet)) {
+      return null;
+    }
     const { legend, tooltip } = fieldSet;
 
-    if (!legend) { return null; }
+    if (!legend) {
+      return null;
+    }
 
     return (
       <Antd.Col span={ANT_FULL_COL_WIDTH}>

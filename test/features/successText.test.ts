@@ -6,10 +6,9 @@ import * as Antd from 'antd';
 
 describe('successText', () => {
   it('With no successText', async () => {
-    const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.Form
-      , props = propsFactory.build({ fieldSets: [] })
-      , tester = await new Tester(ComponentClass, { props }).mount()
-      ;
+    const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.Form,
+      props = propsFactory.build({ fieldSets: [] }),
+      tester = await new Tester(ComponentClass, { props }).mount();
 
     spyOn(Antd.notification, 'success');
     expect(Antd.notification.success).not.toHaveBeenCalled();
@@ -22,11 +21,10 @@ describe('successText', () => {
   });
 
   it('With successText', async () => {
-    const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.Form
-      , successText = fakeTextShort()
-      , props = propsFactory.build({ fieldSets: [], successText })
-      , tester = await new Tester(ComponentClass, { props }).mount()
-      ;
+    const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.Form,
+      successText = fakeTextShort(),
+      props = propsFactory.build({ fieldSets: [], successText }),
+      tester = await new Tester(ComponentClass, { props }).mount();
 
     spyOn(Antd.notification, 'success');
     expect(Antd.notification.success).not.toHaveBeenCalled();
@@ -39,11 +37,10 @@ describe('successText', () => {
   });
 
   it('With null successText', async () => {
-    const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.Form
-      , successText = null
-      , props = propsFactory.build({ fieldSets: [], successText })
-      , tester = await new Tester(ComponentClass, { props }).mount()
-      ;
+    const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.Form,
+      successText = null,
+      props = propsFactory.build({ fieldSets: [], successText }),
+      tester = await new Tester(ComponentClass, { props }).mount();
 
     spyOn(Antd.notification, 'success');
     expect(Antd.notification.success).not.toHaveBeenCalled();

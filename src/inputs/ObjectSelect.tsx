@@ -8,12 +8,7 @@ import * as Antd from 'antd';
 
 import { getNameOrDefault } from '@mighty-justice/utils';
 
-import {
-  IAntFormField,
-  IFieldConfigOptionSelect,
-  IInjected,
-  IInputProps,
-} from '../interfaces';
+import { IAntFormField, IFieldConfigOptionSelect, IInjected, IInputProps } from '../interfaces';
 
 import { getOptions } from '../utilities';
 import { IModel } from '../props';
@@ -31,7 +26,7 @@ export const SHOW_OPTION_SEARCH_IF_OVER = 8;
 @autoBindMethods
 @observer
 class ObjectSelect extends Component<IObjectSelectProps> {
-  private get injected () {
+  private get injected() {
     return this.props as IObjectSelectProps & IInjected & IInputProps & IAntFormField;
   }
 
@@ -41,16 +36,16 @@ class ObjectSelect extends Component<IObjectSelectProps> {
     renderSelected: getNameOrDefault,
   };
 
-  private get fieldConfig () {
+  private get fieldConfig() {
     return this.props.fieldConfig as IFieldConfigOptionSelect;
   }
 
   @computed
-  private get options (): IModel[] {
+  private get options(): IModel[] {
     return getOptions(this.fieldConfig, this.injected);
   }
 
-  private get showSearch (): boolean {
+  private get showSearch(): boolean {
     // the showSearch fieldConfig option will override this
     if (isBoolean(this.fieldConfig.showSearch)) {
       return this.fieldConfig.showSearch;
@@ -59,29 +54,25 @@ class ObjectSelect extends Component<IObjectSelectProps> {
     return this.options.length > SHOW_OPTION_SEARCH_IF_OVER;
   }
 
-  private renderOption (option: IModel) {
-    const { renderSelected, renderOption, keyBy } = this.injected
-      , key = get(option, keyBy);
+  private renderOption(option: IModel) {
+    const { renderSelected, renderOption, keyBy } = this.injected,
+      key = get(option, keyBy);
 
     return (
-      <Antd.Select.Option
-        key={key}
-        title={renderSelected(option)}
-        value={key}
-      >
+      <Antd.Select.Option key={key} title={renderSelected(option)} value={key}>
         {renderOption(option)}
       </Antd.Select.Option>
     );
   }
 
-  public render () {
-    const { keyBy, value } = this.injected
-      , selectValue = isObject(value) ? get(value, keyBy) : value;
+  public render() {
+    const { keyBy, value } = this.injected,
+      selectValue = isObject(value) ? get(value, keyBy) : value;
 
     return (
       <Antd.Select
         allowClear
-        optionFilterProp='children'
+        optionFilterProp="children"
         showSearch={this.showSearch}
         {...this.props}
         value={selectValue}

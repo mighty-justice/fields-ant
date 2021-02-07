@@ -11,6 +11,11 @@ import SmartBool from '@mighty-justice/smart-bool';
 // Lower-level building blocks and helper components
 import { IBackendValidation } from './utilities/FormManager';
 
+// All below props are shared / inherited by components
+// This allows us to keep the library consistent and uniform
+
+import { IFieldSet, IFieldSetPartial } from './interfaces';
+
 export { IButtonToolbarProps } from './building-blocks/ButtonToolbar';
 export { ICardFieldProps } from './building-blocks/CardField';
 export { ICardFieldSetProps } from './building-blocks/CardFieldSet';
@@ -31,11 +36,6 @@ export { ISummaryCardProps } from './components/SummaryCard';
 export { IObjectSearchCreateProps } from './inputs/ObjectSearchCreate';
 export { IOptionSelectDisplayProps } from './inputs/OptionSelectDisplay';
 export { IObjectSelectProps } from './inputs/ObjectSelect';
-
-// All below props are shared / inherited by components
-// This allows us to keep the library consistent and uniform
-
-import { IFieldSet, IFieldSetPartial } from './interfaces';
 
 export type IValue = any;
 

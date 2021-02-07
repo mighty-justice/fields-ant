@@ -13,7 +13,7 @@ import { IFieldConfigPartial } from '../interfaces';
 @autoBindMethods
 @observer
 class Info extends Component<{ fieldConfig: IFieldConfigPartial }> {
-  public render () {
+  public render() {
     return (
       <Antd.Col {...this.props.fieldConfig.colProps} className={`${CLASS_PREFIX}-info`}>
         {this.props.children}
@@ -25,30 +25,19 @@ class Info extends Component<{ fieldConfig: IFieldConfigPartial }> {
 @autoBindMethods
 @observer
 class Label extends Component<{ className?: ClassValue }> {
-  public render () {
-    return (
-      <div className={cx(this.props.className, `${CLASS_PREFIX}-info-label`)}>
-        {this.props.children}
-      </div>
-    );
+  public render() {
+    return <div className={cx(this.props.className, `${CLASS_PREFIX}-info-label`)}>{this.props.children}</div>;
   }
 }
 
 @autoBindMethods
 @observer
 class Value extends Component<{ className?: ClassValue }> {
-  public render () {
-    return (
-      <div className={cx(this.props.className, `${CLASS_PREFIX}-info-value`)}>
-        {this.props.children}
-      </div>
-    );
+  public render() {
+    return <div className={cx(this.props.className, `${CLASS_PREFIX}-info-value`)}>{this.props.children}</div>;
   }
 }
 
 export default Info;
 
-export {
-  Label,
-  Value,
-};
+export { Label, Value };

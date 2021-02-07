@@ -3,11 +3,7 @@ import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
-import {
-  fillInFieldSet,
-  filterFieldConfigs,
-  getFieldSetFields,
-} from '../utilities';
+import { fillInFieldSet, filterFieldConfigs, getFieldSetFields } from '../utilities';
 
 import CardField from '../building-blocks/CardField';
 import { IFieldSetPartial } from '../interfaces';
@@ -24,15 +20,14 @@ export interface ICardFieldSetProps {
 @observer
 class CardFieldSet extends Component<ICardFieldSetProps> {
   @computed
-  private get fieldSet () {
+  private get fieldSet() {
     return fillInFieldSet(this.props.fieldSet);
   }
 
-  public render () {
-    const { model , fieldSet} = this.props
-      , fieldConfigs = getFieldSetFields(this.fieldSet)
-      , filteredFieldConfigs = filterFieldConfigs(fieldConfigs, { model, writeOnly: true })
-      ;
+  public render() {
+    const { model, fieldSet } = this.props,
+      fieldConfigs = getFieldSetFields(this.fieldSet),
+      filteredFieldConfigs = filterFieldConfigs(fieldConfigs, { model, writeOnly: true });
 
     if (!filteredFieldConfigs.length) {
       return null;
@@ -41,11 +36,7 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
     return (
       <FieldSet fieldSet={fieldSet}>
         {filteredFieldConfigs.map(fieldConfig => (
-          <CardField
-            fieldConfig={fieldConfig}
-            key={fieldConfig.field}
-            model={model}
-          />
+          <CardField fieldConfig={fieldConfig} key={fieldConfig.field} model={model} />
         ))}
       </FieldSet>
     );

@@ -85,11 +85,11 @@ export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
 */
 
 // These combine to form the core building block, the fieldConfig:
-export type IFieldConfig = IFieldConfigBase
+export type IFieldConfig =
+  | IFieldConfigBase
   | IFieldConfigAddress
   | IFieldConfigObjectSearchCreate
-  | IFieldConfigOptionSelect
-  ;
+  | IFieldConfigOptionSelect;
 
 /*
 A set of fieldConfigs, or fieldSet
@@ -115,7 +115,7 @@ utilities page for more.
 
 fillInFieldSets(fieldSets: IFieldSetPartial[]): IFieldSet[] {
  */
-export type IFieldConfigPartial = Partial<IFieldConfig> & { field: string; };
+export type IFieldConfigPartial = Partial<IFieldConfig> & { field: string };
 export type IFieldSetSimplePartial = IFieldConfigPartial[];
 export type IFieldSetPartial = IFieldSetSimplePartial | IFieldSetComplexPartial;
 

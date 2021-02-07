@@ -18,16 +18,15 @@ export interface IFormFieldProps {
 @observer
 class FormField extends Component<IFormFieldProps> {
   @computed
-  private get fieldConfig () {
+  private get fieldConfig() {
     return fillInFieldConfig(this.props.fieldConfig);
   }
 
-  private get editProps () {
-    const { formManager, formModel } = this.props
-      , fieldConfig = this.fieldConfig
-      , fieldConfigProp = fieldConfig.fieldConfigProp ? { fieldConfig, formManager, formModel } : {}
-      , disabled: boolean = fieldConfig.disabled || formManager.isFormDisabled
-      ;
+  private get editProps() {
+    const { formManager, formModel } = this.props,
+      fieldConfig = this.fieldConfig,
+      fieldConfigProp = fieldConfig.fieldConfigProp ? { fieldConfig, formManager, formModel } : {},
+      disabled: boolean = fieldConfig.disabled || formManager.isFormDisabled;
 
     return {
       disabled,
@@ -36,7 +35,7 @@ class FormField extends Component<IFormFieldProps> {
     };
   }
 
-  private get shouldRender (): boolean {
+  private get shouldRender(): boolean {
     const { formModel } = this.props;
     return !filterFieldConfig(this.fieldConfig, {
       model: formModel,
@@ -44,23 +43,20 @@ class FormField extends Component<IFormFieldProps> {
     });
   }
 
-  public render () {
-    if (!this.shouldRender) { return null; }
+  public render() {
+    if (!this.shouldRender) {
+      return null;
+    }
 
-    const { formManager, formModel } = this.props
-      , { skipFieldDecorator, editComponent: EditComponent } = this.fieldConfig
-      ;
+    const { formManager, formModel } = this.props,
+      { skipFieldDecorator, editComponent: EditComponent } = this.fieldConfig;
 
     if (skipFieldDecorator) {
       return <EditComponent {...this.editProps} />;
     }
 
     return (
-      <FormItem
-        fieldConfig={this.fieldConfig}
-        formManager={formManager}
-        formModel={formModel}
-      >
+      <FormItem fieldConfig={this.fieldConfig} formManager={formManager} formModel={formModel}>
         <EditComponent {...this.editProps} />
       </FormItem>
     );

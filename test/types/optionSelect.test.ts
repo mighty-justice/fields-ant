@@ -6,20 +6,19 @@ import { fakeTextShort } from '../factories';
 import Form from '../../src/components/Form';
 import { SHOW_OPTION_SEARCH_IF_OVER } from '../../src/inputs/ObjectSelect';
 
-const field = 'is_open'
-  , optionType = 'yesNo'
-  , expectedLabel = 'Is Open'
-  , type = 'optionSelect'
-  , fieldSets = [[{ field, type, optionType }]]
-  , model = { is_open: 'true' }
-  ;
+const field = 'is_open',
+  optionType = 'yesNo',
+  expectedLabel = 'Is Open',
+  type = 'optionSelect',
+  fieldSets = [[{ field, type, optionType }]],
+  model = { is_open: 'true' };
 
 describe('optionSelect', () => {
   it('Renders', async () => {
     const props = {
-        fieldSets,
-        model,
-      };
+      fieldSets,
+      model,
+    };
 
     const tester = await new Tester(Card, { props }).mount();
     expect(tester.text()).toContain(expectedLabel);
@@ -27,8 +26,8 @@ describe('optionSelect', () => {
   });
 
   it('Edits', async () => {
-    const onSave = jest.fn()
-      , props = {
+    const onSave = jest.fn(),
+      props = {
         fieldSets,
         model,
         onSave,
@@ -41,9 +40,9 @@ describe('optionSelect', () => {
 
   it('Handles array with single value (useful for summary tables)', async () => {
     const props = {
-        fieldSets,
-        model: { is_open: ['true'] },
-      };
+      fieldSets,
+      model: { is_open: ['true'] },
+    };
 
     const tester = await new Tester(Card, { props }).mount();
     expect(tester.text()).toContain(expectedLabel);
@@ -52,9 +51,9 @@ describe('optionSelect', () => {
 
   it('Handles array with multiple values (useful for summary tables)', async () => {
     const props = {
-        fieldSets,
-        model: { is_open: ['true', 'false'] },
-      };
+      fieldSets,
+      model: { is_open: ['true', 'false'] },
+    };
 
     const tester = await new Tester(Card, { props }).mount();
     expect(tester.text()).toContain(expectedLabel);
@@ -67,22 +66,22 @@ describe('optionSelect', () => {
     const states = Array(SHOW_OPTION_SEARCH_IF_OVER + 1).map((_v: any) => ({
         name: fakeTextShort(),
         value: faker.random.uuid(),
-      }))
-      , belowCutoff = states.slice(0, SHOW_OPTION_SEARCH_IF_OVER - 1)
-      , fieldConfig = { field, options: states, optionType: 'state', type };
+      })),
+      belowCutoff = states.slice(0, SHOW_OPTION_SEARCH_IF_OVER - 1),
+      fieldConfig = { field, options: states, optionType: 'state', type };
 
-    function getProps (overrides: Partial<IFieldConfig> = {}) {
+    function getProps(overrides: Partial<IFieldConfig> = {}) {
       return { props: { fieldSets: [[{ ...fieldConfig, ...overrides }]] } };
     }
 
-    function isSearchable (tester: Tester) {
+    function isSearchable(tester: Tester) {
       return !!tester.find('input').length;
     }
 
-    async function expectIsSearchable (overrides: Partial<IFieldConfig>, expectedValue: boolean) {
+    async function expectIsSearchable(overrides: Partial<IFieldConfig>, expectedValue: boolean) {
       const tester = await new Tester(Form, getProps(overrides)).mount();
       expect(isSearchable(tester)).toBe(expectedValue);
-     }
+    }
 
     expectIsSearchable({}, true);
     expectIsSearchable({ showSearch: false }, false);

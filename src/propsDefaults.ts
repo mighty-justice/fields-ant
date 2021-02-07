@@ -1,5 +1,5 @@
 // istanbul ignore next
-async function asyncNoop () {
+async function asyncNoop() {
   // istanbul ignore next
   return;
 }

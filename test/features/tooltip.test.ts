@@ -5,14 +5,16 @@ import { fakeField, fakeTextShort } from '../factories';
 
 describe('tooltip', () => {
   it('Respects tooltip attribute in fieldConfig', async () => {
-    const label = fakeTextShort()
-      , tooltip = fakeTextShort()
-      , tester = await new Tester(EditableCard, { props: {
-        fieldSets: [[{ field: 'example_field', label, tooltip }]],
-        model: { example_field: fakeField() },
-        onSave: jest.fn().mockResolvedValue({}),
-        title: 'testing',
-      }}).mount();
+    const label = fakeTextShort(),
+      tooltip = fakeTextShort(),
+      tester = await new Tester(EditableCard, {
+        props: {
+          fieldSets: [[{ field: 'example_field', label, tooltip }]],
+          model: { example_field: fakeField() },
+          onSave: jest.fn().mockResolvedValue({}),
+          title: 'testing',
+        },
+      }).mount();
 
     expect(tester.text()).toContain(label);
     expect(tester.html()).toContain('question-circle-o');
@@ -29,18 +31,22 @@ describe('tooltip', () => {
   });
 
   it('Respects tooltip attribute in complex fieldSet', async () => {
-    const label = fakeTextShort()
-      , tooltip = fakeTextShort()
-      , tester = await new Tester(EditableCard, { props: {
-        fieldSets: [{
-          fields: [{ field: 'example_field', label }],
-          legend: fakeTextShort(),
-          tooltip,
-        }],
-        model: { example_field: fakeField() },
-        onSave: jest.fn().mockResolvedValue({}),
-        title: 'testing',
-      }}).mount();
+    const label = fakeTextShort(),
+      tooltip = fakeTextShort(),
+      tester = await new Tester(EditableCard, {
+        props: {
+          fieldSets: [
+            {
+              fields: [{ field: 'example_field', label }],
+              legend: fakeTextShort(),
+              tooltip,
+            },
+          ],
+          model: { example_field: fakeField() },
+          onSave: jest.fn().mockResolvedValue({}),
+          title: 'testing',
+        },
+      }).mount();
 
     expect(tester.text()).toContain(label);
     expect(tester.html()).toContain('question-circle-o');

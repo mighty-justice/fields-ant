@@ -5,19 +5,18 @@ import { TYPE_GENERATORS } from '../factories';
 import { FormCard } from '../../src';
 import { IFormCardProps } from '../../src/components/FormCard';
 
-const { fieldConfigFactory } = TYPE_GENERATORS.checkbox
-    , fieldConfig = fieldConfigFactory.build()
-    , fieldSets = [[fieldConfig]]
-    ;
+const { fieldConfigFactory } = TYPE_GENERATORS.checkbox,
+  fieldConfig = fieldConfigFactory.build(),
+  fieldSets = [[fieldConfig]];
 
 describe('checkbox', () => {
   it('resets on submit', async () => {
-    const onSave = jest.fn()
-      , props: Partial<IFormCardProps> = { fieldSets, onSave, resetOnSuccess: true };
+    const onSave = jest.fn(),
+      props: Partial<IFormCardProps> = { fieldSets, onSave, resetOnSuccess: true };
 
     const tester = await new Tester(FormCard, { props }).mount();
 
-    async function submitAndCheckFor (value: boolean) {
+    async function submitAndCheckFor(value: boolean) {
       expect(onSave).not.toHaveBeenCalled();
       expect(tester.find('.ant-checkbox-wrapper-checked').length).toBe(value ? 1 : 0);
 

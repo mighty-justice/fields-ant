@@ -11,7 +11,7 @@ interface IProps {
 @autoBindMethods
 @observer
 class WithTooltip extends Component<IProps> {
-  public render () {
+  public render() {
     const { tooltip, children } = this.props;
 
     if (!tooltip) {
@@ -22,7 +22,7 @@ class WithTooltip extends Component<IProps> {
       <span>
         {children}&nbsp;
         <Tooltip title={tooltip}>
-          <Icon type='question-circle-o'/>
+          <Icon type="question-circle-o" />
         </Tooltip>
       </span>
     );

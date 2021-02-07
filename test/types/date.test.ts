@@ -4,14 +4,13 @@ import { Tester } from '@mighty-justice/tester';
 import { FormCard } from '../../src';
 import { TYPE_GENERATORS } from '../factories';
 
-async function checkInferYear (newYear: string) {
-  const { fieldConfigFactory } = TYPE_GENERATORS.date
-    , fieldConfig = fieldConfigFactory.build()
-    , fieldSets = [[fieldConfig]]
-    , model = { [fieldConfig.field]: '0001-01-01' }
-    , onSave = jest.fn()
-    , props = { fieldSets, model, onSave }
-    ;
+async function checkInferYear(newYear: string) {
+  const { fieldConfigFactory } = TYPE_GENERATORS.date,
+    fieldConfig = fieldConfigFactory.build(),
+    fieldSets = [[fieldConfig]],
+    model = { [fieldConfig.field]: '0001-01-01' },
+    onSave = jest.fn(),
+    props = { fieldSets, model, onSave };
 
   const tester = await new Tester(FormCard, { props }).mount();
   tester.changeInput(`input[id="${fieldConfig.field}.year"]`, newYear);
@@ -19,13 +18,12 @@ async function checkInferYear (newYear: string) {
   return onSave.mock.calls[0][0][fieldConfig.field].slice(0, 4);
 }
 
-async function isInputsValid (month: string, day: string, year: string) {
-  const { fieldConfigFactory } = TYPE_GENERATORS.date
-    , fieldConfig = fieldConfigFactory.build()
-    , fieldSets = [[fieldConfig]]
-    , onSave = jest.fn()
-    , props = { fieldSets, onSave }
-    ;
+async function isInputsValid(month: string, day: string, year: string) {
+  const { fieldConfigFactory } = TYPE_GENERATORS.date,
+    fieldConfig = fieldConfigFactory.build(),
+    fieldSets = [[fieldConfig]],
+    onSave = jest.fn(),
+    props = { fieldSets, onSave };
 
   const tester = await new Tester(FormCard, { props }).mount();
   tester.changeInput(`input[id="${fieldConfig.field}.month"]`, month);
@@ -38,16 +36,18 @@ async function isInputsValid (month: string, day: string, year: string) {
 
 describe('date', () => {
   it('Edits', async () => {
-    const { valueFunction, fieldConfigFactory } = TYPE_GENERATORS.date
-      , value = valueFunction()
-      , newDay = faker.random.number({ min: 1, max: 9 }).toString().padStart(2)
-      , newValue = value.substr(0, 8) + newDay.trim().padStart(2, '0')
-      , fieldConfig = fieldConfigFactory.build()
-      , fieldSets = [[fieldConfig]]
-      , model = { [fieldConfig.field]: value }
-      , onSave = jest.fn()
-      , props = { fieldSets, model, onSave }
-      ;
+    const { valueFunction, fieldConfigFactory } = TYPE_GENERATORS.date,
+      value = valueFunction(),
+      newDay = faker.random
+        .number({ min: 1, max: 9 })
+        .toString()
+        .padStart(2),
+      newValue = value.substr(0, 8) + newDay.trim().padStart(2, '0'),
+      fieldConfig = fieldConfigFactory.build(),
+      fieldSets = [[fieldConfig]],
+      model = { [fieldConfig.field]: value },
+      onSave = jest.fn(),
+      props = { fieldSets, model, onSave };
 
     const tester = await new Tester(FormCard, { props }).mount();
     tester.changeInput(`input[id="${fieldConfig.field}.day"]`, newDay);
@@ -88,12 +88,11 @@ describe('date', () => {
   });
 
   it('Changes input before submission', async () => {
-    const { fieldConfigFactory } = TYPE_GENERATORS.date
-      , fieldConfig = fieldConfigFactory.build()
-      , fieldSets = [[fieldConfig]]
-      , onSave = jest.fn()
-      , props = { fieldSets, onSave, required: false }
-      ;
+    const { fieldConfigFactory } = TYPE_GENERATORS.date,
+      fieldConfig = fieldConfigFactory.build(),
+      fieldSets = [[fieldConfig]],
+      onSave = jest.fn(),
+      props = { fieldSets, onSave, required: false };
 
     const tester = await new Tester(FormCard, { props }).mount();
 

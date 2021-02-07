@@ -5,9 +5,7 @@ import { pattern as iso8601pattern } from 'iso8601-duration';
 
 import * as Antd from 'antd';
 
-import {
-  IFieldConfig,
-} from '../interfaces';
+import { IFieldConfig } from '../interfaces';
 
 import {
   EMPTY_FIELD,
@@ -44,26 +42,26 @@ import Address from '../inputs/Address';
 import TrimWhitespaceInput from '../inputs/TrimWhitespaceInput';
 import ObjectSelect from '../inputs/ObjectSelect';
 
-function passRenderOnlyValue (func: (value: IValue) => React.ReactNode) {
+function passRenderOnlyValue(func: (value: IValue) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
   return (value: IValue, _fieldConfig?: IFieldConfig, _model?: IModel) => func(value);
 }
 
-function passRenderOnlyValueAndFieldConfig (func: (value: IValue, fieldConfig: IFieldConfig) => React.ReactNode) {
+function passRenderOnlyValueAndFieldConfig(func: (value: IValue, fieldConfig: IFieldConfig) => React.ReactNode) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
   return (value: IValue, fieldConfig: IFieldConfig, _model: IModel) => func(value, fieldConfig);
 }
 
-function passToFormOnlyValue (func: (value: IValue) => IValue) {
+function passToFormOnlyValue(func: (value: IValue) => IValue) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
   return (value: IValue, _fieldConfig: IFieldConfig) => func(value);
 }
 
-export function booleanToForm (value: IValue) {
+export function booleanToForm(value: IValue) {
   return isBoolean(value) ? value.toString() : value;
 }
 
-function booleanFromForm (value: IValue) {
+function booleanFromForm(value: IValue) {
   for (const bool of [true, false]) {
     if (value === bool || value === bool.toString()) {
       return bool;
@@ -87,13 +85,16 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     fieldConfigProp: true,
     fromForm: booleanFromForm,
     nullify: true,
-    options: [{ value: 'false', name: 'No' }, { value: 'true', name: 'Yes' }],
+    options: [
+      { value: 'false', name: 'No' },
+      { value: 'true', name: 'Yes' },
+    ],
     render: passRenderOnlyValue(mapBooleanToText),
     toForm: passToFormOnlyValue(booleanToForm),
   },
   checkbox: {
     editComponent: Checkbox,
-    fromForm: (value) => !!value,
+    fromForm: value => !!value,
     render: passRenderOnlyValue(mapBooleanToText),
   },
   date: {
@@ -110,7 +111,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   datepicker: {
     editComponent: Antd.DatePicker,
     editProps: { format: dateFormatList },
-    fromForm: (value: any) => value ? format(value, 'YYYY-MM-DD') : '',
+    fromForm: (value: any) => (value ? format(value, 'YYYY-MM-DD') : ''),
     nullify: true,
     render: passRenderOnlyValue(formatDate),
     toForm: (value: any) => (value || null) && moment(value),
@@ -159,7 +160,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
       gteZero: {
         message: 'Amount must be greater than or equal to 0',
         min: 0,
-        transform: (value?: string) => value ? Number(value) : undefined,
+        transform: (value?: string) => (value ? Number(value) : undefined),
         type: 'number',
       },
     },
@@ -203,7 +204,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   },
   password: {
     editComponent: Antd.Input.Password,
-    render: (value) => value ? '********' : EMPTY_FIELD,
+    render: value => (value ? '********' : EMPTY_FIELD),
   },
   percentage: {
     editProps: {
@@ -215,7 +216,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
         max: 100,
         message: 'Percentage must be an integer between 0 and 100',
         min: 0,
-        transform: (value?: string) => value ? Math.floor(Number(value)) : undefined,
+        transform: (value?: string) => (value ? Math.floor(Number(value)) : undefined),
         type: 'integer',
       },
     },

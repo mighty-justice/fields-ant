@@ -12,19 +12,17 @@ import { IAntFormField, IInjected, IInputProps } from '../interfaces';
 class TrimWhitespaceInput extends Component<{}> {
   @observable private value = '';
 
-  private get injected () {
+  private get injected() {
     return this.props as IInjected & IInputProps & IAntFormField;
   }
 
-  private onChange (e: any) {
+  private onChange(e: any) {
     this.value = e.target.value.trim();
     this.injected.onChange(this.value);
   }
 
-  public render () {
-    return (
-      <Input value={this.value} {...this.props} onChange={this.onChange} />
-    );
+  public render() {
+    return <Input value={this.value} {...this.props} onChange={this.onChange} />;
   }
 }
 

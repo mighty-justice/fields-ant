@@ -4,14 +4,16 @@ import { EditableArrayCard } from '../../src';
 import { Tester } from '@mighty-justice/tester';
 import { fakeTextShort } from '../factories';
 
-const title = faker.lorem.sentence()
-  , model = Array(10).fill(null).map(_ => ({
-    id: faker.random.uuid(),
-    name: fakeTextShort(),
-  }))
-  , onCreate = jest.fn()
-  , onSave = jest.fn()
-  , props = {
+const title = faker.lorem.sentence(),
+  model = Array(10)
+    .fill(null)
+    .map(_ => ({
+      id: faker.random.uuid(),
+      name: fakeTextShort(),
+    })),
+  onCreate = jest.fn(),
+  onSave = jest.fn(),
+  props = {
     fieldSets: [[{ field: 'name' }]],
     model,
     onCreate,
@@ -40,8 +42,8 @@ describe('EditableArrayCard', () => {
     { action: 'edit', prop: onSave },
   ].forEach(({ action, prop }) => {
     it(`Handles ${action}`, async () => {
-      const newValue = fakeTextShort()
-        , tester = await new Tester(EditableArrayCard, { props }).mount();
+      const newValue = fakeTextShort(),
+        tester = await new Tester(EditableArrayCard, { props }).mount();
 
       expect(tester.find('input#name').length).toBe(0);
       tester.click(`button.btn-${action}`);

@@ -8,7 +8,9 @@ import { IValue } from '../props';
 import { TYPES } from './types';
 import { mapFieldSetFields } from './common';
 
-export function falseyToString (value: IValue) { return value || ''; }
+export function falseyToString(value: IValue) {
+  return value || '';
+}
 
 const typeDefaults = {
   editComponent: Antd.Input,
@@ -19,60 +21,83 @@ const typeDefaults = {
   toForm: falseyToString,
 };
 
-function stripFieldConfig (func: (...args: any[]) => any) {
+function stripFieldConfig(func: (...args: any[]) => any) {
   // tslint:disable-next-line no-unnecessary-callback-wrapper
   return (value: any) => func(value);
 }
 
-export function getFieldSuffix (field?: string) {
+export function getFieldSuffix(field?: string) {
   return (field || '').split('.').pop() || '';
 }
 
 // tslint:disable-next-line cyclomatic-complexity
-function inferType (fieldConfig: Partial<IFieldConfig>) {
+function inferType(fieldConfig: Partial<IFieldConfig>) {
   if (fieldConfig.type) {
     return fieldConfig.type;
   }
 
   const field = getFieldSuffix(fieldConfig.field);
 
-  if (field.includes('amount')) { return 'money'; }
-  if (field.includes('body')) { return 'text'; }
-  if (field.includes('note')) { return 'text'; }
-  if (field.includes('percent')) { return 'percentage'; }
-  if (field.includes('summary')) { return 'text'; }
+  if (field.includes('amount')) {
+    return 'money';
+  }
+  if (field.includes('body')) {
+    return 'text';
+  }
+  if (field.includes('note')) {
+    return 'text';
+  }
+  if (field.includes('percent')) {
+    return 'percentage';
+  }
+  if (field.includes('summary')) {
+    return 'text';
+  }
 
-  if (field.endsWith('_on')) { return 'date'; }
-  if (field.endsWith('_at')) { return 'date'; }
-  if (field.startsWith('is_')) { return 'boolean'; }
+  if (field.endsWith('_on')) {
+    return 'date';
+  }
+  if (field.endsWith('_at')) {
+    return 'date';
+  }
+  if (field.startsWith('is_')) {
+    return 'boolean';
+  }
 
   // Putting this ahead of loop so phone_number => phone, and not number
-  if (field.includes('phone')) { return 'phone'; }
+  if (field.includes('phone')) {
+    return 'phone';
+  }
 
   // date => date etc.
   for (const type in TYPES) {
-    if (field === type) { return type; }
+    if (field === type) {
+      return type;
+    }
   }
 
   // start_date => date etc.
   for (const type in TYPES) {
-    if (field.includes(type)) { return type; }
+    if (field.includes(type)) {
+      return type;
+    }
   }
 
   return 'string';
 }
 
-export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConfig {
-  const type = inferType(fieldConfig)
-    , label = fieldConfig.label || varToLabel(getFieldSuffix(fieldConfig.field));
+export function fillInFieldConfig(fieldConfig: IFieldConfigPartial): IFieldConfig {
+  const type = inferType(fieldConfig),
+    label = fieldConfig.label || varToLabel(getFieldSuffix(fieldConfig.field));
 
   const requiredValidationRule = fieldConfig.required
     ? {
-      required: {
-        message: `Required - Please input a valid ${label || 'value'}`,
-        required: true,
-      },
-    } : undefined;
+        required: {
+          message: `Required - Please input a valid ${label || 'value'}`,
+          required: true,
+        },
+      }
+    : undefined;
 
   // istanbul ignore next
   if (!TYPES[type]) {
@@ -115,11 +140,11 @@ export function fillInFieldConfig (fieldConfig: IFieldConfigPartial): IFieldConf
   } as IFieldConfig;
 }
 
-export function fillInFieldSet (fieldSet: IFieldSetPartial): IFieldSet {
+export function fillInFieldSet(fieldSet: IFieldSetPartial): IFieldSet {
   // Fills in the defaults from common so we can keep configurations light
   return mapFieldSetFields(fieldSet, fillInFieldConfig) as IFieldSet;
 }
 
-export function fillInFieldSets (fieldSets: IFieldSetPartial[]): IFieldSet[] {
+export function fillInFieldSets(fieldSets: IFieldSetPartial[]): IFieldSet[] {
   return fieldSets.map(fillInFieldSet);
 }
