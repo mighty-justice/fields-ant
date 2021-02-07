@@ -7,11 +7,10 @@ import cx from 'classnames';
 import * as Antd from 'antd';
 import { TableProps } from 'antd/lib/table/interface';
 
-import { fieldSetsToColumns, IColumns } from '../utilities';
+import { fieldSetsToColumns, IColumns, ITableModel } from '../utilities';
 import { IModel, ISharedComponentProps } from '../props';
 import { CLASS_PREFIX } from '../consts';
 
-export type ITableModel = IModel & { key: string };
 export type ITablePassDownProps = Omit<TableProps<ITableModel>, 'className' | 'title'>;
 
 export interface ITableProps extends ISharedComponentProps, ITablePassDownProps {
@@ -25,7 +24,7 @@ const CLASS_NAME = `${CLASS_PREFIX}-table`;
 class Table extends Component<ITableProps> {
   @computed
   private get columns (): IColumns {
-    return fieldSetsToColumns(this.props.fieldSets, this.props.model);
+    return fieldSetsToColumns(this.props.fieldSets, this.dataSource);
   }
 
   @computed

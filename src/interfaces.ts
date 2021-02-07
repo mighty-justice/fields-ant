@@ -5,7 +5,7 @@ import { ValidationRule as AntValidationRule, FormItemProps } from 'antd/es/form
 import { ClassValue } from 'classnames/types';
 
 import { IModel, IValue } from './props';
-import { FormManager } from './utilities';
+import { FormManager, ITableModel } from './utilities';
 
 export type IFieldsValidator = (value: IValue, fieldConfig: IFieldConfig, model: IModel) => boolean;
 
@@ -37,7 +37,7 @@ interface IFieldConfigBase {
   required: boolean;
   showLabel: boolean;
   skipFieldDecorator: boolean;
-  tableColumnProps?: Partial<ColumnProps<IModel>>;
+  tableColumnProps?: Partial<ColumnProps<ITableModel>>;
   toForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
   tooltip?: string;
   type: string;
