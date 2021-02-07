@@ -20,17 +20,21 @@ const CLASS_NAME = `${CLASS_PREFIX}-button-toolbar`;
 @autoBindMethods
 @observer
 class ButtonToolbar extends Component<IButtonToolbarProps> {
-  public render () {
-    const { noSpacing, align, fixed, ...passDownProps } = this.props
-      , className = cx(
+  public render() {
+    const { noSpacing, align, fixed, ...passDownProps } = this.props,
+      className = cx(
         align && `${CLASS_NAME}-align-${align}`,
         CLASS_NAME,
         this.props.className,
-        {[`${CLASS_NAME}-no-spacing`]: noSpacing},
-        {[`${CLASS_NAME}-position-fixed`]: fixed},
+        { [`${CLASS_NAME}-no-spacing`]: noSpacing },
+        { [`${CLASS_NAME}-position-fixed`]: fixed },
       );
 
-    return <Form.Item {...passDownProps} className={className}>{this.props.children}</Form.Item>;
+    return (
+      <Form.Item {...passDownProps} className={className}>
+        {this.props.children}
+      </Form.Item>
+    );
   }
 }
 

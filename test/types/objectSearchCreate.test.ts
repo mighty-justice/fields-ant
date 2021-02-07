@@ -9,18 +9,17 @@ import { objectSearchFor } from './objectSearch.test';
 import { OPTION_KEYS } from '../../src/inputs/ObjectSearch';
 import { CLASS_NAME_BTN_BACK } from '../../src/inputs/ObjectSearchCreate';
 
-function getDefaults (overrides?: any) {
-  const field = overrides.field || 'law_firm'
-    , editProps = { debounceWait: 0 }
-    , endpoint = overrides.endpoint || '/legal-organizations/'
-    , type = overrides.type || 'objectSearchCreate'
-    , createFields = overrides.createFields || [{ field: 'name', required: true }, { field: 'amount_owed' }]
-    , fieldConfig = { editProps, field, type, endpoint, createFields, ...overrides.fieldConfig }
-    , fieldSets = overrides.fieldSets || [[fieldConfig]]
-    , onSave = jest.fn()
-    , model = overrides.model || { law_firm: null }
-    , props = { fieldSets, model, onSave }
-    ;
+function getDefaults(overrides?: any) {
+  const field = overrides.field || 'law_firm',
+    editProps = { debounceWait: 0 },
+    endpoint = overrides.endpoint || '/legal-organizations/',
+    type = overrides.type || 'objectSearchCreate',
+    createFields = overrides.createFields || [{ field: 'name', required: true }, { field: 'amount_owed' }],
+    fieldConfig = { editProps, field, type, endpoint, createFields, ...overrides.fieldConfig },
+    fieldSets = overrides.fieldSets || [[fieldConfig]],
+    onSave = jest.fn(),
+    model = overrides.model || { law_firm: null },
+    props = { fieldSets, model, onSave };
 
   return {
     expectedLabel: 'Law Firm',
@@ -41,26 +40,29 @@ function getDefaults (overrides?: any) {
   };
 }
 
-async function getTester (props: any) {
-  return (await new Tester(FormCard, { props }).mount());
+async function getTester(props: any) {
+  return await new Tester(FormCard, { props }).mount();
 }
 
-async function clickAddNew (tester: any) {
+async function clickAddNew(tester: any) {
   tester.click(`.${OPTION_KEYS.ADD} div`);
 }
 
-async function clickFirstResult (tester: any) {
-  tester.find('li').at(1).simulate('click');
+async function clickFirstResult(tester: any) {
+  tester
+    .find('li')
+    .at(1)
+    .simulate('click');
 }
 
-async function clickBack (tester: any) {
+async function clickBack(tester: any) {
   tester.click(`.${CLASS_NAME_BTN_BACK}`);
 }
 
 describe('objectSearchCreate', () => {
   it('Selects existing', async () => {
-    const { field, props, onSave, searchTerm, results } = getDefaults({})
-      , tester = await getTester(props);
+    const { field, props, onSave, searchTerm, results } = getDefaults({}),
+      tester = await getTester(props);
 
     await objectSearchFor(tester, field, results, searchTerm);
 
@@ -70,8 +72,8 @@ describe('objectSearchCreate', () => {
   });
 
   it('Adds new', async () => {
-    const { field, onSave, searchTerm, results, props, fakeOwed } = getDefaults({})
-      , tester = await getTester(props) ;
+    const { field, onSave, searchTerm, results, props, fakeOwed } = getDefaults({}),
+      tester = await getTester(props);
 
     await tester.submit();
     expect(onSave).toHaveBeenCalledWith(props.model);
@@ -98,7 +100,7 @@ describe('objectSearchCreate', () => {
     // Will clear errors when fixing invalid field
     tester.changeInput('input[id="law_firm.name"]', searchTerm);
     tester.submit();
-    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed }});
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed } });
 
     clickBack(tester);
     tester.submit();
@@ -108,9 +110,8 @@ describe('objectSearchCreate', () => {
   it('Clears existing record on add new', async () => {
     const { field, onSave, searchTerm, results, props } = getDefaults({
         model: { law_firm: organizationResultFactory.build() },
-      })
-      , tester = await getTester(props)
-      ;
+      }),
+      tester = await getTester(props);
 
     await objectSearchFor(tester, field, results, searchTerm);
     await clickAddNew(tester);
@@ -124,7 +125,7 @@ describe('objectSearchCreate', () => {
     // Will clear errors when fixing invalid field
     tester.changeInput('input[id="law_firm.name"]', searchTerm);
     tester.submit();
-    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: null }});
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: null } });
 
     clickBack(tester);
     tester.submit();
@@ -133,32 +134,29 @@ describe('objectSearchCreate', () => {
 
   it('Populates from search', async () => {
     const { field, onSave, searchTerm, results, props } = getDefaults({
-        createFields: [
-          { field: 'name', required: true, populateFromSearch: true },
-          { field: 'amount_owed' },
-        ],
-      })
-      , tester = await getTester(props);
+        createFields: [{ field: 'name', required: true, populateFromSearch: true }, { field: 'amount_owed' }],
+      }),
+      tester = await getTester(props);
 
     await objectSearchFor(tester, field, results, searchTerm);
     await clickAddNew(tester);
 
     expect(tester.find('input[id="law_firm.name"]').html()).toContain(searchTerm);
     tester.submit();
-    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: null }});
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: null } });
   });
 
   it('Populates name from search', async () => {
-    const firstName = faker.name.firstName()
-      , lastName = faker.name.lastName()
-      , searchTerm = `${firstName} ${lastName}`
-      , createFields = [
+    const firstName = faker.name.firstName(),
+      lastName = faker.name.lastName(),
+      searchTerm = `${firstName} ${lastName}`,
+      createFields = [
         { field: 'first_name', required: true, populateNameFromSearch: true },
         { field: 'last_name', required: true, populateNameFromSearch: true },
         { field: 'amount_owed' },
-      ]
-      , { field, onSave, results, props } = getDefaults({ createFields })
-      , tester = await getTester(props);
+      ],
+      { field, onSave, results, props } = getDefaults({ createFields }),
+      tester = await getTester(props);
 
     await objectSearchFor(tester, field, results, searchTerm);
     await clickAddNew(tester);
@@ -167,36 +165,35 @@ describe('objectSearchCreate', () => {
     expect(tester.find('input[id="law_firm.last_name"]').html()).toContain(lastName);
 
     tester.submit();
-    expect(onSave).toHaveBeenCalledWith({ law_firm: {
-      amount_owed: null,
-      first_name: firstName,
-      last_name: lastName,
-    }});
+    expect(onSave).toHaveBeenCalledWith({
+      law_firm: {
+        amount_owed: null,
+        first_name: firstName,
+        last_name: lastName,
+      },
+    });
   });
 
   it('Nullifies nullable create fields', async () => {
     const { field, onSave, searchTerm, results, props } = getDefaults({
-        createFields: [
-          { field: 'non_nullable' },
-          { field: 'nullable', nullify: true },
-        ],
-      })
-      , tester = await getTester(props);
+        createFields: [{ field: 'non_nullable' }, { field: 'nullable', nullify: true }],
+      }),
+      tester = await getTester(props);
 
     await objectSearchFor(tester, field, results, searchTerm);
     await clickAddNew(tester);
     tester.submit();
 
-    expect(onSave).toHaveBeenCalledWith({ law_firm: { non_nullable: '', nullable: null }});
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { non_nullable: '', nullable: null } });
   });
 
   it('Renders and saves complex nested field sets', async () => {
-    const legend = fakeTextShort()
-      , submitValue = fakeTextShort()
-      , { field, onSave, searchTerm, results, props } = getDefaults({
-        createFields: { fields: [{ field: 'complex'}], legend },
-      })
-      , tester = await getTester(props);
+    const legend = fakeTextShort(),
+      submitValue = fakeTextShort(),
+      { field, onSave, searchTerm, results, props } = getDefaults({
+        createFields: { fields: [{ field: 'complex' }], legend },
+      }),
+      tester = await getTester(props);
 
     await objectSearchFor(tester, field, results, searchTerm);
     await clickAddNew(tester);
@@ -206,30 +203,34 @@ describe('objectSearchCreate', () => {
     tester.changeInput('input[id="law_firm.complex"]', submitValue);
 
     tester.submit();
-    expect(onSave).toHaveBeenCalledWith({ law_firm: { complex: submitValue }});
+    expect(onSave).toHaveBeenCalledWith({ law_firm: { complex: submitValue } });
   });
 
   it('Renders non-standard objects', async () => {
     const { field, onSave, searchTerm, results, props } = getDefaults({
-        createFields: [
-          { field: 'non_nullable' },
-          { field: 'nullable', nullify: true },
-        ],
+        createFields: [{ field: 'non_nullable' }, { field: 'nullable', nullify: true }],
         fieldConfig: {
           renderOption: (option: any) => `${option.first_name} FFF ${option.last_name}`,
           renderSelected: (option: any) => `${option.last_name} ZZZ ${option.first_name}`,
         },
-        results: [{
-          first_name: faker.name.firstName(),
-          id: faker.random.uuid(),
-          last_name: faker.name.lastName(),
-        }],
-      })
-      , tester = await getTester(props);
+        results: [
+          {
+            first_name: faker.name.firstName(),
+            id: faker.random.uuid(),
+            last_name: faker.name.lastName(),
+          },
+        ],
+      }),
+      tester = await getTester(props);
 
     await objectSearchFor(tester, field, results, searchTerm);
 
-    expect(tester.find('li').at(1).text()).toContain('FFF');
+    expect(
+      tester
+        .find('li')
+        .at(1)
+        .text(),
+    ).toContain('FFF');
     clickFirstResult(tester);
     expect(tester.text()).toContain('ZZZ');
     tester.submit();

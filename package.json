@@ -19,8 +19,8 @@
     "docs:build": "build-storybook",
     "docs:deploy": "storybook-to-ghpages",
     "docs:watch": "start-storybook -p 6006",
-    "lint": "tslint --project .",
-    "lint:fix": "tslint --fix --project .",
+    "format": "tsdx lint --fix",
+    "lint": "tsdx lint",
     "postpublish": "npm run docs:build && npm run docs:deploy",
     "preversion": "npm run lint",
     "test": "jest",
@@ -44,6 +44,13 @@
     "url": "https://github.com/mighty-justice/fields-ant/issues"
   },
   "homepage": "https://mighty-justice.github.io/fields-ant/",
+  "prettier": {
+    "printWidth": 120,
+    "proseWrap": "always",
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/"
@@ -94,7 +101,6 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@mighty-justice/tester": "^1.4.0",
-    "@mighty-justice/tslint-config": "^1.0.2",
     "@storybook/addon-actions": "^5.0.11",
     "@storybook/addon-info": "^5.0.11",
     "@storybook/addon-links": "^5.0.11",
@@ -144,7 +150,7 @@
     "source-map-explorer": "^1.8.0",
     "storybook-readme": "^5.0.1",
     "style-loader": "^0.23.1",
-    "tslint": "5.14.0",
+    "tsdx": "^0.14.1",
     "typescript": "3.9.7"
   },
   "dependencies": {

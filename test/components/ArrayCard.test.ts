@@ -5,12 +5,15 @@ import { Tester } from '@mighty-justice/tester';
 
 describe('ArrayCard', () => {
   it('Renders', async () => {
-    const text1 = faker.lorem.sentence()
-      , text2 = faker.lorem.sentence()
-      , title = faker.lorem.sentence()
-      , props = {
+    const text1 = faker.lorem.sentence(),
+      text2 = faker.lorem.sentence(),
+      title = faker.lorem.sentence(),
+      props = {
         fieldSets: [[{ field: 'text' }]],
-        model: [{ id: 1, text: text1 }, { id: 2, text: text2 }],
+        model: [
+          { id: 1, text: text1 },
+          { id: 2, text: text2 },
+        ],
         title,
       };
 

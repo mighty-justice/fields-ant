@@ -41,7 +41,7 @@ export const OPTION_KEYS = {
   ADD: `${CLASS_NAME}-add`,
   EMPTY: `${CLASS_NAME}-empty`,
   NO_SEARCH: `${CLASS_NAME}-no-search`,
-  OPTION:  `${CLASS_NAME}-option`,
+  OPTION: `${CLASS_NAME}-option`,
 };
 
 @inject('getEndpoint')
@@ -61,83 +61,74 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   private debouncedHandleSearch: (search: string) => void;
 
-  public constructor (props: IObjectSearchProps) {
+  public constructor(props: IObjectSearchProps) {
     super(props);
     this.debouncedHandleSearch = debounce(this.handleSearch, props.debounceWait);
     this.updateValueCaches();
   }
 
-  private get injected () {
+  private get injected() {
     return this.props as IObjectSearchProps & IInjected & IInputProps & IAntFormField;
   }
 
-  private get fieldConfig () {
+  private get fieldConfig() {
     return this.props.fieldConfig as IFieldConfigObjectSearchCreate;
   }
 
-  private get hasSearch () {
+  private get hasSearch() {
     return this.search !== '';
   }
 
-  private get hasOptions () {
+  private get hasOptions() {
     return !!this.options.length;
   }
 
-  private updateValueCaches () {
+  private updateValueCaches() {
     this.previousEndpoint = this.fieldConfig.endpoint;
     this.previousSearchFilters = toKey(this.fieldConfig.searchFilters || {});
   }
 
-  private get hasNewEndpoint () {
+  private get hasNewEndpoint() {
     return this.previousEndpoint !== this.fieldConfig.endpoint;
   }
 
-  private get hasNewSearchFilters () {
+  private get hasNewSearchFilters() {
     return this.previousSearchFilters !== toKey(this.fieldConfig.searchFilters || {});
   }
 
-  private get hasNewProps () {
+  private get hasNewProps() {
     return this.hasNewEndpoint || this.hasNewSearchFilters;
   }
 
-  private get isPristine () {
+  private get isPristine() {
     return !this.hasOptions && !this.hasSearch;
   }
 
-  private get isMultiSelect () {
+  private get isMultiSelect() {
     const { mode } = this.selectProps;
     return mode && ['multiple', 'tags'].includes(mode);
   }
 
-  private get loadingIcon () {
-    return this.props.loadingIcon || <Antd.Icon type='loading' />;
+  private get loadingIcon() {
+    return this.props.loadingIcon || <Antd.Icon type="loading" />;
   }
 
-  private get searchIcon () {
-    return this.props.searchIcon || <Antd.Icon type='search' />;
+  private get searchIcon() {
+    return this.props.searchIcon || <Antd.Icon type="search" />;
   }
 
-  private get selectProps () {
+  private get selectProps() {
     // Omitting specific props to avoid unintentional behaviors
-    return omit(this.props.selectProps, [
-      'id',
-      'loading',
-      'onBlur',
-      'onChange',
-      'onFocus',
-      'onSearch',
-      'showSearch',
-    ]);
+    return omit(this.props.selectProps, ['id', 'loading', 'onBlur', 'onChange', 'onFocus', 'onSearch', 'showSearch']);
   }
 
-  private async handleSearch (value: string) {
-    const { getEndpoint, searchOnEmpty } = this.injected
-      , { endpoint, searchFilters } = this.fieldConfig
-      , params = {
+  private async handleSearch(value: string) {
+    const { getEndpoint, searchOnEmpty } = this.injected,
+      { endpoint, searchFilters } = this.fieldConfig,
+      params = {
         search: value,
         ...searchFilters,
-      }
-      ;
+      };
 
     this.search = value;
     if (!searchOnEmpty && !this.hasSearch) {
@@ -152,29 +143,34 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       const response = await getEndpoint(`${endpoint}${toKey(params)}`);
       this.options = get(response, 'results', []);
 
-    // istanbul ignore next
+      // istanbul ignore next
     } catch (error) {
       // tslint:disable no-console
       // istanbul ignore next
       console.error(error);
       // tslint:enable no-console
-
     } finally {
       this.isLoading.setFalse();
     }
   }
 
-  private renderAddOption () {
+  private renderAddOption() {
     const { addNewContent } = this.props;
 
     return (
       <Antd.Select.Option className={OPTION_KEYS.ADD} key={OPTION_KEYS.ADD}>
-        <div>{addNewContent || (<><Antd.Icon type='plus' /> <b>{this.search}</b></>)}</div>
+        <div>
+          {addNewContent || (
+            <>
+              <Antd.Icon type="plus" /> <b>{this.search}</b>
+            </>
+          )}
+        </div>
       </Antd.Select.Option>
     );
   }
 
-  private renderNoResultsOption () {
+  private renderNoResultsOption() {
     const { selectProps } = this.props;
 
     return (
@@ -184,22 +180,23 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     );
   }
 
-  private renderNoSearchOption () {
+  private renderNoSearchOption() {
     const { noSearchContent } = this.props;
 
     return (
       <Antd.Select.Option className={OPTION_KEYS.NO_SEARCH} disabled key={OPTION_KEYS.NO_SEARCH}>
-        {this.isLoading.isTrue
-          ? <div>{this.loadingIcon} Loading...</div>
-          : <div>{noSearchContent || 'Type to search or filter'}</div>
-        }
+        {this.isLoading.isTrue ? (
+          <div>{this.loadingIcon} Loading...</div>
+        ) : (
+          <div>{noSearchContent || 'Type to search or filter'}</div>
+        )}
       </Antd.Select.Option>
     );
   }
 
-  private renderOption (option: IEndpointOption) {
-    const { renderOption, renderSelected } = this.fieldConfig
-      , { isOptionDisabled } = this.props;
+  private renderOption(option: IEndpointOption) {
+    const { renderOption, renderSelected } = this.fieldConfig,
+      { isOptionDisabled } = this.props;
 
     return (
       <Antd.Select.Option
@@ -214,7 +211,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     );
   }
 
-  private onChange (selectedOption: any) {
+  private onChange(selectedOption: any) {
     const { onChange, onAddNew } = this.injected;
 
     // Clear
@@ -231,9 +228,9 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
     // Select from search
     if (this.isMultiSelect) {
-      const selectedOptionIds = selectedOption.map((_selectedOption: any) => _selectedOption.key)
-        , optionsToSearch = uniqBy([...this.injected.value, ...this.options], 'id')
-        , foundOptions = optionsToSearch.filter((option: any) => selectedOptionIds.includes(option.id));
+      const selectedOptionIds = selectedOption.map((_selectedOption: any) => _selectedOption.key),
+        optionsToSearch = uniqBy([...this.injected.value, ...this.options], 'id'),
+        foundOptions = optionsToSearch.filter((option: any) => selectedOptionIds.includes(option.id));
       onChange(toJS(foundOptions));
     } else {
       const foundOption = this.options.find(option => option.id === selectedOption.key);
@@ -242,24 +239,26 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   // istanbul ignore next
-  private onBlur () {
+  private onBlur() {
     this.search = '';
   }
 
   // istanbul ignore next
-  private onFocus () {
+  private onFocus() {
     if (this.isPristine || this.hasNewProps) {
       // Trigger empty search
       this.handleSearch(this.search);
     }
   }
 
-  private get valueProp (): { value?: { key: string, label: string } } {
-    const { value } = this.injected
-      , { renderSelected } = this.fieldConfig;
+  private get valueProp(): { value?: { key: string; label: string } } {
+    const { value } = this.injected,
+      { renderSelected } = this.fieldConfig;
 
     if (this.isMultiSelect) {
-      if (!value) { return { value: undefined }; }
+      if (!value) {
+        return { value: undefined };
+      }
 
       return {
         value: value.map((_value: any) => ({
@@ -270,7 +269,9 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     }
 
     const valueId = get(value, 'id');
-    if (!valueId) { return { value: undefined }; }
+    if (!valueId) {
+      return { value: undefined };
+    }
 
     return {
       value: {
@@ -280,22 +281,21 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     };
   }
 
-  private renderDropdownWrapper (menu: React.ReactNode) {
+  private renderDropdownWrapper(menu: React.ReactNode) {
     const { className } = this.selectProps;
     return <div className={className}>{menu}</div>;
   }
 
-  public render () {
-    const { id, onAddNew, searchOnEmpty, disabled } = this.injected
-      , isLoading: boolean = this.isLoading.isTrue
-      , canSearch: boolean = this.hasSearch || !!searchOnEmpty
-      , showNoResultsOption: boolean = canSearch && !isLoading && !this.hasOptions
-      , showAddOption: boolean = !!(this.hasSearch && onAddNew)
-      , showNoSearch: boolean = !this.hasSearch
-      , { label, showLabel } = this.fieldConfig
-      , placeholderLabel: string = (showLabel && label) ? ` ${label}` : ''
-      , placeholder = `Search${placeholderLabel}...`
-      ;
+  public render() {
+    const { id, onAddNew, searchOnEmpty, disabled } = this.injected,
+      isLoading: boolean = this.isLoading.isTrue,
+      canSearch: boolean = this.hasSearch || !!searchOnEmpty,
+      showNoResultsOption: boolean = canSearch && !isLoading && !this.hasOptions,
+      showAddOption: boolean = !!(this.hasSearch && onAddNew),
+      showNoSearch: boolean = !this.hasSearch,
+      { label, showLabel } = this.fieldConfig,
+      placeholderLabel: string = showLabel && label ? ` ${label}` : '',
+      placeholder = `Search${placeholderLabel}...`;
 
     return (
       <Antd.Select
@@ -312,7 +312,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         onChange={this.onChange}
         onFocus={this.onFocus}
         onSearch={this.debouncedHandleSearch}
-        optionLabelProp='title'
+        optionLabelProp="title"
         placeholder={placeholder}
         showSearch
         suffixIcon={isLoading ? this.loadingIcon : this.searchIcon}

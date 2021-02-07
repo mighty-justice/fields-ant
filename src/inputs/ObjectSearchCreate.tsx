@@ -23,16 +23,14 @@ import {
   NestedFieldSet,
 } from '../';
 
-import {
-  renderLabel,
-} from '../utilities';
+import { renderLabel } from '../utilities';
 
 import FormItem from '../building-blocks/FormItem';
 import { IModel } from '../props';
 
 import ObjectSearch from './ObjectSearch';
 
-export function isTypeObjectSearchCreate (fieldConfig: IFieldConfig): fieldConfig is IFieldConfigObjectSearchCreate {
+export function isTypeObjectSearchCreate(fieldConfig: IFieldConfig): fieldConfig is IFieldConfigObjectSearchCreate {
   return fieldConfig.type === 'objectSearchCreate';
 }
 
@@ -63,15 +61,15 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
   @observable private isAddingNew = new SmartBool();
   @observable private search = '';
 
-  private get injected () {
+  private get injected() {
     return this.props as IObjectSearchCreateProps & IInjected & IInputProps & IAntFormField;
   }
 
-  private get fieldConfig () {
+  private get fieldConfig() {
     return this.props.fieldConfig as IFieldConfigObjectSearchCreate;
   }
 
-  private get objectSearchProps () {
+  private get objectSearchProps() {
     return pick(this.props, [
       'addNewContent',
       'debounceWait',
@@ -86,24 +84,28 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     ]);
   }
 
-  private async onAddNew (search: string) {
+  private async onAddNew(search: string) {
     const { onAddNewToggle, formManager, fieldConfig } = this.injected;
     this.search = search;
 
     formManager.form.setFieldsValue({ [fieldConfig.field]: {} }, () => {
       this.isAddingNew.setTrue();
-      if (onAddNewToggle) { onAddNewToggle(true); }
+      if (onAddNewToggle) {
+        onAddNewToggle(true);
+      }
     });
   }
 
-  private async onSearch () {
+  private async onSearch() {
     const { onAddNewToggle, formManager, id, fieldConfig } = this.injected;
     formManager.form.setFieldsValue({ [id]: formManager.getDefaultValue(fieldConfig) });
     this.isAddingNew.setFalse();
-    if (onAddNewToggle) { onAddNewToggle(false); }
+    if (onAddNewToggle) {
+      onAddNewToggle(false);
+    }
   }
 
-  private renderAddNew () {
+  private renderAddNew() {
     const { fieldConfig, formManager } = this.injected;
 
     return (
@@ -117,49 +119,30 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
             label={renderLabel(this.fieldConfig)}
             search={this.search}
           />
-          <Antd.Button
-            className={CLASS_NAME_BTN_BACK}
-            onClick={this.onSearch}
-            size='small'
-          >
-            <Antd.Icon type='left' /> Back to search
+          <Antd.Button className={CLASS_NAME_BTN_BACK} onClick={this.onSearch} size="small">
+            <Antd.Icon type="left" /> Back to search
           </Antd.Button>
         </Antd.Form.Item>
       </Antd.Col>
     );
   }
 
-  private renderSearch () {
+  private renderSearch() {
     const { fieldConfig, formManager, formModel } = this.injected;
 
     return (
-      <FormItem
-        fieldConfig={fieldConfig}
-        formManager={formManager}
-        formModel={formModel}
-      >
-        <ObjectSearch
-          onAddNew={this.onAddNew}
-          {...this.objectSearchProps}
-        />
+      <FormItem fieldConfig={fieldConfig} formManager={formManager} formModel={formModel}>
+        <ObjectSearch onAddNew={this.onAddNew} {...this.objectSearchProps} />
       </FormItem>
     );
   }
 
-  public render () {
-    const className = cx(
-      CLASS_NAME,
-      {[CLASS_NAME_CREATING]: this.isAddingNew.isTrue },
-      this.props.className,
-    );
+  public render() {
+    const className = cx(CLASS_NAME, { [CLASS_NAME_CREATING]: this.isAddingNew.isTrue }, this.props.className);
 
     return (
       <div className={className}>
-        {
-          this.isAddingNew.isTrue
-            ? this.renderAddNew()
-            : this.renderSearch()
-        }
+        {this.isAddingNew.isTrue ? this.renderAddNew() : this.renderSearch()}
         {this.props.children}
       </div>
     );

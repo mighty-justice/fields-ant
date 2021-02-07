@@ -9,11 +9,11 @@ import httpStatus from 'http-status-codes';
 
 describe('FormCard', () => {
   it('Edits text', async () => {
-    const text = faker.lorem.sentence()
-      , newText = faker.lorem.sentence()
-      , title = 'testing'
-      , onSave = jest.fn().mockResolvedValue({})
-      , props = {
+    const text = faker.lorem.sentence(),
+      newText = faker.lorem.sentence(),
+      title = 'testing',
+      onSave = jest.fn().mockResolvedValue({}),
+      props = {
         fieldSets: [[{ field: 'text', type: 'string' }]],
         model: { text },
         onSave,
@@ -31,9 +31,9 @@ describe('FormCard', () => {
   });
 
   it('Maps backend errors to fields on form', async () => {
-    const nameError = faker.lorem.sentence()
-      , otherError = faker.lorem.sentence()
-      , response = {
+    const nameError = faker.lorem.sentence(),
+      otherError = faker.lorem.sentence(),
+      response = {
         response: {
           data: {
             non_field_errors: [otherError],
@@ -41,10 +41,10 @@ describe('FormCard', () => {
           },
           status: httpStatus.BAD_REQUEST,
         },
-      }
-      , name = faker.lorem.sentence()
-      , onSave = jest.fn().mockRejectedValue(response)
-      , props = {
+      },
+      name = faker.lorem.sentence(),
+      onSave = jest.fn().mockRejectedValue(response),
+      props = {
         fieldSets: [[{ field: 'name' }]],
         model: { name },
         onSave,

@@ -5,13 +5,7 @@ import { inject, observer } from 'mobx-react';
 
 import * as Antd from 'antd';
 
-import {
-  IAntFormField,
-  IFieldConfigOptionSelect,
-  IInjected,
-  IInputProps,
-  IOption,
-} from '../interfaces';
+import { IAntFormField, IFieldConfigOptionSelect, IInjected, IInputProps, IOption } from '../interfaces';
 
 import { getOptions } from '../utilities';
 
@@ -19,27 +13,24 @@ import { getOptions } from '../utilities';
 @autoBindMethods
 @observer
 class RadioGroup extends Component<IInputProps> {
-  private get injected () {
+  private get injected() {
     return this.props as IInjected & IInputProps & IAntFormField;
   }
 
-  private get fieldConfig () {
+  private get fieldConfig() {
     return this.props.fieldConfig as IFieldConfigOptionSelect;
   }
 
   @computed
-  private get options (): IOption[] {
+  private get options(): IOption[] {
     return getOptions(this.fieldConfig, this.injected);
   }
 
-  public render () {
+  public render() {
     return (
       <Antd.Radio.Group {...this.props}>
         {this.options.map(option => (
-          <Antd.Radio
-            key={option.value}
-            value={option.value}
-          >
+          <Antd.Radio key={option.value} value={option.value}>
             {option.name}
           </Antd.Radio>
         ))}

@@ -2,26 +2,17 @@ import { Tester } from '@mighty-justice/tester';
 
 import { COMPONENT_GENERATORS } from '../factories';
 
-const SUPPORTING_COMPONENTS = [
-  'Form',
-  'FormCard',
-];
+const SUPPORTING_COMPONENTS = ['Form', 'FormCard'];
 
-const colProps = { span: 12 }
-  , fieldSetsWithout = [
+const colProps = { span: 12 },
+  fieldSetsWithout = [
     {
-      fields: [
-        { field: 'plaintiff.first_name' },
-        { field: 'plaintiff.last_name' },
-      ],
+      fields: [{ field: 'plaintiff.first_name' }, { field: 'plaintiff.last_name' }],
       legend: 'Who is the plaintiff?',
     },
-    [
-      { field: 'attorney.first_name' },
-      { field: 'attorney.last_name' },
-    ],
-  ]
-  , fieldSetsWith = [
+    [{ field: 'attorney.first_name' }, { field: 'attorney.last_name' }],
+  ],
+  fieldSetsWith = [
     {
       fields: [
         { colProps, field: 'plaintiff.first_name' },
@@ -33,16 +24,14 @@ const colProps = { span: 12 }
       { colProps, field: 'attorney.first_name' },
       { colProps, field: 'attorney.last_name' },
     ],
-  ]
-  ;
+  ];
 
 describe('colProps', () => {
   SUPPORTING_COMPONENTS.forEach(componentName => {
     it(`Renders colProps in ${componentName}`, async () => {
-      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName]
-        , propsWithout = propsFactory.build({ fieldSets: fieldSetsWithout })
-        , propsWith = { ...propsWithout, fieldSets: fieldSetsWith }
-        ;
+      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
+        propsWithout = propsFactory.build({ fieldSets: fieldSetsWithout }),
+        propsWith = { ...propsWithout, fieldSets: fieldSetsWith };
 
       const testerWithout = await new Tester(ComponentClass, { props: propsWithout }).mount();
       expect(testerWithout.find('.ant-row div.ant-col-12').length).toBe(0);

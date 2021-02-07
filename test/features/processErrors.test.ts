@@ -8,15 +8,12 @@ import { Form, TOAST_DURATION } from '../../src';
 
 describe('processErrors', () => {
   it('Can change, add, or omit error messages ', async () => {
-    const fieldSets = [[
-        { field: 'field_1' },
-        { field: 'field_2' },
-      ]]
-      , field1Error = fakeTextShort()
-      , newField2Error = fakeTextShort()
-      , nonFieldError = fakeTextShort()
-      , newNonFieldError = fakeTextShort()
-      , error = {
+    const fieldSets = [[{ field: 'field_1' }, { field: 'field_2' }]],
+      field1Error = fakeTextShort(),
+      newField2Error = fakeTextShort(),
+      nonFieldError = fakeTextShort(),
+      newNonFieldError = fakeTextShort(),
+      error = {
         response: {
           data: {
             field_1: [field1Error],
@@ -24,23 +21,26 @@ describe('processErrors', () => {
           },
           status: httpStatus.BAD_REQUEST,
         },
-      }
-      , onSave = jest.fn(() => { throw error; })
-      , processErrors = jest.fn(({ foundOnForm }) => ({
+      },
+      onSave = jest.fn(() => {
+        throw error;
+      }),
+      processErrors = jest.fn(({ foundOnForm }) => ({
         errorMessages: [{ field: '', message: newNonFieldError }],
         foundOnForm: { ...foundOnForm, field_2: newField2Error },
-      }))
-      , props = { fieldSets, onSave, processErrors }
-      , tester = await new Tester(Form, { props }).mount()
-      ;
+      })),
+      props = { fieldSets, onSave, processErrors },
+      tester = await new Tester(Form, { props }).mount();
 
     spyOn(Antd.notification, 'error');
     await tester.submit();
     expect(processErrors).toHaveBeenCalledWith({
-      errorMessages: [{
-        field: '',
-        message: nonFieldError,
-      }],
+      errorMessages: [
+        {
+          field: '',
+          message: nonFieldError,
+        },
+      ],
       foundOnForm: { field_1: field1Error },
     });
 

@@ -11,11 +11,7 @@ import { FormComponentProps } from 'antd/es/form';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
-import {
-  fillInFieldSets,
-  filterFieldSets,
-  FormManager,
-} from '../utilities';
+import { fillInFieldSets, filterFieldSets, FormManager } from '../utilities';
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormProps, ISharedComponentProps } from '../props';
 import { CLASS_PREFIX } from '../consts';
@@ -34,56 +30,41 @@ const CLASS_NAME = `${CLASS_PREFIX}-form`;
 export class UnwrappedForm extends Component<IFormWrappedProps> {
   private formManager: FormManager;
 
-  public constructor (props: IFormWrappedProps) {
+  public constructor(props: IFormWrappedProps) {
     super(props);
-    const {
+    const { defaults, model, onSave, processErrors, resetOnSuccess, setRefFormManager, successText } = props;
+
+    this.formManager = new FormManager(this, this.fieldSets, {
       defaults,
       model,
       onSave,
+      onSuccess: this.onSuccess,
       processErrors,
       resetOnSuccess,
-      setRefFormManager,
       successText,
-    } = props;
-
-    this.formManager = new FormManager(
-      this,
-      this.fieldSets,
-      {
-        defaults,
-        model,
-        onSave,
-        onSuccess: this.onSuccess,
-        processErrors,
-        resetOnSuccess,
-        successText,
-      },
-    );
+    });
 
     if (setRefFormManager) {
       setRefFormManager(this.formManager);
     }
   }
 
-  private async onSuccess () {
+  private async onSuccess() {
     const { onSuccess } = this.props;
-    if (onSuccess) { await onSuccess(); }
+    if (onSuccess) {
+      await onSuccess();
+    }
   }
 
   @computed
-  private get fieldSets () {
+  private get fieldSets() {
     return fillInFieldSets(this.props.fieldSets);
   }
 
-  private renderControls () {
-    const {
-        blockSubmit,
-        cancelText,
-        onCancel,
-        saveText,
-      } = this.props
-      , { isSaving, isSubmitButtonDisabled } = this.formManager
-      , submitProps: ButtonProps = {
+  private renderControls() {
+    const { blockSubmit, cancelText, onCancel, saveText } = this.props,
+      { isSaving, isSubmitButtonDisabled } = this.formManager,
+      submitProps: ButtonProps = {
         children: isSaving ? 'Saving...' : saveText,
         disabled: isSubmitButtonDisabled,
         htmlType: 'submit',
@@ -93,43 +74,34 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       };
 
     if (blockSubmit) {
-      return <Antd.Button block {...submitProps}/>;
+      return <Antd.Button block {...submitProps} />;
     }
 
     return (
-      <ButtonToolbar align='right' noSpacing>
+      <ButtonToolbar align="right" noSpacing>
         {onCancel && (
-          <Antd.Button
-            disabled={this.formManager.isCancelButtonDisabled}
-            onClick={onCancel}
-            size='large'
-          >
+          <Antd.Button disabled={this.formManager.isCancelButtonDisabled} onClick={onCancel} size="large">
             {cancelText}
           </Antd.Button>
         )}
 
-        <Antd.Button {...submitProps}/>
+        <Antd.Button {...submitProps} />
       </ButtonToolbar>
     );
   }
 
-  public render () {
-    const { showControls, title } = this.props
-      , formModel = this.formManager.formModel
-      , filteredFieldSets = filterFieldSets(this.fieldSets, { model: formModel })
-      , className = cx(CLASS_NAME, this.props.className);
+  public render() {
+    const { showControls, title } = this.props,
+      formModel = this.formManager.formModel,
+      filteredFieldSets = filterFieldSets(this.fieldSets, { model: formModel }),
+      className = cx(CLASS_NAME, this.props.className);
 
     return (
-      <Antd.Form layout='vertical' onSubmit={this.formManager.onSave} className={className}>
+      <Antd.Form layout="vertical" onSubmit={this.formManager.onSave} className={className}>
         {title && <h2>{title}</h2>}
 
         {filteredFieldSets.map((fieldSet, idx) => (
-          <FormFieldSet
-            fieldSet={fieldSet}
-            formManager={this.formManager}
-            formModel={formModel}
-            key={idx}
-          />
+          <FormFieldSet fieldSet={fieldSet} formManager={this.formManager} formModel={formModel} key={idx} />
         ))}
 
         {this.props.children}
@@ -151,7 +123,7 @@ export class Form extends Component<IFormProps> {
     showControls: true,
   };
 
-  public render () {
+  public render() {
     return <WrappedForm {...this.props} />;
   }
 }

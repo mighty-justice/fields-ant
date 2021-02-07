@@ -21,13 +21,13 @@ const CLASS_NAME = `${CLASS_PREFIX}-card`;
 @observer
 class Card extends Component<ICardProps> {
   @computed
-  private get fieldSets () {
+  private get fieldSets() {
     return fillInFieldSets(this.props.fieldSets);
   }
 
-  public render () {
-    const { className, title, renderTopRight, isLoading, model } = this.props
-      , filteredFieldSets = filterFieldSets(this.fieldSets, { model, writeOnly: true });
+  public render() {
+    const { className, title, renderTopRight, isLoading, model } = this.props,
+      filteredFieldSets = filterFieldSets(this.fieldSets, { model, writeOnly: true });
 
     return (
       <Antd.Card
@@ -37,11 +37,7 @@ class Card extends Component<ICardProps> {
         title={title}
       >
         {filteredFieldSets.map((fieldSet, idx) => (
-          <CardFieldSet
-            fieldSet={fieldSet}
-            key={idx}
-            model={model}
-          />
+          <CardFieldSet fieldSet={fieldSet} key={idx} model={model} />
         ))}
 
         {this.props.children}

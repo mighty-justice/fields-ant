@@ -4,14 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import flattenObject from 'flat';
 import httpStatus from 'http-status-codes';
 
-import {
-  get,
-  has,
-  mapValues,
-  noop,
-  pickBy,
-  set,
-} from 'lodash';
+import { get, has, mapValues, noop, pickBy, set } from 'lodash';
 
 import * as Antd from 'antd';
 import { WrappedFormUtils } from 'antd/es/form/Form';
@@ -25,8 +18,13 @@ import backendValidation from './backendValidation';
 import { getFieldSetsFields, modelFromFieldConfigs } from './common';
 import { fillInFieldSets } from './fillIn';
 
-export interface IFoundOnForm { [key: string]: string; }
-export interface IErrorMessage { field: string; message: string; }
+export interface IFoundOnForm {
+  [key: string]: string;
+}
+export interface IErrorMessage {
+  field: string;
+  message: string;
+}
 
 export interface IBackendValidation {
   errorMessages: IErrorMessage[];
@@ -46,10 +44,7 @@ interface IArgs {
 
 type IFormWrappedInstance = InstanceType<ComponentClass<IFormWrappedProps>>;
 
-export const ERROR_WITH_DESCRIPTION = [
-  httpStatus.BAD_REQUEST,
-  httpStatus.FORBIDDEN,
-];
+export const ERROR_WITH_DESCRIPTION = [httpStatus.BAD_REQUEST, httpStatus.FORBIDDEN];
 
 export const toastError = {
   description: '',
@@ -63,7 +58,7 @@ class FormManager {
   private args: IArgs;
   public formWrappedInstance: IFormWrappedInstance;
 
-  public constructor (formWrappedInstance: IFormWrappedInstance, fieldSets: IFieldSet[], args: Partial<IArgs>) {
+  public constructor(formWrappedInstance: IFormWrappedInstance, fieldSets: IFieldSet[], args: Partial<IArgs>) {
     this.formWrappedInstance = formWrappedInstance;
     this.args = {
       defaults: {},
@@ -71,46 +66,45 @@ class FormManager {
       model: {},
       onSave: noop,
       onSuccess: noop,
-      processErrors: (errors) => errors,
+      processErrors: errors => errors,
       resetOnSuccess: true,
       successText: 'Success',
       ...pickBy(args, value => value !== undefined),
     };
   }
 
-  public get form (): WrappedFormUtils {
+  public get form(): WrappedFormUtils {
     // The form prop continuously changes identity, so we can't just save it locally
     return this.formWrappedInstance.props.form;
   }
 
-  public get isFormDisabled (): boolean {
+  public get isFormDisabled(): boolean {
     // The disabled prop can be changed any time, so we can't just save it locally
     return this.isSaving || !!this.formWrappedInstance.props.disabled;
   }
 
-  public get fieldSets (): IFieldSet[] {
+  public get fieldSets(): IFieldSet[] {
     // The fieldSets prop can be changed any time, so try to get them dynamically if you can
     const fieldSetsProp = this.formWrappedInstance.props.fieldSets;
     return fieldSetsProp ? fillInFieldSets(fieldSetsProp) : this.args.fieldSets;
   }
 
-  public get fieldConfigs (): IFieldConfig[] {
+  public get fieldConfigs(): IFieldConfig[] {
     return getFieldSetsFields(this.fieldSets);
   }
 
-  public get isSubmitButtonDisabled (): boolean {
+  public get isSubmitButtonDisabled(): boolean {
     return this.hasErrors() || this.isFormDisabled;
   }
 
-  public get isCancelButtonDisabled (): boolean {
+  public get isCancelButtonDisabled(): boolean {
     return this.isFormDisabled;
   }
 
-  public getDefaultValue (fieldConfig: IFieldConfig): IValue {
-    const { model, defaults } = this.args
-      , modelToValue = (from: IModel) => get(from, fieldConfig.field)
-      , modelToForm = (from: IModel) => fieldConfig.toForm(modelToValue(from), fieldConfig)
-      ;
+  public getDefaultValue(fieldConfig: IFieldConfig): IValue {
+    const { model, defaults } = this.args,
+      modelToValue = (from: IModel) => get(from, fieldConfig.field),
+      modelToForm = (from: IModel) => fieldConfig.toForm(modelToValue(from), fieldConfig);
 
     if (has(fieldConfig, 'value')) {
       return fieldConfig.toForm(fieldConfig.value, fieldConfig);
@@ -127,21 +121,20 @@ class FormManager {
     return modelToForm({ ...model, ...defaults });
   }
 
-  public getFormValue (fieldConfig: IFieldConfig, formValues: IModel): IValue {
-    const formValue = get(formValues, fieldConfig.field)
-      , convertedValue = fieldConfig.fromForm(formValue, fieldConfig)
-      ;
+  public getFormValue(fieldConfig: IFieldConfig, formValues: IModel): IValue {
+    const formValue = get(formValues, fieldConfig.field),
+      convertedValue = fieldConfig.fromForm(formValue, fieldConfig);
 
     return convertedValue;
   }
 
-  private get formValues () {
+  private get formValues() {
     // WARNING: Pure unprocessed rc-form response
     // formValues < formModel < submitModel
     return this.form.getFieldsValue();
   }
 
-  public get formModel () {
+  public get formModel() {
     /*
     formValues < formModel < submitModel
 
@@ -152,27 +145,28 @@ class FormManager {
     WARNING: This will include many values you don't see on the page.
     Use submitModel to get the fully processed form state.
     */
-    const formModel: IModel = {}
-      , formValues = this.formValues;
+    const formModel: IModel = {},
+      formValues = this.formValues;
 
     this.fieldConfigs.forEach(fieldConfig => {
-      const isInForm = has(formValues, fieldConfig.field)
-        , value = isInForm
+      const isInForm = has(formValues, fieldConfig.field),
+        value = isInForm
           ? this.getFormValue(fieldConfig, formValues)
-          : fieldConfig.fromForm(this.getDefaultValue(fieldConfig), fieldConfig)
-        ;
+          : fieldConfig.fromForm(this.getDefaultValue(fieldConfig), fieldConfig);
 
       set(formModel, fieldConfig.field, value);
     });
 
     // We always include ids of models on submit
     const id = get(this.args.model, ID_ATTR);
-    if (id) { set(formModel, ID_ATTR, id); }
+    if (id) {
+      set(formModel, ID_ATTR, id);
+    }
 
     return formModel;
   }
 
-  public get submitModel (): IModel {
+  public get submitModel(): IModel {
     /*
     formValues < formModel < submitModel
 
@@ -185,11 +179,11 @@ class FormManager {
     return modelFromFieldConfigs(this.fieldConfigs, this.formModel);
   }
 
-  public get formFieldNames () {
+  public get formFieldNames() {
     return Object.keys(flattenObject<{ [key: string]: any }, { [key: string]: any }>(this.formValues));
   }
 
-  private onSuccess () {
+  private onSuccess() {
     const { onSuccess, successText } = this.args;
 
     if (successText) {
@@ -202,27 +196,29 @@ class FormManager {
     onSuccess();
   }
 
-  private setErrorsOnFormFields (errors: { [key: string]: string }) {
+  private setErrorsOnFormFields(errors: { [key: string]: string }) {
     const formValues = this.formValues;
-    this.form.setFields(mapValues(errors, (error, field) => ({
-      errors: [new Error(error)],
-      value: get(formValues, field),
-    })));
+    this.form.setFields(
+      mapValues(errors, (error, field) => ({
+        errors: [new Error(error)],
+        value: get(formValues, field),
+      })),
+    );
   }
 
-  private notifyUserAboutErrors (errors: IErrorMessage[]) {
+  private notifyUserAboutErrors(errors: IErrorMessage[]) {
     errors.forEach(({ field, message }) => {
       const description = [field, message].filter(s => !!s).join(' - ');
       Antd.notification.error({ ...toastError, description });
     });
   }
 
-  private hasErrors () {
+  private hasErrors() {
     const fieldsError = flattenObject<{ [key: string]: any }, { [key: string]: any }>(this.form.getFieldsError());
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
 
-  private handleRequestError (error: Error & { response?: any }) {
+  private handleRequestError(error: Error & { response?: any }) {
     /*
     Here we take the raw axios error and try to extract as much information from it as we can
     and use it to inform the user. If we're lucky, we have a nicely formatted JSON bad request
@@ -232,7 +228,7 @@ class FormManager {
     const status = get(error, 'response.status') as undefined | number;
     let backendErrors: IBackendValidation = { foundOnForm: {}, errorMessages: [] };
 
-    function logError () {
+    function logError() {
       // tslint:disable-next-line no-console
       console.error('Error submitting form:', { error });
     }
@@ -255,7 +251,7 @@ class FormManager {
     if (status && ERROR_WITH_DESCRIPTION.includes(status)) {
       const { foundOnForm, errorMessages } = backendValidation(this.formFieldNames, error.response.data);
       backendErrors.errorMessages = [...backendErrors.errorMessages, ...errorMessages];
-      backendErrors.foundOnForm = {...backendErrors.foundOnForm, ...foundOnForm };
+      backendErrors.foundOnForm = { ...backendErrors.foundOnForm, ...foundOnForm };
     }
 
     // This gives the user an opportunity to override, rewrite, or add errors
@@ -264,7 +260,7 @@ class FormManager {
     this.notifyUserAboutErrors(backendErrors.errorMessages);
   }
 
-  private async validateThenSaveCallback (errors: any, _values: any) {
+  private async validateThenSaveCallback(errors: any, _values: any) {
     /*
     rc-form validateFields cannot be awaited and takes a callback as input,
     so we have to split the bulk of onSave out into this function to make
@@ -272,7 +268,10 @@ class FormManager {
     */
     const { onSave } = this.args;
     this.isSaving = true;
-    if (errors) { this.isSaving = false; return; }
+    if (errors) {
+      this.isSaving = false;
+      return;
+    }
 
     try {
       await onSave(this.submitModel);
@@ -280,16 +279,14 @@ class FormManager {
       if (this.args.resetOnSuccess) {
         this.form.resetFields();
       }
-    }
-    catch (error) {
+    } catch (error) {
       this.handleRequestError(error);
-    }
-    finally {
+    } finally {
       this.isSaving = false;
     }
   }
 
-  public async onSave (event: any) {
+  public async onSave(event: any) {
     event.preventDefault();
 
     this.isSaving = true;

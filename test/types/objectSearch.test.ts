@@ -6,22 +6,21 @@ import { fillInFieldConfig, FormCard } from '../../src';
 import { organizationResultFactory } from '../factories';
 import ObjectSearch from '../../src/inputs/ObjectSearch';
 
-function getFormDefaults (overrides?: any) {
-  const field = overrides.field || 'law_firm'
-    , endpoint = '/legal-organizations/'
-    , type = overrides.type || 'objectSearch'
-    , fieldConfig = fillInFieldConfig({
+function getFormDefaults(overrides?: any) {
+  const field = overrides.field || 'law_firm',
+    endpoint = '/legal-organizations/',
+    type = overrides.type || 'objectSearch',
+    fieldConfig = fillInFieldConfig({
       editProps: { debounceWait: 0 },
       endpoint,
       field,
       type,
       ...overrides.fieldConfig,
-    })
-    , fieldSets = overrides.fieldSets || [[fieldConfig]]
-    , onSave = jest.fn()
-    , model = overrides.model || { law_firm: null }
-    , props = { fieldSets, model, onSave }
-    ;
+    }),
+    fieldSets = overrides.fieldSets || [[fieldConfig]],
+    onSave = jest.fn(),
+    model = overrides.model || { law_firm: null },
+    props = { fieldSets, model, onSave };
 
   return {
     results: organizationResultFactory.buildList(3),
@@ -39,13 +38,12 @@ function getFormDefaults (overrides?: any) {
   };
 }
 
-function getComponentDefaults (overrides?: any) {
-  const field = overrides.field || 'law_firm'
-    , endpoint = '/legal-organizations/'
-    , type = overrides.type || 'objectSearch'
-    , fieldConfig = fillInFieldConfig({ field, type, endpoint, ...overrides.fieldConfig })
-    , props = { id: field, fieldConfig, debounceWait: 0 }
-    ;
+function getComponentDefaults(overrides?: any) {
+  const field = overrides.field || 'law_firm',
+    endpoint = '/legal-organizations/',
+    type = overrides.type || 'objectSearch',
+    fieldConfig = fillInFieldConfig({ field, type, endpoint, ...overrides.fieldConfig }),
+    props = { id: field, fieldConfig, debounceWait: 0 };
 
   return {
     results: organizationResultFactory.buildList(3),
@@ -62,7 +60,7 @@ function getComponentDefaults (overrides?: any) {
   };
 }
 
-export async function objectSearchFor (tester: any, field: string, results: any, searchTerm: string) {
+export async function objectSearchFor(tester: any, field: string, results: any, searchTerm: string) {
   tester.endpoints['/legal-organizations/'] = { results };
 
   // Change input without blurring
@@ -75,11 +73,10 @@ export async function objectSearchFor (tester: any, field: string, results: any,
 
 describe('objectSearch', () => {
   it('Clears existing', async () => {
-    const model = { law_firm: organizationResultFactory.build() }
-      , { props } = getFormDefaults({ model })
-      , tester = (await new Tester(FormCard, { props }).mount())
-      , CLEAR_BUTTON = '.ant-select-selection__clear'
-      ;
+    const model = { law_firm: organizationResultFactory.build() },
+      { props } = getFormDefaults({ model }),
+      tester = await new Tester(FormCard, { props }).mount(),
+      CLEAR_BUTTON = '.ant-select-selection__clear';
 
     expect(tester.html()).toContain(model.law_firm.name);
     expect(tester.find(CLEAR_BUTTON).length).toBe(1);
@@ -90,10 +87,9 @@ describe('objectSearch', () => {
   });
 
   it('Properly caches and displays options', async () => {
-    const { field, searchTerm, results, props, endpoint } = getComponentDefaults({})
-      , tester = (await new Tester(ObjectSearch, { props }).mount() as any)
-      , newEndpoint = `${endpoint}2/`
-      ;
+    const { field, searchTerm, results, props, endpoint } = getComponentDefaults({}),
+      tester = (await new Tester(ObjectSearch, { props }).mount()) as any,
+      newEndpoint = `${endpoint}2/`;
 
     tester.endpoints[newEndpoint] = { results };
 
@@ -114,10 +110,9 @@ describe('objectSearch', () => {
   });
 
   it('Can select multiple options', async () => {
-    const overrides = { fieldConfig: { editProps: { selectProps: { mode: 'multiple' } } } }
-      , { field, searchTerm, results, props } = getFormDefaults(overrides)
-      , tester = (await new Tester(FormCard, { props }).mount())
-      ;
+    const overrides = { fieldConfig: { editProps: { selectProps: { mode: 'multiple' } } } },
+      { field, searchTerm, results, props } = getFormDefaults(overrides),
+      tester = await new Tester(FormCard, { props }).mount();
 
     await objectSearchFor(tester, field, results, searchTerm);
     tester.click(tester.find('.ant-select-dropdown-menu-item').first());
@@ -130,10 +125,9 @@ describe('objectSearch', () => {
 
   [true, false].forEach((searchOnEmpty: boolean) => {
     it(`Works for searchOnEmpty={${searchOnEmpty}} prop`, async () => {
-      const { field, searchTerm, results, props } = getComponentDefaults({})
-        , tester = (await new Tester(ObjectSearch, { props: { ...props, searchOnEmpty }}).mount() as any)
-        , callsOnFocus: number = searchOnEmpty ? 1 : 0
-        ;
+      const { field, searchTerm, results, props } = getComponentDefaults({}),
+        tester = (await new Tester(ObjectSearch, { props: { ...props, searchOnEmpty } }).mount()) as any,
+        callsOnFocus: number = searchOnEmpty ? 1 : 0;
 
       tester.endpoints['/legal-organizations/'] = { results };
       expect(tester.getEndpoint.mock.calls.length).toBe(0);

@@ -21,33 +21,43 @@ class FormDrawer extends Component<ISharedFormModalProps> {
     ...formPropsDefaults,
   };
 
-  public get isVisible () {
+  public get isVisible() {
     const { isVisible } = this.props;
     return isVisible ? isVisible.isTrue : true;
   }
 
-  public get formProps () {
+  public get formProps() {
     const HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
     return omit(this.props, HANDLED_PROPS);
   }
 
-  public onCancel () {
+  public onCancel() {
     const { onCancel, isVisible } = this.props;
-    if (onCancel) { onCancel(); }
-    if (isVisible && !onCancel) { isVisible.setFalse(); }
+    if (onCancel) {
+      onCancel();
+    }
+    if (isVisible && !onCancel) {
+      isVisible.setFalse();
+    }
   }
 
-  public async onSuccess () {
+  public async onSuccess() {
     const { onSuccess, isVisible } = this.props;
-    if (onSuccess) { await onSuccess(); }
-    if (isVisible && !onSuccess) { isVisible.setFalse(); }
+    if (onSuccess) {
+      await onSuccess();
+    }
+    if (isVisible && !onSuccess) {
+      isVisible.setFalse();
+    }
   }
 
-  public render () {
-    const { title, width } = this.props
-      , className = cx(CLASS_NAME, this.props.className);
+  public render() {
+    const { title, width } = this.props,
+      className = cx(CLASS_NAME, this.props.className);
 
-    if (!this.isVisible) { return null; }
+    if (!this.isVisible) {
+      return null;
+    }
 
     return (
       <Antd.Drawer
@@ -56,18 +66,14 @@ class FormDrawer extends Component<ISharedFormModalProps> {
         destroyOnClose
         maskClosable={false}
         onClose={this.onCancel}
-        placement='right'
+        placement="right"
         title={title}
         visible={true}
         width={width || '600px'}
       >
         {this.props.childrenBefore}
 
-        <Form
-          {...this.formProps}
-          onCancel={this.onCancel}
-          onSuccess={this.onSuccess}
-        />
+        <Form {...this.formProps} onCancel={this.onCancel} onSuccess={this.onSuccess} />
       </Antd.Drawer>
     );
   }

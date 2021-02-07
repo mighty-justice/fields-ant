@@ -5,18 +5,14 @@ import { backendValidation } from '../../src/utilities';
 
 const TEST_STRINGS: { [key: number]: string } = {};
 
-function getString (key: number) {
+function getString(key: number) {
   if (!has(TEST_STRINGS, key)) {
     TEST_STRINGS[key] = faker.lorem.sentence().replace('error', '');
   }
   return TEST_STRINGS[key];
 }
 
-const FIELD_NAMES = [
-  'name',
-  'medicalfacility_website',
-  'medical_facility-fax',
-];
+const FIELD_NAMES = ['name', 'medicalfacility_website', 'medical_facility-fax'];
 
 const TESTING_PAIRS = [
   {
@@ -40,17 +36,17 @@ const TESTING_PAIRS = [
     ERROR_MESSAGES: [],
   },
   {
-    RESPONSE: { medical_facility: {fax: [getString(4)]}},
+    RESPONSE: { medical_facility: { fax: [getString(4)] } },
     FOUND_ON_FORM: { 'medical_facility-fax': getString(4) },
     ERROR_MESSAGES: [],
   },
   {
-    RESPONSE: { medical_facility: {website: [getString(4)]}},
+    RESPONSE: { medical_facility: { website: [getString(4)] } },
     FOUND_ON_FORM: { medicalfacility_website: getString(4) },
     ERROR_MESSAGES: [],
   },
   {
-    RESPONSE: { medical_facility: {branch: [getString(5)]}},
+    RESPONSE: { medical_facility: { branch: [getString(5)] } },
     FOUND_ON_FORM: {},
     ERROR_MESSAGES: [{ field: 'Medical Facility Branch', message: getString(5) }],
   },

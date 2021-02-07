@@ -9,7 +9,7 @@ import { Tester } from '@mighty-justice/tester';
 import { ERROR_WITH_DESCRIPTION } from '../../src/utilities/FormManager';
 import { Form, FormCard, IFieldSetPartial, TOAST_DURATION } from '../../src';
 
-async function getFormManager (fieldSets: IFieldSetPartial[], model = {}) {
+async function getFormManager(fieldSets: IFieldSetPartial[], model = {}) {
   const props = {
     fieldSets,
     model,
@@ -40,32 +40,29 @@ describe('FormManager', () => {
   });
 
   it('Correctly nullifies values', async () => {
-    const fieldSets = [[
-      { field: 'do_not_nullify' },
-      { field: 'do_nullify', nullify: true },
-    ]];
+    const fieldSets = [[{ field: 'do_not_nullify' }, { field: 'do_nullify', nullify: true }]];
 
     const formManager = await getFormManager(fieldSets);
     expect(formManager.submitModel).toEqual({ do_not_nullify: '', do_nullify: null });
   });
 
   it('Correctly maintains id', async () => {
-    const fieldSets = [[{ field: 'name' }]]
-      , name = faker.name.firstName()
-      , id = faker.random.uuid()
-      , notId = faker.random.uuid();
+    const fieldSets = [[{ field: 'name' }]],
+      name = faker.name.firstName(),
+      id = faker.random.uuid(),
+      notId = faker.random.uuid();
 
     const formManager = await getFormManager(fieldSets, { id, name, notId });
     expect(formManager.submitModel).toEqual({ name, id });
   });
 
   it('Handles 500 responses', async () => {
-    const fieldSets = [[{ field: 'name' }]]
-      , name = faker.name.firstName()
-      , id = faker.random.uuid()
-      , notId = faker.random.uuid()
-      , error: any = new Error()
-      , badResponse = {
+    const fieldSets = [[{ field: 'name' }]],
+      name = faker.name.firstName(),
+      id = faker.random.uuid(),
+      notId = faker.random.uuid(),
+      error: any = new Error(),
+      badResponse = {
         config: {},
         data: '<!DOCTYPE html><html lang="en"><head /></html>',
         headers: {},
@@ -79,21 +76,18 @@ describe('FormManager', () => {
     const formManager = await getFormManager(fieldSets, { id, name, notId });
     formManager.handleRequestError(error);
     expect(Antd.notification.error).toHaveBeenCalledWith({
-       description: '500 - Server Error',
-       duration: TOAST_DURATION,
-       message: 'Error submitting form',
+      description: '500 - Server Error',
+      duration: TOAST_DURATION,
+      message: 'Error submitting form',
     });
   });
 
   ERROR_WITH_DESCRIPTION.forEach(errorType => {
     it(`Shows descriptive error messages for error type ${errorType.toString()}`, async () => {
-      const fieldSets = [[
-          { field: 'field_1' },
-          { field: 'field_2' },
-        ]]
-        , field1Error = faker.random.words()
-        , nonFieldError = faker.random.words()
-        , err = {
+      const fieldSets = [[{ field: 'field_1' }, { field: 'field_2' }]],
+        field1Error = faker.random.words(),
+        nonFieldError = faker.random.words(),
+        err = {
           response: {
             data: {
               field_1: [field1Error],
@@ -101,11 +95,12 @@ describe('FormManager', () => {
             },
             status: errorType,
           },
-        }
-        , onSave = jest.fn(() => { throw err; })
-        , props = { fieldSets, onSave }
-        , tester = await new Tester(Form, { props }).mount()
-        ;
+        },
+        onSave = jest.fn(() => {
+          throw err;
+        }),
+        props = { fieldSets, onSave },
+        tester = await new Tester(Form, { props }).mount();
 
       spyOn(Antd.notification, 'error');
       await tester.submit();
@@ -119,26 +114,25 @@ describe('FormManager', () => {
   });
 
   it('Can submit after backend validation fails', async () => {
-    const field = 'field_1'
-      , fieldSets = [[{ field }]]
-      , THROW_BACKEND_ERROR = faker.random.words()
-      , model = set({}, field, THROW_BACKEND_ERROR)
-      , err = {
+    const field = 'field_1',
+      fieldSets = [[{ field }]],
+      THROW_BACKEND_ERROR = faker.random.words(),
+      model = set({}, field, THROW_BACKEND_ERROR),
+      err = {
         response: {
           data: { [field]: [faker.random.words()] },
           status: httpStatus.BAD_REQUEST,
         },
-      }
-      , onSuccess = jest.fn()
-      , onSave = jest.fn((submitModel) => {
+      },
+      onSuccess = jest.fn(),
+      onSave = jest.fn(submitModel => {
         if (submitModel[field] === THROW_BACKEND_ERROR) {
           throw err;
         }
-      })
-      , props = { onSuccess, fieldSets, onSave, model }
-      , tester = await new Tester(Form, { props }).mount()
-      , formManager = tester.find('UnwrappedForm').instance().formManager
-      ;
+      }),
+      props = { onSuccess, fieldSets, onSave, model },
+      tester = await new Tester(Form, { props }).mount(),
+      formManager = tester.find('UnwrappedForm').instance().formManager;
 
     // Submit button should initially be enabled
     expect(formManager.isSubmitButtonDisabled).toBe(false);
@@ -162,26 +156,25 @@ describe('FormManager', () => {
   });
 
   it('Can handle backend errors on nested fields', async () => {
-    const field = 'plaintiff.first_name'
-      , fieldSets = [[{ field }]]
-      , THROW_BACKEND_ERROR = faker.random.words()
-      , model = set({}, field, THROW_BACKEND_ERROR)
-      , err = {
+    const field = 'plaintiff.first_name',
+      fieldSets = [[{ field }]],
+      THROW_BACKEND_ERROR = faker.random.words(),
+      model = set({}, field, THROW_BACKEND_ERROR),
+      err = {
         response: {
           data: { plaintiff: { first_name: [faker.random.words()] } },
           status: httpStatus.BAD_REQUEST,
         },
-      }
-      , onSuccess = jest.fn()
-      , onSave = jest.fn((submitModel) => {
+      },
+      onSuccess = jest.fn(),
+      onSave = jest.fn(submitModel => {
         if (submitModel.plaintiff.first_name === THROW_BACKEND_ERROR) {
           throw err;
         }
-      })
-      , props = { onSuccess, fieldSets, onSave, model }
-      , tester = await new Tester(Form, { props }).mount()
-      , formManager = tester.find('UnwrappedForm').instance().formManager
-      ;
+      }),
+      props = { onSuccess, fieldSets, onSave, model },
+      tester = await new Tester(Form, { props }).mount(),
+      formManager = tester.find('UnwrappedForm').instance().formManager;
 
     // Submit button should initially be enabled
     expect(formManager.isSubmitButtonDisabled).toBe(false);

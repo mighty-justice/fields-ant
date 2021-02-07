@@ -23,7 +23,7 @@ export interface INestedFieldSetProps {
 @autoBindMethods
 @observer
 class NestedFieldSet extends Component<INestedFieldSetProps> {
-  private fieldValueMapper (fieldConfig: IFieldConfigPartial) {
+  private fieldValueMapper(fieldConfig: IFieldConfigPartial) {
     const { id } = this.props;
 
     return {
@@ -34,26 +34,24 @@ class NestedFieldSet extends Component<INestedFieldSetProps> {
   }
 
   @computed
-  private get fieldSet () {
+  private get fieldSet() {
     const { fieldSet } = this.props;
     return mapFieldSetFields(fillInFieldSet(fieldSet), this.fieldValueMapper);
   }
 
-  private getDefaultValue (fieldConfig: IFieldConfigPartial): object {
+  private getDefaultValue(fieldConfig: IFieldConfigPartial): object {
     /*
     This function implements the fieldConfig features
     populateFromSearch and populateNameFromSearch
     */
-    const { search } = this.props
-      , [firstName, lastName] = splitName(search);
+    const { search } = this.props,
+      [firstName, lastName] = splitName(search);
 
-    if (!search) { return {}; }
+    if (!search) {
+      return {};
+    }
 
-    const {
-      field,
-      populateFromSearch,
-      populateNameFromSearch,
-    } = fieldConfig;
+    const { field, populateFromSearch, populateNameFromSearch } = fieldConfig;
 
     if (populateFromSearch) {
       return { value: search };
@@ -71,13 +69,9 @@ class NestedFieldSet extends Component<INestedFieldSetProps> {
     return { value: '' };
   }
 
-  public render () {
+  public render() {
     return (
-      <FormFieldSet
-        fieldSet={this.fieldSet}
-        formManager={this.props.formManager}
-        formModel={this.props.formModel}
-      />
+      <FormFieldSet fieldSet={this.fieldSet} formManager={this.props.formManager} formModel={this.props.formModel} />
     );
   }
 }

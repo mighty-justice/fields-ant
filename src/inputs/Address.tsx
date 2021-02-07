@@ -16,9 +16,7 @@ import {
   NestedFieldSet,
 } from '../';
 
-import {
-  renderLabel,
-} from '../utilities';
+import { renderLabel } from '../utilities';
 
 import { IModel } from '../props';
 import { FORM_ITEM_CLASS_NAME } from '../building-blocks/FormItem';
@@ -29,7 +27,7 @@ export interface IAddressProps {
   formModel: IModel;
 }
 
-export function isTypeAddress (fieldConfig: IFieldConfig): fieldConfig is IFieldConfigAddress {
+export function isTypeAddress(fieldConfig: IFieldConfig): fieldConfig is IFieldConfigAddress {
   return fieldConfig.type === 'address';
 }
 
@@ -38,14 +36,16 @@ const CLASS_NAME = `${FORM_ITEM_CLASS_NAME}-input-address`;
 @autoBindMethods
 @observer
 class Address extends Component<IAddressProps> {
-  private get injected () {
+  private get injected() {
     return this.props as IAddressProps & IInjected & IInputProps;
   }
 
-  private get fieldSet () {
-    const { fieldConfig: { colProps, required, stateProps, disabled } } = this.injected
-      , defaultStateProps = { optionType: DEFAULT_STATE_OPTION_TYPE }
-      , passedStateProps = { ...defaultStateProps, ...stateProps };
+  private get fieldSet() {
+    const {
+        fieldConfig: { colProps, required, stateProps, disabled },
+      } = this.injected,
+      defaultStateProps = { optionType: DEFAULT_STATE_OPTION_TYPE },
+      passedStateProps = { ...defaultStateProps, ...stateProps };
 
     const fieldSet = [
       { field: 'address1', label: 'Address 1', type: 'string', required },
@@ -64,16 +64,10 @@ class Address extends Component<IAddressProps> {
     return fieldSet.map((addressConfig: IFieldConfigPartial) => ({ ...addressConfig, colProps }));
   }
 
-  public render () {
-    const { fieldConfig, formManager, formModel } = this.injected
-      , { colProps, formItemProps } = fieldConfig
-      , className = cx(
-        FORM_ITEM_CLASS_NAME,
-        CLASS_NAME,
-        fieldConfig.className,
-        formItemProps && formItemProps.className,
-      )
-      ;
+  public render() {
+    const { fieldConfig, formManager, formModel } = this.injected,
+      { colProps, formItemProps } = fieldConfig,
+      className = cx(FORM_ITEM_CLASS_NAME, CLASS_NAME, fieldConfig.className, formItemProps && formItemProps.className);
 
     return (
       <Antd.Col {...colProps}>

@@ -20,9 +20,9 @@ export class FormCard extends Component<IFormCardProps> {
     ...formPropsDefaults,
   };
 
-  public render () {
-    const { isLoading, title, renderTopRight } = this.props
-      , HANDLED_PROPS = ['title', 'renderTopRight'];
+  public render() {
+    const { isLoading, title, renderTopRight } = this.props,
+      HANDLED_PROPS = ['title', 'renderTopRight'];
 
     return (
       <Antd.Card loading={isLoading} title={title} extra={renderTopRight && renderTopRight()}>

@@ -31,44 +31,36 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
     ...formPropsDefaults,
   };
 
-  private async handleSaveNew (model: any) {
+  private async handleSaveNew(model: any) {
     const { onCreate, onSuccess } = this.props;
     await onCreate(model);
-    if (onSuccess) { await onSuccess(); }
+    if (onSuccess) {
+      await onSuccess();
+    }
     this.isAddingNew.setFalse();
   }
 
-  private renderAddNew () {
-    const { isLoading, isGuarded, classNameSuffix, title } = this.props
-      , className = getBtnClassName('new', classNameSuffix, title);
+  private renderAddNew() {
+    const { isLoading, isGuarded, classNameSuffix, title } = this.props,
+      className = getBtnClassName('new', classNameSuffix, title);
 
     return (
       <GuardedButton
         className={className}
         disabled={isLoading || this.isAddingNew.isTrue}
-        icon='plus'
+        icon="plus"
         isGuarded={isGuarded}
         onClick={this.isAddingNew.setTrue}
-        size='small'
-        type='primary'
+        size="small"
+        type="primary"
       >
         Add
       </GuardedButton>
     );
   }
 
-  public render () {
-    const {
-      classNameSuffix,
-      defaults,
-      fieldSets,
-      isLoading,
-      model,
-      onDelete,
-      onSave,
-      onSuccess,
-      title,
-    } = this.props;
+  public render() {
+    const { classNameSuffix, defaults, fieldSets, isLoading, model, onDelete, onSave, onSuccess, title } = this.props;
 
     return (
       <Antd.Card title={title} extra={this.renderAddNew()} loading={isLoading}>
@@ -82,9 +74,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
           />
         )}
 
-        {isEmpty(model) && !this.isAddingNew.isTrue && (
-          <p className='empty-message'>No records</p>
-        )}
+        {isEmpty(model) && !this.isAddingNew.isTrue && <p className="empty-message">No records</p>}
 
         {model.map(modelItem => (
           <EditableCard
@@ -95,7 +85,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
             onDelete={onDelete}
             onSave={onSave}
             onSuccess={onSuccess}
-            title=''
+            title=""
           />
         ))}
       </Antd.Card>

@@ -22,16 +22,18 @@ import {
 import { IValue } from '../src/props';
 import Table from '../src/components/Table';
 
-export function getEmptyValue (fieldConfig: IFieldConfig) {
-  if (fieldConfig.type === 'checkbox') { return false; }
+export function getEmptyValue(fieldConfig: IFieldConfig) {
+  if (fieldConfig.type === 'checkbox') {
+    return false;
+  }
   return fieldConfig.nullify ? null : '';
 }
 
-export async function sleep (ms: number = 0) {
+export async function sleep(ms: number = 0) {
   return new Promise<void>(resolve => setTimeout(resolve, ms));
 }
 
-function actionFunctionFor (name: string) {
+function actionFunctionFor(name: string) {
   return () => async (data: any) => {
     await sleep();
     action(name)(data);
@@ -58,7 +60,12 @@ export const fakeDateRecent = () => format(faker.date.recent(), 'YYYY-MM-DD');
 export const fakeDatePast = () => format(faker.date.past(100), 'YYYY-MM-DD');
 export const fakeDuration = () => faker.helpers.replaceSymbolWithNumber('P#Y');
 export const fakeEin = () => faker.helpers.replaceSymbolWithNumber('##-#######');
-export const fakeField = () => faker.random.words(3).replace(/[^A-Za-z ]/g, '').replace(/ /g, '_').toLowerCase();
+export const fakeField = () =>
+  faker.random
+    .words(3)
+    .replace(/[^A-Za-z ]/g, '')
+    .replace(/ /g, '_')
+    .toLowerCase();
 export const fakeObjectSelect = () => ({ name: fakeTextShort(), id: 'first' });
 export const fakeObjectSearch = () => ({ name: fakeTextShort(), id: faker.random.uuid() });
 export const fakerPercentage = () => sample(['1', Number(faker.helpers.replaceSymbolWithNumber('0.###')).toString()]);
@@ -76,13 +83,10 @@ export const attrSubFactoryList = (factory: any, num?: number) => () => factory.
  * = = = = = = = = = = = = = =
  */
 
-export const fieldFactory = new Factory()
-  .attrs({ field: fakeField });
+export const fieldFactory = new Factory().attrs({ field: fakeField });
 
-export function fieldFactoryForType (type: string) {
-  return new Factory()
-    .extend(fieldFactory)
-    .attrs({ type });
+export function fieldFactoryForType(type: string) {
+  return new Factory().extend(fieldFactory).attrs({ type });
 }
 
 export const booleanFactory = fieldFactoryForType('boolean');
@@ -110,118 +114,89 @@ export const attrOptions = [
   { value: 'third', name: 'Third Item' },
 ];
 
-export const attrObjects = attrOptions
-  .map(option => ({ name: option.name, id: option.value }));
+export const attrObjects = attrOptions.map(option => ({ name: option.name, id: option.value }));
 
 const addressDefinitions = (faker as any).definitions.address;
-export const stateOptions = zipWith(
-  addressDefinitions.state,
-  addressDefinitions.state_abbr,
-  function (state, stateAbbr) { return { name: state, value: stateAbbr }; },
-);
+export const stateOptions = zipWith(addressDefinitions.state, addressDefinitions.state_abbr, function(
+  state,
+  stateAbbr,
+) {
+  return { name: state, value: stateAbbr };
+});
 
-export const addressFactory = fieldFactoryForType('address')
-  .attrs({ stateProps: { options: stateOptions }});
+export const addressFactory = fieldFactoryForType('address').attrs({ stateProps: { options: stateOptions } });
 
-export const radioFactory = fieldFactoryForType('radio')
-  .attrs({ options: attrOptions });
+export const radioFactory = fieldFactoryForType('radio').attrs({ options: attrOptions });
 
-export const optionSelectFactory = fieldFactoryForType('optionSelect')
-  .attrs({ options: attrOptions });
+export const optionSelectFactory = fieldFactoryForType('optionSelect').attrs({ options: attrOptions });
 
-export const objectSelectFactory = fieldFactoryForType('objectSelect')
-  .attrs({ options: attrObjects });
+export const objectSelectFactory = fieldFactoryForType('objectSelect').attrs({ options: attrObjects });
 
-export const objectSearchFactory = fieldFactoryForType('objectSearch')
-  .attrs({
-    endpoint: '/endpoint/',
-  });
+export const objectSearchFactory = fieldFactoryForType('objectSearch').attrs({
+  endpoint: '/endpoint/',
+});
 
-export const objectSearchCreateFactory = fieldFactoryForType('objectSearchCreate')
-  .attrs({
-    createFields: [{ field: 'name', required: true }],
-    endpoint: '/endpoint/',
-  });
+export const objectSearchCreateFactory = fieldFactoryForType('objectSearchCreate').attrs({
+  createFields: [{ field: 'name', required: true }],
+  endpoint: '/endpoint/',
+});
 
-export const organizationResultFactory = new Factory()
-  .attrs({
-    id: faker.random.uuid,
-    name: faker.company.companyName,
-  })
+export const organizationResultFactory = new Factory().attrs({
+  id: faker.random.uuid,
+  name: faker.company.companyName,
+});
 
 /*
  *   FIELD SET FACTORY
  * = = = = = = = = = = = = = =
  */
 
-export const fieldSetFactory = new Factory()
-  .attrs({
-    fields: attrSubFactoryList(fieldFactory),
-    legend: 'Legend',
-  });
+export const fieldSetFactory = new Factory().attrs({
+  fields: attrSubFactoryList(fieldFactory),
+  legend: 'Legend',
+});
 
 /*
  *   COMPONENT PROP FACTORIES
  * = = = = = = = = = = = = = =
  */
 
-export const cardPropsFactory = new Factory()
-  .attrs({
-    fieldSets: attrSubFactoryList(fieldSetFactory),
-    model: {},
-    title: fakeTextShort,
-  });
+export const cardPropsFactory = new Factory().attrs({
+  fieldSets: attrSubFactoryList(fieldSetFactory),
+  model: {},
+  title: fakeTextShort,
+});
 
-export const summaryCardPropsFactory = new Factory()
-  .extend(cardPropsFactory)
-  .attrs({
-  });
+export const summaryCardPropsFactory = new Factory().extend(cardPropsFactory).attrs({});
 
-export const formPropsFactory = new Factory()
-  .extend(cardPropsFactory)
-  .attrs({
-    onSave,
-  });
+export const formPropsFactory = new Factory().extend(cardPropsFactory).attrs({
+  onSave,
+});
 
-export const formCardPropsFactory = new Factory()
-  .extend(formPropsFactory)
-  .attrs({});
+export const formCardPropsFactory = new Factory().extend(formPropsFactory).attrs({});
 
-export const editableCardPropsFactory = new Factory()
-  .extend(cardPropsFactory)
-  .attrs({
-    onDelete,
-    onSave,
-  });
+export const editableCardPropsFactory = new Factory().extend(cardPropsFactory).attrs({
+  onDelete,
+  onSave,
+});
 
-export const arrayCardPropsFactory = new Factory()
-  .extend(cardPropsFactory)
-  .attrs({
-    model: [{ id: faker.random.uuid() }],
-  });
+export const arrayCardPropsFactory = new Factory().extend(cardPropsFactory).attrs({
+  model: [{ id: faker.random.uuid() }],
+});
 
-export const tablePropsFactory = new Factory()
-  .extend(arrayCardPropsFactory)
-  .attrs({});
+export const tablePropsFactory = new Factory().extend(arrayCardPropsFactory).attrs({});
 
-export const editableArrayCardPropsFactory = new Factory()
-  .extend(arrayCardPropsFactory)
-  .attrs({
-    onCreate,
-    onDelete,
-    onSave,
-  });
+export const editableArrayCardPropsFactory = new Factory().extend(arrayCardPropsFactory).attrs({
+  onCreate,
+  onDelete,
+  onSave,
+});
 
-export const formDrawerPropsFactory = new Factory()
-  .extend(formCardPropsFactory)
-  .attrs({
-    isVisible: () => new SmartBool(true),
-  });
+export const formDrawerPropsFactory = new Factory().extend(formCardPropsFactory).attrs({
+  isVisible: () => new SmartBool(true),
+});
 
-export const formModalPropsFactory = new Factory()
-  .extend(formCardPropsFactory)
-  .attrs({
-  });
+export const formModalPropsFactory = new Factory().extend(formCardPropsFactory).attrs({});
 
 /*
  *   COLLECTIONS
@@ -230,8 +205,8 @@ export const formModalPropsFactory = new Factory()
 
 interface ITypeGenerators {
   [key: string]: {
-    fieldConfigFactory: any,
-    valueFunction: () => IValue,
+    fieldConfigFactory: any;
+    valueFunction: () => IValue;
   };
 }
 
@@ -270,14 +245,22 @@ const numberValueRenderPair: [number, string] = [1400, '1,400'];
 
 export const valueRenderPairs: { [key: string]: [IValue, string | null] } = {
   // value: [valueFunction(), valueFunction()]
-  ...fromPairs(Object.keys(TYPE_GENERATORS).map(type => {
-    const value = TYPE_GENERATORS[type].valueFunction();
-    return [type, [value, value]];
-  })),
+  ...fromPairs(
+    Object.keys(TYPE_GENERATORS).map(type => {
+      const value = TYPE_GENERATORS[type].valueFunction();
+      return [type, [value, value]];
+    }),
+  ),
 
   address: [addressValue, addressValue.address1],
-  boolean: sample([[true, 'Yes'], [false, 'No']]) as [boolean, string],
-  checkbox: sample([[true, 'Yes'], [false, 'No']]) as [boolean, string],
+  boolean: sample([
+    [true, 'Yes'],
+    [false, 'No'],
+  ]) as [boolean, string],
+  checkbox: sample([
+    [true, 'Yes'],
+    [false, 'No'],
+  ]) as [boolean, string],
   date: ['2017-11-22', '11/22/17'],
   datepicker: ['2017-11-22', '11/22/17'],
   hidden: [TYPE_GENERATORS.hidden.valueFunction(), SKIP],
@@ -306,7 +289,7 @@ export const COMPONENT_GENERATORS: IComponentGenerators = {
   ArrayCard: { ComponentClass: ArrayCard, propsFactory: arrayCardPropsFactory },
   Card: { ComponentClass: Card, propsFactory: cardPropsFactory },
   EditableArrayCard: { ComponentClass: EditableArrayCard, propsFactory: editableArrayCardPropsFactory },
-  EditableCard: {ComponentClass: EditableCard, propsFactory: editableCardPropsFactory },
+  EditableCard: { ComponentClass: EditableCard, propsFactory: editableCardPropsFactory },
   Form: { ComponentClass: Form, propsFactory: formPropsFactory },
   FormCard: { ComponentClass: FormCard, propsFactory: formCardPropsFactory },
   FormDrawer: { ComponentClass: FormDrawer, propsFactory: formDrawerPropsFactory },

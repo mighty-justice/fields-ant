@@ -5,7 +5,7 @@ import { Tester } from '@mighty-justice/tester';
 import { EditableCard, FormDrawer, FormModal } from '../../src';
 import { editableCardPropsFactory } from '../factories';
 
-function isForm (tester: any) {
+function isForm(tester: any) {
   return !!tester.find('button[type="submit"]').length;
 }
 
@@ -16,10 +16,10 @@ describe('EditableCard', () => {
     { where: 'in a formDrawer', whereProps: { ModalComponent: FormDrawer } },
   ].forEach(({ where, whereProps }) => {
     it(`Edits text ${where}`, async () => {
-      const text = faker.lorem.sentence()
-        , newText = faker.lorem.sentence()
-        , onSave = jest.fn().mockResolvedValue({})
-        , props = {
+      const text = faker.lorem.sentence(),
+        newText = faker.lorem.sentence(),
+        onSave = jest.fn().mockResolvedValue({}),
+        props = {
           ...editableCardPropsFactory.build(),
           fieldSets: [[{ field: 'text', type: 'string' }]],
           model: { text },
@@ -49,8 +49,8 @@ describe('EditableCard', () => {
   });
 
   it('Can be deleted', async () => {
-    const onDelete = jest.fn().mockResolvedValue({})
-      , props = { ...editableCardPropsFactory.build(), onDelete };
+    const onDelete = jest.fn().mockResolvedValue({}),
+      props = { ...editableCardPropsFactory.build(), onDelete };
 
     const tester = await new Tester(EditableCard, { props }).mount();
 

@@ -18,13 +18,13 @@ export interface ICardFieldProps {
 @observer
 class CardField extends Component<ICardFieldProps> {
   @computed
-  private get fieldConfig () {
+  private get fieldConfig() {
     return fillInFieldConfig(this.props.fieldConfig);
   }
 
-  public render () {
-    const { model } = this.props
-      , fieldConfig = this.fieldConfig;
+  public render() {
+    const { model } = this.props,
+      fieldConfig = this.fieldConfig;
 
     if (filterFieldConfig(fieldConfig, { model, writeOnly: true })) {
       return null;

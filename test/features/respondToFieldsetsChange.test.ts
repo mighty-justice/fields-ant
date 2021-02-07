@@ -4,24 +4,22 @@ import { omit } from 'lodash';
 import { COMPONENT_GENERATORS } from '../factories';
 import React from 'react';
 
-const SUPPORTING_COMPONENTS = [
-  'Form',
-  'FormCard',
-  'FormDrawer',
-  'FormModal',
-];
+const SUPPORTING_COMPONENTS = ['Form', 'FormCard', 'FormDrawer', 'FormModal'];
 
-function getProps (componentName: string): any {
-  const { propsFactory } = COMPONENT_GENERATORS[componentName]
-    , onSave = jest.fn();
+function getProps(componentName: string): any {
+  const { propsFactory } = COMPONENT_GENERATORS[componentName],
+    onSave = jest.fn();
 
-  return omit(propsFactory.build({
-    onSave,
-  }), ['isVisible']);
+  return omit(
+    propsFactory.build({
+      onSave,
+    }),
+    ['isVisible'],
+  );
 }
 
-async function changeProps (tester: Tester, props: object) {
-  tester.wrapper.setProps({ children: React.cloneElement(tester.wrapper.props().children, props)});
+async function changeProps(tester: Tester, props: object) {
+  tester.wrapper.setProps({ children: React.cloneElement(tester.wrapper.props().children, props) });
   await tester.refresh();
 }
 
@@ -29,11 +27,10 @@ async function changeProps (tester: Tester, props: object) {
 describe('respondToFieldsetsChange', () => {
   SUPPORTING_COMPONENTS.forEach(componentName => {
     it(`${componentName} successfully updates when field name changes`, async () => {
-      const { ComponentClass } = COMPONENT_GENERATORS[componentName]
-        , props = getProps(componentName)
-        , oldProps = {...props, fieldSets: [[{ field: 'originalName', type: 'string' }]]}
-        , newProps = {...props, fieldSets: [[{ field: 'updatedName', type: 'string' }]]}
-        ;
+      const { ComponentClass } = COMPONENT_GENERATORS[componentName],
+        props = getProps(componentName),
+        oldProps = { ...props, fieldSets: [[{ field: 'originalName', type: 'string' }]] },
+        newProps = { ...props, fieldSets: [[{ field: 'updatedName', type: 'string' }]] };
 
       const tester = await new Tester(ComponentClass, { props: oldProps }).mount();
 
@@ -55,13 +52,13 @@ describe('respondToFieldsetsChange', () => {
     });
 
     it(`${componentName} successfully updates when the number of FieldSets change`, async () => {
-      const { ComponentClass } = COMPONENT_GENERATORS[componentName]
-        , props = getProps(componentName)
-        , oldProps = {...props, fieldSets: [[{ field: 'fieldName0', type: 'string' }]]}
-        , newProps = {...props, fieldSets: [
-          [{ field: 'fieldName0', type: 'string' }],
-          [{ field: 'fieldName1', type: 'string' }],
-        ]};
+      const { ComponentClass } = COMPONENT_GENERATORS[componentName],
+        props = getProps(componentName),
+        oldProps = { ...props, fieldSets: [[{ field: 'fieldName0', type: 'string' }]] },
+        newProps = {
+          ...props,
+          fieldSets: [[{ field: 'fieldName0', type: 'string' }], [{ field: 'fieldName1', type: 'string' }]],
+        };
 
       const tester = await new Tester(ComponentClass, { props: oldProps }).mount();
 
