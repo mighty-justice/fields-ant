@@ -23,9 +23,9 @@
     "target": "es5"
   },
   "exclude": [
-    "node_modules",
     "build",
-    "coverage"
+    "coverage",
+    "node_modules"
   ],
   "include": [
     "src"
