@@ -1,4 +1,7 @@
-import '@babel/polyfill';
+// Core runtime basics
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 import enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { Provider } from 'mobx-react';

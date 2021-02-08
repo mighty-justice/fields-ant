@@ -4,6 +4,8 @@ import { Tester } from '@mighty-justice/tester';
 import { FormManager } from '../../src/utilities';
 import { EditableCard, CardField, FormField, Table } from '../../src';
 import { fakeTextShort } from '../factories';
+import { ComponentClass } from 'react';
+import { IFormWrappedProps } from '../../src/components/Form';
 
 const title = 'testing',
   field = 'example_field',
@@ -123,12 +125,12 @@ describe('insertIf', () => {
   });
 
   it('Works with individual FormFields', async () => {
-    const form = {
+    const component = { props: { form: {
         getFieldDecorator: () => (x: any) => x,
         getFieldsValue: () => ({}),
-      },
-      formManager = new FormManager({ props: { form } }, [], {}),
-      props = { form, formManager },
+      } } } as unknown as InstanceType<ComponentClass<IFormWrappedProps>>,
+      formManager = new FormManager(component, [], {}),
+      props = { form: component.props.form, formManager },
       hidden = await new Tester(FormField, {
         props: {
           ...props,
