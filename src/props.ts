@@ -52,6 +52,8 @@ export interface ISharedComponentProps {
   isLoading?: boolean;
   model?: IModel;
   title?: React.ReactNode;
+  layout?: "inline" | "horizontal" | "vertical";
+  colon?: boolean;
 }
 
 export interface ISharedFormProps {
@@ -67,6 +69,7 @@ export interface ISharedFormProps {
   resetOnSuccess?: boolean;
   saveText: string;
   successText?: null | string;
+  layout?: "inline" | "horizontal" | "vertical";
 }
 
 export interface ISharedFormModalProps extends ISharedComponentProps, ISharedFormProps {

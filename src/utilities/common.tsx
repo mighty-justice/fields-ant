@@ -197,3 +197,11 @@ export function getBtnClassName(action: string, classNameSuffix?: string, title?
     [`${prefix}-${classNameSuffix}`]: !!classNameSuffix,
   });
 }
+
+export function getLabelAfter(className: string, value: string) {
+  return (
+    <span className={className} style={{position: 'relative', top: '-0.5px', margin: '0 8px 0 2px'}}>
+      {value}
+    </span>
+  );
+}

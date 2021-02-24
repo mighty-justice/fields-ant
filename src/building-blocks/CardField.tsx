@@ -4,12 +4,12 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
 import { fillInFieldConfig, filterFieldConfig, renderLabel, renderValue } from '../utilities';
-import { IFieldConfigPartial } from '../interfaces';
+import { IFieldConfigPartial, IFormatProps } from '../interfaces';
 import { IModel } from '../props';
 
 import Info, { Label, Value } from './Info';
 
-export interface ICardFieldProps {
+export interface ICardFieldProps extends IFormatProps {
   fieldConfig: IFieldConfigPartial;
   model?: IModel;
 }
@@ -23,8 +23,9 @@ class CardField extends Component<ICardFieldProps> {
   }
 
   public render() {
-    const { model } = this.props,
-      fieldConfig = this.fieldConfig;
+    const { colon, layout, model } = this.props,
+      fieldConfig = this.fieldConfig,
+      format = {layout, colon};
 
     if (filterFieldConfig(fieldConfig, { model, writeOnly: true })) {
       return null;
@@ -32,8 +33,8 @@ class CardField extends Component<ICardFieldProps> {
 
     return (
       <Info fieldConfig={fieldConfig}>
-        {fieldConfig.showLabel && <Label>{renderLabel(fieldConfig)}</Label>}
-        <Value>{renderValue(fieldConfig, model)}</Value>
+        {fieldConfig.showLabel && <Label format={format}>{renderLabel(fieldConfig)}</Label>}
+        <Value format={format} >{renderValue(fieldConfig, model)}</Value>
       </Info>
     );
   }

@@ -6,12 +6,12 @@ import autoBindMethods from 'class-autobind-decorator';
 import { fillInFieldSet, filterFieldConfigs, getFieldSetFields } from '../utilities';
 
 import CardField from '../building-blocks/CardField';
-import { IFieldSetPartial } from '../interfaces';
+import { IFieldSetPartial, IFormatProps } from '../interfaces';
 import { IModel } from '../props';
 
 import FieldSet from './FieldSet';
 
-export interface ICardFieldSetProps {
+export interface ICardFieldSetProps extends IFormatProps {
   fieldSet: IFieldSetPartial;
   model?: IModel;
 }
@@ -36,7 +36,7 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
     return (
       <FieldSet fieldSet={fieldSet}>
         {filteredFieldConfigs.map(fieldConfig => (
-          <CardField fieldConfig={fieldConfig} key={fieldConfig.field} model={model} />
+          <CardField layout={this.props.layout} colon={this.props.colon} fieldConfig={fieldConfig} key={fieldConfig.field} model={model} />
         ))}
       </FieldSet>
     );

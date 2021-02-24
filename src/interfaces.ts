@@ -146,3 +146,8 @@ export interface ICheckboxProps extends IInputProps {
 export interface IEndpointOption {
   id: string;
 }
+
+export interface IFormatProps {
+  layout?: "horizontal" | "inline" | "vertical";
+  colon?: boolean;
+}

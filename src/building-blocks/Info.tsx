@@ -8,7 +8,8 @@ import { ClassValue } from 'classnames/types';
 import * as Antd from 'antd';
 
 import { CLASS_PREFIX } from '../consts';
-import { IFieldConfigPartial } from '../interfaces';
+import { IFieldConfigPartial, IFormatProps } from '../interfaces';
+import { getLabelAfter } from '../utilities/common';
 
 @autoBindMethods
 @observer
@@ -24,17 +25,38 @@ class Info extends Component<{ fieldConfig: IFieldConfigPartial }> {
 
 @autoBindMethods
 @observer
-class Label extends Component<{ className?: ClassValue }> {
+class Label extends Component<{ className?: ClassValue, format?: IFormatProps }> {
   public render() {
-    return <div className={cx(this.props.className, `${CLASS_PREFIX}-info-label`)}>{this.props.children}</div>;
+    const { className, format } = this.props
+      , colon = format && format.colon
+      , layout = format && format.layout
+      , colonText = colon === false ? '' : ':'
+      , labelClassName = cx(className, `${CLASS_PREFIX}-info-label`)
+      , labelAfterClassName = cx(className, `${CLASS_PREFIX}-info-label-after`);
+
+    return layout === "inline"
+      ? <div style={{"float": "left"}} className={labelClassName}>
+          {this.props.children}
+          {getLabelAfter(labelAfterClassName, colonText)}
+        </div>
+      : <div className={labelClassName}>
+          {this.props.children}
+          {getLabelAfter(labelAfterClassName, colonText)}
+        </div>;
   }
 }
 
 @autoBindMethods
 @observer
-class Value extends Component<{ className?: ClassValue }> {
+class Value extends Component<{ className?: ClassValue, format?: IFormatProps }> {
   public render() {
-    return <div className={cx(this.props.className, `${CLASS_PREFIX}-info-value`)}>{this.props.children}</div>;
+    const { format } = this.props
+      , layout = format && format.layout
+      , className = cx(this.props.className, `${CLASS_PREFIX}-info-value`);
+
+    return layout === "inline"
+      ? <div style={{"float": "left"}} className={className}>{this.props.children}</div>
+      : <div className={className}>{this.props.children}</div>;
   }
 }
 
