@@ -34,12 +34,12 @@ class Label extends Component<{ className?: ClassValue, format?: IFormatProps }>
       , labelClassName = cx(className, `${CLASS_PREFIX}-info-label`)
       , labelAfterClassName = cx(className, `${CLASS_PREFIX}-info-label-after`);
 
-    return layout === "inline"
-      ? <div style={{"float": "left"}} className={labelClassName}>
+    return layout !== "inline"
+      ? <div className={labelClassName}>
           {this.props.children}
           {getLabelAfter(labelAfterClassName, colonText)}
         </div>
-      : <div className={labelClassName}>
+      : <div style={{"float": "left"}} className={labelClassName}>
           {this.props.children}
           {getLabelAfter(labelAfterClassName, colonText)}
         </div>;
