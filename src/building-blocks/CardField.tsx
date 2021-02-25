@@ -25,7 +25,7 @@ class CardField extends Component<ICardFieldProps> {
   public render() {
     const { colon, layout, model } = this.props,
       fieldConfig = this.fieldConfig,
-      format = {layout, colon};
+      format = { layout, colon };
 
     if (filterFieldConfig(fieldConfig, { model, writeOnly: true })) {
       return null;
@@ -34,7 +34,7 @@ class CardField extends Component<ICardFieldProps> {
     return (
       <Info fieldConfig={fieldConfig}>
         {fieldConfig.showLabel && <Label format={format}>{renderLabel(fieldConfig)}</Label>}
-        <Value format={format} >{renderValue(fieldConfig, model)}</Value>
+        <Value format={format}>{renderValue(fieldConfig, model)}</Value>
       </Info>
     );
   }
