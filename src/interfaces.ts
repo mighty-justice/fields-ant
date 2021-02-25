@@ -147,7 +147,9 @@ export interface IEndpointOption {
   id: string;
 }
 
+export type ILayout = "horizontal" | "inline" | "vertical";
+
 export interface IFormatProps {
-  layout?: "horizontal" | "inline" | "vertical";
+  layout?: ILayout;
   colon?: boolean;
 }
