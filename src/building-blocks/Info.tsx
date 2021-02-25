@@ -9,7 +9,6 @@ import * as Antd from 'antd';
 
 import { CLASS_PREFIX } from '../consts';
 import { IFieldConfigPartial, IFormatProps } from '../interfaces';
-import { getLabelAfter } from '../utilities/common';
 
 @autoBindMethods
 @observer
@@ -33,14 +32,12 @@ class Label extends Component<{ className?: ClassValue; format?: IFormatProps }>
   public render() {
     const { className, format } = this.props,
       colon = format && format.colon,
-      colonText = colon === false ? '' : ':',
-      labelClassName = cx(className, `${CLASS_PREFIX}-info-label`),
-      labelAfterClassName = cx(className, `${CLASS_PREFIX}-info-label-after`);
+      colonClassName = colon === false ? `${CLASS_PREFIX}-info-label-no-colon` : `${CLASS_PREFIX}-info-label`,
+      labelClassName = cx(className, colonClassName);
 
     return (
       <div className={labelClassName}>
-        {this.props.children}
-        {getLabelAfter(labelAfterClassName, colonText)}
+        <label>{this.props.children}</label>
       </div>
     );
   }
