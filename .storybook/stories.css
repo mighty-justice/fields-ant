@@ -88,3 +88,7 @@
   text-align: left;
   white-space: initial;
 }
+
+.fields-ant-info-item-inline {
+  display: flex;
+}
