@@ -13,11 +13,18 @@ import { getLabelAfter } from '../utilities/common';
 
 @autoBindMethods
 @observer
-class Info extends Component<{ fieldConfig: IFieldConfigPartial }> {
+class Info extends Component<{ fieldConfig: IFieldConfigPartial; format?: IFormatProps }> {
   public render() {
+    const { format } = this.props,
+      layout = format && format.layout;
+
     return (
       <Antd.Col {...this.props.fieldConfig.colProps} className={`${CLASS_PREFIX}-info`}>
-        {this.props.children}
+        {layout !== 'inline' ? (
+          this.props.children
+        ) : (
+          <Antd.Row style={{ display: 'flex' }}>{this.props.children}</Antd.Row>
+        )}
       </Antd.Col>
     );
   }
@@ -29,18 +36,12 @@ class Label extends Component<{ className?: ClassValue; format?: IFormatProps }>
   public render() {
     const { className, format } = this.props,
       colon = format && format.colon,
-      layout = format && format.layout,
       colonText = colon === false ? '' : ':',
       labelClassName = cx(className, `${CLASS_PREFIX}-info-label`),
       labelAfterClassName = cx(className, `${CLASS_PREFIX}-info-label-after`);
 
-    return layout !== 'inline' ? (
+    return (
       <div className={labelClassName}>
-        {this.props.children}
-        {getLabelAfter(labelAfterClassName, colonText)}
-      </div>
-    ) : (
-      <div style={{ float: 'left' }} className={labelClassName}>
         {this.props.children}
         {getLabelAfter(labelAfterClassName, colonText)}
       </div>
@@ -50,19 +51,9 @@ class Label extends Component<{ className?: ClassValue; format?: IFormatProps }>
 
 @autoBindMethods
 @observer
-class Value extends Component<{ className?: ClassValue; format?: IFormatProps }> {
+class Value extends Component<{ className?: ClassValue }> {
   public render() {
-    const { format } = this.props,
-      layout = format && format.layout,
-      className = cx(this.props.className, `${CLASS_PREFIX}-info-value`);
-
-    return layout === 'inline' ? (
-      <div style={{ float: 'left' }} className={className}>
-        {this.props.children}
-      </div>
-    ) : (
-      <div className={className}>{this.props.children}</div>
-    );
+    return <div className={cx(this.props.className, `${CLASS_PREFIX}-info-value`)}>{this.props.children}</div>;
   }
 }
 

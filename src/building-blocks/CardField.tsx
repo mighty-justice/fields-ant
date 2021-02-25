@@ -32,9 +32,9 @@ class CardField extends Component<ICardFieldProps> {
     }
 
     return (
-      <Info fieldConfig={fieldConfig}>
+      <Info fieldConfig={fieldConfig} format={format}>
         {fieldConfig.showLabel && <Label format={format}>{renderLabel(fieldConfig)}</Label>}
-        <Value format={format}>{renderValue(fieldConfig, model)}</Value>
+        <Value>{renderValue(fieldConfig, model)}</Value>
       </Info>
     );
   }
