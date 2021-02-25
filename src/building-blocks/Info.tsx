@@ -32,7 +32,10 @@ class Label extends Component<{ className?: ClassValue; format?: IFormatProps }>
   public render() {
     const { className, format } = this.props,
       colon = format && format.colon,
-      colonClassName = colon === false ? `${CLASS_PREFIX}-info-label-no-colon` : `${CLASS_PREFIX}-info-label`,
+      layout = format && format.layout,
+      // colon can be displayed only when layout is inline or horizontal
+      colonClassName =
+        colon === false || layout === 'vertical' ? `${CLASS_PREFIX}-info-label-no-colon` : `${CLASS_PREFIX}-info-label`,
       labelClassName = cx(className, colonClassName);
 
     return (
