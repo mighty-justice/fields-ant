@@ -34,7 +34,7 @@ class CardField extends Component<ICardFieldProps> {
     }
 
     return (
-      <Info format={passDownProps} fieldConfig={fieldConfig}>
+      <Info fieldConfig={fieldConfig} format={passDownProps}>
         {fieldConfig.showLabel && <Label format={passDownProps}>{renderLabel(fieldConfig)}</Label>}
         <Value>{renderValue(fieldConfig, model)}</Value>
       </Info>

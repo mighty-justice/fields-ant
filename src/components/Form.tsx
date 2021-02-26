@@ -97,12 +97,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       className = cx(CLASS_NAME, this.props.className);
 
     return (
-      <Antd.Form
-        layout={layout}
-        onSubmit={this.formManager.onSave}
-        className={className}
-        colon={colon === false ? false : true}
-      >
+      <Antd.Form className={className} colon={colon} layout={layout} onSubmit={this.formManager.onSave}>
         {title && <h2>{title}</h2>}
 
         {filteredFieldSets.map((fieldSet, idx) => (
