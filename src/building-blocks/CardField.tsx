@@ -8,6 +8,7 @@ import { IFieldConfigPartial, IFormatProps } from '../interfaces';
 import { IModel } from '../props';
 
 import Info, { Label, Value } from './Info';
+import { sharedComponentPropsDefaults } from '../propsDefaults';
 
 export interface ICardFieldProps extends IFormatProps {
   fieldConfig: IFieldConfigPartial;
@@ -17,6 +18,8 @@ export interface ICardFieldProps extends IFormatProps {
 @autoBindMethods
 @observer
 class CardField extends Component<ICardFieldProps> {
+  public static defaultProps: Partial<ICardFieldProps> = { ...sharedComponentPropsDefaults };
+
   @computed
   private get fieldConfig() {
     return fillInFieldConfig(this.props.fieldConfig);

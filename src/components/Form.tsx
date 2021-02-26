@@ -12,7 +12,7 @@ import { FormComponentProps } from 'antd/es/form';
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import { fillInFieldSets, filterFieldSets, FormManager } from '../utilities';
-import { formPropsDefaults } from '../propsDefaults';
+import { formPropsDefaults, sharedComponentPropsDefaults } from '../propsDefaults';
 import { ISharedFormProps, ISharedComponentProps } from '../props';
 import { CLASS_PREFIX } from '../consts';
 
@@ -98,7 +98,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
 
     return (
       <Antd.Form
-        layout={layout || 'horizontal'}
+        layout={layout}
         onSubmit={this.formManager.onSave}
         className={className}
         colon={colon === false ? false : true}
@@ -125,6 +125,7 @@ const WrappedForm = Antd.Form.create()(UnwrappedForm);
 export class Form extends Component<IFormProps> {
   public static defaultProps: Partial<IFormWrappedProps> = {
     ...formPropsDefaults,
+    ...sharedComponentPropsDefaults,
     showControls: true,
   };
 
