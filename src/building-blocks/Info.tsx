@@ -34,9 +34,13 @@ class Label extends Component<{ className?: ClassValue; format?: IFormatProps }>
       colon = format && format.colon,
       layout = format && format.layout,
       // colon can be displayed only when layout is inline or horizontal
-      colonClassName =
-        colon === false || layout === 'vertical' ? `${CLASS_PREFIX}-info-label-no-colon` : `${CLASS_PREFIX}-info-label`,
-      labelClassName = cx(className, colonClassName);
+      hasColon = !(colon === false || layout === 'vertical'),
+      labelClassName = cx(
+        className,
+        `${CLASS_PREFIX}-info-label`,
+        `${CLASS_PREFIX}-info-label${hasColon ? '' : '-no'}-colon`,
+        `${CLASS_PREFIX}-info-label-layout-${layout}`,
+      )
 
     return (
       <div className={labelClassName}>
