@@ -40,7 +40,7 @@ class Label extends Component<{ className?: ClassValue; format?: IFormatProps }>
         `${CLASS_PREFIX}-info-label`,
         `${CLASS_PREFIX}-info-label${hasColon ? '' : '-no'}-colon`,
         `${CLASS_PREFIX}-info-label-layout-${layout}`,
-      )
+      );
 
     return (
       <div className={labelClassName}>
