@@ -98,7 +98,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
 
     return (
       <Antd.Form
-        layout={layout || 'inline'}
+        layout={layout || 'horizontal'}
         onSubmit={this.formManager.onSave}
         className={className}
         colon={colon === false ? false : true}
