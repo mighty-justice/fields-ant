@@ -1,4 +1,4 @@
-import { ILayout } from "./interfaces";
+import { ILayout } from './interfaces';
 
 // istanbul ignore next
 async function asyncNoop() {
@@ -12,7 +12,7 @@ export const formPropsDefaults = {
   saveText: 'Save',
 };
 
-export const sharedComponentPropsDefaults: { layout?: ILayout, colon: boolean} = {
+export const sharedComponentPropsDefaults: { layout?: ILayout; colon: boolean } = {
   layout: 'vertical',
   colon: false,
 };
