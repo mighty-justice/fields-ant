@@ -16,7 +16,7 @@ class Info extends Component<{ fieldConfig: IFieldConfigPartial; format?: IForma
   public render() {
     const { format } = this.props,
       layout = format && format.layout,
-      rowClassName = layout !== 'inline' ? '' : `${CLASS_PREFIX}-info-item-inline`;
+      rowClassName = `${CLASS_PREFIX}-info-row-${layout}`;
 
     return (
       <Antd.Col {...this.props.fieldConfig.colProps} className={`${CLASS_PREFIX}-info`}>
