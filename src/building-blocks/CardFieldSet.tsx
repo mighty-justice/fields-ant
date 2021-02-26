@@ -25,7 +25,7 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
   }
 
   public render() {
-    const { model, fieldSet } = this.props,
+    const { model, fieldSet, ...passDownProps } = this.props,
       fieldConfigs = getFieldSetFields(this.fieldSet),
       filteredFieldConfigs = filterFieldConfigs(fieldConfigs, { model, writeOnly: true });
 
@@ -37,8 +37,7 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
       <FieldSet fieldSet={fieldSet}>
         {filteredFieldConfigs.map(fieldConfig => (
           <CardField
-            layout={this.props.layout}
-            colon={this.props.colon}
+            {...passDownProps}
             fieldConfig={fieldConfig}
             key={fieldConfig.field}
             model={model}

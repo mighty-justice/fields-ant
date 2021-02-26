@@ -14,7 +14,8 @@ storiesOf('Features', module)
     <>
       <FormCard
         {...formCardPropsFactory.build()}
-        layout="vertical"
+        layout="inline"
+        colon
         fieldSets={[{
           fields: [
             {
@@ -39,7 +40,7 @@ storiesOf('Features', module)
       <EditableCard
         {...formCardPropsFactory.build()}
         layout='inline'
-        colon={false}
+        colon
         fieldSets={[
           {
             fields: [

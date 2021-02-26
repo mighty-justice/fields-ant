@@ -26,17 +26,16 @@ class CardField extends Component<ICardFieldProps> {
   }
 
   public render() {
-    const { colon, layout, model } = this.props,
-      fieldConfig = this.fieldConfig,
-      format = { layout, colon };
+    const { model, ...passDownProps } = this.props,
+      fieldConfig = this.fieldConfig;
 
     if (filterFieldConfig(fieldConfig, { model, writeOnly: true })) {
       return null;
     }
 
     return (
-      <Info fieldConfig={fieldConfig} format={format}>
-        {fieldConfig.showLabel && <Label format={format}>{renderLabel(fieldConfig)}</Label>}
+      <Info format={passDownProps} fieldConfig={fieldConfig}>
+        {fieldConfig.showLabel && <Label format={passDownProps}>{renderLabel(fieldConfig)}</Label>}
         <Value>{renderValue(fieldConfig, model)}</Value>
       </Info>
     );
