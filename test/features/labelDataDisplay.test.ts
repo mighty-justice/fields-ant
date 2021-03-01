@@ -1,7 +1,7 @@
 import { Tester } from '@mighty-justice/tester';
-import { COMPONENT_GENERATORS, fakeField, fakeTextShort } from '../factories';
+import { COMPONENT_GENERATORS, stringFactory } from '../factories';
 
-const normalFieldSet = { field: fakeField(), label: fakeTextShort(), type: 'string' },
+const fieldSets = [[stringFactory.build()]],
   EDITABLE_COMPONENTS = ['EditableCard', 'EditableArrayCard'],
   COMPONENTS = [
     ...EDITABLE_COMPONENTS,
@@ -25,8 +25,8 @@ describe('Renders', () => {
       it(`Displays ${layout} for ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
           props = propsFactory.build({
-            fieldSets: [[normalFieldSet]],
-            layout: layout,
+            fieldSets,
+            layout,
           }),
           tester = await new Tester(ComponentClass, { props }).mount();
 
@@ -41,8 +41,8 @@ describe('Renders', () => {
       it(`Displays colon properly for ${layout} ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
           props = propsFactory.build({
-            fieldSets: [[normalFieldSet]],
-            layout: layout,
+            fieldSets,
+            layout,
             colon: true,
           }),
           tester = await new Tester(ComponentClass, { props }).mount();
@@ -61,8 +61,8 @@ describe('Renders', () => {
       it(`Displays ${layout} when reading and writing for ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
           props = propsFactory.build({
-            fieldSets: [[normalFieldSet]],
-            layout: layout,
+            fieldSets,
+            layout,
           }),
           tester = await new Tester(ComponentClass, { props }).mount();
 
