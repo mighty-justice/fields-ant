@@ -2,17 +2,9 @@ import { Tester } from '@mighty-justice/tester';
 import { COMPONENT_GENERATORS, stringFactory } from '../factories';
 
 const fieldSets = [[stringFactory.build()]],
+  FORM_COMPONENTS = ['Form', 'FormCard', 'FormModal', 'FormDrawer'],
   EDITABLE_COMPONENTS = ['EditableCard', 'EditableArrayCard'],
-  COMPONENTS = [
-    ...EDITABLE_COMPONENTS,
-    'ArrayCard',
-    'FormCard',
-    'SummaryCard',
-    'Card',
-    'Form',
-    'FormModal',
-    'FormDrawer',
-  ],
+  CARD_COMPONENTS = [...EDITABLE_COMPONENTS, 'Card', 'ArrayCard'],
   LAYOUTS = ['inline', 'vertical', 'horizontal'];
 
 function isForm(tester: any) {
@@ -20,7 +12,7 @@ function isForm(tester: any) {
 }
 
 describe('Renders', () => {
-  COMPONENTS.forEach(componentName => {
+  CARD_COMPONENTS.forEach(componentName => {
     LAYOUTS.forEach(layout => {
       it(`Displays ${layout} for ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
@@ -30,14 +22,10 @@ describe('Renders', () => {
           }),
           tester = await new Tester(ComponentClass, { props }).mount();
 
-        expect(tester.find(`.fields-ant-info-row-${layout}`).length);
-        expect(tester.find(`.fields-ant-info-label-layout-${layout}`).length);
+        expect(tester.find(`div.fields-ant-info-row-${layout}`).length).toBe(1);
+        expect(tester.find(`.fields-ant-info-label-layout-${layout}`).length).toBe(1);
       });
-    });
-  });
 
-  COMPONENTS.forEach(componentName => {
-    LAYOUTS.forEach(layout => {
       it(`Displays colon properly for ${layout} ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
           props = propsFactory.build({
@@ -48,10 +36,25 @@ describe('Renders', () => {
           tester = await new Tester(ComponentClass, { props }).mount();
 
         if (layout === 'vertical') {
-          expect(tester.find('.fields-ant-info-label-no-colon').length);
+          expect(tester.find('.fields-ant-info-label-no-colon').length).toBe(1);
         } else {
-          expect(tester.find('.fields-ant-info-label-colon').length);
+          expect(tester.find('.fields-ant-info-label-colon').length).toBe(1);
         }
+      });
+    });
+  });
+
+  FORM_COMPONENTS.forEach(componentName => {
+    LAYOUTS.forEach(layout => {
+      it(`Displays ${layout} for ${componentName}`, async () => {
+        const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
+          props = propsFactory.build({
+            fieldSets,
+            layout,
+          }),
+          tester = await new Tester(ComponentClass, { props }).mount();
+
+        expect(tester.find(`form.ant-form-${layout}`).length).toBe(1);
       });
     });
   });
@@ -67,14 +70,13 @@ describe('Renders', () => {
           tester = await new Tester(ComponentClass, { props }).mount();
 
         expect(isForm(tester)).toBe(false);
-        expect(tester.find(`.fields-ant-info-row-${layout}`).length);
-        expect(tester.find(`.fields-ant-info-label-layout-${layout}`).length);
+        expect(tester.find(`div.fields-ant-info-row-${layout}`).length).toBe(1);
+        expect(tester.find(`.fields-ant-info-label-layout-${layout}`).length).toBe(1);
 
         tester.click(`button.btn-edit`);
 
         expect(isForm(tester)).toBe(true);
-        expect(tester.find(`.fields-ant-info-row-${layout}`).length);
-        expect(tester.find(`.fields-ant-info-label-layout-${layout}`).length);
+        expect(tester.find(`form.ant-form-${layout}`).length).toBe(1);
       });
     });
   });

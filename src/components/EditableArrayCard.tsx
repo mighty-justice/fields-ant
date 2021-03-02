@@ -60,7 +60,18 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
   }
 
   public render() {
-    const { classNameSuffix, defaults, fieldSets, isLoading, model, onDelete, onSave, onSuccess, title } = this.props;
+    const {
+      classNameSuffix,
+      defaults,
+      fieldSets,
+      isLoading,
+      model,
+      onDelete,
+      onSave,
+      onSuccess,
+      title,
+      ...passDownProps
+    } = this.props;
 
     return (
       <Antd.Card title={title} extra={this.renderAddNew()} loading={isLoading}>
@@ -78,6 +89,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
 
         {model.map(modelItem => (
           <EditableCard
+            {...passDownProps}
             classNameSuffix={classNameSuffix}
             fieldSets={fieldSets}
             key={modelItem.id}
