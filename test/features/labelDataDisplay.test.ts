@@ -56,6 +56,22 @@ describe('Renders', () => {
 
         expect(tester.find(`form.ant-form-${layout}`).length).toBe(1);
       });
+
+      it(`Displays colon properly for ${layout} ${componentName}`, async () => {
+        const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
+          props = propsFactory.build({
+            fieldSets,
+            layout,
+            colon: true,
+          }),
+          tester = await new Tester(ComponentClass, { props }).mount();
+
+        if (layout === 'vertical') {
+          expect(tester.find('form.fields-ant-form-no-colon').length).toBe(1);
+        } else {
+          expect(tester.find('form.fields-ant-form-colon').length).toBe(1);
+        }
+      });
     });
   });
 

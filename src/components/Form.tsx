@@ -94,7 +94,8 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
     const { showControls, title, layout, colon } = this.props,
       formModel = this.formManager.formModel,
       filteredFieldSets = filterFieldSets(this.fieldSets, { model: formModel }),
-      className = cx(CLASS_NAME, this.props.className);
+      hasColon = !(colon === false || layout === 'vertical'),
+      className = cx(CLASS_NAME, this.props.className, `fields-ant-form${hasColon ? '' : '-no'}-colon`);
 
     return (
       <Antd.Form className={className} colon={colon} layout={layout} onSubmit={this.formManager.onSave}>
