@@ -13,6 +13,33 @@ function isForm(tester: any) {
 
 describe('Renders', () => {
   CARD_COMPONENTS.forEach(componentName => {
+    it(`defaults ${componentName} correctly`, async () => {
+      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
+        props = propsFactory.build({
+          fieldSets,
+        }),
+        tester = await new Tester(ComponentClass, { props }).mount();
+
+      expect(tester.find(`div.fields-ant-info-row-vertical`).length).toBe(1);
+      expect(tester.find(`.fields-ant-info-label-layout-vertical`).length).toBe(1);
+      expect(tester.find('.fields-ant-info-label-no-colon').length).toBe(1);
+    });
+  });
+
+  FORM_COMPONENTS.forEach(componentName => {
+    it(`defaults ${componentName} correctly`, async () => {
+      const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
+        props = propsFactory.build({
+          fieldSets,
+        }),
+        tester = await new Tester(ComponentClass, { props }).mount();
+
+      expect(tester.find(`form.ant-form-vertical`).length).toBe(1);
+      expect(tester.find('form.fields-ant-form-no-colon').length).toBe(1);
+    });
+  });
+
+  CARD_COMPONENTS.forEach(componentName => {
     LAYOUTS.forEach(layout => {
       it(`Displays ${layout} for ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
