@@ -5,7 +5,7 @@ export interface ISummaryCardProps extends ICardProps {
 }
 declare class SummaryCard extends Component<ISummaryCardProps> {
     static defaultProps: Partial<ISummaryCardProps>;
-    private readonly fieldSets;
+    private get fieldSets();
     private renderItem;
     render(): JSX.Element;
 }

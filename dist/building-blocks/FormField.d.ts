@@ -8,9 +8,9 @@ export interface IFormFieldProps {
     formModel: IModel;
 }
 declare class FormField extends Component<IFormFieldProps> {
-    private readonly fieldConfig;
-    private readonly editProps;
-    private readonly shouldRender;
+    private get fieldConfig();
+    private get editProps();
+    private get shouldRender();
     render(): JSX.Element | null;
 }
 export default FormField;

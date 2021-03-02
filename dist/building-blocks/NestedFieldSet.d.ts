@@ -12,7 +12,7 @@ export interface INestedFieldSetProps {
 }
 declare class NestedFieldSet extends Component<INestedFieldSetProps> {
     private fieldValueMapper;
-    private readonly fieldSet;
+    private get fieldSet();
     private getDefaultValue;
     render(): JSX.Element;
 }

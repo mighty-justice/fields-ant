@@ -1,12 +1,12 @@
 import { Component } from 'react';
-import { IFieldSetPartial } from '../interfaces';
+import { IFieldSetPartial, IFormatProps } from '../interfaces';
 import { IModel } from '../props';
-export interface ICardFieldSetProps {
+export interface ICardFieldSetProps extends IFormatProps {
     fieldSet: IFieldSetPartial;
     model?: IModel;
 }
 declare class CardFieldSet extends Component<ICardFieldSetProps> {
-    private readonly fieldSet;
+    private get fieldSet();
     render(): JSX.Element | null;
 }
 export default CardFieldSet;

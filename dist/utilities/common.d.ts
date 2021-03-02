@@ -6,7 +6,7 @@ export declare function isPartialFieldSetSimple(fieldSet: IFieldSetPartial): fie
 export declare function isFieldSetSimple(fieldSet: IFieldSet): fieldSet is IFieldSetSimple;
 declare type IMapper = (fields: IFieldConfigPartial) => IFieldConfigPartial;
 export declare function mapFieldSetFields(fieldSet: IFieldSetPartial, mapper: IMapper): IFieldSetPartial;
-export declare function setFieldSetFields(fieldSet: IFieldSet, fields: IFieldConfig[]): IFieldConfig[] | {
+export declare function setFieldSetFields(fieldSet: IFieldSet, fields: IFieldConfig[]): IFieldSetSimple | {
     fields: IFieldConfig[];
     legend?: string | undefined;
     rowProps?: import("antd/es/grid").RowProps | undefined;
@@ -18,10 +18,11 @@ export declare function getUnsortedOptions(fieldConfig: IFieldConfigOptionSelect
 export declare function getOptions(fieldConfig: IFieldConfigOptionSelect, injected: IInjected): IOption[];
 export declare function renderValue(fieldConfigPartial: IFieldConfigPartial, model?: IModel): React.ReactNode;
 export declare function renderLabel(fieldConfig: IFieldConfig): React.ReactNode;
-export declare type IColumns = Array<ColumnProps<IModel> & {
+export interface ITableModel extends IModel {
     key: string;
-}>;
-export declare function fieldSetsToColumns(fieldSets: IFieldSetPartial[], tableModel?: IModel[]): IColumns;
+}
+export declare type IColumns = Array<ColumnProps<ITableModel>>;
+export declare function fieldSetsToColumns(fieldSets: IFieldSetPartial[], tableModel?: ITableModel[]): IColumns;
 export declare function modelFromFieldConfigs(fieldConfigs: IFieldConfig[], data: IModel): IModel;
 export declare function noopValidator(_rule: any, _value: any, callback: (message?: string) => void): void;
 export declare function getBtnClassName(action: string, classNameSuffix?: string, title?: React.ReactNode): string;

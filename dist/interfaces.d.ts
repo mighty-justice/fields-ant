@@ -5,7 +5,7 @@ import { RowProps } from 'antd/es/row';
 import { ValidationRule as AntValidationRule, FormItemProps } from 'antd/es/form';
 import { ClassValue } from 'classnames/types';
 import { IModel, IValue } from './props';
-import { FormManager } from './utilities';
+import { FormManager, ITableModel } from './utilities';
 export declare type IFieldsValidator = (value: IValue, fieldConfig: IFieldConfig, model: IModel) => boolean;
 export interface IValidationRule extends AntValidationRule {
     fieldsValidator?: IFieldsValidator;
@@ -38,7 +38,7 @@ interface IFieldConfigBase {
     required: boolean;
     showLabel: boolean;
     skipFieldDecorator: boolean;
-    tableColumnProps?: Partial<ColumnProps<IModel>>;
+    tableColumnProps?: Partial<ColumnProps<ITableModel>>;
     toForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
     tooltip?: string;
     type: string;
@@ -109,5 +109,10 @@ export interface ICheckboxProps extends IInputProps {
 }
 export interface IEndpointOption {
     id: string;
+}
+export declare type ILayout = 'horizontal' | 'inline' | 'vertical';
+export interface IFormatProps {
+    layout?: ILayout;
+    colon?: boolean;
 }
 export {};

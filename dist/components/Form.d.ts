@@ -12,7 +12,7 @@ export declare class UnwrappedForm extends Component<IFormWrappedProps> {
     private formManager;
     constructor(props: IFormWrappedProps);
     private onSuccess;
-    private readonly fieldSets;
+    private get fieldSets();
     private renderControls;
     render(): JSX.Element;
 }

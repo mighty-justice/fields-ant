@@ -1,11 +1,11 @@
 import { Component } from 'react';
-import { IInputProps } from '../interfaces';
-declare class Date extends Component<IInputProps> {
+import { IAntFormField } from '../interfaces';
+declare class Date extends Component<IAntFormField> {
     private inputRefs;
-    private readonly injected;
-    private readonly inputProps;
+    private get injected();
+    private get inputProps();
     private getRefSetter;
-    private readonly valueObject;
+    private get valueObject();
     private getValueField;
     private onChange;
     private renderFieldInput;

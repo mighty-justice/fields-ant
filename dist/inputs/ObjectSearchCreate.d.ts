@@ -26,9 +26,9 @@ export declare const CLASS_NAME_CREATING: string;
 declare class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     private isAddingNew;
     private search;
-    private readonly injected;
-    private readonly fieldConfig;
-    private readonly objectSearchProps;
+    private get injected();
+    private get fieldConfig();
+    private get objectSearchProps();
     private onAddNew;
     private onSearch;
     private renderAddNew;

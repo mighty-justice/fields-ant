@@ -8,7 +8,7 @@ export interface IFormFieldSetProps {
     formModel: IModel;
 }
 declare class FormFieldSet extends Component<IFormFieldSetProps> {
-    readonly fieldSet: import("../interfaces").IFieldSet;
+    get fieldSet(): import("../interfaces").IFieldSet;
     render(): JSX.Element | null;
 }
 export default FormFieldSet;

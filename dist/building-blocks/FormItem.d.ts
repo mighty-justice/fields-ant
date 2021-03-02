@@ -9,11 +9,11 @@ export interface IFormFieldProps {
 }
 export declare const FORM_ITEM_CLASS_NAME: string;
 declare class FormItem extends Component<IFormFieldProps> {
-    private readonly initialValue;
+    private get initialValue();
     private fieldsValidatorToValidator;
-    private readonly rules;
-    private readonly decoratorOptions;
-    private readonly formItemProps;
+    private get rules();
+    private get decoratorOptions();
+    private get formItemProps();
     render(): JSX.Element;
 }
 export default FormItem;

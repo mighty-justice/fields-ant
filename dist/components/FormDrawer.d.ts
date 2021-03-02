@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { ISharedFormModalProps } from '../props';
 declare class FormDrawer extends Component<ISharedFormModalProps> {
     static defaultProps: Partial<ISharedFormModalProps>;
-    readonly isVisible: boolean;
-    readonly formProps: Partial<Readonly<ISharedFormModalProps> & Readonly<{
+    get isVisible(): boolean;
+    get formProps(): Partial<Readonly<ISharedFormModalProps> & Readonly<{
         children?: React.ReactNode;
     }>>;
     onCancel(): void;

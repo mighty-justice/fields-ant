@@ -13,8 +13,8 @@ declare class EditableCard extends Component<IEditableCardProps> {
     static defaultProps: Partial<IEditableCardProps>;
     private handleDelete;
     private handleSave;
-    private readonly deleteButton;
-    private readonly editButton;
+    private get deleteButton();
+    private get editButton();
     private buttons;
     render(): JSX.Element;
 }

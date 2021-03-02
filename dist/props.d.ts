@@ -2,6 +2,7 @@ import React from 'react';
 import { ClassValue } from 'classnames/types';
 import SmartBool from '@mighty-justice/smart-bool';
 import { IBackendValidation } from './utilities/FormManager';
+import { IFieldSet, IFieldSetPartial, IFormatProps } from './interfaces';
 export { IButtonToolbarProps } from './building-blocks/ButtonToolbar';
 export { ICardFieldProps } from './building-blocks/CardField';
 export { ICardFieldSetProps } from './building-blocks/CardFieldSet';
@@ -18,13 +19,12 @@ export { ISummaryCardProps } from './components/SummaryCard';
 export { IObjectSearchCreateProps } from './inputs/ObjectSearchCreate';
 export { IOptionSelectDisplayProps } from './inputs/OptionSelectDisplay';
 export { IObjectSelectProps } from './inputs/ObjectSelect';
-import { IFieldSet, IFieldSetPartial } from './interfaces';
 export declare type IValue = any;
 export interface IModel {
     [key: string]: any;
     id?: string;
 }
-export interface ISharedComponentProps {
+export interface ISharedComponentProps extends IFormatProps {
     children?: React.ReactNode;
     className?: ClassValue;
     classNameSuffix?: string;
