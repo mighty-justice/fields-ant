@@ -146,3 +146,10 @@ export interface ICheckboxProps extends IInputProps {
 export interface IEndpointOption {
   id: string;
 }
+
+export type ILayout = 'horizontal' | 'inline' | 'vertical';
+
+export interface IFormatProps {
+  layout?: ILayout;
+  colon?: boolean;
+}

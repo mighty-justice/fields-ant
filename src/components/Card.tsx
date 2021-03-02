@@ -26,7 +26,7 @@ class Card extends Component<ICardProps> {
   }
 
   public render() {
-    const { className, title, renderTopRight, isLoading, model } = this.props,
+    const { className, title, renderTopRight, isLoading, model, ...passDownProps } = this.props,
       filteredFieldSets = filterFieldSets(this.fieldSets, { model, writeOnly: true });
 
     return (
@@ -37,7 +37,7 @@ class Card extends Component<ICardProps> {
         title={title}
       >
         {filteredFieldSets.map((fieldSet, idx) => (
-          <CardFieldSet fieldSet={fieldSet} key={idx} model={model} />
+          <CardFieldSet {...passDownProps} fieldSet={fieldSet} key={idx} model={model} />
         ))}
 
         {this.props.children}

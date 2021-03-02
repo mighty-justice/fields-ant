@@ -79,6 +79,10 @@
   color: black;
 }
 
+.fields-ant-info-row-inline {
+  display: flex;
+}
+
 .fields-ant-info-label {
   /* Copied from .ant-form-item-label */
   display: block;
@@ -87,4 +91,14 @@
   padding: 0 0 8px;
   text-align: left;
   white-space: initial;
+}
+
+.fields-ant-info-label-colon > label::after {
+  content: ':';
+  position: relative;
+  margin: 0 8px 0 2px;
+}
+
+.fields-ant-info-label-no-colon > label {
+  margin-right: 8px;
 }

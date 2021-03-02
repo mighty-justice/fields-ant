@@ -14,7 +14,7 @@ import { IBackendValidation } from './utilities/FormManager';
 // All below props are shared / inherited by components
 // This allows us to keep the library consistent and uniform
 
-import { IFieldSet, IFieldSetPartial } from './interfaces';
+import { IFieldSet, IFieldSetPartial, IFormatProps } from './interfaces';
 
 export { IButtonToolbarProps } from './building-blocks/ButtonToolbar';
 export { ICardFieldProps } from './building-blocks/CardField';
@@ -44,7 +44,7 @@ export interface IModel {
   id?: string;
 }
 
-export interface ISharedComponentProps {
+export interface ISharedComponentProps extends IFormatProps {
   children?: React.ReactNode;
   className?: ClassValue;
   classNameSuffix?: string;

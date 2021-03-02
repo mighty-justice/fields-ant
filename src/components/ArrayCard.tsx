@@ -17,14 +17,21 @@ export interface IArrayCardProps extends ICardProps {
 @observer
 class ArrayCard extends Component<IArrayCardProps> {
   public render() {
-    const { title, renderTopRight, isLoading, model, fieldSets, classNameSuffix } = this.props;
+    const { title, renderTopRight, isLoading, model, fieldSets, classNameSuffix, ...passDownProps } = this.props;
 
     return (
       <Antd.Card title={title} extra={renderTopRight && renderTopRight()} loading={isLoading}>
         {isEmpty(model) && <p className="empty-message">No records</p>}
 
         {model.map((modelItem: any) => (
-          <Card classNameSuffix={classNameSuffix} fieldSets={fieldSets} key={modelItem.id} model={modelItem} title="" />
+          <Card
+            {...passDownProps}
+            classNameSuffix={classNameSuffix}
+            fieldSets={fieldSets}
+            key={modelItem.id}
+            model={modelItem}
+            title=""
+          />
         ))}
       </Antd.Card>
     );

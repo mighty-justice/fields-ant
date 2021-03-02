@@ -12,7 +12,7 @@ import { FormComponentProps } from 'antd/es/form';
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
 import { fillInFieldSets, filterFieldSets, FormManager } from '../utilities';
-import { formPropsDefaults } from '../propsDefaults';
+import { formPropsDefaults, sharedComponentPropsDefaults } from '../propsDefaults';
 import { ISharedFormProps, ISharedComponentProps } from '../props';
 import { CLASS_PREFIX } from '../consts';
 
@@ -91,13 +91,14 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   }
 
   public render() {
-    const { showControls, title } = this.props,
+    const { showControls, title, layout, colon } = this.props,
       formModel = this.formManager.formModel,
       filteredFieldSets = filterFieldSets(this.fieldSets, { model: formModel }),
-      className = cx(CLASS_NAME, this.props.className);
+      hasColon = !(colon === false || layout === 'vertical'),
+      className = cx(CLASS_NAME, this.props.className, `fields-ant-form${hasColon ? '' : '-no'}-colon`);
 
     return (
-      <Antd.Form layout="vertical" onSubmit={this.formManager.onSave} className={className}>
+      <Antd.Form className={className} colon={colon} layout={layout} onSubmit={this.formManager.onSave}>
         {title && <h2>{title}</h2>}
 
         {filteredFieldSets.map((fieldSet, idx) => (
@@ -120,6 +121,7 @@ const WrappedForm = Antd.Form.create()(UnwrappedForm);
 export class Form extends Component<IFormProps> {
   public static defaultProps: Partial<IFormWrappedProps> = {
     ...formPropsDefaults,
+    ...sharedComponentPropsDefaults,
     showControls: true,
   };
 
