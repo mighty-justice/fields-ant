@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 
 import { EditableCard, FormCard, IFieldConfigObjectSearchCreate } from '../src';
 import { withInfoConfigured } from '../.storybook/config';
-import { objectSearchCreateFactory, formCardPropsFactory, fieldFactory } from '../test/factories';
+import { objectSearchCreateFactory, formCardPropsFactory, fieldFactory, stringFactory } from '../test/factories';
 import { ColProps } from 'antd/es/grid';
 import { IModel } from '../src/props';
 
@@ -12,6 +12,11 @@ storiesOf('Features', module)
   .addDecorator(withInfoConfigured)
   .add('display', () => (
     <>
+      <FormCard
+        {...formCardPropsFactory.build()}
+        layout='horizontal'
+        fieldSets={[[stringFactory.build(), stringFactory.build(), stringFactory.build()]]}
+      />
       <FormCard
         {...formCardPropsFactory.build()}
         layout="inline"

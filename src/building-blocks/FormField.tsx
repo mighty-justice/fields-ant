@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
+import { omit } from 'lodash';
 
 import { FormManager, fillInFieldConfig, filterFieldConfig } from '../utilities';
 import { IFieldConfigPartial } from '../interfaces';
@@ -48,15 +49,20 @@ class FormField extends Component<IFormFieldProps> {
       return null;
     }
 
-    const { formManager, formModel, fieldConfig, ...passDownProps } = this.props,
-      { skipFieldDecorator, editComponent: EditComponent } = fieldConfig;
+    const { formManager, formModel, ...passDownProps } = this.props,
+      { skipFieldDecorator, editComponent: EditComponent } = this.fieldConfig;
 
     if (skipFieldDecorator) {
       return <EditComponent {...this.editProps} />;
     }
 
     return (
-      <FormItem fieldConfig={this.fieldConfig} formManager={formManager} formModel={formModel} {...passDownProps}>
+      <FormItem
+        fieldConfig={this.fieldConfig}
+        formManager={formManager}
+        formModel={formModel}
+        {...omit(passDownProps, ['fieldConfig'])}
+      >
         <EditComponent {...this.editProps} />
       </FormItem>
     );
