@@ -8,14 +8,16 @@ import * as Antd from 'antd';
 import { ValidationRule as AntValidationRule } from 'antd/es/form';
 
 import { FormManager, noopValidator, renderLabel } from '../utilities';
-import { IFieldConfig, IFieldsValidator } from '../interfaces';
+import { IFieldConfig, IFieldsValidator, ILayout } from '../interfaces';
 import { IModel } from '../props';
 import { CLASS_PREFIX } from '../consts';
+import { sharedComponentPropsDefaults } from '../propsDefaults';
 
 export interface IFormFieldProps {
   fieldConfig: IFieldConfig;
   formManager: FormManager;
   formModel: IModel;
+  layout?: ILayout;
 }
 
 export const FORM_ITEM_CLASS_NAME = `${CLASS_PREFIX}-form-item`;
@@ -23,6 +25,8 @@ export const FORM_ITEM_CLASS_NAME = `${CLASS_PREFIX}-form-item`;
 @autoBindMethods
 @observer
 class FormItem extends Component<IFormFieldProps> {
+  public static defaultProps: Partial<IFormFieldProps> = { ...sharedComponentPropsDefaults };
+
   private get initialValue() {
     const { formManager, fieldConfig } = this.props;
     return formManager.getDefaultValue(fieldConfig);
@@ -93,9 +97,14 @@ class FormItem extends Component<IFormFieldProps> {
   }
 
   public render() {
-    const { formManager, fieldConfig } = this.props,
+    const { formManager, fieldConfig, layout } = this.props,
       { colProps, formItemProps, field } = fieldConfig,
-      className = cx(FORM_ITEM_CLASS_NAME, fieldConfig.className, formItemProps && formItemProps.className),
+      className = cx(
+        FORM_ITEM_CLASS_NAME,
+        fieldConfig.className,
+        formItemProps && formItemProps.className,
+        `${FORM_ITEM_CLASS_NAME}-${layout}`,
+      ),
       { getFieldDecorator } = formManager.form;
 
     return (

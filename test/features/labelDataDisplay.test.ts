@@ -15,13 +15,12 @@ describe('Renders', () => {
   CARD_COMPONENTS.forEach(componentName => {
     it(`defaults ${componentName} correctly`, async () => {
       const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
-        props = propsFactory.build({
-          fieldSets,
-        }),
+        props = propsFactory.build({ fieldSets }),
         tester = await new Tester(ComponentClass, { props }).mount();
 
-      expect(tester.find(`div.fields-ant-info-row-vertical`).length).toBe(1);
-      expect(tester.find(`.fields-ant-info-label-layout-vertical`).length).toBe(1);
+      expect(tester.find('div.fields-ant-info-row-vertical').length).toBe(1);
+      expect(tester.find('div.fields-ant-field-set-row-vertical').length).toBe(1);
+      expect(tester.find('.fields-ant-info-label-layout-vertical').length).toBe(1);
       expect(tester.find('.fields-ant-info-label-no-colon').length).toBe(1);
     });
   });
@@ -29,13 +28,13 @@ describe('Renders', () => {
   FORM_COMPONENTS.forEach(componentName => {
     it(`defaults ${componentName} correctly`, async () => {
       const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
-        props = propsFactory.build({
-          fieldSets,
-        }),
+        props = propsFactory.build({ fieldSets }),
         tester = await new Tester(ComponentClass, { props }).mount();
 
-      expect(tester.find(`form.ant-form-vertical`).length).toBe(1);
+      expect(tester.find('form.ant-form-vertical').length).toBe(1);
       expect(tester.find('form.fields-ant-form-no-colon').length).toBe(1);
+      expect(tester.find('div.fields-ant-field-set-row-vertical').length).toBe(1);
+      expect(tester.find('div.fields-ant-form-item-vertical').length).toBe(1);
     });
   });
 
@@ -43,23 +42,17 @@ describe('Renders', () => {
     LAYOUTS.forEach(layout => {
       it(`Displays ${layout} for ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
-          props = propsFactory.build({
-            fieldSets,
-            layout,
-          }),
+          props = propsFactory.build({ fieldSets, layout }),
           tester = await new Tester(ComponentClass, { props }).mount();
 
         expect(tester.find(`div.fields-ant-info-row-${layout}`).length).toBe(1);
+        expect(tester.find(`div.fields-ant-field-set-row-${layout}`).length).toBe(1);
         expect(tester.find(`.fields-ant-info-label-layout-${layout}`).length).toBe(1);
       });
 
       it(`Displays colon properly for ${layout} ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
-          props = propsFactory.build({
-            fieldSets,
-            layout,
-            colon: true,
-          }),
+          props = propsFactory.build({ fieldSets, layout, colon: true }),
           tester = await new Tester(ComponentClass, { props }).mount();
 
         if (layout === 'vertical') {
@@ -75,22 +68,17 @@ describe('Renders', () => {
     LAYOUTS.forEach(layout => {
       it(`Displays ${layout} for ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
-          props = propsFactory.build({
-            fieldSets,
-            layout,
-          }),
+          props = propsFactory.build({ fieldSets, layout }),
           tester = await new Tester(ComponentClass, { props }).mount();
 
         expect(tester.find(`form.ant-form-${layout}`).length).toBe(1);
+        expect(tester.find(`div.fields-ant-field-set-row-${layout}`).length).toBe(1);
+        expect(tester.find(`div.fields-ant-form-item-${layout}`).length).toBe(1);
       });
 
       it(`Displays colon properly for ${layout} ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
-          props = propsFactory.build({
-            fieldSets,
-            layout,
-            colon: true,
-          }),
+          props = propsFactory.build({ fieldSets, layout, colon: true }),
           tester = await new Tester(ComponentClass, { props }).mount();
 
         if (layout === 'vertical') {
@@ -106,20 +94,20 @@ describe('Renders', () => {
     LAYOUTS.forEach(layout => {
       it(`Displays ${layout} when reading and writing for ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
-          props = propsFactory.build({
-            fieldSets,
-            layout,
-          }),
+          props = propsFactory.build({ fieldSets, layout }),
           tester = await new Tester(ComponentClass, { props }).mount();
 
         expect(isForm(tester)).toBe(false);
         expect(tester.find(`div.fields-ant-info-row-${layout}`).length).toBe(1);
+        expect(tester.find(`div.fields-ant-field-set-row-${layout}`).length).toBe(1);
         expect(tester.find(`.fields-ant-info-label-layout-${layout}`).length).toBe(1);
 
         tester.click(`button.btn-edit`);
 
         expect(isForm(tester)).toBe(true);
         expect(tester.find(`form.ant-form-${layout}`).length).toBe(1);
+        expect(tester.find(`div.fields-ant-field-set-row-${layout}`).length).toBe(1);
+        expect(tester.find(`div.fields-ant-form-item-${layout}`).length).toBe(1);
       });
     });
   });

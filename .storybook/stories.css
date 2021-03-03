@@ -79,8 +79,13 @@
   color: black;
 }
 
+.fields-ant-info-row-horizontal {
+  display: flex;
+}
+
 .fields-ant-info-row-inline {
   display: flex;
+  margin-right: 18px;
 }
 
 .fields-ant-info-label {
@@ -101,4 +106,18 @@
 
 .fields-ant-info-label-no-colon > label {
   margin-right: 8px;
+}
+
+.fields-ant-field-set-row-inline {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.fields-ant-form-item-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.fields-ant-form-item-horizontal > .ant-form-item-control-wrapper {
+  flex: auto;
 }
