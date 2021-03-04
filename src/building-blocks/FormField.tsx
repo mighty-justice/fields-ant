@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { omit } from 'lodash';
 
 import { FormManager, fillInFieldConfig, filterFieldConfig } from '../utilities';
 import { IFieldConfigPartial } from '../interfaces';
@@ -57,12 +56,7 @@ class FormField extends Component<IFormFieldProps> {
     }
 
     return (
-      <FormItem
-        fieldConfig={this.fieldConfig}
-        formManager={formManager}
-        formModel={formModel}
-        {...omit(passDownProps, ['fieldConfig'])}
-      >
+      <FormItem {...passDownProps} fieldConfig={this.fieldConfig} formManager={formManager} formModel={formModel}>
         <EditComponent {...this.editProps} />
       </FormItem>
     );
