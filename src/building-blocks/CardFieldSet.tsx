@@ -34,7 +34,7 @@ class CardFieldSet extends Component<ICardFieldSetProps> {
     }
 
     return (
-      <FieldSet fieldSet={fieldSet}>
+      <FieldSet fieldSet={fieldSet} {...passDownProps}>
         {filteredFieldConfigs.map(fieldConfig => (
           <CardField {...passDownProps} fieldConfig={fieldConfig} key={fieldConfig.field} model={model} />
         ))}

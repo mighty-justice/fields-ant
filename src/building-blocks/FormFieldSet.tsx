@@ -26,7 +26,7 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
   }
 
   public render() {
-    const { formModel, fieldSet, formManager } = this.props,
+    const { formModel, fieldSet, formManager, ...passDownProps } = this.props,
       fieldConfigs = getFieldSetFields(this.fieldSet),
       filteredFieldConfigs = filterFieldConfigs(fieldConfigs, { model: formModel, readOnly: true });
 
@@ -35,13 +35,14 @@ class FormFieldSet extends Component<IFormFieldSetProps> {
     }
 
     return (
-      <FieldSet fieldSet={fieldSet}>
+      <FieldSet fieldSet={fieldSet} {...passDownProps}>
         {filteredFieldConfigs.map(fieldConfig => (
           <FormField
             fieldConfig={fieldConfig}
             formManager={formManager}
             formModel={formModel}
             key={fieldConfig.field}
+            {...passDownProps}
           />
         ))}
       </FieldSet>

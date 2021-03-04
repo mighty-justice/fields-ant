@@ -48,7 +48,7 @@ class FormField extends Component<IFormFieldProps> {
       return null;
     }
 
-    const { formManager, formModel } = this.props,
+    const { formManager, formModel, ...passDownProps } = this.props,
       { skipFieldDecorator, editComponent: EditComponent } = this.fieldConfig;
 
     if (skipFieldDecorator) {
@@ -56,7 +56,7 @@ class FormField extends Component<IFormFieldProps> {
     }
 
     return (
-      <FormItem fieldConfig={this.fieldConfig} formManager={formManager} formModel={formModel}>
+      <FormItem {...passDownProps} fieldConfig={this.fieldConfig} formManager={formManager} formModel={formModel}>
         <EditComponent {...this.editProps} />
       </FormItem>
     );

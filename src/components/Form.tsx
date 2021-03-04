@@ -95,14 +95,21 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       formModel = this.formManager.formModel,
       filteredFieldSets = filterFieldSets(this.fieldSets, { model: formModel }),
       hasColon = !(colon === false || layout === 'vertical'),
-      className = cx(CLASS_NAME, this.props.className, `fields-ant-form${hasColon ? '' : '-no'}-colon`);
+      className = cx(CLASS_NAME, this.props.className, `${CLASS_NAME}${hasColon ? '' : '-no'}-colon`),
+      passDownProps = { layout: layout };
 
     return (
       <Antd.Form className={className} colon={colon} layout={layout} onSubmit={this.formManager.onSave}>
         {title && <h2>{title}</h2>}
 
         {filteredFieldSets.map((fieldSet, idx) => (
-          <FormFieldSet fieldSet={fieldSet} formManager={this.formManager} formModel={formModel} key={idx} />
+          <FormFieldSet
+            fieldSet={fieldSet}
+            formManager={this.formManager}
+            formModel={formModel}
+            key={idx}
+            {...passDownProps}
+          />
         ))}
 
         {this.props.children}
