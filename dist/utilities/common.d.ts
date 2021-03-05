@@ -1,6 +1,6 @@
 import React from 'react';
 import { ColumnProps } from 'antd/es/table';
-import { IFieldConfig, IFieldConfigOptionSelect, IFieldConfigPartial, IFieldSet, IFieldSetPartial, IFieldSetSimple, IFieldSetSimplePartial, IInjected, IOption } from '../interfaces';
+import { IFieldConfig, IFieldConfigOptionSelect, IFieldConfigPartial, IFieldSet, IFieldSetPartial, IFieldSetSimple, IFieldSetSimplePartial, IInjected, ILayout, IOption } from '../interfaces';
 import { IModel } from '../props';
 export declare function isPartialFieldSetSimple(fieldSet: IFieldSetPartial): fieldSet is IFieldSetSimplePartial;
 export declare function isFieldSetSimple(fieldSet: IFieldSet): fieldSet is IFieldSetSimple;
@@ -26,4 +26,5 @@ export declare function fieldSetsToColumns(fieldSets: IFieldSetPartial[], tableM
 export declare function modelFromFieldConfigs(fieldConfigs: IFieldConfig[], data: IModel): IModel;
 export declare function noopValidator(_rule: any, _value: any, callback: (message?: string) => void): void;
 export declare function getBtnClassName(action: string, classNameSuffix?: string, title?: React.ReactNode): string;
+export declare function formatClassNames(className: string, colon?: boolean, layout?: ILayout): string;
 export {};

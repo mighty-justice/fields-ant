@@ -339,6 +339,11 @@
   var CLASS_PREFIX = 'fields-ant';
   var ANT_FULL_COL_WIDTH = 24;
   var TOAST_DURATION = 10;
+  var LAYOUT_TYPES = {
+    HORIZONTAL: 'horizontal',
+    INLINE: 'inline',
+    VERTICAL: 'vertical'
+  };
 
   var _class;
   var CLASS_NAME = "".concat(CLASS_PREFIX, "-button-toolbar");
@@ -445,10 +450,11 @@
             formManager = _this$props2.formManager,
             fieldConfig = _this$props2.fieldConfig,
             layout = _this$props2.layout,
+            colon = _this$props2.colon,
             colProps = fieldConfig.colProps,
             formItemProps = fieldConfig.formItemProps,
             field = fieldConfig.field,
-            className = cx(FORM_ITEM_CLASS_NAME, fieldConfig.className, formItemProps && formItemProps.className, "".concat(FORM_ITEM_CLASS_NAME, "-").concat(layout)),
+            className = cx(FORM_ITEM_CLASS_NAME, fieldConfig.className, formItemProps && formItemProps.className, formatClassNames(FORM_ITEM_CLASS_NAME, colon, layout)),
             getFieldDecorator = formManager.form.getFieldDecorator;
         return /*#__PURE__*/React__default.createElement(Antd.Col, colProps, /*#__PURE__*/React__default.createElement(Antd.Form.Item, _extends({}, this.formItemProps, formItemProps, {
           className: className,
@@ -2329,6 +2335,12 @@
     var prefix = "btn-".concat(action);
     return cx(prefix, lodash.isString(title) && "".concat(prefix, "-").concat(lodash.kebabCase(title)), _defineProperty({}, "".concat(prefix, "-").concat(classNameSuffix), !!classNameSuffix));
   }
+  function formatClassNames(className) {
+    var colon = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var layout = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LAYOUT_TYPES.VERTICAL;
+    var hasColon = colon && layout !== LAYOUT_TYPES.VERTICAL;
+    return cx("".concat(className, "-").concat(layout), "".concat(className).concat(hasColon ? '' : '-no', "-colon"));
+  }
 
   function getFieldErrors(errors) {
     var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
@@ -2838,8 +2850,7 @@
     _createClass(Info, [{
       key: "render",
       value: function render() {
-        var format = this.props.format,
-            layout = format && format.layout,
+        var layout = this.props.format.layout,
             rowClassName = "".concat(CLASS_PREFIX, "-info-row-").concat(layout);
         return /*#__PURE__*/React__default.createElement(Antd.Col, _extends({}, this.props.fieldConfig.colProps, {
           className: "".concat(CLASS_PREFIX, "-info")
@@ -2866,11 +2877,11 @@
       value: function render() {
         var _this$props = this.props,
             className = _this$props.className,
-            format = _this$props.format,
-            colon = format && format.colon,
-            layout = format && format.layout,
-            hasColon = !(colon === false || layout === 'vertical'),
-            labelClassName = cx(className, "".concat(CLASS_PREFIX, "-info-label"), "".concat(CLASS_PREFIX, "-info-label").concat(hasColon ? '' : '-no', "-colon"), "".concat(CLASS_PREFIX, "-info-label-layout-").concat(layout));
+            _this$props$format = _this$props.format,
+            layout = _this$props$format.layout,
+            colon = _this$props$format.colon,
+            infoLabelClassName = "".concat(CLASS_PREFIX, "-info-label"),
+            labelClassName = cx(className, infoLabelClassName, formatClassNames(infoLabelClassName, colon, layout));
         return /*#__PURE__*/React__default.createElement("div", {
           className: labelClassName
         }, /*#__PURE__*/React__default.createElement("label", null, this.props.children));
@@ -3524,10 +3535,10 @@
             filteredFieldSets = filterFieldSets(this.fieldSets, {
           model: formModel
         }),
-            hasColon = !(colon === false || layout === 'vertical'),
-            className = cx(CLASS_NAME$6, this.props.className, "".concat(CLASS_NAME$6).concat(hasColon ? '' : '-no', "-colon")),
+            className = cx(CLASS_NAME$6, this.props.className, formatClassNames(CLASS_NAME$6, colon, layout)),
             passDownProps = {
-          layout: layout
+          layout: layout,
+          colon: colon
         };
         return /*#__PURE__*/React__default.createElement(Antd.Form, {
           className: className,
@@ -4367,6 +4378,7 @@
   exports.Hidden = Hidden;
   exports.ID_ATTR = ID_ATTR;
   exports.Info = Info;
+  exports.LAYOUT_TYPES = LAYOUT_TYPES;
   exports.Label = Label;
   exports.NestedFieldSet = NestedFieldSet;
   exports.ObjectSearch = ObjectSearch;
@@ -4394,6 +4406,7 @@
   exports.filterFieldSet = filterFieldSet;
   exports.filterFieldSets = filterFieldSets;
   exports.formPropsDefaults = formPropsDefaults;
+  exports.formatClassNames = formatClassNames;
   exports.formatOptionSelect = formatOptionSelect;
   exports.formatRating = formatRating;
   exports.getBtnClassName = getBtnClassName;

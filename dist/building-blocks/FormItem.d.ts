@@ -7,6 +7,7 @@ export interface IFormFieldProps {
     formManager: FormManager;
     formModel: IModel;
     layout?: ILayout;
+    colon?: boolean;
 }
 export declare const FORM_ITEM_CLASS_NAME: string;
 declare class FormItem extends Component<IFormFieldProps> {
