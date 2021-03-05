@@ -9,13 +9,15 @@ import * as Antd from 'antd';
 
 import { CLASS_PREFIX } from '../consts';
 import { IFieldConfigPartial, IFormatProps } from '../interfaces';
+import { formatClassNames } from '../utilities';
 
 @autoBindMethods
 @observer
-class Info extends Component<{ fieldConfig: IFieldConfigPartial; format?: IFormatProps }> {
+class Info extends Component<{ fieldConfig: IFieldConfigPartial; format: IFormatProps }> {
   public render() {
-    const { format } = this.props,
-      layout = format && format.layout,
+    const {
+        format: { layout },
+      } = this.props,
       rowClassName = `${CLASS_PREFIX}-info-row-${layout}`;
 
     return (
@@ -28,19 +30,14 @@ class Info extends Component<{ fieldConfig: IFieldConfigPartial; format?: IForma
 
 @autoBindMethods
 @observer
-class Label extends Component<{ className?: ClassValue; format?: IFormatProps }> {
+class Label extends Component<{ className?: ClassValue; format: IFormatProps }> {
   public render() {
-    const { className, format } = this.props,
-      colon = format && format.colon,
-      layout = format && format.layout,
-      // colon can be displayed only when layout is inline or horizontal
-      hasColon = !(colon === false || layout === 'vertical'),
-      labelClassName = cx(
+    const {
         className,
-        `${CLASS_PREFIX}-info-label`,
-        `${CLASS_PREFIX}-info-label${hasColon ? '' : '-no'}-colon`,
-        `${CLASS_PREFIX}-info-label-layout-${layout}`,
-      );
+        format: { layout, colon },
+      } = this.props,
+      infoLabelClassName = `${CLASS_PREFIX}-info-label`,
+      labelClassName = cx(className, infoLabelClassName, formatClassNames(infoLabelClassName, colon, layout));
 
     return (
       <div className={labelClassName}>

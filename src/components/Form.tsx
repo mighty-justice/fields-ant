@@ -11,7 +11,7 @@ import { FormComponentProps } from 'antd/es/form';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
-import { fillInFieldSets, filterFieldSets, FormManager } from '../utilities';
+import { fillInFieldSets, filterFieldSets, formatClassNames, FormManager } from '../utilities';
 import { formPropsDefaults, sharedComponentPropsDefaults } from '../propsDefaults';
 import { ISharedFormProps, ISharedComponentProps } from '../props';
 import { CLASS_PREFIX } from '../consts';
@@ -94,9 +94,8 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
     const { showControls, title, layout, colon } = this.props,
       formModel = this.formManager.formModel,
       filteredFieldSets = filterFieldSets(this.fieldSets, { model: formModel }),
-      hasColon = !(colon === false || layout === 'vertical'),
-      className = cx(CLASS_NAME, this.props.className, `${CLASS_NAME}${hasColon ? '' : '-no'}-colon`),
-      passDownProps = { layout: layout, colon: colon };
+      className = cx(CLASS_NAME, this.props.className, formatClassNames(CLASS_NAME, colon, layout)),
+      passDownProps = { layout, colon };
 
     return (
       <Antd.Form className={className} colon={colon} layout={layout} onSubmit={this.formManager.onSave}>

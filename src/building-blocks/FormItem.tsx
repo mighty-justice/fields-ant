@@ -7,7 +7,7 @@ import cx from 'classnames';
 import * as Antd from 'antd';
 import { ValidationRule as AntValidationRule } from 'antd/es/form';
 
-import { FormManager, noopValidator, renderLabel } from '../utilities';
+import { formatClassNames, FormManager, noopValidator, renderLabel } from '../utilities';
 import { IFieldConfig, IFieldsValidator, ILayout } from '../interfaces';
 import { IModel } from '../props';
 import { CLASS_PREFIX } from '../consts';
@@ -100,13 +100,11 @@ class FormItem extends Component<IFormFieldProps> {
   public render() {
     const { formManager, fieldConfig, layout, colon } = this.props,
       { colProps, formItemProps, field } = fieldConfig,
-      hasColon = !(colon === false || layout === 'vertical'),
       className = cx(
         FORM_ITEM_CLASS_NAME,
         fieldConfig.className,
         formItemProps && formItemProps.className,
-        `${FORM_ITEM_CLASS_NAME}-${layout}`,
-        `${FORM_ITEM_CLASS_NAME}${hasColon ? '' : '-no'}-colon`,
+        formatClassNames(FORM_ITEM_CLASS_NAME, colon, layout),
       ),
       { getFieldDecorator } = formManager.form;
 

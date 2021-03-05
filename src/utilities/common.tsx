@@ -13,10 +13,11 @@ import {
   IFieldSetSimple,
   IFieldSetSimplePartial,
   IInjected,
+  ILayout,
   IOption,
 } from '../interfaces';
 
-import { ID_ATTR } from '../consts';
+import { ID_ATTR, LAYOUT_TYPES } from '../consts';
 import { IModel, IValue } from '../props';
 import { isTypeAddress } from '../inputs/Address';
 import { isTypeObjectSearchCreate } from '../inputs/ObjectSearchCreate';
@@ -196,4 +197,9 @@ export function getBtnClassName(action: string, classNameSuffix?: string, title?
   return cx(prefix, isString(title) && `${prefix}-${kebabCase(title)}`, {
     [`${prefix}-${classNameSuffix}`]: !!classNameSuffix,
   });
+}
+
+export function formatClassNames(className: string, colon: boolean = false, layout: ILayout = LAYOUT_TYPES.VERTICAL) {
+  const hasColon = colon && layout !== LAYOUT_TYPES.VERTICAL;
+  return cx(`${className}-${layout}`, `${className}${hasColon ? '' : '-no'}-colon`);
 }
