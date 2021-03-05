@@ -20,7 +20,7 @@ describe('Renders', () => {
 
       expect(tester.find('div.fields-ant-info-row-vertical').length).toBe(1);
       expect(tester.find('div.fields-ant-field-set-row-vertical').length).toBe(1);
-      expect(tester.find('.fields-ant-info-label-layout-vertical').length).toBe(1);
+      expect(tester.find('.fields-ant-info-label-vertical').length).toBe(1);
       expect(tester.find('.fields-ant-info-label-no-colon').length).toBe(1);
     });
   });
@@ -47,7 +47,7 @@ describe('Renders', () => {
 
         expect(tester.find(`div.fields-ant-info-row-${layout}`).length).toBe(1);
         expect(tester.find(`div.fields-ant-field-set-row-${layout}`).length).toBe(1);
-        expect(tester.find(`.fields-ant-info-label-layout-${layout}`).length).toBe(1);
+        expect(tester.find(`.fields-ant-info-label-${layout}`).length).toBe(1);
       });
 
       it(`Displays colon properly for ${layout} ${componentName}`, async () => {
@@ -83,8 +83,10 @@ describe('Renders', () => {
 
         if (layout === 'vertical') {
           expect(tester.find('form.fields-ant-form-no-colon').length).toBe(1);
+          expect(tester.find('div.fields-ant-form-item-no-colon').length).toBe(1);
         } else {
           expect(tester.find('form.fields-ant-form-colon').length).toBe(1);
+          expect(tester.find('div.fields-ant-form-item-colon').length).toBe(1);
         }
       });
     });
@@ -100,7 +102,7 @@ describe('Renders', () => {
         expect(isForm(tester)).toBe(false);
         expect(tester.find(`div.fields-ant-info-row-${layout}`).length).toBe(1);
         expect(tester.find(`div.fields-ant-field-set-row-${layout}`).length).toBe(1);
-        expect(tester.find(`.fields-ant-info-label-layout-${layout}`).length).toBe(1);
+        expect(tester.find(`.fields-ant-info-label-${layout}`).length).toBe(1);
 
         tester.click(`button.btn-edit`);
 
