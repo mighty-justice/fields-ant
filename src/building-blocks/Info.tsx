@@ -13,11 +13,10 @@ import { formatClassNames } from '../utilities';
 
 @autoBindMethods
 @observer
-class Info extends Component<{ fieldConfig: IFieldConfigPartial; format: IFormatProps }> {
+class Info extends Component<{ fieldConfig: IFieldConfigPartial; format?: IFormatProps }> {
   public render() {
-    const {
-        format: { layout },
-      } = this.props,
+    const { format } = this.props,
+      layout = format?.layout,
       rowClassName = `${CLASS_PREFIX}-info-row-${layout}`;
 
     return (
@@ -30,12 +29,11 @@ class Info extends Component<{ fieldConfig: IFieldConfigPartial; format: IFormat
 
 @autoBindMethods
 @observer
-class Label extends Component<{ className?: ClassValue; format: IFormatProps }> {
+class Label extends Component<{ className?: ClassValue; format?: IFormatProps }> {
   public render() {
-    const {
-        className,
-        format: { layout, colon },
-      } = this.props,
+    const { className, format } = this.props,
+      colon = format?.colon,
+      layout = format?.layout,
       infoLabelClassName = `${CLASS_PREFIX}-info-label`,
       labelClassName = cx(className, infoLabelClassName, formatClassNames(infoLabelClassName, colon, layout));
 
