@@ -83,8 +83,10 @@ describe('Renders', () => {
 
         if (layout === 'vertical') {
           expect(tester.find('form.fields-ant-form-no-colon').length).toBe(1);
+          expect(tester.find('div.fields-ant-form-item-no-colon').length).toBe(1);
         } else {
           expect(tester.find('form.fields-ant-form-colon').length).toBe(1);
+          expect(tester.find('div.fields-ant-form-item-colon').length).toBe(1);
         }
       });
     });

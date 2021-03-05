@@ -96,7 +96,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       filteredFieldSets = filterFieldSets(this.fieldSets, { model: formModel }),
       hasColon = !(colon === false || layout === 'vertical'),
       className = cx(CLASS_NAME, this.props.className, `${CLASS_NAME}${hasColon ? '' : '-no'}-colon`),
-      passDownProps = { layout: layout };
+      passDownProps = { layout: layout, colon: colon };
 
     return (
       <Antd.Form className={className} colon={colon} layout={layout} onSubmit={this.formManager.onSave}>

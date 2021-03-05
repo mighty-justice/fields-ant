@@ -18,6 +18,7 @@ export interface IFormFieldProps {
   formManager: FormManager;
   formModel: IModel;
   layout?: ILayout;
+  colon?: boolean;
 }
 
 export const FORM_ITEM_CLASS_NAME = `${CLASS_PREFIX}-form-item`;
@@ -97,13 +98,15 @@ class FormItem extends Component<IFormFieldProps> {
   }
 
   public render() {
-    const { formManager, fieldConfig, layout } = this.props,
+    const { formManager, fieldConfig, layout, colon } = this.props,
       { colProps, formItemProps, field } = fieldConfig,
+      hasColon = !(colon === false || layout === 'vertical'),
       className = cx(
         FORM_ITEM_CLASS_NAME,
         fieldConfig.className,
         formItemProps && formItemProps.className,
         `${FORM_ITEM_CLASS_NAME}-${layout}`,
+        `${FORM_ITEM_CLASS_NAME}${hasColon ? '' : '-no'}-colon`
       ),
       { getFieldDecorator } = formManager.form;
 
