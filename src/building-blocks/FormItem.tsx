@@ -106,7 +106,7 @@ class FormItem extends Component<IFormFieldProps> {
         fieldConfig.className,
         formItemProps && formItemProps.className,
         `${FORM_ITEM_CLASS_NAME}-${layout}`,
-        `${FORM_ITEM_CLASS_NAME}${hasColon ? '' : '-no'}-colon`
+        `${FORM_ITEM_CLASS_NAME}${hasColon ? '' : '-no'}-colon`,
       ),
       { getFieldDecorator } = formManager.form;
 
