@@ -2851,7 +2851,8 @@ var Info = autoBindMethods(_class$g = observer(_class$g = /*#__PURE__*/function 
   _createClass(Info, [{
     key: "render",
     value: function render() {
-      var layout = this.props.format.layout,
+      var format = this.props.format,
+          layout = format === null || format === void 0 ? void 0 : format.layout,
           rowClassName = "".concat(CLASS_PREFIX, "-info-row-").concat(layout);
       return /*#__PURE__*/React.createElement(Col, _extends({}, this.props.fieldConfig.colProps, {
         className: "".concat(CLASS_PREFIX, "-info")
@@ -2878,9 +2879,9 @@ var Label = autoBindMethods(_class2$8 = observer(_class2$8 = /*#__PURE__*/functi
     value: function render() {
       var _this$props = this.props,
           className = _this$props.className,
-          _this$props$format = _this$props.format,
-          layout = _this$props$format.layout,
-          colon = _this$props$format.colon,
+          format = _this$props.format,
+          colon = format === null || format === void 0 ? void 0 : format.colon,
+          layout = format === null || format === void 0 ? void 0 : format.layout,
           infoLabelClassName = "".concat(CLASS_PREFIX, "-info-label"),
           labelClassName = cx(className, infoLabelClassName, formatClassNames(infoLabelClassName, colon, layout));
       return /*#__PURE__*/React.createElement("div", {

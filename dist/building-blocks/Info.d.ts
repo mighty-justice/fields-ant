@@ -3,13 +3,13 @@ import { ClassValue } from 'classnames/types';
 import { IFieldConfigPartial, IFormatProps } from '../interfaces';
 declare class Info extends Component<{
     fieldConfig: IFieldConfigPartial;
-    format: IFormatProps;
+    format?: IFormatProps;
 }> {
     render(): JSX.Element;
 }
 declare class Label extends Component<{
     className?: ClassValue;
-    format: IFormatProps;
+    format?: IFormatProps;
 }> {
     render(): JSX.Element;
 }
