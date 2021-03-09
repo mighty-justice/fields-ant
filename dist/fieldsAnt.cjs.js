@@ -3609,11 +3609,14 @@ var FormCard = autoBindMethods(_class$s = mobxReact.observer(_class$s = (_temp$b
     key: "render",
     value: function render() {
       var _this$props = this.props,
+          className = _this$props.className,
           isLoading = _this$props.isLoading,
           title = _this$props.title,
           renderTopRight = _this$props.renderTopRight,
+          cardClassName = cx("".concat(CLASS_PREFIX, "-card"), className),
           HANDLED_PROPS = ['title', 'renderTopRight'];
       return /*#__PURE__*/React__default.createElement(Antd.Card, {
+        className: cardClassName,
         loading: isLoading,
         title: title,
         extra: renderTopRight && renderTopRight()
