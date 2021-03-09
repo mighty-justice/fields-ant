@@ -72,6 +72,7 @@ export const fakerPercentage = () => sample(['1', Number(faker.helpers.replaceSy
 export const fakeTextLong = () => faker.random.words(12);
 export const fakeRate = () => faker.random.number(4) + 1;
 export const fakeSsn = () => faker.helpers.replaceSymbolWithNumber('###-##-####');
+export const fakeClassName = () => faker.helpers.slugify(fakeTextShort());
 
 // attr* functions return fake* functions when called
 // These are used, called, in factory attr lists
@@ -297,3 +298,8 @@ export const COMPONENT_GENERATORS: IComponentGenerators = {
   SummaryCard: { ComponentClass: SummaryCard, propsFactory: summaryCardPropsFactory },
   Table: { ComponentClass: Table, propsFactory: tablePropsFactory },
 };
+
+export const FORM_COMPONENTS = ['Form', 'FormCard', 'FormModal', 'FormDrawer'];
+export const EDITABLE_COMPONENTS = ['EditableCard', 'EditableArrayCard'];
+export const CARD_COMPONENTS = [...EDITABLE_COMPONENTS, 'Card', 'ArrayCard'];
+export const ARRAY_COMPONENTS = ['ArrayCard', 'EditableArrayCard'];
