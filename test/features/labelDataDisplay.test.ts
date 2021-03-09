@@ -1,10 +1,13 @@
 import { Tester } from '@mighty-justice/tester';
-import { COMPONENT_GENERATORS, stringFactory } from '../factories';
+import {
+  CARD_COMPONENTS,
+  COMPONENT_GENERATORS,
+  EDITABLE_COMPONENTS,
+  FORM_COMPONENTS,
+  stringFactory,
+} from '../factories';
 
 const fieldSets = [[stringFactory.build()]],
-  FORM_COMPONENTS = ['Form', 'FormCard', 'FormModal', 'FormDrawer'],
-  EDITABLE_COMPONENTS = ['EditableCard', 'EditableArrayCard'],
-  CARD_COMPONENTS = [...EDITABLE_COMPONENTS, 'Card', 'ArrayCard'],
   LAYOUTS = ['inline', 'vertical', 'horizontal'];
 
 function isForm(tester: any) {
