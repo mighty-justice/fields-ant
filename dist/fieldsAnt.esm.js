@@ -1387,6 +1387,7 @@ var ObjectSelect = (_dec$1 = inject('getOptions'), _dec$1(_class$7 = autoBindMet
           keyBy = _this$injected.keyBy,
           key = get(option, keyBy);
       return /*#__PURE__*/React.createElement(Select.Option, {
+        disabled: option.disabled,
         key: key,
         title: renderSelected(option),
         value: key
@@ -1479,6 +1480,7 @@ var RadioGroup = (_dec$2 = inject('getOptions'), _dec$2(_class$9 = autoBindMetho
     value: function render() {
       return /*#__PURE__*/React.createElement(Radio.Group, this.props, this.options.map(function (option) {
         return /*#__PURE__*/React.createElement(Radio, {
+          disabled: option.disabled,
           key: option.value,
           value: option.value
         }, option.name);

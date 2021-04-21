@@ -1386,6 +1386,7 @@
             keyBy = _this$injected.keyBy,
             key = lodash.get(option, keyBy);
         return /*#__PURE__*/React__default.createElement(Antd.Select.Option, {
+          disabled: option.disabled,
           key: key,
           title: renderSelected(option),
           value: key
@@ -1478,6 +1479,7 @@
       value: function render() {
         return /*#__PURE__*/React__default.createElement(Antd.Radio.Group, this.props, this.options.map(function (option) {
           return /*#__PURE__*/React__default.createElement(Antd.Radio, {
+            disabled: option.disabled,
             key: option.value,
             value: option.value
           }, option.name);

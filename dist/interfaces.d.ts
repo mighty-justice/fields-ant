@@ -52,6 +52,7 @@ export interface IAntFormField {
     value: IValue;
 }
 export interface IOption {
+    disabled?: boolean;
     name: string;
     value: string;
 }

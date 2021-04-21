@@ -1394,6 +1394,7 @@ var ObjectSelect = (_dec$1 = mobxReact.inject('getOptions'), _dec$1(_class$7 = a
           keyBy = _this$injected.keyBy,
           key = lodash.get(option, keyBy);
       return /*#__PURE__*/React__default.createElement(Antd.Select.Option, {
+        disabled: option.disabled,
         key: key,
         title: renderSelected(option),
         value: key
@@ -1486,6 +1487,7 @@ var RadioGroup = (_dec$2 = mobxReact.inject('getOptions'), _dec$2(_class$9 = aut
     value: function render() {
       return /*#__PURE__*/React__default.createElement(Antd.Radio.Group, this.props, this.options.map(function (option) {
         return /*#__PURE__*/React__default.createElement(Antd.Radio, {
+          disabled: option.disabled,
           key: option.value,
           value: option.value
         }, option.name);
