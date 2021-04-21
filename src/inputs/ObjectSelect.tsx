@@ -59,7 +59,7 @@ class ObjectSelect extends Component<IObjectSelectProps> {
       key = get(option, keyBy);
 
     return (
-      <Antd.Select.Option key={key} title={renderSelected(option)} value={key}>
+      <Antd.Select.Option disabled={option.disabled} key={key} title={renderSelected(option)} value={key}>
         {renderOption(option)}
       </Antd.Select.Option>
     );

@@ -56,6 +56,7 @@ export interface IAntFormField {
   FIELD CONFIG: SINGLE-TYPE DEFINITIONS
 */
 export interface IOption {
+  disabled?: boolean;
   name: string;
   value: string;
 }

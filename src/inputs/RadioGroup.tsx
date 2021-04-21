@@ -30,7 +30,7 @@ class RadioGroup extends Component<IInputProps> {
     return (
       <Antd.Radio.Group {...this.props}>
         {this.options.map(option => (
-          <Antd.Radio key={option.value} value={option.value}>
+          <Antd.Radio disabled={option.disabled} key={option.value} value={option.value}>
             {option.name}
           </Antd.Radio>
         ))}
