@@ -15,6 +15,7 @@ import { IBackendValidation } from './utilities/FormManager';
 // This allows us to keep the library consistent and uniform
 
 import { IFieldSet, IFieldSetPartial, IFormatProps } from './interfaces';
+import { FormManager } from './utilities';
 
 export { IButtonToolbarProps } from './building-blocks/ButtonToolbar';
 export { ICardFieldProps } from './building-blocks/CardField';
@@ -66,6 +67,7 @@ export interface ISharedFormProps {
   processErrors?: (errors: IBackendValidation) => IBackendValidation;
   resetOnSuccess?: boolean;
   saveText: string;
+  setRefFormManager?: (formManager: FormManager) => void;
   successText?: null | string;
 }
 

@@ -17,7 +17,6 @@ import { ISharedFormProps, ISharedComponentProps } from '../props';
 import { CLASS_PREFIX } from '../consts';
 
 export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
-  setRefFormManager?: (formManager: FormManager) => void;
   showControls: boolean;
 }
 

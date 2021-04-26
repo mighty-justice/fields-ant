@@ -90,7 +90,11 @@ class FormModal extends Component<ISharedFormModalProps> {
   }
 
   private setRefFormManager(formManager: FormManager) {
+    const { setRefFormManager } = this.props;
     this.formManager = formManager;
+    if (setRefFormManager) {
+      setRefFormManager(formManager);
+    }
   }
 
   public render() {
