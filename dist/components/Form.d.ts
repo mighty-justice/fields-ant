@@ -1,9 +1,7 @@
 import { Component } from 'react';
 import { FormComponentProps } from 'antd/es/form';
-import { FormManager } from '../utilities';
 import { ISharedFormProps, ISharedComponentProps } from '../props';
 export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
-    setRefFormManager?: (formManager: FormManager) => void;
     showControls: boolean;
 }
 export interface IFormWrappedProps extends IFormProps, FormComponentProps {

@@ -3,6 +3,7 @@ import { ClassValue } from 'classnames/types';
 import SmartBool from '@mighty-justice/smart-bool';
 import { IBackendValidation } from './utilities/FormManager';
 import { IFieldSet, IFieldSetPartial, IFormatProps } from './interfaces';
+import { FormManager } from './utilities';
 export { IButtonToolbarProps } from './building-blocks/ButtonToolbar';
 export { ICardFieldProps } from './building-blocks/CardField';
 export { ICardFieldSetProps } from './building-blocks/CardFieldSet';
@@ -45,6 +46,7 @@ export interface ISharedFormProps {
     processErrors?: (errors: IBackendValidation) => IBackendValidation;
     resetOnSuccess?: boolean;
     saveText: string;
+    setRefFormManager?: (formManager: FormManager) => void;
     successText?: null | string;
 }
 export interface ISharedFormModalProps extends ISharedComponentProps, ISharedFormProps {

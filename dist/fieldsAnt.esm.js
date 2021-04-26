@@ -405,6 +405,9 @@ var formPropsDefaults = {
   onSave: asyncNoop,
   saveText: 'Save'
 };
+var cardPropsDefaults = {
+  bordered: true
+};
 var sharedComponentPropsDefaults = {
   layout: 'vertical',
   colon: false
@@ -3327,10 +3330,10 @@ var CardFieldSet = autoBindMethods(_class$o = observer(_class$o = (_class2$e = /
   return CardFieldSet;
 }(Component), (_applyDecoratedDescriptor(_class2$e.prototype, "fieldSet", [computed], Object.getOwnPropertyDescriptor(_class2$e.prototype, "fieldSet"), _class2$e.prototype)), _class2$e)) || _class$o) || _class$o;
 
-var _class$p, _class2$f;
+var _class$p, _class2$f, _class3$4, _temp$a;
 var CLASS_NAME$5 = "".concat(CLASS_PREFIX, "-card");
 
-var Card = autoBindMethods(_class$p = observer(_class$p = (_class2$f = /*#__PURE__*/function (_Component) {
+var Card = autoBindMethods(_class$p = observer(_class$p = (_class2$f = (_temp$a = _class3$4 = /*#__PURE__*/function (_Component) {
   _inherits(Card, _Component);
 
   function Card() {
@@ -3343,18 +3346,20 @@ var Card = autoBindMethods(_class$p = observer(_class$p = (_class2$f = /*#__PURE
     key: "render",
     value: function render() {
       var _this$props = this.props,
+          bordered = _this$props.bordered,
           className = _this$props.className,
           title = _this$props.title,
           renderTopRight = _this$props.renderTopRight,
           isLoading = _this$props.isLoading,
           model = _this$props.model,
-          passDownProps = _objectWithoutProperties(_this$props, ["className", "title", "renderTopRight", "isLoading", "model"]),
+          passDownProps = _objectWithoutProperties(_this$props, ["bordered", "className", "title", "renderTopRight", "isLoading", "model"]),
           filteredFieldSets = filterFieldSets(this.fieldSets, {
         model: model,
         writeOnly: true
       });
 
       return /*#__PURE__*/React.createElement(Card$1, {
+        bordered: bordered,
         className: cx(CLASS_NAME$5, className),
         extra: renderTopRight && renderTopRight(),
         loading: isLoading,
@@ -3375,7 +3380,7 @@ var Card = autoBindMethods(_class$p = observer(_class$p = (_class2$f = /*#__PURE
   }]);
 
   return Card;
-}(Component), (_applyDecoratedDescriptor(_class2$f.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$f.prototype, "fieldSets"), _class2$f.prototype)), _class2$f)) || _class$p) || _class$p;
+}(Component), _class3$4.defaultProps = _objectSpread2({}, cardPropsDefaults), _temp$a), (_applyDecoratedDescriptor(_class2$f.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$f.prototype, "fieldSets"), _class2$f.prototype)), _class2$f)) || _class$p) || _class$p;
 
 var _class$q;
 
@@ -3421,9 +3426,9 @@ var ArrayCard = autoBindMethods(_class$q = observer(_class$q = /*#__PURE__*/func
   return ArrayCard;
 }(Component)) || _class$q) || _class$q;
 
-var _class$r, _class2$g, _temp$a, _class4, _class5, _temp2;
+var _class$r, _class2$g, _temp$b, _class4, _class5, _temp2;
 var CLASS_NAME$6 = "".concat(CLASS_PREFIX, "-form");
-var UnwrappedForm = autoBindMethods(_class$r = observer(_class$r = (_class2$g = (_temp$a = /*#__PURE__*/function (_Component) {
+var UnwrappedForm = autoBindMethods(_class$r = observer(_class$r = (_class2$g = (_temp$b = /*#__PURE__*/function (_Component) {
   _inherits(UnwrappedForm, _Component);
 
   function UnwrappedForm(props) {
@@ -3566,7 +3571,7 @@ var UnwrappedForm = autoBindMethods(_class$r = observer(_class$r = (_class2$g = 
   }]);
 
   return UnwrappedForm;
-}(Component), _temp$a), (_applyDecoratedDescriptor(_class2$g.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$g.prototype, "fieldSets"), _class2$g.prototype)), _class2$g)) || _class$r) || _class$r; // istanbul ignore next
+}(Component), _temp$b), (_applyDecoratedDescriptor(_class2$g.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$g.prototype, "fieldSets"), _class2$g.prototype)), _class2$g)) || _class$r) || _class$r; // istanbul ignore next
 
 var WrappedForm = Form$1.create()(UnwrappedForm);
 var Form = autoBindMethods(_class4 = observer(_class4 = (_temp2 = _class5 = /*#__PURE__*/function (_Component2) {
@@ -3590,8 +3595,8 @@ var Form = autoBindMethods(_class4 = observer(_class4 = (_temp2 = _class5 = /*#_
   showControls: true
 }), _temp2)) || _class4) || _class4;
 
-var _class$s, _class2$h, _temp$b;
-var FormCard = autoBindMethods(_class$s = observer(_class$s = (_temp$b = _class2$h = /*#__PURE__*/function (_Component) {
+var _class$s, _class2$h, _temp$c;
+var FormCard = autoBindMethods(_class$s = observer(_class$s = (_temp$c = _class2$h = /*#__PURE__*/function (_Component) {
   _inherits(FormCard, _Component);
 
   function FormCard() {
@@ -3604,6 +3609,7 @@ var FormCard = autoBindMethods(_class$s = observer(_class$s = (_temp$b = _class2
     key: "render",
     value: function render() {
       var _this$props = this.props,
+          bordered = _this$props.bordered,
           className = _this$props.className,
           isLoading = _this$props.isLoading,
           title = _this$props.title,
@@ -3611,6 +3617,7 @@ var FormCard = autoBindMethods(_class$s = observer(_class$s = (_temp$b = _class2
           cardClassName = cx("".concat(CLASS_PREFIX, "-card"), className),
           HANDLED_PROPS = ['title', 'renderTopRight'];
       return /*#__PURE__*/React.createElement(Card$1, {
+        bordered: bordered,
         className: cardClassName,
         loading: isLoading,
         title: title,
@@ -3620,11 +3627,11 @@ var FormCard = autoBindMethods(_class$s = observer(_class$s = (_temp$b = _class2
   }]);
 
   return FormCard;
-}(Component), _class2$h.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$b)) || _class$s) || _class$s;
+}(Component), _class2$h.defaultProps = _objectSpread2({}, formPropsDefaults, {}, cardPropsDefaults), _temp$c)) || _class$s) || _class$s;
 
-var _class$t, _class2$i, _descriptor$4, _descriptor2$2, _class3$4, _temp$c;
+var _class$t, _class2$i, _descriptor$4, _descriptor2$2, _class3$5, _temp$d;
 
-var EditableCard = autoBindMethods(_class$t = observer(_class$t = (_class2$i = (_temp$c = _class3$4 = /*#__PURE__*/function (_Component) {
+var EditableCard = autoBindMethods(_class$t = observer(_class$t = (_class2$i = (_temp$d = _class3$5 = /*#__PURE__*/function (_Component) {
   _inherits(EditableCard, _Component);
 
   function EditableCard() {
@@ -3815,7 +3822,7 @@ var EditableCard = autoBindMethods(_class$t = observer(_class$t = (_class2$i = (
   }]);
 
   return EditableCard;
-}(Component), _class3$4.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$c), (_descriptor$4 = _applyDecoratedDescriptor(_class2$i.prototype, "isDeleting", [observable], {
+}(Component), _class3$5.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$d), (_descriptor$4 = _applyDecoratedDescriptor(_class2$i.prototype, "isDeleting", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -3831,9 +3838,9 @@ var EditableCard = autoBindMethods(_class$t = observer(_class$t = (_class2$i = (
   }
 })), _class2$i)) || _class$t) || _class$t;
 
-var _class$u, _class2$j, _descriptor$5, _class3$5, _temp$d;
+var _class$u, _class2$j, _descriptor$5, _class3$6, _temp$e;
 
-var EditableArrayCard = autoBindMethods(_class$u = observer(_class$u = (_class2$j = (_temp$d = _class3$5 = /*#__PURE__*/function (_Component) {
+var EditableArrayCard = autoBindMethods(_class$u = observer(_class$u = (_class2$j = (_temp$e = _class3$6 = /*#__PURE__*/function (_Component) {
   _inherits(EditableArrayCard, _Component);
 
   function EditableArrayCard() {
@@ -3956,7 +3963,7 @@ var EditableArrayCard = autoBindMethods(_class$u = observer(_class$u = (_class2$
   }]);
 
   return EditableArrayCard;
-}(Component), _class3$5.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$d), (_descriptor$5 = _applyDecoratedDescriptor(_class2$j.prototype, "isAddingNew", [observable], {
+}(Component), _class3$6.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$e), (_descriptor$5 = _applyDecoratedDescriptor(_class2$j.prototype, "isAddingNew", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -3965,10 +3972,10 @@ var EditableArrayCard = autoBindMethods(_class$u = observer(_class$u = (_class2$
   }
 })), _class2$j)) || _class$u) || _class$u;
 
-var _class$v, _class2$k, _temp$e;
+var _class$v, _class2$k, _temp$f;
 var CLASS_NAME$7 = "".concat(CLASS_PREFIX, "-form-drawer");
 
-var FormDrawer = autoBindMethods(_class$v = observer(_class$v = (_temp$e = _class2$k = /*#__PURE__*/function (_Component) {
+var FormDrawer = autoBindMethods(_class$v = observer(_class$v = (_temp$f = _class2$k = /*#__PURE__*/function (_Component) {
   _inherits(FormDrawer, _Component);
 
   function FormDrawer() {
@@ -4073,12 +4080,12 @@ var FormDrawer = autoBindMethods(_class$v = observer(_class$v = (_temp$e = _clas
   }]);
 
   return FormDrawer;
-}(Component), _class2$k.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$e)) || _class$v) || _class$v;
+}(Component), _class2$k.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$f)) || _class$v) || _class$v;
 
-var _class$w, _class2$l, _descriptor$6, _class3$6, _temp$f;
+var _class$w, _class2$l, _descriptor$6, _class3$7, _temp$g;
 var CLASS_NAME$8 = "".concat(CLASS_PREFIX, "-form-modal");
 
-var FormModal = autoBindMethods(_class$w = observer(_class$w = (_class2$l = (_temp$f = _class3$6 = /*#__PURE__*/function (_Component) {
+var FormModal = autoBindMethods(_class$w = observer(_class$w = (_class2$l = (_temp$g = _class3$7 = /*#__PURE__*/function (_Component) {
   _inherits(FormModal, _Component);
 
   function FormModal(props) {
@@ -4150,7 +4157,12 @@ var FormModal = autoBindMethods(_class$w = observer(_class$w = (_class2$l = (_te
   }, {
     key: "setRefFormManager",
     value: function setRefFormManager(formManager) {
+      var setRefFormManager = this.props.setRefFormManager;
       this.formManager = formManager;
+
+      if (setRefFormManager) {
+        setRefFormManager(formManager);
+      }
     }
   }, {
     key: "render",
@@ -4234,17 +4246,17 @@ var FormModal = autoBindMethods(_class$w = observer(_class$w = (_class2$l = (_te
   }]);
 
   return FormModal;
-}(Component), _class3$6.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$f), (_descriptor$6 = _applyDecoratedDescriptor(_class2$l.prototype, "formManager", [observable], {
+}(Component), _class3$7.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$g), (_descriptor$6 = _applyDecoratedDescriptor(_class2$l.prototype, "formManager", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: null
 })), _class2$l)) || _class$w) || _class$w;
 
-var _class$x, _class2$m, _class3$7, _temp$g;
+var _class$x, _class2$m, _class3$8, _temp$h;
 var CLASS_NAME$9 = "".concat(CLASS_PREFIX, "-summary-card");
 
-var SummaryCard = autoBindMethods(_class$x = observer(_class$x = (_class2$m = (_temp$g = _class3$7 = /*#__PURE__*/function (_Component) {
+var SummaryCard = autoBindMethods(_class$x = observer(_class$x = (_class2$m = (_temp$h = _class3$8 = /*#__PURE__*/function (_Component) {
   _inherits(SummaryCard, _Component);
 
   function SummaryCard() {
@@ -4301,9 +4313,9 @@ var SummaryCard = autoBindMethods(_class$x = observer(_class$x = (_class2$m = (_
   }]);
 
   return SummaryCard;
-}(Component), _class3$7.defaultProps = {
+}(Component), _class3$8.defaultProps = {
   column: 4
-}, _temp$g), (_applyDecoratedDescriptor(_class2$m.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$m.prototype, "fieldSets"), _class2$m.prototype)), _class2$m)) || _class$x) || _class$x;
+}, _temp$h), (_applyDecoratedDescriptor(_class2$m.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$m.prototype, "fieldSets"), _class2$m.prototype)), _class2$m)) || _class$x) || _class$x;
 
 var _class$y, _class2$n;
 var CLASS_NAME$a = "".concat(CLASS_PREFIX, "-table");
@@ -4361,4 +4373,4 @@ var Table = autoBindMethods(_class$y = observer(_class$y = (_class2$n = /*#__PUR
   return Table;
 }(Component), (_applyDecoratedDescriptor(_class2$n.prototype, "columns", [computed], Object.getOwnPropertyDescriptor(_class2$n.prototype, "columns"), _class2$n.prototype), _applyDecoratedDescriptor(_class2$n.prototype, "dataSource", [computed], Object.getOwnPropertyDescriptor(_class2$n.prototype, "dataSource"), _class2$n.prototype)), _class2$n)) || _class$y) || _class$y;
 
-export { ANT_FULL_COL_WIDTH, ArrayCard, ButtonToolbar, CLASS_PREFIX, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, Date, EditableArrayCard, EditableCard, FieldSet, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, LAYOUT_TYPES, Label, NestedFieldSet, ObjectSearch, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TOAST_DURATION, TYPES, Table, Value, backendValidation, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatClassNames, formatOptionSelect, formatRating, getBtnClassName, getDateFormatList, getFieldSetFields, getFieldSetsFields, getFieldSuffix, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, noopValidator, renderLabel, renderValue, setFieldSetFields, sharedComponentPropsDefaults };
+export { ANT_FULL_COL_WIDTH, ArrayCard, ButtonToolbar, CLASS_PREFIX, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, Date, EditableArrayCard, EditableCard, FieldSet, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, LAYOUT_TYPES, Label, NestedFieldSet, ObjectSearch, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TOAST_DURATION, TYPES, Table, Value, backendValidation, booleanToForm, cardPropsDefaults, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatClassNames, formatOptionSelect, formatRating, getBtnClassName, getDateFormatList, getFieldSetFields, getFieldSetsFields, getFieldSuffix, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, noopValidator, renderLabel, renderValue, setFieldSetFields, sharedComponentPropsDefaults };
