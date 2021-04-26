@@ -7,7 +7,7 @@ import cx from 'classnames';
 import * as Antd from 'antd';
 
 import { CLASS_PREFIX } from '../consts';
-import { formPropsDefaults } from '../propsDefaults';
+import { cardPropsDefaults, formPropsDefaults } from '../propsDefaults';
 import { ISharedFormProps } from '../props';
 
 import { ICardProps } from './Card';
@@ -20,15 +20,22 @@ export interface IFormCardProps extends ISharedFormProps, ICardProps {}
 export class FormCard extends Component<IFormCardProps> {
   public static defaultProps: Partial<IFormCardProps> = {
     ...formPropsDefaults,
+    ...cardPropsDefaults,
   };
 
   public render() {
-    const { className, isLoading, title, renderTopRight } = this.props,
+    const { bordered, className, isLoading, title, renderTopRight } = this.props,
       cardClassName = cx(`${CLASS_PREFIX}-card`, className),
       HANDLED_PROPS = ['title', 'renderTopRight'];
 
     return (
-      <Antd.Card className={cardClassName} loading={isLoading} title={title} extra={renderTopRight && renderTopRight()}>
+      <Antd.Card
+        bordered={bordered}
+        className={cardClassName}
+        loading={isLoading}
+        title={title}
+        extra={renderTopRight && renderTopRight()}
+      >
         <Form {...omit(this.props, HANDLED_PROPS)} />
       </Antd.Card>
     );

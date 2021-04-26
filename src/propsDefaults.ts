@@ -12,6 +12,10 @@ export const formPropsDefaults = {
   saveText: 'Save',
 };
 
+export const cardPropsDefaults = {
+  bordered: true,
+};
+
 export const sharedComponentPropsDefaults: { layout?: ILayout; colon: boolean } = {
   layout: 'vertical',
   colon: false,
