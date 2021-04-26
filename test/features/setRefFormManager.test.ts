@@ -1,4 +1,5 @@
 import { Tester } from '@mighty-justice/tester';
+
 import { COMPONENT_GENERATORS, FORM_COMPONENTS } from '../factories';
 
 describe('setRefFormManager', () => {
