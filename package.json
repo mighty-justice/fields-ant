@@ -121,7 +121,7 @@
     "babel-loader": "^8.0.5",
     "babelrc-rollup": "^3.0.0",
     "coveralls": "^3.0.3",
-    "css-loader": "^2.1.1",
+    "css-loader": "^5.2.4",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "faker": "^4.1.0",
