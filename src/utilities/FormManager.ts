@@ -286,8 +286,10 @@ class FormManager {
     }
   }
 
-  public async onSave(event: any) {
-    event.preventDefault();
+  public async onSave(event?: any) {
+    if (event) {
+      event.preventDefault();
+    }
 
     this.isSaving = true;
     this.form.validateFields(this.validateThenSaveCallback);
