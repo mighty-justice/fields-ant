@@ -54,6 +54,6 @@ declare class FormManager {
     private hasErrors;
     private handleRequestError;
     private validateThenSaveCallback;
-    onSave(event: any): Promise<void>;
+    onSave(event?: any): Promise<void>;
 }
 export default FormManager;

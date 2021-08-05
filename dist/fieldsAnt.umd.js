@@ -2724,7 +2724,10 @@
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
-                  event.preventDefault();
+                  if (event) {
+                    event.preventDefault();
+                  }
+
                   this.isSaving = true;
                   this.form.validateFields(this.validateThenSaveCallback);
 
