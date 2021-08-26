@@ -19,6 +19,7 @@ import { CLASS_PREFIX } from '../consts';
 
 export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
   showControls: boolean;
+  form: FormInstance;
 }
 
 export interface IFormWrappedProps extends IFormProps {
