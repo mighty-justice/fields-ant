@@ -26,7 +26,7 @@ export interface IValidationRule {
   transform?: (value: any) => any;
 }
 
-export type ITestRule = Rule & {fieldsValidator?: IFieldsValidator}
+export type ITestRule = Rule & { fieldsValidator?: IFieldsValidator, message?: string }
 
 interface IFieldConfigBase {
   className?: ClassValue;

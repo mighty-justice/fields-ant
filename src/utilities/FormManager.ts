@@ -132,6 +132,7 @@ class FormManager {
   private get formValues() {
     // WARNING: Pure unprocessed rc-form response
     // formValues < formModel < submitModel
+    debugger;
     return this.form.getFieldsValue();
   }
 
@@ -203,7 +204,7 @@ class FormManager {
       mapValues(errors, (error, field) => ({
         errors: [new Error(error)],
         value: get(formValues, field),
-      })),
+      })) as any,
     );
   }
 
@@ -293,7 +294,7 @@ class FormManager {
     }
 
     this.isSaving = true;
-    this.form.validateFields(this.validateThenSaveCallback);
+    this.form.validateFields(this.validateThenSaveCallback as any);
   }
 }
 

@@ -89,12 +89,11 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     const { onAddNewToggle, formManager, fieldConfig } = this.injected;
     this.search = search;
 
-    formManager.form.setFieldsValue({ [fieldConfig.field]: {} }, () => {
-      this.isAddingNew.setTrue();
-      if (onAddNewToggle) {
-        onAddNewToggle(true);
-      }
-    });
+    formManager.form.setFieldsValue({ [fieldConfig.field]: {} });
+    this.isAddingNew.setTrue();
+    if (onAddNewToggle) {
+      onAddNewToggle(true);
+    }
   }
 
   private async onSearch() {
