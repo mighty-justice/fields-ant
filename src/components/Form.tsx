@@ -23,7 +23,7 @@ export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
 }
 
 export interface IFormWrappedProps extends IFormProps {
-  form: FormInstance;
+  // form: FormInstance;
 } //, FormComponentProps {}
 
 const CLASS_NAME = `${CLASS_PREFIX}-form`;
@@ -139,4 +139,11 @@ export class Form extends Component<IFormProps> {
   }
 }
 
-export default Form;
+function formWithHook(Component: any) {
+  return function WrappedComponent(props: any) {
+    const [form] = Antd.Form.useForm();
+    return <Component {...props} form={form} />;
+  }
+}
+
+export default formWithHook(Form);
