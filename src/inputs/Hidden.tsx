@@ -31,7 +31,6 @@ class Hidden extends Component<IInputProps> {
         fieldConfig: { field },
       } = this.injected,
       initialValue = formManager.getDefaultValue(fieldConfig),
-      // { getFieldDecorator } = formManager.form,
       HANDLED_PROPS = ['formManager', 'formModel', 'fieldConfig'],
       inputProps = { ...omit(this.props, HANDLED_PROPS), type: 'hidden' };
 

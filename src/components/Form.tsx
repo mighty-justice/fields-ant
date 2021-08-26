@@ -7,7 +7,6 @@ import cx from 'classnames';
 
 import * as Antd from 'antd';
 import { ButtonProps } from 'antd/es/button';
-// import { FormComponentProps } from 'antd/es/form';
 import { FormInstance } from 'antd/es/form';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
@@ -22,9 +21,7 @@ export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
   form: FormInstance;
 }
 
-export interface IFormWrappedProps extends IFormProps {
-  // form: FormInstance;
-} //, FormComponentProps {}
+export interface IFormWrappedProps extends IFormProps {}
 
 const CLASS_NAME = `${CLASS_PREFIX}-form`;
 

@@ -5,17 +5,13 @@ import { values, omit, get } from 'lodash';
 import cx from 'classnames';
 
 import * as Antd from 'antd';
-// import { ValidationRule as AntValidationRule } from 'antd/es/form';
-// import { IValidationRule } from '../interfaces';
 import { ITestRule } from '../interfaces';
-// import { Rule } from 'antd/es/form';
 
 import { formatClassNames, FormManager, noopValidator, renderLabel } from '../utilities';
 import { IFieldConfig, IFieldsValidator, ILayout } from '../interfaces';
 import { IModel } from '../props';
 import { CLASS_PREFIX } from '../consts';
 import { sharedComponentPropsDefaults } from '../propsDefaults';
-// import { IValidationRule } from '..';
 
 export interface IFormFieldProps {
   fieldConfig: IFieldConfig;
@@ -110,7 +106,6 @@ class FormItem extends Component<IFormFieldProps> {
         formItemProps && formItemProps.className,
         formatClassNames(FORM_ITEM_CLASS_NAME, colon, layout),
       );
-      // { getFieldDecorator } = formManager.form;
 
     return (
       <Antd.Col {...colProps}>
@@ -122,7 +117,6 @@ class FormItem extends Component<IFormFieldProps> {
           name={field}
           {...this.decoratorOptions}
         >
-          {/* {getFieldDecorator(field, this.decoratorOptions)(this.props.children)} */}
           {this.props.children}
         </Antd.Form.Item>
       </Antd.Col>

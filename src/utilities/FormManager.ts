@@ -7,7 +7,6 @@ import httpStatus from 'http-status-codes';
 import { get, has, mapValues, noop, pickBy, set } from 'lodash';
 
 import * as Antd from 'antd';
-// import { WrappedFormUtils } from 'antd/es/form/Form';
 import { FormInstance } from 'antd/es/form';
 
 import { ID_ATTR, TOAST_DURATION } from '../consts';
@@ -132,7 +131,6 @@ class FormManager {
   private get formValues() {
     // WARNING: Pure unprocessed rc-form response
     // formValues < formModel < submitModel
-    debugger;
     return this.form.getFieldsValue();
   }
 

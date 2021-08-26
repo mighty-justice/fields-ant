@@ -3,8 +3,6 @@ import { ColumnProps } from 'antd/es/table';
 import { RowProps } from 'antd/es/row';
 import { FormItemProps } from 'antd/es/form';
 import { ClassValue } from 'classnames/types';
-// import { ValidatorRule } from 'rc-field-form/es/interface'
-// import { Rule } from 'rc-field-form/es/interface'
 import { Rule } from 'antd/es/form';
 
 import { IModel, IValue } from './props';
