@@ -98,15 +98,15 @@ class FormItem extends Component<IFormFieldProps> {
   }
 
   public render() {
-    const { formManager, fieldConfig, layout, colon } = this.props,
+    const { fieldConfig, layout, colon } = this.props,
       { colProps, formItemProps, field } = fieldConfig,
       className = cx(
         FORM_ITEM_CLASS_NAME,
         fieldConfig.className,
         formItemProps && formItemProps.className,
         formatClassNames(FORM_ITEM_CLASS_NAME, colon, layout),
-      ),
-      { getFieldDecorator } = formManager.form;
+      );
+      // { getFieldDecorator } = formManager.form;
 
     return (
       <Antd.Col {...colProps}>
@@ -115,8 +115,11 @@ class FormItem extends Component<IFormFieldProps> {
           {...formItemProps}
           className={className}
           label={renderLabel(fieldConfig)}
+          name={field}
+          {...this.decoratorOptions}
         >
-          {getFieldDecorator(field, this.decoratorOptions)(this.props.children)}
+          {/* {getFieldDecorator(field, this.decoratorOptions)(this.props.children)} */}
+          {this.props.children}
         </Antd.Form.Item>
       </Antd.Col>
     );

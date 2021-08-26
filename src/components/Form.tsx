@@ -7,7 +7,8 @@ import cx from 'classnames';
 
 import * as Antd from 'antd';
 import { ButtonProps } from 'antd/es/button';
-import { FormComponentProps } from 'antd/es/form';
+// import { FormComponentProps } from 'antd/es/form';
+import { FormInstance } from 'antd/es/form';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
@@ -20,7 +21,9 @@ export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
   showControls: boolean;
 }
 
-export interface IFormWrappedProps extends IFormProps, FormComponentProps {}
+export interface IFormWrappedProps extends IFormProps {
+  form: FormInstance;
+} //, FormComponentProps {}
 
 const CLASS_NAME = `${CLASS_PREFIX}-form`;
 
@@ -97,7 +100,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       passDownProps = { layout, colon };
 
     return (
-      <Antd.Form className={className} colon={colon} layout={layout} onSubmit={this.formManager.onSave}>
+      <Antd.Form className={className} colon={colon} layout={layout} onFinish={this.formManager.onSave}>
         {title && <h2>{title}</h2>}
 
         {filteredFieldSets.map((fieldSet, idx) => (
@@ -119,7 +122,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
 }
 
 // istanbul ignore next
-const WrappedForm = Antd.Form.create()(UnwrappedForm);
+const WrappedForm = UnwrappedForm;
 
 @autoBindMethods
 @observer

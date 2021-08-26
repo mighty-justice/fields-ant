@@ -7,7 +7,8 @@ import httpStatus from 'http-status-codes';
 import { get, has, mapValues, noop, pickBy, set } from 'lodash';
 
 import * as Antd from 'antd';
-import { WrappedFormUtils } from 'antd/es/form/Form';
+// import { WrappedFormUtils } from 'antd/es/form/Form';
+import { FormInstance } from 'antd/es/form';
 
 import { ID_ATTR, TOAST_DURATION } from '../consts';
 import { IFieldConfig, IFieldSet } from '../interfaces';
@@ -73,7 +74,7 @@ class FormManager {
     };
   }
 
-  public get form(): WrappedFormUtils {
+  public get form(): FormInstance { // WrappedFormUtils {
     // The form prop continuously changes identity, so we can't just save it locally
     return this.formWrappedInstance.props.form;
   }

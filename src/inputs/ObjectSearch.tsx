@@ -6,6 +6,7 @@ import { omit, debounce, get, uniqBy } from 'lodash';
 
 import * as Antd from 'antd';
 import { SelectProps } from 'antd/es/select';
+import { LoadingOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons'
 
 import { toKey } from '@mighty-justice/utils';
 import SmartBool from '@mighty-justice/smart-bool';
@@ -32,7 +33,7 @@ export interface IObjectSearchProps {
   onChange: (value: IValue) => void;
   searchIcon?: React.ReactNode;
   searchOnEmpty?: boolean;
-  selectProps: SelectProps;
+  selectProps: SelectProps<any>;
 }
 
 export const CLASS_NAME = `${CLASS_PREFIX}-input-object-search`;
@@ -110,11 +111,11 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   private get loadingIcon() {
-    return this.props.loadingIcon || <Antd.Icon type="loading" />;
+    return this.props.loadingIcon || <LoadingOutlined />;
   }
 
   private get searchIcon() {
-    return this.props.searchIcon || <Antd.Icon type="search" />;
+    return this.props.searchIcon || <SearchOutlined />;
   }
 
   private get selectProps() {
@@ -158,11 +159,11 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     const { addNewContent } = this.props;
 
     return (
-      <Antd.Select.Option className={OPTION_KEYS.ADD} key={OPTION_KEYS.ADD}>
+      <Antd.Select.Option className={OPTION_KEYS.ADD} value={OPTION_KEYS.ADD}>
         <div>
           {addNewContent || (
             <>
-              <Antd.Icon type="plus" /> <b>{this.search}</b>
+              <PlusOutlined /> <b>{this.search}</b>
             </>
           )}
         </div>
@@ -174,7 +175,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     const { selectProps } = this.props;
 
     return (
-      <Antd.Select.Option className={OPTION_KEYS.EMPTY} disabled key={OPTION_KEYS.EMPTY}>
+      <Antd.Select.Option className={OPTION_KEYS.EMPTY} disabled value={OPTION_KEYS.EMPTY}>
         <div>{get(selectProps, 'notFoundContent') || 'No results'}</div>
       </Antd.Select.Option>
     );
@@ -184,7 +185,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     const { noSearchContent } = this.props;
 
     return (
-      <Antd.Select.Option className={OPTION_KEYS.NO_SEARCH} disabled key={OPTION_KEYS.NO_SEARCH}>
+      <Antd.Select.Option className={OPTION_KEYS.NO_SEARCH} disabled value={OPTION_KEYS.NO_SEARCH}>
         {this.isLoading.isTrue ? (
           <div>{this.loadingIcon} Loading...</div>
         ) : (
@@ -251,7 +252,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     }
   }
 
-  private get valueProp(): { value?: { key: string; label: string } } {
+  private get valueProp(): { value?: { value: string; label: string } } {
     const { value } = this.injected,
       { renderSelected } = this.fieldConfig;
 
@@ -262,7 +263,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
       return {
         value: value.map((_value: any) => ({
-          key: _value.id,
+          value: _value.id,
           label: renderSelected(_value),
         })),
       };
@@ -275,7 +276,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
     return {
       value: {
-        key: valueId,
+        value: valueId,
         label: renderSelected(value),
       },
     };

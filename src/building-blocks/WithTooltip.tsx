@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
-import { Icon, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
 interface IProps {
   tooltip?: string;
@@ -22,7 +23,7 @@ class WithTooltip extends Component<IProps> {
       <span>
         {children}&nbsp;
         <Tooltip title={tooltip}>
-          <Icon type="question-circle-o" />
+          <QuestionCircleOutlined />
         </Tooltip>
       </span>
     );

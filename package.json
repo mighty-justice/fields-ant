@@ -120,7 +120,7 @@
     "@types/storybook__addon-actions": "^3.4.2",
     "@types/storybook__addon-info": "^4.1.1",
     "@types/storybook__react": "^4.0.1",
-    "antd": "3.26.14",
+    "antd": "4.16.13",
     "auto-changelog": "^2.2.1",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.5",
