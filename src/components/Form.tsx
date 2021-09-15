@@ -5,9 +5,10 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
-import * as Antd from 'antd';
+import { Button } from 'antd';
+import { Form as AntForm } from '@ant-design/compatible';
 import { ButtonProps } from 'antd/es/button';
-import { FormComponentProps } from 'antd/es/form';
+import { FormInstance } from 'antd/es/form';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
@@ -20,7 +21,7 @@ export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
   showControls: boolean;
 }
 
-export interface IFormWrappedProps extends IFormProps, FormComponentProps {}
+export interface IFormWrappedProps extends IFormProps, FormInstance {}
 
 const CLASS_NAME = `${CLASS_PREFIX}-form`;
 
@@ -73,18 +74,18 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       };
 
     if (blockSubmit) {
-      return <Antd.Button block {...submitProps} />;
+      return <Button block {...submitProps} />;
     }
 
     return (
       <ButtonToolbar align="right" noSpacing>
         {onCancel && (
-          <Antd.Button disabled={this.formManager.isCancelButtonDisabled} onClick={onCancel} size="large">
+          <Button disabled={this.formManager.isCancelButtonDisabled} onClick={onCancel} size="large">
             {cancelText}
-          </Antd.Button>
+          </Button>
         )}
 
-        <Antd.Button {...submitProps} />
+        <Button {...submitProps} />
       </ButtonToolbar>
     );
   }
@@ -97,7 +98,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       passDownProps = { layout, colon };
 
     return (
-      <Antd.Form className={className} colon={colon} layout={layout} onSubmit={this.formManager.onSave}>
+      <AntForm className={className} colon={colon} layout={layout} onSubmit={this.formManager.onSave}>
         {title && <h2>{title}</h2>}
 
         {filteredFieldSets.map((fieldSet, idx) => (
@@ -113,13 +114,13 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
         {this.props.children}
 
         {showControls && this.renderControls()}
-      </Antd.Form>
+      </AntForm>
     );
   }
 }
 
 // istanbul ignore next
-const WrappedForm = Antd.Form.create()(UnwrappedForm);
+const WrappedForm = AntForm.create()(UnwrappedForm);
 
 @autoBindMethods
 @observer
