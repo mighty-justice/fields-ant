@@ -5,7 +5,7 @@ import { values, omit, get } from 'lodash';
 import cx from 'classnames';
 
 import * as Antd from 'antd';
-import { ValidationRule as AntValidationRule } from 'antd/es/form';
+import { ValidationRule as AntValidationRule } from '@ant-design/compatible/es/form';
 
 import { formatClassNames, FormManager, noopValidator, renderLabel } from '../utilities';
 import { IFieldConfig, IFieldsValidator, ILayout } from '../interfaces';
