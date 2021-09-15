@@ -78,7 +78,7 @@ class FormItem extends Component<IFormFieldProps> {
 
   private get decoratorOptions() {
     return {
-      initialValue: this.initialValue,
+      initialValue: this.initialValue, // initial values should be added to Form not Form.Item
       rules: this.rules,
     };
   }

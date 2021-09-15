@@ -101,6 +101,10 @@ class FormManager {
     return this.isFormDisabled;
   }
 
+  // public getDefaultValues(fieldConfig: any): IValue {
+  //   fieldConfig.map((config: any) => { `${config.name}`: config.value})
+  // }
+
   public getDefaultValue(fieldConfig: IFieldConfig): IValue {
     const { model, defaults } = this.args,
       modelToValue = (from: IModel) => get(from, fieldConfig.field),
