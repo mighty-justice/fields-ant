@@ -49,7 +49,8 @@ export interface IObjectSearchCreateProps {
   onAddNewToggle?: (isAddingNew: boolean) => void;
   searchIcon?: React.ReactNode;
   searchOnEmpty?: boolean;
-  selectProps: SelectProps;
+  // TODO: Fix typing
+  selectProps: SelectProps<any>;
 }
 
 export const CLASS_NAME = `${CLASS_PREFIX}-input-object-search-create`;

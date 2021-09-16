@@ -33,7 +33,8 @@ export interface IObjectSearchProps {
   onChange: (value: IValue) => void;
   searchIcon?: React.ReactNode;
   searchOnEmpty?: boolean;
-  selectProps: SelectProps;
+  // TODO: Fix typing
+  selectProps: SelectProps<any>;
 }
 
 export const CLASS_NAME = `${CLASS_PREFIX}-input-object-search`;
@@ -159,7 +160,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     const { addNewContent } = this.props;
 
     return (
-      <Select.Option className={OPTION_KEYS.ADD} key={OPTION_KEYS.ADD}>
+      <Select.Option className={OPTION_KEYS.ADD} key={OPTION_KEYS.ADD} value={OPTION_KEYS.ADD}>
         <div>
           {addNewContent || (
             <>
@@ -175,7 +176,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     const { selectProps } = this.props;
 
     return (
-      <Select.Option className={OPTION_KEYS.EMPTY} disabled key={OPTION_KEYS.EMPTY}>
+      <Select.Option className={OPTION_KEYS.EMPTY} disabled key={OPTION_KEYS.EMPTY} value={OPTION_KEYS.EMPTY}>
         <div>{get(selectProps, 'notFoundContent') || 'No results'}</div>
       </Select.Option>
     );
@@ -185,7 +186,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     const { noSearchContent } = this.props;
 
     return (
-      <Select.Option className={OPTION_KEYS.NO_SEARCH} disabled key={OPTION_KEYS.NO_SEARCH}>
+      <Select.Option className={OPTION_KEYS.NO_SEARCH} disabled key={OPTION_KEYS.NO_SEARCH} value={OPTION_KEYS.NO_SEARCH}>
         {this.isLoading.isTrue ? (
           <div>{this.loadingIcon} Loading...</div>
         ) : (
@@ -252,7 +253,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     }
   }
 
-  private get valueProp(): { value?: { key: string; label: string } } {
+  private get valueProp(): { value?: { key: string; label: string, value: string } } {
     const { value } = this.injected,
       { renderSelected } = this.fieldConfig;
 
@@ -265,6 +266,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         value: value.map((_value: any) => ({
           key: _value.id,
           label: renderSelected(_value),
+          value: _value.id,
         })),
       };
     }
@@ -278,6 +280,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       value: {
         key: valueId,
         label: renderSelected(value),
+        value: valueId,
       },
     };
   }
