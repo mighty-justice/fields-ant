@@ -7,7 +7,7 @@ import httpStatus from 'http-status-codes';
 import { get, has, mapValues, noop, pickBy, set } from 'lodash';
 
 import * as Antd from 'antd';
-import { WrappedFormUtils } from 'antd/es/form/Form';
+import { WrappedFormUtils } from '@ant-design/compatible/es/form/Form';
 
 import { ID_ATTR, TOAST_DURATION } from '../consts';
 import { IFieldConfig, IFieldSet } from '../interfaces';
@@ -280,7 +280,8 @@ class FormManager {
         this.form.resetFields();
       }
     } catch (error) {
-      this.handleRequestError(error);
+      // TODO: Fix typing
+      this.handleRequestError(error as any);
     } finally {
       this.isSaving = false;
     }
