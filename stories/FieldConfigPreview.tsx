@@ -35,7 +35,7 @@ class FieldConfigPreview extends Component<{}> {
 
   public render () {
     return (
-      <Antd.Row type='flex' justify='center' align='top' gutter={16}>
+      <Antd.Row justify='center' align='top' gutter={16}>
         <Antd.Col span={10}>
           <Antd.Card>
             <Form
