@@ -6,9 +6,10 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
 import { Button } from 'antd';
-import { Form as AntForm } from '@ant-design/compatible';
 import { ButtonProps } from 'antd/es/button';
 import { FormInstance } from 'antd/es/form';
+import { Form as AntForm } from '@ant-design/compatible';
+import { WrappedFormUtils } from '@ant-design/compatible/es/form/Form';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
@@ -21,7 +22,9 @@ export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
   showControls: boolean;
 }
 
-export interface IFormWrappedProps extends IFormProps, FormInstance {}
+export interface IFormWrappedProps extends IFormProps, FormInstance {
+  form: WrappedFormUtils;
+}
 
 const CLASS_NAME = `${CLASS_PREFIX}-form`;
 
