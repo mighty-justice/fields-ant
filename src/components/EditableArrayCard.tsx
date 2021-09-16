@@ -5,7 +5,8 @@ import { isEmpty } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
 
-import * as Antd from 'antd';
+import { Card } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 
 import GuardedButton from '../building-blocks/GuardedButton';
 import { formPropsDefaults } from '../propsDefaults';
@@ -48,7 +49,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
       <GuardedButton
         className={className}
         disabled={isLoading || this.isAddingNew.isTrue}
-        icon="plus"
+        icon={PlusOutlined}
         isGuarded={isGuarded}
         onClick={this.isAddingNew.setTrue}
         size="small"
@@ -74,7 +75,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
     } = this.props;
 
     return (
-      <Antd.Card title={title} extra={this.renderAddNew()} loading={isLoading}>
+      <Card title={title} extra={this.renderAddNew()} loading={isLoading}>
         {this.isAddingNew.isTrue && (
           <FormCard
             defaults={defaults}
@@ -100,7 +101,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
             title=""
           />
         ))}
-      </Antd.Card>
+      </Card>
     );
   }
 }

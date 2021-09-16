@@ -4,8 +4,9 @@ import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { omit, debounce, get, uniqBy } from 'lodash';
 
-import * as Antd from 'antd';
+import { Select } from 'antd';
 import { SelectProps } from 'antd/es/select';
+import { LoadingOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 
 import { toKey } from '@mighty-justice/utils';
 import SmartBool from '@mighty-justice/smart-bool';
@@ -110,11 +111,11 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   private get loadingIcon() {
-    return this.props.loadingIcon || <Antd.Icon type="loading" />;
+    return this.props.loadingIcon || <LoadingOutlined />;
   }
 
   private get searchIcon() {
-    return this.props.searchIcon || <Antd.Icon type="search" />;
+    return this.props.searchIcon || <SearchOutlined />;
   }
 
   private get selectProps() {
@@ -158,15 +159,15 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     const { addNewContent } = this.props;
 
     return (
-      <Antd.Select.Option className={OPTION_KEYS.ADD} key={OPTION_KEYS.ADD}>
+      <Select.Option className={OPTION_KEYS.ADD} key={OPTION_KEYS.ADD}>
         <div>
           {addNewContent || (
             <>
-              <Antd.Icon type="plus" /> <b>{this.search}</b>
+              <PlusOutlined /> <b>{this.search}</b>
             </>
           )}
         </div>
-      </Antd.Select.Option>
+      </Select.Option>
     );
   }
 
@@ -174,9 +175,9 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     const { selectProps } = this.props;
 
     return (
-      <Antd.Select.Option className={OPTION_KEYS.EMPTY} disabled key={OPTION_KEYS.EMPTY}>
+      <Select.Option className={OPTION_KEYS.EMPTY} disabled key={OPTION_KEYS.EMPTY}>
         <div>{get(selectProps, 'notFoundContent') || 'No results'}</div>
-      </Antd.Select.Option>
+      </Select.Option>
     );
   }
 
@@ -184,13 +185,13 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     const { noSearchContent } = this.props;
 
     return (
-      <Antd.Select.Option className={OPTION_KEYS.NO_SEARCH} disabled key={OPTION_KEYS.NO_SEARCH}>
+      <Select.Option className={OPTION_KEYS.NO_SEARCH} disabled key={OPTION_KEYS.NO_SEARCH}>
         {this.isLoading.isTrue ? (
           <div>{this.loadingIcon} Loading...</div>
         ) : (
           <div>{noSearchContent || 'Type to search or filter'}</div>
         )}
-      </Antd.Select.Option>
+      </Select.Option>
     );
   }
 
@@ -199,7 +200,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       { isOptionDisabled } = this.props;
 
     return (
-      <Antd.Select.Option
+      <Select.Option
         className={OPTION_KEYS.OPTION}
         disabled={isOptionDisabled ? isOptionDisabled(option) : false}
         key={option.id}
@@ -207,7 +208,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         value={option.id}
       >
         {renderOption(option)}
-      </Antd.Select.Option>
+      </Select.Option>
     );
   }
 
@@ -298,7 +299,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
       placeholder = `Search${placeholderLabel}...`;
 
     return (
-      <Antd.Select
+      <Select
         allowClear={!isLoading}
         defaultActiveFirstOption={false}
         disabled={disabled}
@@ -323,7 +324,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         {showAddOption && this.renderAddOption()}
         {this.options.map(this.renderOption)}
         {showNoResultsOption && this.renderNoResultsOption()}
-      </Antd.Select>
+      </Select>
     );
   }
 }

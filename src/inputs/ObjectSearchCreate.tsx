@@ -10,6 +10,7 @@ import SmartBool from '@mighty-justice/smart-bool';
 
 import * as Antd from 'antd';
 import { SelectProps } from 'antd/es/select';
+import { LeftOutlined } from '@ant-design/icons';
 
 import {
   CLASS_PREFIX,
@@ -120,7 +121,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
             search={this.search}
           />
           <Antd.Button className={CLASS_NAME_BTN_BACK} onClick={this.onSearch} size="small">
-            <Antd.Icon type="left" /> Back to search
+            <LeftOutlined /> Back to search
           </Antd.Button>
         </Antd.Form.Item>
       </Antd.Col>
