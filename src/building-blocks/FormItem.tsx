@@ -5,6 +5,7 @@ import { values, omit, get } from 'lodash';
 import cx from 'classnames';
 
 import * as Antd from 'antd';
+import { Form } from '@ant-design/compatible';
 import { ValidationRule as AntValidationRule } from '@ant-design/compatible/es/form';
 
 import { formatClassNames, FormManager, noopValidator, renderLabel } from '../utilities';
@@ -110,14 +111,14 @@ class FormItem extends Component<IFormFieldProps> {
 
     return (
       <Antd.Col {...colProps}>
-        <Antd.Form.Item
+        <Form.Item
           {...this.formItemProps}
           {...formItemProps}
           className={className}
           label={renderLabel(fieldConfig)}
         >
           {getFieldDecorator(field, this.decoratorOptions)(this.props.children)}
-        </Antd.Form.Item>
+        </Form.Item>
       </Antd.Col>
     );
   }

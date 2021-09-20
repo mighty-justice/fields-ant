@@ -186,7 +186,12 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     const { noSearchContent } = this.props;
 
     return (
-      <Select.Option className={OPTION_KEYS.NO_SEARCH} disabled key={OPTION_KEYS.NO_SEARCH} value={OPTION_KEYS.NO_SEARCH}>
+      <Select.Option
+        className={OPTION_KEYS.NO_SEARCH}
+        disabled
+        key={OPTION_KEYS.NO_SEARCH}
+        value={OPTION_KEYS.NO_SEARCH}
+      >
         {this.isLoading.isTrue ? (
           <div>{this.loadingIcon} Loading...</div>
         ) : (
@@ -253,7 +258,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
     }
   }
 
-  private get valueProp(): { value?: { key: string; label: string, value: string } } {
+  private get valueProp(): { value?: { key: string; label: string; value: string } } {
     const { value } = this.injected,
       { renderSelected } = this.fieldConfig;
 
