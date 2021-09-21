@@ -111,12 +111,7 @@ class FormItem extends Component<IFormFieldProps> {
 
     return (
       <Antd.Col {...colProps}>
-        <Form.Item
-          {...this.formItemProps}
-          {...formItemProps}
-          className={className}
-          label={renderLabel(fieldConfig)}
-        >
+        <Form.Item {...this.formItemProps} {...formItemProps} className={className} label={renderLabel(fieldConfig)}>
           {getFieldDecorator(field, this.decoratorOptions)(this.props.children)}
         </Form.Item>
       </Antd.Col>

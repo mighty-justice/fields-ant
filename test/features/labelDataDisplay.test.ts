@@ -34,7 +34,7 @@ describe('Renders', () => {
         props = propsFactory.build({ fieldSets }),
         tester = await new Tester(ComponentClass, { props }).mount();
 
-      expect(tester.find('form.ant-form-vertical').length).toBe(1);
+      expect(tester.find('form.ant-legacy-form-vertical').length).toBe(1);
       expect(tester.find('form.fields-ant-form-no-colon').length).toBe(1);
       expect(tester.find('div.fields-ant-field-set-row-vertical').length).toBe(1);
       expect(tester.find('div.fields-ant-form-item-vertical').length).toBe(1);
@@ -74,7 +74,7 @@ describe('Renders', () => {
           props = propsFactory.build({ fieldSets, layout }),
           tester = await new Tester(ComponentClass, { props }).mount();
 
-        expect(tester.find(`form.ant-form-${layout}`).length).toBe(1);
+        expect(tester.find(`form.ant-legacy-form-${layout}`).length).toBe(1);
         expect(tester.find(`div.fields-ant-field-set-row-${layout}`).length).toBe(1);
         expect(tester.find(`div.fields-ant-form-item-${layout}`).length).toBe(1);
       });
@@ -110,7 +110,7 @@ describe('Renders', () => {
         tester.click(`button.btn-edit`);
 
         expect(isForm(tester)).toBe(true);
-        expect(tester.find(`form.ant-form-${layout}`).length).toBe(1);
+        expect(tester.find(`form.ant-legacy-form-${layout}`).length).toBe(1);
         expect(tester.find(`div.fields-ant-field-set-row-${layout}`).length).toBe(1);
         expect(tester.find(`div.fields-ant-form-item-${layout}`).length).toBe(1);
       });

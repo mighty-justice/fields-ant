@@ -24,8 +24,8 @@ describe('formItemExtra', () => {
         }),
         tester = await new Tester(ComponentClass, { props }).mount();
 
-      expect(tester.find('.ant-form-extra').length).toBe(1);
-      expect(tester.find('.ant-form-extra #test').text()).toEqual('Hello');
+      expect(tester.find('.ant-legacy-form-extra').length).toBe(1);
+      expect(tester.find('.ant-legacy-form-extra #test').text()).toEqual('Hello');
     });
 
     it(`No form items extras render if no props passed in`, async () => {
@@ -33,7 +33,7 @@ describe('formItemExtra', () => {
         props = propsFactory.build(),
         tester = await new Tester(ComponentClass, { props }).mount();
 
-      expect(tester.find('.ant-form-extra').length).toBe(0);
+      expect(tester.find('.ant-legacy-form-extra').length).toBe(0);
     });
   });
 });
