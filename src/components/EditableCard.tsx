@@ -74,7 +74,7 @@ class EditableCard extends Component<IEditableCardProps> {
         className={className}
         confirm={true}
         disabled={isLoading || this.isDeleting.isTrue}
-        icon={DeleteOutlined}
+        icon={<DeleteOutlined />}
         isGuarded={isGuarded}
         onClick={this.handleDelete}
         size="small"
@@ -93,7 +93,7 @@ class EditableCard extends Component<IEditableCardProps> {
       <GuardedButton
         className={className}
         disabled={isLoading || this.isEditing.isTrue || this.isDeleting.isTrue}
-        icon={EditOutlined}
+        icon={<EditOutlined />}
         isGuarded={isGuarded}
         onClick={this.isEditing.setTrue}
         size="small"
