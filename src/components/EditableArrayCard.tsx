@@ -49,7 +49,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
       <GuardedButton
         className={className}
         disabled={isLoading || this.isAddingNew.isTrue}
-        icon={PlusOutlined}
+        icon={<PlusOutlined />}
         isGuarded={isGuarded}
         onClick={this.isAddingNew.setTrue}
         size="small"
