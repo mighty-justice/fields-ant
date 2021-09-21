@@ -17,7 +17,7 @@ describe('tooltip', () => {
       }).mount();
 
     expect(tester.text()).toContain(label);
-    expect(tester.html()).toContain('question-circle-o');
+    expect(tester.html()).toContain('question-circle');
     expect(tester.find('input').length > 0).toBe(false);
     expect(tester.find('Tooltip').length > 0).toBe(true);
 
@@ -25,7 +25,7 @@ describe('tooltip', () => {
     await tester.refresh();
 
     expect(tester.text()).toContain(label);
-    expect(tester.html()).toContain('question-circle-o');
+    expect(tester.html()).toContain('question-circle');
     expect(tester.find('input').length > 0).toBe(true);
     expect(tester.find('Tooltip').length > 0).toBe(true);
   });
@@ -49,7 +49,7 @@ describe('tooltip', () => {
       }).mount();
 
     expect(tester.text()).toContain(label);
-    expect(tester.html()).toContain('question-circle-o');
+    expect(tester.html()).toContain('question-circle');
     expect(tester.find('input').length > 0).toBe(false);
     expect(tester.find('Tooltip').length > 0).toBe(true);
 
@@ -57,7 +57,7 @@ describe('tooltip', () => {
     await tester.refresh();
 
     expect(tester.text()).toContain(label);
-    expect(tester.html()).toContain('question-circle-o');
+    expect(tester.html()).toContain('question-circle');
     expect(tester.find('input').length > 0).toBe(true);
     expect(tester.find('Tooltip').length > 0).toBe(true);
   });
