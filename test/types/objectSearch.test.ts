@@ -82,6 +82,7 @@ describe('objectSearch', () => {
     expect(tester.html()).toContain(model.law_firm.name);
 
     await tester.submit();
+
     expect(props.onSave).toHaveBeenCalledWith(model);
     props.onSave.mockClear();
 
