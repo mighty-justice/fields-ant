@@ -1,8 +1,8 @@
 import { ColProps } from 'antd/es/col';
 import { ColumnProps } from 'antd/es/table';
 import { RowProps } from 'antd/es/row';
-import { FormItemProps } from 'antd/es/form';
-import { ValidationRule as AntValidationRule } from '@ant-design/compatible/es/form';
+import { FormItemProps, Rule } from 'antd/es/form';
+// import { ValidationRule as AntValidationRule } from '@ant-design/compatible/es/form';
 import { ClassValue } from 'classnames/types';
 
 import { IModel, IValue } from './props';
@@ -10,9 +10,11 @@ import { FormManager, ITableModel } from './utilities';
 
 export type IFieldsValidator = (value: IValue, fieldConfig: IFieldConfig, model: IModel) => boolean;
 
-export interface IValidationRule extends AntValidationRule {
-  fieldsValidator?: IFieldsValidator;
-}
+export type IValidationRule = Rule & { fieldsValidator?: IFieldsValidator, message?: string }
+
+// export interface IValidationRule extends AntValidationRule {
+//   fieldsValidator?: IFieldsValidator;
+// }
 
 interface IFieldConfigBase {
   className?: ClassValue;

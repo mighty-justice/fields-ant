@@ -5,10 +5,11 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
-import { Button } from 'antd';
+import { Button, Form as AntForm } from 'antd';
 import { ButtonProps } from 'antd/es/button';
-import { Form as AntForm } from '@ant-design/compatible';
-import { WrappedFormInternalProps } from '@ant-design/compatible/lib/form/Form';
+import { FormInstance } from 'antd/es/form';
+// import { Form as AntForm } from '@ant-design/compatible';
+// import { WrappedFormInternalProps } from '@ant-design/compatible/lib/form/Form';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
@@ -18,10 +19,11 @@ import { ISharedFormProps, ISharedComponentProps } from '../props';
 import { CLASS_PREFIX } from '../consts';
 
 export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
+  form: FormInstance;
   showControls: boolean;
 }
 
-export interface IFormWrappedProps extends IFormProps, WrappedFormInternalProps {}
+export interface IFormWrappedProps extends IFormProps {}
 
 const CLASS_NAME = `${CLASS_PREFIX}-form`;
 
@@ -98,7 +100,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
       passDownProps = { layout, colon };
 
     return (
-      <AntForm className={className} colon={colon} layout={layout} onSubmit={this.formManager.onSave}>
+      <AntForm className={className} colon={colon} layout={layout} onFinish={this.formManager.onSave}>
         {title && <h2>{title}</h2>}
 
         {filteredFieldSets.map((fieldSet, idx) => (
@@ -119,12 +121,12 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   }
 }
 
-// istanbul ignore next
-const WrappedForm = AntForm.create()(UnwrappedForm);
+// // istanbul ignore next
+// const WrappedForm = UnwrappedForm;
 
 @autoBindMethods
 @observer
-export class Form extends Component<IFormProps> {
+class Form extends Component<IFormProps> {
   public static defaultProps: Partial<IFormWrappedProps> = {
     ...formPropsDefaults,
     ...sharedComponentPropsDefaults,
@@ -132,8 +134,15 @@ export class Form extends Component<IFormProps> {
   };
 
   public render() {
-    return <WrappedForm {...this.props} />;
+    return <UnwrappedForm {...this.props} />;
   }
 }
 
-export default Form;
+function formWithHook(Component: any) {
+  return function WrappedComponent(props: any) {
+    const [form] = AntForm.useForm();
+    return <Component {...props} form={form} />;
+  }
+}
+
+export default formWithHook(Form);
