@@ -50,7 +50,7 @@ async function clickAddNew(tester: any) {
 
 async function clickFirstResult(tester: any) {
   tester
-    .find('li')
+    .find('Item')
     .at(1)
     .simulate('click');
 }
@@ -227,7 +227,7 @@ describe('objectSearchCreate', () => {
 
     expect(
       tester
-        .find('li')
+        .find('div.ant-select-item-option-content')
         .at(1)
         .text(),
     ).toContain('FFF');
