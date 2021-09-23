@@ -33,7 +33,6 @@ export interface IObjectSearchProps {
   onChange: (value: IValue) => void;
   searchIcon?: React.ReactNode;
   searchOnEmpty?: boolean;
-  // TODO: Fix typing
   selectProps: SelectProps<any>;
 }
 
