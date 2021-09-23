@@ -4,7 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import { values, omit, get } from 'lodash';
 import cx from 'classnames';
 
-import * as Antd from 'antd';
+import { Col } from 'antd';
 import { Form } from '@ant-design/compatible';
 import { ValidationRule as AntValidationRule } from '@ant-design/compatible/es/form';
 
@@ -110,11 +110,11 @@ class FormItem extends Component<IFormFieldProps> {
       { getFieldDecorator } = formManager.form;
 
     return (
-      <Antd.Col {...colProps}>
+      <Col {...colProps}>
         <Form.Item {...this.formItemProps} {...formItemProps} className={className} label={renderLabel(fieldConfig)}>
           {getFieldDecorator(field, this.decoratorOptions)(this.props.children)}
         </Form.Item>
-      </Antd.Col>
+      </Col>
     );
   }
 }

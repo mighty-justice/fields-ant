@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 
-import * as Antd from 'antd';
+import { Input } from 'antd';
 
 import { IAntFormField, IInjected, IInputProps } from '../interfaces';
 
@@ -35,7 +35,7 @@ class Hidden extends Component<IInputProps> {
       HANDLED_PROPS = ['formManager', 'formModel', 'fieldConfig'],
       inputProps = { ...omit(this.props, HANDLED_PROPS), type: 'hidden' };
 
-    return getFieldDecorator(field, { initialValue })(<Antd.Input {...inputProps} />);
+    return getFieldDecorator(field, { initialValue })(<Input {...inputProps} />);
   }
 }
 

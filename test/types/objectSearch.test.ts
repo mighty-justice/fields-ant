@@ -1,4 +1,3 @@
-import { act } from 'react-dom/test-utils';
 import faker from 'faker';
 
 import { Tester } from '@mighty-justice/tester';
