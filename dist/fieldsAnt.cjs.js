@@ -2872,7 +2872,7 @@ var Info = autoBindMethods(_class$g = mobxReact.observer(_class$g = /*#__PURE__*
       return /*#__PURE__*/React__default.createElement(Antd.Col, _extends({}, this.props.fieldConfig.colProps, {
         className: "".concat(CLASS_PREFIX, "-info")
       }), /*#__PURE__*/React__default.createElement(Antd.Row, {
-        className: cx(rowClassName, fieldConfig.className)
+        className: rowClassName
       }, this.props.children));
     }
   }]);
