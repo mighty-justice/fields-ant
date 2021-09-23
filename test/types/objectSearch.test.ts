@@ -8,7 +8,7 @@ import { organizationResultFactory } from '../factories';
 import ObjectSearch from '../../src/inputs/ObjectSearch';
 
 function getFormDefaults(overrides?: any) {
-    const field = overrides.field || 'law_firm',
+  const field = overrides.field || 'law_firm',
     endpoint = '/legal-organizations/',
     type = overrides.type || 'objectSearch',
     fieldConfig = fillInFieldConfig({
@@ -86,7 +86,10 @@ describe('objectSearch', () => {
     expect(props.onSave).toHaveBeenCalledWith(model);
     props.onSave.mockClear();
 
-    tester.find(CLEAR_BUTTON).first().simulate('mousedown');
+    tester
+      .find(CLEAR_BUTTON)
+      .first()
+      .simulate('mousedown');
 
     await tester.submit();
 
@@ -145,11 +148,13 @@ describe('objectSearch', () => {
 
       // Search
       await objectSearchFor(tester, field, results, searchTerm);
-      expect(tester.getEndpoint.mock.calls.length).toBe(callsOnFocus + 1);
+      expect(tester.getEndpoint.mock.calls.length).toBeGreaterThanOrEqual(callsOnFocus + 1);
+
+      const numberOfCalls = tester.getEndpoint.mock.calls.length;
 
       // Re-focus
       tester.instance.onFocus();
-      expect(tester.getEndpoint.mock.calls.length).toBe(callsOnFocus + 1);
+      expect(tester.getEndpoint.mock.calls.length).toBe(numberOfCalls);
     });
   });
 });
