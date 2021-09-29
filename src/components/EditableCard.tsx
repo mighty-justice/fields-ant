@@ -5,6 +5,8 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import SmartBool from '@mighty-justice/smart-bool';
 
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import GuardedButton from '../building-blocks/GuardedButton';
 import { formPropsDefaults } from '../propsDefaults';
@@ -72,7 +74,7 @@ class EditableCard extends Component<IEditableCardProps> {
         className={className}
         confirm={true}
         disabled={isLoading || this.isDeleting.isTrue}
-        icon="delete"
+        icon={<DeleteOutlined />}
         isGuarded={isGuarded}
         onClick={this.handleDelete}
         size="small"
@@ -91,7 +93,7 @@ class EditableCard extends Component<IEditableCardProps> {
       <GuardedButton
         className={className}
         disabled={isLoading || this.isEditing.isTrue || this.isDeleting.isTrue}
-        icon="edit"
+        icon={<EditOutlined />}
         isGuarded={isGuarded}
         onClick={this.isEditing.setTrue}
         size="small"

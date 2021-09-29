@@ -5,7 +5,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
 import * as Antd from 'antd';
-import { TableProps } from 'antd/lib/table/interface';
+import { TableProps } from 'antd/es/table';
 
 import { fieldSetsToColumns, IColumns, ITableModel } from '../utilities';
 import { IModel, ISharedComponentProps } from '../props';

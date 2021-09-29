@@ -76,14 +76,23 @@ describe('objectSearch', () => {
     const model = { law_firm: organizationResultFactory.build() },
       { props } = getFormDefaults({ model }),
       tester = await new Tester(FormCard, { props }).mount(),
-      CLEAR_BUTTON = '.ant-select-selection__clear';
+      CLEAR_BUTTON = '.ant-select-clear';
 
     expect(tester.html()).toContain(model.law_firm.name);
-    expect(tester.find(CLEAR_BUTTON).length).toBe(1);
 
-    tester.click(CLEAR_BUTTON);
-    expect(tester.html()).not.toContain(model.law_firm.name);
-    expect(tester.find(CLEAR_BUTTON).length).toBe(0);
+    await tester.submit();
+
+    expect(props.onSave).toHaveBeenCalledWith(model);
+    props.onSave.mockClear();
+
+    tester
+      .find(CLEAR_BUTTON)
+      .first()
+      .simulate('mousedown');
+
+    await tester.submit();
+
+    expect(props.onSave).toHaveBeenCalledWith({ law_firm: null });
   });
 
   it('Properly caches and displays options', async () => {
@@ -115,8 +124,8 @@ describe('objectSearch', () => {
       tester = await new Tester(FormCard, { props }).mount();
 
     await objectSearchFor(tester, field, results, searchTerm);
-    tester.click(tester.find('.ant-select-dropdown-menu-item').first());
-    tester.click(tester.find('.ant-select-dropdown-menu-item').last());
+    tester.click(tester.find('.ant-select-item-option').first());
+    tester.click(tester.find('.ant-select-item-option').last());
 
     expect(tester.text()).toContain(results[0].name);
     expect(tester.text()).not.toContain(results[1].name);
@@ -138,11 +147,13 @@ describe('objectSearch', () => {
 
       // Search
       await objectSearchFor(tester, field, results, searchTerm);
-      expect(tester.getEndpoint.mock.calls.length).toBe(callsOnFocus + 1);
+      expect(tester.getEndpoint.mock.calls.length).toBeGreaterThanOrEqual(callsOnFocus + 1);
+
+      const numberOfCalls = tester.getEndpoint.mock.calls.length;
 
       // Re-focus
       tester.instance.onFocus();
-      expect(tester.getEndpoint.mock.calls.length).toBe(callsOnFocus + 1);
+      expect(tester.getEndpoint.mock.calls.length).toBe(numberOfCalls);
     });
   });
 });

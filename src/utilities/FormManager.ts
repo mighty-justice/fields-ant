@@ -7,7 +7,7 @@ import httpStatus from 'http-status-codes';
 import { get, has, mapValues, noop, pickBy, set } from 'lodash';
 
 import * as Antd from 'antd';
-import { WrappedFormUtils } from 'antd/es/form/Form';
+import { WrappedFormUtils } from '@ant-design/compatible/es/form/Form';
 
 import { ID_ATTR, TOAST_DURATION } from '../consts';
 import { IFieldConfig, IFieldSet } from '../interfaces';
@@ -29,6 +29,10 @@ export interface IErrorMessage {
 export interface IBackendValidation {
   errorMessages: IErrorMessage[];
   foundOnForm: IFoundOnForm;
+}
+
+interface IAxiosError extends Error {
+  response?: any;
 }
 
 interface IArgs {
@@ -218,7 +222,7 @@ class FormManager {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
 
-  private handleRequestError(error: Error & { response?: any }) {
+  private handleRequestError(error: IAxiosError) {
     /*
     Here we take the raw axios error and try to extract as much information from it as we can
     and use it to inform the user. If we're lucky, we have a nicely formatted JSON bad request
@@ -280,7 +284,7 @@ class FormManager {
         this.form.resetFields();
       }
     } catch (error) {
-      this.handleRequestError(error);
+      this.handleRequestError(error as IAxiosError);
     } finally {
       this.isSaving = false;
     }

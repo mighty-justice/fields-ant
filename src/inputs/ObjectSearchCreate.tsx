@@ -8,8 +8,9 @@ import { ClassValue } from 'classnames/types';
 
 import SmartBool from '@mighty-justice/smart-bool';
 
-import * as Antd from 'antd';
+import { Button, Col, Form } from 'antd';
 import { SelectProps } from 'antd/es/select';
+import { LeftOutlined } from '@ant-design/icons';
 
 import {
   CLASS_PREFIX,
@@ -48,7 +49,7 @@ export interface IObjectSearchCreateProps {
   onAddNewToggle?: (isAddingNew: boolean) => void;
   searchIcon?: React.ReactNode;
   searchOnEmpty?: boolean;
-  selectProps: SelectProps;
+  selectProps: SelectProps<any>;
 }
 
 export const CLASS_NAME = `${CLASS_PREFIX}-input-object-search-create`;
@@ -109,8 +110,8 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     const { fieldConfig, formManager } = this.injected;
 
     return (
-      <Antd.Col>
-        <Antd.Form.Item>
+      <Col>
+        <Form.Item>
           <NestedFieldSet
             fieldSet={this.fieldConfig.createFields}
             formManager={formManager}
@@ -119,11 +120,11 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
             label={renderLabel(this.fieldConfig)}
             search={this.search}
           />
-          <Antd.Button className={CLASS_NAME_BTN_BACK} onClick={this.onSearch} size="small">
-            <Antd.Icon type="left" /> Back to search
-          </Antd.Button>
-        </Antd.Form.Item>
-      </Antd.Col>
+          <Button className={CLASS_NAME_BTN_BACK} onClick={this.onSearch} size="small">
+            <LeftOutlined /> Back to search
+          </Button>
+        </Form.Item>
+      </Col>
     );
   }
 
