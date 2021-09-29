@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { TableProps } from 'antd/lib/table/interface';
+import { TableProps } from 'antd/es/table';
 import { ITableModel } from '../utilities';
 import { IModel, ISharedComponentProps } from '../props';
 export declare type ITablePassDownProps = Omit<TableProps<ITableModel>, 'className' | 'title'>;

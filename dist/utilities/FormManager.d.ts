@@ -1,5 +1,5 @@
 import { ComponentClass } from 'react';
-import { WrappedFormUtils } from 'antd/es/form/Form';
+import { WrappedFormUtils } from '@ant-design/compatible/es/form/Form';
 import { IFieldConfig, IFieldSet } from '../interfaces';
 import { IFormWrappedProps } from '../components/Form';
 import { IModel, IValue } from '../props';

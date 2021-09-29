@@ -18,7 +18,7 @@ export interface IObjectSearchCreateProps {
     onAddNewToggle?: (isAddingNew: boolean) => void;
     searchIcon?: React.ReactNode;
     searchOnEmpty?: boolean;
-    selectProps: SelectProps;
+    selectProps: SelectProps<any>;
 }
 export declare const CLASS_NAME: string;
 export declare const CLASS_NAME_BTN_BACK: string;

@@ -13,7 +13,7 @@ export interface IObjectSearchProps {
     onChange: (value: IValue) => void;
     searchIcon?: React.ReactNode;
     searchOnEmpty?: boolean;
-    selectProps: SelectProps;
+    selectProps: SelectProps<any>;
 }
 export declare const CLASS_NAME: string;
 export declare const OPTION_KEYS: {

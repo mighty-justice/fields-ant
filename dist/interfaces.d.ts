@@ -2,7 +2,8 @@
 import { ColProps } from 'antd/es/col';
 import { ColumnProps } from 'antd/es/table';
 import { RowProps } from 'antd/es/row';
-import { ValidationRule as AntValidationRule, FormItemProps } from 'antd/es/form';
+import { FormItemProps } from 'antd/es/form';
+import { ValidationRule as AntValidationRule } from '@ant-design/compatible/es/form';
 import { ClassValue } from 'classnames/types';
 import { IModel, IValue } from './props';
 import { FormManager, ITableModel } from './utilities';

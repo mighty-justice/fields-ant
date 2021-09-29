@@ -1,10 +1,10 @@
 import { Component } from 'react';
-import { FormComponentProps } from 'antd/es/form';
+import { WrappedFormInternalProps } from '@ant-design/compatible/lib/form/Form';
 import { ISharedFormProps, ISharedComponentProps } from '../props';
 export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
     showControls: boolean;
 }
-export interface IFormWrappedProps extends IFormProps, FormComponentProps {
+export interface IFormWrappedProps extends IFormProps, WrappedFormInternalProps {
 }
 export declare class UnwrappedForm extends Component<IFormWrappedProps> {
     private formManager;
