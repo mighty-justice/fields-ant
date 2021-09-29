@@ -31,6 +31,10 @@ export interface IBackendValidation {
   foundOnForm: IFoundOnForm;
 }
 
+interface IAxiosError extends Error {
+  response?: any;
+}
+
 interface IArgs {
   defaults: IModel;
   fieldSets: IFieldSet[];
@@ -218,7 +222,7 @@ class FormManager {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
 
-  private handleRequestError(error: Error & { response?: any }) {
+  private handleRequestError(error: IAxiosError) {
     /*
     Here we take the raw axios error and try to extract as much information from it as we can
     and use it to inform the user. If we're lucky, we have a nicely formatted JSON bad request
@@ -280,8 +284,7 @@ class FormManager {
         this.form.resetFields();
       }
     } catch (error) {
-      // TODO: Fix typing
-      this.handleRequestError(error as any);
+      this.handleRequestError(error as IAxiosError);
     } finally {
       this.isSaving = false;
     }
