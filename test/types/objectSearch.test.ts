@@ -69,9 +69,8 @@ export async function objectSearchFor(tester: any, field: string, results: any, 
   await act(async () => {
     input.simulate('focus');
     input.simulate('change', { target: { value: searchTerm } });
-
-    await tester.refresh();
   });
+  await tester.refresh(2);
 }
 
 describe('objectSearch', () => {

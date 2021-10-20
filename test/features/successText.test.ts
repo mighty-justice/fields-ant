@@ -14,6 +14,7 @@ describe('successText', () => {
     spyOn(notification, 'success');
     expect(notification.success).not.toHaveBeenCalled();
     await tester.submit();
+    await tester.refresh(10);
     expect(notification.success).toHaveBeenCalledWith({
       description: '',
       duration: TOAST_DURATION,
@@ -30,6 +31,7 @@ describe('successText', () => {
     spyOn(notification, 'success');
     expect(notification.success).not.toHaveBeenCalled();
     await tester.submit();
+    await tester.refresh(10);
     expect(notification.success).toHaveBeenCalledWith({
       description: '',
       duration: TOAST_DURATION,
@@ -46,6 +48,7 @@ describe('successText', () => {
     spyOn(notification, 'success');
     expect(notification.success).not.toHaveBeenCalled();
     await tester.submit();
+    await tester.refresh(10);
     expect(notification.success).not.toHaveBeenCalled();
   });
 });

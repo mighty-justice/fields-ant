@@ -1,6 +1,6 @@
 import { Input } from 'antd';
 
-import { ValidationRule } from '@ant-design/compatible/es/form';
+import { Rule } from 'rc-field-form/lib/interface';
 
 import { getOrDefault, varToLabel } from '@mighty-justice/utils';
 
@@ -92,7 +92,7 @@ export function fillInFieldConfig(fieldConfig: IFieldConfigPartial): IFieldConfi
   const type = inferType(fieldConfig),
     label = fieldConfig.label || varToLabel(getFieldSuffix(fieldConfig.field));
 
-  const requiredValidationRule: undefined | { [key: string]: ValidationRule } = fieldConfig.required
+  const requiredValidationRule: undefined | { [key: string]: Rule } = fieldConfig.required
     ? {
         required: {
           message: `Required - Please input a valid ${label || 'value'}`,

@@ -187,9 +187,9 @@ export function modelFromFieldConfigs(fieldConfigs: IFieldConfig[], data: IModel
   return returnValues;
 }
 
-export function noopValidator(_rule: any, _value: any, callback: (message?: string) => void) {
+export async function noopValidator(_rule: any, _value: any) {
   // Useful for clearing manually-set backend validation errors
-  callback();
+  Promise.resolve();
 }
 
 export function getBtnClassName(action: string, classNameSuffix?: string, title?: React.ReactNode): string {

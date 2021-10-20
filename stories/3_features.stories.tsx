@@ -6,7 +6,6 @@ import { EditableCard, FormCard, IFieldConfigObjectSearchCreate } from '../src';
 import { withInfoConfigured } from '../.storybook/config';
 import { objectSearchCreateFactory, formCardPropsFactory, fieldFactory, stringFactory } from '../test/factories';
 import { ColProps } from 'antd/es/grid';
-import { IModel } from '../src/props';
 
 storiesOf('Features', module)
   .addDecorator(withInfoConfigured)

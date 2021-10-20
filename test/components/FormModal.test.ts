@@ -67,6 +67,7 @@ import SmartBool from '@mighty-justice/smart-bool';
       // Check that it auto-closes on successful submit
       await tester.refresh();
       await tester.submit();
+      await tester.refresh();
       expect(isVisible.isTrue).toBe(false);
 
       // Re-open and test cancel button
@@ -98,6 +99,7 @@ import SmartBool from '@mighty-justice/smart-bool';
       onCancel.mockClear();
       onSuccess.mockClear();
       await tester.submit();
+      await tester.refresh();
       expect(onCancel).not.toHaveBeenCalled();
       expect(onSuccess).toHaveBeenCalled();
       expect(isVisible.isTrue).toBe(true);

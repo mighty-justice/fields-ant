@@ -70,7 +70,7 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
         shouldShow = type !== 'hidden';
 
       const tester = await new Tester(FormCard, { props }).mount();
-      expect(tester.find('.ant-legacy-form-item-required').exists()).toBe(shouldShow);
+      expect(tester.find('.ant-form-item-required').exists()).toBe(shouldShow);
     });
 
     it('Handles disabled prop', async () => {

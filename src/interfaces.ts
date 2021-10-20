@@ -4,12 +4,10 @@ import { ColProps } from 'antd/es/col';
 import { ColumnProps } from 'antd/es/table';
 import { RowProps } from 'antd/es/row';
 import { FormItemProps } from 'antd/es/form';
-import { ValidationRule as AntValidationRule } from '@ant-design/compatible/es/form';
+import { Rule } from 'rc-field-form/lib/interface';
 
 import { IModel, IValue } from './props';
 import { FormManager, ITableModel } from './utilities';
-
-export type IFieldsValidator = (value: IValue, fieldConfig: IFieldConfig, model: IModel) => boolean;
 
 interface IFieldConfigBase {
   className?: ClassValue;
@@ -21,7 +19,7 @@ interface IFieldConfigBase {
   fieldConfigProp: boolean;
   formItemProps?: Partial<FormItemProps>;
   formItemRenderExtra?: (value: IValue) => React.ReactNode;
-  formValidationRules: { [ruleName: string]: AntValidationRule };
+  formValidationRules: { [ruleName: string]: Rule };
   fromForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
   icon?: string;
   insertIf?: (model: any) => boolean;
