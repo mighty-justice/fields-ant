@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 
-import * as Antd from 'antd';
+import { Tooltip, Checkbox as AntCheckbox } from 'antd';
 
 import { IAntFormField, ICheckboxProps, IInjected } from '../interfaces';
 
@@ -23,11 +23,11 @@ export default class Checkbox extends Component<ICheckboxProps> {
       };
 
     return (
-      <Antd.Tooltip title={disabled ? disabledText : ''}>
+      <Tooltip title={disabled ? disabledText : ''}>
         <span>
-          <Antd.Checkbox {...checkboxProps}>{description || ''}</Antd.Checkbox>
+          <AntCheckbox {...checkboxProps}>{description || ''}</AntCheckbox>
         </span>
-      </Antd.Tooltip>
+      </Tooltip>
     );
   }
 }

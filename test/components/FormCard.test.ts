@@ -1,6 +1,6 @@
 import faker from 'faker';
 
-import * as Antd from 'antd';
+import { notification } from 'antd';
 
 import { Tester } from '@mighty-justice/tester';
 
@@ -51,17 +51,17 @@ describe('FormCard', () => {
         title: 'Information',
       };
 
-    spyOn(Antd.notification, 'error');
+    const errorSpy = spyOn(notification, 'error');
     const tester = await new Tester(FormCard, { props }).mount();
 
-    expect(Antd.notification.error).not.toHaveBeenCalled();
+    expect(notification.error).not.toHaveBeenCalled();
     expect(tester.text()).not.toContain(nameError);
 
     tester.submit();
     await tester.sleep();
 
-    expect(Antd.notification.error).toHaveBeenCalled();
-    const antErrorCall = (Antd.notification.error as any).calls.mostRecent();
+    expect(notification.error).toHaveBeenCalled();
+    const antErrorCall = errorSpy.calls.mostRecent();
     expect(JSON.stringify(antErrorCall)).toContain(otherError);
   });
 });

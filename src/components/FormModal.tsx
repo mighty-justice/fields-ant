@@ -5,7 +5,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import { noop } from 'lodash';
 import cx from 'classnames';
 
-import * as Antd from 'antd';
+import { Modal } from 'antd';
 import { ModalProps } from 'antd/es/modal';
 
 import { FormManager } from '../utilities';
@@ -106,7 +106,7 @@ class FormModal extends Component<ISharedFormModalProps> {
     }
 
     return (
-      <Antd.Modal onCancel={this.onCancel} title={title} visible={true} width={width} {...this.modalProps}>
+      <Modal onCancel={this.onCancel} title={title} visible={true} width={width} {...this.modalProps}>
         {this.props.childrenBefore}
 
         <Form
@@ -116,7 +116,7 @@ class FormModal extends Component<ISharedFormModalProps> {
           setRefFormManager={this.setRefFormManager}
           showControls={false}
         />
-      </Antd.Modal>
+      </Modal>
     );
   }
 }

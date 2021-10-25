@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
-import * as Antd from 'antd';
+import { Card as AntCard } from 'antd';
 
 import { CLASS_PREFIX } from '../consts';
 import { cardPropsDefaults, formPropsDefaults } from '../propsDefaults';
@@ -28,7 +28,7 @@ export class FormCard extends Component<IFormCardProps> {
       { title, renderTopRight, ...passDownProps } = this.props;
 
     return (
-      <Antd.Card
+      <AntCard
         bordered={bordered}
         className={cardClassName}
         loading={isLoading}
@@ -36,7 +36,7 @@ export class FormCard extends Component<IFormCardProps> {
         extra={renderTopRight && renderTopRight()}
       >
         <Form {...passDownProps} />
-      </Antd.Card>
+      </AntCard>
     );
   }
 }

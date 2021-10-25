@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
-import * as Antd from 'antd';
+import { Card as AntCard } from 'antd';
 
 import { fillInFieldSets, filterFieldSets } from '../utilities';
 import CardFieldSet from '../building-blocks/CardFieldSet';
@@ -34,7 +34,7 @@ class Card extends Component<ICardProps> {
       filteredFieldSets = filterFieldSets(this.fieldSets, { model, writeOnly: true });
 
     return (
-      <Antd.Card
+      <AntCard
         bordered={bordered}
         className={cx(CLASS_NAME, className)}
         extra={renderTopRight && renderTopRight()}
@@ -46,7 +46,7 @@ class Card extends Component<ICardProps> {
         ))}
 
         {this.props.children}
-      </Antd.Card>
+      </AntCard>
     );
   }
 }

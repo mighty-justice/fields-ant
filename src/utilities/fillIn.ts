@@ -1,4 +1,4 @@
-import * as Antd from 'antd';
+import { Input } from 'antd';
 
 import { getOrDefault, varToLabel } from '@mighty-justice/utils';
 
@@ -13,7 +13,7 @@ export function falseyToString(value: IValue) {
 }
 
 const typeDefaults = {
-  editComponent: Antd.Input,
+  editComponent: Input,
   fieldConfigProp: false,
   formValidationRules: {},
   fromForm: falseyToString,

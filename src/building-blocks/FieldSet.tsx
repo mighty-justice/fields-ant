@@ -4,7 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { ClassValue } from 'classnames/types';
 
-import * as Antd from 'antd';
+import { Row } from 'antd';
 
 import { IFieldSetPartial, ILayout } from '../interfaces';
 import { isPartialFieldSetSimple } from '../utilities';
@@ -32,11 +32,11 @@ export default class FieldSet extends Component<IProps> {
 
     return (
       <div className={cx(CLASS_NAME, className)}>
-        <Antd.Row {...rowProps} className={`${CLASS_NAME}-row-${layout}`}>
+        <Row {...rowProps} className={`${CLASS_NAME}-row-${layout}`}>
           <Legend fieldSet={fieldSet} />
 
           {this.props.children}
-        </Antd.Row>
+        </Row>
       </div>
     );
   }

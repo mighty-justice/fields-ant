@@ -4,8 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { isBoolean, get, isObject } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
 
-import * as Antd from 'antd';
-import { SelectProps } from 'antd';
+import { Select, SelectProps } from 'antd';
 
 import { getNameOrDefault } from '@mighty-justice/utils';
 
@@ -77,9 +76,9 @@ class ObjectSelect extends Component<IObjectSelectProps> {
       key = get(option, keyBy);
 
     return (
-      <Antd.Select.Option disabled={option.disabled} key={key} title={renderSelected(option)} value={key}>
+      <Select.Option disabled={option.disabled} key={key} title={renderSelected(option)} value={key}>
         {renderOption(option)}
-      </Antd.Select.Option>
+      </Select.Option>
     );
   }
 
@@ -88,7 +87,7 @@ class ObjectSelect extends Component<IObjectSelectProps> {
       selectValue = isObject(value) ? get(value, keyBy) : value;
 
     return (
-      <Antd.Select
+      <Select
         allowClear
         optionFilterProp="children"
         showSearch={this.showSearch}
@@ -96,7 +95,7 @@ class ObjectSelect extends Component<IObjectSelectProps> {
         value={selectValue}
       >
         {this.options.map(this.renderOption)}
-      </Antd.Select>
+      </Select>
     );
   }
 }

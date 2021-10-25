@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 
-import * as Antd from 'antd';
+import { Card as AntCard } from 'antd';
 
 import { IModel } from '../props';
 
@@ -20,7 +20,7 @@ class ArrayCard extends Component<IArrayCardProps> {
     const { title, renderTopRight, isLoading, model, fieldSets, classNameSuffix, ...passDownProps } = this.props;
 
     return (
-      <Antd.Card title={title} extra={renderTopRight && renderTopRight()} loading={isLoading}>
+      <AntCard title={title} extra={renderTopRight && renderTopRight()} loading={isLoading}>
         {isEmpty(model) && <p className="empty-message">No records</p>}
 
         {model.map((modelItem: any) => (
@@ -33,7 +33,7 @@ class ArrayCard extends Component<IArrayCardProps> {
             title=""
           />
         ))}
-      </Antd.Card>
+      </AntCard>
     );
   }
 }

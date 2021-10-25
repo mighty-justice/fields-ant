@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
-import * as Antd from 'antd';
+import { Drawer } from 'antd';
 
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormModalProps } from '../props';
@@ -60,7 +60,7 @@ class FormDrawer extends Component<ISharedFormModalProps> {
     }
 
     return (
-      <Antd.Drawer
+      <Drawer
         className={className}
         closable
         destroyOnClose
@@ -74,7 +74,7 @@ class FormDrawer extends Component<ISharedFormModalProps> {
         {this.props.childrenBefore}
 
         <Form {...this.formProps} onCancel={this.onCancel} onSuccess={this.onSuccess} />
-      </Antd.Drawer>
+      </Drawer>
     );
   }
 }
