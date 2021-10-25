@@ -81,11 +81,10 @@ describe('objectSearch', () => {
 
     expect(tester.html()).toContain(model.law_firm.name);
 
-    await act(async () => (await tester.submit()));
+    await act(async () => await tester.submit());
 
     expect(props.onSave).toHaveBeenCalledWith(model);
     props.onSave.mockClear();
-
 
     await act(async () => {
       tester
@@ -93,7 +92,7 @@ describe('objectSearch', () => {
         .first()
         .simulate('mousedown');
 
-      await tester.submit()
+      await tester.submit();
     });
 
     expect(props.onSave).toHaveBeenCalledWith({ law_firm: null });
@@ -105,7 +104,6 @@ describe('objectSearch', () => {
       newEndpoint = `${endpoint}2/`;
 
     tester.endpoints[newEndpoint] = { results };
-
 
     expect(tester.getEndpoint.mock.calls.length).toBe(0);
 
@@ -151,7 +149,7 @@ describe('objectSearch', () => {
       expect(tester.getEndpoint.mock.calls.length).toBe(0);
 
       // Only focus
-      await act(async () => (tester.instance.onFocus()));
+      await act(async () => tester.instance.onFocus());
       expect(tester.getEndpoint.mock.calls.length).toBe(callsOnFocus);
 
       // Search
@@ -163,7 +161,7 @@ describe('objectSearch', () => {
       const numberOfCalls = tester.getEndpoint.mock.calls.length;
 
       // Re-focus
-      await act(async () => (tester.instance.onFocus()));
+      await act(async () => tester.instance.onFocus());
       expect(tester.getEndpoint.mock.calls.length).toBe(numberOfCalls);
     });
   });

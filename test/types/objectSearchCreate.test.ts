@@ -80,7 +80,7 @@ describe('objectSearchCreate', () => {
     const { field, onSave, searchTerm, results, props, fakeOwed } = getDefaults({}),
       tester = await getTester(props);
 
-    await act(async () => (await tester.submit()));
+    await act(async () => await tester.submit());
     expect(onSave).toHaveBeenCalledWith(props.model);
     onSave.mockClear();
 
@@ -94,25 +94,25 @@ describe('objectSearchCreate', () => {
     expect(tester.text()).toContain('Back');
 
     // Will not submit until required sub-form filled out
-    await act(async () => (await tester.submit()));
+    await act(async () => await tester.submit());
     expect(tester.text()).toContain('Required');
     expect(onSave).not.toHaveBeenCalled();
 
     // Will not clear errors when changing valid field
     tester.changeInput('input[id="law_firm.amount_owed"]', fakeOwed);
-    await act(async () => (await tester.submit()));
+    await act(async () => await tester.submit());
     expect(tester.text()).toContain('Required');
     expect(onSave).not.toHaveBeenCalled();
 
     await act(async () => {
       // Will clear errors when fixing invalid field
       tester.changeInput('input[id="law_firm.name"]', searchTerm);
-      await tester.submit()
+      await tester.submit();
     });
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed } });
 
     clickBack(tester);
-    await act(async () => (await tester.submit()));
+    await act(async () => await tester.submit());
     expect(onSave).toHaveBeenCalledWith(props.model);
   });
 
@@ -129,7 +129,7 @@ describe('objectSearchCreate', () => {
       // Will not submit until required sub-form filled out
       await tester.refresh();
       await tester.submit();
-    })
+    });
     expect(onSave).not.toHaveBeenCalled();
     expect(tester.text()).toContain('Required');
 

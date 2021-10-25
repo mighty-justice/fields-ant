@@ -113,14 +113,35 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
   }
 
   private renderSearch() {
-    const { fieldConfig, formManager, formModel } = this.injected;
+    const { fieldConfig, formManager, formModel, onChange, disabled } = this.injected,
+      {
+        addNewContent,
+        debounceWait,
+        isOptionDisabled,
+        loadingIcon,
+        noSearchContent,
+        searchIcon,
+        searchOnEmpty,
+        selectProps,
+      } = this.props
+      // Technically ObjectSearch does not take this prop, it's usually "injected" by FormItem
+      , overrideDisabled: any = { disabled };
 
     return (
       <FormItem fieldConfig={fieldConfig} formManager={formManager} formModel={formModel}>
         <ObjectSearch
-          {...this.props}
-          {...this.injected}
+          {...overrideDisabled}
+          addNewContent={addNewContent}
+          debounceWait={debounceWait}
+          fieldConfig={fieldConfig}
+          isOptionDisabled={isOptionDisabled}
+          loadingIcon={loadingIcon}
+          noSearchContent={noSearchContent}
           onAddNew={this.onAddNew}
+          onChange={onChange}
+          searchIcon={searchIcon}
+          searchOnEmpty={searchOnEmpty}
+          selectProps={selectProps}
         />
       </FormItem>
     );
