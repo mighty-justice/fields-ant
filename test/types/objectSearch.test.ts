@@ -1,3 +1,4 @@
+import { act } from 'react-dom/test-utils';
 import faker from 'faker';
 
 import { Tester } from '@mighty-justice/tester';
@@ -80,17 +81,20 @@ describe('objectSearch', () => {
 
     expect(tester.html()).toContain(model.law_firm.name);
 
-    await tester.submit();
+    await act(async () => (await tester.submit()));
 
     expect(props.onSave).toHaveBeenCalledWith(model);
     props.onSave.mockClear();
 
-    tester
-      .find(CLEAR_BUTTON)
-      .first()
-      .simulate('mousedown');
 
-    await tester.submit();
+    await act(async () => {
+      tester
+        .find(CLEAR_BUTTON)
+        .first()
+        .simulate('mousedown');
+
+      await tester.submit()
+    });
 
     expect(props.onSave).toHaveBeenCalledWith({ law_firm: null });
   });
@@ -102,10 +106,13 @@ describe('objectSearch', () => {
 
     tester.endpoints[newEndpoint] = { results };
 
+
     expect(tester.getEndpoint.mock.calls.length).toBe(0);
 
     // First search
-    await objectSearchFor(tester, field, results, searchTerm);
+    await act(async () => {
+      await objectSearchFor(tester, field, results, searchTerm);
+    });
     expect(tester.getEndpoint.mock.calls.length).toBe(1);
 
     // Re-focus but no new props
@@ -123,9 +130,11 @@ describe('objectSearch', () => {
       { field, searchTerm, results, props } = getFormDefaults(overrides),
       tester = await new Tester(FormCard, { props }).mount();
 
-    await objectSearchFor(tester, field, results, searchTerm);
-    tester.click(tester.find('.ant-select-item-option').first());
-    tester.click(tester.find('.ant-select-item-option').last());
+    await act(async () => {
+      await objectSearchFor(tester, field, results, searchTerm);
+      tester.click(tester.find('.ant-select-item-option').first());
+      tester.click(tester.find('.ant-select-item-option').last());
+    });
 
     expect(tester.text()).toContain(results[0].name);
     expect(tester.text()).not.toContain(results[1].name);
@@ -142,17 +151,19 @@ describe('objectSearch', () => {
       expect(tester.getEndpoint.mock.calls.length).toBe(0);
 
       // Only focus
-      tester.instance.onFocus();
+      await act(async () => (tester.instance.onFocus()));
       expect(tester.getEndpoint.mock.calls.length).toBe(callsOnFocus);
 
       // Search
-      await objectSearchFor(tester, field, results, searchTerm);
+      await act(async () => {
+        await objectSearchFor(tester, field, results, searchTerm);
+      });
       expect(tester.getEndpoint.mock.calls.length).toBeGreaterThanOrEqual(callsOnFocus + 1);
 
       const numberOfCalls = tester.getEndpoint.mock.calls.length;
 
       // Re-focus
-      tester.instance.onFocus();
+      await act(async () => (tester.instance.onFocus()));
       expect(tester.getEndpoint.mock.calls.length).toBe(numberOfCalls);
     });
   });
