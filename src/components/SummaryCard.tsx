@@ -22,7 +22,7 @@ const CLASS_NAME = `${CLASS_PREFIX}-summary-card`;
 @autoBindMethods
 @observer
 class SummaryCard extends Component<ISummaryCardProps> {
-  public static defaultProps: Partial<ISummaryCardProps> = {
+  public static defaultProps = {
     column: 4,
   };
 

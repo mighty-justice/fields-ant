@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
-import { omit } from 'lodash';
 
 import * as Antd from 'antd';
 
@@ -17,7 +16,7 @@ const CLASS_NAME = `${CLASS_PREFIX}-form-drawer`;
 @autoBindMethods
 @observer
 class FormDrawer extends Component<ISharedFormModalProps> {
-  public static defaultProps: Partial<ISharedFormModalProps> = {
+  public static defaultProps = {
     ...formPropsDefaults,
   };
 
@@ -27,8 +26,9 @@ class FormDrawer extends Component<ISharedFormModalProps> {
   }
 
   public get formProps() {
-    const HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
-    return omit(this.props, HANDLED_PROPS);
+    const { title: _title, isVisible: _isVisible, childrenBefore: _childrenBefore, ...formProps } = this.props;
+
+    return formProps;
   }
 
   public onCancel() {

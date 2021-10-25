@@ -12,7 +12,7 @@ import {
   IFieldConfigAddress,
   IFieldConfigPartial,
   IInjected,
-  IInputProps,
+  IFormFieldProps,
   NestedFieldSet,
 } from '../';
 
@@ -37,7 +37,7 @@ const CLASS_NAME = `${FORM_ITEM_CLASS_NAME}-input-address`;
 @observer
 class Address extends Component<IAddressProps> {
   private get injected() {
-    return this.props as IAddressProps & IInjected & IInputProps;
+    return this.props as IAddressProps & IInjected & IFormFieldProps;
   }
 
   private get fieldSet() {

@@ -3,9 +3,9 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 
-import { Input } from 'antd';
+import { Input, Form } from 'antd';
 
-import { IAntFormField, IInjected, IInputProps } from '../interfaces';
+import { IAntFormField, IInjected, IFormFieldProps } from '../interfaces';
 
 /*
 Most components are automatically wrapped with a lot of boiler-plate form code
@@ -19,9 +19,9 @@ do some of what FormItem does for ourselves below:
 
 @autoBindMethods
 @observer
-class Hidden extends Component<IInputProps> {
+class Hidden extends Component<IFormFieldProps> {
   private get injected() {
-    return this.props as IInjected & IInputProps & IAntFormField;
+    return this.props as IInjected & IFormFieldProps & IAntFormField;
   }
 
   public render() {
@@ -31,11 +31,14 @@ class Hidden extends Component<IInputProps> {
         fieldConfig: { field },
       } = this.injected,
       initialValue = formManager.getDefaultValue(fieldConfig),
-      { getFieldDecorator } = formManager.form,
       HANDLED_PROPS = ['formManager', 'formModel', 'fieldConfig'],
       inputProps = { ...omit(this.props, HANDLED_PROPS), type: 'hidden' };
 
-    return getFieldDecorator(field, { initialValue })(<Input {...inputProps} />);
+    return (
+      <Form.Item name={field.split('.')} initialValue={initialValue}>
+        <Input {...inputProps} />
+      </Form.Item>
+    );
   }
 }
 

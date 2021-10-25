@@ -5,16 +5,16 @@ import { inject, observer } from 'mobx-react';
 
 import * as Antd from 'antd';
 
-import { IAntFormField, IFieldConfigOptionSelect, IInjected, IInputProps, IOption } from '../interfaces';
+import { IAntFormField, IFieldConfigOptionSelect, IInjected, IFormFieldProps, IOption } from '../interfaces';
 
 import { getOptions } from '../utilities';
 
 @inject('getOptions')
 @autoBindMethods
 @observer
-class RadioGroup extends Component<IInputProps> {
+class RadioGroup extends Component<IFormFieldProps> {
   private get injected() {
-    return this.props as IInjected & IInputProps & IAntFormField;
+    return this.props as IInjected & IFormFieldProps & IAntFormField;
   }
 
   private get fieldConfig() {

@@ -7,7 +7,7 @@ import * as Antd from 'antd';
 
 import { inferCentury } from '@mighty-justice/utils';
 
-import { IAntFormField, IInjected, IInputProps } from '../interfaces';
+import { IAntFormField, IInjected, IFormFieldProps } from '../interfaces';
 
 type IField = 'year' | 'day' | 'month';
 
@@ -48,7 +48,7 @@ class Date extends Component<IAntFormField> {
   private inputRefs: { [key: string]: any } = {};
 
   private get injected() {
-    return this.props as IInjected & IInputProps & IAntFormField;
+    return this.props as IInjected & IFormFieldProps & IAntFormField;
   }
 
   private get inputProps() {

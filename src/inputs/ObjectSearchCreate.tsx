@@ -3,7 +3,6 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
-import { pick } from 'lodash';
 import { ClassValue } from 'classnames/types';
 
 import SmartBool from '@mighty-justice/smart-bool';
@@ -20,7 +19,7 @@ import {
   IFieldConfig,
   IFieldConfigObjectSearchCreate,
   IInjected,
-  IInputProps,
+  IFormFieldProps,
   NestedFieldSet,
 } from '../';
 
@@ -63,26 +62,11 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
   @observable private search = '';
 
   private get injected() {
-    return this.props as IObjectSearchCreateProps & IInjected & IInputProps & IAntFormField;
+    return this.props as IObjectSearchCreateProps & IInjected & IFormFieldProps & IAntFormField;
   }
 
   private get fieldConfig() {
     return this.props.fieldConfig as IFieldConfigObjectSearchCreate;
-  }
-
-  private get objectSearchProps() {
-    return pick(this.props, [
-      'addNewContent',
-      'debounceWait',
-      'disabled',
-      'fieldConfig',
-      'isOptionDisabled',
-      'loadingIcon',
-      'noSearchContent',
-      'searchIcon',
-      'searchOnEmpty',
-      'selectProps',
-    ]);
   }
 
   private async onAddNew(search: string) {
@@ -133,7 +117,11 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
 
     return (
       <FormItem fieldConfig={fieldConfig} formManager={formManager} formModel={formModel}>
-        <ObjectSearch onAddNew={this.onAddNew} {...this.objectSearchProps} />
+        <ObjectSearch
+          {...this.props}
+          {...this.injected}
+          onAddNew={this.onAddNew}
+        />
       </FormItem>
     );
   }

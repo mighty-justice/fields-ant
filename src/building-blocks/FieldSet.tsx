@@ -24,7 +24,7 @@ const CLASS_NAME = `${CLASS_PREFIX}-field-set`;
 @autoBindMethods
 @observer
 export default class FieldSet extends Component<IProps> {
-  public static defaultProps: Partial<IProps> = { ...sharedComponentPropsDefaults };
+  public static defaultProps = { ...sharedComponentPropsDefaults };
 
   public render() {
     const { className, fieldSet, layout } = this.props,

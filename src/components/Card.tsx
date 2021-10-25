@@ -22,7 +22,7 @@ const CLASS_NAME = `${CLASS_PREFIX}-card`;
 @autoBindMethods
 @observer
 class Card extends Component<ICardProps> {
-  public static defaultProps: Partial<ICardProps> = { ...cardPropsDefaults };
+  public static defaultProps = { ...cardPropsDefaults };
 
   @computed
   private get fieldSets() {

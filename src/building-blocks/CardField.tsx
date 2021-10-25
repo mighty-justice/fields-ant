@@ -18,7 +18,7 @@ export interface ICardFieldProps extends IFormatProps {
 @autoBindMethods
 @observer
 class CardField extends Component<ICardFieldProps> {
-  public static defaultProps: Partial<ICardFieldProps> = { ...sharedComponentPropsDefaults };
+  public static defaultProps = { ...sharedComponentPropsDefaults };
 
   @computed
   private get fieldConfig() {

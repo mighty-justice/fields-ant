@@ -6,7 +6,7 @@ import { EMPTY_FIELD } from '@mighty-justice/utils';
 
 import * as Antd from 'antd';
 
-import { IAntFormField, IInjected, IInputProps } from '../interfaces';
+import { IAntFormField, IInjected, IFormFieldProps } from '../interfaces';
 
 export function formatRating(value: string) {
   return value ? <Antd.Rate disabled defaultValue={+value} /> : EMPTY_FIELD;
@@ -14,9 +14,9 @@ export function formatRating(value: string) {
 
 @autoBindMethods
 @observer
-class Rate extends Component<IInputProps> {
+class Rate extends Component<IFormFieldProps> {
   private get injected() {
-    return this.props as IInjected & IInputProps & IAntFormField;
+    return this.props as IInjected & IFormFieldProps & IAntFormField;
   }
 
   public render() {

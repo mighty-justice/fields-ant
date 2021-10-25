@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { omit } from 'lodash';
 import cx from 'classnames';
 
 import * as Antd from 'antd';
@@ -18,15 +17,15 @@ export interface IFormCardProps extends ISharedFormProps, ICardProps {}
 @autoBindMethods
 @observer
 export class FormCard extends Component<IFormCardProps> {
-  public static defaultProps: Partial<IFormCardProps> = {
+  public static defaultProps = {
     ...formPropsDefaults,
     ...cardPropsDefaults,
   };
 
   public render() {
-    const { bordered, className, isLoading, title, renderTopRight } = this.props,
+    const { bordered, className, isLoading } = this.props,
       cardClassName = cx(`${CLASS_PREFIX}-card`, className),
-      HANDLED_PROPS = ['title', 'renderTopRight'];
+      { title, renderTopRight, ...passDownProps } = this.props;
 
     return (
       <Antd.Card
@@ -36,7 +35,7 @@ export class FormCard extends Component<IFormCardProps> {
         title={title}
         extra={renderTopRight && renderTopRight()}
       >
-        <Form {...omit(this.props, HANDLED_PROPS)} />
+        <Form {...passDownProps} />
       </Antd.Card>
     );
   }

@@ -19,7 +19,7 @@ import FormDrawer from './FormDrawer';
 import FormModal from './FormModal';
 
 export interface IEditableCardProps extends ICardProps, ISharedFormProps {
-  ModalComponent: new (props: ISharedFormModalProps) => FormModal | FormDrawer;
+  ModalComponent?: new (props: ISharedFormModalProps) => FormModal | FormDrawer;
   onDelete?: (model: unknown) => Promise<any>;
 }
 
@@ -29,7 +29,7 @@ class EditableCard extends Component<IEditableCardProps> {
   @observable private isDeleting = new SmartBool();
   @observable private isEditing = new SmartBool();
 
-  public static defaultProps: Partial<IEditableCardProps> = {
+  public static defaultProps = {
     ...formPropsDefaults,
   };
 

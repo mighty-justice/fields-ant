@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { noop, omit } from 'lodash';
+import { noop } from 'lodash';
 import cx from 'classnames';
 
 import * as Antd from 'antd';
@@ -26,7 +26,7 @@ class FormModal extends Component<ISharedFormModalProps> {
     super(props);
   }
 
-  public static defaultProps: Partial<ISharedFormModalProps> = {
+  public static defaultProps = {
     ...formPropsDefaults,
   };
 
@@ -36,8 +36,9 @@ class FormModal extends Component<ISharedFormModalProps> {
   }
 
   public get formProps() {
-    const HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
-    return omit(this.props, HANDLED_PROPS);
+    const { title: _title, isVisible: _isVisible, childrenBefore: _childrenBefore, ...formProps } = this.props;
+
+    return formProps;
   }
 
   public onCancel() {

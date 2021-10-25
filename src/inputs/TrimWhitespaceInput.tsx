@@ -5,7 +5,7 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import { Input } from 'antd';
 
-import { IAntFormField, IInjected, IInputProps } from '../interfaces';
+import { IAntFormField, IInjected, IFormFieldProps } from '../interfaces';
 
 @autoBindMethods
 @observer
@@ -13,7 +13,7 @@ class TrimWhitespaceInput extends Component<{}> {
   @observable private value = '';
 
   private get injected() {
-    return this.props as IInjected & IInputProps & IAntFormField;
+    return this.props as IInjected & IFormFieldProps & IAntFormField;
   }
 
   private onChange(e: any) {
