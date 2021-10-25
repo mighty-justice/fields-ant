@@ -123,9 +123,9 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
         searchIcon,
         searchOnEmpty,
         selectProps,
-      } = this.props
+      } = this.props,
       // Technically ObjectSearch does not take this prop, it's usually "injected" by FormItem
-      , overrideDisabled: any = { disabled };
+      overrideDisabled: any = { disabled };
 
     return (
       <FormItem fieldConfig={fieldConfig} formManager={formManager} formModel={formModel}>
