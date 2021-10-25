@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { omit, debounce, get, uniqBy } from 'lodash';
+import { debounce, get, uniqBy } from 'lodash';
 
 import { Select } from 'antd';
 import { SelectProps } from 'antd/es/select';
@@ -18,7 +18,7 @@ import {
   IEndpointOption,
   IFieldConfigObjectSearchCreate,
   IInjected,
-  IInputProps,
+  IFormFieldProps,
 } from '../';
 import { IValue } from '../props';
 
@@ -56,8 +56,9 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   @observable private previousEndpoint = '';
   @observable private previousSearchFilters = '';
 
-  public static defaultProps: Partial<IObjectSearchProps> = {
+  public static defaultProps = {
     debounceWait: DEFAULT_DEBOUNCE_WAIT,
+    selectProps: {},
   };
 
   private debouncedHandleSearch: (search: string) => void;
@@ -69,7 +70,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   private get injected() {
-    return this.props as IObjectSearchProps & IInjected & IInputProps & IAntFormField;
+    return this.props as IObjectSearchProps & IInjected & IFormFieldProps & IAntFormField;
   }
 
   private get fieldConfig() {
@@ -106,7 +107,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   private get isMultiSelect() {
-    const { mode } = this.selectProps;
+    const { mode } = this.props.selectProps;
     return mode && ['multiple', 'tags'].includes(mode);
   }
 
@@ -116,11 +117,6 @@ class ObjectSearch extends Component<IObjectSearchProps> {
 
   private get searchIcon() {
     return this.props.searchIcon || <SearchOutlined />;
-  }
-
-  private get selectProps() {
-    // Omitting specific props to avoid unintentional behaviors
-    return omit(this.props.selectProps, ['id', 'loading', 'onBlur', 'onChange', 'onFocus', 'onSearch', 'showSearch']);
   }
 
   private async handleSearch(value: string) {
@@ -290,7 +286,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
   }
 
   private renderDropdownWrapper(menu: React.ReactNode) {
-    const { className } = this.selectProps;
+    const { className } = this.props.selectProps;
     return <div className={className}>{menu}</div>;
   }
 
@@ -325,7 +321,7 @@ class ObjectSearch extends Component<IObjectSearchProps> {
         showSearch
         suffixIcon={isLoading ? this.loadingIcon : this.searchIcon}
         {...this.valueProp}
-        {...this.selectProps}
+        {...this.props.selectProps}
       >
         {showNoSearch && this.renderNoSearchOption()}
         {showAddOption && this.renderAddOption()}

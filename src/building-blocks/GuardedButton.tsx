@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 
-import * as Antd from 'antd';
+import { Popconfirm, Button } from 'antd';
 
 import { createDisabledContainer, createGuardedContainer } from '@mighty-justice/utils';
 
@@ -16,11 +16,11 @@ class GuardedButton extends Component<any> {
     super(props);
 
     const { isGuarded } = this.props,
-      disabledComponent = createDisabledContainer(Antd.Button);
+      disabledComponent = createDisabledContainer(Button);
 
     this.guardedContainer = createGuardedContainer({
       disabledComponent,
-      enabledComponent: Antd.Button,
+      enabledComponent: Button,
       isGuarded,
     });
   }
@@ -34,9 +34,9 @@ class GuardedButton extends Component<any> {
       omitProps.push('onClick');
 
       return (
-        <Antd.Popconfirm title="Are you sure?" onConfirm={this.props.onClick}>
+        <Popconfirm title="Are you sure?" onConfirm={this.props.onClick}>
           <GuardedContainer {...omit(this.props, omitProps)} />
-        </Antd.Popconfirm>
+        </Popconfirm>
       );
     }
 

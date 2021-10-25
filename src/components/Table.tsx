@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
-import * as Antd from 'antd';
+import { Table as AntTable } from 'antd';
 import { TableProps } from 'antd/es/table';
 
 import { fieldSetsToColumns, IColumns, ITableModel } from '../utilities';
@@ -43,7 +43,7 @@ class Table extends Component<ITableProps> {
     const { isLoading, title, className, ...passDownProps } = this.props;
 
     return (
-      <Antd.Table
+      <AntTable
         {...passDownProps}
         className={cx(CLASS_NAME, className)}
         columns={this.columns}

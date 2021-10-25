@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
-import { omit } from 'lodash';
 
-import * as Antd from 'antd';
+import { Drawer } from 'antd';
 
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormModalProps } from '../props';
@@ -17,7 +16,7 @@ const CLASS_NAME = `${CLASS_PREFIX}-form-drawer`;
 @autoBindMethods
 @observer
 class FormDrawer extends Component<ISharedFormModalProps> {
-  public static defaultProps: Partial<ISharedFormModalProps> = {
+  public static defaultProps = {
     ...formPropsDefaults,
   };
 
@@ -27,8 +26,9 @@ class FormDrawer extends Component<ISharedFormModalProps> {
   }
 
   public get formProps() {
-    const HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
-    return omit(this.props, HANDLED_PROPS);
+    const { title: _title, isVisible: _isVisible, childrenBefore: _childrenBefore, ...formProps } = this.props;
+
+    return formProps;
   }
 
   public onCancel() {
@@ -60,7 +60,7 @@ class FormDrawer extends Component<ISharedFormModalProps> {
     }
 
     return (
-      <Antd.Drawer
+      <Drawer
         className={className}
         closable
         destroyOnClose
@@ -74,7 +74,7 @@ class FormDrawer extends Component<ISharedFormModalProps> {
         {this.props.childrenBefore}
 
         <Form {...this.formProps} onCancel={this.onCancel} onSuccess={this.onSuccess} />
-      </Antd.Drawer>
+      </Drawer>
     );
   }
 }

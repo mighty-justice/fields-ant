@@ -4,16 +4,16 @@ import { inject, observer } from 'mobx-react';
 import { isBoolean, get, isObject } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
 
-import * as Antd from 'antd';
+import { Select, SelectProps } from 'antd';
 
 import { getNameOrDefault } from '@mighty-justice/utils';
 
-import { IAntFormField, IFieldConfigOptionSelect, IInjected, IInputProps } from '../interfaces';
+import { IAntFormField, IFieldConfigOptionSelect, IInjected, IFormFieldProps } from '../interfaces';
 
 import { getOptions } from '../utilities';
 import { IModel } from '../props';
 
-export interface IObjectSelectProps extends IInputProps {
+export interface IObjectSelectProps extends IFormFieldProps {
   keyBy: string;
   renderOption: (option: IModel) => React.ReactNode;
   renderSelected: (option: IModel) => string;
@@ -27,10 +27,10 @@ export const SHOW_OPTION_SEARCH_IF_OVER = 8;
 @observer
 class ObjectSelect extends Component<IObjectSelectProps> {
   private get injected() {
-    return this.props as IObjectSelectProps & IInjected & IInputProps & IAntFormField;
+    return this.props as IObjectSelectProps & IInjected & IFormFieldProps & IAntFormField;
   }
 
-  public static defaultProps: Partial<IObjectSelectProps> = {
+  public static defaultProps = {
     keyBy: 'id',
     renderOption: getNameOrDefault,
     renderSelected: getNameOrDefault,
@@ -54,14 +54,31 @@ class ObjectSelect extends Component<IObjectSelectProps> {
     return this.options.length > SHOW_OPTION_SEARCH_IF_OVER;
   }
 
+  private get selectProps(): SelectProps<any> {
+    const {
+      fieldConfig: _fieldConfig,
+      formManager: _formManager,
+      formModel: _formModel,
+      getOptions: _getOptions,
+      keyBy: _keyBy,
+      renderOption: _renderOption,
+      renderSelected: _renderSelected,
+      ...selectProps
+    } = this.injected;
+
+    return {
+      ...selectProps,
+    };
+  }
+
   private renderOption(option: IModel) {
     const { renderSelected, renderOption, keyBy } = this.injected,
       key = get(option, keyBy);
 
     return (
-      <Antd.Select.Option disabled={option.disabled} key={key} title={renderSelected(option)} value={key}>
+      <Select.Option disabled={option.disabled} key={key} title={renderSelected(option)} value={key}>
         {renderOption(option)}
-      </Antd.Select.Option>
+      </Select.Option>
     );
   }
 
@@ -70,15 +87,15 @@ class ObjectSelect extends Component<IObjectSelectProps> {
       selectValue = isObject(value) ? get(value, keyBy) : value;
 
     return (
-      <Antd.Select
+      <Select
         allowClear
         optionFilterProp="children"
         showSearch={this.showSearch}
-        {...this.props}
+        {...this.selectProps}
         value={selectValue}
       >
         {this.options.map(this.renderOption)}
-      </Antd.Select>
+      </Select>
     );
   }
 }

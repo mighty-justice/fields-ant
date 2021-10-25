@@ -1,13 +1,14 @@
+import { act } from 'react-dom/test-utils';
 import faker from 'faker';
 
 import { Tester } from '@mighty-justice/tester';
 
 import { FormCard } from '../../src';
 import { fakeTextShort, organizationResultFactory } from '../factories';
-
-import { objectSearchFor } from './objectSearch.test';
 import { OPTION_KEYS } from '../../src/inputs/ObjectSearch';
 import { CLASS_NAME_BTN_BACK } from '../../src/inputs/ObjectSearchCreate';
+
+import { objectSearchFor } from './objectSearch.test';
 
 function getDefaults(overrides?: any) {
   const field = overrides.field || 'law_firm',
@@ -62,12 +63,16 @@ async function clickBack(tester: any) {
 describe('objectSearchCreate', () => {
   it('Selects existing', async () => {
     const { field, props, onSave, searchTerm, results } = getDefaults({}),
-      tester = await getTester(props);
+      tester = new Tester(FormCard, { props });
 
-    await objectSearchFor(tester, field, results, searchTerm);
+    await act(async () => {
+      await tester.mount();
+      await objectSearchFor(tester, field, results, searchTerm);
 
-    clickFirstResult(tester);
-    tester.submit();
+      clickFirstResult(tester);
+      await tester.submit();
+    });
+
     expect(onSave).toHaveBeenCalledWith({ law_firm: results[0] });
   });
 
@@ -75,35 +80,39 @@ describe('objectSearchCreate', () => {
     const { field, onSave, searchTerm, results, props, fakeOwed } = getDefaults({}),
       tester = await getTester(props);
 
-    await tester.submit();
+    await act(async () => await tester.submit());
     expect(onSave).toHaveBeenCalledWith(props.model);
     onSave.mockClear();
 
-    await objectSearchFor(tester, field, results, searchTerm);
-    await clickAddNew(tester);
+    await act(async () => {
+      await objectSearchFor(tester, field, results, searchTerm);
+      await clickAddNew(tester);
+    });
 
     expect(tester.text()).toContain('Name');
     expect(tester.text()).toContain('Amount Owed');
     expect(tester.text()).toContain('Back');
 
     // Will not submit until required sub-form filled out
-    tester.submit();
+    await act(async () => await tester.submit());
     expect(tester.text()).toContain('Required');
     expect(onSave).not.toHaveBeenCalled();
 
     // Will not clear errors when changing valid field
     tester.changeInput('input[id="law_firm.amount_owed"]', fakeOwed);
-    tester.submit();
+    await act(async () => await tester.submit());
     expect(tester.text()).toContain('Required');
     expect(onSave).not.toHaveBeenCalled();
 
-    // Will clear errors when fixing invalid field
-    tester.changeInput('input[id="law_firm.name"]', searchTerm);
-    tester.submit();
+    await act(async () => {
+      // Will clear errors when fixing invalid field
+      tester.changeInput('input[id="law_firm.name"]', searchTerm);
+      await tester.submit();
+    });
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed } });
 
     clickBack(tester);
-    tester.submit();
+    await act(async () => await tester.submit());
     expect(onSave).toHaveBeenCalledWith(props.model);
   });
 
@@ -113,12 +122,14 @@ describe('objectSearchCreate', () => {
       }),
       tester = await getTester(props);
 
-    await objectSearchFor(tester, field, results, searchTerm);
-    await clickAddNew(tester);
+    await act(async () => {
+      await objectSearchFor(tester, field, results, searchTerm);
+      await clickAddNew(tester);
 
-    // Will not submit until required sub-form filled out
-    await tester.refresh();
-    tester.submit();
+      // Will not submit until required sub-form filled out
+      await tester.refresh();
+      await tester.submit();
+    });
     expect(onSave).not.toHaveBeenCalled();
     expect(tester.text()).toContain('Required');
 
@@ -138,11 +149,13 @@ describe('objectSearchCreate', () => {
       }),
       tester = await getTester(props);
 
-    await objectSearchFor(tester, field, results, searchTerm);
-    await clickAddNew(tester);
+    await act(async () => {
+      await objectSearchFor(tester, field, results, searchTerm);
+      await clickAddNew(tester);
+    });
 
     expect(tester.find('input[id="law_firm.name"]').html()).toContain(searchTerm);
-    tester.submit();
+    await act(async () => await tester.submit());
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: null } });
   });
 
@@ -158,13 +171,15 @@ describe('objectSearchCreate', () => {
       { field, onSave, results, props } = getDefaults({ createFields }),
       tester = await getTester(props);
 
-    await objectSearchFor(tester, field, results, searchTerm);
-    await clickAddNew(tester);
+    await act(async () => {
+      await objectSearchFor(tester, field, results, searchTerm);
+      await clickAddNew(tester);
+    });
 
     expect(tester.find('input[id="law_firm.first_name"]').html()).toContain(firstName);
     expect(tester.find('input[id="law_firm.last_name"]').html()).toContain(lastName);
 
-    tester.submit();
+    await act(async () => await tester.submit());
     expect(onSave).toHaveBeenCalledWith({
       law_firm: {
         amount_owed: null,
@@ -180,9 +195,11 @@ describe('objectSearchCreate', () => {
       }),
       tester = await getTester(props);
 
-    await objectSearchFor(tester, field, results, searchTerm);
-    await clickAddNew(tester);
-    tester.submit();
+    await act(async () => {
+      await objectSearchFor(tester, field, results, searchTerm);
+      await clickAddNew(tester);
+      tester.submit();
+    });
 
     expect(onSave).toHaveBeenCalledWith({ law_firm: { non_nullable: '', nullable: null } });
   });
@@ -195,14 +212,16 @@ describe('objectSearchCreate', () => {
       }),
       tester = await getTester(props);
 
-    await objectSearchFor(tester, field, results, searchTerm);
-    await clickAddNew(tester);
-    await tester.refresh();
+    await act(async () => {
+      await objectSearchFor(tester, field, results, searchTerm);
+      await clickAddNew(tester);
+      await tester.refresh();
+    });
 
     expect(tester.text()).toContain(legend);
     tester.changeInput('input[id="law_firm.complex"]', submitValue);
 
-    tester.submit();
+    await act(async () => await tester.submit());
     expect(onSave).toHaveBeenCalledWith({ law_firm: { complex: submitValue } });
   });
 
@@ -223,7 +242,9 @@ describe('objectSearchCreate', () => {
       }),
       tester = await getTester(props);
 
-    await objectSearchFor(tester, field, results, searchTerm);
+    await act(async () => {
+      await objectSearchFor(tester, field, results, searchTerm);
+    });
 
     expect(
       tester
@@ -231,9 +252,13 @@ describe('objectSearchCreate', () => {
         .at(1)
         .text(),
     ).toContain('FFF');
-    clickFirstResult(tester);
+
+    await act(async () => {
+      clickFirstResult(tester);
+    });
+
     expect(tester.text()).toContain('ZZZ');
-    tester.submit();
+    await act(async () => await tester.submit());
 
     expect(onSave).toHaveBeenCalledWith({ law_firm: results[0] });
   });

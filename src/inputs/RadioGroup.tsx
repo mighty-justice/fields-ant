@@ -3,18 +3,17 @@ import { computed } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
 import { inject, observer } from 'mobx-react';
 
-import * as Antd from 'antd';
+import { Radio } from 'antd';
 
-import { IAntFormField, IFieldConfigOptionSelect, IInjected, IInputProps, IOption } from '../interfaces';
-
+import { IAntFormField, IFieldConfigOptionSelect, IInjected, IFormFieldProps, IOption } from '../interfaces';
 import { getOptions } from '../utilities';
 
 @inject('getOptions')
 @autoBindMethods
 @observer
-class RadioGroup extends Component<IInputProps> {
+class RadioGroup extends Component<IFormFieldProps> {
   private get injected() {
-    return this.props as IInjected & IInputProps & IAntFormField;
+    return this.props as IInjected & IFormFieldProps & IAntFormField;
   }
 
   private get fieldConfig() {
@@ -28,13 +27,13 @@ class RadioGroup extends Component<IInputProps> {
 
   public render() {
     return (
-      <Antd.Radio.Group {...this.props}>
+      <Radio.Group {...this.props}>
         {this.options.map(option => (
-          <Antd.Radio disabled={option.disabled} key={option.value} value={option.value}>
+          <Radio disabled={option.disabled} key={option.value} value={option.value}>
             {option.name}
-          </Antd.Radio>
+          </Radio>
         ))}
-      </Antd.Radio.Group>
+      </Radio.Group>
     );
   }
 }

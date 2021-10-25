@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
-import * as Antd from 'antd';
+import { Col, Form as AntForm } from 'antd';
 
 import {
   DEFAULT_STATE_OPTION_TYPE,
@@ -12,7 +12,7 @@ import {
   IFieldConfigAddress,
   IFieldConfigPartial,
   IInjected,
-  IInputProps,
+  IFormFieldProps,
   NestedFieldSet,
 } from '../';
 
@@ -37,7 +37,7 @@ const CLASS_NAME = `${FORM_ITEM_CLASS_NAME}-input-address`;
 @observer
 class Address extends Component<IAddressProps> {
   private get injected() {
-    return this.props as IAddressProps & IInjected & IInputProps;
+    return this.props as IAddressProps & IInjected & IFormFieldProps;
   }
 
   private get fieldSet() {
@@ -70,8 +70,8 @@ class Address extends Component<IAddressProps> {
       className = cx(FORM_ITEM_CLASS_NAME, CLASS_NAME, fieldConfig.className, formItemProps && formItemProps.className);
 
     return (
-      <Antd.Col {...colProps}>
-        <Antd.Form.Item className={className}>
+      <Col {...colProps}>
+        <AntForm.Item className={className}>
           <NestedFieldSet
             fieldSet={this.fieldSet}
             formManager={formManager}
@@ -79,8 +79,8 @@ class Address extends Component<IAddressProps> {
             id={fieldConfig.field}
             label={renderLabel(fieldConfig)}
           />
-        </Antd.Form.Item>
-      </Antd.Col>
+        </AntForm.Item>
+      </Col>
     );
   }
 }

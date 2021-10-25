@@ -3,7 +3,7 @@ import moment from 'moment';
 import { format } from 'date-fns';
 import { pattern as iso8601pattern } from 'iso8601-duration';
 
-import * as Antd from 'antd';
+import { DatePicker, Input } from 'antd';
 
 import { IFieldConfig } from '../interfaces';
 
@@ -109,7 +109,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: passRenderOnlyValue(formatDate),
   },
   datepicker: {
-    editComponent: Antd.DatePicker,
+    editComponent: DatePicker,
     editProps: { format: dateFormatList },
     fromForm: (value: any) => (value ? format(value, 'YYYY-MM-DD') : ''),
     nullify: true,
@@ -126,7 +126,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     nullify: true,
   },
   ein: {
-    editComponent: Antd.Input,
+    editComponent: Input,
     formValidationRules: {
       ssn: {
         message: 'Must be a valid employer ID number',
@@ -168,7 +168,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: passRenderOnlyValue(formatMoney),
   },
   number: {
-    editComponent: Antd.Input,
+    editComponent: Input,
     editProps: { type: 'number' },
     nullify: true,
     render: formatCommaSeparatedNumber,
@@ -203,7 +203,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: passRenderOnlyValueAndFieldConfig(formatOptionSelect),
   },
   password: {
-    editComponent: Antd.Input.Password,
+    editComponent: Input.Password,
     render: value => (value ? '********' : EMPTY_FIELD),
   },
   percentage: {
@@ -225,7 +225,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     toForm: passToFormOnlyValue(getPercentDisplay),
   },
   phone: {
-    editComponent: Antd.Input,
+    editComponent: Input,
     render: passRenderOnlyValue(formatPhoneNumber),
   },
   radio: {
@@ -240,7 +240,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     render: formatRating,
   },
   ssn: {
-    editComponent: Antd.Input,
+    editComponent: Input,
     formValidationRules: {
       ssn: {
         message: 'Must be a valid social security number',
@@ -251,7 +251,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   },
   string: {},
   text: {
-    editComponent: Antd.Input.TextArea,
+    editComponent: Input.TextArea,
     editProps: {
       autoSize: { minRows: 4 },
     },

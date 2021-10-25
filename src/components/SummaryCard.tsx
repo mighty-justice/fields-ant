@@ -5,7 +5,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import { kebabCase } from 'lodash';
 import cx from 'classnames';
 
-import * as Antd from 'antd';
+import { Card as AntCard, List } from 'antd';
 
 import { fillInFieldSets, getFieldSetFields, renderValue } from '../utilities';
 import { IFieldConfig } from '../interfaces';
@@ -22,7 +22,7 @@ const CLASS_NAME = `${CLASS_PREFIX}-summary-card`;
 @autoBindMethods
 @observer
 class SummaryCard extends Component<ISummaryCardProps> {
-  public static defaultProps: Partial<ISummaryCardProps> = {
+  public static defaultProps = {
     column: 4,
   };
 
@@ -36,10 +36,10 @@ class SummaryCard extends Component<ISummaryCardProps> {
       className = `summary-${kebabCase(fieldConfig.field)}`;
 
     return (
-      <Antd.List.Item key={fieldConfig.field} className={className} extra={null}>
+      <List.Item key={fieldConfig.field} className={className} extra={null}>
         <h4>{fieldConfig.label}</h4>
         <p>{renderValue(fieldConfig, model)}</p>
-      </Antd.List.Item>
+      </List.Item>
     );
   }
 
@@ -47,14 +47,14 @@ class SummaryCard extends Component<ISummaryCardProps> {
     const { title, column, isLoading, renderTopRight, className } = this.props;
 
     return (
-      <Antd.Card
+      <AntCard
         className={cx(CLASS_NAME, className)}
         extra={renderTopRight && renderTopRight()}
         loading={isLoading}
         title={title}
       >
         {this.fieldSets.map((fieldSet, idx) => (
-          <Antd.List
+          <List
             className="list-summary"
             dataSource={getFieldSetFields(fieldSet)}
             grid={{ gutter: 24, column }}
@@ -62,7 +62,7 @@ class SummaryCard extends Component<ISummaryCardProps> {
             renderItem={this.renderItem}
           />
         ))}
-      </Antd.Card>
+      </AntCard>
     );
   }
 }

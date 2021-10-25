@@ -3,11 +3,11 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import { omit } from 'lodash';
 
-import * as Antd from 'antd';
+import { Input } from 'antd';
 
 import { inferCentury } from '@mighty-justice/utils';
 
-import { IAntFormField, IInjected, IInputProps } from '../interfaces';
+import { IAntFormField, IInjected, IFormFieldProps } from '../interfaces';
 
 type IField = 'year' | 'day' | 'month';
 
@@ -48,7 +48,7 @@ class Date extends Component<IAntFormField> {
   private inputRefs: { [key: string]: any } = {};
 
   private get injected() {
-    return this.props as IInjected & IInputProps & IAntFormField;
+    return this.props as IInjected & IFormFieldProps & IAntFormField;
   }
 
   private get inputProps() {
@@ -99,7 +99,7 @@ class Date extends Component<IAntFormField> {
 
     return (
       <span key={key} style={{ display: 'inline-block', ...style }}>
-        <Antd.Input
+        <Input
           defaultValue={defaultValue}
           id={key}
           onChange={onChange}
@@ -112,7 +112,7 @@ class Date extends Component<IAntFormField> {
   }
 
   public render() {
-    return <Antd.Input.Group compact>{INPUT_ORDER.map(this.renderFieldInput)}</Antd.Input.Group>;
+    return <Input.Group compact>{INPUT_ORDER.map(this.renderFieldInput)}</Input.Group>;
   }
 }
 

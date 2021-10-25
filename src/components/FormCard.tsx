@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { omit } from 'lodash';
 import cx from 'classnames';
 
-import * as Antd from 'antd';
+import { Card as AntCard } from 'antd';
 
 import { CLASS_PREFIX } from '../consts';
 import { cardPropsDefaults, formPropsDefaults } from '../propsDefaults';
@@ -18,26 +17,26 @@ export interface IFormCardProps extends ISharedFormProps, ICardProps {}
 @autoBindMethods
 @observer
 export class FormCard extends Component<IFormCardProps> {
-  public static defaultProps: Partial<IFormCardProps> = {
+  public static defaultProps = {
     ...formPropsDefaults,
     ...cardPropsDefaults,
   };
 
   public render() {
-    const { bordered, className, isLoading, title, renderTopRight } = this.props,
+    const { bordered, className, isLoading } = this.props,
       cardClassName = cx(`${CLASS_PREFIX}-card`, className),
-      HANDLED_PROPS = ['title', 'renderTopRight'];
+      { title, renderTopRight, ...passDownProps } = this.props;
 
     return (
-      <Antd.Card
+      <AntCard
         bordered={bordered}
         className={cardClassName}
         loading={isLoading}
         title={title}
         extra={renderTopRight && renderTopRight()}
       >
-        <Form {...omit(this.props, HANDLED_PROPS)} />
-      </Antd.Card>
+        <Form {...passDownProps} />
+      </AntCard>
     );
   }
 }

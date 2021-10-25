@@ -28,7 +28,7 @@ export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormPro
 class EditableArrayCard extends Component<IEditableArrayCardProps> {
   @observable private isAddingNew = new SmartBool();
 
-  public static defaultProps: Partial<IEditableArrayCardProps> = {
+  public static defaultProps = {
     ...formPropsDefaults,
   };
 
