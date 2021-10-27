@@ -31,7 +31,10 @@ describe('insertIf', () => {
     expect(tester.text()).toContain(legend);
     expect(tester.text()).toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
+
     await tester.click(`button.btn-edit`);
+    await tester.refresh();
+
     expect(tester.text()).toContain(legend);
     expect(tester.text()).toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
@@ -53,7 +56,10 @@ describe('insertIf', () => {
     expect(tester.text()).not.toContain(legend);
     expect(tester.text()).not.toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
+
     await tester.click(`button.btn-edit`);
+    await tester.refresh();
+
     expect(tester.text()).not.toContain(legend);
     expect(tester.text()).not.toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
@@ -75,7 +81,10 @@ describe('insertIf', () => {
     expect(tester.text()).toContain(legend);
     expect(tester.text()).not.toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
+
     await tester.click(`button.btn-edit`);
+    await tester.refresh();
+
     expect(tester.text()).toContain(legend);
     expect(tester.text()).not.toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
@@ -96,7 +105,10 @@ describe('insertIf', () => {
     expect(tester.text()).toContain(legend);
     expect(tester.text()).toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
+
     await tester.click(`button.btn-edit`);
+    await tester.refresh();
+
     expect(tester.text()).toContain(legend);
     expect(tester.text()).toContain(exampleLabel);
     expect(tester.text()).toContain(normalLabel);
@@ -201,6 +213,7 @@ describe('insertIf', () => {
 
       expect(tester.text().includes(exampleLabel)).toBe(secondExampleField);
       await tester.click(`button.btn-edit`);
+      await tester.refresh();
       expect(tester.text().includes(exampleLabel)).toBe(secondExampleField);
     }
   });
@@ -225,6 +238,7 @@ describe('insertIf', () => {
       }).mount();
 
       await tester.click(`button.btn-edit`);
+      await tester.refresh();
       expect(tester.text().includes(exampleLabel)).toBe(secondExampleField);
     }
   });
@@ -238,6 +252,7 @@ describe('insertIf', () => {
         },
       }).mount();
     await tester.click('button.btn-edit');
+    await tester.refresh();
     await tester.submit();
 
     expect(onSave).not.toHaveBeenCalledWith(expect.objectContaining({ [field]: '' }));

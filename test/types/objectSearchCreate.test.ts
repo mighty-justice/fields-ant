@@ -150,6 +150,7 @@ describe('objectSearchCreate', () => {
     await act(async () => {
       await objectSearchFor(tester, field, results, searchTerm);
       await clickAddNew(tester);
+      await tester.refresh();
     });
 
     expect(tester.find('input[id="law_firm.name"]').html()).toContain(searchTerm);
@@ -172,6 +173,7 @@ describe('objectSearchCreate', () => {
     await act(async () => {
       await objectSearchFor(tester, field, results, searchTerm);
       await clickAddNew(tester);
+      await tester.refresh();
     });
 
     expect(tester.find('input[id="law_firm.first_name"]').html()).toContain(firstName);

@@ -40,7 +40,7 @@ describe('isSubmitButtonDisabled', () => {
       expect(isInvalid(tester)).toBe(true);
 
       await changeInput(tester, name);
-      clickSubmit(tester);
+      await clickSubmit(tester);
       expect(isSubmitDisabled(tester)).toBe(false);
     });
 
@@ -54,7 +54,7 @@ describe('isSubmitButtonDisabled', () => {
       expect(isNotSubmitting(tester)).toBe(true);
 
       await changeInput(tester, 'Name');
-      clickSubmit(tester);
+      await clickSubmit(tester);
       expect(isSubmitDisabled(tester)).toBe(false);
     });
   });

@@ -35,6 +35,7 @@ describe('EditableCard', () => {
       }
 
       await tester.click(`button.btn-edit`);
+      await tester.refresh();
       await tester.changeInput('input', newText);
 
       expect(isForm(tester)).toBe(true);
@@ -56,6 +57,7 @@ describe('EditableCard', () => {
 
     expect(onDelete).not.toHaveBeenCalled();
     await tester.click(`button.btn-delete`);
+    await tester.refresh();
     await tester.click('.btn-delete .ant-popover-inner .ant-btn-primary');
     expect(onDelete).toHaveBeenCalled();
   });

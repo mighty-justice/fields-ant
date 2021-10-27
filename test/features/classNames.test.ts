@@ -17,6 +17,8 @@ describe('className', () => {
         props = propsFactory.build({ className }),
         tester = await new Tester(ComponentClass, { props }).mount();
 
+      await tester.refresh();
+
       expect(
         tester
           .find('Form')
@@ -33,6 +35,8 @@ describe('className', () => {
         props = propsFactory.build({ className }),
         tester = await new Tester(ComponentClass, { props }).mount();
 
+      await tester.refresh();
+
       expect(
         tester
           .find('Card')
@@ -42,6 +46,8 @@ describe('className', () => {
 
       if (EDITABLE_COMPONENTS.includes(componentName)) {
         await tester.click(`button.btn-edit`);
+        await tester.refresh();
+
         expect(
           tester
             .find('Card')

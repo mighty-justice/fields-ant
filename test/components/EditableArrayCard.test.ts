@@ -47,6 +47,7 @@ describe('EditableArrayCard', () => {
 
       expect(tester.find('input#name').length).toBe(0);
       await tester.click(`button.btn-${action}`);
+      await tester.refresh();
       expect(tester.find('input#name').length).toBe(1);
 
       expect(prop).not.toHaveBeenCalled();
