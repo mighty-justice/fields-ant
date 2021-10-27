@@ -17,8 +17,7 @@ class Info extends Component<{ fieldConfig: IFieldConfigPartial; format?: IForma
   public render() {
     const { fieldConfig, format } = this.props,
       layout = format?.layout,
-      customClassName = fieldConfig.className,
-      rowClassName = cx(customClassName, `${CLASS_PREFIX}-info-row-${layout}`);
+      rowClassName = cx(fieldConfig.className, `${CLASS_PREFIX}-info-row-${layout}`);
 
     return (
       <Col {...this.props.fieldConfig.colProps} className={`${CLASS_PREFIX}-info`}>
