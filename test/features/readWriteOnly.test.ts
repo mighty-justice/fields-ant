@@ -24,7 +24,7 @@ describe('Renders', () => {
       expect(tester.text()).toContain(writeOnly.label);
       expect(tester.text()).not.toContain(readOnly.label);
 
-      tester.submit();
+      await tester.submit();
       const submitData = onSave.mock.calls[0][0];
 
       expect(submitData[normal.field]).toBe('');

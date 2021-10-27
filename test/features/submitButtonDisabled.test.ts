@@ -15,10 +15,10 @@ const isSubmitDisabled = (tester: any): boolean => !!tester.find('.ant-btn-prima
   clickSubmit = async (tester: any): Promise<void> => {
     await tester.refresh();
     expect(isSubmitDisabled(tester)).toBe(false);
-    tester.click(tester.find('.ant-btn-primary'));
+    await tester.click(tester.find('.ant-btn-primary'));
   },
   changeInput = async (tester: any, value: any): Promise<void> => {
-    tester.changeInput('input', value);
+    await tester.changeInput('input', value);
   };
 
 // Tests whether submit button correctly enables and disables.
@@ -40,7 +40,7 @@ describe('isSubmitButtonDisabled', () => {
       expect(isInvalid(tester)).toBe(true);
 
       await changeInput(tester, name);
-      clickSubmit(tester);
+      await clickSubmit(tester);
       expect(isSubmitDisabled(tester)).toBe(false);
     });
 
@@ -54,7 +54,7 @@ describe('isSubmitButtonDisabled', () => {
       expect(isNotSubmitting(tester)).toBe(true);
 
       await changeInput(tester, 'Name');
-      clickSubmit(tester);
+      await clickSubmit(tester);
       expect(isSubmitDisabled(tester)).toBe(false);
     });
   });

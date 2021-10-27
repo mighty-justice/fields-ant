@@ -23,12 +23,12 @@ describe('TrimWhitespaceInput', () => {
 
     expect(onSave).not.toHaveBeenCalled();
 
-    tester.changeInput(`input#${fieldConfig.field}`, emailWithSpace);
+    await tester.changeInput(`input#${fieldConfig.field}`, emailWithSpace);
 
     expect(tester.html()).not.toContain(emailWithSpace);
     expect(tester.html()).toContain(fakeEmail);
 
-    tester.submit();
+    await tester.submit();
 
     expect(onSave).toHaveBeenCalledWith({ [fieldConfig.field]: fakeEmail });
   });

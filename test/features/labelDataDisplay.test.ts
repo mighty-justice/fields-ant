@@ -107,7 +107,8 @@ describe('Renders', () => {
         expect(tester.find(`div.fields-ant-field-set-row-${layout}`).length).toBe(1);
         expect(tester.find(`.fields-ant-info-label-${layout}`).length).toBe(1);
 
-        tester.click(`button.btn-edit`);
+        await tester.click(`button.btn-edit`);
+        await tester.refresh();
 
         expect(isForm(tester)).toBe(true);
         expect(tester.find(`form.ant-legacy-form-${layout}`).length).toBe(1);

@@ -46,12 +46,13 @@ describe('EditableArrayCard', () => {
         tester = await new Tester(EditableArrayCard, { props }).mount();
 
       expect(tester.find('input#name').length).toBe(0);
-      tester.click(`button.btn-${action}`);
+      await tester.click(`button.btn-${action}`);
+      await tester.refresh();
       expect(tester.find('input#name').length).toBe(1);
 
       expect(prop).not.toHaveBeenCalled();
-      tester.changeInput('input#name', newValue);
-      tester.submit();
+      await tester.changeInput('input#name', newValue);
+      await tester.submit();
       expect(prop).toHaveBeenCalledWith({
         ...(action === 'edit' ? model[0] : {}),
         name: newValue,

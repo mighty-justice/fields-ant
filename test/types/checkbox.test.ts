@@ -18,6 +18,7 @@ describe('checkbox', () => {
 
     async function submitAndCheckFor(value: boolean) {
       expect(onSave).not.toHaveBeenCalled();
+      await tester.refresh();
       expect(tester.find('.ant-checkbox-wrapper-checked').length).toBe(value ? 1 : 0);
 
       await tester.submit();
@@ -33,7 +34,7 @@ describe('checkbox', () => {
     await submitAndCheckFor(false);
 
     // Change and submit
-    tester.checkBox('input', true);
+    await tester.checkBox('input', true);
     await submitAndCheckFor(true);
 
     // Submit again

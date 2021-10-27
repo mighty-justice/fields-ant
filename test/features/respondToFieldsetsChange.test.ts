@@ -37,7 +37,7 @@ describe('respondToFieldsetsChange', () => {
       expect(tester.find('input[id="originalName"]').length).toBe(1);
       expect(tester.find('input[id="updatedName"]').length).toBe(0);
 
-      tester.submit();
+      await tester.submit();
       expect(props.onSave).toHaveBeenCalledWith({ originalName: '' });
 
       props.onSave.mockClear();
@@ -47,7 +47,7 @@ describe('respondToFieldsetsChange', () => {
       expect(tester.find('input[id="originalName"]').length).toBe(0);
       expect(tester.find('input[id="updatedName"]').length).toBe(1);
 
-      tester.submit();
+      await tester.submit();
       expect(props.onSave).toHaveBeenCalledWith({ updatedName: '' });
     });
 
@@ -65,7 +65,7 @@ describe('respondToFieldsetsChange', () => {
       expect(tester.find('input[id="fieldName0"]').length).toBe(1);
       expect(tester.find('input[id="fieldName1"]').length).toBe(0);
 
-      tester.submit();
+      await tester.submit();
       expect(props.onSave).toHaveBeenCalledWith({ fieldName0: '' });
 
       props.onSave.mockClear();
@@ -75,7 +75,7 @@ describe('respondToFieldsetsChange', () => {
       expect(tester.find('input[id="fieldName0"]').length).toBe(1);
       expect(tester.find('input[id="fieldName1"]').length).toBe(1);
 
-      tester.submit();
+      await tester.submit();
       expect(props.onSave).toHaveBeenCalledWith({ fieldName0: '', fieldName1: '' });
     });
   });

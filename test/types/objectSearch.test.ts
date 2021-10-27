@@ -66,10 +66,12 @@ export async function objectSearchFor(tester: any, field: string, results: any, 
 
   // Change input without blurring
   const input = tester.find(`input#${field}`).first();
-  input.simulate('focus');
-  input.simulate('change', { target: { value: searchTerm } });
+  await act(async () => {
+    input.simulate('focus');
+    input.simulate('change', { target: { value: searchTerm } });
 
-  await tester.refresh();
+    await tester.refresh();
+  });
 }
 
 describe('objectSearch', () => {
@@ -81,7 +83,7 @@ describe('objectSearch', () => {
 
     expect(tester.html()).toContain(model.law_firm.name);
 
-    await act(async () => await tester.submit());
+    await tester.submit();
 
     expect(props.onSave).toHaveBeenCalledWith(model);
     props.onSave.mockClear();
@@ -91,9 +93,8 @@ describe('objectSearch', () => {
         .find(CLEAR_BUTTON)
         .first()
         .simulate('mousedown');
-
-      await tester.submit();
     });
+    await tester.submit();
 
     expect(props.onSave).toHaveBeenCalledWith({ law_firm: null });
   });
@@ -108,9 +109,7 @@ describe('objectSearch', () => {
     expect(tester.getEndpoint.mock.calls.length).toBe(0);
 
     // First search
-    await act(async () => {
-      await objectSearchFor(tester, field, results, searchTerm);
-    });
+    await objectSearchFor(tester, field, results, searchTerm);
     expect(tester.getEndpoint.mock.calls.length).toBe(1);
 
     // Re-focus but no new props
@@ -128,11 +127,9 @@ describe('objectSearch', () => {
       { field, searchTerm, results, props } = getFormDefaults(overrides),
       tester = await new Tester(FormCard, { props }).mount();
 
-    await act(async () => {
-      await objectSearchFor(tester, field, results, searchTerm);
-      tester.click(tester.find('.ant-select-item-option').first());
-      tester.click(tester.find('.ant-select-item-option').last());
-    });
+    await objectSearchFor(tester, field, results, searchTerm);
+    await tester.click(tester.find('.ant-select-item-option').first());
+    await tester.click(tester.find('.ant-select-item-option').last());
 
     expect(tester.text()).toContain(results[0].name);
     expect(tester.text()).not.toContain(results[1].name);

@@ -147,7 +147,7 @@ describe('FormManager', () => {
     expect(formManager.formModel[field]).toBe(THROW_BACKEND_ERROR);
 
     // Submit button should re-enable on field change
-    tester.changeInput(`input[id="${field}"]`, '');
+    await tester.changeInput(`input[id="${field}"]`, '');
     expect(formManager.isSubmitButtonDisabled).toBe(false);
     expect(formManager.formModel[field]).toBe('');
 
@@ -189,7 +189,7 @@ describe('FormManager', () => {
     expect(formManager.formModel.plaintiff.first_name).toBe(THROW_BACKEND_ERROR);
 
     // Submit button should re-enable on field change
-    tester.changeInput(`input[id="${field}"]`, '');
+    await tester.changeInput(`input[id="${field}"]`, '');
     expect(formManager.isSubmitButtonDisabled).toBe(false);
     expect(formManager.formModel.plaintiff.first_name).toBe('');
 

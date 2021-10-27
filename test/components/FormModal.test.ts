@@ -72,7 +72,7 @@ import SmartBool from '@mighty-justice/smart-bool';
       // Re-open and test cancel button
       isVisible.setTrue();
       await tester.refresh();
-      tester.click('button > span[children="Cancel"]');
+      await tester.click('button > span[children="Cancel"]');
       expect(isVisible.isTrue).toBe(false);
     });
 
@@ -105,7 +105,7 @@ import SmartBool from '@mighty-justice/smart-bool';
       // Test cancel button
       onCancel.mockClear();
       onSuccess.mockClear();
-      tester.click('button > span[children="Cancel"]');
+      await tester.click('button > span[children="Cancel"]');
       expect(onCancel).toHaveBeenCalled();
       expect(onSuccess).not.toHaveBeenCalled();
       expect(isVisible.isTrue).toBe(true);

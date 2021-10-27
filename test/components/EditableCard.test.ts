@@ -34,13 +34,14 @@ describe('EditableCard', () => {
         expect(tester.find(whereProps.ModalComponent).length).toBe(1);
       }
 
-      tester.click(`button.btn-edit`);
-      tester.changeInput('input', newText);
+      await tester.click(`button.btn-edit`);
+      await tester.refresh();
+      await tester.changeInput('input', newText);
 
       expect(isForm(tester)).toBe(true);
 
       expect(onSave).not.toHaveBeenCalled();
-      tester.submit();
+      await tester.submit();
       await tester.sleep();
       expect(onSave).toHaveBeenCalledWith({ text: newText });
 
@@ -55,8 +56,9 @@ describe('EditableCard', () => {
     const tester = await new Tester(EditableCard, { props }).mount();
 
     expect(onDelete).not.toHaveBeenCalled();
-    tester.click(`button.btn-delete`);
-    tester.click('.btn-delete .ant-popover-inner .ant-btn-primary');
+    await tester.click(`button.btn-delete`);
+    await tester.refresh();
+    await tester.click('.btn-delete .ant-popover-inner .ant-btn-primary');
     expect(onDelete).toHaveBeenCalled();
   });
 });
