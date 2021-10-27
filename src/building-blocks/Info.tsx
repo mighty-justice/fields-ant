@@ -15,9 +15,10 @@ import { formatClassNames } from '../utilities';
 @observer
 class Info extends Component<{ fieldConfig: IFieldConfigPartial; format?: IFormatProps }> {
   public render() {
-    const { format } = this.props,
+    const { fieldConfig, format } = this.props,
       layout = format?.layout,
-      rowClassName = `${CLASS_PREFIX}-info-row-${layout}`;
+      customClassName = fieldConfig.className,
+      rowClassName = cx(customClassName, `${CLASS_PREFIX}-info-row-${layout}`);
 
     return (
       <Col {...this.props.fieldConfig.colProps} className={`${CLASS_PREFIX}-info`}>
