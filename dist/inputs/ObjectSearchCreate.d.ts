@@ -28,7 +28,6 @@ declare class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     private search;
     private get injected();
     private get fieldConfig();
-    private get objectSearchProps();
     private onAddNew;
     private onSearch;
     private renderAddNew;

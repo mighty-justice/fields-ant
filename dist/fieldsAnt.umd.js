@@ -1,8 +1,8 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('mobx-react'), require('class-autobind-decorator'), require('classnames'), require('antd'), require('mobx'), require('lodash'), require('@ant-design/compatible'), require('@mighty-justice/smart-bool'), require('@mighty-justice/utils'), require('moment'), require('date-fns'), require('iso8601-duration'), require('flat'), require('http-status-codes')) :
   typeof define === 'function' && define.amd ? define(['exports', 'react', 'mobx-react', 'class-autobind-decorator', 'classnames', 'antd', 'mobx', 'lodash', '@ant-design/compatible', '@mighty-justice/smart-bool', '@mighty-justice/utils', 'moment', 'date-fns', 'iso8601-duration', 'flat', 'http-status-codes'], factory) :
-  (global = global || self, factory(global['fields-ant'] = {}, global.React, global.mobxReact, global.autoBindMethods, global.cx, global.Antd, global.mobx, global.lodash, global.compatible, global.SmartBool, global.utils, global.moment, global.dateFns, global.iso8601Duration, global.flattenObject, global.httpStatus));
-}(this, (function (exports, React, mobxReact, autoBindMethods, cx, Antd, mobx, lodash, compatible, SmartBool, utils, moment, dateFns, iso8601Duration, flattenObject, httpStatus) { 'use strict';
+  (global = global || self, factory(global['fields-ant'] = {}, global.React, global.mobxReact, global.autoBindMethods, global.cx, global.antd, global.mobx, global.lodash, global.compatible, global.SmartBool, global.utils, global.moment, global.dateFns, global.iso8601Duration, global.flattenObject, global.httpStatus));
+}(this, (function (exports, React, mobxReact, autoBindMethods, cx, antd, mobx, lodash, compatible, SmartBool, utils, moment, dateFns, iso8601Duration, flattenObject, httpStatus) { 'use strict';
 
   var React__default = 'default' in React ? React['default'] : React;
   autoBindMethods = autoBindMethods && Object.prototype.hasOwnProperty.call(autoBindMethods, 'default') ? autoBindMethods['default'] : autoBindMethods;
@@ -367,7 +367,7 @@
             passDownProps = _objectWithoutProperties(_this$props, ["noSpacing", "align", "fixed"]),
             className = cx(align && "".concat(CLASS_NAME, "-align-").concat(align), CLASS_NAME, this.props.className, _defineProperty({}, "".concat(CLASS_NAME, "-no-spacing"), noSpacing), _defineProperty({}, "".concat(CLASS_NAME, "-position-fixed"), fixed));
 
-        return /*#__PURE__*/React__default.createElement(Antd.Form.Item, _extends({}, passDownProps, {
+        return /*#__PURE__*/React__default.createElement(antd.Form.Item, _extends({}, passDownProps, {
           className: className
         }), this.props.children);
       }
@@ -459,7 +459,7 @@
             field = fieldConfig.field,
             className = cx(FORM_ITEM_CLASS_NAME, fieldConfig.className, formItemProps && formItemProps.className, formatClassNames(FORM_ITEM_CLASS_NAME, colon, layout)),
             getFieldDecorator = formManager.form.getFieldDecorator;
-        return /*#__PURE__*/React__default.createElement(Antd.Col, colProps, /*#__PURE__*/React__default.createElement(compatible.Form.Item, _extends({}, this.formItemProps, formItemProps, {
+        return /*#__PURE__*/React__default.createElement(antd.Col, colProps, /*#__PURE__*/React__default.createElement(compatible.Form.Item, _extends({}, this.formItemProps, formItemProps, {
           className: className,
           label: renderLabel(fieldConfig)
         }), getFieldDecorator(field, this.decoratorOptions)(this.props.children)));
@@ -552,7 +552,7 @@
             colProps = fieldConfig.colProps,
             formItemProps = fieldConfig.formItemProps,
             className = cx(FORM_ITEM_CLASS_NAME, CLASS_NAME$1, fieldConfig.className, formItemProps && formItemProps.className);
-        return /*#__PURE__*/React__default.createElement(Antd.Col, colProps, /*#__PURE__*/React__default.createElement(Antd.Form.Item, {
+        return /*#__PURE__*/React__default.createElement(antd.Col, colProps, /*#__PURE__*/React__default.createElement(antd.Form.Item, {
           className: className
         }, /*#__PURE__*/React__default.createElement(NestedFieldSet, {
           fieldSet: this.fieldSet,
@@ -2066,7 +2066,7 @@
       key: "renderAddOption",
       value: function renderAddOption() {
         var addNewContent = this.props.addNewContent;
-        return /*#__PURE__*/React__default.createElement(Antd.Select.Option, {
+        return /*#__PURE__*/React__default.createElement(antd.Select.Option, {
           className: OPTION_KEYS.ADD,
           key: OPTION_KEYS.ADD,
           value: OPTION_KEYS.ADD
@@ -2076,7 +2076,7 @@
       key: "renderNoResultsOption",
       value: function renderNoResultsOption() {
         var selectProps = this.props.selectProps;
-        return /*#__PURE__*/React__default.createElement(Antd.Select.Option, {
+        return /*#__PURE__*/React__default.createElement(antd.Select.Option, {
           className: OPTION_KEYS.EMPTY,
           disabled: true,
           key: OPTION_KEYS.EMPTY,
@@ -2087,7 +2087,7 @@
       key: "renderNoSearchOption",
       value: function renderNoSearchOption() {
         var noSearchContent = this.props.noSearchContent;
-        return /*#__PURE__*/React__default.createElement(Antd.Select.Option, {
+        return /*#__PURE__*/React__default.createElement(antd.Select.Option, {
           className: OPTION_KEYS.NO_SEARCH,
           disabled: true,
           key: OPTION_KEYS.NO_SEARCH,
@@ -2101,7 +2101,7 @@
             renderOption = _this$fieldConfig2.renderOption,
             renderSelected = _this$fieldConfig2.renderSelected,
             isOptionDisabled = this.props.isOptionDisabled;
-        return /*#__PURE__*/React__default.createElement(Antd.Select.Option, {
+        return /*#__PURE__*/React__default.createElement(antd.Select.Option, {
           className: OPTION_KEYS.OPTION,
           disabled: isOptionDisabled ? isOptionDisabled(option) : false,
           key: option.id,
@@ -2162,7 +2162,7 @@
     }, {
       key: "renderDropdownWrapper",
       value: function renderDropdownWrapper(menu) {
-        var className = this.selectProps.className;
+        var className = this.props.selectProps.className;
         return /*#__PURE__*/React__default.createElement("div", {
           className: className
         }, menu);
@@ -2185,7 +2185,7 @@
             showLabel = _this$fieldConfig3.showLabel,
             placeholderLabel = showLabel && label ? " ".concat(label) : '',
             placeholder = "Search".concat(placeholderLabel, "...");
-        return /*#__PURE__*/React__default.createElement(Antd.Select, _extends({
+        return /*#__PURE__*/React__default.createElement(antd.Select, _extends({
           allowClear: !isLoading,
           defaultActiveFirstOption: false,
           disabled: disabled,
@@ -2203,7 +2203,7 @@
           placeholder: placeholder,
           showSearch: true,
           suffixIcon: isLoading ? this.loadingIcon : this.searchIcon
-        }, this.valueProp, this.selectProps), showNoSearch && this.renderNoSearchOption(), showAddOption && this.renderAddOption(), this.options.map(this.renderOption), showNoResultsOption && this.renderNoResultsOption());
+        }, this.valueProp, this.props.selectProps), showNoSearch && this.renderNoSearchOption(), showAddOption && this.renderAddOption(), this.options.map(this.renderOption), showNoResultsOption && this.renderNoResultsOption());
       }
     }, {
       key: "injected",
@@ -2248,7 +2248,7 @@
     }, {
       key: "isMultiSelect",
       get: function get() {
-        var mode = this.selectProps.mode;
+        var mode = this.props.selectProps.mode;
         return mode && ['multiple', 'tags'].includes(mode);
       }
     }, {
@@ -2260,12 +2260,6 @@
       key: "searchIcon",
       get: function get() {
         return this.props.searchIcon || /*#__PURE__*/React__default.createElement(SearchOutlined$2, null);
-      }
-    }, {
-      key: "selectProps",
-      get: function get() {
-        // Omitting specific props to avoid unintentional behaviors
-        return lodash.omit(this.props.selectProps, ['id', 'loading', 'onBlur', 'onChange', 'onFocus', 'onSearch', 'showSearch']);
       }
     }, {
       key: "valueProp",
@@ -2311,7 +2305,8 @@
 
     return ObjectSearch;
   }(React.Component), _class3.defaultProps = {
-    debounceWait: DEFAULT_DEBOUNCE_WAIT
+    debounceWait: DEFAULT_DEBOUNCE_WAIT,
+    selectProps: {}
   }, _temp$1), (_descriptor = _applyDecoratedDescriptor(_class2$1.prototype, "options", [mobx.observable], {
     configurable: true,
     enumerable: true,
@@ -2454,14 +2449,14 @@
         var _this$injected3 = this.injected,
             fieldConfig = _this$injected3.fieldConfig,
             formManager = _this$injected3.formManager;
-        return /*#__PURE__*/React__default.createElement(Antd.Col, null, /*#__PURE__*/React__default.createElement(Antd.Form.Item, null, /*#__PURE__*/React__default.createElement(NestedFieldSet, {
+        return /*#__PURE__*/React__default.createElement(antd.Col, null, /*#__PURE__*/React__default.createElement(antd.Form.Item, null, /*#__PURE__*/React__default.createElement(NestedFieldSet, {
           fieldSet: this.fieldConfig.createFields,
           formManager: formManager,
           formModel: formManager.formModel,
           id: fieldConfig.field,
           label: renderLabel(this.fieldConfig),
           search: this.search
-        }), /*#__PURE__*/React__default.createElement(Antd.Button, {
+        }), /*#__PURE__*/React__default.createElement(antd.Button, {
           className: CLASS_NAME_BTN_BACK,
           onClick: this.onSearch,
           size: "small"
@@ -2473,14 +2468,38 @@
         var _this$injected4 = this.injected,
             fieldConfig = _this$injected4.fieldConfig,
             formManager = _this$injected4.formManager,
-            formModel = _this$injected4.formModel;
+            formModel = _this$injected4.formModel,
+            onChange = _this$injected4.onChange,
+            disabled = _this$injected4.disabled,
+            _this$props = this.props,
+            addNewContent = _this$props.addNewContent,
+            debounceWait = _this$props.debounceWait,
+            isOptionDisabled = _this$props.isOptionDisabled,
+            loadingIcon = _this$props.loadingIcon,
+            noSearchContent = _this$props.noSearchContent,
+            searchIcon = _this$props.searchIcon,
+            searchOnEmpty = _this$props.searchOnEmpty,
+            selectProps = _this$props.selectProps,
+            overrideDisabled = {
+          disabled: disabled
+        };
         return /*#__PURE__*/React__default.createElement(FormItem, {
           fieldConfig: fieldConfig,
           formManager: formManager,
           formModel: formModel
-        }, /*#__PURE__*/React__default.createElement(ObjectSearch, _extends({
-          onAddNew: this.onAddNew
-        }, this.objectSearchProps)));
+        }, /*#__PURE__*/React__default.createElement(ObjectSearch, _extends({}, overrideDisabled, {
+          addNewContent: addNewContent,
+          debounceWait: debounceWait,
+          fieldConfig: fieldConfig,
+          isOptionDisabled: isOptionDisabled,
+          loadingIcon: loadingIcon,
+          noSearchContent: noSearchContent,
+          onAddNew: this.onAddNew,
+          onChange: onChange,
+          searchIcon: searchIcon,
+          searchOnEmpty: searchOnEmpty,
+          selectProps: selectProps
+        })));
       }
     }, {
       key: "render",
@@ -2499,11 +2518,6 @@
       key: "fieldConfig",
       get: function get() {
         return this.props.fieldConfig;
-      }
-    }, {
-      key: "objectSearchProps",
-      get: function get() {
-        return lodash.pick(this.props, ['addNewContent', 'debounceWait', 'disabled', 'fieldConfig', 'isOptionDisabled', 'loadingIcon', 'noSearchContent', 'searchIcon', 'searchOnEmpty', 'selectProps']);
       }
     }]);
 
@@ -2546,7 +2560,7 @@
           return children;
         }
 
-        return /*#__PURE__*/React__default.createElement("span", null, children, "\xA0", /*#__PURE__*/React__default.createElement(Antd.Tooltip, {
+        return /*#__PURE__*/React__default.createElement("span", null, children, "\xA0", /*#__PURE__*/React__default.createElement(antd.Tooltip, {
           title: tooltip
         }, /*#__PURE__*/React__default.createElement(QuestionCircleOutlined$2, null)));
       }
@@ -2658,7 +2672,7 @@
           style: _objectSpread2({
             display: 'inline-block'
           }, style)
-        }, /*#__PURE__*/React__default.createElement(Antd.Input, _extends({
+        }, /*#__PURE__*/React__default.createElement(antd.Input, _extends({
           defaultValue: defaultValue,
           id: key,
           onChange: onChange,
@@ -2669,7 +2683,7 @@
     }, {
       key: "render",
       value: function render() {
-        return /*#__PURE__*/React__default.createElement(Antd.Input.Group, {
+        return /*#__PURE__*/React__default.createElement(antd.Input.Group, {
           compact: true
         }, INPUT_ORDER.map(this.renderFieldInput));
       }
@@ -2724,7 +2738,7 @@
             renderOption = _this$injected.renderOption,
             keyBy = _this$injected.keyBy,
             key = lodash.get(option, keyBy);
-        return /*#__PURE__*/React__default.createElement(Antd.Select.Option, {
+        return /*#__PURE__*/React__default.createElement(antd.Select.Option, {
           disabled: option.disabled,
           key: key,
           title: renderSelected(option),
@@ -2738,11 +2752,11 @@
             keyBy = _this$injected2.keyBy,
             value = _this$injected2.value,
             selectValue = lodash.isObject(value) ? lodash.get(value, keyBy) : value;
-        return /*#__PURE__*/React__default.createElement(Antd.Select, _extends({
+        return /*#__PURE__*/React__default.createElement(antd.Select, _extends({
           allowClear: true,
           optionFilterProp: "children",
           showSearch: this.showSearch
-        }, this.props, {
+        }, this.selectProps, {
           value: selectValue
         }), this.options.map(this.renderOption));
       }
@@ -2770,6 +2784,21 @@
         }
 
         return this.options.length > SHOW_OPTION_SEARCH_IF_OVER;
+      }
+    }, {
+      key: "selectProps",
+      get: function get() {
+        var _this$injected3 = this.injected,
+            _fieldConfig = _this$injected3.fieldConfig,
+            _formManager = _this$injected3.formManager,
+            _formModel = _this$injected3.formModel,
+            _getOptions = _this$injected3.getOptions,
+            _keyBy = _this$injected3.keyBy,
+            _renderOption = _this$injected3.renderOption,
+            _renderSelected = _this$injected3.renderSelected,
+            selectProps = _objectWithoutProperties(_this$injected3, ["fieldConfig", "formManager", "formModel", "getOptions", "keyBy", "renderOption", "renderSelected"]);
+
+        return _objectSpread2({}, selectProps);
       }
     }]);
 
@@ -2816,8 +2845,8 @@
     _createClass(RadioGroup, [{
       key: "render",
       value: function render() {
-        return /*#__PURE__*/React__default.createElement(Antd.Radio.Group, this.props, this.options.map(function (option) {
-          return /*#__PURE__*/React__default.createElement(Antd.Radio, {
+        return /*#__PURE__*/React__default.createElement(antd.Radio.Group, this.props, this.options.map(function (option) {
+          return /*#__PURE__*/React__default.createElement(antd.Radio, {
             disabled: option.disabled,
             key: option.value,
             value: option.value
@@ -2846,7 +2875,7 @@
 
   var _class$a;
   function formatRating(value) {
-    return value ? /*#__PURE__*/React__default.createElement(Antd.Rate, {
+    return value ? /*#__PURE__*/React__default.createElement(antd.Rate, {
       disabled: true,
       defaultValue: +value
     }) : utils.EMPTY_FIELD;
@@ -2864,7 +2893,7 @@
     _createClass(Rate, [{
       key: "render",
       value: function render() {
-        return /*#__PURE__*/React__default.createElement(Antd.Rate, _extends({}, this.props, {
+        return /*#__PURE__*/React__default.createElement(antd.Rate, _extends({}, this.props, {
           value: Number(this.injected.value)
         }));
       }
@@ -2985,15 +3014,15 @@
             fieldConfig = _this$injected.fieldConfig,
             field = _this$injected.fieldConfig.field,
             initialValue = formManager.getDefaultValue(fieldConfig),
-            getFieldDecorator = formManager.form.getFieldDecorator,
             HANDLED_PROPS = ['formManager', 'formModel', 'fieldConfig'],
             inputProps = _objectSpread2({}, lodash.omit(this.props, HANDLED_PROPS), {
           type: 'hidden'
         });
 
-        return getFieldDecorator(field, {
+        return /*#__PURE__*/React__default.createElement(antd.Form.Item, {
+          name: field.split('.'),
           initialValue: initialValue
-        })( /*#__PURE__*/React__default.createElement(Antd.Input, inputProps));
+        }, /*#__PURE__*/React__default.createElement(antd.Input, inputProps));
       }
     }, {
       key: "injected",
@@ -3029,9 +3058,9 @@
           checked: !!value
         });
 
-        return /*#__PURE__*/React__default.createElement(Antd.Tooltip, {
+        return /*#__PURE__*/React__default.createElement(antd.Tooltip, {
           title: disabled ? disabledText : ''
-        }, /*#__PURE__*/React__default.createElement("span", null, /*#__PURE__*/React__default.createElement(Antd.Checkbox, checkboxProps, description || '')));
+        }, /*#__PURE__*/React__default.createElement("span", null, /*#__PURE__*/React__default.createElement(antd.Checkbox, checkboxProps, description || '')));
       }
     }, {
       key: "injected",
@@ -3075,7 +3104,7 @@
     }, {
       key: "render",
       value: function render() {
-        return /*#__PURE__*/React__default.createElement(Antd.Input, _extends({
+        return /*#__PURE__*/React__default.createElement(antd.Input, _extends({
           value: this.value
         }, this.props, {
           onChange: this.onChange
@@ -3178,7 +3207,7 @@
       render: passRenderOnlyValue(utils.formatDate)
     },
     datepicker: {
-      editComponent: Antd.DatePicker,
+      editComponent: antd.DatePicker,
       editProps: {
         format: dateFormatList
       },
@@ -3201,7 +3230,7 @@
       nullify: true
     },
     ein: {
-      editComponent: Antd.Input,
+      editComponent: antd.Input,
       formValidationRules: {
         ssn: {
           message: 'Must be a valid employer ID number',
@@ -3245,7 +3274,7 @@
       render: passRenderOnlyValue(utils.formatMoney)
     },
     number: {
-      editComponent: Antd.Input,
+      editComponent: antd.Input,
       editProps: {
         type: 'number'
       },
@@ -3282,7 +3311,7 @@
       render: passRenderOnlyValueAndFieldConfig(formatOptionSelect)
     },
     password: {
-      editComponent: Antd.Input.Password,
+      editComponent: antd.Input.Password,
       render: function render(value) {
         return value ? '********' : utils.EMPTY_FIELD;
       }
@@ -3310,7 +3339,7 @@
       toForm: passToFormOnlyValue(utils.getPercentDisplay)
     },
     phone: {
-      editComponent: Antd.Input,
+      editComponent: antd.Input,
       render: passRenderOnlyValue(utils.formatPhoneNumber)
     },
     radio: {
@@ -3325,7 +3354,7 @@
       render: formatRating
     },
     ssn: {
-      editComponent: Antd.Input,
+      editComponent: antd.Input,
       formValidationRules: {
         ssn: {
           message: 'Must be a valid social security number',
@@ -3336,7 +3365,7 @@
     },
     string: {},
     text: {
-      editComponent: Antd.Input.TextArea,
+      editComponent: antd.Input.TextArea,
       editProps: {
         autoSize: {
           minRows: 4
@@ -3354,7 +3383,7 @@
     return value || '';
   }
   var typeDefaults = {
-    editComponent: Antd.Input,
+    editComponent: antd.Input,
     fieldConfigProp: false,
     formValidationRules: {},
     fromForm: falseyToString,
@@ -3888,7 +3917,7 @@
             successText = _this$args2.successText;
 
         if (successText) {
-          Antd.notification.success({
+          antd.notification.success({
             description: '',
             duration: TOAST_DURATION,
             message: successText
@@ -3917,7 +3946,7 @@
           var description = [field, message].filter(function (s) {
             return !!s;
           }).join(' - ');
-          Antd.notification.error(_objectSpread2({}, toastError, {
+          antd.notification.error(_objectSpread2({}, toastError, {
             description: description
           }));
         });
@@ -4194,12 +4223,14 @@
     _createClass(Info, [{
       key: "render",
       value: function render() {
-        var format = this.props.format,
+        var _this$props = this.props,
+            fieldConfig = _this$props.fieldConfig,
+            format = _this$props.format,
             layout = format === null || format === void 0 ? void 0 : format.layout,
-            rowClassName = "".concat(CLASS_PREFIX, "-info-row-").concat(layout);
-        return /*#__PURE__*/React__default.createElement(Antd.Col, _extends({}, this.props.fieldConfig.colProps, {
+            rowClassName = cx(fieldConfig.className, "".concat(CLASS_PREFIX, "-info-row-").concat(layout));
+        return /*#__PURE__*/React__default.createElement(antd.Col, _extends({}, this.props.fieldConfig.colProps, {
           className: "".concat(CLASS_PREFIX, "-info")
-        }), /*#__PURE__*/React__default.createElement(Antd.Row, {
+        }), /*#__PURE__*/React__default.createElement(antd.Row, {
           className: rowClassName
         }, this.props.children));
       }
@@ -4220,9 +4251,9 @@
     _createClass(Label, [{
       key: "render",
       value: function render() {
-        var _this$props = this.props,
-            className = _this$props.className,
-            format = _this$props.format,
+        var _this$props2 = this.props,
+            className = _this$props2.className,
+            format = _this$props2.format,
             colon = format === null || format === void 0 ? void 0 : format.colon,
             layout = format === null || format === void 0 ? void 0 : format.layout,
             infoLabelClassName = "".concat(CLASS_PREFIX, "-info-label"),
@@ -4399,7 +4430,7 @@
           return null;
         }
 
-        return /*#__PURE__*/React__default.createElement(Antd.Col, {
+        return /*#__PURE__*/React__default.createElement(antd.Col, {
           span: ANT_FULL_COL_WIDTH
         }, /*#__PURE__*/React__default.createElement("h3", null, /*#__PURE__*/React__default.createElement(WithTooltip, {
           tooltip: tooltip
@@ -4432,7 +4463,7 @@
             rowProps = !isPartialFieldSetSimple(fieldSet) && fieldSet.rowProps;
         return /*#__PURE__*/React__default.createElement("div", {
           className: cx(CLASS_NAME$4, className)
-        }, /*#__PURE__*/React__default.createElement(Antd.Row, _extends({}, rowProps, {
+        }, /*#__PURE__*/React__default.createElement(antd.Row, _extends({}, rowProps, {
           className: "".concat(CLASS_NAME$4, "-row-").concat(layout)
         }), /*#__PURE__*/React__default.createElement(Legend, {
           fieldSet: fieldSet
@@ -4506,10 +4537,10 @@
       _this = _possibleConstructorReturn(this, _getPrototypeOf(GuardedButton).call(this, props));
       _this.guardedContainer = void 0;
       var isGuarded = _this.props.isGuarded,
-          disabledComponent = utils.createDisabledContainer(Antd.Button);
+          disabledComponent = utils.createDisabledContainer(antd.Button);
       _this.guardedContainer = utils.createGuardedContainer({
         disabledComponent: disabledComponent,
-        enabledComponent: Antd.Button,
+        enabledComponent: antd.Button,
         isGuarded: isGuarded
       });
       return _this;
@@ -4524,7 +4555,7 @@
         if (this.props.confirm) {
           omitProps.push('confirm');
           omitProps.push('onClick');
-          return /*#__PURE__*/React__default.createElement(Antd.Popconfirm, {
+          return /*#__PURE__*/React__default.createElement(antd.Popconfirm, {
             title: "Are you sure?",
             onConfirm: this.props.onClick
           }, /*#__PURE__*/React__default.createElement(GuardedContainer, lodash.omit(this.props, omitProps)));
@@ -4696,7 +4727,7 @@
           writeOnly: true
         });
 
-        return /*#__PURE__*/React__default.createElement(Antd.Card, {
+        return /*#__PURE__*/React__default.createElement(antd.Card, {
           bordered: bordered,
           className: cx(CLASS_NAME$5, className),
           extra: renderTopRight && renderTopRight(),
@@ -4743,7 +4774,7 @@
             classNameSuffix = _this$props.classNameSuffix,
             passDownProps = _objectWithoutProperties(_this$props, ["title", "renderTopRight", "isLoading", "model", "fieldSets", "classNameSuffix"]);
 
-        return /*#__PURE__*/React__default.createElement(Antd.Card, {
+        return /*#__PURE__*/React__default.createElement(antd.Card, {
           title: title,
           extra: renderTopRight && renderTopRight(),
           loading: isLoading
@@ -4854,7 +4885,7 @@
         };
 
         if (blockSubmit) {
-          return /*#__PURE__*/React__default.createElement(Antd.Button, _extends({
+          return /*#__PURE__*/React__default.createElement(antd.Button, _extends({
             block: true
           }, submitProps));
         }
@@ -4862,11 +4893,11 @@
         return /*#__PURE__*/React__default.createElement(ButtonToolbar, {
           align: "right",
           noSpacing: true
-        }, onCancel && /*#__PURE__*/React__default.createElement(Antd.Button, {
+        }, onCancel && /*#__PURE__*/React__default.createElement(antd.Button, {
           disabled: this.formManager.isCancelButtonDisabled,
           onClick: onCancel,
           size: "large"
-        }, cancelText), /*#__PURE__*/React__default.createElement(Antd.Button, submitProps));
+        }, cancelText), /*#__PURE__*/React__default.createElement(antd.Button, submitProps));
       }
     }, {
       key: "render",
@@ -4950,17 +4981,19 @@
             bordered = _this$props.bordered,
             className = _this$props.className,
             isLoading = _this$props.isLoading,
-            title = _this$props.title,
-            renderTopRight = _this$props.renderTopRight,
             cardClassName = cx("".concat(CLASS_PREFIX, "-card"), className),
-            HANDLED_PROPS = ['title', 'renderTopRight'];
-        return /*#__PURE__*/React__default.createElement(Antd.Card, {
+            _this$props2 = this.props,
+            title = _this$props2.title,
+            renderTopRight = _this$props2.renderTopRight,
+            passDownProps = _objectWithoutProperties(_this$props2, ["title", "renderTopRight"]);
+
+        return /*#__PURE__*/React__default.createElement(antd.Card, {
           bordered: bordered,
           className: cardClassName,
           loading: isLoading,
           title: title,
           extra: renderTopRight && renderTopRight()
-        }, /*#__PURE__*/React__default.createElement(Form, lodash.omit(this.props, HANDLED_PROPS)));
+        }, /*#__PURE__*/React__default.createElement(Form, passDownProps));
       }
     }]);
 
@@ -5273,7 +5306,7 @@
             title = _this$props3.title,
             passDownProps = _objectWithoutProperties(_this$props3, ["classNameSuffix", "defaults", "fieldSets", "isLoading", "model", "onDelete", "onSave", "onSuccess", "title"]);
 
-        return /*#__PURE__*/React__default.createElement(Antd.Card, {
+        return /*#__PURE__*/React__default.createElement(antd.Card, {
           title: title,
           extra: this.renderAddNew(),
           loading: isLoading
@@ -5388,7 +5421,7 @@
           return null;
         }
 
-        return /*#__PURE__*/React__default.createElement(Antd.Drawer, {
+        return /*#__PURE__*/React__default.createElement(antd.Drawer, {
           className: className,
           closable: true,
           destroyOnClose: true,
@@ -5412,8 +5445,13 @@
     }, {
       key: "formProps",
       get: function get() {
-        var HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
-        return lodash.omit(this.props, HANDLED_PROPS);
+        var _this$props4 = this.props,
+            _title = _this$props4.title,
+            _isVisible = _this$props4.isVisible,
+            _childrenBefore = _this$props4.childrenBefore,
+            formProps = _objectWithoutProperties(_this$props4, ["title", "isVisible", "childrenBefore"]);
+
+        return formProps;
       }
     }]);
 
@@ -5513,7 +5551,7 @@
           return null;
         }
 
-        return /*#__PURE__*/React__default.createElement(Antd.Modal, _extends({
+        return /*#__PURE__*/React__default.createElement(antd.Modal, _extends({
           onCancel: this.onCancel,
           title: title,
           visible: true,
@@ -5534,15 +5572,20 @@
     }, {
       key: "formProps",
       get: function get() {
-        var HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
-        return lodash.omit(this.props, HANDLED_PROPS);
+        var _this$props4 = this.props,
+            _title = _this$props4.title,
+            _isVisible = _this$props4.isVisible,
+            _childrenBefore = _this$props4.childrenBefore,
+            formProps = _objectWithoutProperties(_this$props4, ["title", "isVisible", "childrenBefore"]);
+
+        return formProps;
       }
     }, {
       key: "modalProps",
       get: function get() {
-        var _this$props4 = this.props,
-            cancelText = _this$props4.cancelText,
-            saveText = _this$props4.saveText,
+        var _this$props5 = this.props,
+            cancelText = _this$props5.cancelText,
+            saveText = _this$props5.saveText,
             className = cx(CLASS_NAME$8, this.props.className);
 
         if (!this.formManager) {
@@ -5608,7 +5651,7 @@
       value: function renderItem(fieldConfig) {
         var model = this.props.model,
             className = "summary-".concat(lodash.kebabCase(fieldConfig.field));
-        return /*#__PURE__*/React__default.createElement(Antd.List.Item, {
+        return /*#__PURE__*/React__default.createElement(antd.List.Item, {
           key: fieldConfig.field,
           className: className,
           extra: null
@@ -5625,13 +5668,13 @@
             isLoading = _this$props.isLoading,
             renderTopRight = _this$props.renderTopRight,
             className = _this$props.className;
-        return /*#__PURE__*/React__default.createElement(Antd.Card, {
+        return /*#__PURE__*/React__default.createElement(antd.Card, {
           className: cx(CLASS_NAME$9, className),
           extra: renderTopRight && renderTopRight(),
           loading: isLoading,
           title: title
         }, this.fieldSets.map(function (fieldSet, idx) {
-          return /*#__PURE__*/React__default.createElement(Antd.List, {
+          return /*#__PURE__*/React__default.createElement(antd.List, {
             className: "list-summary",
             dataSource: getFieldSetFields(fieldSet),
             grid: {
@@ -5681,7 +5724,7 @@
             className = _this$props.className,
             passDownProps = _objectWithoutProperties(_this$props, ["isLoading", "title", "className"]);
 
-        return /*#__PURE__*/React__default.createElement(Antd.Table, _extends({}, passDownProps, {
+        return /*#__PURE__*/React__default.createElement(antd.Table, _extends({}, passDownProps, {
           className: cx(CLASS_NAME$a, className),
           columns: this.columns,
           dataSource: this.dataSource,

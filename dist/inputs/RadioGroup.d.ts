@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import { IInputProps } from '../interfaces';
-declare class RadioGroup extends Component<IInputProps> {
+import { IFormFieldProps } from '../interfaces';
+declare class RadioGroup extends Component<IFormFieldProps> {
     private get injected();
     private get fieldConfig();
     private get options();

@@ -4,7 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form as Form$1, Col, Select, Button, Tooltip, Input, Radio, Rate as Rate$1, Checkbox as Checkbox$1, DatePicker, notification, Row, Popconfirm, Card as Card$1, Drawer, Modal, List, Table as Table$1 } from 'antd';
 import { toJS, observable, computed } from 'mobx';
-import { get, values, omit, debounce, uniqBy, pick, isObject, isBoolean, isArray, flatten, sortBy, has, set, isString, kebabCase, some, isPlainObject, extend, mapValues, pickBy, noop, isEmpty } from 'lodash';
+import { get, values, omit, debounce, uniqBy, isObject, isBoolean, isArray, flatten, sortBy, has, set, isString, kebabCase, some, isPlainObject, extend, mapValues, pickBy, noop, isEmpty } from 'lodash';
 import { Form as Form$2 } from '@ant-design/compatible';
 import SmartBool from '@mighty-justice/smart-bool';
 import { toKey, inferCentury, getNameOrDefault, EMPTY_FIELD, mapBooleanToText, isValidDate, formatDate, formatEmployerIdNumber, formatMoney, formatCommaSeparatedNumber, getPercentValue, formatPercentage, getPercentDisplay, formatPhoneNumber, formatSocialSecurityNumber, parseAndPreserveNewlines, formatWebsite, formatAddressMultiline, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
@@ -2164,7 +2164,7 @@ var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$3 = autoBindMethod
   }, {
     key: "renderDropdownWrapper",
     value: function renderDropdownWrapper(menu) {
-      var className = this.selectProps.className;
+      var className = this.props.selectProps.className;
       return /*#__PURE__*/React__default.createElement("div", {
         className: className
       }, menu);
@@ -2205,7 +2205,7 @@ var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$3 = autoBindMethod
         placeholder: placeholder,
         showSearch: true,
         suffixIcon: isLoading ? this.loadingIcon : this.searchIcon
-      }, this.valueProp, this.selectProps), showNoSearch && this.renderNoSearchOption(), showAddOption && this.renderAddOption(), this.options.map(this.renderOption), showNoResultsOption && this.renderNoResultsOption());
+      }, this.valueProp, this.props.selectProps), showNoSearch && this.renderNoSearchOption(), showAddOption && this.renderAddOption(), this.options.map(this.renderOption), showNoResultsOption && this.renderNoResultsOption());
     }
   }, {
     key: "injected",
@@ -2250,7 +2250,7 @@ var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$3 = autoBindMethod
   }, {
     key: "isMultiSelect",
     get: function get() {
-      var mode = this.selectProps.mode;
+      var mode = this.props.selectProps.mode;
       return mode && ['multiple', 'tags'].includes(mode);
     }
   }, {
@@ -2262,12 +2262,6 @@ var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$3 = autoBindMethod
     key: "searchIcon",
     get: function get() {
       return this.props.searchIcon || /*#__PURE__*/React__default.createElement(SearchOutlined$2, null);
-    }
-  }, {
-    key: "selectProps",
-    get: function get() {
-      // Omitting specific props to avoid unintentional behaviors
-      return omit(this.props.selectProps, ['id', 'loading', 'onBlur', 'onChange', 'onFocus', 'onSearch', 'showSearch']);
     }
   }, {
     key: "valueProp",
@@ -2313,7 +2307,8 @@ var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$3 = autoBindMethod
 
   return ObjectSearch;
 }(Component), _class3.defaultProps = {
-  debounceWait: DEFAULT_DEBOUNCE_WAIT
+  debounceWait: DEFAULT_DEBOUNCE_WAIT,
+  selectProps: {}
 }, _temp$1), (_descriptor = _applyDecoratedDescriptor(_class2$1.prototype, "options", [observable], {
   configurable: true,
   enumerable: true,
@@ -2475,14 +2470,38 @@ var ObjectSearchCreate = autoBindMethods(_class$4 = observer(_class$4 = (_class2
       var _this$injected4 = this.injected,
           fieldConfig = _this$injected4.fieldConfig,
           formManager = _this$injected4.formManager,
-          formModel = _this$injected4.formModel;
+          formModel = _this$injected4.formModel,
+          onChange = _this$injected4.onChange,
+          disabled = _this$injected4.disabled,
+          _this$props = this.props,
+          addNewContent = _this$props.addNewContent,
+          debounceWait = _this$props.debounceWait,
+          isOptionDisabled = _this$props.isOptionDisabled,
+          loadingIcon = _this$props.loadingIcon,
+          noSearchContent = _this$props.noSearchContent,
+          searchIcon = _this$props.searchIcon,
+          searchOnEmpty = _this$props.searchOnEmpty,
+          selectProps = _this$props.selectProps,
+          overrideDisabled = {
+        disabled: disabled
+      };
       return /*#__PURE__*/React__default.createElement(FormItem, {
         fieldConfig: fieldConfig,
         formManager: formManager,
         formModel: formModel
-      }, /*#__PURE__*/React__default.createElement(ObjectSearch, _extends({
-        onAddNew: this.onAddNew
-      }, this.objectSearchProps)));
+      }, /*#__PURE__*/React__default.createElement(ObjectSearch, _extends({}, overrideDisabled, {
+        addNewContent: addNewContent,
+        debounceWait: debounceWait,
+        fieldConfig: fieldConfig,
+        isOptionDisabled: isOptionDisabled,
+        loadingIcon: loadingIcon,
+        noSearchContent: noSearchContent,
+        onAddNew: this.onAddNew,
+        onChange: onChange,
+        searchIcon: searchIcon,
+        searchOnEmpty: searchOnEmpty,
+        selectProps: selectProps
+      })));
     }
   }, {
     key: "render",
@@ -2501,11 +2520,6 @@ var ObjectSearchCreate = autoBindMethods(_class$4 = observer(_class$4 = (_class2
     key: "fieldConfig",
     get: function get() {
       return this.props.fieldConfig;
-    }
-  }, {
-    key: "objectSearchProps",
-    get: function get() {
-      return pick(this.props, ['addNewContent', 'debounceWait', 'disabled', 'fieldConfig', 'isOptionDisabled', 'loadingIcon', 'noSearchContent', 'searchIcon', 'searchOnEmpty', 'selectProps']);
     }
   }]);
 
@@ -2744,7 +2758,7 @@ var ObjectSelect = (_dec$1 = inject('getOptions'), _dec$1(_class$7 = autoBindMet
         allowClear: true,
         optionFilterProp: "children",
         showSearch: this.showSearch
-      }, this.props, {
+      }, this.selectProps, {
         value: selectValue
       }), this.options.map(this.renderOption));
     }
@@ -2772,6 +2786,21 @@ var ObjectSelect = (_dec$1 = inject('getOptions'), _dec$1(_class$7 = autoBindMet
       }
 
       return this.options.length > SHOW_OPTION_SEARCH_IF_OVER;
+    }
+  }, {
+    key: "selectProps",
+    get: function get() {
+      var _this$injected3 = this.injected,
+          _fieldConfig = _this$injected3.fieldConfig,
+          _formManager = _this$injected3.formManager,
+          _formModel = _this$injected3.formModel,
+          _getOptions = _this$injected3.getOptions,
+          _keyBy = _this$injected3.keyBy,
+          _renderOption = _this$injected3.renderOption,
+          _renderSelected = _this$injected3.renderSelected,
+          selectProps = _objectWithoutProperties(_this$injected3, ["fieldConfig", "formManager", "formModel", "getOptions", "keyBy", "renderOption", "renderSelected"]);
+
+      return _objectSpread2({}, selectProps);
     }
   }]);
 
@@ -2987,15 +3016,15 @@ var Hidden = autoBindMethods(_class$c = observer(_class$c = /*#__PURE__*/functio
           fieldConfig = _this$injected.fieldConfig,
           field = _this$injected.fieldConfig.field,
           initialValue = formManager.getDefaultValue(fieldConfig),
-          getFieldDecorator = formManager.form.getFieldDecorator,
           HANDLED_PROPS = ['formManager', 'formModel', 'fieldConfig'],
           inputProps = _objectSpread2({}, omit(this.props, HANDLED_PROPS), {
         type: 'hidden'
       });
 
-      return getFieldDecorator(field, {
+      return /*#__PURE__*/React__default.createElement(Form$1.Item, {
+        name: field.split('.'),
         initialValue: initialValue
-      })( /*#__PURE__*/React__default.createElement(Input, inputProps));
+      }, /*#__PURE__*/React__default.createElement(Input, inputProps));
     }
   }, {
     key: "injected",
@@ -4196,9 +4225,11 @@ var Info = autoBindMethods(_class$g = observer(_class$g = /*#__PURE__*/function 
   _createClass(Info, [{
     key: "render",
     value: function render() {
-      var format = this.props.format,
+      var _this$props = this.props,
+          fieldConfig = _this$props.fieldConfig,
+          format = _this$props.format,
           layout = format === null || format === void 0 ? void 0 : format.layout,
-          rowClassName = "".concat(CLASS_PREFIX, "-info-row-").concat(layout);
+          rowClassName = cx(fieldConfig.className, "".concat(CLASS_PREFIX, "-info-row-").concat(layout));
       return /*#__PURE__*/React__default.createElement(Col, _extends({}, this.props.fieldConfig.colProps, {
         className: "".concat(CLASS_PREFIX, "-info")
       }), /*#__PURE__*/React__default.createElement(Row, {
@@ -4222,9 +4253,9 @@ var Label = autoBindMethods(_class2$8 = observer(_class2$8 = /*#__PURE__*/functi
   _createClass(Label, [{
     key: "render",
     value: function render() {
-      var _this$props = this.props,
-          className = _this$props.className,
-          format = _this$props.format,
+      var _this$props2 = this.props,
+          className = _this$props2.className,
+          format = _this$props2.format,
           colon = format === null || format === void 0 ? void 0 : format.colon,
           layout = format === null || format === void 0 ? void 0 : format.layout,
           infoLabelClassName = "".concat(CLASS_PREFIX, "-info-label"),
@@ -4952,17 +4983,19 @@ var FormCard = autoBindMethods(_class$s = observer(_class$s = (_temp$c = _class2
           bordered = _this$props.bordered,
           className = _this$props.className,
           isLoading = _this$props.isLoading,
-          title = _this$props.title,
-          renderTopRight = _this$props.renderTopRight,
           cardClassName = cx("".concat(CLASS_PREFIX, "-card"), className),
-          HANDLED_PROPS = ['title', 'renderTopRight'];
+          _this$props2 = this.props,
+          title = _this$props2.title,
+          renderTopRight = _this$props2.renderTopRight,
+          passDownProps = _objectWithoutProperties(_this$props2, ["title", "renderTopRight"]);
+
       return /*#__PURE__*/React__default.createElement(Card$1, {
         bordered: bordered,
         className: cardClassName,
         loading: isLoading,
         title: title,
         extra: renderTopRight && renderTopRight()
-      }, /*#__PURE__*/React__default.createElement(Form, omit(this.props, HANDLED_PROPS)));
+      }, /*#__PURE__*/React__default.createElement(Form, passDownProps));
     }
   }]);
 
@@ -5414,8 +5447,13 @@ var FormDrawer = autoBindMethods(_class$v = observer(_class$v = (_temp$f = _clas
   }, {
     key: "formProps",
     get: function get() {
-      var HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
-      return omit(this.props, HANDLED_PROPS);
+      var _this$props4 = this.props,
+          _title = _this$props4.title,
+          _isVisible = _this$props4.isVisible,
+          _childrenBefore = _this$props4.childrenBefore,
+          formProps = _objectWithoutProperties(_this$props4, ["title", "isVisible", "childrenBefore"]);
+
+      return formProps;
     }
   }]);
 
@@ -5536,15 +5574,20 @@ var FormModal = autoBindMethods(_class$w = observer(_class$w = (_class2$l = (_te
   }, {
     key: "formProps",
     get: function get() {
-      var HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
-      return omit(this.props, HANDLED_PROPS);
+      var _this$props4 = this.props,
+          _title = _this$props4.title,
+          _isVisible = _this$props4.isVisible,
+          _childrenBefore = _this$props4.childrenBefore,
+          formProps = _objectWithoutProperties(_this$props4, ["title", "isVisible", "childrenBefore"]);
+
+      return formProps;
     }
   }, {
     key: "modalProps",
     get: function get() {
-      var _this$props4 = this.props,
-          cancelText = _this$props4.cancelText,
-          saveText = _this$props4.saveText,
+      var _this$props5 = this.props,
+          cancelText = _this$props5.cancelText,
+          saveText = _this$props5.saveText,
           className = cx(CLASS_NAME$8, this.props.className);
 
       if (!this.formManager) {

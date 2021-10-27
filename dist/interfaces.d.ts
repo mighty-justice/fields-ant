@@ -101,11 +101,12 @@ export interface IInjected {
     getEndpoint: (endpoint: string) => Promise<any>;
     getOptions: IGetOptions;
 }
-export interface IInputProps {
+export interface IFormFieldProps {
     fieldConfig: IFieldConfig;
     formManager: FormManager;
+    formModel: IModel;
 }
-export interface ICheckboxProps extends IInputProps {
+export interface ICheckboxProps extends IFormFieldProps {
     description?: string;
     disabledText?: string;
 }

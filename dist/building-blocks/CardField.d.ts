@@ -6,7 +6,10 @@ export interface ICardFieldProps extends IFormatProps {
     model?: IModel;
 }
 declare class CardField extends Component<ICardFieldProps> {
-    static defaultProps: Partial<ICardFieldProps>;
+    static defaultProps: {
+        layout?: "inline" | "horizontal" | "vertical" | undefined;
+        colon: boolean;
+    };
     private get fieldConfig();
     render(): JSX.Element | null;
 }

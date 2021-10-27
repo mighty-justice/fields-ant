@@ -7,7 +7,6 @@ import { FormManager } from './utilities';
 export { IButtonToolbarProps } from './building-blocks/ButtonToolbar';
 export { ICardFieldProps } from './building-blocks/CardField';
 export { ICardFieldSetProps } from './building-blocks/CardFieldSet';
-export { IFormFieldProps } from './building-blocks/FormField';
 export { IFormFieldSetProps } from './building-blocks/FormFieldSet';
 export { INestedFieldSetProps } from './building-blocks/NestedFieldSet';
 export { IArrayCardProps } from './components/ArrayCard';
