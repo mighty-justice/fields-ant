@@ -13,8 +13,8 @@ async function checkInferYear(newYear: string) {
     props = { fieldSets, model, onSave };
 
   const tester = await new Tester(FormCard, { props }).mount();
-  tester.changeInput(`input[id="${fieldConfig.field}.year"]`, newYear);
-  tester.submit();
+  await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, newYear);
+  await tester.submit();
   return onSave.mock.calls[0][0][fieldConfig.field].slice(0, 4);
 }
 
@@ -26,9 +26,9 @@ async function isInputsValid(month: string, day: string, year: string) {
     props = { fieldSets, onSave };
 
   const tester = await new Tester(FormCard, { props }).mount();
-  tester.changeInput(`input[id="${fieldConfig.field}.month"]`, month);
-  tester.changeInput(`input[id="${fieldConfig.field}.day"]`, day);
-  tester.changeInput(`input[id="${fieldConfig.field}.year"]`, year);
+  await tester.changeInput(`input[id="${fieldConfig.field}.month"]`, month);
+  await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, day);
+  await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, year);
   await tester.refresh();
   await tester.submit();
   return !!onSave.mock.calls.length;
@@ -50,8 +50,8 @@ describe('date', () => {
       props = { fieldSets, model, onSave };
 
     const tester = await new Tester(FormCard, { props }).mount();
-    tester.changeInput(`input[id="${fieldConfig.field}.day"]`, newDay);
-    tester.submit();
+    await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, newDay);
+    await tester.submit();
     expect(onSave).toHaveBeenCalledWith({ [fieldConfig.field]: newValue });
   });
 
@@ -96,13 +96,13 @@ describe('date', () => {
 
     const tester = await new Tester(FormCard, { props }).mount();
 
-    tester.changeInput(`input[id="${fieldConfig.field}.month"]`, '01');
-    tester.changeInput(`input[id="${fieldConfig.field}.day"]`, '01');
-    tester.changeInput(`input[id="${fieldConfig.field}.year"]`, '2019');
+    await tester.changeInput(`input[id="${fieldConfig.field}.month"]`, '01');
+    await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, '01');
+    await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, '2019');
 
-    tester.changeInput(`input[id="${fieldConfig.field}.month"]`, '');
-    tester.changeInput(`input[id="${fieldConfig.field}.day"]`, '');
-    tester.changeInput(`input[id="${fieldConfig.field}.year"]`, '');
+    await tester.changeInput(`input[id="${fieldConfig.field}.month"]`, '');
+    await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, '');
+    await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, '');
     await tester.submit();
 
     expect(!!onSave.mock.calls.length).toBe(true);

@@ -32,7 +32,7 @@ Object.keys(TYPE_GENERATORS).forEach(type => {
 
       const tester = await new Tester(FormCard, { props }).mount();
       expect(onSave).not.toHaveBeenCalled();
-      tester.submit();
+      await tester.submit();
       expect(onSave).toHaveBeenCalledWith({ [fieldConfig.field]: value });
     });
   });

@@ -49,7 +49,7 @@ describe('Renders', () => {
 
         const tester = await new Tester(ComponentClass, { props }).mount();
         expect(props.onSave).not.toHaveBeenCalled();
-        tester.submit();
+        await tester.submit();
         expect(props.onSave).toHaveBeenCalledWith(data);
       });
     });
@@ -68,7 +68,7 @@ describe('Renders', () => {
 
     const tester = await new Tester(ComponentClass, { props }).mount();
     expect(props.onSave).not.toHaveBeenCalled();
-    tester.submit();
+    await tester.submit();
     expect(props.onSave).toHaveBeenCalledWith({
       both: 'model',
       defaultsOnly: 'defaults',
@@ -76,8 +76,8 @@ describe('Renders', () => {
       neither: '',
     });
 
-    tester.changeInput('input#neither', newNeither);
-    tester.submit();
+    await tester.changeInput('input#neither', newNeither);
+    await tester.submit();
     expect(props.onSave).toHaveBeenCalledWith({
       both: 'model',
       defaultsOnly: 'defaults',
@@ -99,7 +99,7 @@ describe('Renders', () => {
 
     const tester = await new Tester(ComponentClass, { props }).mount();
     expect(props.onSave).not.toHaveBeenCalled();
-    tester.submit();
+    await tester.submit();
     expect(props.onSave).toHaveBeenCalledWith({
       both: 'value',
       defaultsOnly: 'value',
@@ -107,8 +107,8 @@ describe('Renders', () => {
       neither: 'value',
     });
 
-    tester.changeInput('input#neither', newNeither);
-    tester.submit();
+    await tester.changeInput('input#neither', newNeither);
+    await tester.submit();
     expect(props.onSave).toHaveBeenCalledWith({
       both: 'value',
       defaultsOnly: 'value',

@@ -15,7 +15,7 @@ describe('address', () => {
       props = { fieldSets: [[fieldConfig]], model: emptyValue, onSave };
 
     const tester = await new Tester(FormCard, { props }).mount();
-    tester.submit();
+    await tester.submit();
     expect(onSave).toHaveBeenCalledWith({ [fieldConfig.field]: null });
   });
 
@@ -28,7 +28,7 @@ describe('address', () => {
       props = { fieldSets: [[fieldConfig]], model: emptyValue, onSave };
 
     const tester = await new Tester(FormCard, { props }).mount();
-    tester.submit();
+    await tester.submit();
     expect(onSave).toHaveBeenCalledWith({ [fieldConfig.field]: emptyValue });
   });
 });

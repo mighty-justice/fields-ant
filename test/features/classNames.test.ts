@@ -41,7 +41,7 @@ describe('className', () => {
       ).toContain(className);
 
       if (EDITABLE_COMPONENTS.includes(componentName)) {
-        tester.click(`button.btn-edit`);
+        await tester.click(`button.btn-edit`);
         expect(
           tester
             .find('Card')

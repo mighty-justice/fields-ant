@@ -22,10 +22,10 @@ describe('FormCard', () => {
 
     const tester = await new Tester(FormCard, { props }).mount();
 
-    tester.changeInput('input', newText);
+    await tester.changeInput('input', newText);
 
     expect(onSave).not.toHaveBeenCalled();
-    tester.submit();
+    await tester.submit();
     await tester.sleep();
     expect(onSave).toHaveBeenCalledWith({ text: newText });
   });
@@ -57,7 +57,7 @@ describe('FormCard', () => {
     expect(notification.error).not.toHaveBeenCalled();
     expect(tester.text()).not.toContain(nameError);
 
-    tester.submit();
+    await tester.submit();
     await tester.sleep();
 
     expect(notification.error).toHaveBeenCalled();

@@ -83,10 +83,10 @@ describe('fieldsValidator', () => {
         tester = await new Tester(ComponentClass, { props }).mount();
 
       expect(onSave).not.toHaveBeenCalled();
-      tester.submit();
+      await tester.submit();
       expect(onSave).not.toHaveBeenCalled();
-      tester.changeInput('input#target', newTarget);
-      tester.submit();
+      await tester.changeInput('input#target', newTarget);
+      await tester.submit();
       expect(onSave).toHaveBeenCalled();
     });
   });
