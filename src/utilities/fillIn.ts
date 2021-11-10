@@ -1,5 +1,7 @@
 import { Input } from 'antd';
 
+import { ValidationRule } from '@ant-design/compatible/es/form';
+
 import { getOrDefault, varToLabel } from '@mighty-justice/utils';
 
 import { IFieldConfig, IFieldConfigPartial, IFieldSet, IFieldSetPartial } from '../interfaces';
@@ -90,7 +92,7 @@ export function fillInFieldConfig(fieldConfig: IFieldConfigPartial): IFieldConfi
   const type = inferType(fieldConfig),
     label = fieldConfig.label || varToLabel(getFieldSuffix(fieldConfig.field));
 
-  const requiredValidationRule = fieldConfig.required
+  const requiredValidationRule: undefined | { [key: string]: ValidationRule } = fieldConfig.required
     ? {
         required: {
           message: `Required - Please input a valid ${label || 'value'}`,
@@ -110,6 +112,7 @@ export function fillInFieldConfig(fieldConfig: IFieldConfigPartial): IFieldConfi
     disabled: false,
     key: fieldConfig.field,
     label,
+    name: fieldConfig.field.split('.'),
     populateFromSearch: false,
     populateNameFromSearch: false,
     readOnly: false,
@@ -133,11 +136,11 @@ export function fillInFieldConfig(fieldConfig: IFieldConfigPartial): IFieldConfi
 
     // Merge nested object
     formValidationRules: {
-      ...fieldConfig.formValidationRules,
       ...TYPES[type].formValidationRules,
+      ...fieldConfig.formValidationRules,
       ...requiredValidationRule,
     },
-  } as IFieldConfig;
+  };
 }
 
 export function fillInFieldSet(fieldSet: IFieldSetPartial): IFieldSet {

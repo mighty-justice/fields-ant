@@ -1,6 +1,7 @@
 import faker from 'faker';
 import httpStatus from 'http-status-codes';
 import { set } from 'lodash';
+import { act } from 'react-dom/test-utils';
 
 import { notification } from 'antd';
 
@@ -100,10 +101,13 @@ describe('FormManager', () => {
           throw err;
         }),
         props = { fieldSets, onSave },
-        tester = await new Tester(Form, { props }).mount();
+        tester = new Tester(Form, { props });
 
       spyOn(notification, 'error');
-      await tester.submit();
+      await act(async () => {
+        await tester.mount();
+        await tester.submit();
+      });
 
       expect(notification.error).toHaveBeenCalledWith({
         description: `${nonFieldError}`,

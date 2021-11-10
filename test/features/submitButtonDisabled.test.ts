@@ -35,7 +35,7 @@ describe('isSubmitButtonDisabled', () => {
       const tester = await new Tester(ComponentClass, { props }).mount();
       expect(isInvalid(tester)).toBe(false);
 
-      await changeInput(tester, null);
+      await changeInput(tester, '');
       await tester.refresh();
       expect(isInvalid(tester)).toBe(true);
 

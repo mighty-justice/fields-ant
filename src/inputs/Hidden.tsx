@@ -28,14 +28,14 @@ class Hidden extends Component<IFormFieldProps> {
     const {
         formManager,
         fieldConfig,
-        fieldConfig: { field },
+        fieldConfig: { name },
       } = this.injected,
       initialValue = formManager.getDefaultValue(fieldConfig),
       HANDLED_PROPS = ['formManager', 'formModel', 'fieldConfig'],
       inputProps = { ...omit(this.props, HANDLED_PROPS), type: 'hidden' };
 
     return (
-      <Form.Item name={field.split('.')} initialValue={initialValue}>
+      <Form.Item name={name} initialValue={initialValue}>
         <Input {...inputProps} />
       </Form.Item>
     );

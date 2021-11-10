@@ -125,7 +125,7 @@ const WrappedForm = AntForm.create()(UnwrappedForm);
 @autoBindMethods
 @observer
 export class Form extends Component<IFormProps> {
-  public static defaultProps: Partial<IFormWrappedProps> = {
+  public static defaultProps = {
     ...formPropsDefaults,
     ...sharedComponentPropsDefaults,
     showControls: true,
