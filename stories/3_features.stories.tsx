@@ -106,21 +106,6 @@ storiesOf('Features', module)
       }]}
     />
   ))
-  .add('fieldsValidator', () => (
-    <FormCard
-      {...formCardPropsFactory.build()}
-      fieldSets={[[
-        { field: 'first_field' },
-        {
-          field: 'only_valid_if_first_field_is_sam',
-          formValidationRules: { isSam: {
-            fieldsValidator: (_value: any, _fieldConfig: any, model: IModel) => model.first_field === 'sam',
-            message: 'First field must be "sam"',
-          }},
-        },
-      ]]}
-    />
-  ))
   .add('rowProps, colProps', () => (
     <EditableCard
       {...formCardPropsFactory.build()}

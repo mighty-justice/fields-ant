@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import { values, omit, get } from 'lodash';
+import { get } from 'lodash';
 import cx from 'classnames';
 
 import { Col } from 'antd';
@@ -9,7 +9,7 @@ import { Form } from '@ant-design/compatible';
 import { ValidationRule as AntValidationRule } from '@ant-design/compatible/es/form';
 
 import { formatClassNames, FormManager, noopValidator, renderLabel } from '../utilities';
-import { IFieldConfig, IFieldsValidator, ILayout } from '../interfaces';
+import { IFieldConfig, ILayout } from '../interfaces';
 import { IModel } from '../props';
 import { CLASS_PREFIX } from '../consts';
 import { sharedComponentPropsDefaults } from '../propsDefaults';
@@ -34,46 +34,16 @@ class FormItem extends Component<IFormFieldProps> {
     return formManager.getDefaultValue(fieldConfig);
   }
 
-  private fieldsValidatorToValidator(fieldsValidator: IFieldsValidator, message?: any) {
-    // This returns a valid rc-form validator.
-    // It would be enforced by typing, but their validation interface is basically just anys
-    return (_rule: any, _value: any, callback: (message?: string) => void) => {
-      const { formManager, fieldConfig } = this.props,
-        model = formManager.formModel,
-        value = get(model, fieldConfig.field),
-        valid = fieldsValidator(value, fieldConfig, model);
-
-      if (valid) {
-        callback();
-      } else {
-        callback(message || 'Validation error');
-      }
-    };
-  }
-
   private get rules(): AntValidationRule[] {
     // Here we take the { [key: string]: formValidationRules } object
     // found in fieldConfig.formValidationRules and return a valid list
     // of rules for rc-form
 
     return [
+      ...Object.values(this.props.fieldConfig.formValidationRules),
+
       // Empty validator to ensure backend errors are cleared when field is edited
       { validator: noopValidator },
-
-      // Convert fields-ant fieldsValidator to rc-form validators
-      ...values(this.props.fieldConfig.formValidationRules).map(validationRule => {
-        // Our own proprietary ( much more sane and powerful ) validation attribute
-        // is converted here to the rc-form style validator
-        if (validationRule.fieldsValidator) {
-          return {
-            validator: this.fieldsValidatorToValidator(validationRule.fieldsValidator, validationRule.message),
-            ...omit(validationRule, 'fieldsValidator'),
-          };
-        }
-
-        // However, all default rc-form validators will still work as expected
-        return validationRule;
-      }),
     ];
   }
 
