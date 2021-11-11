@@ -50,10 +50,12 @@ async function clickAddNew(tester: any) {
 }
 
 async function clickFirstResult(tester: any) {
-  tester
-    .find('Item')
-    .at(1)
-    .simulate('click');
+  await act(async () =>
+    tester
+      .find('Item')
+      .at(1)
+      .simulate('click'),
+  );
 }
 
 async function clickBack(tester: any) {
@@ -69,7 +71,7 @@ describe('objectSearchCreate', () => {
       await tester.mount();
       await objectSearchFor(tester, field, results, searchTerm);
 
-      clickFirstResult(tester);
+      await clickFirstResult(tester);
       await tester.submit();
     });
 
@@ -109,7 +111,7 @@ describe('objectSearchCreate', () => {
     });
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: fakeOwed } });
 
-    clickBack(tester);
+    await clickBack(tester);
     await tester.submit();
     expect(onSave).toHaveBeenCalledWith(props.model);
   });
@@ -136,7 +138,7 @@ describe('objectSearchCreate', () => {
     await tester.submit();
     expect(onSave).toHaveBeenCalledWith({ law_firm: { name: searchTerm, amount_owed: null } });
 
-    clickBack(tester);
+    await clickBack(tester);
     await tester.submit();
     expect(onSave).toHaveBeenCalledWith(props.model);
   });
@@ -254,7 +256,7 @@ describe('objectSearchCreate', () => {
     ).toContain('FFF');
 
     await act(async () => {
-      clickFirstResult(tester);
+      await clickFirstResult(tester);
     });
 
     expect(tester.text()).toContain('ZZZ');

@@ -1,9 +1,10 @@
+import { ClassValue } from 'classnames/types';
+
 import { ColProps } from 'antd/es/col';
 import { ColumnProps } from 'antd/es/table';
 import { RowProps } from 'antd/es/row';
 import { FormItemProps } from 'antd/es/form';
 import { ValidationRule as AntValidationRule } from '@ant-design/compatible/es/form';
-import { ClassValue } from 'classnames/types';
 
 import { IModel, IValue } from './props';
 import { FormManager, ITableModel } from './utilities';
@@ -26,6 +27,7 @@ interface IFieldConfigBase {
   insertIf?: (model: any) => boolean;
   key: string;
   label: string | null;
+  name: string[];
   nullify: boolean;
   populateFromSearch: boolean;
   populateNameFromSearch: boolean;
@@ -71,7 +73,7 @@ export interface IFieldConfigAddress extends IFieldConfigBase {
 }
 
 export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
-  createFields: IFieldConfigBase[];
+  createFields: IFieldSet;
   endpoint: string;
   renderOption: (option: IEndpointOption) => React.ReactNode;
   renderSelected: (option: IEndpointOption) => string;

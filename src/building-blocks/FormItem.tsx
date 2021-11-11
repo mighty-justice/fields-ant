@@ -27,7 +27,7 @@ export const FORM_ITEM_CLASS_NAME = `${CLASS_PREFIX}-form-item`;
 @autoBindMethods
 @observer
 class FormItem extends Component<IFormFieldProps> {
-  public static defaultProps: Partial<IFormFieldProps> = { ...sharedComponentPropsDefaults };
+  public static defaultProps = sharedComponentPropsDefaults;
 
   private get initialValue() {
     const { formManager, fieldConfig } = this.props;
@@ -35,12 +35,13 @@ class FormItem extends Component<IFormFieldProps> {
   }
 
   private get rules(): AntValidationRule[] {
+    const { fieldConfig } = this.props;
     // Here we take the { [key: string]: formValidationRules } object
     // found in fieldConfig.formValidationRules and return a valid list
     // of rules for rc-form
 
     return [
-      ...Object.values(this.props.fieldConfig.formValidationRules),
+      ...Object.values(fieldConfig.formValidationRules),
 
       // Empty validator to ensure backend errors are cleared when field is edited
       { validator: noopValidator },

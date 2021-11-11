@@ -18,8 +18,8 @@ import {
   IEndpointOption,
   IFieldConfig,
   IFieldConfigObjectSearchCreate,
-  IInjected,
   IFormFieldProps,
+  IInjected,
   NestedFieldSet,
 } from '../';
 

@@ -98,7 +98,7 @@ class FormManager {
   }
 
   public get isSubmitButtonDisabled(): boolean {
-    return this.hasErrors() || this.isFormDisabled;
+    return this.hasErrors || this.isFormDisabled;
   }
 
   public get isCancelButtonDisabled(): boolean {
@@ -217,7 +217,7 @@ class FormManager {
     });
   }
 
-  private hasErrors() {
+  private get hasErrors() {
     const fieldsError = flattenObject<{ [key: string]: any }, { [key: string]: any }>(this.form.getFieldsError());
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
