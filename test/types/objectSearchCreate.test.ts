@@ -126,17 +126,14 @@ describe('objectSearchCreate', () => {
 
     await act(async () => {
       await objectSearchFor(tester, field, results, searchTerm);
-      await tester.refresh(50);
       await clickAddNew(tester);
 
       // Will not submit until required sub-form filled out
-      await tester.refresh(50);
       await tester.submit();
-      await tester.refresh(50);
     });
 
     expect(onSave).not.toHaveBeenCalled();
-    await tester.refresh(50);
+    await tester.refresh(10);
     expect(tester.text()).toContain('Required');
 
     // Will clear errors when fixing invalid field

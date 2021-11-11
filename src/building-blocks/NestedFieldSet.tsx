@@ -24,8 +24,8 @@ export interface INestedFieldSetProps {
 @observer
 class NestedFieldSet extends Component<INestedFieldSetProps> {
   private fieldValueMapper(fieldConfig: IFieldConfigPartial) {
-    const { id } = this.props
-      , field = `${id}.${fieldConfig.field}`;
+    const { id } = this.props,
+      field = `${id}.${fieldConfig.field}`;
 
     return {
       ...fieldConfig,

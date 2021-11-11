@@ -43,7 +43,7 @@ describe('isSubmitButtonDisabled', () => {
 
       await act(async () => {
         await changeInput(tester, '');
-        await tester.refresh(500);
+        await tester.refresh();
       });
       expect(isInvalid(tester)).toBe(true);
 

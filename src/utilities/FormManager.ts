@@ -58,8 +58,8 @@ export const toastError = {
 
 @autoBindMethods
 class FormManager {
-  @observable public isSaving = false;
   @observable public hasErrors = false;
+  @observable public isSaving = false;
 
   private args: IArgs;
   public formWrappedInstance: IFormWrappedInstance;
