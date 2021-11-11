@@ -10,10 +10,6 @@ import { FormManager, ITableModel } from './utilities';
 
 export type IFieldsValidator = (value: IValue, fieldConfig: IFieldConfig, model: IModel) => boolean;
 
-export interface IValidationRule extends AntValidationRule {
-  fieldsValidator?: IFieldsValidator;
-}
-
 interface IFieldConfigBase {
   className?: ClassValue;
   colProps?: ColProps;
@@ -24,7 +20,7 @@ interface IFieldConfigBase {
   fieldConfigProp: boolean;
   formItemProps?: Partial<FormItemProps>;
   formItemRenderExtra?: (value: IValue) => React.ReactNode;
-  formValidationRules: { [ruleName: string]: IValidationRule };
+  formValidationRules: { [ruleName: string]: AntValidationRule };
   fromForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
   icon?: string;
   insertIf?: (model: any) => boolean;
