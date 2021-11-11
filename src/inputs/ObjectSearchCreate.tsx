@@ -10,7 +10,6 @@ import SmartBool from '@mighty-justice/smart-bool';
 import { Button, Col, Form } from 'antd';
 import { SelectProps } from 'antd/es/select';
 import { LeftOutlined } from '@ant-design/icons';
-import { FieldData } from 'rc-field-form/es/interface';
 
 import {
   CLASS_PREFIX,
@@ -58,10 +57,6 @@ export const CLASS_NAME = `${CLASS_PREFIX}-input-object-search-create`;
 export const CLASS_NAME_BTN_BACK = `${CLASS_NAME}-btn-back`;
 export const CLASS_NAME_CREATING = `${CLASS_NAME}-creating`;
 
-function createFieldAntName(fieldConfig: IFieldConfig, createField: IFieldConfig): string[] {
-  return [...fieldConfig.name, ...createField.name];
-}
-
 @autoBindMethods
 @observer
 class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
@@ -80,36 +75,44 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     return getFieldSetFields(this.fieldConfig.createFields).map(createField => fillInFieldConfig(createField));
   }
 
-  private async onAddNew(search: string) {
+  private async onSwitchToAddNew(search: string) {
     const { onAddNewToggle, formManager, fieldConfig } = this.injected;
     this.search = search;
 
-    const createFieldsToDefaults: FieldData[] = this.createFields.map(createField => ({
-        name: createFieldAntName(fieldConfig, createField),
+    formManager.form.setFields([
+      // Clear the existing value of the main field,
+      { name: fieldConfig.name, value: {} },
+
+      // and then set all create fields to their default value
+      ...this.createFields.map(createField => ({
+        name: [...fieldConfig.name, ...createField.name],
         value: formManager.getDefaultValue(createField),
       })),
-      mainFieldAsEmptyObject = { name: fieldConfig.name, value: {} };
-
-    formManager.form.setFields([mainFieldAsEmptyObject, ...createFieldsToDefaults]);
+    ]);
 
     this.isAddingNew.setTrue();
+
     if (onAddNewToggle) {
       onAddNewToggle(true);
     }
   }
 
-  private async onSearch() {
+  private async onSwitchBackToSearch() {
     const { onAddNewToggle, formManager, fieldConfig } = this.injected;
 
-    const createFieldsToUndefined: FieldData[] = this.createFields.map(createField => ({
-        name: createFieldAntName(fieldConfig, createField),
+    formManager.form.setFields([
+      // Clear the value of all create fields,
+      ...this.createFields.map(createField => ({
+        name: [...fieldConfig.name, ...createField.name],
         value: undefined,
       })),
-      mainFieldToDefaultValue = { name: fieldConfig.name, value: formManager.getDefaultValue(fieldConfig) };
 
-    formManager.form.setFields([...createFieldsToUndefined, mainFieldToDefaultValue]);
+      // and set the main field back to it's default value
+      { name: fieldConfig.name, value: formManager.getDefaultValue(fieldConfig) },
+    ]);
 
     this.isAddingNew.setFalse();
+
     if (onAddNewToggle) {
       onAddNewToggle(false);
     }
@@ -129,7 +132,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
             label={renderLabel(this.fieldConfig)}
             search={this.search}
           />
-          <Button className={CLASS_NAME_BTN_BACK} onClick={this.onSearch} size="small">
+          <Button className={CLASS_NAME_BTN_BACK} onClick={this.onSwitchBackToSearch} size="small">
             <LeftOutlined /> Back to search
           </Button>
         </Form.Item>
@@ -162,7 +165,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
           isOptionDisabled={isOptionDisabled}
           loadingIcon={loadingIcon}
           noSearchContent={noSearchContent}
-          onAddNew={this.onAddNew}
+          onAddNew={this.onSwitchToAddNew}
           onChange={onChange}
           searchIcon={searchIcon}
           searchOnEmpty={searchOnEmpty}

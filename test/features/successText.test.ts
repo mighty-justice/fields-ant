@@ -15,6 +15,7 @@ describe('successText', () => {
     expect(notification.success).not.toHaveBeenCalled();
     await tester.submit();
     await tester.refresh();
+
     expect(notification.success).toHaveBeenCalledWith({
       description: '',
       duration: TOAST_DURATION,
@@ -32,6 +33,7 @@ describe('successText', () => {
     expect(notification.success).not.toHaveBeenCalled();
     await tester.submit();
     await tester.refresh();
+
     expect(notification.success).toHaveBeenCalledWith({
       description: '',
       duration: TOAST_DURATION,
@@ -49,6 +51,7 @@ describe('successText', () => {
     expect(notification.success).not.toHaveBeenCalled();
     await tester.submit();
     await tester.refresh();
+
     expect(notification.success).not.toHaveBeenCalled();
   });
 });

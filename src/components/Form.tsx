@@ -24,7 +24,12 @@ export interface IFormWrappedProps extends IFormProps {
   form: FormInstance;
 }
 
-const CLASS_NAME = `${CLASS_PREFIX}-form`;
+const CLASS_NAME = `${CLASS_PREFIX}-form`
+  , DEFAULT_PROPS = {
+  ...formPropsDefaults,
+  ...sharedComponentPropsDefaults,
+  showControls: true,
+};
 
 @autoBindMethods
 @observer
@@ -132,10 +137,6 @@ function Form(props: IFormProps) {
   return <UnwrappedForm {...props} form={form} />;
 }
 
-Form.defaultProps = {
-  ...formPropsDefaults,
-  ...sharedComponentPropsDefaults,
-  showControls: true,
-};
+Form.defaultProps = DEFAULT_PROPS;
 
 export default Form;

@@ -45,6 +45,7 @@ describe('isSubmitButtonDisabled', () => {
         await changeInput(tester, '');
         await tester.refresh();
       });
+
       expect(isInvalid(tester)).toBe(true);
 
       await changeInput(tester, name);
