@@ -35,6 +35,8 @@ describe('processErrors', () => {
 
     spyOn(notification, 'error');
     await tester.submit();
+    await tester.refresh(10);
+
     expect(processErrors).toHaveBeenCalledWith({
       errorMessages: [
         {

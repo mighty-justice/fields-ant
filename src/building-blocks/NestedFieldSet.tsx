@@ -24,11 +24,13 @@ export interface INestedFieldSetProps {
 @observer
 class NestedFieldSet extends Component<INestedFieldSetProps> {
   private fieldValueMapper(fieldConfig: IFieldConfigPartial) {
-    const { id } = this.props;
+    const { id } = this.props,
+      field = `${id}.${fieldConfig.field}`;
 
     return {
       ...fieldConfig,
-      field: `${id}.${fieldConfig.field}`,
+      field,
+      name: field.split('.'),
       ...this.getDefaultValue(fieldConfig),
     };
   }

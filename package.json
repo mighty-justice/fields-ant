@@ -154,7 +154,6 @@
     "typescript": "3.9.7"
   },
   "dependencies": {
-    "@ant-design/compatible": "^1.0.8",
     "@mighty-justice/smart-bool": "^2.0.2",
     "@mighty-justice/utils": "1.4.2",
     "@types/cheerio": "^0.22.23",

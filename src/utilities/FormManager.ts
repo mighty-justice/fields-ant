@@ -4,10 +4,10 @@ import autoBindMethods from 'class-autobind-decorator';
 import flattenObject from 'flat';
 import httpStatus from 'http-status-codes';
 
-import { get, has, mapValues, noop, pickBy, set } from 'lodash';
+import { get, has, noop, pickBy, set } from 'lodash';
 
-import { notification } from 'antd';
-import { WrappedFormUtils } from '@ant-design/compatible/es/form/Form';
+import { notification, FormInstance } from 'antd';
+import { FieldData } from 'rc-field-form/es/interface';
 
 import { ID_ATTR, TOAST_DURATION } from '../consts';
 import { IFieldConfig, IFieldSet } from '../interfaces';
@@ -58,7 +58,9 @@ export const toastError = {
 
 @autoBindMethods
 class FormManager {
+  @observable public hasErrors = false;
   @observable public isSaving = false;
+
   private args: IArgs;
   public formWrappedInstance: IFormWrappedInstance;
 
@@ -77,7 +79,7 @@ class FormManager {
     };
   }
 
-  public get form(): WrappedFormUtils {
+  public get form(): FormInstance {
     // The form prop continuously changes identity, so we can't just save it locally
     return this.formWrappedInstance.props.form;
   }
@@ -174,7 +176,7 @@ class FormManager {
     /*
     formValues < formModel < submitModel
 
-    This is the finalized form model. We only use it in critical situations like onSubmit
+    This is the finalized form model. We only use it in critical situations like onFinish
     because many of the places we use formModel are used to build submitModel.
 
     For example: We can't call all insertIf functions to build submitModel if those functions
@@ -185,6 +187,10 @@ class FormManager {
 
   public get formFieldNames() {
     return Object.keys(flattenObject<{ [key: string]: any }, { [key: string]: any }>(this.formValues));
+  }
+
+  public onFieldsChange(_changedValues: any, values: FieldData[]) {
+    this.hasErrors = values.some(({ errors }) => errors?.length);
   }
 
   private onSuccess() {
@@ -201,13 +207,15 @@ class FormManager {
   }
 
   private setErrorsOnFormFields(errors: { [key: string]: string }) {
-    const formValues = this.formValues;
-    this.form.setFields(
-      mapValues(errors, (error, field) => ({
-        errors: [new Error(error)],
+    const formValues = this.formValues,
+      fieldData: FieldData[] = Object.entries(errors).map(([field, error]) => ({
+        errors: [error],
+        name: field.split('.'),
         value: get(formValues, field),
-      })),
-    );
+      }));
+
+    this.hasErrors = !!Object.entries(errors).length;
+    this.form.setFields(fieldData);
   }
 
   private notifyUserAboutErrors(errors: IErrorMessage[]) {
@@ -215,11 +223,6 @@ class FormManager {
       const description = [field, message].filter(s => !!s).join(' - ');
       notification.error({ ...toastError, description });
     });
-  }
-
-  private get hasErrors() {
-    const fieldsError = flattenObject<{ [key: string]: any }, { [key: string]: any }>(this.form.getFieldsError());
-    return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
 
   private handleRequestError(error: IAxiosError) {
@@ -264,18 +267,9 @@ class FormManager {
     this.notifyUserAboutErrors(backendErrors.errorMessages);
   }
 
-  private async validateThenSaveCallback(errors: any, _values: any) {
-    /*
-    rc-form validateFields cannot be awaited and takes a callback as input,
-    so we have to split the bulk of onSave out into this function to make
-    sure we don't try to submit an un-validated form.
-    */
+  public async onFinish(_values: any) {
     const { onSave } = this.args;
     this.isSaving = true;
-    if (errors) {
-      this.isSaving = false;
-      return;
-    }
 
     try {
       await onSave(this.submitModel);
@@ -288,15 +282,6 @@ class FormManager {
     } finally {
       this.isSaving = false;
     }
-  }
-
-  public async onSave(event?: any) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    this.isSaving = true;
-    this.form.validateFields(this.validateThenSaveCallback);
   }
 }
 

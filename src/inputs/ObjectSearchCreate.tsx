@@ -13,7 +13,9 @@ import { LeftOutlined } from '@ant-design/icons';
 
 import {
   CLASS_PREFIX,
+  fillInFieldConfig,
   FormManager,
+  getFieldSetFields,
   IAntFormField,
   IEndpointOption,
   IFieldConfig,
@@ -69,22 +71,48 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
     return this.props.fieldConfig as IFieldConfigObjectSearchCreate;
   }
 
-  private async onAddNew(search: string) {
+  private get createFields(): IFieldConfig[] {
+    return getFieldSetFields(this.fieldConfig.createFields).map(createField => fillInFieldConfig(createField));
+  }
+
+  private async onSwitchToAddNew(search: string) {
     const { onAddNewToggle, formManager, fieldConfig } = this.injected;
     this.search = search;
 
-    formManager.form.setFieldsValue({ [fieldConfig.field]: {} }, () => {
-      this.isAddingNew.setTrue();
-      if (onAddNewToggle) {
-        onAddNewToggle(true);
-      }
-    });
+    formManager.form.setFields([
+      // Clear the existing value of the main field,
+      { name: fieldConfig.name, value: {} },
+
+      // and then set all create fields to their default value
+      ...this.createFields.map(createField => ({
+        name: [...fieldConfig.name, ...createField.name],
+        value: formManager.getDefaultValue(createField),
+      })),
+    ]);
+
+    this.isAddingNew.setTrue();
+
+    if (onAddNewToggle) {
+      onAddNewToggle(true);
+    }
   }
 
-  private async onSearch() {
-    const { onAddNewToggle, formManager, id, fieldConfig } = this.injected;
-    formManager.form.setFieldsValue({ [id]: formManager.getDefaultValue(fieldConfig) });
+  private async onSwitchBackToSearch() {
+    const { onAddNewToggle, formManager, fieldConfig } = this.injected;
+
+    formManager.form.setFields([
+      // Clear the value of all create fields,
+      ...this.createFields.map(createField => ({
+        name: [...fieldConfig.name, ...createField.name],
+        value: undefined,
+      })),
+
+      // and set the main field back to it's default value
+      { name: fieldConfig.name, value: formManager.getDefaultValue(fieldConfig) },
+    ]);
+
     this.isAddingNew.setFalse();
+
     if (onAddNewToggle) {
       onAddNewToggle(false);
     }
@@ -104,7 +132,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
             label={renderLabel(this.fieldConfig)}
             search={this.search}
           />
-          <Button className={CLASS_NAME_BTN_BACK} onClick={this.onSearch} size="small">
+          <Button className={CLASS_NAME_BTN_BACK} onClick={this.onSwitchBackToSearch} size="small">
             <LeftOutlined /> Back to search
           </Button>
         </Form.Item>
@@ -137,7 +165,7 @@ class ObjectSearchCreate extends Component<IObjectSearchCreateProps> {
           isOptionDisabled={isOptionDisabled}
           loadingIcon={loadingIcon}
           noSearchContent={noSearchContent}
-          onAddNew={this.onAddNew}
+          onAddNew={this.onSwitchToAddNew}
           onChange={onChange}
           searchIcon={searchIcon}
           searchOnEmpty={searchOnEmpty}

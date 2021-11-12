@@ -1,3 +1,4 @@
+import { act } from 'react-dom/test-utils';
 import faker from 'faker';
 
 import { Tester } from '@mighty-justice/tester';
@@ -32,11 +33,19 @@ describe('isSubmitButtonDisabled', () => {
           model: { name },
         });
 
-      const tester = await new Tester(ComponentClass, { props }).mount();
+      const tester = await new Tester(ComponentClass, { props });
+
+      await act(async () => {
+        await tester.mount();
+      });
+
       expect(isInvalid(tester)).toBe(false);
 
-      await changeInput(tester, '');
-      await tester.refresh();
+      await act(async () => {
+        await changeInput(tester, '');
+        await tester.refresh();
+      });
+
       expect(isInvalid(tester)).toBe(true);
 
       await changeInput(tester, name);

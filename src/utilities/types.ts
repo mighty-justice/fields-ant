@@ -101,7 +101,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
     editComponent: Date,
     formValidationRules: {
       isValidDate: {
-        validator: (_, value) => isValidDate(value),
+        validator: (_, value) => (isValidDate(value) ? Promise.resolve() : Promise.reject()),
         message: 'Must be a valid date',
       },
     },

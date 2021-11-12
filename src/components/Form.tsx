@@ -5,10 +5,9 @@ import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 
-import { Button } from 'antd';
+import { Button, Form as AntForm } from 'antd';
 import { ButtonProps } from 'antd/es/button';
-import { Form as AntForm } from '@ant-design/compatible';
-import { WrappedFormInternalProps } from '@ant-design/compatible/lib/form/Form';
+import { FormInstance } from 'antd/lib/form/hooks/useForm';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
 import FormFieldSet from '../building-blocks/FormFieldSet';
@@ -21,9 +20,16 @@ export interface IFormProps extends ISharedComponentProps, ISharedFormProps {
   showControls: boolean;
 }
 
-export interface IFormWrappedProps extends IFormProps, WrappedFormInternalProps {}
+export interface IFormWrappedProps extends IFormProps {
+  form: FormInstance;
+}
 
-const CLASS_NAME = `${CLASS_PREFIX}-form`;
+const CLASS_NAME = `${CLASS_PREFIX}-form`
+  , DEFAULT_PROPS = {
+  ...formPropsDefaults,
+  ...sharedComponentPropsDefaults,
+  showControls: true,
+};
 
 @autoBindMethods
 @observer
@@ -91,14 +97,21 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   }
 
   public render() {
-    const { showControls, title, layout, colon } = this.props,
+    const { showControls, title, layout, colon, form } = this.props,
       formModel = this.formManager.formModel,
       filteredFieldSets = filterFieldSets(this.fieldSets, { model: formModel }),
       className = cx(CLASS_NAME, this.props.className, formatClassNames(CLASS_NAME, colon, layout)),
       passDownProps = { layout, colon };
 
     return (
-      <AntForm className={className} colon={colon} layout={layout} onSubmit={this.formManager.onSave}>
+      <AntForm
+        className={className}
+        colon={colon}
+        form={form}
+        layout={layout}
+        onFieldsChange={this.formManager.onFieldsChange}
+        onFinish={this.formManager.onFinish}
+      >
         {title && <h2>{title}</h2>}
 
         {filteredFieldSets.map((fieldSet, idx) => (
@@ -119,21 +132,11 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
   }
 }
 
-// istanbul ignore next
-const WrappedForm = AntForm.create()(UnwrappedForm);
-
-@autoBindMethods
-@observer
-export class Form extends Component<IFormProps> {
-  public static defaultProps = {
-    ...formPropsDefaults,
-    ...sharedComponentPropsDefaults,
-    showControls: true,
-  };
-
-  public render() {
-    return <WrappedForm {...this.props} />;
-  }
+function Form(props: IFormProps) {
+  const [form] = AntForm.useForm();
+  return <UnwrappedForm {...props} form={form} />;
 }
+
+Form.defaultProps = DEFAULT_PROPS;
 
 export default Form;

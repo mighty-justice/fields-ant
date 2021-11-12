@@ -140,7 +140,6 @@ describe('insertIf', () => {
     const component = ({
         props: {
           form: {
-            getFieldDecorator: () => (x: any) => x,
             getFieldsValue: () => ({}),
           },
         },

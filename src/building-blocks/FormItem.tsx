@@ -4,9 +4,8 @@ import autoBindMethods from 'class-autobind-decorator';
 import { get } from 'lodash';
 import cx from 'classnames';
 
-import { Col } from 'antd';
-import { Form } from '@ant-design/compatible';
-import { ValidationRule as AntValidationRule } from '@ant-design/compatible/es/form';
+import { Col, Form } from 'antd';
+import { Rule } from 'rc-field-form/lib/interface';
 
 import { formatClassNames, FormManager, noopValidator, renderLabel } from '../utilities';
 import { IFieldConfig, ILayout } from '../interfaces';
@@ -34,7 +33,7 @@ class FormItem extends Component<IFormFieldProps> {
     return formManager.getDefaultValue(fieldConfig);
   }
 
-  private get rules(): AntValidationRule[] {
+  private get rules(): Rule[] {
     const { fieldConfig } = this.props;
     // Here we take the { [key: string]: formValidationRules } object
     // found in fieldConfig.formValidationRules and return a valid list
@@ -48,42 +47,41 @@ class FormItem extends Component<IFormFieldProps> {
     ];
   }
 
-  private get decoratorOptions() {
-    return {
-      initialValue: this.initialValue,
-      rules: this.rules,
-    };
-  }
-
   private get formItemProps() {
     const { fieldConfig, formModel } = this.props,
-      { field, formItemRenderExtra } = fieldConfig,
-      extraValue = get(formModel, field);
+      { field, name, formItemRenderExtra } = fieldConfig,
+      extraValue = get(formModel, field),
+      props = {
+        initialValue: this.initialValue,
+        name,
+        preserve: false,
+        rules: this.rules,
+      };
 
     if (extraValue && formItemRenderExtra) {
       return {
+        ...props,
         extra: formItemRenderExtra(extraValue),
       };
     }
 
-    return {};
+    return props;
   }
 
   public render() {
-    const { formManager, fieldConfig, layout, colon } = this.props,
-      { colProps, formItemProps, field } = fieldConfig,
+    const { fieldConfig, layout, colon } = this.props,
+      { colProps, formItemProps } = fieldConfig,
       className = cx(
         FORM_ITEM_CLASS_NAME,
         fieldConfig.className,
         formItemProps && formItemProps.className,
         formatClassNames(FORM_ITEM_CLASS_NAME, colon, layout),
-      ),
-      { getFieldDecorator } = formManager.form;
+      );
 
     return (
       <Col {...colProps}>
         <Form.Item {...this.formItemProps} {...formItemProps} className={className} label={renderLabel(fieldConfig)}>
-          {getFieldDecorator(field, this.decoratorOptions)(this.props.children)}
+          {this.props.children}
         </Form.Item>
       </Col>
     );

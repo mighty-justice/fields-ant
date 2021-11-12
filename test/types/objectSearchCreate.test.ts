@@ -95,6 +95,8 @@ describe('objectSearchCreate', () => {
 
     // Will not submit until required sub-form filled out
     await tester.submit();
+    await tester.refresh(10);
+
     expect(tester.text()).toContain('Required');
     expect(onSave).not.toHaveBeenCalled();
 
@@ -127,10 +129,11 @@ describe('objectSearchCreate', () => {
       await clickAddNew(tester);
 
       // Will not submit until required sub-form filled out
-      await tester.refresh();
       await tester.submit();
     });
+
     expect(onSave).not.toHaveBeenCalled();
+    await tester.refresh(10);
     expect(tester.text()).toContain('Required');
 
     // Will clear errors when fixing invalid field
