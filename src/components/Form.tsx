@@ -24,12 +24,12 @@ export interface IFormWrappedProps extends IFormProps {
   form: FormInstance;
 }
 
-const CLASS_NAME = `${CLASS_PREFIX}-form`
-  , DEFAULT_PROPS = {
-  ...formPropsDefaults,
-  ...sharedComponentPropsDefaults,
-  showControls: true,
-};
+const CLASS_NAME = `${CLASS_PREFIX}-form`,
+  DEFAULT_PROPS = {
+    ...formPropsDefaults,
+    ...sharedComponentPropsDefaults,
+    showControls: true,
+  };
 
 @autoBindMethods
 @observer
