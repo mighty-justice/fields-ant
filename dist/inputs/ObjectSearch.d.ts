@@ -28,7 +28,10 @@ declare class ObjectSearch extends Component<IObjectSearchProps> {
     private search;
     private previousEndpoint;
     private previousSearchFilters;
-    static defaultProps: Partial<IObjectSearchProps>;
+    static defaultProps: {
+        debounceWait: number;
+        selectProps: {};
+    };
     private debouncedHandleSearch;
     constructor(props: IObjectSearchProps);
     private get injected();
@@ -43,7 +46,6 @@ declare class ObjectSearch extends Component<IObjectSearchProps> {
     private get isMultiSelect();
     private get loadingIcon();
     private get searchIcon();
-    private get selectProps();
     private handleSearch;
     private renderAddOption;
     private renderNoResultsOption;

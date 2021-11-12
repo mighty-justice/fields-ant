@@ -11,11 +11,12 @@ export interface IFormFieldProps {
 }
 export declare const FORM_ITEM_CLASS_NAME: string;
 declare class FormItem extends Component<IFormFieldProps> {
-    static defaultProps: Partial<IFormFieldProps>;
+    static defaultProps: {
+        layout?: "inline" | "horizontal" | "vertical" | undefined;
+        colon: boolean;
+    };
     private get initialValue();
-    private fieldsValidatorToValidator;
     private get rules();
-    private get decoratorOptions();
     private get formItemProps();
     render(): JSX.Element;
 }

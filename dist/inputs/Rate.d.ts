@@ -1,7 +1,7 @@
 import { Component } from 'react';
-import { IInputProps } from '../interfaces';
+import { IFormFieldProps } from '../interfaces';
 export declare function formatRating(value: string): JSX.Element | "--";
-declare class Rate extends Component<IInputProps> {
+declare class Rate extends Component<IFormFieldProps> {
     private get injected();
     render(): JSX.Element;
 }

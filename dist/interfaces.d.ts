@@ -1,16 +1,12 @@
 /// <reference types="react" />
+import { ClassValue } from 'classnames/types';
 import { ColProps } from 'antd/es/col';
 import { ColumnProps } from 'antd/es/table';
 import { RowProps } from 'antd/es/row';
 import { FormItemProps } from 'antd/es/form';
-import { ValidationRule as AntValidationRule } from '@ant-design/compatible/es/form';
-import { ClassValue } from 'classnames/types';
+import { Rule } from 'rc-field-form/lib/interface';
 import { IModel, IValue } from './props';
 import { FormManager, ITableModel } from './utilities';
-export declare type IFieldsValidator = (value: IValue, fieldConfig: IFieldConfig, model: IModel) => boolean;
-export interface IValidationRule extends AntValidationRule {
-    fieldsValidator?: IFieldsValidator;
-}
 interface IFieldConfigBase {
     className?: ClassValue;
     colProps?: ColProps;
@@ -24,13 +20,14 @@ interface IFieldConfigBase {
     formItemProps?: Partial<FormItemProps>;
     formItemRenderExtra?: (value: IValue) => React.ReactNode;
     formValidationRules: {
-        [ruleName: string]: IValidationRule;
+        [ruleName: string]: Rule;
     };
     fromForm: (value: IValue, fieldConfig: IFieldConfig) => IValue;
     icon?: string;
     insertIf?: (model: any) => boolean;
     key: string;
     label: string | null;
+    name: string[];
     nullify: boolean;
     populateFromSearch: boolean;
     populateNameFromSearch: boolean;
@@ -68,7 +65,7 @@ export interface IFieldConfigAddress extends IFieldConfigBase {
     stateProps?: Partial<IFieldConfigOptionSelect>;
 }
 export interface IFieldConfigObjectSearchCreate extends IFieldConfigBase {
-    createFields: IFieldConfigBase[];
+    createFields: IFieldSet;
     endpoint: string;
     renderOption: (option: IEndpointOption) => React.ReactNode;
     renderSelected: (option: IEndpointOption) => string;
@@ -101,11 +98,12 @@ export interface IInjected {
     getEndpoint: (endpoint: string) => Promise<any>;
     getOptions: IGetOptions;
 }
-export interface IInputProps {
+export interface IFormFieldProps {
     fieldConfig: IFieldConfig;
     formManager: FormManager;
+    formModel: IModel;
 }
-export interface ICheckboxProps extends IInputProps {
+export interface ICheckboxProps extends IFormFieldProps {
     description?: string;
     disabledText?: string;
 }

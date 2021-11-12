@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { IInputProps } from '../interfaces';
-declare class Hidden extends Component<IInputProps> {
+import { Component } from 'react';
+import { IFormFieldProps } from '../interfaces';
+declare class Hidden extends Component<IFormFieldProps> {
     private get injected();
-    render(): React.ReactNode;
+    render(): JSX.Element;
 }
 export default Hidden;

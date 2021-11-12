@@ -5,7 +5,9 @@ export interface ICardProps extends ISharedComponentProps {
     renderTopRight?: () => any;
 }
 declare class Card extends Component<ICardProps> {
-    static defaultProps: Partial<ICardProps>;
+    static defaultProps: {
+        bordered: boolean;
+    };
     private get fieldSets();
     render(): JSX.Element;
 }

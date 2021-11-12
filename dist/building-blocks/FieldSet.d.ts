@@ -7,7 +7,10 @@ interface IProps {
     layout?: ILayout;
 }
 export default class FieldSet extends Component<IProps> {
-    static defaultProps: Partial<IProps>;
+    static defaultProps: {
+        layout?: "inline" | "horizontal" | "vertical" | undefined;
+        colon: boolean;
+    };
     render(): JSX.Element;
 }
 export {};

@@ -1,5 +1,6 @@
 import { ComponentClass } from 'react';
-import { WrappedFormUtils } from '@ant-design/compatible/es/form/Form';
+import { FormInstance } from 'antd';
+import { FieldData } from 'rc-field-form/es/interface';
 import { IFieldConfig, IFieldSet } from '../interfaces';
 import { IFormWrappedProps } from '../components/Form';
 import { IModel, IValue } from '../props';
@@ -32,11 +33,12 @@ export declare const toastError: {
     message: string;
 };
 declare class FormManager {
+    hasErrors: boolean;
     isSaving: boolean;
     private args;
     formWrappedInstance: IFormWrappedInstance;
     constructor(formWrappedInstance: IFormWrappedInstance, fieldSets: IFieldSet[], args: Partial<IArgs>);
-    get form(): WrappedFormUtils;
+    get form(): FormInstance;
     get isFormDisabled(): boolean;
     get fieldSets(): IFieldSet[];
     get fieldConfigs(): IFieldConfig[];
@@ -48,12 +50,11 @@ declare class FormManager {
     get formModel(): IModel;
     get submitModel(): IModel;
     get formFieldNames(): string[];
+    onFieldsChange(_changedValues: any, values: FieldData[]): void;
     private onSuccess;
     private setErrorsOnFormFields;
     private notifyUserAboutErrors;
-    private hasErrors;
     private handleRequestError;
-    private validateThenSaveCallback;
-    onSave(event?: any): Promise<void>;
+    onFinish(_values: any): Promise<void>;
 }
 export default FormManager;

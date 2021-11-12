@@ -8,7 +8,11 @@ export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormPro
 }
 declare class EditableArrayCard extends Component<IEditableArrayCardProps> {
     private isAddingNew;
-    static defaultProps: Partial<IEditableArrayCardProps>;
+    static defaultProps: {
+        cancelText: string;
+        onSave: () => Promise<void>;
+        saveText: string;
+    };
     private handleSaveNew;
     private renderAddNew;
     render(): JSX.Element;

@@ -1,12 +1,5 @@
 import { Component } from 'react';
-import { FormManager } from '../utilities';
-import { IFieldConfigPartial } from '../interfaces';
-import { IModel } from '../props';
-export interface IFormFieldProps {
-    fieldConfig: IFieldConfigPartial;
-    formManager: FormManager;
-    formModel: IModel;
-}
+import { IFormFieldProps } from '../interfaces';
 declare class FormField extends Component<IFormFieldProps> {
     private get fieldConfig();
     private get editProps();

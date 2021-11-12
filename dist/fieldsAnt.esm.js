@@ -4,8 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form as Form$1, Col, Select, Button, Tooltip, Input, Radio, Rate as Rate$1, Checkbox as Checkbox$1, DatePicker, notification, Row, Popconfirm, Card as Card$1, Drawer, Modal, List, Table as Table$1 } from 'antd';
 import { toJS, observable, computed } from 'mobx';
-import { get, values, omit, debounce, uniqBy, pick, isObject, isBoolean, isArray, flatten, sortBy, has, set, isString, kebabCase, some, isPlainObject, extend, mapValues, pickBy, noop, isEmpty } from 'lodash';
-import { Form as Form$2 } from '@ant-design/compatible';
+import { get, debounce, uniqBy, omit, isObject, isBoolean, isArray, flatten, sortBy, has, set, isString, kebabCase, some, isPlainObject, extend, pickBy, noop, isEmpty } from 'lodash';
 import SmartBool from '@mighty-justice/smart-bool';
 import { toKey, inferCentury, getNameOrDefault, EMPTY_FIELD, mapBooleanToText, isValidDate, formatDate, formatEmployerIdNumber, formatMoney, formatCommaSeparatedNumber, getPercentValue, formatPercentage, getPercentDisplay, formatPhoneNumber, formatSocialSecurityNumber, parseAndPreserveNewlines, formatWebsite, formatAddressMultiline, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
 import moment from 'moment';
@@ -427,107 +426,69 @@ var FormItem = autoBindMethods(_class$1 = observer(_class$1 = (_temp = _class2 =
   }
 
   _createClass(FormItem, [{
-    key: "fieldsValidatorToValidator",
-    value: function fieldsValidatorToValidator(fieldsValidator, message) {
-      var _this = this;
-
-      // This returns a valid rc-form validator.
-      // It would be enforced by typing, but their validation interface is basically just anys
-      return function (_rule, _value, callback) {
-        var _this$props = _this.props,
-            formManager = _this$props.formManager,
-            fieldConfig = _this$props.fieldConfig,
-            model = formManager.formModel,
-            value = get(model, fieldConfig.field),
-            valid = fieldsValidator(value, fieldConfig, model);
-
-        if (valid) {
-          callback();
-        } else {
-          callback(message || 'Validation error');
-        }
-      };
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this$props2 = this.props,
-          formManager = _this$props2.formManager,
-          fieldConfig = _this$props2.fieldConfig,
-          layout = _this$props2.layout,
-          colon = _this$props2.colon,
+      var _this$props = this.props,
+          fieldConfig = _this$props.fieldConfig,
+          layout = _this$props.layout,
+          colon = _this$props.colon,
           colProps = fieldConfig.colProps,
           formItemProps = fieldConfig.formItemProps,
-          field = fieldConfig.field,
-          className = cx(FORM_ITEM_CLASS_NAME, fieldConfig.className, formItemProps && formItemProps.className, formatClassNames(FORM_ITEM_CLASS_NAME, colon, layout)),
-          getFieldDecorator = formManager.form.getFieldDecorator;
-      return /*#__PURE__*/React__default.createElement(Col, colProps, /*#__PURE__*/React__default.createElement(Form$2.Item, _extends({}, this.formItemProps, formItemProps, {
+          className = cx(FORM_ITEM_CLASS_NAME, fieldConfig.className, formItemProps && formItemProps.className, formatClassNames(FORM_ITEM_CLASS_NAME, colon, layout));
+      return /*#__PURE__*/React__default.createElement(Col, colProps, /*#__PURE__*/React__default.createElement(Form$1.Item, _extends({}, this.formItemProps, formItemProps, {
         className: className,
         label: renderLabel(fieldConfig)
-      }), getFieldDecorator(field, this.decoratorOptions)(this.props.children)));
+      }), this.props.children));
     }
   }, {
     key: "initialValue",
     get: function get() {
-      var _this$props3 = this.props,
-          formManager = _this$props3.formManager,
-          fieldConfig = _this$props3.fieldConfig;
+      var _this$props2 = this.props,
+          formManager = _this$props2.formManager,
+          fieldConfig = _this$props2.fieldConfig;
       return formManager.getDefaultValue(fieldConfig);
     }
   }, {
     key: "rules",
     get: function get() {
-      var _this2 = this;
-
-      // Here we take the { [key: string]: formValidationRules } object
+      var fieldConfig = this.props.fieldConfig; // Here we take the { [key: string]: formValidationRules } object
       // found in fieldConfig.formValidationRules and return a valid list
       // of rules for rc-form
-      return [// Empty validator to ensure backend errors are cleared when field is edited
+
+      return [].concat(_toConsumableArray(Object.values(fieldConfig.formValidationRules)), [// Empty validator to ensure backend errors are cleared when field is edited
       {
         validator: noopValidator
-      }].concat(_toConsumableArray(values(this.props.fieldConfig.formValidationRules).map(function (validationRule) {
-        // Our own proprietary ( much more sane and powerful ) validation attribute
-        // is converted here to the rc-form style validator
-        if (validationRule.fieldsValidator) {
-          return _objectSpread2({
-            validator: _this2.fieldsValidatorToValidator(validationRule.fieldsValidator, validationRule.message)
-          }, omit(validationRule, 'fieldsValidator'));
-        } // However, all default rc-form validators will still work as expected
-
-
-        return validationRule;
-      })));
-    }
-  }, {
-    key: "decoratorOptions",
-    get: function get() {
-      return {
-        initialValue: this.initialValue,
-        rules: this.rules
-      };
+      }]);
     }
   }, {
     key: "formItemProps",
     get: function get$1() {
-      var _this$props4 = this.props,
-          fieldConfig = _this$props4.fieldConfig,
-          formModel = _this$props4.formModel,
+      var _this$props3 = this.props,
+          fieldConfig = _this$props3.fieldConfig,
+          formModel = _this$props3.formModel,
           field = fieldConfig.field,
+          name = fieldConfig.name,
           formItemRenderExtra = fieldConfig.formItemRenderExtra,
-          extraValue = get(formModel, field);
+          extraValue = get(formModel, field),
+          props = {
+        initialValue: this.initialValue,
+        name: name,
+        preserve: false,
+        rules: this.rules
+      };
 
       if (extraValue && formItemRenderExtra) {
-        return {
+        return _objectSpread2({}, props, {
           extra: formItemRenderExtra(extraValue)
-        };
+        });
       }
 
-      return {};
+      return props;
     }
   }]);
 
   return FormItem;
-}(Component), _class2.defaultProps = _objectSpread2({}, sharedComponentPropsDefaults), _temp)) || _class$1) || _class$1;
+}(Component), _class2.defaultProps = sharedComponentPropsDefaults, _temp)) || _class$1) || _class$1;
 
 var _class$2;
 function isTypeAddress(fieldConfig) {
@@ -2164,7 +2125,7 @@ var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$3 = autoBindMethod
   }, {
     key: "renderDropdownWrapper",
     value: function renderDropdownWrapper(menu) {
-      var className = this.selectProps.className;
+      var className = this.props.selectProps.className;
       return /*#__PURE__*/React__default.createElement("div", {
         className: className
       }, menu);
@@ -2205,7 +2166,7 @@ var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$3 = autoBindMethod
         placeholder: placeholder,
         showSearch: true,
         suffixIcon: isLoading ? this.loadingIcon : this.searchIcon
-      }, this.valueProp, this.selectProps), showNoSearch && this.renderNoSearchOption(), showAddOption && this.renderAddOption(), this.options.map(this.renderOption), showNoResultsOption && this.renderNoResultsOption());
+      }, this.valueProp, this.props.selectProps), showNoSearch && this.renderNoSearchOption(), showAddOption && this.renderAddOption(), this.options.map(this.renderOption), showNoResultsOption && this.renderNoResultsOption());
     }
   }, {
     key: "injected",
@@ -2250,7 +2211,7 @@ var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$3 = autoBindMethod
   }, {
     key: "isMultiSelect",
     get: function get() {
-      var mode = this.selectProps.mode;
+      var mode = this.props.selectProps.mode;
       return mode && ['multiple', 'tags'].includes(mode);
     }
   }, {
@@ -2262,12 +2223,6 @@ var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$3 = autoBindMethod
     key: "searchIcon",
     get: function get() {
       return this.props.searchIcon || /*#__PURE__*/React__default.createElement(SearchOutlined$2, null);
-    }
-  }, {
-    key: "selectProps",
-    get: function get() {
-      // Omitting specific props to avoid unintentional behaviors
-      return omit(this.props.selectProps, ['id', 'loading', 'onBlur', 'onChange', 'onFocus', 'onSearch', 'showSearch']);
     }
   }, {
     key: "valueProp",
@@ -2313,7 +2268,8 @@ var ObjectSearch = (_dec = inject('getEndpoint'), _dec(_class$3 = autoBindMethod
 
   return ObjectSearch;
 }(Component), _class3.defaultProps = {
-  debounceWait: DEFAULT_DEBOUNCE_WAIT
+  debounceWait: DEFAULT_DEBOUNCE_WAIT,
+  selectProps: {}
 }, _temp$1), (_descriptor = _applyDecoratedDescriptor(_class2$1.prototype, "options", [observable], {
   configurable: true,
   enumerable: true,
@@ -2383,11 +2339,9 @@ var ObjectSearchCreate = autoBindMethods(_class$4 = observer(_class$4 = (_class2
   }
 
   _createClass(ObjectSearchCreate, [{
-    key: "onAddNew",
+    key: "onSwitchToAddNew",
     value: function () {
-      var _onAddNew = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(search) {
-        var _this2 = this;
-
+      var _onSwitchToAddNew = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(search) {
         var _this$injected, onAddNewToggle, formManager, fieldConfig;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -2396,15 +2350,23 @@ var ObjectSearchCreate = autoBindMethods(_class$4 = observer(_class$4 = (_class2
               case 0:
                 _this$injected = this.injected, onAddNewToggle = _this$injected.onAddNewToggle, formManager = _this$injected.formManager, fieldConfig = _this$injected.fieldConfig;
                 this.search = search;
-                formManager.form.setFieldsValue(_defineProperty({}, fieldConfig.field, {}), function () {
-                  _this2.isAddingNew.setTrue();
+                formManager.form.setFields([// Clear the existing value of the main field,
+                {
+                  name: fieldConfig.name,
+                  value: {}
+                }].concat(_toConsumableArray(this.createFields.map(function (createField) {
+                  return {
+                    name: [].concat(_toConsumableArray(fieldConfig.name), _toConsumableArray(createField.name)),
+                    value: formManager.getDefaultValue(createField)
+                  };
+                }))));
+                this.isAddingNew.setTrue();
 
-                  if (onAddNewToggle) {
-                    onAddNewToggle(true);
-                  }
-                });
+                if (onAddNewToggle) {
+                  onAddNewToggle(true);
+                }
 
-              case 3:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -2412,24 +2374,33 @@ var ObjectSearchCreate = autoBindMethods(_class$4 = observer(_class$4 = (_class2
         }, _callee, this);
       }));
 
-      function onAddNew(_x) {
-        return _onAddNew.apply(this, arguments);
+      function onSwitchToAddNew(_x) {
+        return _onSwitchToAddNew.apply(this, arguments);
       }
 
-      return onAddNew;
+      return onSwitchToAddNew;
     }()
   }, {
-    key: "onSearch",
+    key: "onSwitchBackToSearch",
     value: function () {
-      var _onSearch = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        var _this$injected2, onAddNewToggle, formManager, id, fieldConfig;
+      var _onSwitchBackToSearch = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var _this$injected2, onAddNewToggle, formManager, fieldConfig;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this$injected2 = this.injected, onAddNewToggle = _this$injected2.onAddNewToggle, formManager = _this$injected2.formManager, id = _this$injected2.id, fieldConfig = _this$injected2.fieldConfig;
-                formManager.form.setFieldsValue(_defineProperty({}, id, formManager.getDefaultValue(fieldConfig)));
+                _this$injected2 = this.injected, onAddNewToggle = _this$injected2.onAddNewToggle, formManager = _this$injected2.formManager, fieldConfig = _this$injected2.fieldConfig;
+                formManager.form.setFields([].concat(_toConsumableArray(this.createFields.map(function (createField) {
+                  return {
+                    name: [].concat(_toConsumableArray(fieldConfig.name), _toConsumableArray(createField.name)),
+                    value: undefined
+                  };
+                })), [// and set the main field back to it's default value
+                {
+                  name: fieldConfig.name,
+                  value: formManager.getDefaultValue(fieldConfig)
+                }]));
                 this.isAddingNew.setFalse();
 
                 if (onAddNewToggle) {
@@ -2444,11 +2415,11 @@ var ObjectSearchCreate = autoBindMethods(_class$4 = observer(_class$4 = (_class2
         }, _callee2, this);
       }));
 
-      function onSearch() {
-        return _onSearch.apply(this, arguments);
+      function onSwitchBackToSearch() {
+        return _onSwitchBackToSearch.apply(this, arguments);
       }
 
-      return onSearch;
+      return onSwitchBackToSearch;
     }()
   }, {
     key: "renderAddNew",
@@ -2465,7 +2436,7 @@ var ObjectSearchCreate = autoBindMethods(_class$4 = observer(_class$4 = (_class2
         search: this.search
       }), /*#__PURE__*/React__default.createElement(Button, {
         className: CLASS_NAME_BTN_BACK,
-        onClick: this.onSearch,
+        onClick: this.onSwitchBackToSearch,
         size: "small"
       }, /*#__PURE__*/React__default.createElement(LeftOutlined$2, null), " Back to search")));
     }
@@ -2475,14 +2446,38 @@ var ObjectSearchCreate = autoBindMethods(_class$4 = observer(_class$4 = (_class2
       var _this$injected4 = this.injected,
           fieldConfig = _this$injected4.fieldConfig,
           formManager = _this$injected4.formManager,
-          formModel = _this$injected4.formModel;
+          formModel = _this$injected4.formModel,
+          onChange = _this$injected4.onChange,
+          disabled = _this$injected4.disabled,
+          _this$props = this.props,
+          addNewContent = _this$props.addNewContent,
+          debounceWait = _this$props.debounceWait,
+          isOptionDisabled = _this$props.isOptionDisabled,
+          loadingIcon = _this$props.loadingIcon,
+          noSearchContent = _this$props.noSearchContent,
+          searchIcon = _this$props.searchIcon,
+          searchOnEmpty = _this$props.searchOnEmpty,
+          selectProps = _this$props.selectProps,
+          overrideDisabled = {
+        disabled: disabled
+      };
       return /*#__PURE__*/React__default.createElement(FormItem, {
         fieldConfig: fieldConfig,
         formManager: formManager,
         formModel: formModel
-      }, /*#__PURE__*/React__default.createElement(ObjectSearch, _extends({
-        onAddNew: this.onAddNew
-      }, this.objectSearchProps)));
+      }, /*#__PURE__*/React__default.createElement(ObjectSearch, _extends({}, overrideDisabled, {
+        addNewContent: addNewContent,
+        debounceWait: debounceWait,
+        fieldConfig: fieldConfig,
+        isOptionDisabled: isOptionDisabled,
+        loadingIcon: loadingIcon,
+        noSearchContent: noSearchContent,
+        onAddNew: this.onSwitchToAddNew,
+        onChange: onChange,
+        searchIcon: searchIcon,
+        searchOnEmpty: searchOnEmpty,
+        selectProps: selectProps
+      })));
     }
   }, {
     key: "render",
@@ -2503,9 +2498,11 @@ var ObjectSearchCreate = autoBindMethods(_class$4 = observer(_class$4 = (_class2
       return this.props.fieldConfig;
     }
   }, {
-    key: "objectSearchProps",
+    key: "createFields",
     get: function get() {
-      return pick(this.props, ['addNewContent', 'debounceWait', 'disabled', 'fieldConfig', 'isOptionDisabled', 'loadingIcon', 'noSearchContent', 'searchIcon', 'searchOnEmpty', 'selectProps']);
+      return getFieldSetFields(this.fieldConfig.createFields).map(function (createField) {
+        return fillInFieldConfig(createField);
+      });
     }
   }]);
 
@@ -2744,7 +2741,7 @@ var ObjectSelect = (_dec$1 = inject('getOptions'), _dec$1(_class$7 = autoBindMet
         allowClear: true,
         optionFilterProp: "children",
         showSearch: this.showSearch
-      }, this.props, {
+      }, this.selectProps, {
         value: selectValue
       }), this.options.map(this.renderOption));
     }
@@ -2772,6 +2769,21 @@ var ObjectSelect = (_dec$1 = inject('getOptions'), _dec$1(_class$7 = autoBindMet
       }
 
       return this.options.length > SHOW_OPTION_SEARCH_IF_OVER;
+    }
+  }, {
+    key: "selectProps",
+    get: function get() {
+      var _this$injected3 = this.injected,
+          _fieldConfig = _this$injected3.fieldConfig,
+          _formManager = _this$injected3.formManager,
+          _formModel = _this$injected3.formModel,
+          _getOptions = _this$injected3.getOptions,
+          _keyBy = _this$injected3.keyBy,
+          _renderOption = _this$injected3.renderOption,
+          _renderSelected = _this$injected3.renderSelected,
+          selectProps = _objectWithoutProperties(_this$injected3, ["fieldConfig", "formManager", "formModel", "getOptions", "keyBy", "renderOption", "renderSelected"]);
+
+      return _objectSpread2({}, selectProps);
     }
   }]);
 
@@ -2985,17 +2997,17 @@ var Hidden = autoBindMethods(_class$c = observer(_class$c = /*#__PURE__*/functio
       var _this$injected = this.injected,
           formManager = _this$injected.formManager,
           fieldConfig = _this$injected.fieldConfig,
-          field = _this$injected.fieldConfig.field,
+          name = _this$injected.fieldConfig.name,
           initialValue = formManager.getDefaultValue(fieldConfig),
-          getFieldDecorator = formManager.form.getFieldDecorator,
           HANDLED_PROPS = ['formManager', 'formModel', 'fieldConfig'],
           inputProps = _objectSpread2({}, omit(this.props, HANDLED_PROPS), {
         type: 'hidden'
       });
 
-      return getFieldDecorator(field, {
+      return /*#__PURE__*/React__default.createElement(Form$1.Item, {
+        name: name,
         initialValue: initialValue
-      })( /*#__PURE__*/React__default.createElement(Input, inputProps));
+      }, /*#__PURE__*/React__default.createElement(Input, inputProps));
     }
   }, {
     key: "injected",
@@ -3172,7 +3184,9 @@ var TYPES = {
     editComponent: Date,
     formValidationRules: {
       isValidDate: {
-        fieldsValidator: isValidDate,
+        validator: function validator(_, value) {
+          return isValidDate(value) ? Promise.resolve() : Promise.reject();
+        },
         message: 'Must be a valid date'
       }
     },
@@ -3456,6 +3470,7 @@ function fillInFieldConfig(fieldConfig) {
     disabled: false,
     key: fieldConfig.field,
     label: label,
+    name: fieldConfig.field.split('.'),
     populateFromSearch: false,
     populateNameFromSearch: false,
     readOnly: false,
@@ -3469,7 +3484,7 @@ function fillInFieldConfig(fieldConfig) {
     // Merge nested object
     editProps: _objectSpread2({}, fieldConfig.editProps, {}, TYPES[type].editProps),
     // Merge nested object
-    formValidationRules: _objectSpread2({}, fieldConfig.formValidationRules, {}, TYPES[type].formValidationRules, {}, requiredValidationRule)
+    formValidationRules: _objectSpread2({}, TYPES[type].formValidationRules, {}, fieldConfig.formValidationRules, {}, requiredValidationRule)
   });
 }
 function fillInFieldSet(fieldSet) {
@@ -3670,10 +3685,27 @@ function modelFromFieldConfigs(fieldConfigs, data) {
 
   return returnValues;
 }
-function noopValidator(_rule, _value, callback) {
-  // Useful for clearing manually-set backend validation errors
-  callback();
+function noopValidator(_x, _x2) {
+  return _noopValidator.apply(this, arguments);
 }
+
+function _noopValidator() {
+  _noopValidator = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_rule, _value) {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+
+          case 1:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _noopValidator.apply(this, arguments);
+}
+
 function getBtnClassName(action, classNameSuffix, title) {
   var prefix = "btn-".concat(action);
   return cx(prefix, isString(title) && "".concat(prefix, "-").concat(kebabCase(title)), _defineProperty({}, "".concat(prefix, "-").concat(classNameSuffix), !!classNameSuffix));
@@ -3814,7 +3846,7 @@ function backendValidation(fieldNames, response) {
   };
 }
 
-var _class$f, _class2$7, _descriptor$3, _temp$6;
+var _class$f, _class2$7, _descriptor$3, _descriptor2$2, _temp$6;
 var ERROR_WITH_DESCRIPTION = [httpStatus.BAD_REQUEST, httpStatus.FORBIDDEN];
 var toastError = {
   description: '',
@@ -3826,7 +3858,9 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
   function FormManager(formWrappedInstance, fieldSets, args) {
     _classCallCheck(this, FormManager);
 
-    _initializerDefineProperty(this, "isSaving", _descriptor$3, this);
+    _initializerDefineProperty(this, "hasErrors", _descriptor$3, this);
+
+    _initializerDefineProperty(this, "isSaving", _descriptor2$2, this);
 
     this.args = void 0;
     this.formWrappedInstance = void 0;
@@ -3883,6 +3917,14 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
       return convertedValue;
     }
   }, {
+    key: "onFieldsChange",
+    value: function onFieldsChange(_changedValues, values) {
+      this.hasErrors = values.some(function (_ref) {
+        var errors = _ref.errors;
+        return errors === null || errors === void 0 ? void 0 : errors.length;
+      });
+    }
+  }, {
     key: "onSuccess",
     value: function onSuccess() {
       var _this$args2 = this.args,
@@ -3902,34 +3944,33 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
   }, {
     key: "setErrorsOnFormFields",
     value: function setErrorsOnFormFields(errors) {
-      var formValues = this.formValues;
-      this.form.setFields(mapValues(errors, function (error, field) {
+      var formValues = this.formValues,
+          fieldData = Object.entries(errors).map(function (_ref2) {
+        var _ref3 = _slicedToArray(_ref2, 2),
+            field = _ref3[0],
+            error = _ref3[1];
+
         return {
-          errors: [new Error(error)],
+          errors: [error],
+          name: field.split('.'),
           value: get(formValues, field)
         };
-      }));
+      });
+      this.hasErrors = !!Object.entries(errors).length;
+      this.form.setFields(fieldData);
     }
   }, {
     key: "notifyUserAboutErrors",
     value: function notifyUserAboutErrors(errors) {
-      errors.forEach(function (_ref) {
-        var field = _ref.field,
-            message = _ref.message;
+      errors.forEach(function (_ref4) {
+        var field = _ref4.field,
+            message = _ref4.message;
         var description = [field, message].filter(function (s) {
           return !!s;
         }).join(' - ');
         notification.error(_objectSpread2({}, toastError, {
           description: description
         }));
-      });
-    }
-  }, {
-    key: "hasErrors",
-    value: function hasErrors() {
-      var fieldsError = flattenObject(this.form.getFieldsError());
-      return Object.keys(fieldsError).some(function (field) {
-        return fieldsError[field];
       });
     }
   }, {
@@ -3991,97 +4032,53 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
       this.notifyUserAboutErrors(backendErrors.errorMessages);
     }
   }, {
-    key: "validateThenSaveCallback",
+    key: "onFinish",
     value: function () {
-      var _validateThenSaveCallback = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(errors, _values) {
+      var _onFinish = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_values) {
         var onSave;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                /*
-                rc-form validateFields cannot be awaited and takes a callback as input,
-                so we have to split the bulk of onSave out into this function to make
-                sure we don't try to submit an un-validated form.
-                */
                 onSave = this.args.onSave;
                 this.isSaving = true;
-
-                if (!errors) {
-                  _context.next = 5;
-                  break;
-                }
-
-                this.isSaving = false;
-                return _context.abrupt("return");
-
-              case 5:
-                _context.prev = 5;
-                _context.next = 8;
+                _context.prev = 2;
+                _context.next = 5;
                 return onSave(this.submitModel);
 
-              case 8:
+              case 5:
                 this.onSuccess();
 
                 if (this.args.resetOnSuccess) {
                   this.form.resetFields();
                 }
 
-                _context.next = 15;
+                _context.next = 12;
                 break;
+
+              case 9:
+                _context.prev = 9;
+                _context.t0 = _context["catch"](2);
+                this.handleRequestError(_context.t0);
 
               case 12:
                 _context.prev = 12;
-                _context.t0 = _context["catch"](5);
-                this.handleRequestError(_context.t0);
+                this.isSaving = false;
+                return _context.finish(12);
 
               case 15:
-                _context.prev = 15;
-                this.isSaving = false;
-                return _context.finish(15);
-
-              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[5, 12, 15, 18]]);
+        }, _callee, this, [[2, 9, 12, 15]]);
       }));
 
-      function validateThenSaveCallback(_x, _x2) {
-        return _validateThenSaveCallback.apply(this, arguments);
+      function onFinish(_x) {
+        return _onFinish.apply(this, arguments);
       }
 
-      return validateThenSaveCallback;
-    }()
-  }, {
-    key: "onSave",
-    value: function () {
-      var _onSave = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(event) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (event) {
-                  event.preventDefault();
-                }
-
-                this.isSaving = true;
-                this.form.validateFields(this.validateThenSaveCallback);
-
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function onSave(_x3) {
-        return _onSave.apply(this, arguments);
-      }
-
-      return onSave;
+      return onFinish;
     }()
   }, {
     key: "form",
@@ -4110,7 +4107,7 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
   }, {
     key: "isSubmitButtonDisabled",
     get: function get() {
-      return this.hasErrors() || this.isFormDisabled;
+      return this.hasErrors || this.isFormDisabled;
     }
   }, {
     key: "isCancelButtonDisabled",
@@ -4158,7 +4155,7 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
     get: function get() {
       /*
       formValues < formModel < submitModel
-       This is the finalized form model. We only use it in critical situations like onSubmit
+       This is the finalized form model. We only use it in critical situations like onFinish
       because many of the places we use formModel are used to build submitModel.
        For example: We can't call all insertIf functions to build submitModel if those functions
       are called with submitModel. So we use formModel unless we need perfection.
@@ -4173,7 +4170,14 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
   }]);
 
   return FormManager;
-}(), _temp$6), (_descriptor$3 = _applyDecoratedDescriptor(_class2$7.prototype, "isSaving", [observable], {
+}(), _temp$6), (_descriptor$3 = _applyDecoratedDescriptor(_class2$7.prototype, "hasErrors", [observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return false;
+  }
+}), _descriptor2$2 = _applyDecoratedDescriptor(_class2$7.prototype, "isSaving", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -4196,9 +4200,11 @@ var Info = autoBindMethods(_class$g = observer(_class$g = /*#__PURE__*/function 
   _createClass(Info, [{
     key: "render",
     value: function render() {
-      var format = this.props.format,
+      var _this$props = this.props,
+          fieldConfig = _this$props.fieldConfig,
+          format = _this$props.format,
           layout = format === null || format === void 0 ? void 0 : format.layout,
-          rowClassName = "".concat(CLASS_PREFIX, "-info-row-").concat(layout);
+          rowClassName = cx(fieldConfig.className, "".concat(CLASS_PREFIX, "-info-row-").concat(layout));
       return /*#__PURE__*/React__default.createElement(Col, _extends({}, this.props.fieldConfig.colProps, {
         className: "".concat(CLASS_PREFIX, "-info")
       }), /*#__PURE__*/React__default.createElement(Row, {
@@ -4222,9 +4228,9 @@ var Label = autoBindMethods(_class2$8 = observer(_class2$8 = /*#__PURE__*/functi
   _createClass(Label, [{
     key: "render",
     value: function render() {
-      var _this$props = this.props,
-          className = _this$props.className,
-          format = _this$props.format,
+      var _this$props2 = this.props,
+          className = _this$props2.className,
+          format = _this$props2.format,
           colon = format === null || format === void 0 ? void 0 : format.colon,
           layout = format === null || format === void 0 ? void 0 : format.layout,
           infoLabelClassName = "".concat(CLASS_PREFIX, "-info-label"),
@@ -4357,7 +4363,8 @@ var FormField = autoBindMethods(_class$i = observer(_class$i = (_class2$a = /*#_
       } : {},
           disabled = fieldConfig.disabled || formManager.isFormDisabled;
       return _objectSpread2({
-        disabled: disabled
+        disabled: disabled,
+        id: fieldConfig.field
       }, fieldConfig.editProps, {}, fieldConfigProp);
     }
   }, {
@@ -4553,9 +4560,11 @@ var NestedFieldSet = autoBindMethods(_class$n = observer(_class$n = (_class2$d =
   _createClass(NestedFieldSet, [{
     key: "fieldValueMapper",
     value: function fieldValueMapper(fieldConfig) {
-      var id = this.props.id;
+      var id = this.props.id,
+          field = "".concat(id, ".").concat(fieldConfig.field);
       return _objectSpread2({}, fieldConfig, {
-        field: "".concat(id, ".").concat(fieldConfig.field)
+        field: field,
+        name: field.split('.')
       }, this.getDefaultValue(fieldConfig));
     }
   }, {
@@ -4766,8 +4775,13 @@ var ArrayCard = autoBindMethods(_class$q = observer(_class$q = /*#__PURE__*/func
   return ArrayCard;
 }(Component)) || _class$q) || _class$q;
 
-var _class$r, _class2$g, _temp$b, _class4, _class5, _temp2;
-var CLASS_NAME$6 = "".concat(CLASS_PREFIX, "-form");
+var _class$r, _class2$g, _temp$b;
+
+var CLASS_NAME$6 = "".concat(CLASS_PREFIX, "-form"),
+    DEFAULT_PROPS = _objectSpread2({}, formPropsDefaults, {}, sharedComponentPropsDefaults, {
+  showControls: true
+});
+
 var UnwrappedForm = autoBindMethods(_class$r = observer(_class$r = (_class2$g = (_temp$b = /*#__PURE__*/function (_Component) {
   _inherits(UnwrappedForm, _Component);
 
@@ -4880,6 +4894,7 @@ var UnwrappedForm = autoBindMethods(_class$r = observer(_class$r = (_class2$g = 
           title = _this$props2.title,
           layout = _this$props2.layout,
           colon = _this$props2.colon,
+          form = _this$props2.form,
           formModel = this.formManager.formModel,
           filteredFieldSets = filterFieldSets(this.fieldSets, {
         model: formModel
@@ -4889,11 +4904,13 @@ var UnwrappedForm = autoBindMethods(_class$r = observer(_class$r = (_class2$g = 
         layout: layout,
         colon: colon
       };
-      return /*#__PURE__*/React__default.createElement(Form$2, {
+      return /*#__PURE__*/React__default.createElement(Form$1, {
         className: className,
         colon: colon,
+        form: form,
         layout: layout,
-        onSubmit: this.formManager.onSave
+        onFieldsChange: this.formManager.onFieldsChange,
+        onFinish: this.formManager.onFinish
       }, title && /*#__PURE__*/React__default.createElement("h2", null, title), filteredFieldSets.map(function (fieldSet, idx) {
         return /*#__PURE__*/React__default.createElement(FormFieldSet, _extends({
           fieldSet: fieldSet,
@@ -4911,29 +4928,19 @@ var UnwrappedForm = autoBindMethods(_class$r = observer(_class$r = (_class2$g = 
   }]);
 
   return UnwrappedForm;
-}(Component), _temp$b), (_applyDecoratedDescriptor(_class2$g.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$g.prototype, "fieldSets"), _class2$g.prototype)), _class2$g)) || _class$r) || _class$r; // istanbul ignore next
+}(Component), _temp$b), (_applyDecoratedDescriptor(_class2$g.prototype, "fieldSets", [computed], Object.getOwnPropertyDescriptor(_class2$g.prototype, "fieldSets"), _class2$g.prototype)), _class2$g)) || _class$r) || _class$r;
 
-var WrappedForm = Form$2.create()(UnwrappedForm);
-var Form = autoBindMethods(_class4 = observer(_class4 = (_temp2 = _class5 = /*#__PURE__*/function (_Component2) {
-  _inherits(Form, _Component2);
+function Form(props) {
+  var _AntForm$useForm = Form$1.useForm(),
+      _AntForm$useForm2 = _slicedToArray(_AntForm$useForm, 1),
+      form = _AntForm$useForm2[0];
 
-  function Form() {
-    _classCallCheck(this, Form);
+  return /*#__PURE__*/React__default.createElement(UnwrappedForm, _extends({}, props, {
+    form: form
+  }));
+}
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Form).apply(this, arguments));
-  }
-
-  _createClass(Form, [{
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/React__default.createElement(WrappedForm, this.props);
-    }
-  }]);
-
-  return Form;
-}(Component), _class5.defaultProps = _objectSpread2({}, formPropsDefaults, {}, sharedComponentPropsDefaults, {
-  showControls: true
-}), _temp2)) || _class4) || _class4;
+Form.defaultProps = DEFAULT_PROPS;
 
 var _class$s, _class2$h, _temp$c;
 var FormCard = autoBindMethods(_class$s = observer(_class$s = (_temp$c = _class2$h = /*#__PURE__*/function (_Component) {
@@ -4952,24 +4959,26 @@ var FormCard = autoBindMethods(_class$s = observer(_class$s = (_temp$c = _class2
           bordered = _this$props.bordered,
           className = _this$props.className,
           isLoading = _this$props.isLoading,
-          title = _this$props.title,
-          renderTopRight = _this$props.renderTopRight,
           cardClassName = cx("".concat(CLASS_PREFIX, "-card"), className),
-          HANDLED_PROPS = ['title', 'renderTopRight'];
+          _this$props2 = this.props,
+          title = _this$props2.title,
+          renderTopRight = _this$props2.renderTopRight,
+          passDownProps = _objectWithoutProperties(_this$props2, ["title", "renderTopRight"]);
+
       return /*#__PURE__*/React__default.createElement(Card$1, {
         bordered: bordered,
         className: cardClassName,
         loading: isLoading,
         title: title,
         extra: renderTopRight && renderTopRight()
-      }, /*#__PURE__*/React__default.createElement(Form, omit(this.props, HANDLED_PROPS)));
+      }, /*#__PURE__*/React__default.createElement(Form, passDownProps));
     }
   }]);
 
   return FormCard;
 }(Component), _class2$h.defaultProps = _objectSpread2({}, formPropsDefaults, {}, cardPropsDefaults), _temp$c)) || _class$s) || _class$s;
 
-var _class$t, _class2$i, _descriptor$4, _descriptor2$2, _class3$5, _temp$d;
+var _class$t, _class2$i, _descriptor$4, _descriptor2$3, _class3$5, _temp$d;
 
 var EditableCard = autoBindMethods(_class$t = observer(_class$t = (_class2$i = (_temp$d = _class3$5 = /*#__PURE__*/function (_Component) {
   _inherits(EditableCard, _Component);
@@ -4989,7 +4998,7 @@ var EditableCard = autoBindMethods(_class$t = observer(_class$t = (_class2$i = (
 
     _initializerDefineProperty(_this, "isDeleting", _descriptor$4, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "isEditing", _descriptor2$2, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "isEditing", _descriptor2$3, _assertThisInitialized(_this));
 
     return _this;
   }
@@ -5169,7 +5178,7 @@ var EditableCard = autoBindMethods(_class$t = observer(_class$t = (_class2$i = (
   initializer: function initializer() {
     return new SmartBool();
   }
-}), _descriptor2$2 = _applyDecoratedDescriptor(_class2$i.prototype, "isEditing", [observable], {
+}), _descriptor2$3 = _applyDecoratedDescriptor(_class2$i.prototype, "isEditing", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -5414,8 +5423,13 @@ var FormDrawer = autoBindMethods(_class$v = observer(_class$v = (_temp$f = _clas
   }, {
     key: "formProps",
     get: function get() {
-      var HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
-      return omit(this.props, HANDLED_PROPS);
+      var _this$props4 = this.props,
+          _title = _this$props4.title,
+          _isVisible = _this$props4.isVisible,
+          _childrenBefore = _this$props4.childrenBefore,
+          formProps = _objectWithoutProperties(_this$props4, ["title", "isVisible", "childrenBefore"]);
+
+      return formProps;
     }
   }]);
 
@@ -5536,15 +5550,20 @@ var FormModal = autoBindMethods(_class$w = observer(_class$w = (_class2$l = (_te
   }, {
     key: "formProps",
     get: function get() {
-      var HANDLED_PROPS = ['title', 'isVisible', 'childrenBefore'];
-      return omit(this.props, HANDLED_PROPS);
+      var _this$props4 = this.props,
+          _title = _this$props4.title,
+          _isVisible = _this$props4.isVisible,
+          _childrenBefore = _this$props4.childrenBefore,
+          formProps = _objectWithoutProperties(_this$props4, ["title", "isVisible", "childrenBefore"]);
+
+      return formProps;
     }
   }, {
     key: "modalProps",
     get: function get() {
-      var _this$props4 = this.props,
-          cancelText = _this$props4.cancelText,
-          saveText = _this$props4.saveText,
+      var _this$props5 = this.props,
+          cancelText = _this$props5.cancelText,
+          saveText = _this$props5.saveText,
           className = cx(CLASS_NAME$8, this.props.className);
 
       if (!this.formManager) {
@@ -5566,7 +5585,7 @@ var FormModal = autoBindMethods(_class$w = observer(_class$w = (_class2$l = (_te
       var _this$formManager = this.formManager,
           isCancelButtonDisabled = _this$formManager.isCancelButtonDisabled,
           isSubmitButtonDisabled = _this$formManager.isSubmitButtonDisabled,
-          onSave = _this$formManager.onSave,
+          onFinish = _this$formManager.onFinish,
           isSaving = _this$formManager.isSaving;
       return {
         cancelButtonProps: {
@@ -5580,7 +5599,7 @@ var FormModal = autoBindMethods(_class$w = observer(_class$w = (_class2$l = (_te
           htmlType: 'submit'
         },
         okText: isSaving ? 'Saving...' : saveText,
-        onOk: onSave
+        onOk: onFinish
       };
     }
   }]);

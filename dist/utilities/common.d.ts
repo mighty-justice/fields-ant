@@ -24,7 +24,7 @@ export interface ITableModel extends IModel {
 export declare type IColumns = Array<ColumnProps<ITableModel>>;
 export declare function fieldSetsToColumns(fieldSets: IFieldSetPartial[], tableModel?: ITableModel[]): IColumns;
 export declare function modelFromFieldConfigs(fieldConfigs: IFieldConfig[], data: IModel): IModel;
-export declare function noopValidator(_rule: any, _value: any, callback: (message?: string) => void): void;
+export declare function noopValidator(_rule: any, _value: any): Promise<void>;
 export declare function getBtnClassName(action: string, classNameSuffix?: string, title?: React.ReactNode): string;
 export declare function formatClassNames(className: string, colon?: boolean, layout?: ILayout): string;
 export {};
