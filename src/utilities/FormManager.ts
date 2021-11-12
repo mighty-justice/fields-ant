@@ -267,7 +267,7 @@ class FormManager {
     this.notifyUserAboutErrors(backendErrors.errorMessages);
   }
 
-  public async onFinish(_values: any) {
+  public async onFinish() {
     const { onSave } = this.args;
     this.isSaving = true;
 
