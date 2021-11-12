@@ -7,39 +7,6 @@ updates:
   open-pull-requests-limit: 10
   target-branch: frontend-bumps
   ignore:
-  - dependency-name: css-loader
-    versions:
-    - 5.0.1
-  - dependency-name: "@types/storybook-readme"
-    versions:
-    - 5.0.4
-  - dependency-name: jest-environment-jsdom
-    versions:
-    - 26.6.2
-  - dependency-name: "@types/storybook__addon-actions"
-    versions:
-    - 5.2.1
-  - dependency-name: antd
-    versions:
-    - 4.12.2
-  - dependency-name: "@storybook/theming"
-    versions:
-    - 6.1.17
-  - dependency-name: "@types/storybook__addon-info"
-    versions:
-    - 5.2.3
   - dependency-name: np
     versions:
     - 7.3.0
-  - dependency-name: "@storybook/addon-actions"
-    versions:
-    - 6.1.17
-  - dependency-name: gh-pages
-    versions:
-    - 3.1.0
-  - dependency-name: rollup-plugin-babel
-    versions:
-    - 4.4.0
-  - dependency-name: storybook-readme
-    versions:
-    - 5.0.9
