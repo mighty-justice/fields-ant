@@ -124,7 +124,7 @@
     "css-loader": "^2.1.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
-    "faker": "^4.1.0",
+    "faker": "^5.5.3",
     "gh-pages": "^2.0.1",
     "jest": "^24.7.1",
     "jest-environment-jsdom": "^24.7.1",
