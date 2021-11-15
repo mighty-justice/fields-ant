@@ -4041,7 +4041,7 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
   }, {
     key: "onFinish",
     value: function () {
-      var _onFinish = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_values) {
+      var _onFinish = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         var onSave;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -4081,7 +4081,7 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
         }, _callee, this, [[2, 9, 12, 15]]);
       }));
 
-      function onFinish(_x) {
+      function onFinish() {
         return _onFinish.apply(this, arguments);
       }
 

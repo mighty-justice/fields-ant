@@ -55,6 +55,6 @@ declare class FormManager {
     private setErrorsOnFormFields;
     private notifyUserAboutErrors;
     private handleRequestError;
-    onFinish(_values: any): Promise<void>;
+    onFinish(): Promise<void>;
 }
 export default FormManager;
