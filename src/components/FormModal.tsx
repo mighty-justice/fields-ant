@@ -77,7 +77,7 @@ class FormModal extends Component<ISharedFormModalProps> {
       };
     }
 
-    const { isCancelButtonDisabled, isSubmitButtonDisabled, onFinish, isSaving } = this.formManager;
+    const { isCancelButtonDisabled, isSubmitButtonDisabled, onSubmit, isSaving } = this.formManager;
 
     return {
       cancelButtonProps: { disabled: isCancelButtonDisabled },
@@ -86,7 +86,7 @@ class FormModal extends Component<ISharedFormModalProps> {
       confirmLoading: isSaving,
       okButtonProps: { disabled: isSubmitButtonDisabled, htmlType: 'submit' },
       okText: isSaving ? 'Saving...' : saveText,
-      onOk: onFinish,
+      onOk: onSubmit,
     };
   }
 

@@ -110,7 +110,7 @@ export class UnwrappedForm extends Component<IFormWrappedProps> {
         form={form}
         layout={layout}
         onFieldsChange={this.formManager.onFieldsChange}
-        onFinish={this.formManager.onFinish}
+        onFinish={this.formManager.onSubmit}
       >
         {title && <h2>{title}</h2>}
 
