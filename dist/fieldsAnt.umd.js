@@ -2578,7 +2578,7 @@
   },
       INPUT_ORDER = ['month', 'day', 'year'];
 
-  var Date = autoBindMethods(_class$6 = mobxReact.observer(_class$6 = (_temp$3 = /*#__PURE__*/function (_Component) {
+  var Date$1 = autoBindMethods(_class$6 = mobxReact.observer(_class$6 = (_temp$3 = /*#__PURE__*/function (_Component) {
     _inherits(Date, _Component);
 
     function Date() {
@@ -3180,7 +3180,7 @@
       render: passRenderOnlyValue(utils.mapBooleanToText)
     },
     date: {
-      editComponent: Date,
+      editComponent: Date$1,
       formValidationRules: {
         isValidDate: {
           validator: function validator(_, value) {
@@ -3499,9 +3499,9 @@
     var model = filterConditions.model,
         readOnly = filterConditions.readOnly,
         writeOnly = filterConditions.writeOnly,
-        filterInsertIf = !!(fieldConfig.insertIf && !fieldConfig.insertIf(model)),
-        filterReadOnly = !!(lodash.isBoolean(readOnly) && readOnly === fieldConfig.readOnly),
-        filterWriteOnly = !!(lodash.isBoolean(writeOnly) && writeOnly === fieldConfig.writeOnly);
+        filterInsertIf = !!fieldConfig.insertIf && !fieldConfig.insertIf(model),
+        filterReadOnly = lodash.isBoolean(readOnly) && readOnly === fieldConfig.readOnly,
+        filterWriteOnly = lodash.isBoolean(writeOnly) && writeOnly === fieldConfig.writeOnly;
     return [filterInsertIf, filterReadOnly, filterWriteOnly].some(function (value) {
       return value;
     });
@@ -3845,7 +3845,7 @@
     };
   }
 
-  var _class$f, _class2$7, _descriptor$3, _descriptor2$2, _temp$6;
+  var _class$f, _class2$7, _descriptor$3, _descriptor2$2, _descriptor3$1, _temp$6;
   var ERROR_WITH_DESCRIPTION = [httpStatus.BAD_REQUEST, httpStatus.FORBIDDEN];
   var toastError = {
     description: '',
@@ -3854,12 +3854,16 @@
   };
 
   var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__*/function () {
+    // This is managed by FormManager in this.onFinish
+    // These are derived from calls to this.onFieldsChange by Ant Form
     function FormManager(formWrappedInstance, fieldSets, args) {
       _classCallCheck(this, FormManager);
 
-      _initializerDefineProperty(this, "hasErrors", _descriptor$3, this);
+      _initializerDefineProperty(this, "isSaving", _descriptor$3, this);
 
-      _initializerDefineProperty(this, "isSaving", _descriptor2$2, this);
+      _initializerDefineProperty(this, "hasErrors", _descriptor2$2, this);
+
+      _initializerDefineProperty(this, "formLastUpdated", _descriptor3$1, this);
 
       this.args = void 0;
       this.formWrappedInstance = void 0;
@@ -3922,6 +3926,7 @@
           var errors = _ref.errors;
           return errors === null || errors === void 0 ? void 0 : errors.length;
         });
+        this.formLastUpdated = +new Date();
       }
     }, {
       key: "onSuccess",
@@ -4133,7 +4138,10 @@
          WARNING: This will include many values you don't see on the page.
         Use submitModel to get the fully processed form state.
         */
-        var formModel = {},
+        // The pointless ternary below ensures that formModel observes formLastUpdated changes,
+        // which is updated any time a field is edited.
+        // istanbul ignore next
+        var formModel = this.formLastUpdated ? {} : {},
             formValues = this.formValues;
         this.fieldConfigs.forEach(function (fieldConfig) {
           var isInForm = lodash.has(formValues, fieldConfig.field),
@@ -4169,19 +4177,26 @@
     }]);
 
     return FormManager;
-  }(), _temp$6), (_descriptor$3 = _applyDecoratedDescriptor(_class2$7.prototype, "hasErrors", [mobx.observable], {
+  }(), _temp$6), (_descriptor$3 = _applyDecoratedDescriptor(_class2$7.prototype, "isSaving", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return false;
     }
-  }), _descriptor2$2 = _applyDecoratedDescriptor(_class2$7.prototype, "isSaving", [mobx.observable], {
+  }), _descriptor2$2 = _applyDecoratedDescriptor(_class2$7.prototype, "hasErrors", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return false;
+    }
+  }), _descriptor3$1 = _applyDecoratedDescriptor(_class2$7.prototype, "formLastUpdated", [mobx.observable], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function initializer() {
+      return +new Date();
     }
   })), _class2$7)) || _class$f;
 
@@ -5739,7 +5754,7 @@
   exports.CardField = CardField;
   exports.DEFAULT_DEBOUNCE_WAIT = DEFAULT_DEBOUNCE_WAIT;
   exports.DEFAULT_STATE_OPTION_TYPE = DEFAULT_STATE_OPTION_TYPE;
-  exports.Date = Date;
+  exports.Date = Date$1;
   exports.EditableArrayCard = EditableArrayCard;
   exports.EditableCard = EditableCard;
   exports.FieldSet = FieldSet;

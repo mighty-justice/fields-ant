@@ -2579,7 +2579,7 @@ var inputConfig = {
 },
     INPUT_ORDER = ['month', 'day', 'year'];
 
-var Date = autoBindMethods(_class$6 = observer(_class$6 = (_temp$3 = /*#__PURE__*/function (_Component) {
+var Date$1 = autoBindMethods(_class$6 = observer(_class$6 = (_temp$3 = /*#__PURE__*/function (_Component) {
   _inherits(Date, _Component);
 
   function Date() {
@@ -3181,7 +3181,7 @@ var TYPES = {
     render: passRenderOnlyValue(mapBooleanToText)
   },
   date: {
-    editComponent: Date,
+    editComponent: Date$1,
     formValidationRules: {
       isValidDate: {
         validator: function validator(_, value) {
@@ -3500,9 +3500,9 @@ function filterFieldConfig(fieldConfig, filterConditions) {
   var model = filterConditions.model,
       readOnly = filterConditions.readOnly,
       writeOnly = filterConditions.writeOnly,
-      filterInsertIf = !!(fieldConfig.insertIf && !fieldConfig.insertIf(model)),
-      filterReadOnly = !!(isBoolean(readOnly) && readOnly === fieldConfig.readOnly),
-      filterWriteOnly = !!(isBoolean(writeOnly) && writeOnly === fieldConfig.writeOnly);
+      filterInsertIf = !!fieldConfig.insertIf && !fieldConfig.insertIf(model),
+      filterReadOnly = isBoolean(readOnly) && readOnly === fieldConfig.readOnly,
+      filterWriteOnly = isBoolean(writeOnly) && writeOnly === fieldConfig.writeOnly;
   return [filterInsertIf, filterReadOnly, filterWriteOnly].some(function (value) {
     return value;
   });
@@ -3846,7 +3846,7 @@ function backendValidation(fieldNames, response) {
   };
 }
 
-var _class$f, _class2$7, _descriptor$3, _descriptor2$2, _temp$6;
+var _class$f, _class2$7, _descriptor$3, _descriptor2$2, _descriptor3$1, _temp$6;
 var ERROR_WITH_DESCRIPTION = [httpStatus.BAD_REQUEST, httpStatus.FORBIDDEN];
 var toastError = {
   description: '',
@@ -3855,12 +3855,16 @@ var toastError = {
 };
 
 var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__*/function () {
+  // This is managed by FormManager in this.onFinish
+  // These are derived from calls to this.onFieldsChange by Ant Form
   function FormManager(formWrappedInstance, fieldSets, args) {
     _classCallCheck(this, FormManager);
 
-    _initializerDefineProperty(this, "hasErrors", _descriptor$3, this);
+    _initializerDefineProperty(this, "isSaving", _descriptor$3, this);
 
-    _initializerDefineProperty(this, "isSaving", _descriptor2$2, this);
+    _initializerDefineProperty(this, "hasErrors", _descriptor2$2, this);
+
+    _initializerDefineProperty(this, "formLastUpdated", _descriptor3$1, this);
 
     this.args = void 0;
     this.formWrappedInstance = void 0;
@@ -3923,6 +3927,7 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
         var errors = _ref.errors;
         return errors === null || errors === void 0 ? void 0 : errors.length;
       });
+      this.formLastUpdated = +new Date();
     }
   }, {
     key: "onSuccess",
@@ -4134,7 +4139,10 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
        WARNING: This will include many values you don't see on the page.
       Use submitModel to get the fully processed form state.
       */
-      var formModel = {},
+      // The pointless ternary below ensures that formModel observes formLastUpdated changes,
+      // which is updated any time a field is edited.
+      // istanbul ignore next
+      var formModel = this.formLastUpdated ? {} : {},
           formValues = this.formValues;
       this.fieldConfigs.forEach(function (fieldConfig) {
         var isInForm = has(formValues, fieldConfig.field),
@@ -4170,19 +4178,26 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
   }]);
 
   return FormManager;
-}(), _temp$6), (_descriptor$3 = _applyDecoratedDescriptor(_class2$7.prototype, "hasErrors", [observable], {
+}(), _temp$6), (_descriptor$3 = _applyDecoratedDescriptor(_class2$7.prototype, "isSaving", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return false;
   }
-}), _descriptor2$2 = _applyDecoratedDescriptor(_class2$7.prototype, "isSaving", [observable], {
+}), _descriptor2$2 = _applyDecoratedDescriptor(_class2$7.prototype, "hasErrors", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return false;
+  }
+}), _descriptor3$1 = _applyDecoratedDescriptor(_class2$7.prototype, "formLastUpdated", [observable], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return +new Date();
   }
 })), _class2$7)) || _class$f;
 
@@ -5732,4 +5747,4 @@ var Table = autoBindMethods(_class$y = observer(_class$y = (_class2$n = /*#__PUR
   return Table;
 }(Component), (_applyDecoratedDescriptor(_class2$n.prototype, "columns", [computed], Object.getOwnPropertyDescriptor(_class2$n.prototype, "columns"), _class2$n.prototype), _applyDecoratedDescriptor(_class2$n.prototype, "dataSource", [computed], Object.getOwnPropertyDescriptor(_class2$n.prototype, "dataSource"), _class2$n.prototype)), _class2$n)) || _class$y) || _class$y;
 
-export { ANT_FULL_COL_WIDTH, ArrayCard, ButtonToolbar, CLASS_PREFIX, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, Date, EditableArrayCard, EditableCard, FieldSet, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, LAYOUT_TYPES, Label, NestedFieldSet, ObjectSearch, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TOAST_DURATION, TYPES, Table, Value, backendValidation, booleanToForm, cardPropsDefaults, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatClassNames, formatOptionSelect, formatRating, getBtnClassName, getDateFormatList, getFieldSetFields, getFieldSetsFields, getFieldSuffix, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, noopValidator, renderLabel, renderValue, setFieldSetFields, sharedComponentPropsDefaults };
+export { ANT_FULL_COL_WIDTH, ArrayCard, ButtonToolbar, CLASS_PREFIX, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, Date$1 as Date, EditableArrayCard, EditableCard, FieldSet, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, LAYOUT_TYPES, Label, NestedFieldSet, ObjectSearch, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TOAST_DURATION, TYPES, Table, Value, backendValidation, booleanToForm, cardPropsDefaults, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatClassNames, formatOptionSelect, formatRating, getBtnClassName, getDateFormatList, getFieldSetFields, getFieldSetsFields, getFieldSuffix, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, noopValidator, renderLabel, renderValue, setFieldSetFields, sharedComponentPropsDefaults };

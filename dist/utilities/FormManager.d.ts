@@ -33,8 +33,9 @@ export declare const toastError: {
     message: string;
 };
 declare class FormManager {
-    hasErrors: boolean;
     isSaving: boolean;
+    hasErrors: boolean;
+    private formLastUpdated;
     private args;
     formWrappedInstance: IFormWrappedInstance;
     constructor(formWrappedInstance: IFormWrappedInstance, fieldSets: IFieldSet[], args: Partial<IArgs>);
