@@ -13,7 +13,7 @@ interface IFilterConditions {
 // filterFieldConfig => True means don't show
 export function filterFieldConfig(fieldConfig: IFieldConfig, filterConditions: IFilterConditions): boolean {
   const { model, readOnly, writeOnly } = filterConditions,
-    filterInsertIf: boolean = !!(fieldConfig.insertIf && !fieldConfig.insertIf(model)),
+    filterInsertIf: boolean = !!fieldConfig.insertIf && !fieldConfig.insertIf(model),
     filterReadOnly: boolean = isBoolean(readOnly) && readOnly === fieldConfig.readOnly,
     filterWriteOnly: boolean = isBoolean(writeOnly) && writeOnly === fieldConfig.writeOnly;
 

@@ -156,7 +156,7 @@ class FormManager {
     Use submitModel to get the fully processed form state.
     */
 
-    // The pointless trinary below ensures that formModel observes formLastUpdated changes,
+    // The pointless ternary below ensures that formModel observes formLastUpdated changes,
     // which is updated any time a field is edited.
     // istanbul ignore next
     const formModel: IModel = this.formLastUpdated ? {} : {},
