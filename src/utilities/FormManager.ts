@@ -58,8 +58,12 @@ export const toastError = {
 
 @autoBindMethods
 class FormManager {
-  @observable public hasErrors = false;
+  // This is managed by FormManager in this.onFinish
   @observable public isSaving = false;
+
+  // These are derived from calls to this.onFieldsChange by Ant Form
+  @observable public hasErrors = false;
+  @observable private formLastUpdated: number = +new Date();
 
   private args: IArgs;
   public formWrappedInstance: IFormWrappedInstance;
@@ -151,7 +155,10 @@ class FormManager {
     WARNING: This will include many values you don't see on the page.
     Use submitModel to get the fully processed form state.
     */
-    const formModel: IModel = {},
+
+    // The pointless trinary below ensures that formModel observes formLastUpdated changes,
+    // which is updated any time a field is edited.
+    const formModel: IModel = this.formLastUpdated ? {} : {},
       formValues = this.formValues;
 
     this.fieldConfigs.forEach(fieldConfig => {
@@ -191,6 +198,7 @@ class FormManager {
 
   public onFieldsChange(_changedValues: any, values: FieldData[]) {
     this.hasErrors = values.some(({ errors }) => errors?.length);
+    this.formLastUpdated = +new Date();
   }
 
   private onSuccess() {
