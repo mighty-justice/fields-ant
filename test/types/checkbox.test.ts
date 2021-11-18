@@ -12,7 +12,7 @@ const { fieldConfigFactory } = TYPE_GENERATORS.checkbox,
 describe('checkbox', () => {
   it('resets on submit', async () => {
     const onSave = jest.fn(),
-      props: Partial<IFormCardProps> = { fieldSets, onSave, resetOnSuccess: true };
+      props: Partial<IFormCardProps> = { fieldSets, onSave };
 
     const tester = await new Tester(FormCard, { props }).mount();
 

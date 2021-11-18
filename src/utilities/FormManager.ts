@@ -158,6 +158,7 @@ class FormManager {
 
     // The pointless trinary below ensures that formModel observes formLastUpdated changes,
     // which is updated any time a field is edited.
+    // istanbul ignore next
     const formModel: IModel = this.formLastUpdated ? {} : {},
       formValues = this.formValues;
 
