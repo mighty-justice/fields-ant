@@ -219,14 +219,9 @@ describe('insertIf', () => {
 
   it('Responds to model changes', async () => {
     const insertIf = jest.fn(_values => _values.field1 === 'show'),
-      fieldSets = [
-        [
-          { field: 'field1' },
-          { field: 'field2', label: exampleLabel, insertIf },
-        ],
-      ];
+      fieldSets = [[{ field: 'field1' }, { field: 'field2', label: exampleLabel, insertIf }]];
 
-    const tester = await new Tester(FormCard, { props: { fieldSets }}).mount();
+    const tester = await new Tester(FormCard, { props: { fieldSets } }).mount();
 
     expect(tester.text()).not.toContain(exampleLabel);
     await tester.changeInput('#field1', 'show');
