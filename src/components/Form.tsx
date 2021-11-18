@@ -139,4 +139,4 @@ function Form(props: IFormProps) {
 
 Form.defaultProps = DEFAULT_PROPS;
 
-export default Form;
+export default observer(Form);
