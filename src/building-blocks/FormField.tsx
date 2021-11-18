@@ -5,6 +5,7 @@ import autoBindMethods from 'class-autobind-decorator';
 
 import { fillInFieldConfig, filterFieldConfig } from '../utilities';
 import { IFormFieldProps } from '../interfaces';
+
 import FormItem from './FormItem';
 
 @autoBindMethods

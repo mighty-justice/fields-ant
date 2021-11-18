@@ -2,7 +2,7 @@ import faker from 'faker';
 import { Tester } from '@mighty-justice/tester';
 
 import { FormManager } from '../../src/utilities';
-import { EditableCard, CardField, FormField, Table } from '../../src';
+import { FormCard, EditableCard, CardField, FormField, Table } from '../../src';
 import { fakeTextShort } from '../factories';
 import { ComponentClass } from 'react';
 import { IFormWrappedProps } from '../../src/components/Form';
@@ -215,6 +215,27 @@ describe('insertIf', () => {
       await tester.refresh();
       expect(tester.text().includes(exampleLabel)).toBe(secondExampleField);
     }
+  });
+
+  it('Responds to model changes', async () => {
+    const insertIf = jest.fn(_values => _values.field1 === 'show'),
+      fieldSets = [
+        [
+          { field: 'field1' },
+          { field: 'field2', label: exampleLabel, insertIf },
+        ],
+      ];
+
+    const tester = await new Tester(FormCard, { props: { fieldSets }}).mount();
+
+    expect(tester.text()).not.toContain(exampleLabel);
+    await tester.changeInput('#field1', 'show');
+    await tester.refresh();
+    expect(tester.text()).toContain(exampleLabel);
+
+    await tester.changeInput('#field1', '');
+    await tester.refresh();
+    expect(tester.text()).not.toContain(exampleLabel);
   });
 
   it('Receives data from defaults', async () => {

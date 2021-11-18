@@ -14,8 +14,8 @@ interface IFilterConditions {
 export function filterFieldConfig(fieldConfig: IFieldConfig, filterConditions: IFilterConditions): boolean {
   const { model, readOnly, writeOnly } = filterConditions,
     filterInsertIf = !!(fieldConfig.insertIf && !fieldConfig.insertIf(model)),
-    filterReadOnly = !!(isBoolean(readOnly) && readOnly === fieldConfig.readOnly),
-    filterWriteOnly = !!(isBoolean(writeOnly) && writeOnly === fieldConfig.writeOnly);
+    filterReadOnly = isBoolean(readOnly) && readOnly === fieldConfig.readOnly,
+    filterWriteOnly = isBoolean(writeOnly) && writeOnly === fieldConfig.writeOnly;
 
   return [filterInsertIf, filterReadOnly, filterWriteOnly].some(value => value);
 }
