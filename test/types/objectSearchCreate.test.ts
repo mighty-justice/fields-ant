@@ -63,6 +63,17 @@ async function clickBack(tester: any) {
 }
 
 describe('objectSearchCreate', () => {
+  it('Renders input correctly', async () => {
+    const { field, props } = getDefaults({ field: 'lawfirm.plaintiff' }),
+      tester = new Tester(FormCard, { props });
+
+    await act(async () => {
+      await tester.mount();
+    });
+
+    expect(tester.find(`input[id="${field}"]`).length).toBe(1);
+  });
+
   it('Selects existing', async () => {
     const { field, props, onSave, searchTerm, results } = getDefaults({}),
       tester = new Tester(FormCard, { props });
