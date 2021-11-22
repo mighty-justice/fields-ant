@@ -14,9 +14,12 @@ async function checkInferYear(newYear: string) {
     onSave = jest.fn(),
     props = { fieldSets, model, onSave };
 
-  const tester = await new Tester(FormCard, { props }).mount();
-  await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, newYear);
-  await tester.submit();
+  const tester = new Tester(FormCard, { props });
+  await act(async () => {
+    await tester.mount();
+    await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, newYear);
+    await tester.submit();
+  });
   return onSave.mock.calls[0][0][fieldConfig.field].slice(0, 4);
 }
 
@@ -30,12 +33,12 @@ async function isInputsValid(month: string, day: string, year: string) {
   const tester = new Tester(FormCard, { props });
   await act(async () => {
     await tester.mount();
+    await tester.changeInput(`input[id="${fieldConfig.field}.month"]`, month);
+    await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, day);
+    await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, year);
+    await tester.refresh();
+    await tester.submit();
   });
-  await tester.changeInput(`input[id="${fieldConfig.field}.month"]`, month);
-  await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, day);
-  await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, year);
-  await tester.refresh();
-  await tester.submit();
   return !!onSave.mock.calls.length;
 }
 
@@ -54,9 +57,12 @@ describe('date', () => {
       onSave = jest.fn(),
       props = { fieldSets, model, onSave };
 
-    const tester = await new Tester(FormCard, { props }).mount();
-    await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, newDay);
-    await tester.submit();
+    const tester = new Tester(FormCard, { props });
+    await act(async () => {
+      await tester.mount();
+      await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, newDay);
+      await tester.submit();
+    });
     expect(onSave).toHaveBeenCalledWith({ [fieldConfig.field]: newValue });
   });
 
@@ -99,16 +105,19 @@ describe('date', () => {
       onSave = jest.fn(),
       props = { fieldSets, onSave, required: false };
 
-    const tester = await new Tester(FormCard, { props }).mount();
+    const tester = new Tester(FormCard, { props });
 
-    await tester.changeInput(`input[id="${fieldConfig.field}.month"]`, '01');
-    await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, '01');
-    await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, '2019');
+    await act(async () => {
+      await tester.mount();
+      await tester.changeInput(`input[id="${fieldConfig.field}.month"]`, '01');
+      await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, '01');
+      await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, '2019');
 
-    await tester.changeInput(`input[id="${fieldConfig.field}.month"]`, '');
-    await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, '');
-    await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, '');
-    await tester.submit();
+      await tester.changeInput(`input[id="${fieldConfig.field}.month"]`, '');
+      await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, '');
+      await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, '');
+      await tester.submit();
+    });
 
     expect(!!onSave.mock.calls.length).toBe(true);
   });
