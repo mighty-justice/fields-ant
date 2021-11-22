@@ -2469,6 +2469,7 @@ var ObjectSearchCreate = autoBindMethods(_class$4 = observer(_class$4 = (_class2
         addNewContent: addNewContent,
         debounceWait: debounceWait,
         fieldConfig: fieldConfig,
+        id: fieldConfig.field,
         isOptionDisabled: isOptionDisabled,
         loadingIcon: loadingIcon,
         noSearchContent: noSearchContent,

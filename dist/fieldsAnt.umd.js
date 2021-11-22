@@ -2468,6 +2468,7 @@
           addNewContent: addNewContent,
           debounceWait: debounceWait,
           fieldConfig: fieldConfig,
+          id: fieldConfig.field,
           isOptionDisabled: isOptionDisabled,
           loadingIcon: loadingIcon,
           noSearchContent: noSearchContent,
