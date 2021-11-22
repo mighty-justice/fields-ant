@@ -1,4 +1,6 @@
+import { act } from 'react-dom/test-utils';
 import faker from 'faker';
+
 import { Tester } from '@mighty-justice/tester';
 
 import { FormCard } from '../../src';
@@ -25,7 +27,10 @@ async function isInputsValid(month: string, day: string, year: string) {
     onSave = jest.fn(),
     props = { fieldSets, onSave };
 
-  const tester = await new Tester(FormCard, { props }).mount();
+  const tester = new Tester(FormCard, { props });
+  await act(async () => {
+    await tester.mount();
+  });
   await tester.changeInput(`input[id="${fieldConfig.field}.month"]`, month);
   await tester.changeInput(`input[id="${fieldConfig.field}.day"]`, day);
   await tester.changeInput(`input[id="${fieldConfig.field}.year"]`, year);
