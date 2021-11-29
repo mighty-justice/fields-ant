@@ -160,7 +160,7 @@ class FormManager {
     // which is updated any time a field is edited.
     // istanbul ignore next
     const formModel: IModel = this.formLastUpdated ? {} : {},
-      formValues = this.formValues;
+      formValues = flattenObject<{ [key: string]: any }, { [key: string]: any }>(this.formValues);
 
     this.fieldConfigs.forEach(fieldConfig => {
       const isInForm = has(formValues, fieldConfig.field),
