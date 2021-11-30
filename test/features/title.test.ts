@@ -21,6 +21,7 @@ describe('title', () => {
 
       // Basic smoke test that component renders
       expect(tester.html()).toContain('<div');
+      expect(tester.text()).not.toContain(_title);
     });
 
     it(`${componentName} handles empty title prop`, async () => {
