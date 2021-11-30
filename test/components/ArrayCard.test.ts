@@ -28,7 +28,7 @@ describe('ArrayCard', () => {
 
   it('Renders empty', async () => {
     const props = COMPONENT_GENERATORS.ArrayCard.propsFactory.build({ model: [] }),
-     tester = await new Tester(ArrayCard, { props }).mount();
+      tester = await new Tester(ArrayCard, { props }).mount();
 
     expect(tester.text()).toContain('No records');
   });

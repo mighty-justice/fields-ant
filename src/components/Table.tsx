@@ -36,7 +36,7 @@ class Table extends Component<ITableProps> {
   }
 
   private getTitle(): React.ReactNode {
-    return this.props.title || undefined;
+    return this.props.title;
   }
 
   public render() {
