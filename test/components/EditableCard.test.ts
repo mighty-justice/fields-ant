@@ -34,7 +34,7 @@ describe('EditableCard', () => {
         expect(tester.find(whereProps.ModalComponent).length).toBe(1);
       }
 
-      await tester.click(`button.btn-edit`);
+      await tester.click('button.btn-edit');
       await tester.refresh();
       await tester.changeInput('input', newText);
 

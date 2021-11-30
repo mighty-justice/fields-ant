@@ -4,13 +4,13 @@ import { COMPONENT_GENERATORS, fakeTextShort } from '../factories';
 
 async function expectEditExpect(tester: Tester, expected: string) {
   expect(tester.text()).toContain(expected);
-  expect(tester.find('input').length > 0).toBe(false);
+  expect(tester.find('input').length).toBe(0);
 
-  tester.find(`button.btn-edit`).simulate('click');
+  tester.click('button.btn-edit');
   await tester.refresh();
 
   expect(tester.text()).toContain(expected);
-  expect(tester.find('input').length > 0).toBe(true);
+  expect(tester.find('input').length).not.toBe(0);
 }
 
 describe('legend', () => {
