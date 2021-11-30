@@ -1,11 +1,5 @@
 import { Tester } from '@mighty-justice/tester';
-import {
-  CARD_COMPONENTS,
-  COMPONENT_GENERATORS,
-  EDITABLE_COMPONENTS,
-  FORM_COMPONENTS,
-  stringFactory,
-} from '../factories';
+import { CARD_COMPONENTS, COMPONENT_GENERATORS, EDITABLE_CARDS, FORM_COMPONENTS, stringFactory } from '../factories';
 
 const fieldSets = [[stringFactory.build()]],
   LAYOUTS = ['inline', 'vertical', 'horizontal'];
@@ -95,7 +89,7 @@ describe('Renders', () => {
     });
   });
 
-  EDITABLE_COMPONENTS.forEach(componentName => {
+  EDITABLE_CARDS.forEach(componentName => {
     LAYOUTS.forEach(layout => {
       it(`Displays ${layout} when reading and writing for ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],

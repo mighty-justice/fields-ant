@@ -6,7 +6,7 @@ import {
   fakeClassName,
   CARD_COMPONENTS,
   ARRAY_COMPONENTS,
-  EDITABLE_COMPONENTS,
+  EDITABLE_CARDS,
 } from '../factories';
 
 describe('className', () => {
@@ -44,7 +44,7 @@ describe('className', () => {
           .props().className,
       ).toContain(className);
 
-      if (EDITABLE_COMPONENTS.includes(componentName)) {
+      if (EDITABLE_CARDS.includes(componentName)) {
         await tester.click(`button.btn-edit`);
         await tester.refresh();
 
