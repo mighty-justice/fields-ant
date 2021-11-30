@@ -4,7 +4,7 @@ import { Tester } from '@mighty-justice/tester';
 import { EditableCard } from '../../src';
 
 describe('noLabel', () => {
-  it('Respects noLabel attribute', async () => {
+  it('Respects showLabel attribute', async () => {
     const label = faker.lorem.sentence(),
       exampleField = faker.lorem.sentence(),
       title = 'testing',
