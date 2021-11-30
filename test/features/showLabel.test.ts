@@ -19,7 +19,7 @@ describe('noLabel', () => {
       },
     }).mount();
     expect(withoutNoLabel.text()).toContain(label);
-    withoutNoLabel.find('button.btn-edit').simulate('click');
+    withoutNoLabel.click('button.btn-edit');
     expect(withoutNoLabel.text()).toContain(label);
 
     const withNoLabel = await new Tester(EditableCard, {
@@ -31,7 +31,7 @@ describe('noLabel', () => {
       },
     }).mount();
     expect(withNoLabel.text()).not.toContain(label);
-    withNoLabel.find('button.btn-edit').simulate('click');
+    withNoLabel.click('button.btn-edit');
     expect(withNoLabel.text()).not.toContain(label);
   });
 });
