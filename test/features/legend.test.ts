@@ -2,14 +2,14 @@ import { Tester } from '@mighty-justice/tester';
 
 import { COMPONENT_GENERATORS, fakeTextShort } from '../factories';
 
-async function expectEditExpect(tester: Tester, toContain: string) {
-  expect(tester.text()).toContain(toContain);
+async function expectEditExpect(tester: Tester, expected: string) {
+  expect(tester.text()).toContain(expected);
   expect(tester.find('input').length > 0).toBe(false);
 
   tester.find(`button.btn-edit`).simulate('click');
   await tester.refresh();
 
-  expect(tester.text()).toContain(toContain);
+  expect(tester.text()).toContain(expected);
   expect(tester.find('input').length > 0).toBe(true);
 }
 
