@@ -1,7 +1,8 @@
 import faker from 'faker';
 
-import { EditableArrayCard } from '../../src';
 import { Tester } from '@mighty-justice/tester';
+
+import { EditableArrayCard } from '../../src';
 import { fakeTextShort } from '../factories';
 
 const title = faker.lorem.sentence(),
@@ -13,18 +14,31 @@ const title = faker.lorem.sentence(),
     })),
   onCreate = jest.fn(),
   onSave = jest.fn(),
+  onSuccess = jest.fn(),
+  fieldSets = [[{ field: 'name' }]],
   props = {
-    fieldSets: [[{ field: 'name' }]],
+    fieldSets,
     model,
     onCreate,
     onSave,
     title,
   };
 
+async function fillOutAndSubmit(tester: Tester, action: string, newValue: string) {
+  expect(tester.find('input#name').length).toBe(0);
+  await tester.click(`button.btn-${action}`);
+  await tester.refresh();
+  expect(tester.find('input#name').length).toBe(1);
+
+  await tester.changeInput('input#name', newValue);
+  await tester.submit();
+}
+
 describe('EditableArrayCard', () => {
   beforeEach(() => {
     onCreate.mockClear();
     onSave.mockClear();
+    onSuccess.mockClear();
   });
 
   it('Renders', async () => {
@@ -37,29 +51,43 @@ describe('EditableArrayCard', () => {
     });
   });
 
-  [
-    { action: 'new', prop: onCreate },
-    { action: 'edit', prop: onSave },
-  ].forEach(({ action, prop }) => {
-    it(`Handles ${action}`, async () => {
-      const newValue = fakeTextShort(),
-        tester = await new Tester(EditableArrayCard, { props }).mount();
+  it('Handles onCreate', async () => {
+    const newValue = fakeTextShort(),
+      tester = await new Tester(EditableArrayCard, { props }).mount();
 
-      expect(tester.find('input#name').length).toBe(0);
-      await tester.click(`button.btn-${action}`);
-      await tester.refresh();
-      expect(tester.find('input#name').length).toBe(1);
+    await fillOutAndSubmit(tester, 'new', newValue);
 
-      expect(prop).not.toHaveBeenCalled();
-      await tester.changeInput('input#name', newValue);
-      await tester.submit();
-      expect(prop).toHaveBeenCalledWith({
-        ...(action === 'edit' ? model[0] : {}),
-        name: newValue,
-      });
+    expect(onCreate).toHaveBeenCalledWith({ name: newValue });
 
-      await tester.refresh();
-      expect(tester.find('input#name').length).toBe(0);
+    await tester.refresh();
+    expect(tester.find('input#name').length).toBe(0);
+  });
+
+  it('Handles onSave', async () => {
+    const newValue = fakeTextShort(),
+      tester = await new Tester(EditableArrayCard, { props }).mount();
+
+    await fillOutAndSubmit(tester, 'edit', newValue);
+
+    expect(onSave).toHaveBeenCalledWith({
+      ...model[0],
+      name: newValue,
     });
+
+    await tester.refresh();
+    expect(tester.find('input#name').length).toBe(0);
+  });
+
+  it('Handles onSuccess', async () => {
+    const newValue = fakeTextShort(),
+      tester = await new Tester(EditableArrayCard, { props: { ...props, onSuccess } }).mount();
+
+    await fillOutAndSubmit(tester, 'new', newValue);
+
+    expect(onCreate).toHaveBeenCalled();
+    expect(onSuccess).toHaveBeenCalled();
+
+    await tester.refresh();
+    expect(tester.find('input#name').length).toBe(0);
   });
 });

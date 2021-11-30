@@ -1,7 +1,9 @@
 import faker from 'faker';
 
-import { ArrayCard } from '../../src';
 import { Tester } from '@mighty-justice/tester';
+
+import { ArrayCard } from '../../src';
+import { COMPONENT_GENERATORS } from '../factories';
 
 describe('ArrayCard', () => {
   it('Renders', async () => {
@@ -22,5 +24,12 @@ describe('ArrayCard', () => {
     expect(tester.text()).toContain('Text');
     expect(tester.html()).toContain(text1);
     expect(tester.html()).toContain(text2);
+  });
+
+  it('Renders empty', async () => {
+    const props = COMPONENT_GENERATORS.ArrayCard.propsFactory.build({ model: [] }),
+      tester = await new Tester(ArrayCard, { props }).mount();
+
+    expect(tester.text()).toContain('No records');
   });
 });

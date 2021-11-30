@@ -300,6 +300,7 @@ export const COMPONENT_GENERATORS: IComponentGenerators = {
 };
 
 export const FORM_COMPONENTS = ['Form', 'FormCard', 'FormModal', 'FormDrawer'];
-export const EDITABLE_COMPONENTS = ['EditableCard', 'EditableArrayCard'];
-export const CARD_COMPONENTS = [...EDITABLE_COMPONENTS, 'Card', 'ArrayCard'];
+export const DISPLAY_CARDS = ['Card', 'ArrayCard'];
+export const EDITABLE_CARDS = ['EditableCard', 'EditableArrayCard'];
+export const CARD_COMPONENTS = [...DISPLAY_CARDS, ...EDITABLE_CARDS];
 export const ARRAY_COMPONENTS = ['ArrayCard', 'EditableArrayCard'];

@@ -5,7 +5,7 @@ import { Tester } from '@mighty-justice/tester';
 import { EditableCard, FormDrawer, FormModal } from '../../src';
 import { editableCardPropsFactory } from '../factories';
 
-function isForm(tester: any) {
+function isForm(tester: Tester) {
   return !!tester.find('button[type="submit"]').length;
 }
 
@@ -34,7 +34,7 @@ describe('EditableCard', () => {
         expect(tester.find(whereProps.ModalComponent).length).toBe(1);
       }
 
-      await tester.click(`button.btn-edit`);
+      await tester.click('button.btn-edit');
       await tester.refresh();
       await tester.changeInput('input', newText);
 

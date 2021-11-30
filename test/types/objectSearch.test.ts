@@ -61,7 +61,7 @@ function getComponentDefaults(overrides?: any) {
   };
 }
 
-export async function objectSearchFor(tester: any, field: string, results: any, searchTerm: string) {
+export async function objectSearchFor(tester: Tester, field: string, results: any, searchTerm: string) {
   tester.endpoints['/legal-organizations/'] = { results };
 
   // Change input without blurring

@@ -1,16 +1,10 @@
 import { Tester } from '@mighty-justice/tester';
-import {
-  CARD_COMPONENTS,
-  COMPONENT_GENERATORS,
-  EDITABLE_COMPONENTS,
-  FORM_COMPONENTS,
-  stringFactory,
-} from '../factories';
+import { CARD_COMPONENTS, COMPONENT_GENERATORS, EDITABLE_CARDS, FORM_COMPONENTS, stringFactory } from '../factories';
 
 const fieldSets = [[stringFactory.build()]],
   LAYOUTS = ['inline', 'vertical', 'horizontal'];
 
-function isForm(tester: any) {
+function isForm(tester: Tester) {
   return !!tester.find('button[type="submit"]').length;
 }
 
@@ -95,7 +89,7 @@ describe('Renders', () => {
     });
   });
 
-  EDITABLE_COMPONENTS.forEach(componentName => {
+  EDITABLE_CARDS.forEach(componentName => {
     LAYOUTS.forEach(layout => {
       it(`Displays ${layout} when reading and writing for ${componentName}`, async () => {
         const { ComponentClass, propsFactory } = COMPONENT_GENERATORS[componentName],
@@ -107,7 +101,7 @@ describe('Renders', () => {
         expect(tester.find(`div.fields-ant-field-set-row-${layout}`).length).toBe(1);
         expect(tester.find(`.fields-ant-info-label-${layout}`).length).toBe(1);
 
-        await tester.click(`button.btn-edit`);
+        await tester.click('button.btn-edit');
         await tester.refresh();
 
         expect(isForm(tester)).toBe(true);
