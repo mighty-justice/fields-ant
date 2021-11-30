@@ -5,7 +5,7 @@ import { Tester } from '@mighty-justice/tester';
 import { EditableCard, FormDrawer, FormModal } from '../../src';
 import { editableCardPropsFactory } from '../factories';
 
-function isForm(tester: any) {
+function isForm(tester: Tester) {
   return !!tester.find('button[type="submit"]').length;
 }
 

@@ -24,7 +24,7 @@ const title = faker.lorem.sentence(),
     title,
   };
 
-async function fillOutAndSubmit(tester: any, action: string, newValue: string) {
+async function fillOutAndSubmit(tester: Tester, action: string, newValue: string) {
   expect(tester.find('input#name').length).toBe(0);
   await tester.click(`button.btn-${action}`);
   await tester.refresh();
@@ -38,6 +38,7 @@ describe('EditableArrayCard', () => {
   beforeEach(() => {
     onCreate.mockClear();
     onSave.mockClear();
+    onSuccess.mockClear();
   });
 
   it('Renders', async () => {

@@ -45,11 +45,11 @@ async function getTester(props: any) {
   return await new Tester(FormCard, { props }).mount();
 }
 
-async function clickAddNew(tester: any) {
+async function clickAddNew(tester: Tester) {
   await tester.click(`.${OPTION_KEYS.ADD} div`);
 }
 
-async function clickFirstResult(tester: any) {
+async function clickFirstResult(tester: Tester) {
   await act(async () =>
     tester
       .find('Item')
@@ -58,7 +58,7 @@ async function clickFirstResult(tester: any) {
   );
 }
 
-async function clickBack(tester: any) {
+async function clickBack(tester: Tester) {
   await tester.click(`.${CLASS_NAME_BTN_BACK}`);
 }
 

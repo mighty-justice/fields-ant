@@ -7,18 +7,18 @@ import { COMPONENT_GENERATORS } from '../factories';
 
 const SUPPORTING_COMPONENTS = ['Form', 'FormCard', 'FormDrawer', 'FormModal'];
 
-const isSubmitDisabled = (tester: any): boolean => !!tester.find('.ant-btn-primary[disabled=true]').length,
-  isSubmitLoading = (tester: any): boolean => !!tester.find('.ant-btn-loading').length,
-  isInvalid = (tester: any): boolean => isSubmitDisabled(tester) && !isSubmitLoading(tester),
-  isNotSubmitting = (tester: any): boolean =>
+const isSubmitDisabled = (tester: Tester): boolean => !!tester.find('.ant-btn-primary[disabled=true]').length,
+  isSubmitLoading = (tester: Tester): boolean => !!tester.find('.ant-btn-loading').length,
+  isInvalid = (tester: Tester): boolean => isSubmitDisabled(tester) && !isSubmitLoading(tester),
+  isNotSubmitting = (tester: Tester): boolean =>
     // Not the same as !isSubmitting, since both have to be false
     !isSubmitDisabled(tester) && !isSubmitLoading(tester),
-  clickSubmit = async (tester: any): Promise<void> => {
+  clickSubmit = async (tester: Tester): Promise<void> => {
     await tester.refresh();
     expect(isSubmitDisabled(tester)).toBe(false);
     await tester.click(tester.find('.ant-btn-primary'));
   },
-  changeInput = async (tester: any, value: any): Promise<void> => {
+  changeInput = async (tester: Tester, value: any): Promise<void> => {
     await tester.changeInput('input', value);
   };
 

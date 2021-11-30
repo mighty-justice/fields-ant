@@ -4,7 +4,7 @@ import { CARD_COMPONENTS, COMPONENT_GENERATORS, EDITABLE_CARDS, FORM_COMPONENTS,
 const fieldSets = [[stringFactory.build()]],
   LAYOUTS = ['inline', 'vertical', 'horizontal'];
 
-function isForm(tester: any) {
+function isForm(tester: Tester) {
   return !!tester.find('button[type="submit"]').length;
 }
 

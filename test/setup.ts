@@ -31,7 +31,7 @@ TesterConfig.configure(enzyme, {
   hooks: [
     {
       name: 'getOptions',
-      onBeforeMount: (tester: any) => {
+      onBeforeMount: (tester: Tester) => {
         tester.getOptions = jest.fn((_optionName: string) => [
           { name: 'Yes', value: 'true' },
           { name: 'No', value: 'false' },
@@ -40,7 +40,7 @@ TesterConfig.configure(enzyme, {
     },
     {
       name: 'getEndpoint',
-      onBeforeMount: (tester: any) => {
+      onBeforeMount: (tester: Tester) => {
         tester.endpoints = {};
         tester.getEndpoint = jest.fn(endpoint => {
           const endpointNoParams = endpoint.split('?').shift();
@@ -56,7 +56,7 @@ TesterConfig.configure(enzyme, {
     {
       component: Provider,
       name: 'appState',
-      props: (tester: any) => ({
+      props: (tester: Tester) => ({
         getEndpoint: tester.getEndpoint,
         getOptions: tester.getOptions,
       }),

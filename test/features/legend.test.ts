@@ -2,7 +2,7 @@ import { Tester } from '@mighty-justice/tester';
 
 import { COMPONENT_GENERATORS, fakeTextShort } from '../factories';
 
-async function expectEditExpect(tester: any, toContain: string) {
+async function expectEditExpect(tester: Tester, toContain: string) {
   expect(tester.text()).toContain(toContain);
   expect(tester.find('input').length > 0).toBe(false);
 
