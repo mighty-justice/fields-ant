@@ -15,12 +15,12 @@ const title = faker.lorem.sentence(),
   onCreate = jest.fn(),
   onSave = jest.fn(),
   onSuccess = jest.fn(),
+  fieldSets = [[{ field: 'name' }]],
   props = {
-    fieldSets: [[{ field: 'name' }]],
+    fieldSets,
     model,
     onCreate,
     onSave,
-    onSuccess,
     title,
   };
 
@@ -51,7 +51,6 @@ describe('EditableArrayCard', () => {
   });
 
   it('Handles onCreate', async () => {
-    onCreate.mockClear();
     const newValue = fakeTextShort(),
       tester = await new Tester(EditableArrayCard, { props }).mount();
 
@@ -64,7 +63,6 @@ describe('EditableArrayCard', () => {
   });
 
   it('Handles onSave', async () => {
-    onSave.mockClear();
     const newValue = fakeTextShort(),
       tester = await new Tester(EditableArrayCard, { props }).mount();
 
@@ -80,12 +78,12 @@ describe('EditableArrayCard', () => {
   });
 
   it('Handles onSuccess', async () => {
-    onSuccess.mockClear();
     const newValue = fakeTextShort(),
-      tester = await new Tester(EditableArrayCard, { props }).mount();
+      tester = await new Tester(EditableArrayCard, { props: { ...props, onSuccess } }).mount();
 
     await fillOutAndSubmit(tester, 'new', newValue);
 
+    expect(onCreate).toHaveBeenCalled();
     expect(onSuccess).toHaveBeenCalled();
 
     await tester.refresh();
