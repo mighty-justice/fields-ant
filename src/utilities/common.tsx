@@ -206,24 +206,7 @@ export function formatClassNames(className: string, colon: boolean = false, layo
 }
 
 export const unflattenObject = (object: Object) => {
-  const flattenedObject = flatten(object, { removeDate: true }),
-    periodsAndBracketsRegex = /[.[\]]/,
-    result = {};
+  const flattenedObject = flatten(object, { removeDate: true });
 
-  Object.keys(flattenedObject).forEach((key: string) => {
-    const keys = key.split(periodsAndBracketsRegex).filter((key: string) => key !== '');
-
-    keys.reduce(
-      (accumulator: any, current: string, index: number) =>
-        accumulator[current] ||
-        (accumulator[current] = Number.isNaN(Number(keys[index + 1]))
-          ? keys.length - 1 === index
-            ? flattenedObject[key]
-            : {}
-          : []),
-      result,
-    );
-  });
-
-  return result;
+  return Object.entries(flattenedObject).reduce((objOut, [key, value]) => set(objOut, key, value), {});
 };

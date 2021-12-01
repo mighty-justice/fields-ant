@@ -8,6 +8,8 @@ const keyIdentity = (key: string) => {
   return key;
 };
 
+// This is an alteration of flat's flattenObject function that includes has the ability to handle Moment objects.
+// In this case, a removeDate key set to true in opts will make sure that Moment objects are not flattened like other objects.
 export const flatten = (target: Object, opts: any = {}) => {
   const delimiter = opts.delimiter || '.',
     transformKey = opts.transformKey || keyIdentity,
