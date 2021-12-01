@@ -1,6 +1,5 @@
 import React from 'react';
 import cx from 'classnames';
-import flattenObject from 'flat';
 import { flatten as flattenArray, get, has, isArray, isObject, isString, kebabCase, set, some, sortBy } from 'lodash';
 
 import { ColumnProps } from 'antd/es/table';
@@ -26,6 +25,7 @@ import WithTooltip from '../building-blocks/WithTooltip';
 
 import { fillInFieldConfig, fillInFieldSets } from './fillIn';
 import { filterFieldConfig } from './filters';
+import { flatten } from './flatten';
 
 export function isPartialFieldSetSimple(fieldSet: IFieldSetPartial): fieldSet is IFieldSetSimplePartial {
   return isArray(fieldSet);
@@ -206,7 +206,7 @@ export function formatClassNames(className: string, colon: boolean = false, layo
 }
 
 export const unflattenObject = (object: Object) => {
-  const flattenedObject = flattenObject<{ [key: string]: any }, { [key: string]: any }>(object),
+  const flattenedObject = flatten(object, { removeDate: true }),
     periodsAndBracketsRegex = /[.[\]]/,
     result = {};
 
