@@ -126,7 +126,7 @@
     "enzyme-adapter-react-16": "^1.12.1",
     "faker": "^4.1.0",
     "gh-pages": "^2.0.1",
-    "jest": "^24.7.1",
+    "jest": "^27.4.2",
     "jest-environment-jsdom": "^24.7.1",
     "mobx": "^5.0.0",
     "mobx-react": "^5.0.0",
