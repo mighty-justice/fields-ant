@@ -20,9 +20,8 @@ describe('Uses correct field ID', () => {
     ['simple', 'field'],
     ['nested', 'container.field'],
     ['deeply nested', 'container.field.subfield'],
-    // TODO: Enable after array bug fix
-    // ['array', 'array[0].field'],
-    // ['deeply nested array', 'container.field[0].field'],
+    ['array', 'array[0].field'],
+    ['deeply nested array', 'container.field[0].field'],
   ].map(([label, field]) =>
     it(`Editable ${label} fields use correct field ID`, async () => {
       const { ComponentClass, propsFactory } = COMPONENT_GENERATORS.Form,
