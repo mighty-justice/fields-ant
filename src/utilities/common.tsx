@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import flattenObject from 'flat';
 import { flatten as flattenArray, get, has, isArray, isObject, isString, kebabCase, set, some, sortBy } from 'lodash';
 
 import { ColumnProps } from 'antd/es/table';
@@ -203,3 +204,26 @@ export function formatClassNames(className: string, colon: boolean = false, layo
   const hasColon = colon && layout !== LAYOUT_TYPES.VERTICAL;
   return cx(`${className}-${layout}`, `${className}${hasColon ? '' : '-no'}-colon`);
 }
+
+export const unflattenObject = (object: Object) => {
+  const flattenedObject = flattenObject<{ [key: string]: any }, { [key: string]: any }>(object),
+    periodsAndBracketsRegex = /[.[\]]/,
+    result = {};
+
+  Object.keys(flattenedObject).forEach((key: string) => {
+    const keys = key.split(periodsAndBracketsRegex).filter((key: string) => key !== '');
+
+    keys.reduce(
+      (accumulator: any, current: string, index: number) =>
+        accumulator[current] ||
+        (accumulator[current] = Number.isNaN(Number(keys[index + 1]))
+          ? keys.length - 1 === index
+            ? flattenedObject[key]
+            : {}
+          : []),
+      result,
+    );
+  });
+
+  return result;
+};

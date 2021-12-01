@@ -15,7 +15,7 @@ import { IFormWrappedProps } from '../components/Form';
 import { IModel, IValue } from '../props';
 
 import backendValidation from './backendValidation';
-import { getFieldSetsFields, modelFromFieldConfigs } from './common';
+import { unflattenObject, getFieldSetsFields, modelFromFieldConfigs } from './common';
 import { fillInFieldSets } from './fillIn';
 
 export interface IFoundOnForm {
@@ -160,7 +160,7 @@ class FormManager {
     // which is updated any time a field is edited.
     // istanbul ignore next
     const formModel: IModel = this.formLastUpdated ? {} : {},
-      formValues = flattenObject<{ [key: string]: any }, { [key: string]: any }>(this.formValues);
+      formValues = unflattenObject(this.formValues);
 
     this.fieldConfigs.forEach(fieldConfig => {
       const isInForm = has(formValues, fieldConfig.field),
