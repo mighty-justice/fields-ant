@@ -27,4 +27,5 @@ export declare function modelFromFieldConfigs(fieldConfigs: IFieldConfig[], data
 export declare function noopValidator(_rule: any, _value: any): Promise<void>;
 export declare function getBtnClassName(action: string, classNameSuffix?: string, title?: React.ReactNode): string;
 export declare function formatClassNames(className: string, colon?: boolean, layout?: ILayout): string;
+export declare const unflattenObject: (object: Object) => {};
 export {};

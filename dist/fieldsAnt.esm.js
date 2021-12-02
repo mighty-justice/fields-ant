@@ -4,10 +4,10 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form as Form$1, Col, Select, Button, Tooltip, Input, Radio, Rate as Rate$1, Checkbox as Checkbox$1, DatePicker, notification, Row, Popconfirm, Card as Card$1, Drawer, Modal, List, Table as Table$1 } from 'antd';
 import { toJS, observable, computed } from 'mobx';
-import { get, debounce, uniqBy, omit, isObject, isBoolean, isArray, flatten, sortBy, has, set, isString, kebabCase, some, isPlainObject, extend, pickBy, noop, isEmpty } from 'lodash';
+import { get, debounce, uniqBy, omit, isObject, isBoolean, isArray, flatten as flatten$1, sortBy, has, set, isString, kebabCase, some, isPlainObject, extend, pickBy, noop, isEmpty } from 'lodash';
 import SmartBool from '@mighty-justice/smart-bool';
 import { toKey, inferCentury, getNameOrDefault, EMPTY_FIELD, mapBooleanToText, isValidDate, formatDate, formatEmployerIdNumber, formatMoney, formatCommaSeparatedNumber, getPercentValue, formatPercentage, getPercentDisplay, formatPhoneNumber, formatSocialSecurityNumber, parseAndPreserveNewlines, formatWebsite, formatAddressMultiline, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
-import moment from 'moment';
+import moment, { isMoment } from 'moment';
 import { format } from 'date-fns';
 import { pattern } from 'iso8601-duration';
 import flattenObject from 'flat';
@@ -3527,6 +3527,45 @@ function filterFieldSets(fieldSets, filterConditions) {
   });
 }
 
+var isBuffer = function isBuffer(obj) {
+  return obj && obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj);
+};
+
+var keyIdentity = function keyIdentity(key) {
+  return key;
+}; // This is an alteration of flat's flattenObject function that includes has the ability to handle Moment objects.
+// In this case, a removeDate key set to true in opts will make sure that Moment objects are not flattened like other objects.
+
+
+var flatten = function flatten(target) {
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var delimiter = opts.delimiter || '.',
+      transformKey = opts.transformKey || keyIdentity,
+      output = {};
+
+  function step(object, prev, currentDepth) {
+    currentDepth = currentDepth || 1;
+    Object.keys(object).forEach(function (key) {
+      var value = object[key],
+          isarray = opts.safe && Array.isArray(value),
+          type = Object.prototype.toString.call(value),
+          isbuffer = isBuffer(value),
+          isDate = opts.removeDate ? isMoment(value) : false,
+          isobject = type === '[object Object]' || type === '[object Array]',
+          newKey = prev ? prev + delimiter + transformKey(key) : transformKey(key);
+
+      if (!isarray && !isbuffer && isobject && Object.keys(value).length && (!opts.maxDepth || currentDepth < opts.maxDepth) && !isDate) {
+        return step(value, newKey, currentDepth + 1);
+      }
+
+      output[newKey] = value;
+    });
+  }
+
+  step(target);
+  return output;
+};
+
 function isPartialFieldSetSimple(fieldSet) {
   return isArray(fieldSet);
 }
@@ -3559,7 +3598,7 @@ function getFieldSetFields(fieldSet) {
   return fieldSet.fields;
 }
 function getFieldSetsFields(fieldSets) {
-  return flatten(fieldSets.map(getFieldSetFields));
+  return flatten$1(fieldSets.map(getFieldSetFields));
 }
 function getUnsortedOptions(fieldConfig, injected) {
   var options = fieldConfig.options,
@@ -3717,6 +3756,18 @@ function formatClassNames(className) {
   var hasColon = colon && layout !== LAYOUT_TYPES.VERTICAL;
   return cx("".concat(className, "-").concat(layout), "".concat(className).concat(hasColon ? '' : '-no', "-colon"));
 }
+var unflattenObject = function unflattenObject(object) {
+  var flattenedObject = flatten(object, {
+    removeDate: true
+  });
+  return Object.entries(flattenedObject).reduce(function (objOut, _ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+        key = _ref2[0],
+        value = _ref2[1];
+
+    return set(objOut, key, value);
+  }, {});
+};
 
 function getFieldErrors(errors) {
   var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
@@ -4144,7 +4195,7 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
       // which is updated any time a field is edited.
       // istanbul ignore next
       var formModel = this.formLastUpdated ? {} : {},
-          formValues = this.formValues;
+          formValues = unflattenObject(this.formValues);
       this.fieldConfigs.forEach(function (fieldConfig) {
         var isInForm = has(formValues, fieldConfig.field),
             value = isInForm ? _this.getFormValue(fieldConfig, formValues) : fieldConfig.fromForm(_this.getDefaultValue(fieldConfig), fieldConfig);
@@ -5707,7 +5758,7 @@ var Table = autoBindMethods(_class$y = observer(_class$y = (_class2$n = /*#__PUR
   _createClass(Table, [{
     key: "getTitle",
     value: function getTitle() {
-      return this.props.title || undefined;
+      return this.props.title;
     }
   }, {
     key: "render",
@@ -5748,4 +5799,4 @@ var Table = autoBindMethods(_class$y = observer(_class$y = (_class2$n = /*#__PUR
   return Table;
 }(Component), (_applyDecoratedDescriptor(_class2$n.prototype, "columns", [computed], Object.getOwnPropertyDescriptor(_class2$n.prototype, "columns"), _class2$n.prototype), _applyDecoratedDescriptor(_class2$n.prototype, "dataSource", [computed], Object.getOwnPropertyDescriptor(_class2$n.prototype, "dataSource"), _class2$n.prototype)), _class2$n)) || _class$y) || _class$y;
 
-export { ANT_FULL_COL_WIDTH, ArrayCard, ButtonToolbar, CLASS_PREFIX, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, Date$1 as Date, EditableArrayCard, EditableCard, FieldSet, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, LAYOUT_TYPES, Label, NestedFieldSet, ObjectSearch, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TOAST_DURATION, TYPES, Table, Value, backendValidation, booleanToForm, cardPropsDefaults, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatClassNames, formatOptionSelect, formatRating, getBtnClassName, getDateFormatList, getFieldSetFields, getFieldSetsFields, getFieldSuffix, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, noopValidator, renderLabel, renderValue, setFieldSetFields, sharedComponentPropsDefaults };
+export { ANT_FULL_COL_WIDTH, ArrayCard, ButtonToolbar, CLASS_PREFIX, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, Date$1 as Date, EditableArrayCard, EditableCard, FieldSet, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, LAYOUT_TYPES, Label, NestedFieldSet, ObjectSearch, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TOAST_DURATION, TYPES, Table, Value, backendValidation, booleanToForm, cardPropsDefaults, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatClassNames, formatOptionSelect, formatRating, getBtnClassName, getDateFormatList, getFieldSetFields, getFieldSetsFields, getFieldSuffix, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, noopValidator, renderLabel, renderValue, setFieldSetFields, sharedComponentPropsDefaults, unflattenObject };

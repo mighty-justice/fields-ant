@@ -8,7 +8,7 @@
   autoBindMethods = autoBindMethods && Object.prototype.hasOwnProperty.call(autoBindMethods, 'default') ? autoBindMethods['default'] : autoBindMethods;
   cx = cx && Object.prototype.hasOwnProperty.call(cx, 'default') ? cx['default'] : cx;
   SmartBool = SmartBool && Object.prototype.hasOwnProperty.call(SmartBool, 'default') ? SmartBool['default'] : SmartBool;
-  moment = moment && Object.prototype.hasOwnProperty.call(moment, 'default') ? moment['default'] : moment;
+  var moment__default = 'default' in moment ? moment['default'] : moment;
   flattenObject = flattenObject && Object.prototype.hasOwnProperty.call(flattenObject, 'default') ? flattenObject['default'] : flattenObject;
   httpStatus = httpStatus && Object.prototype.hasOwnProperty.call(httpStatus, 'default') ? httpStatus['default'] : httpStatus;
 
@@ -3204,7 +3204,7 @@
       nullify: true,
       render: passRenderOnlyValue(utils.formatDate),
       toForm: function toForm(value) {
-        return (value || null) && moment(value);
+        return (value || null) && moment__default(value);
       }
     },
     duration: {
@@ -3526,6 +3526,45 @@
     });
   }
 
+  var isBuffer = function isBuffer(obj) {
+    return obj && obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj);
+  };
+
+  var keyIdentity = function keyIdentity(key) {
+    return key;
+  }; // This is an alteration of flat's flattenObject function that includes has the ability to handle Moment objects.
+  // In this case, a removeDate key set to true in opts will make sure that Moment objects are not flattened like other objects.
+
+
+  var flatten = function flatten(target) {
+    var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var delimiter = opts.delimiter || '.',
+        transformKey = opts.transformKey || keyIdentity,
+        output = {};
+
+    function step(object, prev, currentDepth) {
+      currentDepth = currentDepth || 1;
+      Object.keys(object).forEach(function (key) {
+        var value = object[key],
+            isarray = opts.safe && Array.isArray(value),
+            type = Object.prototype.toString.call(value),
+            isbuffer = isBuffer(value),
+            isDate = opts.removeDate ? moment.isMoment(value) : false,
+            isobject = type === '[object Object]' || type === '[object Array]',
+            newKey = prev ? prev + delimiter + transformKey(key) : transformKey(key);
+
+        if (!isarray && !isbuffer && isobject && Object.keys(value).length && (!opts.maxDepth || currentDepth < opts.maxDepth) && !isDate) {
+          return step(value, newKey, currentDepth + 1);
+        }
+
+        output[newKey] = value;
+      });
+    }
+
+    step(target);
+    return output;
+  };
+
   function isPartialFieldSetSimple(fieldSet) {
     return lodash.isArray(fieldSet);
   }
@@ -3716,6 +3755,18 @@
     var hasColon = colon && layout !== LAYOUT_TYPES.VERTICAL;
     return cx("".concat(className, "-").concat(layout), "".concat(className).concat(hasColon ? '' : '-no', "-colon"));
   }
+  var unflattenObject = function unflattenObject(object) {
+    var flattenedObject = flatten(object, {
+      removeDate: true
+    });
+    return Object.entries(flattenedObject).reduce(function (objOut, _ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+          key = _ref2[0],
+          value = _ref2[1];
+
+      return lodash.set(objOut, key, value);
+    }, {});
+  };
 
   function getFieldErrors(errors) {
     var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
@@ -4143,7 +4194,7 @@
         // which is updated any time a field is edited.
         // istanbul ignore next
         var formModel = this.formLastUpdated ? {} : {},
-            formValues = this.formValues;
+            formValues = unflattenObject(this.formValues);
         this.fieldConfigs.forEach(function (fieldConfig) {
           var isInForm = lodash.has(formValues, fieldConfig.field),
               value = isInForm ? _this.getFormValue(fieldConfig, formValues) : fieldConfig.fromForm(_this.getDefaultValue(fieldConfig), fieldConfig);
@@ -5706,7 +5757,7 @@
     _createClass(Table, [{
       key: "getTitle",
       value: function getTitle() {
-        return this.props.title || undefined;
+        return this.props.title;
       }
     }, {
       key: "render",
@@ -5819,6 +5870,7 @@
   exports.renderValue = renderValue;
   exports.setFieldSetFields = setFieldSetFields;
   exports.sharedComponentPropsDefaults = sharedComponentPropsDefaults;
+  exports.unflattenObject = unflattenObject;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
