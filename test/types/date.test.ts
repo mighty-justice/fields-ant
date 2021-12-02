@@ -89,7 +89,7 @@ describe('date', () => {
     expect(await isInputsValid('11', '22', '1989-')).toBe(false);
     expect(await isInputsValid('', '', '')).toBe(true);
     expect(await isInputsValid('D', 'o', 'g')).toBe(false);
-  });
+  }, 10000);
 
   it('Infers century', async () => {
     expect(await checkInferYear('00')).toBe('2000');
