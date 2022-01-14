@@ -132,7 +132,7 @@ export function fieldSetsToColumns(fieldSets: IFieldSetPartial[], tableModel: IT
   return getFieldSetsFields(fillInFieldSets(fieldSets))
     .filter(fieldConfig => !filterFieldConfig(fieldConfig, { model: tableModel, writeOnly: true }))
     .map(fieldConfig => ({
-      dataIndex: fieldConfig.field,
+      dataIndex: fieldConfig.field.split('.'),
       render: (value: IValue, model: ITableModel) => fieldConfig.render(value, fieldConfig, model as IModel),
       title: renderLabel(fieldConfig),
       ...fieldConfig.tableColumnProps,
