@@ -1,9 +1,13 @@
 import React from 'react';
-import { Table, Tag } from 'antd';
 import { Provider } from 'mobx-react';
+
+import { Table, Tag } from 'antd';
+import { ColumnsType } from 'antd/lib/table/interface';
 
 import { configure, addDecorator } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
+
+import { fieldSetsToColumns } from '../src';
 
 import 'antd/dist/antd.css';
 import './stories.css';
@@ -16,29 +20,28 @@ function boolSortFor (attr: string) {
   return (a: any, b: any) => (a[attr] === b[attr]) ? 0 : a[attr] ? 1 : -1;
 }
 
-const propTableColumns = [
+const propTableColumns: ColumnsType<any> = fieldSetsToColumns([[
   {
-    dataIndex: 'property',
-    sorter: stringSortFor('property'),
-    title: 'Prop',
+    field: 'property',
+    label: 'Prop',
+    tableColumnProps: { sorter: stringSortFor('property') },
   },
   {
-    dataIndex: 'propType.name',
-    sorter: stringSortFor('name'),
-    title: 'Type',
+    field: 'propType.name',
+    label: 'Type',
+    tableColumnProps: { sorter: stringSortFor('name') },
   },
   {
-    dataIndex: 'required',
-    defaultSortOrder: 'descend' as 'descend',
+    field: 'required',
+    label: 'required',
     render: (value: any) => value ? <Tag color='red'>Yes</Tag> : <Tag>No</Tag>,
-    sorter: boolSortFor('required'),
-    title: 'required',
+    tableColumnProps: { sorter: boolSortFor('required'), defaultSortOrder: 'descend' },
   },
   {
-    dataIndex: 'defaultValue',
-    title: 'default',
+    field: 'defaultValue',
+    label: 'default',
   },
-].map(row => ({ ...row, key: row.dataIndex }));
+]]);
 
 const PropsTable = (props: any) => {
   const dataSource = props.propDefinitions.map((propDefinition: any) => ({
