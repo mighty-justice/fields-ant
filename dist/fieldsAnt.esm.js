@@ -3666,7 +3666,7 @@ function fieldSetsToColumns(fieldSets) {
     });
   }).map(function (fieldConfig) {
     return _objectSpread2({
-      dataIndex: fieldConfig.field,
+      dataIndex: fieldConfig.field.split('.'),
       render: function render(value, model) {
         return fieldConfig.render(value, fieldConfig, model);
       },
