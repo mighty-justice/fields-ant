@@ -25,7 +25,6 @@ import WithTooltip from '../building-blocks/WithTooltip';
 
 import { fillInFieldConfig, fillInFieldSets } from './fillIn';
 import { filterFieldConfig } from './filters';
-import { flatten } from './flatten';
 
 export function isPartialFieldSetSimple(fieldSet: IFieldSetPartial): fieldSet is IFieldSetSimplePartial {
   return isArray(fieldSet);
@@ -204,9 +203,3 @@ export function formatClassNames(className: string, colon: boolean = false, layo
   const hasColon = colon && layout !== LAYOUT_TYPES.VERTICAL;
   return cx(`${className}-${layout}`, `${className}${hasColon ? '' : '-no'}-colon`);
 }
-
-export const unflattenObject = (object: Object) => {
-  const flattenedObject = flatten(object, { removeDate: true });
-
-  return Object.entries(flattenedObject).reduce((objOut, [key, value]) => set(objOut, key, value), {});
-};

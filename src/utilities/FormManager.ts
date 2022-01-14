@@ -1,7 +1,6 @@
 import { ComponentClass } from 'react';
 import { observable } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
-import flattenObject from 'flat';
 import httpStatus from 'http-status-codes';
 
 import { get, has, noop, pickBy, set } from 'lodash';
@@ -9,13 +8,15 @@ import { get, has, noop, pickBy, set } from 'lodash';
 import { notification, FormInstance } from 'antd';
 import { FieldData } from 'rc-field-form/es/interface';
 
+import { flattenObject, unflattenObject } from '@mighty-justice/utils';
+
 import { ID_ATTR, TOAST_DURATION } from '../consts';
 import { IFieldConfig, IFieldSet } from '../interfaces';
 import { IFormWrappedProps } from '../components/Form';
 import { IModel, IValue } from '../props';
 
 import backendValidation from './backendValidation';
-import { unflattenObject, getFieldSetsFields, modelFromFieldConfigs } from './common';
+import { getFieldSetsFields, modelFromFieldConfigs } from './common';
 import { fillInFieldSets } from './fillIn';
 
 export interface IFoundOnForm {
@@ -194,7 +195,7 @@ class FormManager {
   }
 
   public get formFieldNames() {
-    return Object.keys(flattenObject<{ [key: string]: any }, { [key: string]: any }>(this.formValues));
+    return Object.keys(flattenObject(this.formValues));
   }
 
   public onFieldsChange(_changedValues: any, values: FieldData[]) {

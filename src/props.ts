@@ -1,5 +1,5 @@
 import React from 'react';
-import { ClassValue } from 'classnames/types';
+import { Argument as ClassValue } from 'classnames';
 import SmartBool from '@mighty-justice/smart-bool';
 
 // Import and re-export component prop interfaces

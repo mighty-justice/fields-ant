@@ -8,6 +8,7 @@ import { DatePicker, Input } from 'antd';
 import { IFieldConfig } from '../interfaces';
 
 import {
+  DATE_FORMATS,
   EMPTY_FIELD,
   formatAddressMultiline,
   formatCommaSeparatedNumber,
@@ -111,7 +112,7 @@ export const TYPES: { [key: string]: Partial<IFieldConfig> } = {
   datepicker: {
     editComponent: DatePicker,
     editProps: { format: dateFormatList },
-    fromForm: (value: any) => (value ? format(value, 'YYYY-MM-DD') : ''),
+    fromForm: (value: any) => (value ? format(value.toDate(), DATE_FORMATS.date_value) : ''),
     nullify: true,
     render: passRenderOnlyValue(formatDate),
     toForm: (value: any) => (value || null) && moment(value),

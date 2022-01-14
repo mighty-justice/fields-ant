@@ -1,4 +1,4 @@
-import { ClassValue } from 'classnames/types';
+import { Argument as ClassValue } from 'classnames';
 
 import { ColProps } from 'antd/es/col';
 import { ColumnProps } from 'antd/es/table';

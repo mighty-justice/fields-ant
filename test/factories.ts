@@ -5,6 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { fromPairs, sample, zipWith } from 'lodash';
 
 import SmartBool from '@mighty-justice/smart-bool';
+import { DATE_FORMATS } from '@mighty-justice/utils';
 
 import {
   ArrayCard,
@@ -56,8 +57,8 @@ export const fakeAddress = () => ({
   zip_code: faker.address.zipCode(),
 });
 export const fakeBoolean = () => sample([true, false]);
-export const fakeDateRecent = () => format(faker.date.recent(), 'YYYY-MM-DD');
-export const fakeDatePast = () => format(faker.date.past(100), 'YYYY-MM-DD');
+export const fakeDateRecent = () => format(faker.date.recent(), DATE_FORMATS.date_value);
+export const fakeDatePast = () => format(faker.date.past(100), DATE_FORMATS.date_value);
 export const fakeDuration = () => faker.helpers.replaceSymbolWithNumber('P#Y');
 export const fakeEin = () => faker.helpers.replaceSymbolWithNumber('##-#######');
 export const fakeField = () =>

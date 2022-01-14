@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import autoBindMethods from 'class-autobind-decorator';
-import cx from 'classnames';
-import { ClassValue } from 'classnames/types';
+import cx, { Argument as ClassValue } from 'classnames';
 
 import SmartBool from '@mighty-justice/smart-bool';
 
