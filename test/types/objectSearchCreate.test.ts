@@ -97,13 +97,13 @@ describe('objectSearchCreate', () => {
     await tester.submit();
     await tester.refresh(10);
 
-    expect(tester.text()).toContain('Required');
+    expect(tester.text()).toContain('required');
     expect(onSave).not.toHaveBeenCalled();
 
     // Will not clear errors when changing valid field
     await tester.changeInput('input[id="law_firm.amount_owed"]', fakeOwed);
     await tester.submit();
-    expect(tester.text()).toContain('Required');
+    expect(tester.text()).toContain('required');
     expect(onSave).not.toHaveBeenCalled();
 
     await act(async () => {
@@ -134,7 +134,7 @@ describe('objectSearchCreate', () => {
 
     expect(onSave).not.toHaveBeenCalled();
     await tester.refresh(10);
-    expect(tester.text()).toContain('Required');
+    expect(tester.text()).toContain('required');
 
     // Will clear errors when fixing invalid field
     await tester.changeInput('input[id="law_firm.name"]', searchTerm);

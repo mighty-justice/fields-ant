@@ -95,7 +95,7 @@ export function fillInFieldConfig(fieldConfig: IFieldConfigPartial): IFieldConfi
   const requiredValidationRule: undefined | { [key: string]: Rule } = fieldConfig.required
     ? {
         required: {
-          message: `Required - Please input a valid ${label || 'value'}`,
+          message: ` ${`'${label}'` || 'This field'} is required`,
           required: true,
         },
       }

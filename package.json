@@ -99,7 +99,7 @@
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
-    "@mighty-justice/tester": "^2.0.1",
+    "@mighty-justice/tester": "^2.0.3",
     "@storybook/addon-actions": "^6.3.12",
     "@storybook/addon-info": "^5.3.21",
     "@storybook/addons": "^6.3.12",
