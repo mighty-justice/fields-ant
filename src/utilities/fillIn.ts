@@ -89,13 +89,13 @@ function inferType(fieldConfig: Partial<IFieldConfig>) {
 }
 
 export function fillInFieldConfig(fieldConfig: IFieldConfigPartial): IFieldConfig {
-  const type = inferType(fieldConfig),
-    label = fieldConfig.label || varToLabel(getFieldSuffix(fieldConfig.field));
+  const type: string = inferType(fieldConfig),
+    label: string = fieldConfig.label || varToLabel(getFieldSuffix(fieldConfig.field));
 
   const requiredValidationRule: undefined | { [key: string]: Rule } = fieldConfig.required
     ? {
         required: {
-          message: ` ${`'${label}'` || 'This field'} is required`,
+          message: `'${label}' is required`,
           required: true,
         },
       }
