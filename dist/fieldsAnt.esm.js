@@ -3456,7 +3456,7 @@ function fillInFieldConfig(fieldConfig) {
       label = fieldConfig.label || varToLabel(getFieldSuffix(fieldConfig.field));
   var requiredValidationRule = fieldConfig.required ? {
     required: {
-      message: "Required - Please input a valid ".concat(label || 'value'),
+      message: "'".concat(label, "' is required"),
       required: true
     }
   } : undefined; // istanbul ignore next
