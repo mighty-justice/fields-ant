@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
 
-import { Card } from 'antd';
+import { Card, Collapse } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import GuardedButton from '../building-blocks/GuardedButton';
@@ -18,9 +18,11 @@ import FormCard from './FormCard';
 import { IArrayCardProps } from './ArrayCard';
 
 export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormProps {
+  collapsible?: boolean;
   defaults?: object;
   onCreate: (model: unknown) => Promise<any>;
   onDelete?: (model: unknown) => Promise<any>;
+  panelHeader?: string;
 }
 
 @autoBindMethods
@@ -60,18 +62,60 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
     );
   }
 
-  public render() {
+  private renderCard(modelItem: any) {
     const {
       classNameSuffix,
+      fieldSets,
+      onDelete,
+      onSave,
+      onSuccess,
+      ...passDownProps
+    } = this.props;
+
+    return (
+      <EditableCard
+        {...passDownProps}
+        classNameSuffix={classNameSuffix}
+        fieldSets={fieldSets}
+        key={modelItem.id}
+        model={modelItem}
+        onDelete={onDelete}
+        onSave={onSave}
+        onSuccess={onSuccess}
+        title=""
+      />
+    )
+  }
+
+  private renderEditableCards() {
+    const { collapsible, model, panelHeader } = this.props;
+
+    if (collapsible) {
+      return (
+        <Collapse defaultActiveKey={['1']}>
+          {model.map((modelItem: any, index: number) => {
+            const header = panelHeader? modelItem[panelHeader] : null;
+
+            return (
+              <Collapse.Panel header={header} key={index + 1}>
+                {this.renderCard(modelItem)}
+              </Collapse.Panel>
+            )
+          })}
+        </Collapse>
+      )
+    }
+
+    return model.map((modelItem: any) => this.renderCard(modelItem));
+  }
+
+  public render() {
+    const {
       defaults,
       fieldSets,
       isLoading,
       model,
-      onDelete,
-      onSave,
-      onSuccess,
       title,
-      ...passDownProps
     } = this.props;
 
     return (
@@ -87,20 +131,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
         )}
 
         {isEmpty(model) && !this.isAddingNew.isTrue && <p className="empty-message">No records</p>}
-
-        {model.map(modelItem => (
-          <EditableCard
-            {...passDownProps}
-            classNameSuffix={classNameSuffix}
-            fieldSets={fieldSets}
-            key={modelItem.id}
-            model={modelItem}
-            onDelete={onDelete}
-            onSave={onSave}
-            onSuccess={onSuccess}
-            title=""
-          />
-        ))}
+        {this.renderEditableCards()}
       </Card>
     );
   }
