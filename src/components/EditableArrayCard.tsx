@@ -63,14 +63,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
   }
 
   private renderCard(modelItem: any) {
-    const {
-      classNameSuffix,
-      fieldSets,
-      onDelete,
-      onSave,
-      onSuccess,
-      ...passDownProps
-    } = this.props;
+    const { classNameSuffix, fieldSets, onDelete, onSave, onSuccess, ...passDownProps } = this.props;
 
     return (
       <EditableCard
@@ -84,7 +77,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
         onSuccess={onSuccess}
         title=""
       />
-    )
+    );
   }
 
   private renderEditableCards() {
@@ -94,29 +87,23 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
       return (
         <Collapse defaultActiveKey={['1']}>
           {model.map((modelItem: any, index: number) => {
-            const header = panelHeader? modelItem[panelHeader] : null;
+            const header = panelHeader ? modelItem[panelHeader] : null;
 
             return (
               <Collapse.Panel header={header} key={index + 1}>
                 {this.renderCard(modelItem)}
               </Collapse.Panel>
-            )
+            );
           })}
         </Collapse>
-      )
+      );
     }
 
     return model.map((modelItem: any) => this.renderCard(modelItem));
   }
 
   public render() {
-    const {
-      defaults,
-      fieldSets,
-      isLoading,
-      model,
-      title,
-    } = this.props;
+    const { defaults, fieldSets, isLoading, model, title } = this.props;
 
     return (
       <Card title={title} extra={this.renderAddNew()} loading={isLoading}>
