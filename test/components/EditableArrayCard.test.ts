@@ -15,12 +15,14 @@ const title = faker.lorem.sentence(),
   onCreate = jest.fn(),
   onSave = jest.fn(),
   onSuccess = jest.fn(),
-  fieldSets = [[{ field: 'name' }]],
+  fieldSets = [[{ field: 'id' }, { field: 'name' }]],
+  panelHeader = 'name',
   props = {
     fieldSets,
     model,
     onCreate,
     onSave,
+    panelHeader,
     title,
   };
 
@@ -57,7 +59,7 @@ describe('EditableArrayCard', () => {
 
     await fillOutAndSubmit(tester, 'new', newValue);
 
-    expect(onCreate).toHaveBeenCalledWith({ name: newValue });
+    expect(onCreate).toHaveBeenCalledWith({ name: newValue, id: '' });
 
     await tester.refresh();
     expect(tester.find('input#name').length).toBe(0);
@@ -90,4 +92,21 @@ describe('EditableArrayCard', () => {
     await tester.refresh();
     expect(tester.find('input#name').length).toBe(0);
   });
+
+  it('Renders first item in collapsible component', async () => {
+    const tester = await new Tester(EditableArrayCard, { props: { ...props, collapsible: true } }).mount();
+
+    expect(tester.html()).toContain(model[0].id)
+    expect(tester.html()).toContain(model[0].name)
+  })
+
+  it('Renders only panel headers of collapsed items', async () => {
+    const tester = await new Tester(EditableArrayCard, { props: { ...props, collapsible: true } }).mount()
+    , collapsedItems = model.slice(1);
+
+    collapsedItems.forEach(item => {
+      expect(tester.html()).toContain(item.name);
+      expect(tester.html()).not.toContain(item.id);
+    });
+  })
 });
