@@ -96,17 +96,17 @@ describe('EditableArrayCard', () => {
   it('Renders first item in collapsible component', async () => {
     const tester = await new Tester(EditableArrayCard, { props: { ...props, collapsible: true } }).mount();
 
-    expect(tester.html()).toContain(model[0].id)
-    expect(tester.html()).toContain(model[0].name)
-  })
+    expect(tester.html()).toContain(model[0].id);
+    expect(tester.html()).toContain(model[0].name);
+  });
 
   it('Renders only panel headers of collapsed items', async () => {
-    const tester = await new Tester(EditableArrayCard, { props: { ...props, collapsible: true } }).mount()
-    , collapsedItems = model.slice(1);
+    const tester = await new Tester(EditableArrayCard, { props: { ...props, collapsible: true } }).mount(),
+      collapsedItems = model.slice(1);
 
     collapsedItems.forEach(item => {
       expect(tester.html()).toContain(item.name);
       expect(tester.html()).not.toContain(item.id);
     });
-  })
+  });
 });
