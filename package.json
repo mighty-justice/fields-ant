@@ -127,7 +127,7 @@
     "faker": "^4.1.0",
     "gh-pages": "^2.0.1",
     "jest": "^24.7.1",
-    "jest-environment-jsdom": "^24.7.1",
+    "jest-environment-jsdom": "^28.0.2",
     "mobx": "^5.0.0",
     "mobx-react": "^5.0.0",
     "np": "^4.0.2",
