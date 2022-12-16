@@ -4168,7 +4168,7 @@
     }, {
       key: "isCancelButtonDisabled",
       get: function get() {
-        return this.isFormDisabled;
+        return this.isSaving;
       }
     }, {
       key: "formValues",

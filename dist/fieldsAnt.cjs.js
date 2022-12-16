@@ -4177,7 +4177,7 @@ var FormManager = autoBindMethods(_class$f = (_class2$7 = (_temp$6 = /*#__PURE__
   }, {
     key: "isCancelButtonDisabled",
     get: function get() {
-      return this.isFormDisabled;
+      return this.isSaving;
     }
   }, {
     key: "formValues",
