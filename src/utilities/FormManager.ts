@@ -108,7 +108,7 @@ class FormManager {
   }
 
   public get isCancelButtonDisabled(): boolean {
-    return this.isFormDisabled;
+    return this.isSaving;
   }
 
   public getDefaultValue(fieldConfig: IFieldConfig): IValue {
