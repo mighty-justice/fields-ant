@@ -20,6 +20,7 @@ import FormModal from './FormModal';
 
 export interface IEditableCardProps extends ICardProps, ISharedFormProps {
   ModalComponent?: new (props: ISharedFormModalProps) => FormModal | FormDrawer;
+  isDeleteDisabled?: boolean;
   onDelete?: (model: unknown) => Promise<any>;
 }
 
@@ -31,6 +32,7 @@ class EditableCard extends Component<IEditableCardProps> {
 
   public static defaultProps = {
     ...formPropsDefaults,
+    isDeleteDisabled: false,
   };
 
   private async handleDelete() {
@@ -62,7 +64,7 @@ class EditableCard extends Component<IEditableCardProps> {
   }
 
   private get deleteButton() {
-    const { isGuarded, classNameSuffix, onDelete, isLoading, title } = this.props,
+    const { isDeleteDisabled, isGuarded, classNameSuffix, onDelete, isLoading, title } = this.props,
       className = getBtnClassName('delete', classNameSuffix, title);
 
     if (!onDelete) {
@@ -73,7 +75,7 @@ class EditableCard extends Component<IEditableCardProps> {
       <GuardedButton
         className={className}
         confirm={true}
-        disabled={isLoading || this.isDeleting.isTrue}
+        disabled={isLoading || this.isDeleting.isTrue || isDeleteDisabled}
         icon={<DeleteOutlined />}
         isGuarded={isGuarded}
         onClick={this.handleDelete}
