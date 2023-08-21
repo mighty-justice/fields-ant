@@ -62,7 +62,7 @@ describe('EditableCard', () => {
     expect(onDelete).toHaveBeenCalled();
   });
 
-  it('Disables delete and shows tooltip', async () => {
+  it('Can disable delete', async () => {
     const onDelete = jest.fn().mockResolvedValue({}),
       props = {
         ...editableCardPropsFactory.build(),
