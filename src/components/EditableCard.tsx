@@ -21,9 +21,9 @@ import FormModal from './FormModal';
 
 export interface IEditableCardProps extends ICardProps, ISharedFormProps {
   ModalComponent?: new (props: ISharedFormModalProps) => FormModal | FormDrawer;
-  deleteDisabledTooltip?: string;
+  disabledDeleteTooltip?: string;
   onDelete?: (model: unknown) => Promise<any>;
-  protectedField?: string | null;
+  disableDelete?: (model: unknown) => boolean;
 }
 
 @autoBindMethods
@@ -34,8 +34,8 @@ class EditableCard extends Component<IEditableCardProps> {
 
   public static defaultProps = {
     ...formPropsDefaults,
-    deleteDisabledTooltip: '',
-    protectedField: null,
+    disabledDeleteTooltip: '',
+    disableDelete: () => false,
   };
 
   private async handleDelete() {
@@ -70,27 +70,27 @@ class EditableCard extends Component<IEditableCardProps> {
     const {
         isGuarded,
         classNameSuffix,
-        deleteDisabledTooltip,
+        disabledDeleteTooltip,
+        disableDelete,
         isLoading,
         model,
         onDelete,
-        protectedField,
         title,
       } = this.props,
       className = getBtnClassName('delete', classNameSuffix, title),
-      hasProtectedObject = protectedField ? !!model && model[protectedField].length : false;
+      isDeleteDisabled = disableDelete && disableDelete(model);
 
     if (!onDelete) {
       return null;
     }
-
+    
     return (
-      <Tooltip title={hasProtectedObject ? deleteDisabledTooltip : ''}>
+      <Tooltip title={isDeleteDisabled ? disabledDeleteTooltip : ''}>
         <span>
           <GuardedButton
             className={className}
             confirm={true}
-            disabled={hasProtectedObject || isLoading || this.isDeleting.isTrue}
+            disabled={isDeleteDisabled || isLoading || this.isDeleting.isTrue}
             icon={<DeleteOutlined />}
             isGuarded={isGuarded}
             onClick={this.handleDelete}
