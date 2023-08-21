@@ -61,4 +61,20 @@ describe('EditableCard', () => {
     await tester.click('.btn-delete .ant-popover-inner .ant-btn-primary');
     expect(onDelete).toHaveBeenCalled();
   });
+
+  it('Disables delete and shows tooltip', async () => {
+    const onDelete = jest.fn().mockResolvedValue({}),
+      props = {
+        ...editableCardPropsFactory.build(),
+        onDelete,
+        model: { protectedField: ['Protected Object'] },
+        protectedField: 'protectedField',
+      },
+      tester = await new Tester(EditableCard, { props }).mount();
+
+    await tester.click(`button.btn-delete`);
+    await tester.refresh();
+    expect(tester.find('.btn-delete .ant-popover-inner .ant-btn-primary').length).toBe(0);
+    expect(onDelete).not.toHaveBeenCalled();
+  });
 });
