@@ -67,8 +67,8 @@ describe('EditableCard', () => {
       props = {
         ...editableCardPropsFactory.build(),
         onDelete,
+        disableDelete: (model) => model.protectedField.length, 
         model: { protectedField: ['Protected Object'] },
-        protectedField: 'protectedField',
       },
       tester = await new Tester(EditableCard, { props }).mount();
 
