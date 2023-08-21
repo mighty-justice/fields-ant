@@ -83,7 +83,7 @@ class EditableCard extends Component<IEditableCardProps> {
     if (!onDelete) {
       return null;
     }
-    
+
     return (
       <Tooltip title={isDeleteDisabled ? disabledDeleteTooltip : ''}>
         <span>
