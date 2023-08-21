@@ -68,10 +68,10 @@ class EditableCard extends Component<IEditableCardProps> {
 
   private get deleteButton() {
     const {
-        isGuarded,
         classNameSuffix,
         disabledDeleteTooltip,
         disableDelete,
+        isGuarded,
         isLoading,
         model,
         onDelete,
