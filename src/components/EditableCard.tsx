@@ -67,7 +67,16 @@ class EditableCard extends Component<IEditableCardProps> {
   }
 
   private get deleteButton() {
-    const { isGuarded, classNameSuffix, deleteDisabledTooltip,  isLoading, model, onDelete, protectedField, title } = this.props,
+    const {
+        isGuarded,
+        classNameSuffix,
+        deleteDisabledTooltip,
+        isLoading,
+        model,
+        onDelete,
+        protectedField,
+        title,
+      } = this.props,
       className = getBtnClassName('delete', classNameSuffix, title),
       hasProtectedObject = protectedField ? !!model && model[protectedField].length : false;
 
@@ -78,18 +87,18 @@ class EditableCard extends Component<IEditableCardProps> {
     return (
       <Tooltip title={hasProtectedObject ? deleteDisabledTooltip : ''}>
         <span>
-        <GuardedButton
-          className={className}
-          confirm={true}
-          disabled={hasProtectedObject || isLoading || this.isDeleting.isTrue}
-          icon={<DeleteOutlined />}
-          isGuarded={isGuarded}
-          onClick={this.handleDelete}
-          size="small"
-          type="danger"
-        >
-          Delete
-        </GuardedButton>
+          <GuardedButton
+            className={className}
+            confirm={true}
+            disabled={hasProtectedObject || isLoading || this.isDeleting.isTrue}
+            icon={<DeleteOutlined />}
+            isGuarded={isGuarded}
+            onClick={this.handleDelete}
+            size="small"
+            type="danger"
+          >
+            Delete
+          </GuardedButton>
         </span>
       </Tooltip>
     );
