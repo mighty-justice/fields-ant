@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import autoBindMethods from 'class-autobind-decorator';
 import { kebabCase } from 'lodash';
-
+import { Tooltip } from 'antd';
 import SmartBool from '@mighty-justice/smart-bool';
 
 import ButtonToolbar from '../building-blocks/ButtonToolbar';
@@ -15,8 +15,11 @@ import Card, { ICardProps } from './Card';
 import FormCard from './FormCard';
 import FormDrawer from './FormDrawer';
 import FormModal from './FormModal';
+import { getBtnClassName } from '../utilities';
 
 export interface IEditableCardProps extends ICardProps, ISharedFormProps {
+  disabledDeleteTooltip?: string;
+  disableDelete?: (model: unknown) => boolean;
   ModalComponent: new (props: ISharedFormModalProps) => FormModal | FormDrawer;
   onDelete?: (model: unknown) => Promise<any>;
 }
@@ -29,6 +32,8 @@ class EditableCard extends Component<IEditableCardProps> {
 
   public static defaultProps: Partial<IEditableCardProps> = {
     ...formPropsDefaults,
+    disabledDeleteTooltip: '',
+    disableDelete: () => true,
   };
 
   private async handleDelete () {
@@ -55,24 +60,38 @@ class EditableCard extends Component<IEditableCardProps> {
   }
 
   private get deleteButton () {
-    const { isGuarded, title, onDelete, isLoading } = this.props
-      , classNameSuffix = this.props.classNameSuffix || kebabCase(title);
+    const {
+      classNameSuffix,
+      disabledDeleteTooltip,
+      disableDelete,
+      isGuarded,
+      isLoading,
+      model,
+      onDelete,
+      title,
+    } = this.props,
+    className = getBtnClassName('delete', classNameSuffix, title),
+    isDeleteDisabled = disableDelete && disableDelete(model);
 
     if (!onDelete) { return; }
 
     return (
-      <GuardedButton
-        className={`btn-delete btn-delete-${classNameSuffix}`}
-        confirm={true}
-        disabled={isLoading || this.isDeleting.isTrue}
-        icon='delete'
-        isGuarded={isGuarded}
-        onClick={this.handleDelete}
-        size='small'
-        type='danger'
-      >
-        Delete
-      </GuardedButton>
+      <Tooltip title={isDeleteDisabled ? disabledDeleteTooltip : ''}>
+        <span>
+          <GuardedButton
+            className={className}
+            confirm={true}
+            disabled={isDeleteDisabled || isLoading || this.isDeleting.isTrue}
+            icon='delete'
+            isGuarded={isGuarded}
+            onClick={this.handleDelete}
+            size="small"
+            type="danger"
+          >
+            Delete
+          </GuardedButton>
+        </span>
+      </Tooltip>
     );
   }
 
