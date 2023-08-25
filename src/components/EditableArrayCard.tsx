@@ -4,7 +4,6 @@ import { observer } from 'mobx-react';
 import { isEmpty, kebabCase } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
-
 import * as Antd from 'antd';
 
 import GuardedButton from '../building-blocks/GuardedButton';
@@ -19,6 +18,8 @@ export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormPro
   defaults?: object;
   onCreate: (model: unknown) => Promise<any>;
   onDelete?: (model: unknown) => Promise<any>;
+  disableAdd?: boolean;
+  disableAddTooltip?: string;
 }
 
 @autoBindMethods
@@ -28,6 +29,8 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
 
   public static defaultProps: Partial<IEditableArrayCardProps> = {
     ...formPropsDefaults,
+    disableAdd: true,
+    disableAddTooltip: 'hi',
   };
 
   private async handleSaveNew (model: any) {
@@ -38,21 +41,25 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
   }
 
   private renderAddNew () {
-    const { title, isLoading, isGuarded } = this.props
+    const { title, isLoading, isGuarded, disableAdd, disableAddTooltip } = this.props
       , classNameSuffix = this.props.classNameSuffix || kebabCase(title);
 
     return (
-      <GuardedButton
-        className={`btn-new btn-new-${classNameSuffix}`}
-        disabled={isLoading || this.isAddingNew.isTrue}
-        icon='plus'
-        isGuarded={isGuarded}
-        onClick={this.isAddingNew.setTrue}
-        size='small'
-        type='primary'
-      >
-        Add
-      </GuardedButton>
+      <Antd.Tooltip title={disableAdd ? disableAddTooltip : ''}>
+        <span>
+          <GuardedButton
+            className={`btn-new btn-new-${classNameSuffix}`}
+            disabled={isLoading || this.isAddingNew.isTrue || disableAdd}
+            icon='plus'
+            isGuarded={isGuarded}
+            onClick={this.isAddingNew.setTrue}
+            size='small'
+            type='primary'
+          >
+            Add
+          </GuardedButton>
+        </span>
+      </Antd.Tooltip>
     );
   }
 

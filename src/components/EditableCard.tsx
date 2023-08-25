@@ -20,6 +20,8 @@ import { getBtnClassName } from '../utilities';
 export interface IEditableCardProps extends ICardProps, ISharedFormProps {
   disabledDeleteTooltip?: string;
   disableDelete?: (model: unknown) => boolean;
+  disabledEditTooltip?: string;
+  disableEdit?: (model: unknown) => boolean;
   ModalComponent: new (props: ISharedFormModalProps) => FormModal | FormDrawer;
   onDelete?: (model: unknown) => Promise<any>;
 }
@@ -34,6 +36,8 @@ class EditableCard extends Component<IEditableCardProps> {
     ...formPropsDefaults,
     disabledDeleteTooltip: '',
     disableDelete: () => true,
+    disabledEditTooltip: '',
+    disableEdit: () => true,
   };
 
   private async handleDelete () {
@@ -96,21 +100,26 @@ class EditableCard extends Component<IEditableCardProps> {
   }
 
   private get editButton () {
-    const { isLoading, title, isGuarded } = this.props
-      , classNameSuffix = this.props.classNameSuffix || kebabCase(title);
+    const { isLoading, title, isGuarded, model, disableEdit, disabledEditTooltip } = this.props
+      , classNameSuffix = this.props.classNameSuffix || kebabCase(title)
+      , isEditDisabled = disableEdit && disableEdit(model);
 
     return (
-      <GuardedButton
-        className={`btn-edit btn-edit-${classNameSuffix}`}
-        disabled={isLoading || this.isEditing.isTrue || this.isDeleting.isTrue}
-        icon='edit'
-        isGuarded={isGuarded}
-        onClick={this.isEditing.setTrue}
-        size='small'
-        type='primary'
-      >
-        Edit
-      </GuardedButton>
+      <Tooltip title={isEditDisabled ? disabledEditTooltip : ''}>
+        <span>
+          <GuardedButton
+            className={`btn-edit btn-edit-${classNameSuffix}`}
+            disabled={isLoading || this.isEditing.isTrue || this.isDeleting.isTrue || isEditDisabled}
+            icon='edit'
+            isGuarded={isGuarded}
+            onClick={this.isEditing.setTrue}
+            size='small'
+            type='primary'
+          >
+            Edit
+          </GuardedButton>
+        </span>
+      </Tooltip>
     );
   }
 
@@ -118,6 +127,7 @@ class EditableCard extends Component<IEditableCardProps> {
     return (
       <ButtonToolbar noSpacing>
         {this.deleteButton}
+        <div style={{ display: 'inline-block', width: '10px' }}></div>
         {this.editButton}
       </ButtonToolbar>
     );
