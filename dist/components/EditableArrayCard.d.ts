@@ -5,6 +5,12 @@ export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormPro
     defaults?: object;
     onCreate: (model: unknown) => Promise<any>;
     onDelete?: (model: unknown) => Promise<any>;
+    disableAdd?: boolean;
+    disableAddTooltip?: string;
+    disableDeleteTooltip?: string;
+    disableDelete?: (model: unknown) => boolean;
+    disableEditTooltip?: string;
+    disableEdit?: (model: unknown) => boolean;
 }
 declare class EditableArrayCard extends Component<IEditableArrayCardProps> {
     private isAddingNew;

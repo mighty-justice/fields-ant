@@ -18,10 +18,10 @@ import FormModal from './FormModal';
 import { getBtnClassName } from '../utilities';
 
 export interface IEditableCardProps extends ICardProps, ISharedFormProps {
-  disabledDeleteTooltip?: string;
-  disableDelete?: (model: unknown) => boolean;
-  disabledEditTooltip?: string;
-  disableEdit?: (model: unknown) => boolean;
+  disableDeleteTooltip?: string;
+  disableDelete: boolean;
+  disableEditTooltip?: string;
+  disableEdit: boolean;
   ModalComponent: new (props: ISharedFormModalProps) => FormModal | FormDrawer;
   onDelete?: (model: unknown) => Promise<any>;
 }
@@ -34,10 +34,10 @@ class EditableCard extends Component<IEditableCardProps> {
 
   public static defaultProps: Partial<IEditableCardProps> = {
     ...formPropsDefaults,
-    disabledDeleteTooltip: '',
-    disableDelete: () => true,
-    disabledEditTooltip: '',
-    disableEdit: () => true,
+    disableDeleteTooltip: '',
+    disableDelete: false,
+    disableEditTooltip: '',
+    disableEdit: false,
   };
 
   private async handleDelete () {
@@ -66,26 +66,23 @@ class EditableCard extends Component<IEditableCardProps> {
   private get deleteButton () {
     const {
       classNameSuffix,
-      disabledDeleteTooltip,
+      disableDeleteTooltip,
       disableDelete,
       isGuarded,
       isLoading,
-      model,
       onDelete,
       title,
     } = this.props,
-    className = getBtnClassName('delete', classNameSuffix, title),
-    isDeleteDisabled = disableDelete && disableDelete(model);
-
+    className = getBtnClassName('delete', classNameSuffix, title);
     if (!onDelete) { return; }
 
     return (
-      <Tooltip title={isDeleteDisabled ? disabledDeleteTooltip : ''}>
+      <Tooltip title={disableDelete ? disableDeleteTooltip : ''}>
         <span>
           <GuardedButton
             className={className}
             confirm={true}
-            disabled={isDeleteDisabled || isLoading || this.isDeleting.isTrue}
+            disabled={disableDelete || isLoading || this.isDeleting.isTrue}
             icon='delete'
             isGuarded={isGuarded}
             onClick={this.handleDelete}
@@ -100,16 +97,15 @@ class EditableCard extends Component<IEditableCardProps> {
   }
 
   private get editButton () {
-    const { isLoading, title, isGuarded, model, disableEdit, disabledEditTooltip } = this.props
-      , classNameSuffix = this.props.classNameSuffix || kebabCase(title)
-      , isEditDisabled = disableEdit && disableEdit(model);
+    const { isLoading, title, isGuarded, disableEdit, disableEditTooltip } = this.props
+      , classNameSuffix = this.props.classNameSuffix || kebabCase(title);
 
     return (
-      <Tooltip title={isEditDisabled ? disabledEditTooltip : ''}>
+      <Tooltip title={disableEdit ? disableEditTooltip : ''}>
         <span>
           <GuardedButton
             className={`btn-edit btn-edit-${classNameSuffix}`}
-            disabled={isLoading || this.isEditing.isTrue || this.isDeleting.isTrue || isEditDisabled}
+            disabled={isLoading || this.isEditing.isTrue || this.isDeleting.isTrue || disableEdit}
             icon='edit'
             isGuarded={isGuarded}
             onClick={this.isEditing.setTrue}

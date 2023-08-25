@@ -4,6 +4,10 @@ import { ICardProps } from './Card';
 import FormDrawer from './FormDrawer';
 import FormModal from './FormModal';
 export interface IEditableCardProps extends ICardProps, ISharedFormProps {
+    disableDeleteTooltip?: string;
+    disableDelete: boolean;
+    disableEditTooltip?: string;
+    disableEdit: boolean;
     ModalComponent: new (props: ISharedFormModalProps) => FormModal | FormDrawer;
     onDelete?: (model: unknown) => Promise<any>;
 }

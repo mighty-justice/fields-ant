@@ -20,6 +20,10 @@ export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormPro
   onDelete?: (model: unknown) => Promise<any>;
   disableAdd?: boolean;
   disableAddTooltip?: string;
+  disableDeleteTooltip?: string;
+  disableDelete?: (model: unknown) => boolean;
+  disableEditTooltip?: string;
+  disableEdit?: (model: unknown) => boolean;
 }
 
 @autoBindMethods
@@ -29,8 +33,12 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
 
   public static defaultProps: Partial<IEditableArrayCardProps> = {
     ...formPropsDefaults,
-    disableAdd: true,
-    disableAddTooltip: 'hi',
+    disableAdd: false,
+    disableAddTooltip: '',
+    disableDeleteTooltip: '',
+    disableDelete: () => false,
+    disableEditTooltip: '',
+    disableEdit: () => false,
   };
 
   private async handleSaveNew (model: any) {
@@ -73,6 +81,10 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
       onSave,
       onSuccess,
       title,
+      disableDeleteTooltip,
+      disableDelete,
+      disableEditTooltip,
+      disableEdit,
     } = this.props;
 
     return (
@@ -100,6 +112,10 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
             onDelete={onDelete}
             onSave={onSave}
             onSuccess={onSuccess}
+            disableDeleteTooltip={disableDeleteTooltip}
+            disableDelete={disableDelete ? disableDelete(model) : false}
+            disableEditTooltip={disableEditTooltip}
+            disableEdit={disableEdit ? disableEdit(model) : false}
             title=''
           />
         ))}
