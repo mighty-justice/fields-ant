@@ -55,4 +55,16 @@ describe('EditableCard', () => {
     tester.click('.btn-delete .ant-popover-inner .ant-btn-primary');
     expect(onDelete).toHaveBeenCalled();
   });
+
+  it('Can disable delete and edit buttons', async () => {
+    const props = {
+      ...editableCardPropsFactory.build(),
+      disableDelete: true,
+      disableEdit: true,
+    },
+    tester = await new Tester(EditableCard, { props }).mount();
+
+    expect(tester.find('button.btn-delete').props().disabled).toBe(true);
+    expect(tester.find('button.btn-edit').props().disabled).toBe(true);
+  });
 });

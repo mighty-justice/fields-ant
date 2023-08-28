@@ -35,10 +35,10 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
     ...formPropsDefaults,
     disableAdd: false,
     disableAddTooltip: '',
-    disableDeleteTooltip: '',
     disableDelete: () => false,
-    disableEditTooltip: '',
+    disableDeleteTooltip: '',
     disableEdit: () => false,
+    disableEditTooltip: '',
   };
 
   private async handleSaveNew (model: any) {
@@ -113,9 +113,9 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
             onSave={onSave}
             onSuccess={onSuccess}
             disableDeleteTooltip={disableDeleteTooltip}
-            disableDelete={disableDelete ? disableDelete(model) : false}
+            disableDelete={disableDelete ? disableDelete(modelItem) : false}
             disableEditTooltip={disableEditTooltip}
-            disableEdit={disableEdit ? disableEdit(model) : false}
+            disableEdit={disableEdit ? disableEdit(modelItem) : false}
             title=''
           />
         ))}

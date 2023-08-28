@@ -34,10 +34,10 @@ class EditableCard extends Component<IEditableCardProps> {
 
   public static defaultProps: Partial<IEditableCardProps> = {
     ...formPropsDefaults,
-    disableDeleteTooltip: '',
     disableDelete: false,
-    disableEditTooltip: '',
+    disableDeleteTooltip: '',
     disableEdit: false,
+    disableEditTooltip: '',
   };
 
   private async handleDelete () {
@@ -86,8 +86,8 @@ class EditableCard extends Component<IEditableCardProps> {
             icon='delete'
             isGuarded={isGuarded}
             onClick={this.handleDelete}
-            size="small"
-            type="danger"
+            size='small'
+            type='danger'
           >
             Delete
           </GuardedButton>
