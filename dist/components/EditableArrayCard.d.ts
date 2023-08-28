@@ -8,9 +8,9 @@ export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormPro
     disableAdd?: boolean;
     disableAddTooltip?: string;
     disableDeleteTooltip?: string;
-    disableDelete?: (model: unknown) => boolean;
+    disableDelete?: (model: any) => boolean;
     disableEditTooltip?: string;
-    disableEdit?: (model: unknown) => boolean;
+    disableEdit?: (model: any) => boolean;
 }
 declare class EditableArrayCard extends Component<IEditableArrayCardProps> {
     private isAddingNew;
