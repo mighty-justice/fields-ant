@@ -54,19 +54,17 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
 
     return (
       <Antd.Tooltip title={disableAdd ? disableAddTooltip : ''}>
-        <span>
-          <GuardedButton
-            className={`btn-new btn-new-${classNameSuffix}`}
-            disabled={isLoading || this.isAddingNew.isTrue || disableAdd}
-            icon='plus'
-            isGuarded={isGuarded}
-            onClick={this.isAddingNew.setTrue}
-            size='small'
-            type='primary'
-          >
-            Add
-          </GuardedButton>
-        </span>
+        <GuardedButton
+          className={`btn-new btn-new-${classNameSuffix}`}
+          disabled={isLoading || this.isAddingNew.isTrue || disableAdd}
+          icon='plus'
+          isGuarded={isGuarded}
+          onClick={this.isAddingNew.setTrue}
+          size='small'
+          type='primary'
+        >
+          Add
+        </GuardedButton>
       </Antd.Tooltip>
     );
   }
