@@ -34,10 +34,10 @@ class EditableCard extends Component<IEditableCardProps> {
 
   public static defaultProps: Partial<IEditableCardProps> = {
     ...formPropsDefaults,
-    disableDelete: false,
     disableDeleteTooltip: '',
-    disableEdit: false,
+    disableDelete: false,
     disableEditTooltip: '',
+    disableEdit: false,
   };
 
   private async handleDelete () {
@@ -78,20 +78,18 @@ class EditableCard extends Component<IEditableCardProps> {
 
     return (
       <Tooltip title={disableDelete ? disableDeleteTooltip : ''}>
-        <span>
-          <GuardedButton
-            className={className}
-            confirm={true}
-            disabled={disableDelete || isLoading || this.isDeleting.isTrue}
-            icon='delete'
-            isGuarded={isGuarded}
-            onClick={this.handleDelete}
-            size='small'
-            type='danger'
-          >
-            Delete
-          </GuardedButton>
-        </span>
+        <GuardedButton
+          className={className}
+          confirm={true}
+          disabled={disableDelete || isLoading || this.isDeleting.isTrue}
+          icon='delete'
+          isGuarded={isGuarded}
+          onClick={this.handleDelete}
+          size="small"
+          type="danger"
+        >
+          Delete
+        </GuardedButton>
       </Tooltip>
     );
   }
@@ -102,19 +100,17 @@ class EditableCard extends Component<IEditableCardProps> {
 
     return (
       <Tooltip title={disableEdit ? disableEditTooltip : ''}>
-        <span>
-          <GuardedButton
-            className={`btn-edit btn-edit-${classNameSuffix}`}
-            disabled={isLoading || this.isEditing.isTrue || this.isDeleting.isTrue || disableEdit}
-            icon='edit'
-            isGuarded={isGuarded}
-            onClick={this.isEditing.setTrue}
-            size='small'
-            type='primary'
-          >
-            Edit
-          </GuardedButton>
-        </span>
+        <GuardedButton
+          className={`btn-edit btn-edit-${classNameSuffix}`}
+          disabled={isLoading || this.isEditing.isTrue || this.isDeleting.isTrue || disableEdit}
+          icon='edit'
+          isGuarded={isGuarded}
+          onClick={this.isEditing.setTrue}
+          size='small'
+          type='primary'
+        >
+          Edit
+        </GuardedButton>
       </Tooltip>
     );
   }
@@ -123,7 +119,6 @@ class EditableCard extends Component<IEditableCardProps> {
     return (
       <ButtonToolbar noSpacing>
         {this.deleteButton}
-        <div style={{ display: 'inline-block', width: '10px' }}></div>
         {this.editButton}
       </ButtonToolbar>
     );
