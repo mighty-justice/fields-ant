@@ -186,8 +186,7 @@ export function noopValidator (_rule: any, _value: any, callback: (message?: str
   callback();
 }
 
-
-export function getBtnClassName(action: string, classNameSuffix?: string, title?: React.ReactNode): string {
+export function getBtnClassName (action: string, classNameSuffix?: string, title?: React.ReactNode): string {
   const prefix = `btn-${action}`;
   return cx(prefix, isString(title) && `${prefix}-${kebabCase(title)}`, {
     [`${prefix}-${classNameSuffix}`]: !!classNameSuffix,
