@@ -4,7 +4,6 @@ import { observer } from 'mobx-react';
 import { isEmpty, kebabCase } from 'lodash';
 import autoBindMethods from 'class-autobind-decorator';
 import SmartBool from '@mighty-justice/smart-bool';
-
 import * as Antd from 'antd';
 
 import GuardedButton from '../building-blocks/GuardedButton';
@@ -19,6 +18,12 @@ export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormPro
   defaults?: object;
   onCreate: (model: unknown) => Promise<any>;
   onDelete?: (model: unknown) => Promise<any>;
+  disableAdd?: boolean;
+  disableAddTooltip?: string;
+  disableDeleteTooltip?: string;
+  disableDelete?: (model: any) => boolean;
+  disableEditTooltip?: string;
+  disableEdit?: (model: any) => boolean;
 }
 
 @autoBindMethods
@@ -28,6 +33,12 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
 
   public static defaultProps: Partial<IEditableArrayCardProps> = {
     ...formPropsDefaults,
+    disableAdd: false,
+    disableAddTooltip: '',
+    disableDelete: () => false,
+    disableDeleteTooltip: '',
+    disableEdit: () => false,
+    disableEditTooltip: '',
   };
 
   private async handleSaveNew (model: any) {
@@ -38,21 +49,23 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
   }
 
   private renderAddNew () {
-    const { title, isLoading, isGuarded } = this.props
+    const { title, isLoading, isGuarded, disableAdd, disableAddTooltip } = this.props
       , classNameSuffix = this.props.classNameSuffix || kebabCase(title);
 
     return (
-      <GuardedButton
-        className={`btn-new btn-new-${classNameSuffix}`}
-        disabled={isLoading || this.isAddingNew.isTrue}
-        icon='plus'
-        isGuarded={isGuarded}
-        onClick={this.isAddingNew.setTrue}
-        size='small'
-        type='primary'
-      >
-        Add
-      </GuardedButton>
+      <Antd.Tooltip title={disableAdd ? disableAddTooltip : ''}>
+        <GuardedButton
+          className={`btn-new btn-new-${classNameSuffix}`}
+          disabled={isLoading || this.isAddingNew.isTrue || disableAdd}
+          icon='plus'
+          isGuarded={isGuarded}
+          onClick={this.isAddingNew.setTrue}
+          size='small'
+          type='primary'
+        >
+          Add
+        </GuardedButton>
+      </Antd.Tooltip>
     );
   }
 
@@ -66,6 +79,10 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
       onSave,
       onSuccess,
       title,
+      disableDeleteTooltip,
+      disableDelete,
+      disableEditTooltip,
+      disableEdit,
     } = this.props;
 
     return (
@@ -93,6 +110,10 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
             onDelete={onDelete}
             onSave={onSave}
             onSuccess={onSuccess}
+            disableDeleteTooltip={disableDeleteTooltip}
+            disableDelete={disableDelete ? disableDelete(modelItem) : false}
+            disableEditTooltip={disableEditTooltip}
+            disableEdit={disableEdit ? disableEdit(modelItem) : false}
             title=''
           />
         ))}

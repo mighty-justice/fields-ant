@@ -4,7 +4,7 @@ import autoBindMethods from 'class-autobind-decorator';
 import cx from 'classnames';
 import { Form as Form$1, Col, Select, Icon, Button, Tooltip, Input, Radio, Rate as Rate$1, Checkbox as Checkbox$1, DatePicker, notification, Row, Popconfirm, Divider, Card as Card$1, Drawer, Modal, List, Table as Table$1 } from 'antd';
 import { toJS, observable, computed } from 'mobx';
-import { get, values, omit, debounce, uniqBy, pick, isObject, isBoolean, isArray, flatten, sortBy, has, set, some, isPlainObject, extend, mapValues, pickBy, noop, isEmpty, kebabCase } from 'lodash';
+import { get, values, omit, debounce, uniqBy, pick, isObject, isBoolean, isArray, flatten, sortBy, has, set, isString, kebabCase, some, isPlainObject, extend, mapValues, pickBy, noop, isEmpty } from 'lodash';
 import SmartBool from '@mighty-justice/smart-bool';
 import { toKey, inferCentury, getNameOrDefault, EMPTY_FIELD, mapBooleanToText, isValidDate, formatDate, formatEmployerIdNumber, formatMoney, formatCommaSeparatedNumber, getPercentValue, formatPercentage, getPercentDisplay, formatPhoneNumber, formatSocialSecurityNumber, parseAndPreserveNewlines, formatWebsite, formatAddressMultiline, varToLabel, getOrDefault, createDisabledContainer, createGuardedContainer, splitName } from '@mighty-justice/utils';
 import moment from 'moment';
@@ -2271,6 +2271,10 @@ function noopValidator(_rule, _value, callback) {
   // Useful for clearing manually-set backend validation errors
   callback();
 }
+function getBtnClassName(action, classNameSuffix, title) {
+  var prefix = "btn-".concat(action);
+  return cx(prefix, isString(title) && "".concat(prefix, "-").concat(kebabCase(title)), _defineProperty({}, "".concat(prefix, "-").concat(classNameSuffix), !!classNameSuffix));
+}
 
 // Takes an API response and converts it to a string to string map
 function getFieldErrors(errors) {
@@ -3637,26 +3641,31 @@ function (_Component) {
     key: "deleteButton",
     get: function get() {
       var _this$props3 = this.props,
+          classNameSuffix = _this$props3.classNameSuffix,
+          disableDeleteTooltip = _this$props3.disableDeleteTooltip,
+          disableDelete = _this$props3.disableDelete,
           isGuarded = _this$props3.isGuarded,
-          title = _this$props3.title,
-          onDelete = _this$props3.onDelete,
           isLoading = _this$props3.isLoading,
-          classNameSuffix = this.props.classNameSuffix || kebabCase(title);
+          onDelete = _this$props3.onDelete,
+          title = _this$props3.title,
+          className = getBtnClassName('delete', classNameSuffix, title);
 
       if (!onDelete) {
         return;
       }
 
-      return React.createElement(GuardedButton, {
-        className: "btn-delete btn-delete-".concat(classNameSuffix),
+      return React.createElement(Tooltip, {
+        title: disableDelete ? disableDeleteTooltip : ''
+      }, React.createElement(GuardedButton, {
+        className: className,
         confirm: true,
-        disabled: isLoading || this.isDeleting.isTrue,
+        disabled: disableDelete || isLoading || this.isDeleting.isTrue,
         icon: "delete",
         isGuarded: isGuarded,
         onClick: this.handleDelete,
         size: "small",
         type: "danger"
-      }, "Delete");
+      }, "Delete"));
     }
   }, {
     key: "editButton",
@@ -3665,21 +3674,30 @@ function (_Component) {
           isLoading = _this$props4.isLoading,
           title = _this$props4.title,
           isGuarded = _this$props4.isGuarded,
+          disableEdit = _this$props4.disableEdit,
+          disableEditTooltip = _this$props4.disableEditTooltip,
           classNameSuffix = this.props.classNameSuffix || kebabCase(title);
-      return React.createElement(GuardedButton, {
+      return React.createElement(Tooltip, {
+        title: disableEdit ? disableEditTooltip : ''
+      }, React.createElement(GuardedButton, {
         className: "btn-edit btn-edit-".concat(classNameSuffix),
-        disabled: isLoading || this.isEditing.isTrue || this.isDeleting.isTrue,
+        disabled: isLoading || this.isEditing.isTrue || this.isDeleting.isTrue || disableEdit,
         icon: "edit",
         isGuarded: isGuarded,
         onClick: this.isEditing.setTrue,
         size: "small",
         type: "primary"
-      }, "Edit");
+      }, "Edit"));
     }
   }]);
 
   return EditableCard;
-}(Component), _class3$3.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$9), (_descriptor$4 = _applyDecoratedDescriptor(_class2$g.prototype, "isDeleting", [observable], {
+}(Component), _class3$3.defaultProps = _objectSpread2({}, formPropsDefaults, {
+  disableDelete: false,
+  disableDeleteTooltip: '',
+  disableEdit: false,
+  disableEditTooltip: ''
+}), _temp$9), (_descriptor$4 = _applyDecoratedDescriptor(_class2$g.prototype, "isDeleting", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -3769,16 +3787,20 @@ function (_Component) {
           title = _this$props2.title,
           isLoading = _this$props2.isLoading,
           isGuarded = _this$props2.isGuarded,
+          disableAdd = _this$props2.disableAdd,
+          disableAddTooltip = _this$props2.disableAddTooltip,
           classNameSuffix = this.props.classNameSuffix || kebabCase(title);
-      return React.createElement(GuardedButton, {
+      return React.createElement(Tooltip, {
+        title: disableAdd ? disableAddTooltip : ''
+      }, React.createElement(GuardedButton, {
         className: "btn-new btn-new-".concat(classNameSuffix),
-        disabled: isLoading || this.isAddingNew.isTrue,
+        disabled: isLoading || this.isAddingNew.isTrue || disableAdd,
         icon: "plus",
         isGuarded: isGuarded,
         onClick: this.isAddingNew.setTrue,
         size: "small",
         type: "primary"
-      }, "Add");
+      }, "Add"));
     }
   }, {
     key: "render",
@@ -3791,7 +3813,11 @@ function (_Component) {
           onDelete = _this$props3.onDelete,
           onSave = _this$props3.onSave,
           onSuccess = _this$props3.onSuccess,
-          title = _this$props3.title;
+          title = _this$props3.title,
+          disableDeleteTooltip = _this$props3.disableDeleteTooltip,
+          disableDelete = _this$props3.disableDelete,
+          disableEditTooltip = _this$props3.disableEditTooltip,
+          disableEdit = _this$props3.disableEdit;
       return React.createElement(Card$1, {
         title: title,
         extra: this.renderAddNew(),
@@ -3813,6 +3839,10 @@ function (_Component) {
           onDelete: onDelete,
           onSave: onSave,
           onSuccess: onSuccess,
+          disableDeleteTooltip: disableDeleteTooltip,
+          disableDelete: disableDelete ? disableDelete(modelItem) : false,
+          disableEditTooltip: disableEditTooltip,
+          disableEdit: disableEdit ? disableEdit(modelItem) : false,
           title: ""
         });
       }));
@@ -3820,7 +3850,18 @@ function (_Component) {
   }]);
 
   return EditableArrayCard;
-}(Component), _class3$4.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$a), (_descriptor$5 = _applyDecoratedDescriptor(_class2$h.prototype, "isAddingNew", [observable], {
+}(Component), _class3$4.defaultProps = _objectSpread2({}, formPropsDefaults, {
+  disableAdd: false,
+  disableAddTooltip: '',
+  disableDelete: function disableDelete() {
+    return false;
+  },
+  disableDeleteTooltip: '',
+  disableEdit: function disableEdit() {
+    return false;
+  },
+  disableEditTooltip: ''
+}), _temp$a), (_descriptor$5 = _applyDecoratedDescriptor(_class2$h.prototype, "isAddingNew", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -4215,4 +4256,4 @@ function (_Component) {
   return Table;
 }(Component), (_applyDecoratedDescriptor(_class2$l.prototype, "columns", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "columns"), _class2$l.prototype), _applyDecoratedDescriptor(_class2$l.prototype, "dataSource", [computed], Object.getOwnPropertyDescriptor(_class2$l.prototype, "dataSource"), _class2$l.prototype)), _class2$l)) || _class$x) || _class$x;
 
-export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, Date, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearch, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, backendValidation, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatOptionSelect, formatRating, getDateFormatList, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, noopValidator, renderLabel, renderValue, setFieldSetFields };
+export { ArrayCard, ButtonToolbar, CARD_COL_LABEL, CARD_COL_VALUE, CX_PREFIX_SEARCH_CREATE, Card, CardField, DEFAULT_DEBOUNCE_WAIT, DEFAULT_STATE_OPTION_TYPE, Date, EditableArrayCard, EditableCard, Form, FormCard, FormDrawer, FormField, FormFieldSet, FormItem, FormManager, FormModal, GuardedButton, Hidden, ID_ATTR, Info, Label, NestedFieldSet, ObjectSearch, ObjectSearchCreate, OptionSelect, OptionSelectDisplay, REGEXP_EIN, REGEXP_SSN, RadioGroup, Rate, SummaryCard, TYPES, Table, Value, backendValidation, booleanToForm, falseyToString, fieldSetsToColumns, fillInFieldConfig, fillInFieldSet, fillInFieldSets, filterFieldConfig, filterFieldConfigs, filterFieldSet, filterFieldSets, formPropsDefaults, formatOptionSelect, formatRating, getBtnClassName, getDateFormatList, getFieldSetFields, getFieldSetsFields, getOptions, getUnsortedOptions, isFieldSetSimple, isPartialFieldSetSimple, mapFieldSetFields, modelFromFieldConfigs, noopValidator, renderLabel, renderValue, setFieldSetFields };

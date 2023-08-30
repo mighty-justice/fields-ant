@@ -5,11 +5,13 @@ import {
   has,
   isArray,
   isObject,
+  isString,
+  kebabCase,
   set,
   some,
   sortBy,
 } from 'lodash';
-
+import cx from 'classnames';
 import { ColumnProps } from 'antd/es/table';
 
 import {
@@ -182,4 +184,11 @@ export function modelFromFieldConfigs (fieldConfigs: IFieldConfig[], data: IMode
 export function noopValidator (_rule: any, _value: any, callback: (message?: string) => void) {
   // Useful for clearing manually-set backend validation errors
   callback();
+}
+
+export function getBtnClassName (action: string, classNameSuffix?: string, title?: React.ReactNode): string {
+  const prefix = `btn-${action}`;
+  return cx(prefix, isString(title) && `${prefix}-${kebabCase(title)}`, {
+    [`${prefix}-${classNameSuffix}`]: !!classNameSuffix,
+  });
 }

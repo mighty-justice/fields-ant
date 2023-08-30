@@ -2278,6 +2278,10 @@ function noopValidator(_rule, _value, callback) {
   // Useful for clearing manually-set backend validation errors
   callback();
 }
+function getBtnClassName(action, classNameSuffix, title) {
+  var prefix = "btn-".concat(action);
+  return cx(prefix, lodash.isString(title) && "".concat(prefix, "-").concat(lodash.kebabCase(title)), _defineProperty({}, "".concat(prefix, "-").concat(classNameSuffix), !!classNameSuffix));
+}
 
 // Takes an API response and converts it to a string to string map
 function getFieldErrors(errors) {
@@ -3644,26 +3648,31 @@ function (_Component) {
     key: "deleteButton",
     get: function get() {
       var _this$props3 = this.props,
+          classNameSuffix = _this$props3.classNameSuffix,
+          disableDeleteTooltip = _this$props3.disableDeleteTooltip,
+          disableDelete = _this$props3.disableDelete,
           isGuarded = _this$props3.isGuarded,
-          title = _this$props3.title,
-          onDelete = _this$props3.onDelete,
           isLoading = _this$props3.isLoading,
-          classNameSuffix = this.props.classNameSuffix || lodash.kebabCase(title);
+          onDelete = _this$props3.onDelete,
+          title = _this$props3.title,
+          className = getBtnClassName('delete', classNameSuffix, title);
 
       if (!onDelete) {
         return;
       }
 
-      return React__default.createElement(GuardedButton, {
-        className: "btn-delete btn-delete-".concat(classNameSuffix),
+      return React__default.createElement(Antd.Tooltip, {
+        title: disableDelete ? disableDeleteTooltip : ''
+      }, React__default.createElement(GuardedButton, {
+        className: className,
         confirm: true,
-        disabled: isLoading || this.isDeleting.isTrue,
+        disabled: disableDelete || isLoading || this.isDeleting.isTrue,
         icon: "delete",
         isGuarded: isGuarded,
         onClick: this.handleDelete,
         size: "small",
         type: "danger"
-      }, "Delete");
+      }, "Delete"));
     }
   }, {
     key: "editButton",
@@ -3672,21 +3681,30 @@ function (_Component) {
           isLoading = _this$props4.isLoading,
           title = _this$props4.title,
           isGuarded = _this$props4.isGuarded,
+          disableEdit = _this$props4.disableEdit,
+          disableEditTooltip = _this$props4.disableEditTooltip,
           classNameSuffix = this.props.classNameSuffix || lodash.kebabCase(title);
-      return React__default.createElement(GuardedButton, {
+      return React__default.createElement(Antd.Tooltip, {
+        title: disableEdit ? disableEditTooltip : ''
+      }, React__default.createElement(GuardedButton, {
         className: "btn-edit btn-edit-".concat(classNameSuffix),
-        disabled: isLoading || this.isEditing.isTrue || this.isDeleting.isTrue,
+        disabled: isLoading || this.isEditing.isTrue || this.isDeleting.isTrue || disableEdit,
         icon: "edit",
         isGuarded: isGuarded,
         onClick: this.isEditing.setTrue,
         size: "small",
         type: "primary"
-      }, "Edit");
+      }, "Edit"));
     }
   }]);
 
   return EditableCard;
-}(React.Component), _class3$3.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$9), (_descriptor$4 = _applyDecoratedDescriptor(_class2$g.prototype, "isDeleting", [mobx.observable], {
+}(React.Component), _class3$3.defaultProps = _objectSpread2({}, formPropsDefaults, {
+  disableDelete: false,
+  disableDeleteTooltip: '',
+  disableEdit: false,
+  disableEditTooltip: ''
+}), _temp$9), (_descriptor$4 = _applyDecoratedDescriptor(_class2$g.prototype, "isDeleting", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -3776,16 +3794,20 @@ function (_Component) {
           title = _this$props2.title,
           isLoading = _this$props2.isLoading,
           isGuarded = _this$props2.isGuarded,
+          disableAdd = _this$props2.disableAdd,
+          disableAddTooltip = _this$props2.disableAddTooltip,
           classNameSuffix = this.props.classNameSuffix || lodash.kebabCase(title);
-      return React__default.createElement(GuardedButton, {
+      return React__default.createElement(Antd.Tooltip, {
+        title: disableAdd ? disableAddTooltip : ''
+      }, React__default.createElement(GuardedButton, {
         className: "btn-new btn-new-".concat(classNameSuffix),
-        disabled: isLoading || this.isAddingNew.isTrue,
+        disabled: isLoading || this.isAddingNew.isTrue || disableAdd,
         icon: "plus",
         isGuarded: isGuarded,
         onClick: this.isAddingNew.setTrue,
         size: "small",
         type: "primary"
-      }, "Add");
+      }, "Add"));
     }
   }, {
     key: "render",
@@ -3798,7 +3820,11 @@ function (_Component) {
           onDelete = _this$props3.onDelete,
           onSave = _this$props3.onSave,
           onSuccess = _this$props3.onSuccess,
-          title = _this$props3.title;
+          title = _this$props3.title,
+          disableDeleteTooltip = _this$props3.disableDeleteTooltip,
+          disableDelete = _this$props3.disableDelete,
+          disableEditTooltip = _this$props3.disableEditTooltip,
+          disableEdit = _this$props3.disableEdit;
       return React__default.createElement(Antd.Card, {
         title: title,
         extra: this.renderAddNew(),
@@ -3820,6 +3846,10 @@ function (_Component) {
           onDelete: onDelete,
           onSave: onSave,
           onSuccess: onSuccess,
+          disableDeleteTooltip: disableDeleteTooltip,
+          disableDelete: disableDelete ? disableDelete(modelItem) : false,
+          disableEditTooltip: disableEditTooltip,
+          disableEdit: disableEdit ? disableEdit(modelItem) : false,
           title: ""
         });
       }));
@@ -3827,7 +3857,18 @@ function (_Component) {
   }]);
 
   return EditableArrayCard;
-}(React.Component), _class3$4.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$a), (_descriptor$5 = _applyDecoratedDescriptor(_class2$h.prototype, "isAddingNew", [mobx.observable], {
+}(React.Component), _class3$4.defaultProps = _objectSpread2({}, formPropsDefaults, {
+  disableAdd: false,
+  disableAddTooltip: '',
+  disableDelete: function disableDelete() {
+    return false;
+  },
+  disableDeleteTooltip: '',
+  disableEdit: function disableEdit() {
+    return false;
+  },
+  disableEditTooltip: ''
+}), _temp$a), (_descriptor$5 = _applyDecoratedDescriptor(_class2$h.prototype, "isAddingNew", [mobx.observable], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -4274,6 +4315,7 @@ exports.filterFieldSets = filterFieldSets;
 exports.formPropsDefaults = formPropsDefaults;
 exports.formatOptionSelect = formatOptionSelect;
 exports.formatRating = formatRating;
+exports.getBtnClassName = getBtnClassName;
 exports.getDateFormatList = getDateFormatList;
 exports.getFieldSetFields = getFieldSetFields;
 exports.getFieldSetsFields = getFieldSetsFields;

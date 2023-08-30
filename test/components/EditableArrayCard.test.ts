@@ -2,7 +2,7 @@ import faker from 'faker';
 
 import { EditableArrayCard } from '../../src';
 import { Tester } from '@mighty-justice/tester';
-import { fakeTextShort } from '../factories';
+import { arrayCardPropsFactory, fakeTextShort } from '../factories';
 
 const title = faker.lorem.sentence()
   , model = Array(10).fill(null).map(_ => ({
@@ -59,4 +59,31 @@ describe('EditableArrayCard', () => {
       expect(tester.find('input#name').length).toBe(0);
     });
   });
+
+  it('Can disable add', async () => {
+    const props = {
+      ...arrayCardPropsFactory.build(),
+      disableAdd: true,
+    },
+    tester = await new Tester(EditableArrayCard, { props }).mount();
+
+    expect(tester.find('button.btn-new').props().disabled).toBe(true);
+  });
+
+  it('Can disabled delete and edit', async () => {
+    const permissionName = 'canUpdate'
+      , props = {
+      ...arrayCardPropsFactory.build(),
+      disableDelete: model => !model.permissions.includes(permissionName),
+      disableEdit: model => !model.permissions.includes(permissionName),
+      model: [{
+        permissions: [],
+      }],
+      onDelete: jest.fn().mockResolvedValue({}),
+    },
+    tester = await new Tester(EditableArrayCard, { props }).mount();
+
+    expect(tester.find('button.btn-delete').props().disabled).toBe(true);
+    expect(tester.find('button.btn-edit').props().disabled).toBe(true);
+  })
 });
