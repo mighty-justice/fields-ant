@@ -3614,12 +3614,7 @@
       value: function buttons() {
         return React__default.createElement(ButtonToolbar, {
           noSpacing: true
-        }, this.deleteButton, React__default.createElement("div", {
-          style: {
-            display: 'inline-block',
-            width: '10px'
-          }
-        }), this.editButton);
+        }, this.deleteButton, this.editButton);
       }
     }, {
       key: "render",
@@ -3660,7 +3655,7 @@
 
         return React__default.createElement(Antd.Tooltip, {
           title: disableDelete ? disableDeleteTooltip : ''
-        }, React__default.createElement("span", null, React__default.createElement(GuardedButton, {
+        }, React__default.createElement(GuardedButton, {
           className: className,
           confirm: true,
           disabled: disableDelete || isLoading || this.isDeleting.isTrue,
@@ -3669,7 +3664,7 @@
           onClick: this.handleDelete,
           size: "small",
           type: "danger"
-        }, "Delete")));
+        }, "Delete"));
       }
     }, {
       key: "editButton",
@@ -3683,7 +3678,7 @@
             classNameSuffix = this.props.classNameSuffix || lodash.kebabCase(title);
         return React__default.createElement(Antd.Tooltip, {
           title: disableEdit ? disableEditTooltip : ''
-        }, React__default.createElement("span", null, React__default.createElement(GuardedButton, {
+        }, React__default.createElement(GuardedButton, {
           className: "btn-edit btn-edit-".concat(classNameSuffix),
           disabled: isLoading || this.isEditing.isTrue || this.isDeleting.isTrue || disableEdit,
           icon: "edit",
@@ -3691,16 +3686,16 @@
           onClick: this.isEditing.setTrue,
           size: "small",
           type: "primary"
-        }, "Edit")));
+        }, "Edit"));
       }
     }]);
 
     return EditableCard;
   }(React.Component), _class3$3.defaultProps = _objectSpread2({}, formPropsDefaults, {
-    disableDeleteTooltip: '',
     disableDelete: false,
-    disableEditTooltip: '',
-    disableEdit: false
+    disableDeleteTooltip: '',
+    disableEdit: false,
+    disableEditTooltip: ''
   }), _temp$9), (_descriptor$4 = _applyDecoratedDescriptor(_class2$g.prototype, "isDeleting", [mobx.observable], {
     configurable: true,
     enumerable: true,
@@ -3796,7 +3791,7 @@
             classNameSuffix = this.props.classNameSuffix || lodash.kebabCase(title);
         return React__default.createElement(Antd.Tooltip, {
           title: disableAdd ? disableAddTooltip : ''
-        }, React__default.createElement("span", null, React__default.createElement(GuardedButton, {
+        }, React__default.createElement(GuardedButton, {
           className: "btn-new btn-new-".concat(classNameSuffix),
           disabled: isLoading || this.isAddingNew.isTrue || disableAdd,
           icon: "plus",
@@ -3804,7 +3799,7 @@
           onClick: this.isAddingNew.setTrue,
           size: "small",
           type: "primary"
-        }, "Add")));
+        }, "Add"));
       }
     }, {
       key: "render",
@@ -3844,9 +3839,9 @@
             onSave: onSave,
             onSuccess: onSuccess,
             disableDeleteTooltip: disableDeleteTooltip,
-            disableDelete: disableDelete ? disableDelete(model) : false,
+            disableDelete: disableDelete ? disableDelete(modelItem) : false,
             disableEditTooltip: disableEditTooltip,
-            disableEdit: disableEdit ? disableEdit(model) : false,
+            disableEdit: disableEdit ? disableEdit(modelItem) : false,
             title: ""
           });
         }));
@@ -3857,14 +3852,14 @@
   }(React.Component), _class3$4.defaultProps = _objectSpread2({}, formPropsDefaults, {
     disableAdd: false,
     disableAddTooltip: '',
-    disableDeleteTooltip: '',
     disableDelete: function disableDelete() {
       return false;
     },
-    disableEditTooltip: '',
+    disableDeleteTooltip: '',
     disableEdit: function disableEdit() {
       return false;
-    }
+    },
+    disableEditTooltip: ''
   }), _temp$a), (_descriptor$5 = _applyDecoratedDescriptor(_class2$h.prototype, "isAddingNew", [mobx.observable], {
     configurable: true,
     enumerable: true,

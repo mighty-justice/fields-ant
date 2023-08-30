@@ -3615,12 +3615,7 @@ function (_Component) {
     value: function buttons() {
       return React.createElement(ButtonToolbar, {
         noSpacing: true
-      }, this.deleteButton, React.createElement("div", {
-        style: {
-          display: 'inline-block',
-          width: '10px'
-        }
-      }), this.editButton);
+      }, this.deleteButton, this.editButton);
     }
   }, {
     key: "render",
@@ -3661,7 +3656,7 @@ function (_Component) {
 
       return React.createElement(Tooltip, {
         title: disableDelete ? disableDeleteTooltip : ''
-      }, React.createElement("span", null, React.createElement(GuardedButton, {
+      }, React.createElement(GuardedButton, {
         className: className,
         confirm: true,
         disabled: disableDelete || isLoading || this.isDeleting.isTrue,
@@ -3670,7 +3665,7 @@ function (_Component) {
         onClick: this.handleDelete,
         size: "small",
         type: "danger"
-      }, "Delete")));
+      }, "Delete"));
     }
   }, {
     key: "editButton",
@@ -3684,7 +3679,7 @@ function (_Component) {
           classNameSuffix = this.props.classNameSuffix || kebabCase(title);
       return React.createElement(Tooltip, {
         title: disableEdit ? disableEditTooltip : ''
-      }, React.createElement("span", null, React.createElement(GuardedButton, {
+      }, React.createElement(GuardedButton, {
         className: "btn-edit btn-edit-".concat(classNameSuffix),
         disabled: isLoading || this.isEditing.isTrue || this.isDeleting.isTrue || disableEdit,
         icon: "edit",
@@ -3692,16 +3687,16 @@ function (_Component) {
         onClick: this.isEditing.setTrue,
         size: "small",
         type: "primary"
-      }, "Edit")));
+      }, "Edit"));
     }
   }]);
 
   return EditableCard;
 }(Component), _class3$3.defaultProps = _objectSpread2({}, formPropsDefaults, {
-  disableDeleteTooltip: '',
   disableDelete: false,
-  disableEditTooltip: '',
-  disableEdit: false
+  disableDeleteTooltip: '',
+  disableEdit: false,
+  disableEditTooltip: ''
 }), _temp$9), (_descriptor$4 = _applyDecoratedDescriptor(_class2$g.prototype, "isDeleting", [observable], {
   configurable: true,
   enumerable: true,
@@ -3797,7 +3792,7 @@ function (_Component) {
           classNameSuffix = this.props.classNameSuffix || kebabCase(title);
       return React.createElement(Tooltip, {
         title: disableAdd ? disableAddTooltip : ''
-      }, React.createElement("span", null, React.createElement(GuardedButton, {
+      }, React.createElement(GuardedButton, {
         className: "btn-new btn-new-".concat(classNameSuffix),
         disabled: isLoading || this.isAddingNew.isTrue || disableAdd,
         icon: "plus",
@@ -3805,7 +3800,7 @@ function (_Component) {
         onClick: this.isAddingNew.setTrue,
         size: "small",
         type: "primary"
-      }, "Add")));
+      }, "Add"));
     }
   }, {
     key: "render",
@@ -3845,9 +3840,9 @@ function (_Component) {
           onSave: onSave,
           onSuccess: onSuccess,
           disableDeleteTooltip: disableDeleteTooltip,
-          disableDelete: disableDelete ? disableDelete(model) : false,
+          disableDelete: disableDelete ? disableDelete(modelItem) : false,
           disableEditTooltip: disableEditTooltip,
-          disableEdit: disableEdit ? disableEdit(model) : false,
+          disableEdit: disableEdit ? disableEdit(modelItem) : false,
           title: ""
         });
       }));
@@ -3858,14 +3853,14 @@ function (_Component) {
 }(Component), _class3$4.defaultProps = _objectSpread2({}, formPropsDefaults, {
   disableAdd: false,
   disableAddTooltip: '',
-  disableDeleteTooltip: '',
   disableDelete: function disableDelete() {
     return false;
   },
-  disableEditTooltip: '',
+  disableDeleteTooltip: '',
   disableEdit: function disableEdit() {
     return false;
-  }
+  },
+  disableEditTooltip: ''
 }), _temp$a), (_descriptor$5 = _applyDecoratedDescriptor(_class2$h.prototype, "isAddingNew", [observable], {
   configurable: true,
   enumerable: true,
