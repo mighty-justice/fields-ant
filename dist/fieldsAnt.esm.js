@@ -5194,33 +5194,27 @@ var EditableCard = autoBindMethods(_class$t = observer(_class$t = (_class2$i = (
     key: "deleteButton",
     get: function get() {
       var _this$props3 = this.props,
-          classNameSuffix = _this$props3.classNameSuffix,
-          disabledDeleteTooltip = _this$props3.disabledDeleteTooltip,
-          disableDelete = _this$props3.disableDelete,
           isGuarded = _this$props3.isGuarded,
-          isLoading = _this$props3.isLoading,
-          model = _this$props3.model,
+          classNameSuffix = _this$props3.classNameSuffix,
           onDelete = _this$props3.onDelete,
+          isLoading = _this$props3.isLoading,
           title = _this$props3.title,
-          className = getBtnClassName('delete', classNameSuffix, title),
-          isDeleteDisabled = disableDelete && disableDelete(model);
+          className = getBtnClassName('delete', classNameSuffix, title);
 
       if (!onDelete) {
         return null;
       }
 
-      return /*#__PURE__*/React__default.createElement(Tooltip, {
-        title: isDeleteDisabled ? disabledDeleteTooltip : ''
-      }, /*#__PURE__*/React__default.createElement("span", null, /*#__PURE__*/React__default.createElement(GuardedButton, {
+      return /*#__PURE__*/React__default.createElement(GuardedButton, {
         className: className,
         confirm: true,
-        disabled: isDeleteDisabled || isLoading || this.isDeleting.isTrue,
+        disabled: isLoading || this.isDeleting.isTrue,
         icon: /*#__PURE__*/React__default.createElement(DeleteOutlined$2, null),
         isGuarded: isGuarded,
         onClick: this.handleDelete,
         size: "small",
         type: "danger"
-      }, "Delete")));
+      }, "Delete");
     }
   }, {
     key: "editButton",
@@ -5244,12 +5238,7 @@ var EditableCard = autoBindMethods(_class$t = observer(_class$t = (_class2$i = (
   }]);
 
   return EditableCard;
-}(Component), _class3$5.defaultProps = _objectSpread2({}, formPropsDefaults, {
-  disabledDeleteTooltip: '',
-  disableDelete: function disableDelete() {
-    return false;
-  }
-}), _temp$d), (_descriptor$4 = _applyDecoratedDescriptor(_class2$i.prototype, "isDeleting", [observable], {
+}(Component), _class3$5.defaultProps = _objectSpread2({}, formPropsDefaults), _temp$d), (_descriptor$4 = _applyDecoratedDescriptor(_class2$i.prototype, "isDeleting", [observable], {
   configurable: true,
   enumerable: true,
   writable: true,
