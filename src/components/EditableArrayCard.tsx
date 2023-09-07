@@ -9,6 +9,7 @@ import * as Antd from 'antd';
 import GuardedButton from '../building-blocks/GuardedButton';
 import { formPropsDefaults } from '../propsDefaults';
 import { ISharedFormProps } from '../props';
+import { IFieldSet, IFieldSetPartial } from '../interfaces';
 
 import EditableCard from './EditableCard';
 import FormCard from './FormCard';
@@ -16,14 +17,15 @@ import { IArrayCardProps } from './ArrayCard';
 
 export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormProps {
   defaults?: object;
-  onCreate: (model: unknown) => Promise<any>;
-  onDelete?: (model: unknown) => Promise<any>;
   disableAdd?: boolean;
   disableAddTooltip?: string;
   disableDeleteTooltip?: string;
   disableDelete?: (model: any) => boolean;
   disableEditTooltip?: string;
   disableEdit?: (model: any) => boolean;
+  onCreate: (model: unknown) => Promise<any>;
+  onCreateFieldsets?: IFieldSet[] | IFieldSetPartial[];
+  onDelete?: (model: unknown) => Promise<any>;
 }
 
 @autoBindMethods
@@ -72,17 +74,18 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
   public render () {
     const {
       defaults,
-      fieldSets,
-      isLoading,
-      model,
-      onDelete,
-      onSave,
-      onSuccess,
-      title,
       disableDeleteTooltip,
       disableDelete,
       disableEditTooltip,
       disableEdit,
+      fieldSets,
+      isLoading,
+      model,
+      onCreateFieldsets,
+      onDelete,
+      onSave,
+      onSuccess,
+      title,
     } = this.props;
 
     return (
@@ -90,7 +93,7 @@ class EditableArrayCard extends Component<IEditableArrayCardProps> {
         {this.isAddingNew.isTrue && (
           <FormCard
             defaults={defaults}
-            fieldSets={fieldSets}
+            fieldSets={onCreateFieldsets || fieldSets}
             onCancel={this.isAddingNew.setFalse}
             onSave={this.handleSaveNew}
             title={`New ${title}`}
