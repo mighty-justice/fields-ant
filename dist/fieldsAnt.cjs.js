@@ -3814,18 +3814,18 @@ function (_Component) {
     value: function render() {
       var _this$props3 = this.props,
           defaults = _this$props3.defaults,
-          fieldSets = _this$props3.fieldSets,
-          isLoading = _this$props3.isLoading,
-          model = _this$props3.model,
-          onDelete = _this$props3.onDelete,
-          onSave = _this$props3.onSave,
-          onSuccess = _this$props3.onSuccess,
-          title = _this$props3.title,
           disableDeleteTooltip = _this$props3.disableDeleteTooltip,
           disableDelete = _this$props3.disableDelete,
           disableEditTooltip = _this$props3.disableEditTooltip,
           disableEdit = _this$props3.disableEdit,
-          onCreateFieldsets = _this$props3.onCreateFieldsets;
+          fieldSets = _this$props3.fieldSets,
+          isLoading = _this$props3.isLoading,
+          model = _this$props3.model,
+          onCreateFieldsets = _this$props3.onCreateFieldsets,
+          onDelete = _this$props3.onDelete,
+          onSave = _this$props3.onSave,
+          onSuccess = _this$props3.onSuccess,
+          title = _this$props3.title;
       return React__default.createElement(Antd.Card, {
         title: title,
         extra: this.renderAddNew(),
