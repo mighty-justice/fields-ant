@@ -3824,14 +3824,15 @@ function (_Component) {
           disableDeleteTooltip = _this$props3.disableDeleteTooltip,
           disableDelete = _this$props3.disableDelete,
           disableEditTooltip = _this$props3.disableEditTooltip,
-          disableEdit = _this$props3.disableEdit;
+          disableEdit = _this$props3.disableEdit,
+          onCreateFieldsets = _this$props3.onCreateFieldsets;
       return React__default.createElement(Antd.Card, {
         title: title,
         extra: this.renderAddNew(),
         loading: isLoading
       }, this.isAddingNew.isTrue && React__default.createElement(FormCard, {
         defaults: defaults,
-        fieldSets: fieldSets,
+        fieldSets: onCreateFieldsets || fieldSets,
         onCancel: this.isAddingNew.setFalse,
         onSave: this.handleSaveNew,
         title: "New ".concat(title)

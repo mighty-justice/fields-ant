@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { ISharedFormProps } from '../props';
+import { IFieldSet, IFieldSetPartial } from '../interfaces';
 import { IArrayCardProps } from './ArrayCard';
 export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormProps {
     defaults?: object;
@@ -11,6 +12,7 @@ export interface IEditableArrayCardProps extends IArrayCardProps, ISharedFormPro
     disableDelete?: (model: any) => boolean;
     disableEditTooltip?: string;
     disableEdit?: (model: any) => boolean;
+    onCreateFieldsets?: IFieldSet[] | IFieldSetPartial[];
 }
 declare class EditableArrayCard extends Component<IEditableArrayCardProps> {
     private isAddingNew;
